@@ -1,0 +1,5 @@
+# Config file
+inc/config.php
+
+# Sublime files
+sftp-config.json
