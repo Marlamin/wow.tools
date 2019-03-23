@@ -1,0 +1,104 @@
+/* General */
+html {
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body{
+	position: relative;
+	margin: 0;
+	padding-bottom: 6rem;
+	min-height: 100%;
+	background-color: #343a40 !important;
+	color: rgba(255,255,255,.8);
+}
+
+a{
+	font-weight: 500;
+	color: rgba(255,255,255,.5);
+}
+
+a:hover{
+	color: white;
+}
+
+/* Navbar */
+.navbar{
+	border-bottom: 1px solid #6c757d;
+}
+
+.navbar-nav a{
+	font-weight: 400;
+	text-align: center;
+}
+
+.navbar-brand{
+	padding: 0px !important;
+}
+
+#logo{
+	position: relative;
+}
+
+#logo #cog{
+	position: absolute;
+	left: 27px;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	background-image: url('/img/cog.png');
+	background-size: 30px;
+	animation: spin 10s infinite linear;
+}
+
+#nocog span{
+	font-size: 25px;
+	vertical-align: bottom;
+}
+
+#nocog img{
+	width: 35px;
+	height: 35px;
+	position: relative;
+}
+
+#nocog img:nth-child(2){
+	margin-left: 15px;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.container-fluid{
+	padding-top: 1rem;
+}
+/* Footer */
+footer{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem 0;
+	font-size: 85%;
+	text-align: center;
+	background-color: #343a40;
+	font-weight: 500;
+	border-top: 1px solid #6c757d;
+}
+
+footer p{
+	margin-bottom: 0;
+}
