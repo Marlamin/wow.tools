@@ -1,5 +1,9 @@
 # Config file
 inc/config.php
 
+# Data
+tpr/
+maps/data/
+
 # Sublime files
 sftp-config.json
