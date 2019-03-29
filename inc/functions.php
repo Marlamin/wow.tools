@@ -14,4 +14,26 @@ function doesFileExist($type, $hash, $cdndir = "wow"){
 		return false;
 	}
 }
+
+function parseBPSV($bpsv){
+	$result = [];
+	foreach($bpsv as $key => $line){
+		if(empty(trim($line))){
+			continue;
+		}
+		if($line[0] == "#") continue;
+		$cols = explode("|", $line);
+		if($key == 0) {
+			foreach($cols as $key => $col){
+				$exploded = explode("!", $col);
+				$headers[] = $exploded[0];
+			}
+		}else{
+			foreach($cols as $key => $col){
+				$result[$cols[0]][$headers[$key]] = $col;
+			}
+		}
+	}
+	return $result;
+}
 ?>

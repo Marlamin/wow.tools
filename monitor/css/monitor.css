@@ -1,0 +1,64 @@
+.table{
+	font-size: 13px;
+}
+
+#files{
+	font-size: 13px;
+}
+
+#dbtable{
+	font-size: 13px;
+}
+
+#files_filter{
+	float:left;
+	position: absolute;
+	left: -150px;
+}
+
+#dbtable_filter{
+	float:left;
+	position: absolute;
+	left: -150px;
+}
+
+#dbtable tbody tr.highlight{
+	background-color: #ff00003d;
+}
+
+.paginate_button {
+	cursor: pointer;
+	border: 1px solid grey;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10px;
+}
+
+.paginate_input{
+	width: 50px;
+}
+
+#files tbody tr td:empty{
+	background-color: #ff5858;
+}
+
+#chashtable tbody tr td:empty{
+	background-color: #ff5858;
+}
+
+#files_processing{
+	background-color: white;
+	border: 1px solid grey;
+	border-radius: 10px;
+}
+
+
+#files tbody tr td table {
+	color: rgba(255,255,255,.8) !important;
+}
+
+#files tbody tr td table.th{
+	border: 0px ;
+}
