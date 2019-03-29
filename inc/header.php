@@ -39,6 +39,9 @@
 				<li class="nav-item<? if($page == "dbc"){ echo " active"; } ?>">
 					<a class="nav-link" href="/dbc/"><i class="fa fa-table fa-lg" aria-hidden="true"></i> DBCs</a>
 				</li>
+				<li class="nav-item<? if($page == "monitor"){ echo " active"; } ?>">
+					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
+				</li>
 				<li class="nav-item<? if($page == "mv"){ echo " active"; } ?>">
 					<a class="nav-link" href="/mv/"><i class="fa fa-cube fa-lg" aria-hidden="true"></i> Models</a>
 				</li>
