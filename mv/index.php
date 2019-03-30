@@ -9,15 +9,13 @@
 		<i class='fa fa-reorder'></i>
 	</button>
 	<div id="js-sidebar" class="overlay sidebar closed container">
-		<h5 style='margin-left: 75px; margin-top: -10px;'><b>Model viewer (alpha 0.9.0) <small><a href='#' data-toggle='modal' data-target='#changelogModal'>(changelog)</a></small></b></h5>
-				<b style='margin-left: 75px; margin-top: 0px;'>Uses (WIP) modelviewer by Deamon</b>
+		<b style='margin-left: 75px; margin-top: 0px;'>Uses WIP modelviewer by Deamon</b>
 		<div class='row justify-content-md-center'>
 			<div class='col-md-11'>
 				<div class="btn-group" role="group">
-					<button style='margin-left: 48px;' class='btn btn-light btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
-					<!-- <a class='btn btn-dark btn-sm' href='https://github.com/Marlamin/bnet.marlam.in/issues' target='_BLANK' ><i class='fa fa-bug'></i> Report issues <i class="fa fa-external-link"></i></a> -->
+					<button style='margin-left: 48px;' class='btn btn-dark btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
+					<a class='btn btn-dark btn-sm' href='#' data-toggle='modal' data-target='#changelogModal'><i class='fa fa-bug'></i> Changelog</a>
 					<button class='btn btn-dark btn-sm' data-toggle='modal' data-target='#helpModal'><i class='fa fa-info-circle'></i> Help/About</button>
-					<a class='btn btn-light btn-sm' href='https://discord.gg/SFKz4Nx' target='_BLANK'><i class='fa fa-comments'></i> Discord <i class="fa fa-external-link"></i></a>
 				</div>
 			</div>
 		</div>
@@ -121,6 +119,10 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
+					<h5>Version 0.9.1 <small>(30-03-2019)</small></h5>
+					<ul>
+						<li>(UI) Various UI changes to fit to new site theme</li>
+					</ul>
 					<h5>Version 0.9.0 <small>(18-01-2019)</small></h5>
 					<ul>
 						<li>(MV) PARTICLE SUPPORT!</li>

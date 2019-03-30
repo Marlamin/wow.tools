@@ -93,7 +93,7 @@ if($_GET['search']['value'] == "unnamed") {
 			$query .= " AND filename NOT LIKE '%_lod1.wmo' AND filename NOT LIKE '%_lod2.wmo'";
 		}
 		if($_GET['showADT'] == "true"){
-			$query .= " AND filename NOT LIKE '%_obj0.adt' AND filename NOT LIKE '%_obj1.adt' AND filename NOT LIKE '%_tex0.adt' AND filename NOT LIKE '%_tex1.adt'";
+			$query .= " AND filename NOT LIKE '%_obj0.adt' AND filename NOT LIKE '%_obj1.adt' AND filename NOT LIKE '%_tex0.adt' AND filename NOT LIKE '%_tex1.adt' AND filename NOT LIKE '%_lod.adt'";
 		}
 	}else{
 		$query .= " WHERE id LIKE :search

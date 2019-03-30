@@ -434,7 +434,7 @@ function updateURLs(){
 
                     test += "</div></div>";
                 }else{
-                    test = "<div class='btn-group'><button class='btn btn-secondary btn-sm historybutton' type='button'disabled><i class='fa fa-clock-o'></i></button></div>";
+                    test = "<div class='btn-group'><button class='btn btn-secondary btn-sm historybutton' type='button' disabled><i class='fa fa-clock-o'></i></button></div>";
                 }
 
                 return test;

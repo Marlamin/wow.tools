@@ -18,7 +18,7 @@ html, body{
 #fpsLabel {
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 60px;
     color: #999;
     cursor: default;
     user-select: none;
@@ -32,12 +32,12 @@ html, body{
 .hamburger {
     position: absolute;
     cursor: pointer;
-    top: 10px;
+    top: 75px;
     left: 20px;
     width: 30px;
     height: 30px;
     border: 0;
-    background-color: #f8f9fa;
+    background-color: rgba(255,255,255,.5);
     transition: background-color 0.1s ease;
     border-radius: 10%;
     outline: none;
@@ -46,16 +46,17 @@ html, body{
 
 .hamburger:hover,
 .hamburger:focus {
-    background-color: #64B5F6;
+    background-color: var(--background-color);
 }
 
 .sidebar {
-    top: 0;
+    top: 57px;
     left: 0;
     width: 500px;
     height: 100%;
     border-bottom-right-radius: 6px;
-    padding-top: 20px;
+    border-right: 1px solid #6c757d;
+    padding-top: 10px;
     transition: left 0.3s ease-out;
 }
 
@@ -73,7 +74,7 @@ html, body{
 }
 
 .overlay{
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(52, 58, 62, 0.87);
     position: absolute;
     z-index: 1;
     overflow: auto;
@@ -100,6 +101,12 @@ html, body{
 #mvfiles_first{
     position: absolute;
     left: 15px;
+}
+
+#mvfiles_processing{
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
 }
 
 #mvfiles_previous{
@@ -134,9 +141,6 @@ html, body{
 
 #mvfiles_filter{
     float: none;
-    /*position: absolute;
-    left: 10px;
-    top: 112px;*/
     width: 450px;
 }
 
@@ -154,10 +158,30 @@ html, body{
     left: 0px;
     margin: auto;
     font-size: 12px;
+    border: 0px;
 }
 
 #mvfiles tbody tr:hover{
     background-color: #f1515138;
+}
+
+#mvfiles tbody tr td{
+    padding: 0px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border: 0px;
+}
+
+#mvfiles thead th{
+    padding: 5px;
+    border: 0px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.overlay input{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 .historybutton:hover>.dropdown-menu {
@@ -165,8 +189,20 @@ html, body{
 }
 
 .historybutton{
-    font-size: 0.70rem;
-    padding: 5px 5px 0px 5px;
+    font-size: 1rem;
+    padding: 0px 5px 0px 5px;
+    margin-right: 5px;
+    background-color: transparent;
+    border: 0px;
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled{
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.30);
+}
+
+.dropdown-toggle::after{
+    display: none;
 }
 
 .filedropdown{

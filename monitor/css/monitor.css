@@ -26,20 +26,6 @@
 	background-color: #ff00003d;
 }
 
-.paginate_button {
-	cursor: pointer;
-	border: 1px solid grey;
-	margin-left: 5px;
-	margin-right: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border-radius: 10px;
-}
-
-.paginate_input{
-	width: 50px;
-}
-
 #files tbody tr td:empty{
 	background-color: #ff5858;
 }
@@ -49,16 +35,15 @@
 }
 
 #files_processing{
-	background-color: white;
-	border: 1px solid grey;
-	border-radius: 10px;
+    background-color: #343a40;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
 }
 
-
 #files tbody tr td table {
-	color: rgba(255,255,255,.8) !important;
+	color: var(--text-color);
 }
 
 #files tbody tr td table.th{
-	border: 0px ;
+	border: 0px;
 }

@@ -1,3 +1,10 @@
+/* Variables */
+:root{
+	--background-color: #343a40;
+	--text-color: rgba(255,255,255,.8);
+	--border-color: rgb(108, 117, 125);
+}
+
 /* General */
 html {
   height: 100%;
@@ -16,13 +23,13 @@ body{
 	margin: 0;
 	padding-bottom: 6rem;
 	min-height: 100%;
-	background-color: #343a40 !important;
-	color: rgba(255,255,255,.8);
+	background-color: var(--background-color);
+	color: var(--text-color);
 }
 
 a{
 	font-weight: 500;
-	color: rgba(255,255,255,.5);
+	color: var(--text-color);
 }
 
 a:hover{
@@ -31,7 +38,7 @@ a:hover{
 
 /* Navbar */
 .navbar{
-	border-bottom: 1px solid #6c757d;
+	border-bottom: 1px solid var(--border-color);
 	height: 57px;
 }
 
@@ -111,6 +118,25 @@ a:hover{
 .table-sm td, .table-sm th{
 	padding: 0.1rem;
 }
+
+.paginate_input{
+	width: 50px;
+}
+
+.paginate_button {
+	cursor: pointer;
+	border: 1px solid var(--border-color);
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10px;
+}
+
+.modal-content{
+	background-color: var(--background-color);
+}
+
 /* Footer */
 footer{
 	position: absolute;
@@ -120,9 +146,9 @@ footer{
 	padding: 1rem 0;
 	font-size: 85%;
 	text-align: center;
-	background-color: #343a40;
+	background-color: var(--background-color);
 	font-weight: 500;
-	border-top: 1px solid #6c757d;
+	border-top: 1px solid var(--border-color);
 	height: 73px;
 }
 
