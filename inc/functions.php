@@ -36,4 +36,27 @@ function parseBPSV($bpsv){
 	}
 	return $result;
 }
+
+function getVersionByBuildConfigHash($hash, $product = "wow"){
+	global $pdo;
+	$query = $pdo->prepare("SELECT * FROM ".$product."_versions WHERE buildconfig = ?");
+	$query->execute([$hash]);
+	$row = $query->fetch();
+	if(!empty($row['cdnconfig'])){ $row['cdnconfig'] = getCDNConfigbyCDNConfigHash($row['cdnconfig'], $product); }
+	if(!empty($row['buildconfig'])){ $row['buildconfig'] = getBuildConfigByBuildConfigHash($row['buildconfig'], $product); }
+	return $row;
+}
+
+function getBuildConfigByBuildConfigHash($hash, $product = "wow"){
+	global $pdo;
+	$query = $pdo->prepare("SELECT * FROM ".$product."_buildconfig WHERE hash = ?");
+	$query->execute([$hash]);
+	return $query->fetch();
+}
+function getCDNConfigbyCDNConfigHash($hash, $product = "wow"){
+	global $pdo;
+	$query = $pdo->prepare("SELECT * FROM ".$product."_cdnconfig WHERE hash = ?");
+	$query->execute([$hash]);
+	return $query->fetch();
+}
 ?>

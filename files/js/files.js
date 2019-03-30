@@ -3,7 +3,7 @@ function fillModal(fileDataID){
 }
 
 function fillPreviewModal(buildconfig, contenthash, filedataid){
-	$( "#previewModalContent" ).load( "/scripts/preview_api.php?buildconfig=" + buildconfig + "&contenthash=" + contenthash + "&filedataid=" + filedataid);
+	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&contenthash=" + contenthash + "&filedataid=" + filedataid);
 }
 
 function fillChashModal(contenthash){
