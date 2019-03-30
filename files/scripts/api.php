@@ -9,6 +9,12 @@ if(!empty($_GET['src']) && $_GET['src'] == "mv"){
 	$mv = false;
 }
 
+if(!empty($_GET['src']) && $_GET['src'] == "dbc"){
+	$dbc = true;
+}else{
+	$dbc = false;
+}
+
 $keys = array();
 $tactq = $pdo->query("SELECT id, keyname, keybytes FROM wow_tactkey");
 while($tactrow = $tactq->fetch()){
@@ -95,6 +101,8 @@ if($_GET['search']['value'] == "unnamed") {
 		if($_GET['showADT'] == "true"){
 			$query .= " AND filename NOT LIKE '%_obj0.adt' AND filename NOT LIKE '%_obj1.adt' AND filename NOT LIKE '%_tex0.adt' AND filename NOT LIKE '%_tex1.adt' AND filename NOT LIKE '%_lod.adt'";
 		}
+	}else if($dbc){
+		$query .= " WHERE filename LIKE :search AND type = 'db2'";
 	}else{
 		$query .= " WHERE id LIKE :search
 		OR lookup LIKE :search
@@ -164,7 +172,6 @@ $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
 $returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wow_rootfiles")->fetchColumn();
 
-
 /*
 if(!($returndata['recordsTotal'] = $memcached->get("files.total"))){
 	$memcached->set("files.total", $returndata['recordsTotal']);
@@ -183,7 +190,7 @@ $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chas
 while($row = $dataq->fetch()){
 	$contenthashes = array();
 
-	if(!$mv){
+	if(!$mv && !$dbc){
 		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key
 		$encq->execute([$row['id']]);
 		$encr = $encq->fetch();

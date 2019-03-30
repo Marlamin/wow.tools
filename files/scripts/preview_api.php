@@ -28,8 +28,6 @@ if(empty($row2['filename'])){
 	$row2['filename'] = $row2['id'].".".$type;
 }
 
-$filename = "preview_".$_GET['contenthash'].".".$type;
-
 $cascparams = "?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&contenthash=".$_GET['contenthash']."&filename=".urlencode($row2['filename']);
 if($type == "ogg"){
 	echo "<audio autoplay controls><source src='//wow.tools/casc/preview".$cascparams."' type='audio/ogg'></audio>";

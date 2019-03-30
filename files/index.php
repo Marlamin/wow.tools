@@ -2,8 +2,8 @@
 <link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
-		<a href='checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
-		<a href='listfile.php' class='btn btn-primary btn-sm'>Download listfile</a>
+		<a href='/files/checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
+		<a href='listfile.php' class='btn btn-primary btn-sm disabled'>Download listfile</a>
 		<!--
 		<div class="btn-group">
 			<a href='listfile.php' class='btn btn-primary btn-sm'>Download listfile</a>
@@ -17,8 +17,8 @@
 			    <a class="dropdown-item" href="listfile.php?product=wow_classic">WoW Classic files only</a>
 			</div>
 		</div>-->
-		<a href='listfile.php?unk=1' class='btn btn-warning btn-sm'>Download unk lookups</a>
-		<a href='filestats.php' class='btn btn-secondary btn-sm'>Stats</a>
+		<a href='listfile.php?unk=1' class='btn btn-warning btn-sm disabled'>Download unk lookups</a>
+		<a href='filestats.php' class='btn btn-secondary btn-sm disabled'>Stats</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
@@ -90,6 +90,24 @@
 		</div>
 	</div>
 </div>
+<div class="modal" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="helpModalLabel">Help</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="helpModalContent">
+				<kbd>%</kbd> for wildcard<br><kbd>^</kbd> string must start with<br><kbd>type:type</kbd> for filtering by type<br><kbd>chash:md5</kbd> for filter by contenthash<br><kbd>unnamed</kbd> for unknown filenames<br><kbd>encrypted</kbd> for encrypted files<br><kbd>encrypted:KEY</kbd> for encrypted by key<br><kbd>skit:soundkitid</kbd> for searching by SoundKitID
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -131,7 +149,7 @@
 			"search": { "search": searchString },
 			"ajax": "scripts/api.php",
 			"pageLength": 25,
-			"language": { "search": "Search: _INPUT_ <a tabindex='0' role='button' class='btn btn-sm btn-secondary' data-trigger='hover' data-html='true' data-toggle='popover' style='font-size: 10px;' title='Search help' data-content='<kbd>%</kbd> for wildcard<br><kbd>^</kbd> string must start with<br><kbd>type:type</kbd> for filtering by type<br><kbd>chash:md5</kbd> for filter by contenthash<br><kbd>unnamed</kbd> for unknown filenames<br><kbd>encrypted</kbd> for encrypted files<br><kbd>encrypted:KEY</kbd> for encrypted by key<br><kbd>skit:soundkitid</kbd> for searching by SoundKitID'>Help</a>" },
+			"language": { "search": "Search: _INPUT_ <a class='btn btn-dark btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
 			"autoWidth": false,
 			"pagingType": "input",

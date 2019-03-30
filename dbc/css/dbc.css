@@ -1,0 +1,40 @@
+/* For when you pick the datatables DBC selection experiment back up :) */
+
+/*
+#dbcfiles thead th{
+	padding: 0px;
+}
+
+#dbcfiles tr td{
+	padding-left: 5px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	border: 0px;
+}
+
+#dbcfiles{
+	max-height: 500px;
+	border: 0px;
+}
+
+#dbcfiles_processing{
+	display: none !important;
+	color: var(--text-color);
+	background-color: var(--background-color);
+	width: 200px;
+	border: 1px solid var(--border-color);
+}
+
+.dataTables_scrollBody .dts_label{
+	display: none;
+}
+
+#dbcfiles_filter {
+    text-align: left;
+}
+
+tr.selected{
+    background-color: #8bc34aa1 !important;
+    transition: background-color 0.1s ease-out;
+}
+*/

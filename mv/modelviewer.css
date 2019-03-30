@@ -97,6 +97,11 @@ html, body{
     right: -450px;
 }
 
+.controls select{
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
 /* Files table */
 #mvfiles_first{
     position: absolute;
@@ -178,6 +183,11 @@ html, body{
     border-bottom: 1px solid var(--border-color);
 }
 
+.btn-mv{
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
 .overlay input{
     background-color: var(--background-color);
     color: var(--text-color);
@@ -194,6 +204,7 @@ html, body{
     margin-right: 5px;
     background-color: transparent;
     border: 0px;
+    color: var(--text-color);
 }
 
 .btn-secondary.disabled, .btn-secondary:disabled{
