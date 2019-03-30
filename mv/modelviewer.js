@@ -425,7 +425,7 @@ function updateURLs(){
             "render": function ( data, type, full, meta ) {
                 var test = "";
                 if(full[3].length > 1){
-                    test = "<div class='btn-group'><button class='btn btn-secondary btn-sm dropdown-toggle historybutton' type='button' data-toggle='dropdown'><i class='fa fa-clock-o'></i></button>";
+                    test = "<div class='btn-group'><button class='btn btn-sm dropdown-toggle historybutton' type='button' data-toggle='dropdown'><i class='fa fa-clock-o'></i></button>";
                     test += "<div class='dropdown-menu'>";
 
                     full[3].forEach(function (value) {
@@ -434,7 +434,7 @@ function updateURLs(){
 
                     test += "</div></div>";
                 }else{
-                    test = "<div class='btn-group'><button class='btn btn-secondary btn-sm historybutton' type='button' disabled><i class='fa fa-clock-o'></i></button></div>";
+                    test = "<div class='btn-group'><button class='btn btn-sm historybutton' type='button' disabled><i class='fa fa-clock-o'></i></button></div>";
                 }
 
                 return test;

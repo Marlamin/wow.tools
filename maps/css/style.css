@@ -103,19 +103,19 @@ body{
 	outline: 0;
 	background-color: transparent;
 	border-bottom: 1px solid #333;
-	color: white;
+	color: var(--text-color);
 	font-size: 14px;
 }
 
 .sidebar select option{
-	background-color: #343a40;
+	background-color: var(--background-color);
 }
 
 .version-arrow {
 	width: 15%;
 	height: 32px;
 	font-size: 16px;
-	color: rgba(255,255,255,.8);
+	color: var(--text-color);
 	background-color: transparent;
 	border: 0;
 	border-bottom: 1px solid #333;
@@ -149,7 +149,7 @@ body{
 }
 
 .overlay{
-	background-color: rgba(52, 58, 62, 0.87);
+	background-color: var(--background-color);
 	position: absolute;
 	z-index: 1;
 	overflow: auto;

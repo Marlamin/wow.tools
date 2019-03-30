@@ -12,6 +12,11 @@
 	border-right: 0px;
 }
 
+#files_length select{
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
 #files_buttons{
 	position: absolute;
 	top: 73px;
@@ -19,13 +24,15 @@
 }
 
 #files_processing{
-    background-color: #343a40;
+    background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 10px;
 }
 
 #files_filter input{
 	width: 400px;
+	background-color: var(--background-color);
+	color: var(--text-color);
 }
 
 #files_info{

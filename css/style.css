@@ -3,6 +3,7 @@
 	--background-color: #343a40;
 	--text-color: rgba(255,255,255,.8);
 	--border-color: rgb(108, 117, 125);
+	--hover-color: white;
 }
 
 /* General */
@@ -15,6 +16,7 @@ html {
 *,
 *:before,
 *:after {
+  transition: background-color 0.5s ease-out;
   box-sizing: inherit;
 }
 
@@ -33,11 +35,12 @@ a{
 }
 
 a:hover{
-	color: white;
+	color: var(--hover-color);
 }
 
 /* Navbar */
 .navbar{
+	background-color: var(--background-color) !important;
 	border-bottom: 1px solid var(--border-color);
 	height: 57px;
 }
@@ -102,7 +105,13 @@ a:hover{
 
 .table{
 	font-size: 14px;
+	color: var(--text-color);
 }
+
+.table-hover tbody tr:hover{
+	color: var(--text-color);
+}
+
 .table .table{
 	background-color: transparent;
 }

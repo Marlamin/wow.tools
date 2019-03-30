@@ -55,7 +55,7 @@ html, body{
     width: 500px;
     height: 100%;
     border-bottom-right-radius: 6px;
-    border-right: 1px solid #6c757d;
+    border-right: 1px solid var(--border-color);
     padding-top: 10px;
     transition: left 0.3s ease-out;
 }
@@ -74,7 +74,7 @@ html, body{
 }
 
 .overlay{
-    background-color: rgba(52, 58, 62, 0.87);
+    background-color: var(--background-color);
     position: absolute;
     z-index: 1;
     overflow: auto;
