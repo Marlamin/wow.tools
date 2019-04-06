@@ -1,37 +1,27 @@
-.table{
-	font-size: 13px;
-}
-
 #files{
-	font-size: 13px;
+    border: 0px;
 }
 
-#dbtable{
-	font-size: 13px;
+#files thead th{
+    padding: 5px;
+    border: 0px;
 }
 
-#files_filter{
-	float:left;
-	position: absolute;
-	left: -150px;
+#files tr td{
+    padding: 5px;
+    border-right: 0px;
 }
 
-#dbtable_filter{
-	float:left;
-	position: absolute;
-	left: -150px;
+#files_length select{
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-#dbtable tbody tr.highlight{
-	background-color: #ff00003d;
-}
-
-#files tbody tr td:empty{
-	background-color: #ff5858;
-}
-
-#chashtable tbody tr td:empty{
-	background-color: #ff5858;
+#files_buttons{
+    position: absolute;
+    top: 73px;
+    left: 190px;
+    z-index: 2;
 }
 
 #files_processing{
@@ -40,10 +30,33 @@
     border-radius: 10px;
 }
 
-#files tbody tr td table {
-	color: var(--text-color);
+#files_filter input{
+    width: 400px;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-#files tbody tr td table.th{
-	border: 0px;
+#files_info{
+    padding-top: 0px;
+}
+
+#files_paginate input{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.subtable {
+    color: var(--text-color);
+}
+
+.subtable th{
+    border: 0px;
+    padding: 5px;
+}
+
+.subtable tbody tr td{
+    padding: 0px;
 }

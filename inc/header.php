@@ -27,7 +27,7 @@
 		<a class="navbar-brand" href="/">
 			<div id='logo'>
 				<div id='cog'>&nbsp;</div>
-				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.Tools</span></div>
+				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools</span></div>
 			</div>
 		</a>
 		<div class="collapse navbar-collapse" id="navbarNav">

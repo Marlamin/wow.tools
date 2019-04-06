@@ -3,7 +3,6 @@ require_once("/var/www/wow.tools/inc/config.php");
 
 function hasCDNDir($product){
 	global $pdo;
-
 	$q = $pdo->prepare("SELECT cdndir FROM ngdp_products WHERE program = ?");
 	$q->execute([$product]);
 
@@ -20,11 +19,10 @@ function buildURL($product, $type, $value){
 	$cdn = "http://blzddist1-a.akamaihd.net/";
 	$q = $pdo->prepare("SELECT cdndir FROM ngdp_products WHERE program = ?");
 	$q->execute([$product]);
-	$cdndir = $q->fetch();
+	$cdndir = $q->fetch()['cdndir'];
 	if(empty($cdndir)){
 		return false;
 	}else{
-		$cdndir = $q->fetch()['cdndir'];
 		if(empty($cdndir)){
 			return false;
 		}else{
@@ -111,7 +109,7 @@ foreach($dataq->fetchAll() as $row){
 	$diffs = CompareArrays::Diff($before, $after);
 	$diffs = CompareArrays::Flatten($diffs);
 
-	$difftext = "<table class='table table-condensed' style='width: 100%; font-size: 11px;'>";
+	$difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
 	$difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th></thead>";
 	foreach($diffs as $name => $diff){
 		switch($diff->Type){
