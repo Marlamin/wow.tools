@@ -367,7 +367,9 @@ function updateURLs(){
 
 (function() {
     loadSettings();
-
+    $('#wowcanvas').bind('contextmenu', function(e){
+        return false;
+    });
     Elements.table = $('#mvfiles').DataTable({
         "processing": true,
         "serverSide": true,
