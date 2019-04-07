@@ -301,10 +301,10 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		});
 
 		$('#buildFilter').on('change', function(){
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/scripts/api.php?dbc=" + $("#fileFilter").val() + "&bc=" + $("#buildFilter").val() + "&type=download";
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild();
 		});
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/scripts/api.php?dbc=" + $("#fileFilter").val() + "&bc=" + $("#buildFilter").val() + "&type=download";
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild();
 	}());
 </script>
 <!-- <script src="https://cdn.datatables.net/scroller/2.0.0/js/dataTables.scroller.min.js" crossorigin="anonymous"></script> -->
