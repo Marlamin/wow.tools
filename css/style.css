@@ -8,16 +8,16 @@
 
 /* General */
 html {
-  height: 100%;
-  box-sizing: border-box;
-  font-size: 16px;
+	height: 100%;
+	box-sizing: border-box;
+	font-size: 16px;
 }
 
 *,
 *:before,
 *:after {
-  transition: background-color 0.5s ease-out;
-  box-sizing: inherit;
+	transition: background-color 0.5s ease-out;
+	box-sizing: inherit;
 }
 
 body{
@@ -36,6 +36,17 @@ a{
 
 a:hover{
 	color: var(--hover-color);
+}
+
+input{
+	background-color: var(--background-color) !important;
+	color: var(--text-color) !important;
+	border: 1px solid var(--border-color) !important;
+}
+
+select{
+	background-color: var(--background-color) !important;
+	color: var(--text-color) !important;
 }
 
 /* Navbar */
@@ -85,12 +96,12 @@ a:hover{
 }
 
 @keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
+	from {
+		transform:rotate(0deg);
+	}
+	to {
+		transform:rotate(360deg);
+	}
 }
 
 .container-fluid{
@@ -128,6 +139,44 @@ a:hover{
 	padding: 0.1rem;
 }
 
+.modal-content{
+	background-color: var(--background-color);
+}
+
+/* Site-wide datatable styles */
+.dataTable{
+	border: 0px;
+}
+
+.dataTable thead th{
+	padding: 5px;
+	border: 0px;
+}
+
+.dataTable tr td{
+	padding: 5px;
+	border-right: 0px;
+}
+
+.dataTables_processing{
+	background-color: var(--background-color);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+}
+
+.dataTables_filter input{
+	width: 400px !important;
+}
+
+.dataTables_paginate input{
+	border-radius: .25rem;
+	text-align: center;
+}
+
+.dataTables_info{
+	padding-top: 0px !important;
+}
+
 .paginate_input{
 	width: 50px;
 }
@@ -140,10 +189,6 @@ a:hover{
 	padding-left: 10px;
 	padding-right: 10px;
 	border-radius: 10px;
-}
-
-.modal-content{
-	background-color: var(--background-color);
 }
 
 /* Footer */

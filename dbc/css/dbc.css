@@ -1,3 +1,48 @@
+#tableContainer{
+	margin-top: -20px;
+}
+
+#dbcform{
+	float: left;
+}
+
+#fileFilter{
+	float: left;
+	width: 225px;
+	display: inline-block;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
+#buildFilter{
+	float: left;
+	width: 225px;
+	display: inline-block;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
+#browseButton{
+	float: left;
+	width: 100px;
+	display: inline-block;
+	margin-left: 5px;
+	color: #fff !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+#downloadCSVButton{
+	float: left;
+	width: 75px;
+	display: inline-block;
+	margin-left: 5px;
+}
+
+#dbtable{
+	margin: auto;
+}
+
 /* For when you pick the datatables DBC selection experiment back up :) */
 
 /*

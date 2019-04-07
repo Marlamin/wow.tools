@@ -34,29 +34,27 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class='container-fluid'>
-	Select file: &nbsp; &nbsp;
-	<select id='fileFilter' style='width: 225px; display: inline-block; margin-left: 5px; margin-bottom: 5px;' class='form-control form-control-sm'>
+	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value=''>Select a DBC</option>
 		<? foreach($allowedtables as $table){ ?>
 			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
 		<? }?>
 	</select>
 	<? if(!empty($id)){ ?>
-		<form action='/dbc/' method='GET'>
+		<form id='dbcform' action='/dbc/' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
-			Select build:
-			<select name='bc' id='buildFilter' style='width: 225px; display: inline-block; margin-left: 5px; margin-bottom: 5px;' class='form-control form-control-sm'>
+			<select name='bc' id='buildFilter' class='form-control form-control-sm'>
 				<?foreach($versions as $row){?>
 					<option value='<?=$row['hash']?>'<? if(!empty($_GET['bc']) && $row['hash'] == $_GET['bc']){ echo " SELECTED"; }?>><?=$row['description']?></option>
 				<? } ?>
-			</select><br>
-			<input type='submit' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse' style='width: 100px; display: inline-block; margin-left: 5px;'>
-			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-success' style='width: 150px; display: inline-block; margin-left: 5px;'>Download as CSV</a>
+			</select>
+			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
+			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
 	<? } ?>
 	<? if(!empty($_GET['bc'])){ ?>
 		<div id='tableContainer'>
-			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
+			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th>&nbsp;</th>
@@ -145,6 +143,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<script src="/files/js/files.js" crossorigin="anonymous"></script>
 <script type='text/javascript'>
 	var currentBuild = 0;
 	function getFKCols(headers, fks){
@@ -173,7 +172,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 				});
 				var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 				var page = Math.floor(((json.offset - 1) / 25) + 1);
-				$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + ".db2&bc=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+				$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + ".db2&bc=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 			}
 		});
 
@@ -235,7 +234,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 
 				var fkCols = getFKCols(json['headers'], json['fks']);
 				$("#tableContainer").empty();
-				$("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" style="margin: auto;" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+				$("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 
 				var searchHash = location.hash.substr(1),
 				searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];

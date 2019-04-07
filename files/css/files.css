@@ -1,24 +1,5 @@
-#files{
-    border: 0px;
-}
-
-#files thead th{
-    padding: 5px;
-    border: 0px;
-}
-
-#files tr td{
-    padding: 5px;
-    border-right: 0px;
-}
-
 #files tr td:nth-child(2), #files tr td:nth-child(3){
     font-family: monospace;
-}
-
-#files_length select{
-    background-color: var(--background-color);
-    color: var(--text-color);
 }
 
 #files_buttons{
@@ -26,32 +7,4 @@
     top: 73px;
     left: 190px;
     z-index: 2;
-}
-
-#files_processing{
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-}
-
-#files_filter input{
-    width: 400px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-#files_info{
-    padding-top: 0px;
-}
-
-#files_paginate input{
-    background-color: var(--background-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: .25rem;
-    text-align: center;
-}
-
-footer{
-    margin-top: 0px;
 }
