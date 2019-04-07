@@ -321,7 +321,7 @@ function loadModelTextures() {
             })
             .done(function( filename ) {
                 if(filename != ""){
-                    var textureFileDataIDs = decodeURIComponent(this.url.replace("https://bnet.marlam.in/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
+                    var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
                     var textureFileDataID = textureFileDataIDs[0];
                     var nopathname = filename.replace(/^.*[\\\/]/, '');
                     $('#skinSelect').append('<option value="' + textureFileDataIDs + '">(' + textureFileDataID + ') ' + nopathname + '</option>');
