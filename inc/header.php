@@ -30,6 +30,9 @@
 				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools</span></div>
 			</div>
 		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<i class='fa fa-bars'></i>
+		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 				<? $page = basename($_SERVER["SCRIPT_FILENAME"], '.php'); ?>
@@ -57,9 +60,9 @@
 					Toggle theme
 				</button>&nbsp;
 				<? if(empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")){ ?>
-				<a href='#' class='btn btn-sm align-middle btn-outline-success'>Log in</a>
+					<a href='#' class='btn btn-sm align-middle btn-outline-success'>Log in</a>
 				<? }else{ ?>
-				<a href='#' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
+					<a href='#' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
 				<? } ?>
 			</form>
 		</div>

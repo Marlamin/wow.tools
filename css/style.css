@@ -65,6 +65,11 @@ select{
 	padding: 0px !important;
 }
 
+.nav-item{
+	background-color: var(--background-color) !important;
+	color: var(--text-color) !important;
+}
+
 #logo{
 	position: relative;
 }
