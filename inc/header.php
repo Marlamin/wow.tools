@@ -27,7 +27,7 @@
 		<a class="navbar-brand" href="/">
 			<div id='logo'>
 				<div id='cog'>&nbsp;</div>
-				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools</span></div>
+				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools (WIP)</span></div>
 			</div>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
