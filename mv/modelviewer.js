@@ -276,7 +276,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
 }
 
 function loadModelTextures() {
-    //TODO build
+    //TODO build, fix wrong skin showing up after initial load
     var loadedTextures = Array();
 
     $.ajax({url: "https://wow.tools/api/texture/" + Current.fileDataID + "?build=8.1.5.29495"}).done( function(data) {
