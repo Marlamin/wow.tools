@@ -3,7 +3,7 @@
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
 		<a href='/files/checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
-		<a href='listfile.php' class='btn btn-primary btn-sm disabled'>Download listfile</a>
+		<a href='/casc/listfile/download' class='btn btn-primary btn-sm'>Download listfile</a>
 		<!--
 		<div class="btn-group">
 			<a href='listfile.php' class='btn btn-primary btn-sm'>Download listfile</a>
@@ -17,8 +17,6 @@
 			    <a class="dropdown-item" href="listfile.php?product=wow_classic">WoW Classic files only</a>
 			</div>
 		</div>-->
-		<a href='listfile.php?unk=1' class='btn btn-warning btn-sm disabled'>Download unk lookups</a>
-		<a href='filestats.php' class='btn btn-secondary btn-sm disabled'>Stats</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
