@@ -68,6 +68,7 @@ select{
 .nav-item{
 	background-color: var(--background-color) !important;
 	color: var(--text-color) !important;
+	z-index: 10;
 }
 
 #logo{
