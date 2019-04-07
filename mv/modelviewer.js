@@ -279,7 +279,7 @@ function loadModelTextures() {
     //TODO build
     var loadedTextures = Array();
 
-    $.ajax({url: "https://bnet.marlam.in/api/texture/" + Current.fileDataID + "?build=8.1.5.29495"}).done( function(data) {
+    $.ajax({url: "https://wow.tools/api/texture/" + Current.fileDataID + "?build=8.1.5.29495"}).done( function(data) {
         console.log(data);
         var i = 0;
         $("#skinSelect").empty();
