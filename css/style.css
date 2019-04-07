@@ -144,6 +144,10 @@ select{
 	padding: 0.1rem;
 }
 
+.table-striped tbody tr:nth-of-type(odd){
+	background-color: rgba(0, 0, 0, 0.15);
+}
+
 .modal-content{
 	background-color: var(--background-color);
 }
