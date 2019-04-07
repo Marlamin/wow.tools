@@ -22,6 +22,7 @@ var Current =
 {
     buildConfig: "66bc6311b4ca658fb7f3c462f9995de3",
     cdnConfig: "2c05c6d109b7b16ab45422eebed748cf",
+    buildName: "8.1.5.29495",
     fileDataID: 189077,
     type: "m2",
     embedded: false
@@ -279,7 +280,7 @@ function loadModelTextures() {
     //TODO build, fix wrong skin showing up after initial load
     var loadedTextures = Array();
 
-    $.ajax({url: "https://wow.tools/api/texture/" + Current.fileDataID + "?build=8.1.5.29495"}).done( function(data) {
+    $.ajax({url: "https://wow.tools/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
         console.log(data);
         var i = 0;
         $("#skinSelect").empty();
