@@ -141,4 +141,16 @@ function getCDNConfigbyCDNConfigHash($hash, $product = "wow"){
 		return false;
 	}
 }
+
+function getPatchConfigByPatchConfigHash($hash, $product = "wow"){
+	global $pdo;
+	$query = $pdo->prepare("SELECT * FROM ".$product."_patchconfig WHERE hash = ?");
+	$query->execute([$hash]);
+	$r = $query->fetch();
+	if(!empty($r)){
+		return $r;
+	}else{
+		return false;
+	}
+}
 ?>
