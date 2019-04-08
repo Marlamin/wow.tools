@@ -198,6 +198,16 @@ $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
 });
 
 window.addEventListener('keydown', function(event){
+    if($(".selected").length == 1){
+         if(event.key == "ArrowDown"){
+            if($(".selected")[0].rowIndex == 20) return;
+            $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
+        }else if(event.key == "ArrowUp"){
+            if($(".selected")[0].rowIndex == 1) return;
+            $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex - 1].firstChild).trigger("click");
+        }
+    }
+
     if(document.activeElement.tagName == "INPUT"){
         event.stopImmediatePropagation();
     }
