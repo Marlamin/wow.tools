@@ -37,6 +37,40 @@ function parseBPSV($bpsv){
 	return $result;
 }
 
+function parseConfig($file){
+	$handle = fopen($file, "r");
+	$config = array();
+	$t = explode("/", $file);
+	$config['original-filename'] = basename($file);
+	
+	if(strlen($t[9]) == 2){
+		die("Faulty config!");
+	}
+	
+	if ($handle) {
+		while (($line = fgets($handle)) !== false) {
+			$line = trim($line);
+			if(empty($line) || $line[0] == "#") continue;
+			$vars = explode(" = ", $line);
+			if($vars[0] == "patch-entry"){
+				if(!isset($config['patch-entry'])){
+					$config['patch-entry'] = array();
+				}
+
+				// Patch entry has double entries, append
+				$config['patch-entry'][count($config['patch-entry'])] = $vars[1];
+			}else if(!empty($vars[1])){
+				$config[$vars[0]] = $vars[1];
+			}
+		}
+		fclose($handle);
+	}
+
+	ksort($config);
+	
+	return $config;
+}
+
 function getVersionByBuildConfigHash($hash, $product = "wow"){
 	global $pdo;
 	$query = $pdo->prepare("SELECT * FROM ".$product."_versions WHERE buildconfig = ?");
@@ -51,12 +85,23 @@ function getBuildConfigByBuildConfigHash($hash, $product = "wow"){
 	global $pdo;
 	$query = $pdo->prepare("SELECT * FROM ".$product."_buildconfig WHERE hash = ?");
 	$query->execute([$hash]);
-	return $query->fetch();
+	$r = $query->fetch();
+	if(!empty($r)){
+		return $r;
+	}else{
+		return false;
+	}
 }
+
 function getCDNConfigbyCDNConfigHash($hash, $product = "wow"){
 	global $pdo;
 	$query = $pdo->prepare("SELECT * FROM ".$product."_cdnconfig WHERE hash = ?");
 	$query->execute([$hash]);
-	return $query->fetch();
+	$r = $query->fetch();
+	if(!empty($r)){
+		return $r;
+	}else{
+		return false;
+	}
 }
 ?>
