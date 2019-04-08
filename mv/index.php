@@ -119,9 +119,11 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
-					<h5>Version 0.9.1 <small>(30-03-2019)</small></h5>
+					<h5>Version 0.9.1 <small>(08-04-2019)</small></h5>
 					<ul>
+						<li>(UI) Add navigation through the list with arrows keys</li>
 						<li>(UI) Various UI changes to fit to new site theme</li>
+						<li>(UI) Fix issue where same file row could be clicked twice</li>
 					</ul>
 					<h5>Version 0.9.0 <small>(18-01-2019)</small></h5>
 					<ul>
