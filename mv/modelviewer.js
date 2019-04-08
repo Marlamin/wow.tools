@@ -187,6 +187,11 @@ $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
     var data = Elements.table.row($(this).parent()).data();
     var mostRecentVersion = data[3][0];
 
+    if(mostRecentVersion['buildconfig'] == Current.buildConfig && data[0] == Current.fileDataID){
+        console.log("Clicked model already open in viewer, ignoring.");
+        return;
+    }
+
     $(".selected").removeClass("selected");
     $(this).parent().addClass('selected');
     loadModel(data[4], data[0], mostRecentVersion['buildconfig'], mostRecentVersion['cdnconfig']);
