@@ -15,6 +15,43 @@ function doesFileExist($type, $hash, $cdndir = "wow"){
 	}
 }
 
+function parseBuildName($buildname){
+	$build['original'] = $buildname;
+
+	$buildname = str_replace("WOW-", "", $buildname);
+	$split = explode("patch", $buildname);
+	$buildnum = $split[0];
+	$descexpl = explode("_", $split[1]);
+
+	$build['full'] = $descexpl[0].".".$buildnum;
+	$build['patch'] = $descexpl[0];
+	$build['build'] = $buildnum;
+	return $build;
+}
+
+function prettyBranch($branch){
+	switch($branch){
+		case "wow":
+			return "<span class='badge badge-primary'>Retail</span>";
+		case "wowt":
+			return "<span class='badge badge-warning'>PTR</span>";
+		case "wow_beta":
+			return "<span class='badge badge-danger'>Beta</span>";
+		case "wowz":
+			return "<span class='badge badge-success'>Submission</span>";
+		case "wow_classic":
+			return "<span class='badge badge-info'>Classic</span>";
+		case "wowe1":
+			return "<span class='badge badge-secondary'>Event 1</span>";
+		case "wowe2":
+			return "<span class='badge badge-secondary'>Event 2</span>";
+		case "wowe3":
+			return "<span class='badge badge-secondary'>Event 3</span>";
+		default:
+			return "UNKNOWN";
+	}
+}
+
 function parseBPSV($bpsv){
 	$result = [];
 	foreach($bpsv as $key => $line){

@@ -44,13 +44,16 @@ $allbuilds = $res->fetchAll();
 <div class='container-fluid'>
 	<h3><?=count($allbuilds)?> builds in DB</h3>
 	<table class='table table-sm table-hover maintable'>
+		<thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Build time</th><th>&nbsp;</th></tr></thead>
 		<? foreach($allbuilds as $row){
 			echo "<tr>";
 
 			if(empty($row['product'])) $row['product'] = $row['versionproduct'];
 
-			echo "<td style='width: 250px'>".$row['description']."</td>";
-			echo "<td style='width: 100px'>".$row['product']."</td>";
+			$buildarr = parseBuildName($row['description']);
+			echo "<td style='width: 50px'>".$buildarr['patch']."</td>";
+			echo "<td style='width: 50px'>".$buildarr['build']."</td>";
+			echo "<td style='width: 100px'>".prettyBranch($row['product'])."</td>";
 			echo "<td style='width: 600px'>";
 			echo "<span class='hash'><a target='_BLANK' href='/?buildconfig=".$row['buildconfig']."'>".$row['buildconfig']."</a></span>";
 
@@ -97,7 +100,7 @@ $allbuilds = $res->fetchAll();
 			echo "</td>";
 			echo "</tr>";
 			echo "<tr class='collapse' id='versiondetails".$row['versionid']."'>";
-			echo "<td colspan='2'>&nbsp;</td>";
+			echo "<td colspan='3'>&nbsp;</td>";
 			echo "<td style='width: 600px'>";
 			echo "<table class='table table-sm'>";
 			echo "<tr>";
