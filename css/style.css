@@ -71,6 +71,20 @@ select{
 	z-index: 10;
 }
 
+.dropdown-item{
+	background-color: var(--background-color) !important;
+	color: var(--text-color) !important;	
+}
+
+.dropdown-menu{
+	background-color: var(--background-color) !important;
+	color: var(--text-color) !important;	
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+	background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
 #logo{
 	position: relative;
 }

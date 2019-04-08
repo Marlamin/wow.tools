@@ -39,8 +39,14 @@
 				<li class="nav-item<? if($page == "files"){ echo " active"; } ?>">
 					<a class="nav-link" href="/files/"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Files</a>
 				</li>
-				<li class="nav-item<? if($page == "dbc"){ echo " active"; } ?>">
-					<a class="nav-link" href="/dbc/"><i class="fa fa-table fa-lg" aria-hidden="true"></i> DBCs</a>
+				<li class="nav-item<? if($page == "dbc"){ echo " active"; } ?> dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-table fa-lg" aria-hidden="true"></i> DBCs
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navDropdown">
+						<a class="dropdown-item" href="/dbc/">Browse</a>
+						<a class="dropdown-item" href="/dbc/diff.php">Compare</a>
+					</div>
 				</li>
 				<li class="nav-item<? if($page == "monitor"){ echo " active"; } ?>">
 					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
