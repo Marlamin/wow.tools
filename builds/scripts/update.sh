@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 cd /home/wow/buildbackup/
 /usr/bin/dotnet BuildBackup.dll
 cd /var/www/wow.tools/builds/scripts/

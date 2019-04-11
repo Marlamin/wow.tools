@@ -106,48 +106,53 @@ foreach($dataq->fetchAll() as $row){
 		$after = parseBPSV(explode("\n", $row['newvalue']));
 	}
 
-	$diffs = CompareArrays::Diff($before, $after);
-	$diffs = CompareArrays::Flatten($diffs);
+	if($before == $after){
+		$difftext = "No changes found -- likely only a sequence number increase";
+	}else{
+		$diffs = CompareArrays::Diff($before, $after);
+		$diffs = CompareArrays::Flatten($diffs);
 
-	$difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
-	$difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th></thead>";
-	foreach($diffs as $name => $diff){
-		switch($diff->Type){
-			case "added":
+		$difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
+		$difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th></thead>";
+		foreach($diffs as $name => $diff){
+			switch($diff->Type){
+				case "added":
 				$icon = 'plus';
 				break;
-			case "modified":
+				case "modified":
 				$icon = 'pencil';
 				break;
-			case "removed":
+				case "removed":
 				$icon = 'times';
 				break;
-		}
+			}
 
-		$showUrl = false;
+			$showUrl = false;
 
-		if(hasCDNDir($product)){
-			if(strpos($name, "BuildConfig") !== false || strpos($name, "CDNConfig") !== false){
-				$showUrl = true;
-				$oldurl = buildURL($product, "config", $diff->OldValue);
-				$newurl = buildURL($product, "config", $diff->NewValue);
-			}else if(strpos($name, "ProductConfig") !== false){
-				$showUrl = true;
-				$oldurl = buildURL($product, "tpr/configs/data", $diff->OldValue);
-				$newurl = buildURL($product, "tpr/configs/data", $diff->NewValue);
+			if(hasCDNDir($product)){
+				if(strpos($name, "BuildConfig") !== false || strpos($name, "CDNConfig") !== false){
+					$showUrl = true;
+					$oldurl = buildURL($product, "config", $diff->OldValue);
+					$newurl = buildURL($product, "config", $diff->NewValue);
+				}else if(strpos($name, "ProductConfig") !== false){
+					$showUrl = true;
+					$oldurl = buildURL($product, "tpr/configs/data", $diff->OldValue);
+					$newurl = buildURL($product, "tpr/configs/data", $diff->NewValue);
+				}
+			}
+
+			if($showUrl){
+				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td><a href='".$oldurl."' target='_BLANK'>".$diff->OldValue."</a></td><td><a href='".$newurl."' target='_BLANK'>".$diff->NewValue."</a></td></tr>";
+			}else{
+				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td></tr>";
 			}
 		}
 
-		if($showUrl){
-			$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td><a href='".$oldurl."' target='_BLANK'>".$diff->OldValue."</a></td><td><a href='".$newurl."' target='_BLANK'>".$diff->NewValue."</a></td></tr>";
-		}else{
-			$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td></tr>";
-		}
+		$difftext .= "</table>";
+
+		$row['diff'] = print_r($diffs, true);		
 	}
 
-	$difftext .= "</table>";
-
-	$row['diff'] = print_r($diffs, true);
 
 	$returndata['data'][] = array($row['timestamp'], $row['name']. " (".$product.")", "".$difftext."");
 }
