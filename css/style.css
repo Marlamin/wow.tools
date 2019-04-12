@@ -167,6 +167,9 @@ select{
 	background-color: var(--background-color);
 }
 
+.odd{
+	background-color: rgba(0,0,0,.15);
+}
 /* Site-wide datatable styles */
 .dataTable{
 	border: 0px;

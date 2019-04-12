@@ -66,7 +66,7 @@
 					Toggle theme
 				</button>&nbsp;
 				<? if(empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")){ ?>
-					<a href='#' class='btn btn-sm align-middle btn-outline-success'>Log in</a>
+					<!--<a href='#' class='btn btn-sm align-middle btn-outline-success'>Log in</a>-->
 				<? }else{ ?>
 					<a href='#' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
 				<? } ?>
