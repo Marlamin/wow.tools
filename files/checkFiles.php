@@ -29,7 +29,7 @@ if(!empty($_POST['files'])){
 
 	fclose($tmpfile);
 
-	$cmd = "cd /home/wow/buildbackup; /usr/local/bin/dotnet /home/wow/buildbackup/BuildBackup.dll calchashlistfile ".escapeshellarg($tmpfname);
+	$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll calchashlistfile ".escapeshellarg($tmpfname);
 	$output = explode("\n", shell_exec($cmd));
 
 	$qt = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE lookup = ?");
