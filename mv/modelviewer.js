@@ -197,6 +197,12 @@ $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
     loadModel(data[4], data[0], mostRecentVersion['buildconfig'], mostRecentVersion['cdnconfig']);
 });
 
+$('#js-sidebar').on('input', '.paginate_input', function(){
+    if($(".paginate_input")[0].value != ''){
+        $("#mvfiles").DataTable().page($(".paginate_input")[0].value - 1).ajax.reload(null, false)
+    }
+});
+
 window.addEventListener('keydown', function(event){
     if($(".selected").length == 1){
          if(event.key == "ArrowDown"){
