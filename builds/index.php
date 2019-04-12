@@ -40,13 +40,22 @@ ORDER BY wow_buildconfig.description DESC
 ";
 $res = $pdo->query($query);
 $allbuilds = $res->fetchAll();
+$odd = false;
 ?>
+<script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
 <div class='container-fluid'>
-	<h3><?=count($allbuilds)?> builds in DB</h3>
-	<table class='table table-sm table-hover maintable'>
+	<h3><?=count($allbuilds)?> builds in DB <a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' onClick='resetDiffs()' id='resetButton'>Reset</a></h3>
+	<form>
+		<input type='hidden' id='buildFrom'><input type='hidden' id='buildTo'>
+	</form>
+	<table id='buildtable' class='table table-sm table-hover maintable'>
 		<thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Build time</th><th>&nbsp;</th></tr></thead>
 		<? foreach($allbuilds as $row){
-			echo "<tr>";
+			if($odd){
+				echo "<tr class='odd'>";
+			}else{
+				echo "<tr>";
+			}
 
 			if(empty($row['product'])) $row['product'] = $row['versionproduct'];
 
@@ -55,7 +64,7 @@ $allbuilds = $res->fetchAll();
 			echo "<td style='width: 50px'>".$buildarr['build']."</td>";
 			echo "<td style='width: 100px'>".prettyBranch($row['product'])."</td>";
 			echo "<td style='width: 600px'>";
-			echo "<span class='hash'><a target='_BLANK' href='/?buildconfig=".$row['buildconfig']."'>".$row['buildconfig']."</a></span>";
+			echo "<span class='hash'>".$row['buildconfig']."</span>";
 
 			if(empty($row['buildconfig']) || !doesFileExist("config", $row['buildconfig'], $allowedproducts["wow"]['cdndir'])) {
 				echo "<span class='badge badge-danger'>Does not exist</span>";
@@ -81,7 +90,7 @@ $allbuilds = $res->fetchAll();
 
 			echo "</td>";
 			echo "<td style='width: 300px;'>";
-			echo "<span class='hash'><a target='_BLANK' href='/?cdnconfig=".$row['cdnconfig']."'>".$row['cdnconfig']."</a></span>";
+			echo "<span class='hash'>".$row['cdnconfig']."</span>";
 
 			if(empty($row['cdnconfig']) || !doesFileExist("config", $row['cdnconfig'], $allowedproducts["wow"]['cdndir'])) {
 				echo "<span class='badge badge-danger'>Does not exist</span>";
@@ -236,6 +245,11 @@ $allbuilds = $res->fetchAll();
 			echo "<td>&nbsp;</td>";
 			echo "<td>&nbsp;</td>";
 			echo "</tr>";
+			if($odd){
+				$odd = false;
+			}else{
+				$odd = true;
+			}
 		} ?>
 	</table>
 </div>
