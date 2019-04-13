@@ -335,7 +335,7 @@
 		Elements.FlightLayer.addEventListener( 'click', function( )
 		{
 			if(Elements.FlightLayer.checked){
-				fpxhr.open( 'GET', '/api.php?type=flightpaths&id=' + Current.InternalMapID);
+				fpxhr.open( 'GET', '/maps/api.php?type=flightpaths&id=' + Current.InternalMapID);
 				fpxhr.responseType = 'json';
 				fpxhr.send();
 			}else{
@@ -379,7 +379,7 @@
 					}
 				}
 
-				offsapixhr.open( 'GET', '/api.php?type=offset&build=' + Versions[Current.Map][Current.Version].build + '&map=' + Current.InternalMap, true );
+				offsapixhr.open( 'GET', '/maps/api.php?type=offset&build=' + Versions[Current.Map][Current.Version].build + '&map=' + Current.InternalMap, true );
 				offsapixhr.send();
 			}else{
 				offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
@@ -404,7 +404,7 @@
 
 			var mcnkIndex = WoWTileAndCoordToMCNK(adt, ingame);
 
-			anxhr.open( 'GET', '/api.php?type=areaname&id=' + Current.InternalMapID + '&adt=' + adt.x + '_' + adt.y + '&index=' + Math.floor(mcnkIndex), true );
+			anxhr.open( 'GET', '/maps/api.php?type=areaname&id=' + Current.InternalMapID + '&adt=' + adt.x + '_' + adt.y + '&index=' + Math.floor(mcnkIndex), true );
 			anxhr.responseType = 'json';
 			anxhr.send();
 		}else{

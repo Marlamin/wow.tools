@@ -28,7 +28,6 @@ $( document ).ready(function() {
 	});
 
 	$("#buildtable tbody").on("click", "tr", function(e){
-		console.log(e.currentTarget.children[3].innerText);
 		if(selectingBuild1){
 			build1 = e.currentTarget.children[3].innerText;
 			$(e.currentTarget.children[3]).append(" <span class='badge badge-danger diffbadge'>First build (old)</span>");

@@ -106,6 +106,7 @@
 		</div>
 	</div>
 </div>
+<input type='hidden' value='' id='fileBuildFilter'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -124,9 +125,12 @@
 
 		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
 
+		var apiUrl = "scripts/api.php";
+
 		if(build != undefined && build.length > 0){
+			apiUrl = "/casc/root/files?buildConfig=" + build;
 			$("#fileBuildFilter").val(build);
-			$("#fileBuildFilter").trigger('change');
+			// $("#fileBuildFilter").trigger('change');
 		}
 
 		var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
@@ -145,7 +149,7 @@
 			"processing": true,
 			"serverSide": true,
 			"search": { "search": searchString },
-			"ajax": "scripts/api.php",
+			"ajax": apiUrl,
 			"pageLength": 25,
 			"language": { "search": "Search: _INPUT_ <a class='btn btn-dark btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
@@ -248,7 +252,7 @@
 					"targets": 5,
 					"orderable": false,
 					"render": function ( data, type, full, meta ) {
-						if(full[3].length > 0){
+						if(full[3].length && full[3].length > 0){
 							var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full[0] + ")'><i class='fa fa-info-circle'></i></a></td>";
 						}else{
 							var test = "N/A";
@@ -289,7 +293,7 @@ $('#files').on( 'draw.dt', function () {
 	var sortCol = sort[0][0];
 	var sortDir = sort[0][1];
 
-	if(currentBuild != undefined){
+	if(currentBuild != undefined && currentBuild != ''){
 		window.location.hash = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir + "&build=" + currentBuild;
 	}else{
 		window.location.hash = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
@@ -302,7 +306,7 @@ $('#fileBuildFilter').on( 'change', function () {
 	console.log("Build filter changed!");
 	var build = $(this).val();
 	$.ajax({
-		url: "/files//scripts/api.php?switchbuild=" + build,
+		url: "/files/scripts/api.php?switchbuild=" + build,
 		beforeSend: function() {
 			$("#files_processing").show();
 		}

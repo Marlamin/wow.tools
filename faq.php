@@ -27,7 +27,7 @@
 <ul>
 	<li>List of all builds from WoW patch 6.0 and up (older versions are planned to be added)</li>
 	<li>Use diffs to generate a list of all differences in the files between versions</li>
-	<li>All builds listed as complete are fully backed up as to not be lost to the times like many games have been before</li>
+	<li>All builds listed as complete are fully backed up as to not be lost to the times like many games have been before. Keep in mind I do not provide access to the raw data for these builds due to abuse of this in the past.</li>
 </ul>
 <h3>Can I help?</h3>
 You can support the site in many ways:
