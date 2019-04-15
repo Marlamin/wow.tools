@@ -1,59 +1,54 @@
-var selectingBuild1 = false;
-var selectingBuild2 = false;
-
-var build1 = '';
-var build2 = '';
-
-function resetDiffs(){
-	document.getElementById("diffButton").text = 'Diff builds';
-	document.getElementById("diffButton").href = '#';
-	document.getElementById("diffButton").target = '';
-	$(".diffbadge").remove();
-	build1 = '';
-	build2 = '';
-	selectingBuild1 = false;
-	selectingBuild2 = false;
-	$("#openDiffButton").hide();
-	$("#resetButton").hide();
-	$("#diffButton").show();
-}
-
 $( document ).ready(function() {
-	$("#diffButton").removeClass('disabled');
+	let build1;
+	let build2;
 
-	$("#diffButton").on("click", function(e){
-		document.getElementById("openDiffButton").text = 'Click the row of the first build (old)';
-		selectingBuild1 = true;
-		$("#diffButton").hide();
-		$("#openDiffButton").show();
-		$("#resetButton").show();
+	function resetDiffs() {
+		build1 = null;
+		build2 = null;
+		$('.diffbadge').remove();
+		$('#openDiffButton').hide();
+		$('#resetButton').hide();
+		$('#diffButton').show();
+		$('#buildtable tbody').off('click', 'tr', onBuildClick);
+	}
+
+	$('#diffButton').on('click', function() {
+		$('#buildtable tbody').on('click', 'tr', onBuildClick);
+		$('#diffButton').hide();
+		$('#resetButton').show();
+		$('#openDiffButton')
+			.attr('href', '#')
+			.text('Click the row of the first build (old)')
+			.show();
+
+		return false;
+	}).removeClass('disabled');
+
+	$('#resetButton').on('click', function() {
+		resetDiffs();
+		return false;
 	});
+	$('#openDiffButton').on('click', function() {
+		if (!build1 || !build2) {
+			return false;
+		}
 
-	$("#resetButton").on("click", function(e){
 		resetDiffs();
 	});
 
-	$("#buildtable tbody").on("click", "tr", function(e){
-		if(selectingBuild1){
-			build1 = e.currentTarget.children[3].innerText;
-			$(e.currentTarget.children[3]).append(" <span class='badge badge-danger diffbadge'>First build (old)</span>");
-			selectingBuild1 = false;
-			selectingBuild2 = true;
-			document.getElementById("openDiffButton").text = 'Click the row of the second build (new)';
-		}else if(selectingBuild2){
-			console.log(e.currentTarget.children[3]);
-			build2 = e.currentTarget.children[3].innerText;
-			$(e.currentTarget.children[3]).append(" <span class='badge badge-danger diffbadge'>Second build (new)</span>");
-			selectingBuild1 = false;
-			selectingBuild2 = false;
-			document.getElementById("openDiffButton").text = 'Click to diff (might take up to a minute to generate)';
-			document.getElementById("openDiffButton").href = '/builds/diff.php?from=' + build1 + '&to=' + build2;
-			document.getElementById("openDiffButton").target = '_BLANK';
+	function onBuildClick() {
+		const hashElement = $(this).find('.buildconfighash');
 
-			$("#openDiffButton").one('click', function(e){
-				$("#openDiffButton").hide();
-				resetDiffs();
-			});
+		if (!build1) {
+			build1 = hashElement.text();
+			hashElement.after(' <span class="badge badge-danger diffbadge">Old build</span>');
+			$('#openDiffButton').text('Click the row of the second build (new)');
+		} else if(!build2) {
+			build2 = hashElement.text();
+			hashElement.after(' <span class="badge badge-danger diffbadge">New build</span>');
+			$('#openDiffButton')
+				.text('Click to diff (might take up to a minute to generate)')
+				.attr('href', '/builds/diff.php?from=' + build1 + '&to=' + build2);
 		}
-	});
+	}
 });
