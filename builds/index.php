@@ -44,7 +44,7 @@ $odd = false;
 ?>
 <script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
 <div class='container-fluid'>
-	<h3><?=count($allbuilds)?> builds in DB <a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' onClick='resetDiffs()' id='resetButton'>Reset</a></h3>
+	<h3><?=count($allbuilds)?> builds in DB <a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton'>Open diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' onClick='resetDiffs()' id='resetButton'>Reset</a></h3>
 	<form>
 		<input type='hidden' id='buildFrom'><input type='hidden' id='buildTo'>
 	</form>
