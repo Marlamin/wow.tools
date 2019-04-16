@@ -38,15 +38,24 @@ while(true){
 			mkdir("/tmp/casc/".$buildconfig."/");
 		}
 
+		$toextract = 0;
+		$extracted = 0;
 		$fhandle = fopen("/tmp/casc/".$buildconfig.".txt", "w");
 		foreach($filelist as $file){
-			fwrite($fhandle, $file['chash'].",".$file['id'].".unk\n");
+			if(!file_exists("/tmp/casc/".$buildconfig."/".$file['id'].".unk")){
+				fwrite($fhandle, $file['chash'].",".$file['id'].".unk\n");
+				$toextract++;
+			}else{
+				$extracted++;
+			}
 		}
 		fclose($fhandle);
 
-		echo("Extracting unknown files for buildconfig ".$buildconfig."\n");
+		echo("Extracting " . $toextract . " unknown files (".$extracted ." already extracted) for buildconfig ".$buildconfig."\n");
 
-		$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt");
+		if($toextract > 0){
+			$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt");
+		}
 
 		foreach(glob("/tmp/casc/".$buildconfig."/*.unk") as $extractedfile){
 			$ext = guessFileExtByExtractedFilename($extractedfile);
@@ -109,6 +118,7 @@ function guessFileExtByExtractedFilename($name){
 		case "wow/wdb8":
 		case "wow/wdc1":
 		case "wow/wdc2":
+		case "wow/wdc3":
 		$ext = ".db2";
 		break;
 		case "wow/adt/root":
