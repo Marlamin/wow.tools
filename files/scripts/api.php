@@ -93,11 +93,16 @@ if($_GET['search']['value'] == "unnamed") {
 			$types[] = "m2";
 		}
 
-		$query .= " OR filename LIKE :search AND type IN ('".implode("','", $types)."')";
+		if(!empty($_GET['search']['value'])){
+			$query .= " OR filename LIKE :search AND type IN ('".implode("','", $types)."')";
+		}else{
+			$query .= " OR type IN ('".implode("','", $types)."')";
+		}
 
-		if($_GET['showWMO'] == "true"){
+		if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
 			$query .= " AND filename NOT LIKE '%_lod1.wmo' AND filename NOT LIKE '%_lod2.wmo'";
 		}
+
 		if($_GET['showADT'] == "true"){
 			$query .= " AND filename NOT LIKE '%_obj0.adt' AND filename NOT LIKE '%_obj1.adt' AND filename NOT LIKE '%_tex0.adt' AND filename NOT LIKE '%_tex1.adt' AND filename NOT LIKE '%_lod.adt'";
 		}
@@ -148,8 +153,8 @@ $length = (int)filter_input( INPUT_GET, 'length', FILTER_SANITIZE_NUMBER_INT );
 // $returndata['params'] = $params;
 function str_replace_first($from, $to, $content)
 {
-    $from = '/'.preg_quote($from, '/').'/';
-    return preg_replace($from, $to, $content, 1);
+	$from = '/'.preg_quote($from, '/').'/';
+	return preg_replace($from, $to, $content, 1);
 }
 
 $searchCounter = 0;
