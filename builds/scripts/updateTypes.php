@@ -48,6 +48,10 @@ while(true){
 			}else{
 				$extracted++;
 			}
+
+			if($toextract > 500){
+				break;
+			}
 		}
 		fclose($fhandle);
 
@@ -73,8 +77,8 @@ while(true){
 		}
 	}
 
-	echo "[" . date('h:i:s'). "] Sleeping for a minute..\n";
-	sleep(60);
+	echo "[" . date('h:i:s'). "] Sleeping for 10 sec..\n";
+	sleep(10);
 }
 
 function guessFileExtByExtractedFilename($name){
