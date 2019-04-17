@@ -191,10 +191,18 @@ $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedata
 $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
+$cfnameq = $pdo->prepare("SELECT filename FROM wow_communityfiles WHERE id = ?");
 
 while($row = $dataq->fetch()){
 	$contenthashes = array();
-
+	$cfname = "";
+	if(empty($row['filename'])){
+		$cfnameq->execute([$row['id']]);
+		$cfrow = $cfnameq->fetch();
+		if(!empty($cfrow)){
+			$cfname = $cfrow['filename'];
+		}
+	}
 	if(!$mv && !$dbc){
 		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key
 		$encq->execute([$row['id']]);
@@ -278,7 +286,7 @@ while($row = $dataq->fetch()){
 		$versions[] = $subrow;
 	}
 
-	$returndata['data'][] = array($row['id'], $row['filename'], $row['lookup'], array_reverse($versions), $row['type'], $xrefs, $comments);
+	$returndata['data'][] = array($row['id'], $row['filename'], $row['lookup'], array_reverse($versions), $row['type'], $xrefs, $comments, $cfname);
 }
 
 echo json_encode($returndata);

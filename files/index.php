@@ -3,20 +3,16 @@
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
 		<a href='/files/checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
-		<a href='/casc/listfile/download' class='btn btn-primary btn-sm'>Download listfile</a>
-		<!--
 		<div class="btn-group">
-			<a href='listfile.php' class='btn btn-primary btn-sm'>Download listfile</a>
+			<a href='/casc/listfile/download' class='btn btn-primary btn-sm'>Download listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 			<div class="dropdown-menu">
-			    <a class="dropdown-item" href="listfile.php?product=wow">WoW Retail files only</a>
-			    <a class="dropdown-item" href="listfile.php?product=wowt">WoW PTR files only</a>
-			    <a class="dropdown-item" href="listfile.php?product=wow_beta">WoW Beta files only</a>
-			    <a class="dropdown-item" href="listfile.php?product=wow_classic">WoW Classic files only</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV version</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">CSV with unverified filenames</a>
 			</div>
-		</div>-->
+		</div>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
@@ -172,115 +168,122 @@
 						var test = full[1];
 					}else{
 						var test = "";
+						if(full[7]){
+							test = full[7];
+						}
 					}
 
-						if(full[6]){ // has comment
-							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='";
+					if(full[6]){
+						test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='";
 
-							full[6].forEach(function(comment) {
-								test += "By <b>" + comment['username'] +"</b> on <b>" + comment['lastedited'] +"</b><br>";
-								test += comment['comment'] + "<br>";
-							});
+						full[6].forEach(function(comment) {
+							test += "By <b>" + comment['username'] +"</b> on <b>" + comment['lastedited'] +"</b><br>";
+							test += comment['comment'] + "<br>";
+						});
 
-							test += "'><i class='fa fa-comment'></i></a></span>";
-						}
-						if(full[5]){ // has xrefs
-							if(full[5]['soundkit']){
-								test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['soundkit'] +"'><i class='fa fa-music'></i></a></span>";
-							}
-							if(full[5]['cmd']){
-								test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['cmd'] +"'><i class='fa fa-bug'></i></a></span>";
-							}
-						}
-
-						return test;
+						test += "'><i class='fa fa-comment'></i></a></span>";
 					}
-				},
-				{
-					"targets": 3,
-					"orderable": true,
-					"render": function ( data, type, full, meta ) {
-						if(full[3].length > 0){
-							if(full[3][0].enc == 1){
-								var test = "<i style='color: red' title='File is encrypted (key " + full[3][0].key + " unknown)' class='fa fa-lock'></i> ";
-							}else if(full[3][0].enc == 2){
-								var test = "<i style='color: green' title='File is encrypted (key " + full[3][0].key + " is available)' class='fa fa-unlock'></i> ";
-							}else{
-								var test = "";
+
+					if(full[5]){
+						if(full[5]['soundkit']){
+							if(test == ""){
+								test = full[5]['soundkit'].split("<br>").join("");
 							}
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['soundkit'] +"'><i class='fa fa-music'></i></a></span>";
+						}
+						if(full[5]['cmd']){
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['cmd'] +"'><i class='fa fa-bug'></i></a></span>";
+						}
+					}
+
+					return test;
+				}
+			},
+			{
+				"targets": 3,
+				"orderable": true,
+				"render": function ( data, type, full, meta ) {
+					if(full[3].length > 0){
+						if(full[3][0].enc == 1){
+							var test = "<i style='color: red' title='File is encrypted (key " + full[3][0].key + " unknown)' class='fa fa-lock'></i> ";
+						}else if(full[3][0].enc == 2){
+							var test = "<i style='color: green' title='File is encrypted (key " + full[3][0].key + " is available)' class='fa fa-unlock'></i> ";
 						}else{
 							var test = "";
 						}
+					}else{
+						var test = "";
+					}
 
-						if(full[3].length > 1){
-							test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>Show file versions (" + full[3].length + ")</a><div class='collapse' id='versions" + full[0] + "'>";
-							full[3].forEach(function(entry) {
-								if(full[1]){
-									var filename = full[1].replace(/^.*[\\\/]/, '');
-								}else{
-									var filename = full[0] + "." + full[4];
-								}
-								test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
-
-								if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
-									test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
-								}
-
-								test += "<br>";
-							});
-
-							test += "</div>";
-						}else if(full[3].length == 1){
+					if(full[3].length > 1){
+						test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>Show file versions (" + full[3].length + ")</a><div class='collapse' id='versions" + full[0] + "'>";
+						full[3].forEach(function(entry) {
 							if(full[1]){
 								var filename = full[1].replace(/^.*[\\\/]/, '');
 							}else{
 								var filename = full[0] + "." + full[4];
 							}
-							test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
+							test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
 
-							if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
-								test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
-							}
-						}else{
-							test += "Not shipped or non-enUS";
-						}
-
-						return test;
-					}
-				},
-				{
-					"targets": 5,
-					"orderable": false,
-					"render": function ( data, type, full, meta ) {
-						if(full[3].length && full[3].length > 0){
-							var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full[0] + ")'><i class='fa fa-info-circle'></i></a></td>";
-						}else{
-							var test = "N/A";
-						}
-						return test;
-					}
-				},
-				{
-					"targets": 6,
-					"orderable": false,
-					"render": function ( data, type, full, meta ) {
-						if(full[3].length && full[3][0].enc != 1 && previewTypes.includes(full[4])){
-							var test = "";
-
-							if(full[4] == "wmo" || full[4] == "m2"){
-								test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' href='/mv/?buildconfig=" + full[3][0].buildconfig + "&contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&type=" + full[4] + "' target='_BLANK'><i class='fa fa-tv'></i></a></td>";
-							}else{
-								test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" + full[3][0].buildconfig + "\",\"" + full[3][0].contenthash + "\", \"" + full[0] + "\")'><i class='fa fa-eye'></i></a></td>";
+							if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
+								test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
 							}
 
+							test += "<br>";
+						});
+
+						test += "</div>";
+					}else if(full[3].length == 1){
+						if(full[1]){
+							var filename = full[1].replace(/^.*[\\\/]/, '');
 						}else{
-							var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";
+							var filename = full[0] + "." + full[4];
 						}
-						return test;
+						test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
+
+						if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
+						}
+					}else{
+						test += "Not shipped or non-enUS";
 					}
+
+					return test;
 				}
-				]
-			});
+			},
+			{
+				"targets": 5,
+				"orderable": false,
+				"render": function ( data, type, full, meta ) {
+					if(full[3].length && full[3].length > 0){
+						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full[0] + ")'><i class='fa fa-info-circle'></i></a></td>";
+					}else{
+						var test = "N/A";
+					}
+					return test;
+				}
+			},
+			{
+				"targets": 6,
+				"orderable": false,
+				"render": function ( data, type, full, meta ) {
+					if(full[3].length && full[3][0].enc != 1 && previewTypes.includes(full[4])){
+						var test = "";
+
+						if(full[4] == "wmo" || full[4] == "m2"){
+							test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' href='/mv/?buildconfig=" + full[3][0].buildconfig + "&contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&type=" + full[4] + "' target='_BLANK'><i class='fa fa-tv'></i></a></td>";
+						}else{
+							test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" + full[3][0].buildconfig + "\",\"" + full[3][0].contenthash + "\", \"" + full[0] + "\")'><i class='fa fa-eye'></i></a></td>";
+						}
+
+					}else{
+						var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";
+					}
+					return test;
+				}
+			}
+			]
+		});
 
 
 $('#files').on( 'draw.dt', function () {

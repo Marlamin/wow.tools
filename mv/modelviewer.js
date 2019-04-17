@@ -445,7 +445,11 @@ function updateURLs(){
                     if(!full[4]){
                         full[4] = "unk";
                     }
-                    var test = "Unknown filename (Type: " + full[4] + ", ID " + full[0] + ")";
+                    if(full[7]){
+                        var test = full[7].replace(/^.*[\\\/]/, '');;
+                    }else{
+                        var test = "Unknown filename (Type: " + full[4] + ", ID " + full[0] + ")";
+                    }
                 }
 
                 return test;
