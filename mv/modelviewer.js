@@ -20,9 +20,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "82ecbc808eebb35dd30cb230caabe917",
-    cdnConfig: "6517dcef8b0fa6d6cf6456bac3b73569",
-    buildName: "8.1.5.29981",
+    buildConfig: "2e5fd859ac5ef7350087860a4b0455b6",
+    cdnConfig: "08ae9fce21bf79624aaedac82a09b90e",
+    buildName: "8.2.0.30093",
     fileDataID: 189077,
     type: "m2",
     embedded: false
@@ -268,7 +268,15 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
         $("#animationSelect").hide();
         $("#skinSelect").hide();
 
-        if (Current.filename != "") {
+        // This needs updating of Current.buildName first :( so for now just filter on buildconfig
+        //var buildNumber = parseInt(Current.buildName.substr(-5));
+
+        var alwaysLoadByFDID = false;
+        if(buildconfig == "eb47008c085df6fc7f0f8e9869f2240c" || buildconfig == "2e5fd859ac5ef7350087860a4b0455b6"){
+            alwaysLoadByFDID = true;
+        }
+
+        if (Current.filename != "" && !alwaysLoadByFDID) {
             console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
             var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
             if (Current.type == "adt") {
