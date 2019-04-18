@@ -57,7 +57,7 @@ if($_GET['type'] == "areaname"){
 		echo json_encode(array("error" => "Invalid build"));
 		die();
 	}
-
+die("Not yet finished");
 	$q = $pdo->prepare("SELECT root_cdn FROM wow_buildconfig WHERE description LIKE :build");
 	$q->bindValue(":build", "%".$build."%");
 	$q->execute();
@@ -86,7 +86,7 @@ if($_GET['type'] == "areaname"){
 	$q->execute();
 	$rootid = $q->fetch()['id'];
 
-	die("Not yet finished");
+	
 	$fq = $pdo->query("SELECT wow_rootfiles.filename FROM wow_rootfiles_available build JOIN wow_rootfiles ON wow_rootfiles.id = build.filedataid WHERE build.root8id = ".$rootid." AND wow_rootfiles.filename LIKE 'world/minimaps/".$mysqli->escape_string($map)."/map%' ORDER BY wow_rootfiles.filename ASC");
 	if($fq->num_rows == 0){
 		echo json_encode(array("error" => "No results"));

@@ -114,4 +114,4 @@ if(!empty($validfiles) || !empty($invalidfiles)){
 		<input type='submit' value='Check'>
 	</form>
 </div>
-<? include("inc/footer.php"); ?>
+<? include("../inc/footer.php"); ?>

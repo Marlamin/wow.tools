@@ -41,6 +41,8 @@ function prettyBranch($branch){
 			return "<span class='badge badge-success'>Submission</span>";
 		case "wow_classic":
 			return "<span class='badge badge-info'>Classic</span>";
+		case "wow_classic_beta":
+			return "<span class='badge badge-info'>Classic Beta</span>";
 		case "wowe1":
 			return "<span class='badge badge-secondary'>Event 1</span>";
 		case "wowe2":

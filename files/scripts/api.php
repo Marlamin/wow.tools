@@ -33,7 +33,7 @@ if(isset($_GET['switchbuild'])){
 }
 
 if(empty($_SESSION['buildfilter'])){
-	$query = "FROM wow_rootfiles";
+	$query = "FROM wow_rootfiles LEFT JOIN wow_communityfiles ON wow_communityfiles.id=wow_rootfiles.id ";
 } else {
 	$qq = $pdo->prepare("SELECT id FROM wow_rootfiles_available_roots WHERE root8 = :root8id");
 	$qq->bindValue(":root8id", hexdec(substr($_SESSION['buildfilter'], 0, 8)));
@@ -50,71 +50,79 @@ if(empty($_SESSION['buildfilter'])){
 
 $params = [];
 
-if($_GET['search']['value'] == "unnamed") {
-	$query .= " WHERE filename IS NULL";
-}else if($_GET['search']['value'] == "encrypted") {
-	$query .= " WHERE id IN (SELECT filedataid FROM wow_encrypted)";
-}else if(substr($_GET['search']['value'], 0, 10) == "encrypted:"){
-	$query .= " WHERE id IN (SELECT filedataid FROM wow_encrypted WHERE keyname = :search)";
-	$params[':search'] = str_replace("encrypted:", "", $_GET['search']['value']);
-}else if(substr($_GET['search']['value'], 0, 6) == "chash:"){
-	$query = " FROM wow_rootfiles_chashes LEFT JOIN wow_rootfiles ON wow_rootfiles_chashes.filedataid=wow_rootfiles.id WHERE contenthash = :search";
-	$params[':search'] = str_replace("chash:", "", $_GET['search']['value']);
-}else if(substr($_GET['search']['value'], 0, 5) == "type:"){
-	$query .= " WHERE type = :type";
-	$params[':type'] = str_replace("type:", "", $_GET['search']['value']);
-}else if(substr($_GET['search']['value'], 0, 5) == "skit:"){
-	$query = " FROM `wowdata`.soundkitentry INNER JOIN `casc`.wow_rootfiles ON `wowdata`.soundkitentry.id=wow_rootfiles.id WHERE `wowdata`.soundkitentry.entry = :skitid";
-	$params[':skitid'] = str_replace("skit:", "", $_GET['search']['value']);
+if(!empty($_GET['search']['value'])){
+	if($_GET['search']['value'] == "unverified") {
+		$query .= " WHERE wow_rootfiles.filename IS NULL";
+	}else if($_GET['search']['value'] == "unnamed") {
+		$query .= " WHERE wow_rootfiles.filename IS NULL AND wow_communityfiles.filename IS NULL";
+	}else if($_GET['search']['value'] == "communitynames") {
+		$query .= " WHERE wow_communityfiles.filename IS NOT NULL";
+	}else if($_GET['search']['value'] == "encrypted") {
+		$query .= " WHERE wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted)";
+	}else if(substr($_GET['search']['value'], 0, 10) == "encrypted:"){
+		$query .= " WHERE wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname = :search)";
+		$params[':search'] = str_replace("encrypted:", "", $_GET['search']['value']);
+	}else if(substr($_GET['search']['value'], 0, 6) == "chash:"){
+		$query = " FROM wow_rootfiles_chashes LEFT JOIN wow_rootfiles ON wow_rootfiles_chashes.filedataid=wow_rootfiles.id WHERE contenthash = :search";
+		$params[':search'] = str_replace("chash:", "", $_GET['search']['value']);
+	}else if(substr($_GET['search']['value'], 0, 5) == "type:"){
+		$query .= " WHERE type = :type";
+		$params[':type'] = str_replace("type:", "", $_GET['search']['value']);
+	}else if(substr($_GET['search']['value'], 0, 5) == "skit:"){
+		$query = " FROM `wowdata`.soundkitentry INNER JOIN `casc`.wow_rootfiles ON `wowdata`.soundkitentry.id=wow_rootfiles.id WHERE `wowdata`.soundkitentry.entry = :skitid";
+		$params[':skitid'] = str_replace("skit:", "", $_GET['search']['value']);
 
-}else{
+	}else{
 	// Point slashes the correct way :)
-	$_GET['search']['value'] = str_replace("\\", "/", trim($_GET['search']['value']));
+		$_GET['search']['value'] = str_replace("\\", "/", trim($_GET['search']['value']));
 
-	if(!empty($_GET['search']['value']) && $_GET['search']['value'][0] == '^'){
-		$params[':search'] = substr($_GET['search']['value'], 1)."%";
-	}else{
-		$params[':search'] = "%".$_GET['search']['value']."%";
-	}
-
-	if($mv){
-		$query .= " WHERE id = :search";
-
-		$types = array();
-		if($_GET['showADT'] == "true"){
-			$types[] = "adt";
-		}
-
-		if($_GET['showWMO'] == "true"){
-			$types[] = "wmo";
-		}
-
-		if($_GET['showM2'] == "true"){
-			$types[] = "m2";
-		}
-
-		if(!empty($_GET['search']['value'])){
-			$query .= " OR filename LIKE :search AND type IN ('".implode("','", $types)."')";
+		if(!empty($_GET['search']['value']) && $_GET['search']['value'][0] == '^'){
+			$params[':search'] = substr($_GET['search']['value'], 1)."%";
 		}else{
-			$query .= " OR type IN ('".implode("','", $types)."')";
+			$params[':search'] = "%".$_GET['search']['value']."%";
 		}
 
-		if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
-			$query .= " AND filename NOT LIKE '%_lod1.wmo' AND filename NOT LIKE '%_lod2.wmo'";
+		if($mv){
+			$query .= " WHERE wow_rootfiles.id = :search";
+
+			$types = array();
+			if($_GET['showADT'] == "true"){
+				$types[] = "adt";
+			}
+
+			if($_GET['showWMO'] == "true"){
+				$types[] = "wmo";
+			}
+
+			if($_GET['showM2'] == "true"){
+				$types[] = "m2";
+			}
+
+			if(!empty($_GET['search']['value'])){
+				$query .= " OR wow_rootfiles.filename LIKE :search AND type IN ('".implode("','", $types)."') OR wow_communityfiles.filename LIKE :search AND type IN ('".implode("','", $types)."')";
+			}else{
+				$query .= " OR type IN ('".implode("','", $types)."')";
+			}
+
+			if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
+				$query .= " AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
+			}
+
+			if($_GET['showADT'] == "true"){
+				$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
+			}
+		}else if($dbc){
+			$query .= " WHERE wow_rootfiles.filename LIKE :search AND type = 'db2'";
+		}else{
+			$query .= " WHERE wow_rootfiles.id LIKE :search
+			OR lookup LIKE :search
+			OR wow_rootfiles.filename LIKE :search
+			OR wow_communityfiles.filename LIKE :search";
 		}
 
-		if($_GET['showADT'] == "true"){
-			$query .= " AND filename NOT LIKE '%_obj0.adt' AND filename NOT LIKE '%_obj1.adt' AND filename NOT LIKE '%_tex0.adt' AND filename NOT LIKE '%_tex1.adt' AND filename NOT LIKE '%_lod.adt'";
-		}
-	}else if($dbc){
-		$query .= " WHERE filename LIKE :search AND type = 'db2'";
-	}else{
-		$query .= " WHERE id LIKE :search
-		OR lookup LIKE :search
-		OR filename LIKE :search";
 	}
-
 }
+
 
 $orderby = '';
 if(!empty($_GET['order'])){
@@ -158,20 +166,37 @@ function str_replace_first($from, $to, $content)
 }
 
 $searchCounter = 0;
-if(substr_count($query, ':search') > 1){
-	for($i = 0; $i < substr_count($query, ':search'); $i++){
+$searchCount = substr_count($query, ':search');
+if($searchCount > 1){
+	for($i = 0; $i <= substr_count($query, ':search'); $i++){
 		$query = str_replace_first(":search", " :sr" . $searchCounter, $query);
 		$params[':sr' . $searchCounter] = $params[':search'];
 		$searchCounter++;
 	}
 }
 
+// Make sure there's no unused params left
+foreach($params as $paramname => $paramvalue){
+	if(strpos($query, $paramname) === false){
+		unset($params[$paramname]);
+	}
+}
+
+$returndata['searchcount'] = $searchCount;
 $returndata['query'] = $query;
 $returndata['params'] = $params;
-$numrowsq = $pdo->prepare("SELECT COUNT(1) " . $query);
-$numrowsq->execute($params);
-$dataq = $pdo->prepare("SELECT * " . $query . $orderby . " LIMIT " . $start .", " . $length);
-$dataq->execute($params);
+
+// try{
+	$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
+	$numrowsq->execute($params);
+	$dataq = $pdo->prepare("SELECT wow_communityfiles.filename as communityname, wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
+	$dataq->execute($params);
+// }catch(Exception $e){
+// 	$returndata['data'] = [];
+// 	$returndata['error'] = "I'm currently working on this functionality right now and broke it. Hopefully back soon. <3";
+// 	echo json_encode($returndata);
+// 	die();
+// }
 
 $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
@@ -191,17 +216,12 @@ $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedata
 $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
-$cfnameq = $pdo->prepare("SELECT filename FROM wow_communityfiles WHERE id = ?");
 
 while($row = $dataq->fetch()){
 	$contenthashes = array();
 	$cfname = "";
-	if(empty($row['filename'])){
-		$cfnameq->execute([$row['id']]);
-		$cfrow = $cfnameq->fetch();
-		if(!empty($cfrow)){
-			$cfname = $cfrow['filename'];
-		}
+	if(empty($row['filename']) && !empty($row['communityname'])){
+		$cfname = $row['communityname'];
 	}
 	if(!$mv && !$dbc){
 		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key

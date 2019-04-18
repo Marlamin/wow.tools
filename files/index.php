@@ -94,7 +94,16 @@
 				</button>
 			</div>
 			<div class="modal-body" id="helpModalContent">
-				<kbd>%</kbd> for wildcard<br><kbd>^</kbd> string must start with<br><kbd>type:type</kbd> for filtering by type<br><kbd>chash:md5</kbd> for filter by contenthash<br><kbd>unnamed</kbd> for unknown filenames<br><kbd>encrypted</kbd> for encrypted files<br><kbd>encrypted:KEY</kbd> for encrypted by key<br><kbd>skit:soundkitid</kbd> for searching by SoundKitID
+				<kbd>%</kbd> for wildcard<br>
+				<kbd>^</kbd> string must start with<br>
+				<kbd>type:type</kbd> for filtering by type<br>
+				<kbd>chash:md5</kbd> for filter by contenthash<br>
+				<kbd>unverified</kbd> for files without Blizzard filenames<br>
+				<kbd>unnamed</kbd> for files without filenames<br>
+				<kbd>communitynames</kbd> for files with community filenames<br>
+				<kbd>encrypted</kbd> for encrypted files<br>
+				<kbd>encrypted:KEY</kbd> for encrypted by key<br>
+				<kbd>skit:soundkitid</kbd> for searching by SoundKitID
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
