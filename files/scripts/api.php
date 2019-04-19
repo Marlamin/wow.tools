@@ -200,7 +200,9 @@ if($profiling){
 try{
 	$qmd5 = md5($query);
 	if(!($returndata['recordsFiltered'] = $memcached->get("query." . $qmd5))){
-		$returndata['recordsFiltered'] = (int)$pdo->query("SELECT COUNT(wow_rootfiles.id) " . $query)->fetchColumn();
+		$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
+		$numrowsq->execute($params);
+		$returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
 		if(!$memcached->set("query." . $qmd5, $returndata['recordsFiltered'])){
 			$returndata['mc1error'] = $memcached->getResultMessage();
 		}
@@ -208,12 +210,13 @@ try{
 
 	$dataq = $pdo->prepare("SELECT wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
 	$dataq->execute($params);
-
 }catch(Exception $e){
 	$returndata['data'] = [];
 	// echo "<pre>";
 	// print_r($e);
 	// echo "</pre>";
+	$returndata['query'] = $query;
+	$returndata['params'] = $params;
 	$returndata['error'] = "I'm currently working on this functionality right now and broke it. Hopefully back soon. <3";
 	echo json_encode($returndata);
 	die();
