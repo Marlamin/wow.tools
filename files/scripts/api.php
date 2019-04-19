@@ -47,87 +47,92 @@ if(empty($_SESSION['buildfilter'])){
 
 	$query = "FROM wow_rootfiles_available build JOIN wow_rootfiles ON build.root8id = ".$rootid." AND wow_rootfiles.id = build.filedataid";
 }
-
-$params = [];
-
+$joinparams = [];
+$clauseparams = [];
 if(!empty($_GET['search']['value'])){
-	if($_GET['search']['value'] == "unverified") {
-		$query .= " WHERE wow_rootfiles.filename IS NULL";
-	}else if($_GET['search']['value'] == "unnamed") {
-		$query .= " WHERE wow_rootfiles.filename IS NULL AND wow_communityfiles.filename IS NULL";
-	}else if($_GET['search']['value'] == "communitynames") {
-		$query .= " WHERE wow_communityfiles.filename IS NOT NULL";
-	}else if($_GET['search']['value'] == "encrypted") {
-		$query .= " WHERE wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted)";
-	}else if(substr($_GET['search']['value'], 0, 10) == "encrypted:"){
-		$query .= " WHERE wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname = :search)";
-		$params[':search'] = str_replace("encrypted:", "", $_GET['search']['value']);
-	}else if(substr($_GET['search']['value'], 0, 6) == "chash:"){
-		$query = " FROM wow_rootfiles_chashes LEFT JOIN wow_rootfiles ON wow_rootfiles_chashes.filedataid=wow_rootfiles.id WHERE contenthash = :search";
-		$params[':search'] = str_replace("chash:", "", $_GET['search']['value']);
-	}else if(substr($_GET['search']['value'], 0, 5) == "type:"){
-		$query .= " WHERE type = :type";
-		$params[':type'] = str_replace("type:", "", $_GET['search']['value']);
-	}else if(substr($_GET['search']['value'], 0, 5) == "skit:"){
-		$query = " FROM `wowdata`.soundkitentry INNER JOIN `casc`.wow_rootfiles ON `wowdata`.soundkitentry.id=wow_rootfiles.id WHERE `wowdata`.soundkitentry.entry = :skitid";
-		$params[':skitid'] = str_replace("skit:", "", $_GET['search']['value']);
+	$joins = [];
+	$clauses = [];
+	$criteria = array_filter( explode(",", $_GET['search']['value']), 'strlen' );
 
-	}else{
-	// Point slashes the correct way :)
-		$_GET['search']['value'] = str_replace("\\", "/", trim($_GET['search']['value']));
+	$i = 0;
+	foreach($criteria as &$c) {
+		if($c == "unverified"){
+			array_push($clauses, " (wow_rootfiles.filename IS NULL) ");
+		}else if($c == "unnamed") {
+			array_push($clauses, " (wow_rootfiles.filename IS NULL AND wow_communityfiles.filename IS NULL) ");
+		}else if($c == "communitynames") {
+			array_push($clauses, " (wow_communityfiles.filename IS NOT NULL) ");
+		}else if($c == "encrypted") {
+			array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid ");
+		}else if(substr($c, 0, 10) == "encrypted:"){
+			array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid AND keyname = ? ");
+			$joinparams[] = str_replace("encrypted:", "", $c);
+		}else if(substr($c, 0, 6) == "chash:"){
+			array_push($joins, " JOIN wow_rootfiles_chashes ON wow_rootfiles_chashes.filedataid=wow_rootfiles.id AND contenthash = ? ");
+			$joinparams[] = str_replace("chash:", "", $c);
+		}else if(substr($c, 0, 5) == "type:"){
+			array_push($clauses, " (type = ?) ");
+			$clauseparams[] = str_replace("type:", "", $c);
+		}else if(substr($c, 0, 5) == "skit:"){
+			array_push($joins, " INNER JOIN `wowdata`.soundkitentry ON `wowdata`.soundkitentry.id=wow_rootfiles.id AND `wowdata`.soundkitentry.entry = ? ");
+			$joinparams[] = str_replace("skit:", "", $c);
+		} else {
+			// Point slashes the correct way :)
+			$c = str_replace("\\", "/", trim($c));
+			$subquery = "";
 
-		if(!empty($_GET['search']['value']) && $_GET['search']['value'][0] == '^'){
-			$params[':search'] = substr($_GET['search']['value'], 1)."%";
-		}else{
-			$params[':search'] = "%".$_GET['search']['value']."%";
-		}
-
-		if(is_numeric($_GET['search']['value'])){
-			$params[':id'] = (int)$_GET['search']['value'];
-		}
-
-		if($mv){
-			if(!empty($params[':id'])){
-				$query .= " WHERE wow_rootfiles.id = :id";
+			if(!empty($c) && $c[0] == '^'){
+				$search = substr($c, 1)."%";
 			}else{
-				$query .= " WHERE wow_rootfiles.id = :search";
+				$search = "%".$c."%";
 			}
 
-			$types = array();
-			if($_GET['showADT'] == "true"){
-				$types[] = "adt";
-			}
+			if($mv){
+				$subquery = "wow_rootfiles.id = ?";
+				$clauseparams[] = $c."%";
+				$types = array();
+				if($_GET['showADT'] == "true"){
+					$types[] = "adt";
+				}
+				if($_GET['showWMO'] == "true"){
+					$types[] = "wmo";
+				}
+				if($_GET['showM2'] == "true"){
+					$types[] = "m2";
+				}
+				if(!empty($c)){
+					$subquery .= " OR wow_rootfiles.filename LIKE ? AND type IN ('".implode("','", $types)."') OR wow_communityfiles.filename LIKE ? AND type IN ('".implode("','", $types)."')";
+					$clauseparams[] = $search;
+					$clauseparams[] = $search;
+				}else{
+					$subquery .= " OR type IN ('".implode("','", $types)."')";
+				}
+				if(!empty($c) && $_GET['showWMO'] == "true"){
+					$subquery .= " AND wow_rootfiles.filename IS NOT NULL AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
+				}
+				if($_GET['showADT'] == "true"){
+					$subquery .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
+				}
 
-			if($_GET['showWMO'] == "true"){
-				$types[] = "wmo";
-			}
+				array_push($clauses, " (". $subquery . ")");
 
-			if($_GET['showM2'] == "true"){
-				$types[] = "m2";
-			}
-
-			if(!empty($_GET['search']['value'])){
-				$query .= " OR wow_rootfiles.filename LIKE :search AND type IN ('".implode("','", $types)."') OR wow_communityfiles.filename LIKE :search AND type IN ('".implode("','", $types)."')";
+			}else if($dbc){
+				array_push($clauses, " (wow_rootfiles.filename LIKE ? AND type = 'db2')");
+				$clauseparams[] = $search;
 			}else{
-				$query .= " OR type IN ('".implode("','", $types)."')";
+				$clauseparams[] = $search;
+				$clauseparams[] = $search;
+				$clauseparams[] = $search;
+				$clauseparams[] = $search;
+				array_push($clauses, " (wow_rootfiles.id LIKE ? OR lookup LIKE ? OR wow_rootfiles.filename LIKE ? OR wow_communityfiles.filename LIKE ?) ");
 			}
-
-			if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
-				$query .= " AND wow_rootfiles.filename IS NOT NULL AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
-			}
-
-			if($_GET['showADT'] == "true"){
-				$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
-			}
-		}else if($dbc){
-			$query .= " WHERE wow_rootfiles.filename LIKE :search AND type = 'db2'";
-		}else{
-			$query .= " WHERE wow_rootfiles.id LIKE :search
-			OR lookup LIKE :search
-			OR wow_rootfiles.filename LIKE :search
-			OR wow_communityfiles.filename LIKE :search";
 		}
+		$i++;
+	}
 
+	$query .= implode(" ", $joins);
+	if(count($clauses) > 0){
+		$query .= " WHERE " . implode(" AND ", $clauses);
 	}
 }else{
 	if($mv){
@@ -135,27 +140,21 @@ if(!empty($_GET['search']['value'])){
 		if($_GET['showADT'] == "true"){
 			$types[] = "adt";
 		}
-
 		if($_GET['showWMO'] == "true"){
 			$types[] = "wmo";
 		}
-
 		if($_GET['showM2'] == "true"){
-			// $types[] = "m2";
+			$types[] = "m2";
 		}
-
 		$query .= " WHERE type IN ('".implode("','", $types)."')";
-
 		if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
 			$query .= " AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
 		}
-
 		if($_GET['showADT'] == "true"){
 			$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
 		}
 	}
 }
-
 
 $orderby = '';
 if(!empty($_GET['order'])){
@@ -190,46 +189,26 @@ if(!empty($_GET['order'])){
 
 $start = (int)filter_input( INPUT_GET, 'start', FILTER_SANITIZE_NUMBER_INT );
 $length = (int)filter_input( INPUT_GET, 'length', FILTER_SANITIZE_NUMBER_INT );
-// $returndata['query'] = "SELECT * " . $query . $orderby . " LIMIT " . $start .", " . $length;
+
+$params = array_merge($joinparams, $clauseparams);
+
+// $returndata['query'] = "SELECT wow_communityfiles.filename as communityname, wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length;
 // $returndata['params'] = $params;
-function str_replace_first($from, $to, $content)
-{
-	$from = '/'.preg_quote($from, '/').'/';
-	return preg_replace($from, $to, $content, 1);
-}
 
-$searchCounter = 0;
-$searchCount = substr_count($query, ':search');
-if($searchCount > 1){
-	for($i = 0; $i <= substr_count($query, ':search'); $i++){
-		$query = str_replace_first(":search", " :sr" . $searchCounter, $query);
-		$params[':sr' . $searchCounter] = $params[':search'];
-		$searchCounter++;
-	}
-}
-
-// Make sure there's no unused params left
-foreach($params as $paramname => $paramvalue){
-	if(strpos($query, $paramname) === false){
-		unset($params[$paramname]);
-	}
-}
-
-$returndata['searchcount'] = $searchCount;
-$returndata['query'] = $query;
-$returndata['params'] = $params;
-
-// try{
+try{
 	$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
 	$numrowsq->execute($params);
 	$dataq = $pdo->prepare("SELECT wow_communityfiles.filename as communityname, wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
 	$dataq->execute($params);
-// }catch(Exception $e){
-// 	$returndata['data'] = [];
-// 	$returndata['error'] = "I'm currently working on this functionality right now and broke it. Hopefully back soon. <3";
-// 	echo json_encode($returndata);
-// 	die();
-// }
+}catch(Exception $e){
+	$returndata['data'] = [];
+	// echo "<pre>";
+	// print_r($e);
+	// echo "</pre>";
+	$returndata['error'] = "I'm currently working on this functionality right now and broke it. Hopefully back soon. <3";
+	echo json_encode($returndata);
+	die();
+}
 
 $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();

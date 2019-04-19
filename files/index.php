@@ -130,7 +130,7 @@
 
 		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
 
-		var apiUrl = "scripts/api2.php";
+		var apiUrl = "scripts/api.php";
 
 		if(build != undefined && build.length > 0){
 			apiUrl = "/casc/root/files?buildConfig=" + build;
