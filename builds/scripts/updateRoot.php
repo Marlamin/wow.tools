@@ -8,7 +8,6 @@ if(empty($argv[1])){
 	$q = $pdo->query("SELECT root_cdn, description FROM wow_buildconfig WHERE processed = 0 GROUP BY `root_cdn` ORDER BY description ASC");
 	$processedRootFiles = array();
 	$roots = $q->fetchAll();
-	// $q->closeCursor();
 	foreach($roots as $row){
 		if(in_array($row['root_cdn'], $processedRootFiles)){ continue; }
 
@@ -17,11 +16,9 @@ if(empty($argv[1])){
 
 		$pq = $pdo->prepare("UPDATE wow_buildconfig SET processed = 1 WHERE root_cdn = :root");
 		$pq->execute([$row['root_cdn']]);
-		// $pq->closeCursor();
-
 
 		// Invalidate total file count as it has likely changed
-		// $memcached->delete("files.total");
+		$memcached->delete("files.total");
 	}
 }else{
 	// Partial run

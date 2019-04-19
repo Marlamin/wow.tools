@@ -1,6 +1,7 @@
 <?
 require_once("/var/www/wow.tools/inc/config.php");
 
+header('Content-Type: application/json');
 if(!isset($_SESSION)){ session_start(); }
 
 if(!empty($_GET['src']) && $_GET['src'] == "mv"){
@@ -33,7 +34,7 @@ if(isset($_GET['switchbuild'])){
 }
 
 if(empty($_SESSION['buildfilter'])){
-	$query = "FROM wow_rootfiles LEFT JOIN wow_communityfiles ON wow_communityfiles.id=wow_rootfiles.id ";
+	$query = "FROM wow_rootfiles ";
 } else {
 	$qq = $pdo->prepare("SELECT id FROM wow_rootfiles_available_roots WHERE root8 = :root8id");
 	$qq->bindValue(":root8id", hexdec(substr($_SESSION['buildfilter'], 0, 8)));
@@ -47,6 +48,7 @@ if(empty($_SESSION['buildfilter'])){
 
 	$query = "FROM wow_rootfiles_available build JOIN wow_rootfiles ON build.root8id = ".$rootid." AND wow_rootfiles.id = build.filedataid";
 }
+
 $joinparams = [];
 $clauseparams = [];
 if(!empty($_GET['search']['value'])){
@@ -56,12 +58,10 @@ if(!empty($_GET['search']['value'])){
 
 	$i = 0;
 	foreach($criteria as &$c) {
-		if($c == "unverified"){
+		if($c == "unnamed") {
 			array_push($clauses, " (wow_rootfiles.filename IS NULL) ");
-		}else if($c == "unnamed") {
-			array_push($clauses, " (wow_rootfiles.filename IS NULL AND wow_communityfiles.filename IS NULL) ");
 		}else if($c == "communitynames") {
-			array_push($clauses, " (wow_communityfiles.filename IS NOT NULL) ");
+			array_push($clauses, " (wow_rootfiles.filename IS NOT NULL AND verified = 0) ");
 		}else if($c == "encrypted") {
 			array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid ");
 		}else if(substr($c, 0, 10) == "encrypted:"){
@@ -101,7 +101,7 @@ if(!empty($_GET['search']['value'])){
 					$types[] = "m2";
 				}
 				if(!empty($c)){
-					$subquery .= " OR wow_rootfiles.filename LIKE ? AND type IN ('".implode("','", $types)."') OR wow_communityfiles.filename LIKE ? AND type IN ('".implode("','", $types)."')";
+					$subquery .= " OR wow_rootfiles.filename LIKE ? AND type IN ('".implode("','", $types)."')";
 					$clauseparams[] = $search;
 					$clauseparams[] = $search;
 				}else{
@@ -123,8 +123,7 @@ if(!empty($_GET['search']['value'])){
 				$clauseparams[] = $search;
 				$clauseparams[] = $search;
 				$clauseparams[] = $search;
-				$clauseparams[] = $search;
-				array_push($clauses, " (wow_rootfiles.id LIKE ? OR lookup LIKE ? OR wow_rootfiles.filename LIKE ? OR wow_communityfiles.filename LIKE ?) ");
+				array_push($clauses, " (wow_rootfiles.id LIKE ? OR lookup LIKE ? OR wow_rootfiles.filename LIKE ?) ");
 			}
 		}
 		$i++;
@@ -192,14 +191,24 @@ $length = (int)filter_input( INPUT_GET, 'length', FILTER_SANITIZE_NUMBER_INT );
 
 $params = array_merge($joinparams, $clauseparams);
 
-// $returndata['query'] = "SELECT wow_communityfiles.filename as communityname, wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length;
-// $returndata['params'] = $params;
+$profiling = false;
+if($profiling){
+	$pdo->exec('set @@session.profiling_history_size = 100;');
+	$pdo->exec('set profiling=1');
+}
 
 try{
-	$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
-	$numrowsq->execute($params);
-	$dataq = $pdo->prepare("SELECT wow_communityfiles.filename as communityname, wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
+	$qmd5 = md5($query);
+	if(!($returndata['recordsFiltered'] = $memcached->get("query." . $qmd5))){
+		$returndata['recordsFiltered'] = (int)$pdo->query("SELECT COUNT(wow_rootfiles.id) " . $query)->fetchColumn();
+		if(!$memcached->set("query." . $qmd5, $returndata['recordsFiltered'])){
+			$returndata['mc1error'] = $memcached->getResultMessage();
+		}
+	}
+
+	$dataq = $pdo->prepare("SELECT wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
 	$dataq->execute($params);
+
 }catch(Exception $e){
 	$returndata['data'] = [];
 	// echo "<pre>";
@@ -211,14 +220,13 @@ try{
 }
 
 $returndata['draw'] = (int)$_GET['draw'];
-$returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
-$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wow_rootfiles")->fetchColumn();
 
-/*
 if(!($returndata['recordsTotal'] = $memcached->get("files.total"))){
-	$memcached->set("files.total", $returndata['recordsTotal']);
+	$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wow_rootfiles")->fetchColumn();
+	if(!$memcached->set("files.total", $returndata['recordsTotal'])){
+		$returndata['mc2error'] = $memcached->getResultMessage();
+	}
 }
-*/
 
 $returndata['data'] = array();
 
@@ -232,8 +240,9 @@ $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chas
 while($row = $dataq->fetch()){
 	$contenthashes = array();
 	$cfname = "";
-	if(empty($row['filename']) && !empty($row['communityname'])){
-		$cfname = $row['communityname'];
+	if($row['verified'] == 0){
+		$cfname = $row['filename'];
+		$row['filename'] = null;
 	}
 	if(!$mv && !$dbc){
 		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key
@@ -319,6 +328,12 @@ while($row = $dataq->fetch()){
 	}
 
 	$returndata['data'][] = array($row['id'], $row['filename'], $row['lookup'], array_reverse($versions), $row['type'], $xrefs, $comments, $cfname);
+}
+
+if($profiling){
+	$profileq = $pdo->query('show profiles');
+	$returndata['profiling'] = $profileq->fetchAll(PDO::FETCH_ASSOC);
+	$pdo->exec('set profiling=0');
 }
 
 echo json_encode($returndata);
