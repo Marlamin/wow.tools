@@ -103,7 +103,8 @@
 				<kbd>communitynames</kbd> for files with community filenames<br>
 				<kbd>encrypted</kbd> for encrypted files<br>
 				<kbd>encrypted:KEY</kbd> for encrypted by key<br>
-				<kbd>skit:soundkitid</kbd> for searching by SoundKitID
+				<kbd>skit:soundkitid</kbd> for searching by SoundKitID<br>
+				<p>It is also possible to combine some of these options by separating them by a <kbd>,</kbd>. <br>Examples: <kbd>unnamed,type:wmo</kbd> <kbd>encrypted,creature,type:m2</kbd></p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -3,7 +3,7 @@ require_once("../inc/header.php");
 
 echo "<div class='container-fluid'>Coming soon!</div>";
 
-require_once("..inc/footer.php");
+require_once("../inc/footer.php");
 die();
 
 function downloadCSV($file, $build){
