@@ -20,11 +20,11 @@ while($row = $res->fetch()){
 	if($row['bdid'] > 1315){
 		if($row['product'] == "wow" || $row['product'] == "wow_classic") $target = "Wow.exe";
 		if($row['product'] == "wowt") $target = "WowT.exe";
-		if($row['product'] == "wow_beta" || $row['product'] == "wowz") $target = "WowB.exe";
+		if($row['product'] == "wow_beta" || $row['product'] == "wowz" || $row['product'] == "wow_classic_beta") $target = "WowB.exe";
 	}else{
 		if($row['product'] == "wow") $target = "Wow-64.exe";
 		if($row['product'] == "wowt") $target = "WowT-64.exe";
-		if($row['product'] == "wow_beta" || $row['product'] == "wowz") $target = "WowB-64.exe";
+		if($row['product'] == "wow_beta" || $row['product'] == "wowz" || $row['product'] == "wow_classic_beta") $target = "WowB-64.exe";
 	}
 
 	if(empty($target)){
