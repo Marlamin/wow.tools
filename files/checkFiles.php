@@ -23,7 +23,8 @@ if(!empty($_POST['files'])){
 
 		$file = trim($file);
 		$file = strtolower(str_replace("\\", "/", $file));
-
+		if(substr($file, 0, 2) == "by")
+			continue;
 		fwrite($tmpfile, $file."\n");
 	}
 
