@@ -82,8 +82,16 @@ if(!empty($_GET['search']['value'])){
 			$params[':search'] = "%".$_GET['search']['value']."%";
 		}
 
+		if(is_numeric($_GET['search']['value'])){
+			$params[':id'] = (int)$_GET['search']['value'];
+		}
+
 		if($mv){
-			$query .= " WHERE wow_rootfiles.id = :search";
+			if(!empty($params[':id'])){
+				$query .= " WHERE wow_rootfiles.id = :id";
+			}else{
+				$query .= " WHERE wow_rootfiles.id = :search";
+			}
 
 			$types = array();
 			if($_GET['showADT'] == "true"){
@@ -105,7 +113,7 @@ if(!empty($_GET['search']['value'])){
 			}
 
 			if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
-				$query .= " AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
+				$query .= " AND wow_rootfiles.filename IS NOT NULL AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
 			}
 
 			if($_GET['showADT'] == "true"){
@@ -120,6 +128,31 @@ if(!empty($_GET['search']['value'])){
 			OR wow_communityfiles.filename LIKE :search";
 		}
 
+	}
+}else{
+	if($mv){
+		$types = array();
+		if($_GET['showADT'] == "true"){
+			$types[] = "adt";
+		}
+
+		if($_GET['showWMO'] == "true"){
+			$types[] = "wmo";
+		}
+
+		if($_GET['showM2'] == "true"){
+			// $types[] = "m2";
+		}
+
+		$query .= " WHERE type IN ('".implode("','", $types)."')";
+
+		if(!empty($_GET['search']['value']) && $_GET['showWMO'] == "true"){
+			$query .= " AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
+		}
+
+		if($_GET['showADT'] == "true"){
+			$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
+		}
 	}
 }
 
