@@ -7,8 +7,10 @@ $query = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE 
 
 $fhandle = fopen("/home/wow/buildbackup/dbcs.txt", "w");
 
+$files = [];
 while($row = $query->fetch()){
 	fwrite($fhandle, $row['id'].";".$row['filename']."\n");
+	$files[] = $row['filename'];
 }
 fclose($fhandle);
 
@@ -24,7 +26,6 @@ LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash
 ORDER BY wow_buildconfig.description
 ";
 
-$processedRootFiles = array();
 $res = $pdo->query($query);
 while($row = $res->fetch()){
 	$rawdesc = str_replace("WOW-", "", $row['description']);
@@ -36,13 +37,17 @@ while($row = $res->fetch()){
 	$descexpl = explode("_", $rawdesc);
 	$outdir = $descexpl[0].".".$build;
 
-	if(file_exists("/home/wow/dbcs/".$outdir."/")){
-		continue;
+	$needsExport = false;
+	foreach($files as $file){
+		if(!file_exists("/home/wow/dbcs/".$outdir."/dbfilesclient/". $file)){
+			$needsExport = true;
+		}
 	}
 
-	echo "Exporting DBCs to ".$outdir."\n";
-	$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist ".$row['buildconfig']." ".$row['cdnconfig']." /home/wow/dbcs/".$outdir."/ dbcs.txt");
-	$processedRootFiles[] = $row['root_cdn'];
+	if($needsExport){
+		echo "Exporting DBCs to ".$outdir."\n";
+		$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist ".$row['buildconfig']." ".$row['cdnconfig']." /home/wow/dbcs/".$outdir."/ dbcs.txt");
+	}
 }
 
 ?>
