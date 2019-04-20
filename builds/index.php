@@ -158,7 +158,7 @@ $odd = false;
 				}else{
 					echo "<span style='color: white;'>".$row['install_cdn']."</span>";
 				}
-				echo "</span> <a href='/extract.php?type=install&product="."wow"."&build=".$row['buildconfig']."'>(details)</a>";
+				echo "</span> <a href='/builds/extract.php?type=install&product="."wow"."&build=".$row['buildconfig']."'>(details)</a>";
 			} else {
 				echo " <span class='badge badge-danger hash'>".$row['install_cdn']."</span>";
 			}

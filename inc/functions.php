@@ -81,11 +81,11 @@ function parseConfig($file){
 	$config = array();
 	$t = explode("/", $file);
 	$config['original-filename'] = basename($file);
-	
+
 	if(strlen($t[9]) == 2){
 		die("Faulty config!");
 	}
-	
+
 	if ($handle) {
 		while (($line = fgets($handle)) !== false) {
 			$line = trim($line);
@@ -106,7 +106,7 @@ function parseConfig($file){
 	}
 
 	ksort($config);
-	
+
 	return $config;
 }
 
