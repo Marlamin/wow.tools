@@ -4,6 +4,7 @@ $bc1 = getBuildConfigByBuildConfigHash($_GET['from']);
 $bc2 = getBuildConfigByBuildConfigHash($_GET['to']);
 ?>
 <div class='container-fluid' id='diffContainer'>
+<h3>Diff between <?=$bc1['description']?> and <?=$bc2['description']?></h3>
 <pre style='color: var(--text-color)'>
 <?
 $ch = curl_init();
