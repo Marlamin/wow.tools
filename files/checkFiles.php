@@ -34,7 +34,7 @@ if(!empty($_POST['files'])){
 	$output = explode("\n", shell_exec($cmd));
 
 	$qt = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE lookup = ?");
-	$addq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE lookup = ?");
+	$addq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ?, verified = 1 WHERE lookup = ?");
 	$numadded = 0;
 	foreach($output as $line){
 		$expl = explode(" = ", trim($line));
@@ -59,6 +59,8 @@ if(!empty($_POST['files'])){
 
 	// Log credit
 	if($numadded > 0){
+		$memcached->flush();
+
 		$lq = $pdo->prepare("INSERT INTO wow_namelog (userid, userip, numadded) VALUES (:id, :ip, :numadded)");
 
 		if(!empty($_SESSION['userid'])){

@@ -50,21 +50,21 @@ if(!file_exists($csv)){
 	echo "..done!\n";
 }
 
-// $db2 = "https://wow.tools/api/export/?name=manifestinterfacedata&build=".$outdir;
-// $csv = "/tmp/manifestinterfacedata.csv";
-// if(file_exists($csv)){ unlink($csv); }
-// $outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");
-// if(!file_exists($csv)){
-// 	echo "An error occured during manifestinterfacedata import: ".$outputdump;
-// }else{
-// 	echo "	Writing manifestinterfacedata..";
-// 	$pdo->exec("
-// 		LOAD DATA LOCAL INFILE '".$csv."'
-// 		INTO TABLE `wowdata`.manifestinterfacedata
-// 		FIELDS TERMINATED BY ',' ESCAPED BY '\b'
-// 		LINES TERMINATED BY '\n'
-// 		IGNORE 1 LINES
-// 		(filedataid, path, name)
-// 	");
-// 	echo "..done!\n";
-// }
+$db2 = "https://wow.tools/api/export/?name=manifestinterfacedata&build=".$outdir;
+$csv = "/tmp/manifestinterfacedata.csv";
+if(file_exists($csv)){ unlink($csv); }
+$outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");
+if(!file_exists($csv)){
+	echo "An error occured during manifestinterfacedata import: ".$outputdump;
+}else{
+	echo "	Writing manifestinterfacedata..";
+	$pdo->exec("
+		LOAD DATA LOCAL INFILE '".$csv."'
+		INTO TABLE `wowdata`.manifestinterfacedata
+		FIELDS TERMINATED BY ',' ESCAPED BY '\b'
+		LINES TERMINATED BY '\n'
+		IGNORE 1 LINES
+		(filedataid, path, name)
+	");
+	echo "..done!\n";
+}

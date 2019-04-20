@@ -198,7 +198,8 @@ if($profiling){
 }
 
 try{
-	$qmd5 = md5($query);
+	$qmd5 = md5($query.implode('|',$params));
+	$returndata['rfq'] = $query;
 	if(!($returndata['recordsFiltered'] = $memcached->get("query." . $qmd5))){
 		$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
 		$numrowsq->execute($params);

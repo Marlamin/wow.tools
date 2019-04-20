@@ -3,12 +3,12 @@ if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
 include("../../inc/config.php");
 
-$query = $pdo->query("SELECT filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient%.db2'");
+$query = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient%.db2'");
 
 $fhandle = fopen("/home/wow/buildbackup/dbcs.txt", "w");
 
 while($row = $query->fetch()){
-	fwrite($fhandle, $row['filename']."\n");
+	fwrite($fhandle, $row['id'].";".$row['filename']."\n");
 }
 fclose($fhandle);
 
@@ -41,8 +41,7 @@ while($row = $res->fetch()){
 	}
 
 	echo "Exporting DBCs to ".$outdir."\n";
-	$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfnamelist ".$row['buildconfig']." ".$row['cdnconfig']." /home/wow/dbcs/".$outdir."/ dbcs.txt");
-
+	$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist ".$row['buildconfig']." ".$row['cdnconfig']." /home/wow/dbcs/".$outdir."/ dbcs.txt");
 	$processedRootFiles[] = $row['root_cdn'];
 }
 
