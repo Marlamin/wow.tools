@@ -15,7 +15,7 @@ $data = curl_exec($ch);
 curl_close($ch);
 print_r($data);
 if($data == ""){
-	echo "No differences found.";
+	echo "No content differences found. Changes in executables and other non in-game content are not detected by this page.";
 }
 ?>
 </pre>
