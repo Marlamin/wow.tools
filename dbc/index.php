@@ -1,6 +1,10 @@
 <?
 require_once("../inc/header.php");
 
+foreach(glob("/home/wow/dbcs/*", GLOB_ONLYDIR) as $dir){
+	$dirs[] = $dir;
+}
+
 $query = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'dbfilesclient%.db2'");
 
 $allowedtables = array();
@@ -21,7 +25,7 @@ if(!empty($id)){
 		$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
 		$descexpl = explode("_", $rawdesc);
 		$row['build'] = $descexpl[0].".".$build;
-		if($build >= 25600){
+		if(file_exists("/home/wow/dbcs/" . $row['build'])){
 			$versions[] = $row;
 		}
 	}

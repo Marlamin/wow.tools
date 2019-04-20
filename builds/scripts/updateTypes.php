@@ -75,6 +75,8 @@ while(true){
 			$uq->execute();
 			unlink($extractedfile);
 		}
+
+		$memcached->flush();
 	}
 
 	echo "[" . date('h:i:s'). "] Sleeping for 10 sec..\n";

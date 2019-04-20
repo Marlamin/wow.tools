@@ -156,7 +156,9 @@ html, body{
 #mvfiles_filter label input{
     width: 100%;
 }
-
+.dataTables_filter input{
+    width: 400px !important;
+}
 #mvfiles{
     position: absolute;
     top: 70px;

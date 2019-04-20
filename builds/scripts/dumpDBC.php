@@ -31,12 +31,26 @@ function makeOutDir($description){
 include("../../inc/config.php");
 
 // TODO: Filter this by type when needing to support non-named db2s
-$dbcs = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient%.db2'")->fetchAll(PDO::FETCH_ASSOC);
+$dbcs = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient%'")->fetchAll(PDO::FETCH_ASSOC);
 
-$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
+if(empty($argv[1])){
+	$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
+}else{
+	$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC";
+}
+
 
 // Walk through versions
 foreach($pdo->query($query) as $row){
+
+	if(!empty($argv[1])){
+		$rawdesc = str_replace("WOW-", "", $row['description']);
+		$build = substr($rawdesc, 0, 5);
+		if($build > 26310){
+			continue;
+		}
+	}
+
 	$buildNeedsExtract = false;
 
 	$outdir = makeOutDir($row['description']);

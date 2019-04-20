@@ -100,7 +100,6 @@
 				<kbd>^</kbd> string must start with<br>
 				<kbd>type:type</kbd> for filtering by type<br>
 				<kbd>chash:md5</kbd> for filter by contenthash<br>
-				<kbd>unverified</kbd> for files without Blizzard filenames<br>
 				<kbd>unnamed</kbd> for files without filenames<br>
 				<kbd>communitynames</kbd> for files with community filenames<br>
 				<kbd>encrypted</kbd> for encrypted files<br>
