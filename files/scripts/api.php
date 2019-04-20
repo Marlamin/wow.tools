@@ -103,7 +103,6 @@ if(!empty($_GET['search']['value'])){
 				if(!empty($c)){
 					$subquery .= " OR wow_rootfiles.filename LIKE ? AND type IN ('".implode("','", $types)."')";
 					$clauseparams[] = $search;
-					$clauseparams[] = $search;
 				}else{
 					$subquery .= " OR type IN ('".implode("','", $types)."')";
 				}
