@@ -17,8 +17,8 @@ php dl.php
 php exes.php
 php updateRoot.php
 php dumpDBC.php
-# php updateGameData.php
+php updateGameData.php
 # php addOGGNames.php
-# php addMDINames.php
+php ../../files/scripts/addMDINames.php
 php encrypted.php
 # sudo -u www-data php dumpDBD.php
