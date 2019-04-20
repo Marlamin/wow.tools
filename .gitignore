@@ -5,5 +5,8 @@ inc/config.php
 tpr/
 maps/data/
 
+# Non-public files
+dbc/scripts/hook.php
+
 # Sublime files
 sftp-config.json
