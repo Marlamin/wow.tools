@@ -223,6 +223,9 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		$.ajax({
 			"url": "/api/header/" + cleanDBC + "/?build=" + makeBuild(),
 			"success": function(json) {
+				if(json['error'] != null){
+					alert("An error occured on the server:\n" + json['error']);
+				}
 				var allCols = [];
 				$.each(json['headers'], function(i, val){
 					tableHeaders += "<th>" + val + "</th>";
