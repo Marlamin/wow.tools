@@ -73,12 +73,12 @@ select{
 
 .dropdown-item{
 	background-color: var(--background-color) !important;
-	color: var(--text-color) !important;	
+	color: var(--text-color) !important;
 }
 
 .dropdown-menu{
 	background-color: var(--background-color) !important;
-	color: var(--text-color) !important;	
+	color: var(--text-color) !important;
 }
 
 .dropdown-item:focus, .dropdown-item:hover{
@@ -192,7 +192,7 @@ select{
 }
 
 .dataTables_filter input{
-	width: 400px !important;
+	width: 250px !important;
 }
 
 .dataTables_paginate input{
@@ -218,6 +218,19 @@ select{
 	border-radius: 10px;
 }
 
+.popover{
+	border: 1px solid var(--border-color);
+	background-color: var(--background-color);
+}
+
+.popover-header{
+	background-color: var(--background-color);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.popover-body{
+	color: var(--text-color);
+}
 /* Footer */
 footer{
 	position: absolute;

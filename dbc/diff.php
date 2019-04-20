@@ -1,4 +1,4 @@
-<? 
+<?
 require_once("../inc/header.php");
 
 echo "<div class='container-fluid'>Coming soon!</div>";

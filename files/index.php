@@ -13,6 +13,8 @@
 			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">CSV with unverified filenames</a>
 			</div>
 		</div>
+		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
+		<a href='#' id='multipleFileResetButton' onclick='resetQueue()' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
@@ -233,7 +235,7 @@
 							}else{
 								var filename = full[0] + "." + full[4];
 							}
-							test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
+							test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
 
 							if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
 								test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
@@ -249,7 +251,7 @@
 						}else{
 							var filename = full[0] + "." + full[4];
 						}
-						test += "<a href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
+						test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
 
 						if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
 							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
