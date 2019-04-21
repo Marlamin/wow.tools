@@ -362,10 +362,12 @@
 			var offset = null;
 
 			if(!Offsets[Versions[Current.Map][Current.Version].build] || !(Current.InternalMap in Offsets[Versions[Current.Map][Current.Version].build])){
+				document.getElementById("clickedADT").textContent = "Loading..";
+				document.getElementById("clickedCoord").textContent = "Loading..";
 				var offsapixhr = new XMLHttpRequest();
 				offsapixhr.responseType = 'json';
 				offsapixhr.onreadystatechange = function() {
-					if (offsapixhr.readyState === 4) {
+					if (offsapixhr.readyState === 4){
 						if('x' in offsapixhr.response){
 							offset = offsapixhr.response;
 							ProcessOffsetResult(e, offset);
@@ -373,9 +375,6 @@
 							document.getElementById("clickedADT").textContent = "Not supported on map.";
 							document.getElementById("clickedCoord").textContent = "Not supported on map.";
 						}
-					}else{
-						document.getElementById("clickedADT").textContent = "Not supported on map.";
-						document.getElementById("clickedCoord").textContent = "Not supported on map.";
 					}
 				}
 

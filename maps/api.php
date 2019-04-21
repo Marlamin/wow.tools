@@ -1,5 +1,22 @@
 <?php
 
+function getFileDataIDs($buildconfig){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "https://wow.tools/casc/root/fdids?buildconfig=" . $buildconfig);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$data = curl_exec($ch);
+	if(!$data){
+		echo "cURL fail: " . print_r(curl_error($ch))."\n";
+	}
+	curl_close($ch);
+	if($data == ""){
+		return false;
+	}else{
+		return json_decode($data);
+	}
+}
+
 if($_GET['type'] == "areaname"){
 	$mapid = intval($_GET['id']);
 
@@ -57,43 +74,36 @@ if($_GET['type'] == "areaname"){
 		echo json_encode(array("error" => "Invalid build"));
 		die();
 	}
-die("Not yet finished");
-	$q = $pdo->prepare("SELECT root_cdn FROM wow_buildconfig WHERE description LIKE :build");
-	$q->bindValue(":build", "%".$build."%");
-	$q->execute();
-	$res = $q->fetchAll();
-	if(count($res) == 0){
-		echo json_encode(array("error" => "No build found"));
-		die();
+
+	$buildq = $pdo->prepare("SELECT hash FROM wow_buildconfig WHERE description LIKE :desc LIMIT 1");
+	$buildq->bindValue(":desc", "WOW-" . $build . "%");
+	$buildq->execute();
+	$buildrow = $buildq->fetch();
+	if(empty($buildrow)){
+		die("Build not found in database!");
 	}
 
-	$root = $res[0]['root_cdn'];
-	if(strlen($root) != 32 || !ctype_xdigit($root)){
-		echo json_encode(array("error" => "Invalid root file"));
-		die();
-	}
+	$fdids = getFileDataIDs($buildrow['hash']);
 
-	$root8 = substr($root, 0, 8);
-	$root8dec = hexdec($root8);
-
-	$map = strtolower(filter_var($_GET['map'], FILTER_SANITIZE_STRING));
+	$map = trim(strtolower(filter_var($_GET['map'], FILTER_SANITIZE_STRING)));
 
 	$offset['y'] = 63;
 	$offset['x'] = 63;
 
-	$q = $pdo->prepare("SELECT id FROM wow_rootfiles_available_roots WHERE root8 = :root8dec");
-	$q->bindParam(":root8dec", $root8dec);
-	$q->execute();
-	$rootid = $q->fetch()['id'];
+	$fq = $pdo->prepare("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE :minimapdir ORDER BY filename ASC");
+	$fq->bindValue(":minimapdir", "world/minimaps/".$map."/map%");
+	$fq->execute();
+	$minimaptiles = $fq->fetchAll();
 
-	
-	$fq = $pdo->query("SELECT wow_rootfiles.filename FROM wow_rootfiles_available build JOIN wow_rootfiles ON wow_rootfiles.id = build.filedataid WHERE build.root8id = ".$rootid." AND wow_rootfiles.filename LIKE 'world/minimaps/".$mysqli->escape_string($map)."/map%' ORDER BY wow_rootfiles.filename ASC");
-	if($fq->num_rows == 0){
-		echo json_encode(array("error" => "No results"));
+	if(count($minimaptiles) == 0){
+		echo json_encode(array("error" => "No results", "map" => $map));
 		die();
 	}
 
-	while($row = $fq->fetch()){
+	foreach($minimaptiles as $row){
+		if(!in_array($row['id'], $fdids))
+			continue;
+
 		$cleaned = str_replace(array("world/minimaps/".$map."/map", ".blp"), "", $row['filename']);
 
 		$tile = explode("_", $cleaned);
@@ -102,6 +112,11 @@ die("Not yet finished");
 
 		if($offset['y'] > $tile[0]){ $offset['y'] = (int) $tile[0]; }
 		if($offset['x'] > $tile[1]){ $offset['x'] = (int) $tile[1]; }
+	}
+
+	if($offset['x'] == 63 && $offset['y'] == 63){
+		echo json_encode(array("error" => "Error calculating offset"));
+		die();
 	}
 
 	echo json_encode($offset);
