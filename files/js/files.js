@@ -6,6 +6,16 @@ $("#files").on('click', '.fileTableDL', function(e){
 	}
 });
 
+$("#multipleFileAddAll").on('click', function(e){
+	queueAllFiles();
+	event.preventDefault();
+});
+
+$("#multipleFileResetButton").on('click', function(e){
+	resetQueue();
+	event.preventDefault();
+});
+
 document.addEventListener("DOMContentLoaded", function(event) {
 	if(localStorage.getItem('queue[fdids]')){
 		updateButton();

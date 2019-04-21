@@ -14,8 +14,8 @@
 			</div>
 		</div>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
-		<a href='#' id='multipleFileAddAll' onclick='queueAllFiles()' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
-		<a href='#' id='multipleFileResetButton' onclick='resetQueue()' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
+		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
+		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>

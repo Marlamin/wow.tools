@@ -137,7 +137,7 @@ include("../inc/header.php");
 						}
 					}
 
-					echo "<td>".$md5."</td>";
+					echo "<td><span class='hash'>".$md5."</span></td>";
 					echo "<td><a href='https://wow.tools/casc/file/chash?contenthash=".$md5."&buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&filename=".basename(str_replace("\\", "//", $filename))."'>Download</a>";
 					echo "</tr>";
 				}
