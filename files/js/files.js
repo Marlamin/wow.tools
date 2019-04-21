@@ -39,8 +39,10 @@ function addFileToDownloadQueue(file){
 		localStorage.setItem('queue[fdids]', fileDataID);
 	}else{
 		var fdidArr = fdids.split(',');
-		fdidArr.push(fileDataID);
-		localStorage.setItem('queue[fdids]', fdidArr.join(','));
+		if(!fdidArr.includes(fileDataID)){
+			fdidArr.push(fileDataID);
+			localStorage.setItem('queue[fdids]', fdidArr.join(','));
+		}
 	}
 
 	updateButton();
@@ -48,6 +50,7 @@ function addFileToDownloadQueue(file){
 
 function showButtons(){
 	$("#multipleFileDLButton").show();
+	$("#multipleFileAddAll").show();
 	$("#multipleFileResetButton").show();
 }
 
@@ -63,7 +66,14 @@ function resetQueue(){
 	localStorage.removeItem('queue[fdids]');
 	$("#multipleFileDLButton").popover('hide');
 	$("#multipleFileDLButton").hide();
+	$("#multipleFileAddAll").hide();
 	$("#multipleFileResetButton").hide();
+}
+
+function queueAllFiles(){
+	$(".fileTableDL").each(function(){
+		addFileToDownloadQueue(this.href);
+	});
 }
 
 function showDifferentBuildWarning(){
