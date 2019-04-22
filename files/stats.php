@@ -18,7 +18,7 @@ function getFileCount($root){
 	}
 }
 
-$arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC")->fetchAll();
+$arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow_buildconfig.description, wow_buildconfig.root_cdn, wow_rootfiles_count.count FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash LEFT OUTER JOIN wow_rootfiles_count ON wow_rootfiles_count.root_cdn=wow_buildconfig.root_cdn ORDER BY wow_buildconfig.description DESC")->fetchAll();
 
 ?>
 <div class="container-fluid" style="width: 80%; margin-left: 10%; margin-top: 10px;">
@@ -39,11 +39,12 @@ $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow
 			<table class='table table-condensed table-striped'>
 			<?php
 			foreach($arr as $build){
-				if(!($bnum = $memcached->get("files.available_".$build['root_cdn']))){
-					$bnum = getFileCount($build['root_cdn']);
-					$memcached->set("files.available_".$build['root_cdn'], $bnum);
+				if(empty($build['count'])){
+					$build['count'] = getFileCount($build['root_cdn']);
+					$iq = $pdo->prepare("INSERT IGNORE INTO wow_rootfiles_count (root_cdn, count) VALUES (?, ?)");
+					$iq->execute([$build['root_cdn'], $build['count']]);
 				}
-				echo "<tr><td>".$build['description']."</td><td>".$bnum."</td></tr>";
+				echo "<tr><td>".$build['description']."</td><td>".$build['count']."</td></tr>";
 			}
 			?>
 			</table>
