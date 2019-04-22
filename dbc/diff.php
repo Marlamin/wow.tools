@@ -1,13 +1,21 @@
 <?
 require_once("../inc/header.php");
 
-echo "<div class='container-fluid'>Coming soon!</div>";
+function downloadCSV($file, $build, $outfile){
+	$fp = fopen($outfile, 'w+');
+	$url = 'http://localhost:5000/api/export/?name=' . str_replace(".db2", "", $file) . '&build=' . $build;
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_FILE, $fp);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	$exec = curl_exec($ch);
+	curl_close($ch);
+	fclose($fp);
 
-require_once("../inc/footer.php");
-die();
-
-function downloadCSV($file, $build){
-
+	if($exec){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 $query = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'dbfilesclient%.db2'");
@@ -47,36 +55,19 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 	foreach($versions as $version){
 		if($version['hash'] == $_GET['old'] || $version['hash'] == $_GET['new']){
 			if($version['hash'] == $_GET['old']){
-				/* OLD */
-				$olddb2 = "/home/wow/dbcs/".$version['build']."/dbfilesclient/".$_GET['dbc'];
-				$oldcsv = "/var/www/bnet.marlam.in/temp/".$_GET['dbc'].".".$version['contenthash'].".csv";
-				if(!file_exists($olddb2)){
-					$oldoutputextract = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow ".escapeshellarg($version['hash'])." ".escapeshellarg($version['cdnconfig'])." ".escapeshellarg($version['contenthash'])." ".escapeshellarg($olddb2)." 2>&1");
-				}
-
-				$oldoutputdump = shell_exec("cd /home/wow/dbcdump; /usr/bin/dotnet DBCDump.dll ".escapeshellarg($olddb2)." ".escapeshellarg($oldcsv)." 2>&1");
-
-				/* NEW */
 				$oldcsv = tempnam("/tmp", "dbcdiff");
-
-
+				downloadCSV($_GET['dbc'], $version['build'], $oldcsv);
 			}
 
 			if($version['hash'] == $_GET['new']){
-				$newdb2 = "/home/wow/dbcs/".$version['build']."/dbfilesclient/".$_GET['dbc'];
-				$newcsv = "/var/www/bnet.marlam.in/temp/".$_GET['dbc'].".".$version['contenthash'].".csv";
-				if(!file_exists($newdb2)){
-					$newoutputextract = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow ".escapeshellarg($version['hash'])." ".escapeshellarg($version['cdnconfig'])." ".escapeshellarg($version['contenthash'])." ".escapeshellarg($newdb2)." 2>&1");
-				}
-
-				$newoutputdump = shell_exec("cd /home/wow/dbcdump; /usr/bin/dotnet DBCDump.dll ".escapeshellarg($newdb2)." ".escapeshellarg($newcsv). " 2>&1");
+				$newcsv = tempnam("/tmp", "dbcdiff");
+				downloadCSV($_GET['dbc'], $version['build'], $newcsv);
 			}
 		}
 	}
 
 	$cmd = "/usr/bin/git diff --no-index ".escapeshellarg($oldcsv)." ".escapeshellarg($newcsv)." | grep -v wow.tools";
 	$diff = shell_exec($cmd);
-
 }
 ?>
 <div class="container-fluid">
@@ -89,7 +80,7 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 	</select>
 	<br>
 	<? if(!empty($id)){ ?>
-		<form action='dbcdiff.php?dbc' method='GET'>
+		<form action='/dbc/diff.php?dbc' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			Select first build (older):
 			<select name='old' style='width: 225px; display: inline-block; margin-left: 5px;'  class='form-control form-control-sm'>
@@ -115,30 +106,8 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 		<?
 	}
 	if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
-		echo "<pre>\n";
-		if(!empty($oldoutputextract)){
-			echo "<b>Extraction output (old)</b>\n";
-			print_r($oldoutputextract);
-		}
-
-		if(!empty($oldoutputdump)){
-			echo "<b>Dump to CSV output (old)</b>\n";
-			print_r($oldoutputdump);
-		}
-
-		if(!empty($newoutputextract)){
-			echo "<b>Extraction output (new)</b>\n";
-			print_r($newoutputextract);
-		}
-
-		if(!empty($newoutputdump)){
-			echo "<b>Dump to CSV output (new)</b>\n";
-			print_r($newoutputdump);
-		}
-		echo "</pre>";
-
 		if(!empty($diff)){
-			echo "<pre><code class='diff'>".$diff."</code></pre>";
+			echo "<pre style='color: var(--text-color)'><code class='diff'>".$diff."</code></pre>";
 		}else{
 			echo "Either file contents did not change between builds, or something went wrong with extraction/conversion/diffing (errors should be above). DBC dumping is still a WIP and relies on incomplete definitions. Sorry!";
 			if (file_get_contents($oldcsv) == file_get_contents($newcsv)){
@@ -156,7 +125,7 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 	<script type='text/javascript'>
 		$('#fileBuildFilter').on( 'change', function () {
 			if($(this).val() != ""){
-				document.location = "https://bnet.marlam.in/dbcdiff.php?dbc=" + $(this).val();
+				document.location = "https://wow.tools/dbc/diff.php?dbc=" + $(this).val();
 			}
 		});
 
