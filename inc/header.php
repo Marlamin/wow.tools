@@ -27,7 +27,7 @@
 		<a class="navbar-brand" href="/">
 			<div id='logo'>
 				<div id='cog'>&nbsp;</div>
-				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools (WIP)</span></div>
+				<div id='nocog'><img src='/img/w.svg'><img src='/img/w.svg'><span>.tools</span></div>
 			</div>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,21 +41,21 @@
 				</li>
 				<li class="nav-item<? if($page == "dbc"){ echo " active"; } ?> dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-table fa-lg" aria-hidden="true"></i> DBCs
+						<i class="fa fa-table fa-lg" aria-hidden="true"></i> Database
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
-						<a class="dropdown-item" href="/dbc/">Browse</a>
+						<a class="dropdown-item" href="/dbc/">Browse table</a>
 						<a class="dropdown-item" href="/dbc/diff.php">Compare</a>
 					</div>
-				</li>
-				<li class="nav-item<? if($page == "monitor"){ echo " active"; } ?>">
-					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
 				</li>
 				<li class="nav-item<? if($page == "mv"){ echo " active"; } ?>">
 					<a class="nav-link" href="/mv/"><i class="fa fa-cube fa-lg" aria-hidden="true"></i> Models</a>
 				</li>
 				<li class="nav-item<? if($page == "maps"){ echo " active"; } ?>">
 					<a class="nav-link" href="/maps/"><i class="fa fa-map-o fa-lg" aria-hidden="true"></i> Maps</a>
+				</li>
+				<li class="nav-item<? if($page == "monitor"){ echo " active"; } ?>">
+					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
 				</li>
 				<li class="nav-item<? if($page == "mirror"){ echo " active"; } ?>">
 					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o fa-lg" aria-hidden="true"></i> Builds</a>

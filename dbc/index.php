@@ -39,7 +39,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class='container-fluid'>
 	<select id='fileFilter' class='form-control form-control-sm'>
-		<option value=''>Select a DBC</option>
+		<option value=''>Select a table</option>
 		<? foreach($allowedtables as $table){ ?>
 			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
 		<? }?>
