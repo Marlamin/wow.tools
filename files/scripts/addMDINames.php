@@ -1,6 +1,8 @@
 <?php
 include("../../inc/config.php");
 
+if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
+
 $q = $pdo->query("SELECT path, name FROM `wowdata`.manifestinterfacedata");
 
 $files = array();
