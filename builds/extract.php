@@ -84,18 +84,13 @@ include("../inc/header.php");
 			// 4 = Region
 			// 5 = Category
 
-		if($_SESSION['product'] == "wow"){
-			if($buildn >= 18125 && $buildn <= 18761){
-				$headers = array(1 => "Arch", 2 => "Locale", 3 => "OS");
-			}elseif($buildn >= 18764 && $buildn <= 20426){
-				$headers = array(1 => "Arch", 2 => "Category", 3 => "Locale", 4 => "OS", 5 => "Region");
-			}elseif($buildn >= 20438){
-				$headers = array(1 => "OS", 2 => "Arch", 3 => "Locale", 4 => "Region", 5 => "Category");
-			}
-		}else if($_SESSION['product'] == "w3"){
-			$headers = array(1 => "Locale", 2 => "OS", 3 => "Type");
+		if($buildn >= 18125 && $buildn <= 18761){
+			$headers = array(1 => "Arch", 2 => "Locale", 3 => "OS");
+		}elseif($buildn >= 18764 && $buildn <= 20426){
+			$headers = array(1 => "Arch", 2 => "Category", 3 => "Locale", 4 => "OS", 5 => "Region");
+		}elseif($buildn >= 20438){
+			$headers = array(1 => "OS", 2 => "Arch", 3 => "Locale", 4 => "Region", 5 => "Category");
 		}
-
 
 		?>
 

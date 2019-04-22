@@ -49,7 +49,7 @@ if(!empty($_POST['files'])){
 		}
 	}
 
-	$memcached->flush();
+	flushQueryCache();
 
 	echo "</pre>";
 }

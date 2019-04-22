@@ -50,7 +50,6 @@ $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow
 		</div>
 		<div class="col-sm">
 			<h4>Unnamed</h4>
-			<b>Types</b>
 			<table class='table table-condensed table-striped'>
 			<?php
 			$typeq = $pdo->query("SELECT type, count(type) FROM wow_rootfiles WHERE filename IS NULL GROUP BY type ORDER BY count(type) DESC");

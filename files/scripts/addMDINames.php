@@ -54,7 +54,7 @@ foreach($output as $line){
 }
 
 if($numadded > 0){
-	$memcached->flush();
+	flushQueryCache();
 	$lq = $pdo->prepare("INSERT INTO wow_namelog (userid, userip, numadded) VALUES (:id, :ip, :numadded)");
 	$lq->bindValue(':id', 2, PDO::PARAM_INT);
 	$lq->bindValue(':ip', "127.0.0.1");
