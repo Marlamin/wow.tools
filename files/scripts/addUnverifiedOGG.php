@@ -58,13 +58,14 @@ while($row = $q->fetch()){
 
 		$exploded = explode("_", $row['name']);
 
-		$cleaned = str_replace(array("mon_82_", "mon_815", "mon_81_", "mon_80_", "mon_"), "", $row['name']);
+		$cleaned = str_replace(array("mon_8.0_", "mon_8.2_", "mon_82_", "mon_815", "mon_81_", "mon_80_", "mon_"), "", $row['name']);
 		//echo $cleaned."\n";
 		if(in_array($exploded[count($exploded) - 1], $vosuffixes)){
 			$cleaned = str_replace("_". $exploded[count($exploded) - 1], "", $cleaned);
-			for($i = 0; $i < 99; $i++){
-				// $files[$row['filedataid']] = "sound/creature/" . $cleaned . "/" . $row['name'] . "_" . str_pad($i, 2, '0', STR_PAD_LEFT). ".ogg";
+			if(!array_key_exists($row['name'], $globnameindex)){
+				$globnameindex[$row['name']] = 1;
 			}
+			$files[$row['filedataid']] = "sound/creature/" . $cleaned . "/" . $row['name'] . "_" . str_pad($globnameindex[$row['name']]++, 2, '0', STR_PAD_LEFT). ".ogg";
 		}
 	}else if(substr($row['name'], 0, 4) == "amb_"){
 		// zone ambience
@@ -91,12 +92,17 @@ while($row = $q->fetch()){
 
 $cq = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE id = :id AND verified = 0");
 $iq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ? AND verified = 0");
-
+$fq = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE filename = ?");
 foreach($files as $filedataid => $filename){
 	$cq->execute([$filedataid]);
 	if(empty($cq->fetch()['filename'])){
-		echo "Updating ".$filedataid." ".$filename."\n";
-		$iq->execute([$filename, $filedataid]);
+		$fq->execute([$filename]);
+		if(count($fq->fetchAll()) == 0){
+			echo "Updating ".$filedataid." ".$filename."\n";
+			$iq->execute([$filename, $filedataid]);
+		}else{
+			echo "Ignoring as duplicate ".$filedataid." ".$filename."\n";
+		}
 	}
 }
 
