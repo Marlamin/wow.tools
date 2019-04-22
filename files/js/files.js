@@ -1,8 +1,8 @@
 $("#files").on('click', '.fileTableDL', function(e){
-	if(e.altKey){
-		event.preventDefault();
+	if(e.altKey || e.shiftKey){
 		showButtons();
 		addFileToDownloadQueue(this.href);
+		event.preventDefault();
 	}
 });
 
