@@ -9,8 +9,8 @@
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 			<div class="dropdown-menu">
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV version</a>
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">CSV with unverified filenames</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV version (Blizzard filenames only)</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">CSV version (all filenames, incl. guessed ones)</a>
 			</div>
 		</div>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
@@ -279,7 +279,7 @@
 				"targets": 6,
 				"orderable": false,
 				"render": function ( data, type, full, meta ) {
-					if(full[3].length && full[3][0].enc != 1 && previewTypes.includes(full[4])){
+					if(full[3].length && full[3][0].enc != 1){
 						var test = "";
 
 						if(full[4] == "wmo" || full[4] == "m2"){
