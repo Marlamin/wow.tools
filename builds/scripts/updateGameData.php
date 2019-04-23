@@ -31,21 +31,21 @@ if(!file_exists($csv)){
 	echo "..done!\n";
 }
 
-$db2 = "https://wow.tools/api/export/?name=soundkitname&build=".$outdir;
-$csv = "/tmp/soundkitname.csv";
+$db2 = "https://wow.tools/api/export/?name=soundkitentry&build=".$outdir;
+$csv = "/tmp/soundkitentry.csv";
 if(file_exists($csv)){ unlink($csv); }
 $outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");
 if(!file_exists($csv)){
-	echo "An error occured during soundkitname import: ".$outputdump;
+	echo "An error occured during soundkitentry import: ".$outputdump;
 }else{
-	echo "	Writing soundkitname..";
+	echo "	Writing soundkitentry..";
 	$pdo->exec("
 		LOAD DATA LOCAL INFILE '".$csv."'
-		INTO TABLE `wowdata`.soundkitname
+		INTO TABLE `wowdata`.soundkitentry
 		FIELDS TERMINATED BY ','
 		LINES TERMINATED BY '\n'
 		IGNORE 1 LINES
-		(id, name)
+		(@id, @soundkitid, @filedataid) SET id=@filedataid, entry=@soundkitid
 	");
 	echo "..done!\n";
 }
