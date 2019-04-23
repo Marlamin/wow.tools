@@ -18,25 +18,26 @@ function getFileDataIDs($buildconfig){
 }
 
 if($_GET['type'] == "areaname"){
-	$mapid = intval($_GET['id']);
+	// $mapid = intval($_GET['id']);
 
-	$index = intval($_GET['index']);
+	// $index = intval($_GET['index']);
 
-	$assignments = json_decode(file_get_contents("map_json/".$mapid.".json"), true);
+	// $assignments = json_decode(file_get_contents("map_json/".$mapid.".json"), true);
 
-	$areas = json_decode(file_get_contents("areas.json"), true);
+	// $areas = json_decode(file_get_contents("areas.json"), true);
 
-	//print_r($areas);
+	// //print_r($areas);
 
-	$name = $areas[$assignments['Value']['adts'][$_GET['adt']]['ids'][$index]];
+	// $name = $areas[$assignments['Value']['adts'][$_GET['adt']]['ids'][$index]];
 
-	if(empty($name)){
-		$name = $assignments['Value']['name'];
-		if(empty($name)){
-			$name = "No name found :(";
-		}
-	}
+	// if(empty($name)){
+	// 	$name = $assignments['Value']['name'];
+	// 	if(empty($name)){
+	// 		$name = "No name found :(";
+	// 	}
+	// }
 
+	$name = "Unsupported map";
 	$return = array("name" => $name);
 
 	echo json_encode($return);

@@ -9,3 +9,7 @@
     left: 190px;
     z-index: 2;
 }
+
+.modal-body table.table td{
+	padding: 5px;
+}
