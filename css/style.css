@@ -71,6 +71,10 @@ select{
 	z-index: 10;
 }
 
+.navbar-toggler{
+	color: var(--text-color);
+}
+
 .dropdown-item{
 	background-color: var(--background-color) !important;
 	color: var(--text-color) !important;
