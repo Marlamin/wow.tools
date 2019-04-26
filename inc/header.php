@@ -1,7 +1,7 @@
 <?require_once("/var/www/wow.tools/inc/config.php");?><!DOCTYPE html>
 <html>
 <head>
-	<title>WoW.tools</title>
+	<title><?=prettyTitle($_SERVER['REQUEST_URI'])?></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="icon" type="image/png" href="/img/cogw.png" />

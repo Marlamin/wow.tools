@@ -34,6 +34,42 @@ function parseBuildName($buildname){
 	return $build;
 }
 
+function prettyTitle($queryString){
+	$url = parse_url($queryString);
+	$addendum = "";
+	switch($url['path']){
+		case "/":
+		case "/index.php":
+		$addendum = "Home";
+		break;
+		case "/dbc/":
+		$addendum = "Database browser";
+		break;
+		case "/files/":
+		$addendum = "File browser";
+		break;
+		case "/mv/":
+		$addendum = "Model viewer";
+		break;
+		case "/maps/":
+		$addendum = "Minimaps";
+		break;
+		case "/monitor/":
+		$addendum = "Monitor";
+		break;
+		case "/builds/":
+		$addendum = "Builds";
+		break;
+	}
+
+	if(!empty($addendum)){
+		return "WoW.tools | " . $addendum;
+	}else{
+		// trigger_error("Unable to find title for querystring " . $queryString);
+		return "WoW.tools";
+	}
+}
+
 function prettyBranch($branch){
 	switch($branch){
 		case "wow":
