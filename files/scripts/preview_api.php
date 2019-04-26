@@ -66,7 +66,8 @@ if($type == "ogg"){
 		echo "<pre style='max-height: 500px; color: var(--text-color)'><code>".htmlentities($output)."</pre></code>";
 	}else{
 		// dump via hd
-		$output = shell_exec("/usr/bin/hd ".escapeshellarg($tempfile)." 2>&1");
+		echo "Not a supported file for previews, dumping hex output (until 1MB).";
+		$output = shell_exec("/usr/bin/hd -n1048576 ".escapeshellarg($tempfile));
 		echo "<pre style='max-height: 500px; color: var(--text-color)'><code>".htmlentities($output)."</pre></code>";
 	}
 	unlink($tempfile);
