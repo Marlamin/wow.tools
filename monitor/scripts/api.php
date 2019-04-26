@@ -106,10 +106,19 @@ foreach($dataq->fetchAll() as $row){
 		$after = parseBPSV(explode("\n", $row['newvalue']));
 	}
 
-	if($before == $after){
+	if(empty($before)){
+		$before = [];
+	}
+
+	if(empty($after)){
+		$after = [];
+	}
+
+	$diffs = CompareArrays::Diff($before, $after);
+
+	if(empty($diffs)){
 		$difftext = "No changes found -- likely only a sequence number increase";
 	}else{
-		$diffs = CompareArrays::Diff($before, $after);
 		$diffs = CompareArrays::Flatten($diffs);
 
 		$difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
@@ -147,11 +156,12 @@ foreach($dataq->fetchAll() as $row){
 				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td></tr>";
 			}
 		}
-
-		$difftext .= "</table>";
-
-		$row['diff'] = print_r($diffs, true);		
 	}
+
+
+	$difftext .= "</table>";
+
+	$row['diff'] = print_r($diffs, true);		
 
 
 	$returndata['data'][] = array($row['timestamp'], $row['name']. " (".$product.")", "".$difftext."");

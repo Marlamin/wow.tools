@@ -100,7 +100,7 @@ if(!empty($validfiles) || !empty($invalidfiles)){
 		}
 		echo "</pre>";
 	}
-	include("inc/footer.php");
+	include("../inc/footer.php");
 	die();
 }
 ?>
