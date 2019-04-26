@@ -10,3 +10,6 @@ dbc/scripts/hook.php
 
 # Sublime files
 sftp-config.json
+
+# Bugsnag
+inc/bugsnag/*
