@@ -253,3 +253,9 @@ footer{
 footer p{
 	margin-bottom: 0;
 }
+
+.alert-danger{
+    color: #721c24;
+    background-color: #ff929c;
+    border-color: #ff929c;
+}

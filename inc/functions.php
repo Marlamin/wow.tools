@@ -73,25 +73,25 @@ function prettyTitle($queryString){
 function prettyBranch($branch){
 	switch($branch){
 		case "wow":
-			return "<span class='badge badge-primary'>Retail</span>";
+		return "<span class='badge badge-primary'>Retail</span>";
 		case "wowt":
-			return "<span class='badge badge-warning'>PTR</span>";
+		return "<span class='badge badge-warning'>PTR</span>";
 		case "wow_beta":
-			return "<span class='badge badge-danger'>Beta</span>";
+		return "<span class='badge badge-danger'>Beta</span>";
 		case "wowz":
-			return "<span class='badge badge-success'>Submission</span>";
+		return "<span class='badge badge-success'>Submission</span>";
 		case "wow_classic":
-			return "<span class='badge badge-info'>Classic</span>";
+		return "<span class='badge badge-info'>Classic</span>";
 		case "wow_classic_beta":
-			return "<span class='badge badge-info'>Classic Beta</span>";
+		return "<span class='badge badge-info'>Classic Beta</span>";
 		case "wowe1":
-			return "<span class='badge badge-secondary'>Event 1</span>";
+		return "<span class='badge badge-secondary'>Event 1</span>";
 		case "wowe2":
-			return "<span class='badge badge-secondary'>Event 2</span>";
+		return "<span class='badge badge-secondary'>Event 2</span>";
 		case "wowe3":
-			return "<span class='badge badge-secondary'>Event 3</span>";
+		return "<span class='badge badge-secondary'>Event 3</span>";
 		default:
-			return "UNKNOWN";
+		return "UNKNOWN";
 	}
 }
 
@@ -195,5 +195,43 @@ function getPatchConfigByPatchConfigHash($hash, $product = "wow"){
 	}else{
 		return false;
 	}
+}
+
+
+function sendgridMail($to, $subject, $content){
+	global $sendgrid;
+	$sendgridData = [
+		'personalizations' =>
+		[
+			[
+				'to' =>
+				[
+					[
+						'email' => $to,
+					],
+				],
+				'subject' => $subject,
+			],
+		],
+		'from' =>
+		[
+			'email' => 'noreply@wow.tools',
+		],
+		'content' =>
+		[
+			[
+				'type' => 'text/plain',
+				'value' => $content,
+			],
+		],
+	];
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "https://api.sendgrid.com/v3/mail/send");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($sendgridData));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$headers = ['Authorization: Bearer ' . $sendgrid['apikey'], 'Content-Type: application/json'];
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	$res = curl_exec($ch);
 }
 ?>
