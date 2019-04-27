@@ -1,5 +1,11 @@
 <?
 require_once("../inc/header.php");
+
+$productq = $pdo->query("SELECT * FROM ngdp_products ORDER BY name DESC");
+$products = [];
+while($row = $productq->fetch()){
+	$products[] = array("name" => $row['name'], "product" => $row['program']);
+}
 ?>
 <div class='container-fluid'>
 <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; table-layout: fixed;' width="100%">
@@ -30,7 +36,7 @@ require_once("../inc/header.php");
 
 		var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
 
-		var products = [{"name":"bvt","product":"bvt"},{"name":"WoW Vendor","product":"wowv"},{"name":"WoW Submission","product":"wowz"},{"name":"WoW Retail","product":"wow"},{"name":"WoW PTR","product":"wowt"},{"name":"WoW Event 3","product":"wowe3"},{"name":"WoW Event 2","product":"wowe2"},{"name":"WoW Event 1","product":"wowe1"},{"name":"WoW Dev","product":"wowdev"},{"name":"WoW Classic Demo (encrypted)","product":"wowdemo"},{"name":"WoW Classic Demo","product":"wow_classic"},{"name":"WoW Beta","product":"wow_beta"},{"name":"Warcraft III","product":"war3"},{"name":"Warcraft 3 Test","product":"w3t"},{"name":"Warcraft 3","product":"w3"},{"name":"Warcraft 2","product":"w2"},{"name":"Warcraft 1","product":"w1"},{"name":"Test","product":"test"},{"name":"StarCraft II Test","product":"s2t"},{"name":"StarCraft II Beta","product":"s2b"},{"name":"StarCraft II","product":"sc2"},{"name":"StarCraft II","product":"s2"},{"name":"StarCraft 1 Test","product":"s1t"},{"name":"StarCraft 1 A","product":"s1a"},{"name":"StarCraft 1","product":"s1"},{"name":"Overwatch comp 2","product":"proc2"},{"name":"Overwatch Vendor","product":"prov"},{"name":"Overwatch Tournament KR","product":"proc2_kr"},{"name":"Overwatch Tournament EU","product":"proc2_eu"},{"name":"Overwatch Tournament CN","product":"proc2_cn"},{"name":"Overwatch Tournament","product":"proc"},{"name":"Overwatch Test","product":"prot"},{"name":"Overwatch MS (?)","product":"proms"},{"name":"Overwatch Dev","product":"prodev"},{"name":"Overwatch Competitive 3","product":"proc3"},{"name":"Overwatch CR","product":"procr"},{"name":"Overwatch","product":"pro"},{"name":"HotS Tournament","product":"heroc"},{"name":"HotS Test","product":"herot"},{"name":"HotS Alpha","product":"bnt"},{"name":"HotS","product":"hero"},{"name":"Hearthstone Test","product":"hst"},{"name":"Hearthstone Retail","product":"hsb"},{"name":"Hearthstone Competitive","product":"hsc"},{"name":"Diablo III China Test","product":"d3cnt"},{"name":"Diablo III China","product":"d3cn"},{"name":"Diablo 3 Test","product":"d3t"},{"name":"Diablo 3 Beta","product":"d3b"},{"name":"Diablo 3","product":"d3"},{"name":"Diablo 2","product":"d2"},{"name":"Diablo 1","product":"d1"},{"name":"Destiny 2 PTR","product":"dst2t"},{"name":"Destiny 2 Internet Game Room","product":"dst2igr"},{"name":"Destiny 2 Event 1","product":"dst2e1"},{"name":"Destiny 2 Dev","product":"dst2dev"},{"name":"Destiny 2 Alpha","product":"dst2a"},{"name":"Destiny 2","product":"dst2"},{"name":"CoD: BO4 Vendor","product":"viperv1"},{"name":"CoD: BO4 Dev","product":"viperdev"},{"name":"CoD: BO4","product":"viper"},{"name":"Client (old)","product":"clnt"},{"name":"Catalog","product":"catalogs"},{"name":"Bootstrapper","product":"bts"},{"name":"Battle.net App","product":"bna"},{"name":"Battle.net Agent","product":"agent"},{"name":"Agent Test","product":"agent_test"}];
+		var products = <?=json_encode($products)?>;
 
 		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
 
