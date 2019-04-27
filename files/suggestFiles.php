@@ -27,6 +27,8 @@ if(!empty($_POST['files'])){
 
 		$split = explode(";", $file);
 		$fdid = $split[0];
+		if(count($split) != 2)
+			continue;
 		$fname = strtolower(str_replace("\\", "/", trim($split[1])));
 		$cq->execute([$fdid]);
 		$row = $cq->fetch();
