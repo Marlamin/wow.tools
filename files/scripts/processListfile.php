@@ -4,13 +4,19 @@ require_once("/var/www/wow.tools/inc/config.php");
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
 if(empty($argv[1])){
-	die("Missing listfile argument");
+	die("Missing listfile argument (and optional overwrite argument)");
 }
 
 $listfile = $argv[1];
 
 if(!file_exists($listfile)){
 	die("File does not exist!");
+}
+
+$write = false;
+
+if(!empty($argv[2]) && $argv[2] == "true"){
+	$write = true;
 }
 
 $cq = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id = ? AND verified = 0");
@@ -21,7 +27,6 @@ if(!$file){
 	die("Unable to open file " . $listfile);
 }
 
-$write = false;
 $changesMade = false;
 while (($line = fgets($file)) !== false) {
 	if(empty($line))
