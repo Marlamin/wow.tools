@@ -45,7 +45,7 @@
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
 						<a class="dropdown-item" href="/dbc/">Browse table</a>
-						<a class="dropdown-item" href="/dbc/diff.php">Compare</a>
+						<a class="dropdown-item" href="/dbc/diff.php">Compare tables</a>
 					</div>
 				</li>
 				<li class="nav-item<? if($page == "mv"){ echo " active"; } ?>">

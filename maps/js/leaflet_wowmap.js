@@ -6,6 +6,7 @@
 	var Minimap;
 	var MinimapLayer;
 	var FlightPathLayer;
+	var POILayer;
 	var Versions;
 	var Offsets;
 	var Elements =
@@ -384,19 +385,66 @@
 				offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
 				ProcessOffsetResult(e, offset);
 			}
+
+			RequestAreaPOIs();
 		} );
 
 		Elements.Maps.disabled = false;
 		Elements.Versions.disabled = false;
 	}
 
+	function RequestAreaPOIs(){
+		console.log("Requesting POIs");
+		if(Current.InternalMapID == undefined){
+			console.log("Unknown mapid, can't request POIs");
+			return;
+		}
+
+		var poixhr = new XMLHttpRequest();
+		poixhr.responseType = 'json';
+		poixhr.onreadystatechange = function() {
+			if (poixhr.readyState === 4){
+				ProcessPOIResult(poixhr.response);
+			}
+		}
+
+		poixhr.open( 'GET', '/maps/api.php?type=pois&build=' + Versions[Current.Map][Current.Version].fullbuild + '&mapid=' + Current.InternalMapID, true );
+		poixhr.send();		
+	}
+	function ProcessPOIResult(response){
+		return;
+		LeafletMap.removeLayer(POILayer);
+
+		POILayer = new L.LayerGroup();
+
+		if(!Offsets[Versions[Current.Map][Current.Version].build]){
+			console.log("offset does not exist, cannot process");
+			return;
+		}
+
+		for(var i = 0; i < response.length; i++){
+			var entry = response[i];
+			var myIcon = L.divIcon({className: 'poiatlas'});
+			POILayer.addLayer(new L.marker(WoWtoLatLng(entry.x, entry.y), {icon: myIcon}).bindPopup(entry.name));
+		}
+
+		POILayer.addTo(LeafletMap);
+	}
+
 	function ProcessOffsetResult(e, offset){
 		if(offset != null && 'x' in offset){
 			var layerPoint = LeafletMap.project(e.latlng, LeafletMap.getMaxZoom()).floor();
 
+
 			var build = Versions[Current.Map][Current.Version].build;
 			var adt = PointToWoWTile(layerPoint, offset, build);
 			var ingame = PointToWoW(layerPoint, offset, build);
+
+			if(Offsets[build] == undefined){
+				Offsets[build] = new Array();
+			}
+
+			Offsets[build][Current.InternalMap] = offset;
 
 			document.getElementById("clickedCoord").textContent =  Math.floor(ingame.x) + ' ' + Math.floor(ingame.y) + ' 200 ' + Current.InternalMapID;
 			document.getElementById("clickedADT").textContent = Current.InternalMap + '_' + adt.x + '_' + adt.y;
@@ -411,6 +459,7 @@
 			document.getElementById("clickedCoord").textContent = "Not supported on map.";
 		}
 	}
+
 	function ProcessAreaResult()
 	{
 		if( anxhr.readyState !== 4 )
@@ -497,11 +546,14 @@
 	var maxSize = 51200 / 3; 		//17066,66666666667
 	var mapSize = maxSize * 2; 		//34133,33333333333
 	var adtSize = mapSize / 64; 	//533,3333333333333
-	var pxPerCoord = adtSize / 256; //2.0833333333
 
 	function WoWtoLatLng( x, y ){
-		var offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
+		var pxPerCoord = adtSize / 256; //2.0833333333
 
+		if(Versions[Current.Map][Current.Version].build > 26707){
+			pxPerCoord = adtSize / 512;
+		}
+		var offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
 		var offsetX = (offset.y * adtSize) / pxPerCoord;
 		var offsetY = (offset.x * adtSize) / pxPerCoord;
 
@@ -617,6 +669,11 @@
 		Elements.FlightLayer.checked = false;
 		if(LeafletMap.hasLayer(FlightPathLayer)){ LeafletMap.removeLayer(FlightPathLayer); }
 		FlightPathLayer = new L.LayerGroup();
+
+		if(LeafletMap.hasLayer(POILayer)){ LeafletMap.removeLayer(POILayer); }
+		POILayer = new L.LayerGroup();
+
+		RequestAreaPOIs();
 	}
 
 	var markers = [];

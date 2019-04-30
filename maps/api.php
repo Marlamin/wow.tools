@@ -17,6 +17,39 @@ function getFileDataIDs($buildconfig){
 	}
 }
 
+function getDBC($name, $build){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "https://wow.tools/api/export/?name=".urlencode($name)."&build=".urlencode($build));
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$data = curl_exec($ch);
+	if(!$data){
+		echo "cURL fail: " . print_r(curl_error($ch))."\n";
+	}
+	curl_close($ch);
+	if($data == ""){
+		return false;
+	}else{
+		$rows = [];
+		$expl = explode("\n", $data);
+		for($i = 0; $i < count($expl); $i++){
+			$parsed = str_getcsv($expl[$i]);
+			if($i == 0){
+				$headers = $parsed;
+				continue;
+			}
+
+			foreach($parsed as $key => $value){
+				$rows[$i - 1][$headers[$key]] = $value;
+			}
+		}
+		return $rows;
+	}
+}
+
+
+require_once("../inc/config.php");
+
 if($_GET['type'] == "areaname"){
 	// $mapid = intval($_GET['id']);
 
@@ -68,8 +101,6 @@ if($_GET['type'] == "areaname"){
 	}
 	echo json_encode($return);
 }else if($_GET['type'] == "offset"){
-	require_once("../inc/config.php");
-
 	$build = filter_var($_GET['build'], FILTER_VALIDATE_INT);
 	if(!$build){
 		echo json_encode(array("error" => "Invalid build"));
@@ -121,6 +152,39 @@ if($_GET['type'] == "areaname"){
 	}
 
 	echo json_encode($offset);
+}else if($_GET['type'] == "pois"){
+	if(empty($_GET['build']) || !isset($_GET['mapid'])){
+		die("Invalid arguments, need build, mapid");
+	}
+
+	header('Content-Type: application/json');
+
+	$dbc = getDBC("areapoi", $_GET['build']);
+
+	if(empty($dbc)){
+		echo json_encode(array("error" => "Error retrieving DBC!"));
+		die();
+	}
+	$pois=[];
+	foreach($dbc as $row){
+		if(empty($row['ID']))
+			continue;
+
+		if((int)$row['ContinentID'] != (int)$_GET['mapid'])
+			continue;
+
+		$poi['x'] = $row['Pos[0]'];
+		$poi['y'] = $row['Pos[1]'];
+		$poi['icon'] = $row['Icon'];
+		$poi['name'] = $row['Name_lang'];
+		$poi['desc'] = $row['Description_lang'];
+
+		$pois[] = $poi;
+
+		unset($poi);
+	}
+
+	echo json_encode($pois);
 }else{
 	die("Invalid request!");
 }
