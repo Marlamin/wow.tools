@@ -145,8 +145,16 @@ foreach($dataq->fetchAll() as $row){
 					$newurl = buildURL($product, "config", $diff->NewValue);
 				}else if(strpos($name, "ProductConfig") !== false){
 					$showUrl = true;
-					$oldurl = buildURL($product, "tpr/configs/data", $diff->OldValue);
-					$newurl = buildURL($product, "tpr/configs/data", $diff->NewValue);
+					if(!empty($diff->OldValue)){
+						$oldurl = buildURL($product, "tpr/configs/data", $diff->OldValue);
+					}else{
+						$oldurl = '#';
+					}
+					if(!empty($diff->NewValue)){
+						$newurl = buildURL($product, "tpr/configs/data", $diff->NewValue);
+					}else{
+						$newurl = '#';
+					}
 				}
 			}
 
