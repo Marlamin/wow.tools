@@ -29,11 +29,9 @@
 	</button>
 
 	<div id="js-layers" class="overlay layers">
-		<h2>Map layers</h2>
-		<div style='font-size: 12px; margin-top: 5px'>Currently working on this, still buggy! <br>Big data sets might take a few seconds to load.
-		<br>
-		More layers coming in the future.</div>
-		<div style='font-size: 12px; margin-top: 5px'><input type='checkbox' name='flightpoints' id='js-flightlayer'> <label for="js-flightlayer">Flight masters (only some maps)</label></div>
+		<div style='font-size: 12px; margin-top: 5px'>WIP, still buggy! <br>Things might take a few sec to load.</div>
+		<div style='font-size: 12px; margin-top: 5px'><input type='checkbox' name='flightpoints' id='js-flightlayer'> <label for="js-flightlayer">Flight masters</label></div>
+		<div style='font-size: 12px;'><input type='checkbox' name='pois' id='js-poilayer'> <label for="js-poilayer">Points of interest</label></div>
 	</div>
 
 	<div id="js-map" class="map-canvas">&nbsp;</div>

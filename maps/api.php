@@ -76,28 +76,38 @@ if($_GET['type'] == "areaname"){
 	echo json_encode($return);
 }elseif($_GET['type'] == "flightpaths"){
 	$csv = array_map('str_getcsv', file('TaxiNodes.csv'));
+	$csv = getDBC("taxinodes", $_GET['build']);
+	$mapid = intval($_GET['mapid']);
 
-	$mapid = intval($_GET['id']);
-
-	$pathcsv = array_map('str_getcsv', file('TaxiPath.csv'));
+	$pathcsv = getDBC("taxipath", $_GET['build']);
 	$paths = array();
 
 	foreach($pathcsv as $path){
-		$paths[$path[1]][] = $path[2];
+		if(empty($path['FromTaxiNode']) || empty($path['ToTaxiNode'])) continue;
+		$paths[$path['FromTaxiNode']][] = $path['ToTaxiNode'];
 	}
 
 	$return = array();
 
 	foreach($csv as $entry){
-		if($entry[0] == "ID") continue;
-		if($entry[9] != $mapid) continue;
-		if(strpos($entry[4], 'Quest') !== false) continue;
-		if(strpos($entry[4], 'DISABLED') !== false) continue;
-		if($entry[1] == 0 && $entry[2] == 0) continue;
+		if($entry['ContinentID'] != $mapid) continue;
+		if($entry['Pos[0]'] == 0 && $entry['Pos[1]'] == 0) continue;
 
-		if($entry['5'] != 0 && $entry['6'] != 0){ $type = "neutral"; }elseif($entry['5'] != 0){ $type="horde"; }elseif($entry['6'] != 0){ $type = "alliance"; }else{ $type = "unknown"; }
-		$return['ids'][] = $entry[0];
-		$return['points'][$entry[0]] = array("x" => $entry[1], "y" => $entry[2], "name" => $entry[4], "type" => $type, "connected" => $paths[$entry[0]]);
+		if($entry['MountCreatureID[0]'] != 0 && $entry['MountCreatureID[1]'] != 0){
+			$type = "neutral";
+		}elseif($entry['MountCreatureID[0]'] != 0){
+			$type="horde";
+		}elseif($entry['MountCreatureID[1]'] != 0){
+			$type = "alliance";
+		}else{
+			$type = "unknown";
+		}
+
+		$return['ids'][] = $entry['ID'];
+		$return['points'][$entry['ID']] = array("x" => $entry['Pos[0]'], "y" => $entry['Pos[1]'], "name" => $entry['Name_lang'], "type" => $type);
+		if(!empty($paths[$entry['ID']])){
+			$return['points'][$entry['ID']]["connected"] = $paths[$entry['ID']];
+		}
 	}
 	echo json_encode($return);
 }else if($_GET['type'] == "offset"){
