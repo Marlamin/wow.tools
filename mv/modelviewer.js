@@ -22,7 +22,7 @@ var Current =
 {
     buildConfig: "b82ac0499b1a56cfc8559e485f183799",
     cdnConfig: "891154d80fd6be31e1eb6d2a14c1f5ca",
-    buildName: "8.2.0.30168",
+    buildName: "8.2.0.30262",
     fileDataID: 189077,
     type: "m2",
     embedded: false
@@ -272,7 +272,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
         //var buildNumber = parseInt(Current.buildName.substr(-5));
 
         var alwaysLoadByFDID = false;
-        if(buildconfig == "eb47008c085df6fc7f0f8e9869f2240c" || buildconfig == "2e5fd859ac5ef7350087860a4b0455b6" || buildconfig == "b82ac0499b1a56cfc8559e485f183799"){
+        if(buildconfig == "eb47008c085df6fc7f0f8e9869f2240c" || buildconfig == "2e5fd859ac5ef7350087860a4b0455b6" || buildconfig == "b82ac0499b1a56cfc8559e485f183799" || buildconfig == "b52dcba3045aac8ec5d9ef6dfaacdc37"){
             alwaysLoadByFDID = true;
         }
 
