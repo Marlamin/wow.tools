@@ -160,6 +160,12 @@
 !:mime audio/mpeg
 0 string ID3\2\0 .mp3
 !:mime audio/mpeg
+0 string \xFF\xE0 .mp3
+!:mime audio/mpeg
+0 string \xFF\xFB .mp3
+!:mime audio/mpeg
+0 string \xFF\xF0 .mp3
+!:mime audio/mpeg
 
 # ogg
 0 string OggS .ogg
