@@ -116,9 +116,13 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 		}
 	}
 
+	if(!empty($oldcsv)){
+		unlink($oldcsv);
+	}
 
-	unlink($oldcsv);
-	unlink($newcsv);
+	if(!empty($newcsv)){
+		unlink($newcsv);
+	}
 	?>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
