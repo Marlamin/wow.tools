@@ -239,6 +239,9 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%'")->fetchAll(PDO::FETCH_COLUMN); ?>
+	var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
+	</script>
 	<script src="/mv/modelviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.js")?>"></script>
 	<script src="/mv/anims.js?v=<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
 	<script src="/mv/project.js?v=<?=filemtime("/var/www/wow.tools/mv/project.js")?>"></script>
