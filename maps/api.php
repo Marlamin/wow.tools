@@ -75,7 +75,6 @@ if($_GET['type'] == "areaname"){
 
 	echo json_encode($return);
 }elseif($_GET['type'] == "flightpaths"){
-	$csv = array_map('str_getcsv', file('TaxiNodes.csv'));
 	$csv = getDBC("taxinodes", $_GET['build']);
 	$mapid = intval($_GET['mapid']);
 
@@ -90,8 +89,8 @@ if($_GET['type'] == "areaname"){
 	$return = array();
 
 	foreach($csv as $entry){
-		if($entry['ContinentID'] != $mapid) continue;
-		if($entry['Pos[0]'] == 0 && $entry['Pos[1]'] == 0) continue;
+		if(!isset($entry['ContinentID']) || $entry['ContinentID'] != $mapid) continue;
+		if(empty($entry['Pos[0]']) && empty($entry['Pos[1]'])) continue;
 
 		if($entry['MountCreatureID[0]'] != 0 && $entry['MountCreatureID[1]'] != 0){
 			$type = "neutral";
