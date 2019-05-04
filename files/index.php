@@ -135,7 +135,7 @@
 
 		var apiUrl = "scripts/api.php";
 
-		if(build != undefined && build.length > 0){
+		if(build != undefined && build != 'undefined' && build.length > 0){
 			apiUrl = "/casc/root/files?buildConfig=" + build;
 			$("#fileBuildFilter").val(build);
 			// $("#fileBuildFilter").trigger('change');
