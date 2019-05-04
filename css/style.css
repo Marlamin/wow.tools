@@ -270,28 +270,3 @@ footer p{
 		overflow-x: auto; /* x-axis scrolling */
 	}
 }
-
-@media screen and (max-width: 767px) {
-	#files_length, #dbtable_length, #dbtable_filter {
-		text-align: left; /* float pagination sizes left */
-	}
-	
-	#files_buttons {
-		position: relative; /* auto align allowing button stacking */
-		margin-bottom: .5em;
-		top: 0;
-		left: 0;
-	}
-	
-	#dbtable_wrapper {
-		display: inline-block; /* auto align allowing db table stacking */
-	}
-	
-	#fileFilter, #buildFilter, #dbcform {
-		width: 100%; /* asthetic reasons */
-	}
-	
-	#dbcform {
-		margin-bottom: .5em;
-	}
-}

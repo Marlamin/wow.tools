@@ -38,8 +38,10 @@ function updateCSSVars(theme){
 }
 
 /* multiple modal scroll fix */
-$('.modal').on("hidden.bs.modal", function (e) {
-	if($('.modal:visible').length) {
-		$('body').addClass('modal-open');
-	}
+$(function() {
+	$('.modal').on("hidden.bs.modal", function (e) {
+		if($('.modal:visible').length) {
+			$('body').addClass('modal-open');
+		}
+	});
 });

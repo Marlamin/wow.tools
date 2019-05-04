@@ -83,3 +83,22 @@ tr.selected{
     transition: background-color 0.1s ease-out;
 }
 */
+
+/* Mobile Devices */
+@media screen and (max-width: 767px) {
+	#fileFilter, #buildFilter, #dbcform {
+		width: 100%; /* asthetic reasons */
+	}
+	
+	#dbtable_length, #dbtable_filter {
+		text-align: left; /* float pagination sizes left */
+	}
+	
+	#dbtable_wrapper {
+		display: inline-block; /* auto align allowing db table stacking */
+	}
+	
+	#dbcform {
+		margin-bottom: .5em;
+	}
+}
