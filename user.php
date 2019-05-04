@@ -27,6 +27,7 @@ if($_GET['p'] == "login"){
 					$_SESSION['loggedin'] = true;
 					$_SESSION['userid'] = $r['id'];
 					$_SESSION['user'] = $r['username'];
+					$_SESSION['rank'] = $r['rank'];
 
 					header("Location: index.php");
 				}else{
