@@ -167,6 +167,13 @@ select{
 	background-color: rgba(0, 0, 0, 0.15);
 }
 
+.table-minimal tr th{
+	padding: 5px;
+}
+
+.table-minimal tr td{
+	padding: 0px;
+}
 .modal-content{
 	background-color: var(--background-color);
 }

@@ -234,4 +234,16 @@ function sendgridMail($to, $subject, $content){
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	$res = curl_exec($ch);
 }
+
+function getUsernameByUserID($id){
+	global $pdo;
+	$q = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+	$q->execute([$id]);
+	$user = $q->fetch();
+	if(empty($user)){
+		return false;
+	}else{
+		return $user['username'];
+	}
+}
 ?>

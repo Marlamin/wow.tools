@@ -98,10 +98,11 @@ foreach($files as $filedataid => $filename){
 	if(empty($cq->fetch()['filename'])){
 		$fq->execute([$filename]);
 		if(count($fq->fetchAll()) == 0){
-			echo "Updating ".$filedataid." ".$filename."\n";
-			$iq->execute([$filename, $filedataid]);
+			// echo "Updating ".$filedataid." ".$filename."\n";
+			//$iq->execute([$filename, $filedataid]);
+			echo $filedataid.";".$filename."\n";
 		}else{
-			echo "Ignoring as duplicate ".$filedataid." ".$filename."\n";
+			// echo "Ignoring as duplicate ".$filedataid." ".$filename."\n";
 		}
 	}
 }

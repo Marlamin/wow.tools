@@ -19,7 +19,7 @@
 	#files_length{
 		text-align: left; /* float pagination sizes left */
 	}
-	
+
 	#files_buttons {
 		position: relative; /* auto align allowing button stacking */
 		margin-bottom: .5em;

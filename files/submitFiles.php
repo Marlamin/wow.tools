@@ -7,7 +7,7 @@ foreach($kfq as $row){
 	$knownfiles[$row['id']] = $row['filename'];
 }
 
-$uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ?");
+$uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ? AND verified = 0");
 
 if(!empty($_SESSION['loggedin'])){
 	if(!empty($_POST['files'])){
@@ -38,8 +38,12 @@ if(!empty($_SESSION['loggedin'])){
 					$suggestedfiles[$fdid] = $fname;
 				}else if($knownfiles[$fdid] != $fname){
 					// Submitted filename differs from current filename
-					$log[] = "Overriding <kbd>".$knownfiles[$fdid]."</kbd> (".$fdid.") with <kbd>".$fname."</kbd>";
-					$suggestedfiles[$fdid] = $fname;
+					if(!isset($_POST['onlynew'])){
+						$log[] = "Overriding <kbd>".$knownfiles[$fdid]."</kbd> (".$fdid.") with <kbd>".$fname."</kbd>";
+						$suggestedfiles[$fdid] = $fname;
+					}else{
+						$log[] = "Would usually overriding <kbd>".$knownfiles[$fdid]."</kbd> (".$fdid.") with <kbd>".$fname."</kbd>, but checkbox to skip known files is set";
+					}
 				}else{
 					// Submitted filename is the same
 					$log[] = "Skipping <kbd>".$fname."</kbd>, same as <kbd>".$knownfiles[$fdid]."</kbd> (".$fdid.")";
@@ -53,8 +57,11 @@ if(!empty($_SESSION['loggedin'])){
 		$isq = $pdo->prepare("INSERT INTO wow_rootfiles_suggestions (filedataid, filename, userid, submitted) VALUES (?, ?, ?, ?)");
 
 		if(empty($_POST['checkBox'])){
-			if(isset($_SESSION['rank']) && $_SESSION['rank'] > 0){
+			if(isset($_POST['skipQueue']) && isset($_SESSION['rank']) && $_SESSION['rank'] > 0){
 				// Send to wow_rootfiles
+				foreach($suggestedfiles as $fdid => $fname){
+					$uq->execute([$fname, $fdid]);
+				}
 			}else{
 				// Send to queue
 
@@ -95,8 +102,11 @@ if(!empty($_SESSION['loggedin'])){
 	<p>Formatting example:<br><kbd>2961114;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil01.m2</kbd><br><kbd>2961119;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil0100.skin</kbd></p>
 	<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
 	<form method='post' action='submitFiles.php'>
-		<input id='checkBox' type='checkbox' name='write'> <label for='checkBox'>Do not submit to queue and just compare with current listfile ("dry-run")</label>
+		<input id='checkBox' type='checkbox' name='write'> <label for='checkBox'>Do not actually submit anything and just compare with current listfile ("dry-run")</label>
 		<br>
+		<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
+		<br>
+<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only)</b></label><br><?}?>
 		<textarea name='files' rows='15' cols='200'></textarea>
 		<br>
 		<input class='btn btn-success' type='submit' value='Submit'>

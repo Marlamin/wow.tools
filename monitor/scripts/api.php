@@ -169,7 +169,7 @@ foreach($dataq->fetchAll() as $row){
 
 	$difftext .= "</table>";
 
-	$row['diff'] = print_r($diffs, true);		
+	$row['diff'] = print_r($diffs, true);
 
 
 	$returndata['data'][] = array($row['timestamp'], $row['name']. " (".$product.")", "".$difftext."");
