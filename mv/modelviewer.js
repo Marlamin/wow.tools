@@ -273,6 +273,10 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
             alwaysLoadByFDID = true;
         }
 
+        if(Current.type == "adt"){
+            alwaysLoadByFDID = false;
+        }
+
         if (Current.filename != "" && !alwaysLoadByFDID) {
             console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
             var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
