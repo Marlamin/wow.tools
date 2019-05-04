@@ -36,3 +36,10 @@ function updateCSSVars(theme){
 		document.documentElement.style.setProperty('--hover-color', '#7e7e7e');
 	}
 }
+
+/* multiple modal scroll fix */
+$('.modal').on("hidden.bs.modal", function (e) {
+	if($('.modal:visible').length) {
+		$('body').addClass('modal-open');
+	}
+});
