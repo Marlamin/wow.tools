@@ -266,7 +266,7 @@ footer p{
 		width: 100%;
 	}
 	
-	#moreInfoModalContent {
+	#moreInfoModalContent, #fkModal, #chashModal, #previewModal, #helpModal {
 		overflow-x: auto; /* x-axis scrolling */
 	}
 }
