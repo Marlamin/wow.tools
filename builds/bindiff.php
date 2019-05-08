@@ -179,7 +179,7 @@ include("../inc/header.php");
 		$newdiff = shell_exec("strings ".escapeshellarg("/tmp/".$newfilename."_".$newbuild['buildconfig']['description'])." | sort -u > ".escapeshellarg("/tmp/".$newfilename."_".$newbuild['buildconfig']['description'].".txt"));
 
 		$diff = shell_exec("git diff --no-index -U0 ".escapeshellarg("/tmp/".$oldfilename."_".$oldbuild['buildconfig']['description'].".txt")." ".escapeshellarg("/tmp/".$newfilename."_".$newbuild['buildconfig']['description'].".txt"));
-		echo "<pre style='color: var(--text-color)'>";
+		echo "<pre>";
 		foreach(explode("\n", $diff) as $line){
 			if(substr($line, 0, 3) == "@@ " || substr($line, 0, 3) == "+++" || substr($line, 0, 3) == "---" || substr($line, 0, 3) == "dif") continue;
 			echo htmlentities($line)."\n";

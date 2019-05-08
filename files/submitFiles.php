@@ -84,7 +84,7 @@ if(!empty($_SESSION['loggedin'])){
 
 		echo "<div class='container-fluid'>";
 		echo "<h4>Log</h4>";
-		echo "<pre style='color: var(--text-color); max-height: 500px; overflow-y: scroll'>";
+		echo "<pre style='max-height: 500px; overflow-y: scroll'>";
 		echo implode("\n", $log);
 		echo "</pre>";
 		echo "</div>";

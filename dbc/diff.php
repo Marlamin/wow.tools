@@ -107,7 +107,7 @@ if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 	}
 	if(!empty($id) && !empty($_GET['old']) && !empty($_GET['new'])){
 		if(!empty($diff)){
-			echo "<pre style='color: var(--text-color)'><code class='diff'>".$diff."</code></pre>";
+			echo "<pre><code class='diff'>".$diff."</code></pre>";
 		}else{
 			echo "Either file contents did not change between builds, or something went wrong with extraction/conversion/diffing (errors should be above). DBC dumping is still a WIP and relies on incomplete definitions. Sorry!";
 			if (file_get_contents($oldcsv) == file_get_contents($newcsv)){

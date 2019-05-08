@@ -5,7 +5,7 @@ $filelimit = 20000;
 $cq = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id = ? AND verified = 0");
 $uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ?");
 if(!empty($_POST['files'])){
-	echo "<pre style='color: var(--text-color)'>";
+	echo "<pre>";
 
 	$ipwhitelist = array("2001:984:beb9:1:38bc:4175:9976:5254", "81.107.172.160");
 	// Temporary password check

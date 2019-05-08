@@ -49,6 +49,10 @@ select{
 	color: var(--text-color) !important;
 }
 
+pre{
+	color: var(--text-color);
+}
+
 /* Navbar */
 .navbar{
 	background-color: var(--background-color) !important;

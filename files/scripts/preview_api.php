@@ -63,14 +63,14 @@ if($type == "ogg"){
 	if($type == "m2" || $type == "wmo"){
 		// dump json
 		$output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($tempfile)." 2>&1");
-		echo "<pre style='max-height: 500px; color: var(--text-color)'><code>".htmlentities($output)."</pre></code>";
+		echo "<pre style='max-height: 500px;'><code>".htmlentities($output)."</pre></code>";
 	}else if($type == "xml" || $type == "lua" || $type == "toc"){
-		echo "<pre style='max-height: 500px; color: var(--text-color)'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
+		echo "<pre style='max-height: 500px;'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
 	}else{
 		// dump via hd
 		echo "Not a supported file for previews, dumping hex output (until 1MB).";
 		$output = shell_exec("/usr/bin/hd -n1048576 ".escapeshellarg($tempfile));
-		echo "<pre style='max-height: 500px; color: var(--text-color)'><code>".htmlentities($output)."</pre></code>";
+		echo "<pre style='max-height: 500px;'><code>".htmlentities($output)."</pre></code>";
 	}
 	unlink($tempfile);
 }

@@ -5,7 +5,7 @@ $bc2 = getBuildConfigByBuildConfigHash($_GET['to']);
 ?>
 <div class='container-fluid' id='diffContainer'>
 <h3>Diff between <?=$bc1['description']?> and <?=$bc2['description']?></h3>
-<pre style='color: var(--text-color)'>
+<pre>
 <?
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://localhost:5005/casc/root/diff?from=" . $bc1['root_cdn']. "&to=" . $bc2['root_cdn']) . "&cb= " . strtotime("now");

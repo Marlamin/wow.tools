@@ -103,7 +103,7 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 
     // Diff
 	exec("git diff ".$tmpoldname." ".$tmpnewname, $output);
-	echo "<pre style='color: var(--text-color)'>";
+	echo "<pre>";
 	foreach($output as $line){
 		$line = htmlspecialchars($line);
 		if($line[0] == "-"){
