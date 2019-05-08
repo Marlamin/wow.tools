@@ -153,9 +153,8 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 	function getFKCols(headers, fks){
 		var fkCols = [];
 		headers.forEach(function(header, index){
-			var cleanedHeader = header.split('[');
 			Object.keys(fks).forEach(function(key) {
-				if(key == cleanedHeader[0]){
+				if(key == header){
 					fkCols[index] = fks[key];
 				}
 			});
