@@ -273,7 +273,16 @@ footer p{
 		width: 100%;
 	}
 	
-	#moreInfoModalContent {
+	#moreInfoModalContent, #fkModal, #chashModal, #previewModal, #helpModal {
 		overflow-x: auto; /* x-axis scrolling */
+	}
+	
+	body > .navbar {
+		z-index: 5; /* force menu above the content */
+	}
+	
+	#navbarNav > form {
+		background-color: var(--background-color); /* make the form look like part of the nav ul */
+		padding: .5rem 1rem;
 	}
 }

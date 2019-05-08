@@ -61,7 +61,7 @@
 					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o fa-lg" aria-hidden="true"></i> Builds</a>
 				</li>
 			</ul>
-			<form class="form-inline my-2 my-lg-0">
+			<form class="form-inline my-md-2 my-lg-0">
 				<button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="button">
 					Toggle theme
 				</button>&nbsp;
