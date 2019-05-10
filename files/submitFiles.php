@@ -106,7 +106,7 @@ if(!empty($_SESSION['loggedin'])){
 	<p>Formatting example:<br><kbd>2961114;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil01.m2</kbd><br><kbd>2961119;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil0100.skin</kbd></p>
 	<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
 	<form method='post' action='submitFiles.php'>
-		<input id='checkBox' type='checkbox' name='write'> <label for='checkBox'>Do not actually submit anything and just compare with current listfile ("dry-run")</label>
+		<input id='checkBox' type='checkbox' name='checkBox'> <label for='checkBox'>Do not actually submit anything and just compare with current listfile ("dry-run")</label>
 		<br>
 		<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
 		<br>
