@@ -3,6 +3,7 @@
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
 		<a href='/files/checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
+		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames (experimental)</a>
 		<div class="btn-group">
 			<a href='/casc/listfile/download' class='btn btn-primary btn-sm'>Download listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
