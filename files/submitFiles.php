@@ -28,7 +28,11 @@ if(!empty($_SESSION['loggedin'])){
 			$split = explode(";", $file);
 			$fdid = (int)$split[0];
 			if(count($split) != 2)
+			{
+				$log[] = "An error occurred parsing a line, please check that the format is valid (fdid;filename).";
 				continue;
+			}
+			
 			$fname = strtolower(str_replace("\\", "/", trim($split[1])));
 
 			if(array_key_exists($fdid, $knownfiles)){
