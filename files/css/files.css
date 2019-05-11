@@ -22,8 +22,13 @@
 
 	#files_buttons {
 		position: relative; /* auto align allowing button stacking */
+		display: inline-grid; /* child stacking */
 		margin-bottom: .5em;
 		top: 0;
 		left: 0;
+	}
+	
+	#files_buttons > .btn {
+		margin-bottom: .25em;
 	}
 }

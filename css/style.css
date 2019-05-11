@@ -4,6 +4,7 @@
 	--text-color: rgba(255,255,255,.8);
 	--border-color: rgb(108, 117, 125);
 	--hover-color: white;
+	--navbar-height: 57px;
 }
 
 /* General */
@@ -57,7 +58,7 @@ pre{
 .navbar{
 	background-color: var(--background-color) !important;
 	border-bottom: 1px solid var(--border-color);
-	height: 57px;
+	height: var(--navbar-height);
 }
 
 .navbar-nav a{
@@ -285,6 +286,14 @@ footer p{
 		z-index: 5; /* force menu above the content */
 	}
 	
+	#navbarNav {
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		top: var(--navbar-height);
+		border-bottom: 1px solid var(--border-color); /* visual break between header and content */
+	}
+
 	#navbarNav > form {
 		background-color: var(--background-color); /* make the form look like part of the nav ul */
 		padding: .5rem 1rem;
