@@ -184,7 +184,11 @@ foreach($lfproducts as $lfproduct){
 				"orderable": true,
 				"createdCell": function (td, cellData, rowData, row, col) {
 					if (!cellData) {
-						$(td).css('background-color', '#ff5858');
+						if(!rowData[7]){
+							$(td).css('background-color', '#ff5858');
+						}else{
+							$(td).css('background-color', '#673AB7');
+						}
 						$(td).css('color', 'white');
 					}
 				},
