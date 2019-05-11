@@ -84,24 +84,25 @@ if(!empty($_SESSION['loggedin'])){
 				foreach($suggestedfiles as $fdid => $fname){
 					$isq->execute([$fdid, $fname, $_SESSION['userid'], $time]);
 				}
-
-				$message = "Submitted " . count($suggestedfiles) . " files to the [moderation queue](https://wow.tools/files/submitQueue.php).```";
-				foreach($suggestedfiles as $fdid => $fname){
-					$line = $fdid . " => " . $fname ."\n";
-					if((strlen($message) + strlen($line) + 3) < 2000){
-						$message.= $line;
+				if(count($suggestedfiles) > 0){
+					$message = "Submitted " . count($suggestedfiles) . " files to the [moderation queue](https://wow.tools/files/submitQueue.php).```";
+					foreach($suggestedfiles as $fdid => $fname){
+						$line = $fdid . " => " . $fname ."\n";
+						if((strlen($message) + strlen($line) + 3) < 2000){
+							$message.= $line;
+						}
 					}
+					$message .= "```";
+					$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_URL, $discordfilenames);
+					curl_setopt($ch, CURLOPT_POST, true);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+					curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
+					curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
+					$response = curl_exec($ch);
+					curl_close($ch);
 				}
-				$message .= "```";
-				$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $discordfilenames);
-				curl_setopt($ch, CURLOPT_POST, true);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-				curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
-				curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
-				$response = curl_exec($ch);
-				curl_close($ch);
 			}
 		}else{
 			echo "<div class='alert alert-warning'><b>Warning</b> Currently only comparing with listfile, not saving anything to database.</div>";

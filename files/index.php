@@ -10,8 +10,9 @@ foreach($lfproducts as $lfproduct){
 ?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
+		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
 		<a href='/files/checkFiles.php' class='btn btn-outline-success btn-sm'>Add filenames</a>
-		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames (experimental)</a>
+		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames</a>
 		<div class="btn-group">
 			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download community CSV listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
