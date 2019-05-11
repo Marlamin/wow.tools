@@ -1,17 +1,29 @@
-<? require_once("../inc/header.php"); ?>
-<link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
+<?php
+require_once("../inc/header.php");
+$buildq = $pdo->prepare("SELECT hash, description FROM `wow_buildconfig` WHERE product = ? ORDER BY description DESC LIMIT 1;");
+$lfproducts = array("wow", "wowt", "wow_classic_beta");
+$lfbuilds = [];
+foreach($lfproducts as $lfproduct){
+	$buildq->execute([$lfproduct]);
+	$lfbuilds[$lfproduct] = $buildq->fetch(PDO::FETCH_ASSOC);
+}
+?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
-		<a href='/files/checkFiles.php' class='btn btn-success btn-sm'>Add filenames</a>
+		<a href='/files/checkFiles.php' class='btn btn-outline-success btn-sm'>Add filenames</a>
 		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames (experimental)</a>
 		<div class="btn-group">
-			<a href='/casc/listfile/download' class='btn btn-primary btn-sm'>Download listfile</a>
+			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download community CSV listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 			<div class="dropdown-menu">
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV version (Blizzard filenames only)</a>
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">CSV version (all filenames, incl. guessed ones)</a>
+				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download">TXT (Blizzard filenames only)</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV (Blizzard filenames only)</a>
+			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
+<?php foreach($lfbuilds as $lfproduct => $lfbuild){?>
+				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> (<?=$lfbuild['description']?>)</a>
+<?php } ?>
 			</div>
 		</div>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
