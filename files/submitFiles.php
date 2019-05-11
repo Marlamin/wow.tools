@@ -32,7 +32,7 @@ if(!empty($_SESSION['loggedin'])){
 				$log[] = "An error occurred parsing a line, please check that the format is valid (fdid;filename).";
 				continue;
 			}
-			
+
 			$fname = strtolower(str_replace("\\", "/", trim($split[1])));
 
 			if(array_key_exists($fdid, $knownfiles)){
@@ -75,6 +75,24 @@ if(!empty($_SESSION['loggedin'])){
 				foreach($suggestedfiles as $fdid => $fname){
 					$isq->execute([$fdid, $fname, $_SESSION['userid'], $time]);
 				}
+
+				$message = "Submitted " . count($suggestedfiles) . " files to the [moderation queue](https://wow.tools/files/submitQueue.php).```";
+				foreach($suggestedfiles as $fdid => $fname){
+					$line = $fdid . " => " . $fname ."\n";
+					if((strlen($message) + strlen($line) + 3) < 2000){
+						$message.= $line;
+					}
+				}
+				$message .= "```";
+				$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $discordfilenames);
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+				curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
+				curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
+				$response = curl_exec($ch);
+				curl_close($ch);
 			}
 		}else{
 			echo "<div class='alert alert-warning'><b>Warning</b> Currently only comparing with listfile, not saving anything to database.</div>";
@@ -97,25 +115,25 @@ if(!empty($_SESSION['loggedin'])){
 
 ?>
 <div class="container-fluid">
-<?php if(empty($_SESSION['loggedin'])){?>
-	<div class='alert alert-danger'>
-		You need to be logged in to submit filenames.
-	</div>
-<? }else{ ?>
-	<p>Enter files in the textbox below to suggest filenames for the community listfile. Each line must start with a filedataid, followed by the <kbd>;</kbd> and then the suggested filename.<br><b>Please note:</b> All submitted files will have to be checked by a moderator before being added to the listfile to prevent purposefully incorrect filenames being added to the system.</p>
-	<p>Formatting example:<br><kbd>2961114;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil01.m2</kbd><br><kbd>2961119;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil0100.skin</kbd></p>
-	<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
-	<form method='post' action='submitFiles.php'>
-		<input id='checkBox' type='checkbox' name='checkBox'> <label for='checkBox'>Do not actually submit anything and just compare with current listfile ("dry-run")</label>
-		<br>
-		<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
-		<br>
-<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only)</b></label><br><?}?>
-		<textarea name='files' rows='15' cols='200'></textarea>
-		<br>
-		<input class='btn btn-success' type='submit' value='Submit'>
-	</form>
-<? } ?>
+	<?php if(empty($_SESSION['loggedin'])){?>
+		<div class='alert alert-danger'>
+			You need to be logged in to submit filenames.
+		</div>
+	<? }else{ ?>
+		<p>Enter files in the textbox below to suggest filenames for the community listfile. Each line must start with a filedataid, followed by the <kbd>;</kbd> and then the suggested filename.<br><b>Please note:</b> All submitted files will have to be checked by a moderator before being added to the listfile to prevent purposefully incorrect filenames being added to the system.</p>
+		<p>Formatting example:<br><kbd>2961114;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil01.m2</kbd><br><kbd>2961119;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil0100.skin</kbd></p>
+		<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
+		<form method='post' action='submitFiles.php'>
+			<input id='checkBox' type='checkbox' name='checkBox'> <label for='checkBox'>Do not actually submit anything and just compare with current listfile ("dry-run")</label>
+			<br>
+			<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
+			<br>
+			<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only)</b></label><br><?}?>
+			<textarea name='files' rows='15' cols='200'></textarea>
+			<br>
+			<input class='btn btn-success' type='submit' value='Submit'>
+		</form>
+	<? } ?>
 </div>
 
 <? include("../inc/footer.php"); ?>
