@@ -9,6 +9,8 @@ foreach($kfq as $row){
 
 $uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ? AND verified = 0");
 
+$cq = $pdo->prepare("SELECT id FROM wow_rootfiles WHERE filename = ?");
+
 if(!empty($_SESSION['loggedin'])){
 	if(!empty($_POST['files'])){
 
@@ -38,8 +40,15 @@ if(!empty($_SESSION['loggedin'])){
 			if(array_key_exists($fdid, $knownfiles)){
 				if(empty($knownfiles[$fdid])){
 					// No filename currently set
-					$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
-					$suggestedfiles[$fdid] = $fname;
+					$cq->execute([$fname]);
+					$cr = $cq->fetch(PDO::FETCH_ASSOC);
+					if(empty($cr)){
+						$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
+						$suggestedfiles[$fdid] = $fname;
+					}else{
+						$log[] = "<b>WARNING!</b> Filename " . $fname . " already exists as FileDataID " . $cr['id']."!";
+					}
+
 				}else if($knownfiles[$fdid] != $fname){
 					// Submitted filename differs from current filename
 					if(!isset($_POST['onlynew'])){
@@ -128,7 +137,7 @@ if(!empty($_SESSION['loggedin'])){
 			<br>
 			<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
 			<br>
-			<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only)</b></label><br><?}?>
+			<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only, please only use if queue is broken)</b></label><br><?}?>
 			<textarea name='files' rows='15' cols='200'></textarea>
 			<br>
 			<input class='btn btn-success' type='submit' value='Submit'>
