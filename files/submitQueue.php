@@ -54,9 +54,6 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 		echo implode("\n", $log);
 		echo "</pre>";
 		echo "</div>";
-
-		echo "<a href='/files/submitQueue.php'>Go back to the queue</a>";
-		die();
 	}
 
 	if(!empty($_GET['decline'])){
