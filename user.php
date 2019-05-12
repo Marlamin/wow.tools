@@ -5,6 +5,11 @@ function passwordMeetsReqs($password){
 	return (!empty($password) || trim($password) !== $password || strlen($password) < 12);
 }
 
+if(empty($_GET['p'])){
+	header("Location: index.php");
+	die();
+}
+
 if($_GET['p'] == "login"){
 	if(!empty($_POST)){
 		if(
@@ -160,11 +165,6 @@ if($_GET['p'] == "login"){
 }
 
 include("inc/header.php");
-
-if(empty($_GET['p'])){
-	header("Location: index.php");
-	die();
-}
 
 if(!isset($_SESSION['loggedin'])){
 	if($_GET['p'] == "register"){
