@@ -78,6 +78,7 @@ function generateMeta($queryString){
 
 	$tags[] = "<meta name='application-name' content='WoW.tools'>";
 	$tags[] = "<meta name='apple-mobile-web-app-title' content='WoW.tools'>";
+	$tags[] = "<meta name='theme-color' content='#343a40'>";
 	$tags[] = "";
 	return implode("\n", $tags);
 }
