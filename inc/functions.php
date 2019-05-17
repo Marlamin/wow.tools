@@ -36,39 +36,41 @@ function parseBuildName($buildname){
 
 function generateMeta($queryString){
 	$url = parse_url($queryString);
-
-	switch($url['path']){
-		case "/":
-		case "/index.php":
-		default:
-		$desc = "Collection of several World of Warcraft tools (DBC/file browser, modelviewer & more).";
-		break;
-		case "/dbc/":
-		$desc = "Web database/DBC browser for World of Warcraft";
-		break;
-		case "/files/":
-		$desc = "Web file browser for World of Warcraft game assets";
-		break;
-		case "/mv/":
-		$desc = "Web model viewer for World of Warcraft versions 6.x-8.x";
-		break;
-		case "/maps/":
-		$desc = "Top-down map/minimap viewer for World of Warcraft";
-		break;
-		case "/monitor/":
-		$desc = "Blizzard patch server monitor";
-		break;
-		case "/builds/":
-		$desc = "List of all World of Warcraft versions since 6.0 (including diff tool)";
-		break;
-	}
-
 	$tags = [];
-	$tags[] = "<meta name='description' content='" . $desc . "'>";
+
+	if(!empty($url['path'])){
+		switch($url['path']){
+			case "/":
+			case "/index.php":
+			default:
+			$desc = "Collection of several World of Warcraft tools (DBC/file browser, modelviewer & more).";
+			break;
+			case "/dbc/":
+			$desc = "Web database/DBC browser for World of Warcraft";
+			break;
+			case "/files/":
+			$desc = "Web file browser for World of Warcraft game assets";
+			break;
+			case "/mv/":
+			$desc = "Web model viewer for World of Warcraft versions 6.x-8.x";
+			break;
+			case "/maps/":
+			$desc = "Top-down map/minimap viewer for World of Warcraft";
+			break;
+			case "/monitor/":
+			$desc = "Blizzard patch server monitor";
+			break;
+			case "/builds/":
+			$desc = "List of all World of Warcraft versions since 6.0 (including diff tool)";
+			break;
+		}
+
+		$tags[] = "<meta name='description' content='" . $desc . "'>";
+		$tags[] = "<meta property='og:description' content='" . $desc . "'>";
+	}
 
 	$tags[] = "<meta property='og:type' content='website'>";
 	$tags[] = "<meta property='og:site_name' content='WoW.tools'>";
-	$tags[] = "<meta property='og:description' content='" . $desc . "'>";
 	$tags[] = "<meta property='og:title' content='" . prettyTitle($queryString) . "'>";
 	$tags[] = "<meta property='og:image' content='https://wow.tools/img/cogw.png'>";
 
