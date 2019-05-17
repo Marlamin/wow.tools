@@ -1,15 +1,13 @@
 <?php
 require_once("/var/www/wow.tools/inc/config.php");
 
-if(empty($_GET['contenthash']) || empty($_GET['buildconfig']) || empty($_GET['filedataid'])){
+if(empty($_GET['buildconfig']) || empty($_GET['filedataid'])){
 	die("Not enough information!");
 }
 
 $build = getVersionByBuildConfigHash($_GET['buildconfig'], "wow");
 
 if(empty($build)) die("Invalid build!");
-
-if(strlen($_GET['contenthash']) != 32 || !ctype_xdigit($_GET['contenthash'])) die("Invalid contenthash!");
 
 $_GET['filedataid'] = (int)$_GET['filedataid'];
 
@@ -30,7 +28,7 @@ if(empty($row2['filename'])){
 
 function downloadFile($params, $outfile){
 	$fp = fopen($outfile, 'w+');
-	$url = 'http://localhost:5005/casc/file/chash' . $params;
+	$url = 'http://localhost:5005/casc/file' . $params;
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_FILE, $fp);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -46,7 +44,7 @@ function downloadFile($params, $outfile){
 }
 
 
-$cascparams = "?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&contenthash=".$_GET['contenthash']."&filename=".urlencode($row2['filename']);
+$cascparams = "/fdid?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&filename=".urlencode($row2['filename'])."&filedataid=".$_GET['filedataid'];
 if($type == "ogg"){
 	echo "<audio autoplay controls><source src='//wow.tools/casc/preview".$cascparams."' type='audio/ogg'></audio>";
 	die();

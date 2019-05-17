@@ -100,8 +100,8 @@ function fillModal(fileDataID){
 	$( "#moreInfoModalContent" ).load( "/files/scripts/filedata_api.php?filedataid=" + fileDataID );
 }
 
-function fillPreviewModal(buildconfig, contenthash, filedataid){
-	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&contenthash=" + contenthash + "&filedataid=" + filedataid);
+function fillPreviewModal(buildconfig, filedataid){
+	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
 }
 
 function fillChashModal(contenthash){
