@@ -272,6 +272,10 @@ footer p{
     border-color: #ff929c;
 }
 
+.modal-lg, .modal-xl {
+	max-width: 90% !important;
+}
+
 /* Mobile Devices */
 @media screen and (max-width: 1024px) {
 	textarea[name='files'] { 

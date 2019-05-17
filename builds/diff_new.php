@@ -1,7 +1,7 @@
 <?
 require_once("../inc/header.php");
 
-if(empty($_GET['from']) || empty($_GET['to'])){
+if (empty($_GET['from']) || empty($_GET['to'])) {
 	die("From and to buildconfig hashes required");
 }
 
@@ -11,7 +11,7 @@ $toBuild = getBuildConfigByBuildConfigHash($_GET['to']);
 $fromCDN = getVersionByBuildConfigHash($_GET['from'])['cdnconfig']['hash'];
 $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
 
-if(empty($fromBuild) || empty($toBuild)){
+if (empty($fromBuild) || empty($toBuild)) {
 	die("Invalid builds!");
 }
 
@@ -29,7 +29,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		var timeout;
 		return function() {
 			var context = this,
-			args = arguments;
+				args = arguments;
 			var later = function() {
 				timeout = null;
 				if (!immediate) func.apply(context, args);
@@ -41,69 +41,113 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		};
 	};
 
+	String.prototype.capitalize = function() {
+		return this.charAt(0).toUpperCase() + this.slice(1)
+	}
+
 	$(document).ready(function() {
 		var table = $('#buildtable').DataTable({
 			ajax: '//wow.tools/casc/root/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
 			columns: [{
-				data: 'action'
-			},
-			{
-				data: 'id'
-			},
-			{
-				data: 'filename'
-			},
-			{
-				data: 'type'
-			}
+					data: 'action'
+				},
+				{
+					data: 'id'
+				},
+				{
+					data: 'filename'
+				},
+				{
+					data: 'type'
+				}
 			],
 			pagingType: "input",
 			pageLength: 25,
 			autoWidth: false,
 			dom: "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>",
-			columnDefs: [
-			{
-				"targets": 2,
-				"orderable": true,
-				"createdCell": function (td, cellData, rowData, row, col) {
-					if (!cellData) {
-						$(td).css('background-color', '#ff5858');
-					}
-				}
-			},
-			{
-				"targets": 4,
-				"render": function ( data, type, full, meta ) {
-					var content = "";
-					if(full.action == 'added'){
-						if(full.type == 'db2'){
-							if(full.filename && full.filename != "Unknown"){
-								var db2name = full.filename.replace("dbfilesclient/", "");
-								content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?=$toBuild['hash']?>' target='_BLANK'>View table</a>";
-							}
-						}else if(full.type == 'wmo' || full.type == 'm2'){
-							content = "<a href='//wow.tools/mv/?buildconfig=<?=$toBuild['hash']?>&cdnconfig=<?=$toCDN?>&filedataid=" + full.id + "&type=" + full.type + "' target='_BLANK'>View model</a>";
-						}else if(full.type == 'blp'){
-							content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?=$toBuild['hash']?>\", \"" + full.id + "\")'>View image</a>";
-						}else{
-							content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?=$toBuild['hash']?>\", \"" + full.id + "\")'>Dump hex</a>";
-						}
-					}
-					else if(full.action == 'modified'){
-						if(full.type == 'db2'){
-							if(full.filename && full.filename != "Unknown"){
-								var db2name = full.filename.replace("dbfilesclient/", "");
-								content = "<a href='//wow.tools/dbc/diff.php?dbc=" + db2name + "&old=<?=$fromBuild['hash']?>&new=<?=$toBuild['hash']?>' target='_BLANK'>Diff</a>";
+			columnDefs: [{
+					"targets": 0,
+					"orderable": true,
+					"render": function(data, type, full, meta) {
 
-							}
-						}else if(full.type == 'wmo' || full.type == 'm2' || full.type == 'adt'){
-							// JSON diff
+						var badge = "";
+						switch (full.action) {
+							case "added":
+								badge = "success";
+								break;
+							case "removed":
+								badge = "danger";
+								break;
+							case "modified":
+								badge = "warning";
+								break;
+						}
+						var content = "<span class='badge badge-" + badge + "'>" + full.action.capitalize() + "</span>";
+						return content;
+					}
+				},
+				{
+					"targets": 2,
+					"orderable": true,
+					"createdCell": function(td, cellData, rowData, row, col) {
+						if (!cellData) {
+							$(td).css('background-color', '#ff5858');
 						}
 					}
-					
-					return content;
+				},
+				{
+					"targets": 4,
+					"render": function(data, type, full, meta) {
+						var content = "";
+
+						switch (full.action) {
+							case "added":
+								switch (full.type) {
+									case "db2":
+										if (full.filename && full.filename != "Unknown") {
+											var db2name = full.filename.replace("dbfilesclient/", "");
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $toBuild['hash'] ?>' target='_BLANK'>View table</a>";
+										}
+										break;
+									default:
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										break;
+								}
+								break;
+							case "modified":
+								switch (full.type) {
+									case "db2":
+										if (full.filename && full.filename != "Unknown") {
+											var db2name = full.filename.replace("dbfilesclient/", "");
+											content = "<a href='//wow.tools/dbc/diff.php?dbc=" + db2name + "&old=<?= $fromBuild['hash'] ?>&new=<?= $toBuild['hash'] ?>' target='_BLANK'>Preview</a>";
+
+										}
+										break;
+									case "blp":
+									case "lua":
+									case "xml":
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										break;
+								}
+								break;
+							case "removed":
+								switch (full.type) {
+									case "db2":
+										if (full.filename && full.filename != "Unknown") {
+											var db2name = full.filename.replace("dbfilesclient/", "");
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $fromBuild['hash'] ?>' target='_BLANK'>Preview</a>";
+										}
+										break;
+									default:
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $fromBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										break;
+								}
+								break;
+						}
+
+						return content;
+					}
 				}
-			}
 			],
 			initComplete: function() {
 				var table = this.api();
@@ -113,14 +157,14 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 					console.log(column);
 					if (element.hasClass("filterable")) {
 						var select = $('<select style="height: 20px" class="form-control form-control-sm"><option value=""></option></select>')
-						.appendTo(element)
-						.on('change', function() {
-							var val = $(this).val()
+							.appendTo(element)
+							.on('change', function() {
+								var val = $(this).val()
 
-							table.column(index)
-							.search(val, true, false)
-							.draw();
-						});
+								table.column(index)
+									.search(val, true, false)
+									.draw();
+							});
 
 						column.data().unique().sort().each(function(d, j) {
 							select.append('<option value="' + d + '">' + d + '</option>')
@@ -139,7 +183,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 	});
 </script>
 <div class='container-fluid' id='diffContainer'>
-	<h3>Showing differences between <?=$fromBuildName?> and <?=$toBuildName?></h3>
+	<h3>Showing differences between <?= $fromBuildName ?> and <?= $toBuildName ?></h3>
 	<table id='buildtable' class='table table-sm table-hover maintable'>
 		<thead>
 			<tr class="filters">
