@@ -1,7 +1,16 @@
 <?
 require_once("../inc/header.php");
+
+if(empty($_GET['from']) || empty($_GET['to'])){
+	die("From and to buildconfig hashes required");
+}
+
 $fromBuild = getBuildConfigByBuildConfigHash($_GET['from']);
 $toBuild = getBuildConfigByBuildConfigHash($_GET['to']);
+
+if(empty($fromBuild) || empty($toBuild)){
+	die("Invalid builds!");
+}
 
 $fromBuildName = parseBuildName($fromBuild['description'])['full'];
 $toBuildName = parseBuildName($toBuild['description'])['full'];
@@ -30,7 +39,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 
 	$(document).ready(function() {
 		var table = $('#buildtable').DataTable({
-			ajax: 'http://wow.tools/casc/root/diff_api?from=<?= $fromBuild['root_cdn'] ?>&to=<?= $toBuild['root_cdn'] ?>&cb=<?= strtotime("now") ?>',
+			ajax: '//wow.tools/casc/root/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
 			columns: [{
 					data: 'action'
 				},
@@ -47,7 +56,9 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 					data: 'content_hash'
 				}
 			],
+			pagingType: "input",
 			pageLength: 100,
+			autoWidth: false,
 			initComplete: function() {
 				var table = this.api();
 				$('#buildtable thead tr.filters th').each(function(index, element) {
@@ -69,7 +80,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 							select.append('<option value="' + d + '">' + d + '</option>')
 						});
 					} else if (element.hasClass("searchable")) {
-						$(this).html('<input type="text" placeholder="Search" />');
+						$(this).html('<input class="form-control form-control-sm" type="text" style="height: 20px;" placeholder="Search" />');
 						$("input", this).on('keyup change', debounce(function() {
 							table.column(index).search(this.value).draw();
 						}, 50));
@@ -82,7 +93,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 	});
 </script>
 <div class='container-fluid' id='diffContainer'>
-	<h3>Showing root file differences between <?= $fromBuildName ?> and <?= $toBuildName ?></h3>
+	<h3>Showing root file differences between <?=$fromBuildName?> and <?=$toBuildName?></h3>
 	<table id='buildtable' class='table table-sm table-hover maintable'>
 		<thead>
 			<tr class="filters">
@@ -93,11 +104,11 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 				<th></th>
 			</tr>
 			<tr>
-				<th>Action</th>
-				<th>File Data ID</th>
+				<th style='width: 80px'>Action</th>
+				<th style='width: 170px;'>FileData ID</th>
 				<th>Filename</th>
-				<th>Type</th>
-				<th>Content Hash</th>
+				<th style='width: 50px'>Type</th>
+				<th style='width: 240px'>Content Hash</th>
 			</tr>
 		</thead>
 	</table>
