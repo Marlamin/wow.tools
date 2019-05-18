@@ -5,7 +5,7 @@
 		Having had many different sites for many of the tools I work on, I decided to move them all under one roof. This is what WoW.tools is, a collection for all those tools under one roof, allowing for better integration between the tools and costing me less time to keep everything up-to-date separately. Keep in mind many of the tools are still only meant for the technical/datamining minded amongst you, some stuff might not be friendly to beginners at this stage. I plan on adding tutorials/guides on how to get started doing some basic stuff.
 	</p>
 	<div class='row'>
-		<div class='col-md-4'>
+		<div class='col-md-6'>
 			<h4>Recent updates</h4>
 			<b>18-05-2019</b>
 			<ul>
@@ -36,7 +36,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class='col-md-4'>
+		<div class='col-md-6'>
 			<h4>Current WoW versions per branch</h4>
 			<table class='table table-condensed table-striped table-hover' style='width: 450px;'>
 				<thead><tr><th>Name</th><th>Version</th><th>Build time (PT)</th></tr></thead>
@@ -66,8 +66,6 @@
 				}
 				?>
 			</table>
-		</div>
-		<div class='col-md-4'>
 		</div>
 	</div>
 </div>
