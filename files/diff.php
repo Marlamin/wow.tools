@@ -15,6 +15,9 @@ $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
+        if(localStorage.getItem('theme') == "dark"){
+            $('#previewModalContent').append('<link rel="stylesheet" type="text/css" href="/css/diff2html-dark.css?v= ' + Date.now() +'">');
+        }
         $.get("<?= $diff_api_url ?>", function(data) {
             var diffHtml = Diff2Html.getPrettyHtml(
                 data, {

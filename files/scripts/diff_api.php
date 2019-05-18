@@ -23,7 +23,7 @@ if (empty($row)) {
 function cascUrl($build, $fileDataID)
 {
     $params = "/fdid?buildconfig=" . $build['buildconfig']['hash'] . "&cdnconfig=" . $build['cdnconfig']['hash'] . "&filedataid=" . $fileDataID;
-    return '//wow.tools/casc/file' . $params;
+    return 'https://wow.tools/casc/file' . $params;
 }
 
 function downloadFile($out, $build, $fileDataID)
@@ -57,7 +57,6 @@ function getDiff($fromBuild, $toBuild, $fileDataID)
 
     $cmd = "diff -u " . escapeshellarg($fromFile) . " " . escapeshellarg($toFile);
     $result = shell_exec($cmd);
-
     unlink($fromFile);
     unlink($toFile);
 
