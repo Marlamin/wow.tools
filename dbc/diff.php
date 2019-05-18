@@ -61,7 +61,7 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 		<? }?>
 	</select>
 	<? if(!empty($id)){ ?>
-		<form id='dbcform' action='/dbc/diff2.php' method='GET'>
+		<form id='dbcform' action='/dbc/diff.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
 				<option value=''>From</option>
@@ -213,7 +213,7 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 	<?php } ?>
 	$('#fileFilter').on( 'change', function () {
 		if($(this).val() != ""){
-			document.location = "/dbc/diff2.php?dbc=" + $(this).val();
+			document.location = "/dbc/diff.php?dbc=" + $(this).val();
 		}
 	});
 </script>
