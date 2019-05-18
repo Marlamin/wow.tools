@@ -7,7 +7,7 @@ I've been programming WoW (<a target='_BLANK' href='https://en.wikipedia.org/wik
 <h3>Privacy Policy</h3>
 <h5>Logs</h5>
 <p>
-All requests are logged to monitor for (and prevent) abuse. Logged information includes IP address, the page you visited and with what browser you did so.
+All requests are logged to monitor for (and prevent) abuse. Logged information includes IP address, the page you visited and with what browser you did so. The site also uses Google Analytics (with anonimized IPs).
 </p>
 <h5>Accounts</h5>
 If you create an account on the site, the following information is stored:

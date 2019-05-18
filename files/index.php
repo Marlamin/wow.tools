@@ -298,13 +298,7 @@ foreach($lfproducts as $lfproduct){
 				"orderable": false,
 				"render": function ( data, type, full, meta ) {
 					if(full[3].length && full[3][0].enc != 1){
-						var test = "";
-
-						if(full[4] == "wmo" || full[4] == "m2"){
-							test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' href='/mv/?buildconfig=" + full[3][0].buildconfig + "&contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&type=" + full[4] + "' target='_BLANK'><i class='fa fa-tv'></i></a></td>";
-						}else{
-							test += "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\")'><i class='fa fa-eye'></i></a></td>";
-						}
+						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\")'><i class='fa fa-eye'></i></a></td>";
 
 					}else{
 						var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";
