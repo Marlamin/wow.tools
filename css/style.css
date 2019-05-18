@@ -96,6 +96,10 @@ pre{
 	background-color: rgba(0, 0, 0, 0.15) !important;
 }
 
+.nav-tabs{
+	border: 0px;
+}
+
 #logo{
 	position: relative;
 }

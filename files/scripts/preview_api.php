@@ -61,7 +61,23 @@ if($type == "ogg"){
 	if($type == "m2" || $type == "wmo"){
 		// dump json
 		$output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($tempfile)." 2>&1");
-		echo "<pre style='max-height: 500px;'><code>".htmlentities($output)."</pre></code>";
+		?>
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="model-tab" data-toggle="tab" href="#model" role="tab" aria-controls="model" aria-selected="true">Model</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="raw-tab" data-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">Raw</a>
+			</li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane show active" id="model" role="tabpanel" aria-labelledby="model-tab">
+				<iframe style='border:0px;width:100%;min-height: 60vh' src='https://wow.tools/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
+				<center><a href='https://wow.tools/mv/?buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>' target='_BLANK'>Open in modelviewer</a></center>
+			</div>
+			<div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 500px;'><code><?=htmlentities($output)?></pre></code></div>
+		</div>
+		<?
 	}else if($type == "xml" || $type == "lua" || $type == "toc"){
 		echo "<pre style='max-height: 500px;'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
 	}else{

@@ -110,6 +110,10 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $toBuild['hash'] ?>' target='_BLANK'>View table</a>";
 										}
 										break;
+									case "m2":
+									case "wmo":
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										break;
 									default:
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;

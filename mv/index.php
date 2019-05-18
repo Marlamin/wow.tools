@@ -1,6 +1,6 @@
 <?php require_once("../inc/header.php");
 
-if(!empty($_GET['embed']) && $_GET['embed'] == 1){
+if(!empty($_GET['embed'])){
 ?>
 <style type='text/css'>
 nav{
