@@ -143,7 +143,7 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 				{
 					if(!isNaN(diff.previousvalue) && !isNaN(diff.currentvalue)) {
 						// for numbers return a fake diff to save on computation
-						return '<del class="diff-removed">' + diff.previousvalue + '</del> 🡆 ' +
+						return '<del class="diff-removed">' + diff.previousvalue + '</del> -> ' +
 						'<ins class="diff-added">' + diff.currentvalue + '</ins>';
 					} else {
 						// for text use diff_match_patch to compute a real diff
