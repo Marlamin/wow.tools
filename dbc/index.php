@@ -37,9 +37,9 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
-<div class='container-fluid'>
+<div class="container-fluid">
 	<select id='fileFilter' class='form-control form-control-sm'>
-		<option value=''>Select a table</option>
+		<option value="">Select a table</option>
 		<? foreach($allowedtables as $table){ ?>
 			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
 		<? }?>
@@ -47,10 +47,14 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 	<? if(!empty($id)){ ?>
 		<form id='dbcform' action='/dbc/' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
-			<select name='bc' id='buildFilter' class='form-control form-control-sm'>
-				<?foreach($versions as $row){?>
+			<select id='buildFilter' name='bc' class='form-control form-control-sm buildFilter'>
+				<?
+				foreach($versions as $row){
+					?>
 					<option value='<?=$row['hash']?>'<? if(!empty($_GET['bc']) && $row['hash'] == $_GET['bc']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-				<? } ?>
+					<?
+				}
+				?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
@@ -148,53 +152,9 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
 <script src="/files/js/files.js" crossorigin="anonymous"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script type='text/javascript'>
 	var currentBuild = 0;
-	function getFKCols(headers, fks){
-		var fkCols = [];
-		headers.forEach(function(header, index){
-			Object.keys(fks).forEach(function(key) {
-				if(key == header){
-					fkCols[index] = fks[key];
-				}
-			});
-		});
-		return fkCols;
-	}
-
-	function openFKModal(value, location){
-		console.log("Opening FK link to " + location + " (bc " +  $("#buildFilter").val() + ") with value " + value);
-		var splitLocation = location.split("::");
-		var url = "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + makeBuild() + "&bc=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value;
-		$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
-		$.ajax({
-			"url": url,
-			"success": function(json) {
-				json.values.forEach(function (value) {
-					$("#fktable").append("<tr><td>" + value.item1 + "</td><td>" + value.item2 + "</td></tr>");
-				});
-				var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
-				var page = Math.floor(((json.offset - 1) / 25) + 1);
-				$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + ".db2&bc=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
-			}
-		});
-
-	}
-
-	function makeBuild(){
-		var text = $("#buildFilter option:selected").text();
-		if(text == null){
-			return "";
-		}
-
-		var rawdesc = text.replace("WOW-", "");
-		var build  = rawdesc.substring(0, 5);
-
-		var rawdesc = rawdesc.replace(build, "").replace("patch", "");
-		var descexpl = rawdesc.split("_");
-
-		return descexpl[0] + "." + build;
-	}
 
 	(function() {
 		var vars = {};
@@ -224,7 +184,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		}
 
 		$.ajax({
-			"url": "/api/header/" + cleanDBC + "/?build=" + makeBuild(),
+			"url": "/api/header/" + cleanDBC + "/?build=" + makeBuild($("#buildFilter option:selected").text()),
 			"success": function(json) {
 				if(json['error'] != null){
 					alert("An error occured on the server:\n" + json['error']);
@@ -256,7 +216,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/api/data/" + vars["dbc"].replace(".db2", "").toLowerCase() + "/?build=" + makeBuild(),
+						"url": "/api/data/" + vars["dbc"].replace(".db2", "").toLowerCase() + "/?build=" + makeBuild($("#buildFilter option:selected").text()),
 						"data": function( result ) {
 							delete result.columns;
 							return result;
@@ -307,66 +267,10 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		});
 
 		$('#buildFilter').on('change', function(){
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild();
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild($("#buildFilter option:selected").text());
 		});
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild();
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild($("#buildFilter option:selected").text());
 	}());
 </script>
-<!-- <script src="https://cdn.datatables.net/scroller/2.0.0/js/dataTables.scroller.min.js" crossorigin="anonymous"></script> -->
-<!-- <script type='text/javascript'>
-	var Elements =
-{
-};
-
-	Elements.table = $('#dbcfiles').DataTable({
-		"processing": true,
-		"serverSide": true,
-		"searching": true,
-		"ajax": {
-			"url": "/files/scripts/api.php",
-			"data": function ( d ) {
-				return $.extend( {}, d, {
-					"src": "dbc"
-				} );
-			}
-		},
-		"pageLength": 25,
-		"autoWidth": false,
-		"dom": "frt",
-		"order": [[1, 'asc']],
-		"scroller": true,
-		"scrollY": 800,
-		"searchDelay": 400,
-		"columnDefs":
-		[
-		{
-			"targets": 0,
-			"orderable": false,
-			"visible": false
-		},
-		{
-			"targets": 1,
-			"orderable": false,
-			"render": function ( data, type, full, meta ) {
-				if(full[1]) {
-					var test = full[1].replace("dbfilesclient/", "");
-				}else{
-					var test = "Unknown DBC name, not supported!";
-				}
-
-				return test;
-			}
-		},]
-	});
-
-	$('#dbcfiles').on('click', 'tbody tr td:first-child', function() {
-		var data = Elements.table.row($(this).parent()).data();
-		var mostRecentVersion = data[3][0];
-
-		$(".selected").removeClass("selected");
-		$(this).parent().addClass('selected');
-		console.log(mostRecentVersion);
-	});
-</script> -->
 <? require_once("../inc/footer.php"); ?>

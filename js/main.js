@@ -30,7 +30,7 @@ function updateCSSVars(theme){
 		document.documentElement.style.setProperty('--background-color', '#343a40');
 		document.documentElement.style.setProperty('--text-color', 'rgba(255,255,255,.8)');
 		document.documentElement.style.setProperty('--hover-color', '#fff');
-		document.documentElement.style.setProperty('--diff-added-color', '#0b480b');
+		document.documentElement.style.setProperty('--diff-added-color', '#368a23');
 		document.documentElement.style.setProperty('--diff-removed-color', '#ff1e1e');
 	}else if(theme == 'light'){
 		document.documentElement.style.setProperty('--background-color', '#f8f9fa');

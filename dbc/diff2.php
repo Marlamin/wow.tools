@@ -50,21 +50,21 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 	$dbcname = str_replace(".db2", "", $_GET['dbc']);
 	$canDiff = true;
 }
+
 ?>
+<link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
-	Select a DBC:
-	<select id='fileBuildFilter' style='width: 225px; display: inline-block; margin-left: 5px;' class='form-control form-control-sm'>
-		<option value="">Select a DBC</option>
+	<select id='fileFilter' class='form-control form-control-sm'>
+		<option value="">Select a table</option>
 		<? foreach($allowedtables as $table){ ?>
 			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
 		<? }?>
 	</select>
-	<br>
 	<? if(!empty($id)){ ?>
-		<form action='/dbc/diff2.php?dbc' method='GET'>
+		<form id='dbcform' action='/dbc/diff2.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
-			Select first build (older):
-			<select id='oldbuild' name='old' style='width: 225px; display: inline-block; margin-left: 5px;'  class='form-control form-control-sm'>
+			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
+				<option value=''>From</option>
 				<?
 				foreach($versions as $row){
 					?>
@@ -72,83 +72,31 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 					<?
 				}
 				?>
-			</select><br>
-			Select second build (newer):
-			<select id='newbuild' name='new' style='width: 225px; display: inline-block; margin-left: 5px;' class='form-control form-control-sm'>
+			</select>
+			<select id='newbuild' name='new' class='form-control form-control-sm buildFilter'>
+				<option value=''>To</option>
 				<?
 				foreach($versions as $row){?>
 					<option value='<?=$row['hash']?>'<? if(!empty($_GET['new']) && $row['hash'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['description']?></option>
 					<?
 				}
 				?>
-			</select><br>
-			<input type='submit' class='form-control form-control-sm btn btn-primary' style='width: 100px; display: inline-block; margin-left: 5px;'>
-		</form>
+			</select>
+			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Diff'>
+		</form><br>
 		<?
 	}
 	?>
+	<div id='tableContainer'></div>
 </div>
-<table id="dbtable" class="table table-striped table-bordered table-condensed no-footer" style="width:100%">
-	<thead>
-		<tr>
-			<th>AreaTableID</th>
-			<th>CorpseMapID</th>
-			<th>Corpse[0]</th>
-			<th>Corpse[1]</th>
-			<th>CosmeticParentMapID</th>
-			<th>Directory</th>
-			<th>ExpansionID</th>
-			<th>Flags[0]</th>
-			<th>Flags[1]</th>
-			<th>ID</th>
-			<th>InstanceType</th>
-			<th>LoadingScreenID</th>
-			<th>MapDescription0_lang</th>
-			<th>MapDescription1_lang</th>
-			<th>MapName_lang</th>
-			<th>MapType</th>
-			<th>MaxPlayers</th>
-			<th>MinimapIconScale</th>
-			<th>ParentMapID</th>
-			<th>PvpLongDescription_lang</th>
-			<th>PvpShortDescription_lang</th>
-			<th>TimeOfDayOverride</th>
-			<th>TimeOffset</th>
-			<th>WindSettingsID</th>
-		</tr>
-	</thead>
-</table>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
-<script src="/js/diff_match_patch.js"></script>
-
-<style>
-	.added {
-		background: var(--diff-added-color) !important;
-		text-decoration: underline;
-	}
-
-	.removed {
-		background: var(--diff-removed-color) !important;
-		text-decoration: line-through;
-	}
-</style>
+<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
+<script src="/js/diff_match_patch.js?v=<?=filemtime("/var/www/wow.tools/js/diff_match_patch.js")?>"></script>
 <script type='text/javascript'>
-	function makeBuild(text){
-		if(text == null){
-			return "";
-		}
-
-		var rawdesc = text.replace("WOW-", "");
-		var build  = rawdesc.substring(0, 5);
-
-		var rawdesc = rawdesc.replace(build, "").replace("patch", "");
-		var descexpl = rawdesc.split("_");
-
-		return descexpl[0] + "." + build;
-	}
 	<?php if($canDiff){ ?>
 
 		$(function() {
@@ -188,15 +136,15 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 			switch(diff.op) {
 
 				case "Added":
-				return '<ins style="background: var(--diff-added-color);">' + diff.currentvalue + '</ins>';
+				return '<ins class="diff-added">' + diff.currentvalue + '</ins>';
 				case "Removed":
-				return '<del style="background: var(--diff-removed-color);">' + diff.currentvalue + '</del>';
+				return '<del class="diff-removed">' + diff.currentvalue + '</del>';
 				case "Replaced":
 				{
 					if(!!Number(diff.previousvalue) && !!Number(diff.currentvalue)) {
 						// for numbers return a fake diff to save on computation
-						return '<del style="background: var(--diff-removed-color-color);">' + diff.previousvalue + '</del>' +
-						'<ins style="background: var(--diff-added-color);">' + diff.currentvalue + '</ins>';
+						return '<del class="diff-removed">' + diff.previousvalue + '</del>' +
+						'<ins class="diff-added">' + diff.currentvalue + '</ins>';
 					} else {
 						// for text use diff_match_patch to compute a real diff
 						var dmp = new diff_match_patch();
@@ -222,31 +170,50 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 
 	var oldBuild = makeBuild($("#oldbuild option:selected").text());
 	var newBuild = makeBuild($("#newbuild option:selected").text());
-	var dataURL = "https://wow.tools/api/diff?name=<?=$dbcname?>&build1=" + oldBuild + "&build2=" + newBuild;
-	$.ajax({
-		"url": dataURL,
-		"success": function ( json ) {
-			$('#dbtable').DataTable({
-				"data": json['data'],
-				"iDisplayLength": 100,
-				"bSort": false,
-				"bFilter": false,
-				"pagingType": "input",
-				"columnDefs": [{
-					"targets": "_all",
-					"render": $.fn.dataTable.render.wowtools_diff_cells(),
-					"defaultContent": ""
-				}],
-				"createdRow": $.fn.dataTable.render.wowtools_diff_rows()
-			});
-		},
-		"dataType": "json"
+	var dataURL = "/api/diff?name=<?=$dbcname?>&build1=" + oldBuild + "&build2=" + newBuild;
+	var header1URL = "/api/header/<?=$dbcname?>/?build=" + oldBuild;
+	var header2URL = "/api/header/<?=$dbcname?>/?build=" + newBuild;
+
+	$.when($.getJSON(header1URL), $.getJSON(header2URL)).then(function (resp1, resp2) {
+	    //this callback will be fired once all ajax calls have finished.
+	    console.log(resp1);
+	    console.log(resp2);
+	    var fields = [...new Set([].concat(...resp1[0].headers, ...resp2[0].headers))];
+	    var tableHeaders = "";
+	    $.each(fields, function(i, val){
+	    	tableHeaders += "<th>" + val + "</th>";
+	    });
+
+	    $("#tableContainer").empty();
+	    $("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+	    $.ajax({
+	    	"url": dataURL,
+	    	"success": function ( json ) {
+	    		$('#dbtable').DataTable({
+	    			"data": json['data'],
+	    			"pageLength": 25,
+	    			"ordering": false,
+	    			"bFilter": false,
+	    			"pagingType": "input",
+	    			"columnDefs": [{
+	    				"targets": "_all",
+	    				"render": $.fn.dataTable.render.wowtools_diff_cells(),
+	    				"defaultContent": ""
+	    			}],
+	    			"language": {
+	    				"emptyTable": "No differences were found"
+	    			},
+	    			"createdRow": $.fn.dataTable.render.wowtools_diff_rows()
+	    		});
+	    	},
+	    	"dataType": "json"
+	    });
 	});
 });
 	<?php } ?>
-	$('#fileBuildFilter').on( 'change', function () {
+	$('#fileFilter').on( 'change', function () {
 		if($(this).val() != ""){
-			document.location = "https://wow.tools/dbc/diff2.php?dbc=" + $(this).val();
+			document.location = "/dbc/diff2.php?dbc=" + $(this).val();
 		}
 	});
 </script>
