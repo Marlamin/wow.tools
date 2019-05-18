@@ -7,6 +7,15 @@
 	<div class='row'>
 		<div class='col-md-4'>
 			<h4>Recent updates</h4>
+			<b>18-05-2019</b>
+			<ul>
+				<li>
+					<b>DBCs</b>
+					<ul>
+						<li><a href='https://wow.tools/dbc/diff.php?dbc=map.db2&old=b82ac0499b1a56cfc8559e485f183799&new=54b3dc4ced90d45071f72a05fecfd063'>New DBC diffs!</a></li>
+					</ul>
+				</li>
+			</ul>
 			<b>12-05-2019</b>
 			<ul>
 				<li>
