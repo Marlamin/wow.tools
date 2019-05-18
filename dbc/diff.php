@@ -63,8 +63,8 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 	<? if(!empty($id)){ ?>
 		<form id='dbcform' action='/dbc/diff.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
+			<label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
-				<option value=''>From</option>
 				<?
 				foreach($versions as $row){
 					?>
@@ -73,8 +73,8 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 				}
 				?>
 			</select>
+			<label for='newbuild' class='' style='float: left; padding-left: 15px;'> New </label>
 			<select id='newbuild' name='new' class='form-control form-control-sm buildFilter'>
-				<option value=''>To</option>
 				<?
 				foreach($versions as $row){?>
 					<option value='<?=$row['hash']?>'<? if(!empty($_GET['new']) && $row['hash'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['description']?></option>
