@@ -141,9 +141,9 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 				return '<del class="diff-removed">' + diff.currentvalue + '</del>';
 				case "Replaced":
 				{
-					if(!!Number(diff.previousvalue) && !!Number(diff.currentvalue)) {
+					if(!isNaN(diff.previousvalue) && !isNaN(diff.currentvalue)) {
 						// for numbers return a fake diff to save on computation
-						return '<del class="diff-removed">' + diff.previousvalue + '</del>' +
+						return '<del class="diff-removed">' + diff.previousvalue + '</del> 🡆 ' +
 						'<ins class="diff-added">' + diff.currentvalue + '</ins>';
 					} else {
 						// for text use diff_match_patch to compute a real diff
@@ -176,8 +176,13 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 
 	$.when($.getJSON(header1URL), $.getJSON(header2URL)).then(function (resp1, resp2) {
 	    //this callback will be fired once all ajax calls have finished.
-	    console.log(resp1);
-	    console.log(resp2);
+		if(resp1[0]['error'] != null){
+			alert("An error occured on the server:\n" + resp1[0]['error']);
+		}
+
+		if(resp2[0]['error'] != null){
+			alert("An error occured on the server:\n" + resp2[0]['error']);
+		}
 	    var fields = [...new Set([].concat(...resp1[0].headers, ...resp2[0].headers))];
 	    var tableHeaders = "";
 	    $.each(fields, function(i, val){
