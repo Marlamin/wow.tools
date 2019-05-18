@@ -1,4 +1,16 @@
-<? require_once("../inc/header.php"); ?>
+<?php require_once("../inc/header.php");
+
+if(!empty($_GET['embed']) && $_GET['embed'] == 1){
+?>
+<style type='text/css'>
+nav{
+	display: none !important;
+}
+</style>
+<?php
+}
+
+?>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
