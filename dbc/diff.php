@@ -50,7 +50,15 @@ if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
 	$dbcname = str_replace(".db2", "", $_GET['dbc']);
 	$canDiff = true;
 }
-
+if(!empty($_GET['embed'])){
+?>
+<style type='text/css'>
+nav, footer{
+	display: none !important;
+}
+</style>
+<?php
+}
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">

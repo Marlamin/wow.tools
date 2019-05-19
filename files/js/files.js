@@ -108,6 +108,10 @@ function fillDiffModal(from, to, filedataid){
 	$( "#previewModalContent" ).load( "/files/diff.php?from=" + from + "&to=" + to + "&filedataid=" + filedataid);
 }
 
+function fillDBCDiffModal(from, to, dbc){
+	$("#previewModalContent" ).load( "/dbc/diff.php?embed=1&dbc=" + dbc + "&old=" + from + "&new=" + to);
+}
+
 function fillChashModal(contenthash){
 	$( "#chashModalContent" ).load( "/files/scripts/filedata_api.php?contenthash=" + contenthash);
 }

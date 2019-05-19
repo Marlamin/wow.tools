@@ -23,7 +23,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
-<script src="/files/js/files.js"></script>
+<script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
 <script type="text/javascript" charset="utf-8">
 	function debounce(func, wait, immediate) {
 		var timeout;
@@ -124,13 +124,14 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
 											var db2name = full.filename.replace("dbfilesclient/", "");
-											content = "<a href='//wow.tools/dbc/diff.php?dbc=" + db2name + "&old=<?= $fromBuild['hash'] ?>&new=<?= $toBuild['hash'] ?>' target='_BLANK'>Preview</a>";
+											content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDBCDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + db2name + "\")'>Preview</a>";
 
 										}
 										break;
-									case "blp":
+									// case "blp":
 									case "lua":
 									case "xml":
+									case "toc":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
 								}
