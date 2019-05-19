@@ -23,9 +23,8 @@ Some of the tools powering the site are open source. The site itself is planned 
 <ul>
 <li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> - Makes backups of builds on Blizzard's CDN</li>
 <li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> - Powers listfile generation, file downloads and previews</li>
-<li><a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>DBCDumpHost</a> - Powers database file browsing, searching and lookups for the modelviewer</li>
+<li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> - Powers database file browsing, searching and lookups for the modelviewer</li>
 <li><a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>WoWDBDefs</a> - Definitions for database files</li>
-<li><a href='https://github.com/wowdev/wow-listfile/' target='_BLANK'>wow-listfile</a> - List of filenames in WoW</li>
 </ul>
 <h3>Legal stuff</h3>
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
