@@ -22,7 +22,6 @@ while($row = $q->fetch()){
 			// creature vo
 			if($isNumericVO){
 				$cleaned = str_replace(array("vo_82_", "vo_815_", "vo_81_", "vo_801_", "vo_735_"), "", substr($row['name'], 0, -2));
-
 				if(is_numeric(substr($cleaned, -3, 3))){
 					// _xxx
 					$cleaned = substr($cleaned, 0, -4);
@@ -33,9 +32,7 @@ while($row = $q->fetch()){
 					echo "	Don't know how to handle this numeric vo: " . $row['name']."\n";
 				}
 
-				$guess = "sound/creature/" . $cleaned . "/" . $row['name'] . ".ogg";
-
-				$files[$row['filedataid']] = $guess;
+				$files[$row['filedataid']] = "sound/creature/" . $cleaned . "/" . $row['name'] . ".ogg";
 			}else{
 				$vosuffixes = array("aggro", "attack", "attack_ranged", "attackcrit", "attackcrit_ranged", "battle_cry", "battle_shout", "battleshout", "battlecry", "battleroar", "battleshout", "charge", "chuff", "clickable", "clickables", "death", "emerge", "idle", "idle_loop", "injury", "laugh", "preaggro", "preagro", "stand", "wound", "wound_crit", "woundcrit", "loop", "farewells", "greetings", "pissed");
 
@@ -51,6 +48,7 @@ while($row = $q->fetch()){
 					if(substr($cleaned, -2) == "_f" || substr($cleaned, -2) == "_m"){
 						$cleaned = substr($cleaned, 0, strlen($cleaned) - 2);
 					}
+
 					$files[$row['filedataid']] = "sound/creature/" . $cleaned . "/" . $row['name'] . "_" . str_pad($globnameindex[$row['name']]++, 2, '0', STR_PAD_LEFT). ".ogg";
 				}
 			}
@@ -105,7 +103,7 @@ foreach($files as $filedataid => $filename){
 			//$iq->execute([$filename, $filedataid]);
 			echo $filedataid.";".$filename."\n";
 		}else{
-			// echo "Ignoring as duplicate ".$filedataid." ".$filename."\n";
+			echo "Ignoring as duplicate ".$filedataid." ".$filename."\n";
 		}
 	}
 }
