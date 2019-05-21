@@ -33,6 +33,8 @@ var Settings =
     showFPS: true
 }
 
+var screenshot = false;
+
 function loadSettings(){
     /* Show/hide FPS counter */
     var storedShowFPS = localStorage.getItem('settings[showFPS]');
@@ -166,6 +168,25 @@ window.createscene = function () {
 
         Module._gameloop(timeDelta / 1000.0);
 
+        if(screenshot){
+            screenshot = false;
+
+            let canvasImage = Module["canvas"].toDataURL('image/png');
+
+            let xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                let a = document.createElement('a');
+                a.href = window.URL.createObjectURL(xhr.response);
+                a.download = 'wowtoolsmv-' + currentTimeStamp + '.png';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                a.remove()
+            };
+            xhr.open('GET', canvasImage);
+            xhr.send();
+        }
         window.requestAnimationFrame(renderfunc);
     };
 
@@ -220,6 +241,7 @@ window.addEventListener('keydown', function(event){
 }, true);
 
 window.addEventListener('keyup', function(event){
+    if(event.key == "PrintScreen") screenshot = true;
     if(document.activeElement.tagName == "INPUT"){
         event.stopImmediatePropagation();
     }
