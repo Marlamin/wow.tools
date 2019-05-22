@@ -7,6 +7,15 @@
 	<div class='row'>
 		<div class='col-md-6'>
 			<h4>Recent updates</h4>
+			<b>22-05-2019</b>
+			<ul>
+				<li>
+					<b>Build diffs</b>
+					<ul>
+						<li>WIP version of new build diff page is now available: <a href='https://wow.tools/builds/diff_new.php?from=54b3dc4ced90d45071f72a05fecfd063&to=eb9dc13f6f32a1b4992b61d6217dd6ab'>give it a try for the latest 8.2 build here!</a></li>
+					</ul>
+				</li>
+			</ul>
 			<b>18-05-2019</b>
 			<ul>
 				<li>
