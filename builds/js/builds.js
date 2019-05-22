@@ -48,7 +48,7 @@ $( document ).ready(function() {
 			hashElement.after(' <span class="badge badge-danger diffbadge">New build</span>');
 			$('#openDiffButton')
 				.text('Click to diff (might take up to a minute to generate)')
-				.attr('href', '/builds/diff.php?from=' + build1 + '&to=' + build2);
+				.attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
 		}
 	}
 });
