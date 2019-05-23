@@ -29,17 +29,24 @@ if($type == "blp"){
         <li class="nav-item">
             <a class="nav-link" id="toggle-tab" data-toggle="tab" href="#toggle" role="tab" aria-controls="toggle" aria-selected="false">Switcher</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="imagediff-tab" data-toggle="tab" href="#imagediff" role="tab" aria-controls="imagediff" aria-selected="false">Diff</a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane show active" id="sbs" role="tabpanel" aria-labelledby="sbs-tab">
             <div class='row'>
-                <div class='col-md-6' id='from-diff'><h3>Build <?=$frombuild['buildconfig']['description']?> (Before)</h3><img id='from-img' style='max-width: 100%;' src='//wow.tools/casc/preview<?=$fromparams?>'></div>
-                <div class='col-md-6' id='to-diff'><h3>Build <?=$tobuild['buildconfig']['description']?> (After)</h3><img id='to-img' style='max-width: 100%;' src='//wow.tools/casc/preview<?=$toparams?>'></div>
+                <div class='col-md-6' id='from-diff'><h3>Build <?=$frombuild['buildconfig']['description']?> (Before)</h3><img id='fromImage' style='max-width: 100%;' src='//wow.tools/casc/preview<?=$fromparams?>'></div>
+                <div class='col-md-6' id='to-diff'><h3>Build <?=$tobuild['buildconfig']['description']?> (After)</h3><img id='toImage' style='max-width: 100%;' src='//wow.tools/casc/preview<?=$toparams?>'></div>
             </div>
         </div>
         <div class="tab-pane" id="toggle" role="tabpanel" aria-labelledby="toggle-tab">
             <div id='toggle-content' data-current='from'><div class='col-md-6' id='from-diff'><h3>Build <?=$frombuild['buildconfig']['description']?></h3><img style='max-width: 100%;' src='//wow.tools/casc/preview<?=$fromparams?>'></div></div>
             <button class='btn btn-primary' id='toggle-button'>Switch</button>
+        </div>
+         <div class="tab-pane" id="imagediff" role="tabpanel" aria-labelledby="imagediff-tab">
+            <canvas id='fromImageCanvas' style='display: none'></canvas><canvas id='toImageCanvas' style='display: none'></canvas><canvas id='resultImageCanvas'></canvas><br>
+            <span id='diffContents'></span>
         </div>
     </div>
     <script src="https://unpkg.com/pixelmatch"></script>
@@ -56,15 +63,40 @@ if($type == "blp"){
                 }
             });
 
-            /*module = {}
+            $("#imagediff-tab").on('show.bs.tab', function (e){
+                var fromImage = document.getElementById('fromImage');
+                var toImage = document.getElementById('toImage');
 
-            var img1 = document.getElementById('from-img').getImageData(0, 0, width, height),
-                img2 = document.getElementById('to-img').getImageData(0, 0, width, height),
-                diff = diffCtx.createImageData(width, height);
+                var fromCanvas = document.getElementById('fromImageCanvas');
+                var toCanvas = document.getElementById('toImageCanvas');
+                var resultCanvas = document.getElementById('resultImageCanvas');
 
-            pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
+                fromCanvas.width = fromImage.width;
+                fromCanvas.height = fromImage.height;
+                fromCanvas.getContext('2d').drawImage(fromImage, 0, 0);
 
-            diffCtx.putImageData(diff, 0, 0);*/
+                toCanvas.width = toImage.width;
+                toCanvas.height = toImage.height;
+                toCanvas.getContext('2d').drawImage(toImage, 0, 0);
+
+                const fromImageData = fromCanvas.getContext('2d').getImageData(0, 0, fromImage.width, fromImage.height);
+                const toImageData = toCanvas.getContext('2d').getImageData(0, 0, toImage.width, toImage.height);
+
+                // TODO: Get res for largest image?
+                var width = toImage.width;
+                var height = toImage.height;
+
+                resultCanvas.width = width;
+                resultCanvas.height = height;
+
+                const diff = resultCanvas.getContext('2d').createImageData(width, height);
+
+                const diffCount = pixelmatch(fromImageData.data, toImageData.data, diff.data, width, height);
+                document.getElementById('diffContents').innerHTML = diffCount + " pixels changed!";
+                resultCanvas.getContext('2d').putImageData(diff, 0, 0);
+            });
+
+            module = {}
          });
     </script>
     <?
