@@ -125,6 +125,7 @@ function guessFileExtByExtractedFilename($name){
 		case "wow/wdc1":
 		case "wow/wdc2":
 		case "wow/wdc3":
+		case "wow/cls1":
 		$ext = ".db2";
 		break;
 		case "wow/adt/root":

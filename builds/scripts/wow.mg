@@ -87,6 +87,9 @@
 0 string WDC3 WoW DataCase v3
 !:mime wow/wdc3
 
+0 string 1SLC Classic WoW Database v1
+!:mime wow/cls1
+
 # ADT
 0 string REVM\4\0\0\0\x12\0\0\0RDHM .adt
 !:mime wow/adt/root
