@@ -1,4 +1,4 @@
-<? require_once("../inc/header.php");
+<?php require_once("../inc/header.php");
 
 $filelimit = 20000;
 
@@ -81,7 +81,7 @@ if(!empty($_POST['files'])){
 }
 ?>
 <div class="container-fluid">
-<?
+<?php
 if(!empty($validfiles) || !empty($invalidfiles)){
 	if(count($validfiles) > 0){
 		echo "<h3>Valid files</h3>";
@@ -105,11 +105,11 @@ if(!empty($validfiles) || !empty($invalidfiles)){
 }
 ?>
 	<p>Enter files in the textbox below to check if they exist! If they exist, they are added to the game files page.</p>
-<? if(empty($_SESSION['userid'])){ ?>
+<?php if(empty($_SESSION['userid'])){ ?>
 	<div class='alert alert-info'>If you log in when adding filenames, the number of files you added will be tracked for credits in <a href='//github.com/wowdev/wow-listfile' target='_BLANK'>automatic commits (every 30 minutes) to GitHub</a>.</div>
-<? }else{ ?>
+<?php }else{ ?>
 	<div class='alert alert-info'>You are logged in, the number of files you added will be tracked for credits in <a href='//github.com/wowdev/wow-listfile' target='_BLANK'>automatic commits (every 30 minutes) to GitHub</a>. If you don't want your username credited in the commits, log out when adding filenames.</div>
-<? } ?>
+<?php } ?>
 	<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
 	<form method='post' action='checkFiles.php'>
 		<textarea name='files' rows='15' cols='200'></textarea>
@@ -117,4 +117,4 @@ if(!empty($validfiles) || !empty($invalidfiles)){
 		<input type='submit' value='Check'>
 	</form>
 </div>
-<? include("../inc/footer.php"); ?>
+<?php include("../inc/footer.php"); ?>

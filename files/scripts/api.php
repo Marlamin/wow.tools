@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("/var/www/wow.tools/inc/config.php");
 
 header('Content-Type: application/json');

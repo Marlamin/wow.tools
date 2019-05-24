@@ -1,4 +1,4 @@
-<? require_once("../inc/header.php"); ?>
+<?php require_once("../inc/header.php"); ?>
 <link href="/maps/css/leaflet.css?v=<?=filemtime($basedir."/maps/css/leaflet.css")?>" rel="stylesheet" type="text/css">
 <link href="/maps/css/style.css?v=<?=filemtime($basedir."/maps/css/style.css")?>" rel="stylesheet" type="text/css">
 <div id='maps'>
@@ -39,4 +39,4 @@
 	<script type="text/javascript" src="/maps/js/leaflet_wowmap.js?v=<?=filemtime($basedir."/maps/js/leaflet_wowmap.js")?>"></script>
 	<script type="text/javascript" src="/maps/js/Control.MiniMap.min.js?v=<?=filemtime($basedir."/maps/js/Control.MiniMap.min.js")?>"></script>
 </div>
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

@@ -183,7 +183,7 @@ $checkq = $pdo->prepare("SELECT * FROM ngdp_history WHERE url_id = ? AND event =
 
 foreach($pdo->query("SELECT * FROM ngdp_urls") as $row){
 	if($row['enabled'] == 0) continue;
-	
+
 	$history = getUrlHistory($row['id']);
 
 	$ch = curl_init();

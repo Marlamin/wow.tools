@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/header.php");
 
 if (empty($_GET['from']) || empty($_GET['to'])) {
@@ -226,6 +226,6 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		</div>
 	</div>
 </div>
-<?
+<?php
 require_once("../inc/footer.php");
 ?>

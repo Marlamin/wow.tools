@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/header.php");
 
 foreach(glob("/home/wow/dbcs/*", GLOB_ONLYDIR) as $dir){
@@ -40,27 +40,27 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 <div class="container-fluid">
 	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value="">Select a table</option>
-		<? foreach($allowedtables as $table){ ?>
+		<?php foreach($allowedtables as $table){ ?>
 			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
-		<? }?>
+		<?php }?>
 	</select>
-	<? if(!empty($id)){ ?>
+	<?php if(!empty($id)){ ?>
 		<form id='dbcform' action='/dbc/' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<select id='buildFilter' name='bc' class='form-control form-control-sm buildFilter'>
-				<?
+				<?php
 				foreach($versions as $row){
 					?>
 					<option value='<?=$row['hash']?>'<? if(!empty($_GET['bc']) && $row['hash'] == $_GET['bc']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-					<?
+					<?php
 				}
 				?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
-	<? } ?>
-	<? if(!empty($_GET['bc'])){ ?>
+	<?php } ?>
+	<?php if(!empty($_GET['bc'])){ ?>
 		<div id='tableContainer'>
 			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -73,7 +73,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 				</tbody>
 			</table>
 		</div>
-	<? } ?>
+	<?php } ?>
 </div>
 <div class="modal" id="fkModal" tabindex="-1" role="dialog" aria-labelledby="fkModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
@@ -273,4 +273,4 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild($("#buildFilter option:selected").text());
 	}());
 </script>
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

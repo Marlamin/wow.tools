@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/header.php");
 
 $query = "SELECT
@@ -51,7 +51,7 @@ $odd = false;
 	</form>
 	<table id='buildtable' class='table table-sm table-hover maintable'>
 		<thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Build time</th><th>&nbsp;</th></tr></thead>
-		<? foreach($allbuilds as $row){
+		<?php foreach($allbuilds as $row){
 			if($odd){
 				echo "<tr class='odd'>";
 			}else{
@@ -254,4 +254,4 @@ $odd = false;
 		} ?>
 	</table>
 </div>
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

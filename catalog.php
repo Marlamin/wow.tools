@@ -8,11 +8,11 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 	<form action='catalog.php' method='GET' class='form-inline'>
 		<div class='input-group'>
 			<select class='form-control' name='oldbuild'>
-				<?foreach($arr as $row){?>
-					<option value='<?=$row['hash']?>'<? if(!empty($_GET['oldbuild']) && $row['hash'] == $_GET['oldbuild']){ echo " SELECTED"; }?>>
+				<?php foreach($arr as $row){?>
+					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['oldbuild']) && $row['hash'] == $_GET['oldbuild']){ echo " SELECTED"; }?>>
 						<?=$row['description']?>
 					</option>
-					<?
+					<?php
 				}
 				?>
 			</select>
@@ -20,18 +20,18 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 				=> 
 			</div>
 			<select class='form-control' name='newbuild'>
-				<?foreach($arr as $row){?>
-					<option value='<?=$row['hash']?>'<? if(!empty($_GET['newbuild']) && $row['hash'] == $_GET['newbuild']){ echo " SELECTED"; }?>>
+				<?php foreach($arr as $row){?>
+					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['newbuild']) && $row['hash'] == $_GET['newbuild']){ echo " SELECTED"; }?>>
 						<?=$row['description']?>
 					</option>
-					<?
+					<?php
 				}
 				?>
 			</select>
 		</div>
 		<input type='submit' class='form-control btn btn-primary' style='margin-left: 10px;'>
 	</form>
-	<?
+	<?php
 	if(empty($_GET['oldbuild']) || empty($_GET['newbuild'])){
 		die("<br>Please select two builds to diff.");
 	}
@@ -118,4 +118,4 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 	echo "</pre>";
 	?>
 </div>
-<? include "inc/footer.php"; ?>
+<?php include "inc/footer.php"; ?>

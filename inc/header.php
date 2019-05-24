@@ -1,4 +1,4 @@
-<?require_once("/var/www/wow.tools/inc/config.php");?><!DOCTYPE html>
+<?php require_once("/var/www/wow.tools/inc/config.php");?><!DOCTYPE html>
 <html>
 <head>
 	<title><?=prettyTitle($_SERVER['REQUEST_URI'])?></title>
@@ -36,11 +36,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto mt-2 mt-md-0">
-				<? $page = basename($_SERVER["SCRIPT_FILENAME"], '.php'); ?>
-				<li class="nav-item<? if($page == "files"){ echo " active"; } ?>">
+				<?php $page = basename($_SERVER["SCRIPT_FILENAME"], '.php'); ?>
+				<li class="nav-item<?php if($page == "files"){ echo " active"; } ?>">
 					<a class="nav-link" href="/files/"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Files</a>
 				</li>
-				<li class="nav-item<? if($page == "dbc"){ echo " active"; } ?> dropdown">
+				<li class="nav-item<?php if($page == "dbc"){ echo " active"; } ?> dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-table fa-lg" aria-hidden="true"></i> Database
 					</a>
@@ -49,16 +49,16 @@
 						<a class="dropdown-item" href="/dbc/diff.php">Compare tables</a>
 					</div>
 				</li>
-				<li class="nav-item<? if($page == "mv"){ echo " active"; } ?>">
+				<li class="nav-item<?php if($page == "mv"){ echo " active"; } ?>">
 					<a class="nav-link" href="/mv/"><i class="fa fa-cube fa-lg" aria-hidden="true"></i> Models</a>
 				</li>
-				<li class="nav-item<? if($page == "maps"){ echo " active"; } ?>">
+				<li class="nav-item<?php if($page == "maps"){ echo " active"; } ?>">
 					<a class="nav-link" href="/maps/"><i class="fa fa-map-o fa-lg" aria-hidden="true"></i> Maps</a>
 				</li>
-				<li class="nav-item<? if($page == "monitor"){ echo " active"; } ?>">
+				<li class="nav-item<?php if($page == "monitor"){ echo " active"; } ?>">
 					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
 				</li>
-				<li class="nav-item<? if($page == "mirror"){ echo " active"; } ?>">
+				<li class="nav-item<?php if($page == "mirror"){ echo " active"; } ?>">
 					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o fa-lg" aria-hidden="true"></i> Builds</a>
 				</li>
 			</ul>
@@ -66,11 +66,11 @@
 				<button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="button">
 					Toggle theme
 				</button>&nbsp;
-				<? if(empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")){ ?>
+				<?php if(empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")){ ?>
 					<a href='/user.php?p=login' class='btn btn-sm align-middle btn-outline-success'>Log in</a>
-				<? }else{ ?>
+				<?php }else{ ?>
 					<a href='/user.php?p=logout' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
-				<? } ?>
+				<?php } ?>
 			</form>
 		</div>
 	</nav>

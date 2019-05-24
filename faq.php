@@ -1,4 +1,4 @@
-<? require_once("inc/header.php"); ?>
+<?php require_once("inc/header.php"); ?>
 <div class='container-fluid'>
 <h3>What does each tool do?</h3>
 <i class="fa fa-files-o fa-lg" aria-hidden="true"></i> <b>Files</b>
@@ -43,4 +43,4 @@ You can support the site in many ways:
 Ask in the <a href='https://discord.gg/BYpgyhy' target='_BLANK'>Discord</a>, on <a href='//twitter.com/marlamin' target='_BLANK'>Twitter</a> or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.
 </p>
 </div>
-<? require_once("inc/footer.php"); ?>
+<?php require_once("inc/footer.php"); ?>

@@ -64,35 +64,35 @@ nav, footer{
 <div class="container-fluid">
 	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value="">Select a table</option>
-		<? foreach($allowedtables as $table){ ?>
-			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
-		<? }?>
+		<?php foreach($allowedtables as $table){ ?>
+			<option value='<?=$table?>' <?php if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
+		<?php }?>
 	</select>
-	<? if(!empty($id)){ ?>
+	<?php if(!empty($id)){ ?>
 		<form id='dbcform' action='/dbc/diff.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
-				<?
+				<?php
 				foreach($versions as $row){
 					?>
-					<option value='<?=$row['hash']?>'<? if(!empty($_GET['old']) && $row['hash'] == $_GET['old']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-					<?
+					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['old']) && $row['hash'] == $_GET['old']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+					<?php
 				}
 				?>
 			</select>
 			<label for='newbuild' class='' style='float: left; padding-left: 15px;'> New </label>
 			<select id='newbuild' name='new' class='form-control form-control-sm buildFilter'>
-				<?
+				<?php
 				foreach($versions as $row){?>
-					<option value='<?=$row['hash']?>'<? if(!empty($_GET['new']) && $row['hash'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-					<?
+					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['new']) && $row['hash'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+					<?php
 				}
 				?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Diff'>
 		</form><br>
-		<?
+		<?php
 	}
 	?>
 	<div id='tableContainer'></div>
@@ -230,4 +230,4 @@ nav, footer{
 		}
 	});
 </script>
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

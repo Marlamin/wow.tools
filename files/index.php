@@ -347,4 +347,4 @@ $('#fileBuildFilter').on( 'change', function () {
 }());
 </script>
 
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

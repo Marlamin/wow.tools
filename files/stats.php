@@ -62,4 +62,4 @@ $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow
 		</div>
 	</div>
 </div>
-<? include "../inc/footer.php"; ?>
+<?php include "../inc/footer.php"; ?>

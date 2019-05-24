@@ -1,4 +1,4 @@
-<? require_once("../inc/header.php");
+<?php require_once("../inc/header.php");
 
 $filelimit = 20000;
 
@@ -129,7 +129,7 @@ if(!empty($_SESSION['loggedin'])){
 		<div class='alert alert-danger'>
 			You need to be logged in to submit filenames.
 		</div>
-	<? }else{ ?>
+	<?php }else{ ?>
 		<p>Enter files in the textbox below to suggest filenames for the community listfile. Each line must start with a filedataid, followed by the <kbd>;</kbd> and then the suggested filename.<br><b>Please note:</b> All submitted files will have to be checked by a moderator before being added to the listfile to prevent purposefully incorrect filenames being added to the system.</p>
 		<p>Formatting example:<br><kbd>2961114;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil01.m2</kbd><br><kbd>2961119;world/expansion07/doodads/dungeon/doodads/8du_mechagon_anvil0100.skin</kbd></p>
 		<div class='alert alert-warning'>A maximum of <b><?=$filelimit?> files</b> per request is allowed.</div>
@@ -143,7 +143,7 @@ if(!empty($_SESSION['loggedin'])){
 			<br>
 			<input class='btn btn-success' type='submit' value='Submit'>
 		</form>
-	<? } ?>
+	<?php } ?>
 </div>
 
-<? include("../inc/footer.php"); ?>
+<?php include("../inc/footer.php"); ?>

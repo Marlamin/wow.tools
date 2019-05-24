@@ -1,4 +1,4 @@
-<? require_once("inc/header.php"); ?>
+<?php require_once("inc/header.php"); ?>
 <div class='container-fluid'>
 	<h3>Welcome to WoW.tools!</h3>
 	<p>
@@ -78,4 +78,4 @@
 		</div>
 	</div>
 </div>
-<? require_once("inc/footer.php"); ?>
+<?php require_once("inc/footer.php"); ?>

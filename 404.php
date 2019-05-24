@@ -1,6 +1,6 @@
-<? 
+<?php
 http_response_code(404);
-require_once("inc/header.php"); 
+require_once("inc/header.php");
 ?>
 <div class='container-fluid'>
 	<h3>404 page not found</h3>
@@ -8,4 +8,4 @@ require_once("inc/header.php");
 		Sorry, nothing here!
 	</p>
 </div>
-<? require_once("inc/footer.php"); ?>
+<?php require_once("inc/footer.php"); ?>

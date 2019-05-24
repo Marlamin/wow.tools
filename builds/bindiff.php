@@ -1,32 +1,32 @@
-<?
+<?php
 include("../inc/config.php");
 ini_set('memory_limit','1G');
 include("../inc/header.php");
 ?>
 <div class="container-fluid">
-	<?
+	<?php
 	$arr = $pdo->query("SELECT wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC")->fetchAll();
 	?>
 	<p>Select a build to continue.</p>
 	<form action='bindiff.php' method='GET' class='form-inline'>
 		<div class='input-group'>
 			<select class='form-control' name='oldbuild'>
-				<?foreach($arr as $row){?>
-				<option value='<?=$row['buildconfig']?>'<? if(!empty($_GET['oldbuild']) && $row['buildconfig'] == $_GET['oldbuild']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-				<?}?>
+				<?php foreach($arr as $row){?>
+				<option value='<?=$row['buildconfig']?>'<?php if(!empty($_GET['oldbuild']) && $row['buildconfig'] == $_GET['oldbuild']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+				<?php }?>
 			</select>
 			<div class="input-group-append">
 			<span class="input-group-text"> => </span>
 			</div>
 			<select class='form-control' name='newbuild'>
-				<?foreach($arr as $row){?>
-				<option value='<?=$row['buildconfig']?>'<? if(!empty($_GET['newbuild']) && $row['buildconfig'] == $_GET['newbuild']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-				<?}?>
+				<?php foreach($arr as $row){?>
+				<option value='<?=$row['buildconfig']?>'<?php if(!empty($_GET['newbuild']) && $row['buildconfig'] == $_GET['newbuild']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+				<?php }?>
 			</select>
 		</div>
 		<div class='input-group'>
 			<select class='form-control' name='oldfile'>
-			<?
+			<?php
 			if(!empty($_GET['oldbuild'])){
 				$oldbuild = getVersionByBuildConfigHash($_GET['oldbuild']);
 
@@ -62,7 +62,7 @@ include("../inc/header.php");
 			<span class="input-group-text"> => </span>
 			</div>
 			<select class='form-control' name='newfile'>
-			<?
+			<?php
 			if(!empty($_GET['newbuild'])){
 				$newbuild = getVersionByBuildConfigHash($_GET['newbuild']);
 
@@ -98,7 +98,7 @@ include("../inc/header.php");
 	<input type='submit' class='form-control btn btn-primary' style='margin-left: 10px;'>
 	</form>
 
-	<?
+	<?php
 	if(!empty($_GET['oldbuild']) && !empty($_GET['newbuild'])){
 		$oldbuild = getVersionByBuildConfigHash($_GET['oldbuild']);
 		$newbuild = getVersionByBuildConfigHash($_GET['newbuild']);
@@ -187,4 +187,4 @@ include("../inc/header.php");
 	}
 	?>
 </div>
-<? include "../inc/footer.php"; ?>
+<?php include "../inc/footer.php"; ?>

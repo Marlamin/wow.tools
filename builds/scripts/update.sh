@@ -19,7 +19,6 @@ php updateRoot.php
 php dumpDBC.php
 php updateGameData.php
 # php addOGGNames.php
-# high memory use, disable for now
-#php ../../files/scripts/addMDINames.php
+php ../../files/scripts/addMDINames.php
 php encrypted.php
 # sudo -u www-data php dumpDBD.php

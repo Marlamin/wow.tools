@@ -1,4 +1,4 @@
-<? require_once("inc/header.php"); ?>
+<?php require_once("inc/header.php"); ?>
 <div class='container-fluid'>
 <h3>About</h3>
 <p>
@@ -30,4 +30,4 @@ Some of the tools powering the site are open source. The site itself is planned 
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
 </div>
 
-<? require_once("inc/footer.php"); ?>
+<?php require_once("inc/footer.php"); ?>

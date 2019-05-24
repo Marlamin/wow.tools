@@ -99,7 +99,7 @@ if($type == "blp"){
             module = {}
          });
     </script>
-    <?
+    <?php
 }else{
     $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'];
 
@@ -128,7 +128,7 @@ if($type == "blp"){
         });
     </script>
 
-<?
+<?php
 }
 ?>
 

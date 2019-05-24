@@ -79,7 +79,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 		<div class='alert alert-danger'>
 			You need to be logged in as a moderator to submit filenames.
 		</div>
-	<? }else{ ?>
+	<?php }else{ ?>
 		<table class='table table-striped table-condensed'>
 			<?php
 			$previousTime = '';
@@ -118,7 +118,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 
 			?>
 		</table>
-	<? } ?>
+	<?php } ?>
 </div>
 <?php
 include("../inc/footer.php");

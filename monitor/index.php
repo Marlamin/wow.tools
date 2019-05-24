@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/header.php");
 
 $productq = $pdo->query("SELECT * FROM ngdp_products ORDER BY name DESC");
@@ -101,4 +101,4 @@ while($row = $productq->fetch()){
 		});
 	}());
 </script>
-<? require_once("../inc/footer.php"); ?>
+<?php require_once("../inc/footer.php"); ?>

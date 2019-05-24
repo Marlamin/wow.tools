@@ -49,7 +49,7 @@ foreach($encryptedfiles as $filedataid => $key){
 	if(!in_array($filedataid, $currentids)){
 		$q->bindParam(":filedataid", $filedataid);
 		$q->bindParam(":key", $key);
-		$q->execute();	
+		$q->execute();
 		$inserted++;
 	}
 }

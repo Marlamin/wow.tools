@@ -1,4 +1,4 @@
-<?
+<?php
 include("inc/config.php");
 
 function passwordMeetsReqs($password){
@@ -173,9 +173,9 @@ if(!isset($_SESSION['loggedin'])){
 			<div class="row">
 				<div class="col-md-4 offset-md-4">
 					<br>
-					<? if(!empty($message)){ ?>
+					<?php if(!empty($message)){ ?>
 						<div class="alert alert-<?=$message['type']?>"><?=$message['text']?></div>
-					<? } ?>
+					<?php } ?>
 					<p>
 					</p>
 				</div>
@@ -199,17 +199,17 @@ if(!isset($_SESSION['loggedin'])){
 				</div>
 			</div>
 		</div>
-		<?
+		<?php
 	}else if($_GET['p'] == "resetpass"){
 		?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-4 offset-md-4 mx-auto">
 					<br>
-					<? if(!empty($message)){ ?>
+					<?php if(!empty($message)){ ?>
 						<div class="alert alert-<?=$message['type']?>"><?=$message['text']?></div>
-					<? } ?>
-					<? if($tokenvalid){ ?>
+					<?php } ?>
+					<?php if($tokenvalid){ ?>
 						<form method="POST" action="user.php?p=resetpass&token=<?=$_GET['token']?>">
 							<div class="form-group">
 								<label for="password">New password</label>
@@ -221,20 +221,20 @@ if(!isset($_SESSION['loggedin'])){
 							</div>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>
-					<? } ?>
+					<?php } ?>
 				</div>
 			</div>
 		</div>
-		<?
+		<?php
 	}else if($_GET['p'] == "recover"){
 		?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-4 offset-md-4 mx-auto">
 					<br>
-					<? if(!empty($message)){ ?>
+					<?php if(!empty($message)){ ?>
 						<div class="alert alert-<?=$message['type']?>"><?=$message['text']?></div>
-					<? } ?>
+					<?php } ?>
 					<form method="POST" action="user.php?p=recover">
 						<div class="form-group">
 							<label for="email">Enter the e-mail address connected to your account</label>
@@ -246,7 +246,7 @@ if(!isset($_SESSION['loggedin'])){
 				</div>
 			</div>
 		</div>
-		<?
+		<?php
 	}else if($_GET['p'] == "login"){
 	// Log in
 		if(empty($message)){
@@ -258,9 +258,9 @@ if(!isset($_SESSION['loggedin'])){
 			<div class="row">
 				<div class="col-md-4 offset-md-4 mx-auto">
 					<br>
-					<? if(!empty($message)){ ?>
+					<?php if(!empty($message)){ ?>
 						<div class="alert alert-<?=$message['type']?>"><?=$message['text']?></div>
-					<? } ?>
+					<?php } ?>
 					<form method="POST" action="user.php?p=login">
 						<div class="form-group">
 							<label for="username">Username</label>
@@ -277,7 +277,7 @@ if(!isset($_SESSION['loggedin'])){
 				</div>
 			</div>
 		</div>
-		<?
+		<?php
 	}
 }
 

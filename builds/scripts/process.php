@@ -138,7 +138,7 @@ function updateVersions($product){
 
 function updateBuildConfig($product){
 	global $pdo;
-	
+
 	global $allowedproducts;
 	$builds = array();
 
@@ -226,7 +226,7 @@ function updateBuildConfig($product){
 
 			if(($existingBuild['unarchivedcomplete'] != $unarchivedcomplete) || ($existingBuild['unarchivedcount'] != $unarchivedcount)){
 				echo "Adjusting unarchived file status from ".$existingBuild['unarchivedcomplete']."/".$existingBuild['unarchivedcount']." to ".$unarchivedcomplete."/".$unarchivedcount.".. \n";
-				
+
 				$unq = $pdo->prepare("UPDATE ".$product."_buildconfig
 					SET
 					unarchivedcount = :unarchivedcount,
@@ -421,7 +421,7 @@ function updatePatchConfig($product){
 		$q->execute();
 		if(empty($q->fetch())){
 			if(empty($pc['patch-size'])) $pc['patch-size'] = 0;
-			$iq = $pdo->prepare("INSERT INTO ".$product."_patchconfig (hash, patch, `patch-entry`, `patch-size`) 
+			$iq = $pdo->prepare("INSERT INTO ".$product."_patchconfig (hash, patch, `patch-entry`, `patch-size`)
 				VALUES (:hash, :patch, :patchentry, :patchsize)");
 			$iq->bindParam(":hash", $pc['original-filename']);
 			$iq->bindParam(":patch", $pc['patch']);

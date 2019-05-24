@@ -1,11 +1,11 @@
-<?
+<?php
 include("../inc/config.php");
 // include("inc/functions.php");
 ini_set('memory_limit','1G');
 include("../inc/header.php");
 ?>
 <div class="container-fluid">
-	<?
+	<?php
 	/*
 	$arr = $pdo->query("SELECT ".$_SESSION['product']."_versions.buildconfig, ".$_SESSION['product']."_buildconfig.description FROM ".$_SESSION['product']."_versions LEFT OUTER JOIN ".$_SESSION['product']."_buildconfig ON ".$_SESSION['product']."_versions.buildconfig=".$_SESSION['product']."_buildconfig.hash ORDER BY ".$_SESSION['product']."_buildconfig.description")->fetchAll();
 	<div class="alert alert-info" role="alert">
@@ -14,9 +14,9 @@ include("../inc/header.php");
 		<p class="mb-0">
 			<form method='GET' action='/scripts/downloadBuild.php'>
 				<select name='build'>
-					<?foreach($arr as $row){?>
+					<?php foreach($arr as $row){?>
 					<option value='<?=$row['buildconfig']?>'<? if($row['buildconfig'] == $_GET['build']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-					<?}?>
+					<?php }?>
 				</select>
 				<select name='os'>
 					<option value='Windows'>Windows</option>
@@ -36,9 +36,9 @@ include("../inc/header.php");
 	<p>Select a build to continue.</p>
 	<form action='extract.php' method='GET'>
 		<select name='build'>
-			<?foreach($arr as $row){?>
+			<?php foreach($arr as $row){?>
 			<option value='<?=$row['buildconfig']?>'<? if($row['buildconfig'] == $_GET['build']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-			<?}?>
+			<?php }?>
 		</select>
 		<input type='hidden' name='type' value='install'>
 		<input type='submit'>
@@ -51,7 +51,7 @@ include("../inc/header.php");
 		<h4 class="alert-heading">Packages</h4>
 		<p>Packages are currently disabled due to their popularity, they weren't really meant to be used by the general public. Sorry!</p>
 </div> -->
-	<?
+	<?php
 	if(!empty($_GET['build'])){
 		$build = getVersionByBuildConfigHash($_GET['build']);
 
@@ -99,15 +99,15 @@ include("../inc/header.php");
 				<tr>
 					<th>Filename</th>
 					<th>Size</th>
-					<? foreach($headers as $header){ ?>
+					<?php foreach($headers as $header){ ?>
 					<th><?=$header?></th>
-					<? } ?>
+					<?php } ?>
 					<th>MD5</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?
+				<?php
 				foreach($lines as $line){
 					if(empty(trim($line))) continue;
 					$split1 = explode(" (", $line);
@@ -139,8 +139,8 @@ include("../inc/header.php");
 				?>
 			</tbody>
 		</table>
-		<?
+		<?php
 	}
 	?>
 </div>
-<? include "../inc/footer.php"; ?>
+<?php include "../inc/footer.php"; ?>
