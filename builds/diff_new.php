@@ -65,6 +65,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 			pageLength: 25,
 			autoWidth: false,
 			deferRender: true,
+			lengthMenu: [[25, 100, 500, -1], [25, 100, 500, "All"]],
 			dom: "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7'p>>",
 			columnDefs: [{
 					"targets": 0,
