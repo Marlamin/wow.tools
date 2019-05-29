@@ -41,6 +41,17 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		};
 	};
 
+	function actionToBadge(action){
+		switch (action) {
+			case "added":
+				return "success";
+			case "removed":
+				return "danger";
+			case "modified":
+				return "warning";
+		}
+	}
+
 	String.prototype.capitalize = function() {
 		return this.charAt(0).toUpperCase() + this.slice(1)
 	}
@@ -72,18 +83,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 					"orderable": true,
 					"render": function(data, type, full, meta) {
 
-						var badge = "";
-						switch (full.action) {
-							case "added":
-								badge = "success";
-								break;
-							case "removed":
-								badge = "danger";
-								break;
-							case "modified":
-								badge = "warning";
-								break;
-						}
+						var badge = actionToBadge(full.action);
 						var content = "<span class='badge badge-" + badge + "'>" + full.action.capitalize() + "</span>";
 						return content;
 					}
@@ -161,7 +161,6 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 				$('#buildtable thead tr.filters th').each(function(index, element) {
 					element = $(element);
 					var column = table.column(index);
-					console.log(column);
 					if (element.hasClass("filterable")) {
 						var select = $('<select style="height: 20px" class="form-control form-control-sm"><option value=""></option></select>')
 							.appendTo(element)
@@ -187,10 +186,16 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		});
 
 		window.table = table;
+
+	table.on( 'xhr', function () {
+		var json = table.ajax.json();
+		$("#summary").html(" <span class='badge badge-" + actionToBadge("added") + "'>" + json['added'] + " added</span> <span class='badge badge-" + actionToBadge("modified") + "'>" + json['modified'] + " modified</span> <span class='badge badge-" + actionToBadge("removed") + "'>" + json['removed'] + " removed</span>");
+		console.log(json);
+	} );
 	});
 </script>
 <div class='container-fluid' id='diffContainer'>
-	<h3>Showing differences between <?= $fromBuildName ?> and <?= $toBuildName ?></h3>
+	<h3>Showing differences between <?= $fromBuildName ?> and <?= $toBuildName ?><span id='summary'></span></h3>
 	<table id='buildtable' class='table table-sm table-hover maintable'>
 		<thead>
 			<tr class="filters">
@@ -227,6 +232,11 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 		</div>
 	</div>
 </div>
+<style type='text/css'>
+	#summary{
+		font-size: 16px;
+	}
+</style>
 <?php
 require_once("../inc/footer.php");
 ?>
