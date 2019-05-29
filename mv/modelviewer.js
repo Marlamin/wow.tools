@@ -241,7 +241,7 @@ window.addEventListener('keydown', function(event){
 }, true);
 
 window.addEventListener('keyup', function(event){
-    if(event.key == "PrintScreen") screenshot = true;
+    if(event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) screenshot = true;
     if(document.activeElement.tagName == "INPUT"){
         event.stopImmediatePropagation();
     }
