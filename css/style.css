@@ -282,20 +282,20 @@ footer p{
 	max-width: 90% !important;
 }
 
+#moreInfoModalContent, #fkModalContent, #chashModalContent, #previewModalContent, #helpModalContent {
+	overflow-x: auto; /* x-axis scrolling */
+}
+
 /* Mobile Devices */
 @media screen and (max-width: 1024px) {
-	textarea[name='files'] { 
+	textarea[name='files'] {
 		width: 100%;
 	}
-	
-	#moreInfoModalContent, #fkModal, #chashModal, #previewModal, #helpModal {
-		overflow-x: auto; /* x-axis scrolling */
-	}
-	
+
 	body > .navbar {
 		z-index: 5; /* force menu above the content */
 	}
-	
+
 	#navbarNav {
 		position: absolute;
 		left: 0px;
