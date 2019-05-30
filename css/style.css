@@ -284,6 +284,7 @@ footer p{
 
 #moreInfoModalContent, #fkModalContent, #chashModalContent, #previewModalContent, #helpModalContent {
 	overflow-x: auto; /* x-axis scrolling */
+	-webkit-overflow-scrolling: touch; /* iOS fix */
 }
 
 /* Mobile Devices */

@@ -1,5 +1,9 @@
 <?php
-require_once("../inc/header.php");
+if(!empty($_GET['embed'])){
+	require_once("/var/www/wow.tools/inc/config.php");
+}else{
+	require_once("../inc/header.php");
+}
 
 // Map old URL to new url for backwards compatibility
 if(!empty($_GET['old']) && strlen($_GET['old']) == 32 || !empty($_GET['new']) && strlen($_GET['new']) == 32){
