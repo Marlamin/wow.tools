@@ -190,6 +190,7 @@ $odd = false;
 			}
 
 			echo "<td>Unarchived</td><td>".$row['unarchivedcomplete']."/".$row['unarchivedcount']."</td></tr>";
+			echo "<td colspan='2'><a href='/builds/config.php?bc=".$row['buildconfig']."' target='_BLANK'>More information</a></td></tr>";
 			echo "</table>";
 			echo "</td>";
 
@@ -240,6 +241,7 @@ $odd = false;
 					echo "<tr style='color: red'>";
 				}
 				echo "<td>Patch archive indexes</td><td>".$row['patchindexcomplete']."/".$row['patcharchivecount']."</td></tr>";
+				echo "<td colspan='2'><a href='/builds/config.php?cdnc=".$row['cdnconfig']."' target='_BLANK'>More information</a></td></tr>";
 				echo "</table>";
 			}
 			echo "</td>";
