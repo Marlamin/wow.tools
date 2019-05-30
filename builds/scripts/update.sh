@@ -17,6 +17,7 @@ php dl.php
 php exes.php
 php updateRoot.php
 php dumpDBC.php
+php ../../dbc/scripts/buildMap.php
 php updateGameData.php
 # php addOGGNames.php
 php ../../files/scripts/addMDINames.php

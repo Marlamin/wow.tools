@@ -107,8 +107,8 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 								switch (full.type) {
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
-											var db2name = full.filename.replace("dbfilesclient/", "");
-											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $toBuild['hash'] ?>' target='_BLANK'>View table</a>";
+											var db2name = full.filename.replace("dbfilesclient/", "").replace(".db2", "");
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $toBuildName ?>' target='_BLANK'>View table</a>";
 										}
 										break;
 									case "m2":
@@ -124,8 +124,8 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 								switch (full.type) {
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
-											var db2name = full.filename.replace("dbfilesclient/", "");
-											content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDBCDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + db2name + "\")'>Preview</a>";
+											var db2name = full.filename.replace("dbfilesclient/", "").replace(".db2", "");
+											content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDBCDiffModal(\"<?=$fromBuildName ?>\", \"<?= $toBuildName ?>\", \"" + db2name + "\")'>Preview</a>";
 
 										}
 										break;
@@ -142,7 +142,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
 											var db2name = full.filename.replace("dbfilesclient/", "");
-											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $fromBuild['hash'] ?>' target='_BLANK'>Preview</a>";
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $fromBuildName ?>' target='_BLANK'>Preview</a>";
 										}
 										break;
 									default:

@@ -25,9 +25,9 @@ function getFKCols(headers, fks){
 }
 
 function openFKModal(value, location){
-	console.log("Opening FK link to " + location + " (bc " +  $("#buildFilter").val() + ") with value " + value);
+	console.log("Opening FK link to " + location + " (build " +  $("#buildFilter").val() + ") with value " + value);
 	var splitLocation = location.split("::");
-	var url = "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + makeBuild($("#buildFilter option:selected").text()) + "&bc=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value;
+	var url = "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value;
 	$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
 	$.ajax({
 		"url": url,

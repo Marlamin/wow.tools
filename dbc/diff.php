@@ -1,53 +1,36 @@
 <?php
 require_once("../inc/header.php");
 
-$query = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'dbfilesclient%.db2'");
+// Map old URL to new url for backwards compatibility
+if(!empty($_GET['old']) && strlen($_GET['old']) == 32 || !empty($_GET['new']) && strlen($_GET['new']) == 32){
+	$bcq = $pdo->prepare("SELECT description FROM wow_buildconfig WHERE hash = ?");
 
-$allowedtables = array();
-while($row = $query->fetch()){
-	$allowedtables[] = str_replace("dbfilesclient/", "", $row['filename']);
-	if(!empty($_GET['dbc']) && "dbfilesclient/".$_GET['dbc'] == $row['filename']){
-		$id = $row['id'];
+	$bcq->execute([$_GET['old']]);
+	$oldrow = $bcq->fetch();
+
+	$bcq->execute([$_GET['new']]);
+	$newrow = $bcq->fetch();
+
+	if(!empty($oldrow) && !empty($newrow)){
+		$oldbuild = parseBuildName($oldrow['description'])['full'];
+		$newbuild = parseBuildName($newrow['description'])['full'];
+		$newurl = str_replace($_GET['old'], $oldbuild, $_SERVER['REQUEST_URI']);
+		$newurl = str_replace($_GET['new'], $newbuild, $newurl);
+		$newurl = str_replace(".db2", "", $newurl);
+		echo "<meta http-equiv='refresh' content='0; url=https://wow.tools".$newurl."'>";
+		die();
 	}
 }
 
-if(!empty($id)){
-	$query = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.description, wow_buildconfig.hash, wow_buildconfig.description, wow_versions.cdnconfig FROM wow_rootfiles_chashes JOIN wow_buildconfig ON wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn JOIN wow_versions ON wow_buildconfig.hash=wow_versions.buildconfig WHERE filedataid = ? ORDER BY wow_buildconfig.description DESC");
-	$query->execute([$id]);
-	$versions = array();
-	while($row = $query->fetch()){
-		$rawdesc = str_replace("WOW-", "", $row['description']);
-		$build = substr($rawdesc, 0, 5);
-		$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
-		$descexpl = explode("_", $rawdesc);
-		$row['build'] = $descexpl[0].".".$build;
-		if($build >= 25600){
-			$versions[] = $row;
-		}
+$tables = [];
 
-		if(!empty($_GET['old']) && !empty($_GET['new'])){
-			if(strlen($_GET['old']) != 32 || !ctype_xdigit($_GET['old'])) die("Invalid old buildconfig!");
-			if(strlen($_GET['new']) != 32 || !ctype_xdigit($_GET['new'])) die("Invalid new buildconfig!");
-			foreach($versions as $version){
-				if($version['hash'] == $_GET['old']){
-					$oldbuild = $version['build'];
-				}
-
-				if($version['hash'] == $_GET['new']){
-					$newbuild = $version['build'];
-				}
-			}
-		}
-	}
-}
-
-if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
-	die("Invalid DBC!");
+foreach($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc){
+	$tables[$dbc['id']] = $dbc;
+	if(!empty($_GET['dbc']) && $_GET['dbc'] == $dbc['name']) $currentDB = $dbc;
 }
 
 $canDiff = false;
-if(!empty($id) && !empty($oldbuild) && !empty($newbuild)){
-	$dbcname = str_replace(".db2", "", $_GET['dbc']);
+if(!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])){
 	$canDiff = true;
 }
 if(!empty($_GET['embed'])){
@@ -64,19 +47,22 @@ nav, footer{
 <div class="container-fluid">
 	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value="">Select a table</option>
-		<?php foreach($allowedtables as $table){ ?>
-			<option value='<?=$table?>' <?php if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
+		<?php foreach($tables as $table){ ?>
+			<option value='<?=$table['name']?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table['name']){ echo " SELECTED"; } ?>><?=$table['displayName']?></option>
 		<?php }?>
 	</select>
-	<?php if(!empty($id)){ ?>
+	<?php if(!empty($currentDB)){ ?>
 		<form id='dbcform' action='/dbc/diff.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
 				<?php
+				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_dbc_versions ON wow_dbc_table_versions.versionid=wow_dbc_versions.id WHERE wow_dbc_table_versions.tableid = ? ORDER BY version DESC");
+				$vq->execute([$currentDB['id']]);
+				$versions = $vq->fetchAll();
 				foreach($versions as $row){
 					?>
-					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['old']) && $row['hash'] == $_GET['old']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+					<option value='<?=$row['version']?>'<?php if(!empty($_GET['old']) && $row['version'] == $_GET['old']){ echo " SELECTED"; }?>><?=$row['version']?></option>
 					<?php
 				}
 				?>
@@ -85,7 +71,7 @@ nav, footer{
 			<select id='newbuild' name='new' class='form-control form-control-sm buildFilter'>
 				<?php
 				foreach($versions as $row){?>
-					<option value='<?=$row['hash']?>'<?php if(!empty($_GET['new']) && $row['hash'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+					<option value='<?=$row['version']?>'<?php if(!empty($_GET['new']) && $row['version'] == $_GET['new']){ echo " SELECTED"; }?>><?=$row['version']?></option>
 					<?php
 				}
 				?>
@@ -176,11 +162,11 @@ nav, footer{
 		};
 	};
 
-	var oldBuild = makeBuild($("#oldbuild option:selected").text());
-	var newBuild = makeBuild($("#newbuild option:selected").text());
-	var dataURL = "/api/diff?name=<?=$dbcname?>&build1=" + oldBuild + "&build2=" + newBuild;
-	var header1URL = "/api/header/<?=$dbcname?>/?build=" + oldBuild;
-	var header2URL = "/api/header/<?=$dbcname?>/?build=" + newBuild;
+	var oldBuild = $("#oldbuild option:selected").text();
+	var newBuild = $("#newbuild option:selected").text();
+	var dataURL = "/api/diff?name=<?=$currentDB['name']?>&build1=" + oldBuild + "&build2=" + newBuild;
+	var header1URL = "/api/header/<?=$currentDB['name']?>/?build=" + oldBuild;
+	var header2URL = "/api/header/<?=$currentDB['name']?>/?build=" + newBuild;
 
 	$.when($.getJSON(header1URL), $.getJSON(header2URL)).then(function (resp1, resp2) {
 	    //this callback will be fired once all ajax calls have finished.

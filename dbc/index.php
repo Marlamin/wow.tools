@@ -1,57 +1,49 @@
 <?php
 require_once("../inc/header.php");
 
-foreach(glob("/home/wow/dbcs/*", GLOB_ONLYDIR) as $dir){
-	$dirs[] = $dir;
-}
+// Map old URL to new url for backwards compatibility
+if(!empty($_GET['bc'])){
+	$bcq = $pdo->prepare("SELECT description FROM wow_buildconfig WHERE hash = ?");
+	$bcq->execute([$_GET['bc']]);
+	$row = $bcq->fetch();
 
-$query = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'dbfilesclient%.db2'");
-
-$allowedtables = array();
-while($row = $query->fetch()){
-	$allowedtables[] = str_replace("dbfilesclient/", "", $row['filename']);
-	if(!empty($_GET['dbc']) && "dbfilesclient/".$_GET['dbc'] == $row['filename']){
-		$id = $row['id'];
+	if(!empty($row)){
+		$build = parseBuildName($row['description'])['full'];
+		$newurl = str_replace("bc=".$_GET['bc'], "build=".$build, $_SERVER['REQUEST_URI']);
+		$newurl = str_replace(".db2", "", $newurl);
+		echo "<meta http-equiv='refresh' content='0; url=https://wow.tools".$newurl."'>";
+		die();
 	}
 }
 
-if(!empty($id)){
-	$query = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.description, wow_buildconfig.hash, wow_buildconfig.description, wow_versions.cdnconfig FROM wow_rootfiles_chashes JOIN wow_buildconfig ON wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn JOIN wow_versions ON wow_buildconfig.hash=wow_versions.buildconfig WHERE filedataid = ? ORDER BY wow_buildconfig.description DESC");
-	$query->execute([$id]);
-	$versions = array();
-	while($row = $query->fetch()){
-		$rawdesc = str_replace("WOW-", "", $row['description']);
-		$build = substr($rawdesc, 0, 5);
-		$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
-		$descexpl = explode("_", $rawdesc);
-		$row['build'] = $descexpl[0].".".$build;
-		if(file_exists("/home/wow/dbcs/" . $row['build'])){
-			$versions[] = $row;
-		}
-	}
+$tables = [];
+
+foreach($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc){
+	$tables[$dbc['id']] = $dbc;
+	if(!empty($_GET['dbc']) && $_GET['dbc'] == $dbc['name']) $currentDB = $dbc;
 }
 
-if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
-	die("Invalid DBC!");
-}
-
+$dbFound = false;
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
 	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value="">Select a table</option>
-		<?php foreach($allowedtables as $table){ ?>
-			<option value='<?=$table?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table){ echo " SELECTED"; } ?>><?=$table?></option>
+		<?php foreach($tables as $table){ ?>
+			<option value='<?=$table['name']?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table['name']){ echo " SELECTED"; } ?>><?=$table['displayName']?></option>
 		<?php }?>
 	</select>
-	<?php if(!empty($id)){ ?>
+	<?php if(!empty($currentDB)){ ?>
 		<form id='dbcform' action='/dbc/' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
-			<select id='buildFilter' name='bc' class='form-control form-control-sm buildFilter'>
+			<select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'>
 				<?php
+				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_dbc_versions ON wow_dbc_table_versions.versionid=wow_dbc_versions.id WHERE wow_dbc_table_versions.tableid = ? ORDER BY version DESC");
+				$vq->execute([$currentDB['id']]);
+				$versions = $vq->fetchAll();
 				foreach($versions as $row){
 					?>
-					<option value='<?=$row['hash']?>'<? if(!empty($_GET['bc']) && $row['hash'] == $_GET['bc']){ echo " SELECTED"; }?>><?=$row['description']?></option>
+					<option value='<?=$row['version']?>'<? if(!empty($_GET['build']) && $row['version'] == $_GET['build']){ echo " SELECTED"; }?>><?=$row['version']?></option>
 					<?php
 				}
 				?>
@@ -60,7 +52,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
 	<?php } ?>
-	<?php if(!empty($_GET['bc'])){ ?>
+	<?php if(!empty($_GET['build'])){ ?>
 		<div id='tableContainer'>
 			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -178,15 +170,18 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 			}
 		});
 
-		if(!cleanDBC){
+		if(!cleanDBC || !vars["build"]){
 			// Don't bother doing anything else if no DBC is selected
 			return;
 		}
 
 		$.ajax({
-			"url": "/api/header/" + cleanDBC + "/?build=" + makeBuild($("#buildFilter option:selected").text()),
+			"url": "/api/header/" + cleanDBC + "/?build=" + vars["build"],
 			"success": function(json) {
 				if(json['error'] != null){
+					if(json['error'] == "No valid definition found for this layouthash or build!"){
+						json['error'] += "\n\nPlease open an issue on the WoWDBDefs repository with the DBC name and selected version on GitHub to request a definition for this build.\n\nhttps://github.com/wowdev/WoWDBDefs";
+					}
 					alert("An error occured on the server:\n" + json['error']);
 				}
 				var allCols = [];
@@ -216,7 +211,7 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/api/data/" + vars["dbc"].replace(".db2", "").toLowerCase() + "/?build=" + makeBuild($("#buildFilter option:selected").text()),
+						"url": "/api/data/" + vars["dbc"].toLowerCase() + "/?build=" + vars["build"],
 						"data": function( result ) {
 							delete result.columns;
 							return result;
@@ -267,10 +262,10 @@ if(!empty($id) && !in_array($_GET['dbc'], $allowedtables)){
 		});
 
 		$('#buildFilter').on('change', function(){
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild($("#buildFilter option:selected").text());
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 		});
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + makeBuild($("#buildFilter option:selected").text());
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 	}());
 </script>
 <?php require_once("../inc/footer.php"); ?>
