@@ -37,15 +37,6 @@ $canDiff = false;
 if(!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])){
 	$canDiff = true;
 }
-if(!empty($_GET['embed'])){
-?>
-<style type='text/css'>
-nav, footer{
-	display: none !important;
-}
-</style>
-<?php
-}
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
@@ -220,4 +211,4 @@ nav, footer{
 		}
 	});
 </script>
-<?php require_once("../inc/footer.php"); ?>
+<?php if(empty($_GET['embed'])){ require_once("../inc/footer.php");} ?>

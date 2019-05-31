@@ -25,7 +25,6 @@ foreach(glob("/home/wow/dbd/WoWDBDefs/definitions/*.dbd") as $dbd){
 $defq = $pdo->prepare("UPDATE wow_dbc_table_versions SET hasDefinition = ? WHERE versionid = ? AND tableid = ?");
 foreach($versionTableCache as $versionID => $versions){
 	$version = $versionCacheByID[$versionID];
-	echo $version."\n";
 	$build = new Build($version);
 
 	foreach($versions as $tableID){
@@ -61,8 +60,8 @@ class Build
 	public $minor;
 	public $build;
 
-	public function __construct($build) 
-	{ 
+	public function __construct($build)
+	{
 		$splitBuild = explode(".", $build);
 		$this->expansion = $splitBuild[0];
 		$this->major = $splitBuild[1];
@@ -81,8 +80,8 @@ class BuildRange
 	public $minBuild;
 	public $maxBuild;
 
-	public function __construct($minBuild, $maxBuild) 
-	{ 
+	public function __construct($minBuild, $maxBuild)
+	{
 		$this->minBuild = new Build($minBuild);
 		$this->maxBuild = new Build($maxBuild);
 	}
