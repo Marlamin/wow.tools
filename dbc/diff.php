@@ -83,11 +83,15 @@ if(!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script src="/js/diff_match_patch.js?v=<?=filemtime("/var/www/wow.tools/js/diff_match_patch.js")?>"></script>
 <script type='text/javascript'>
+$(function() {
+	$('#fileFilter').select2();
+});
 	<?php if($canDiff){ ?>
-
 		$(function() {
 
 	/*
