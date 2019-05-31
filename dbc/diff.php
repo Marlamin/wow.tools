@@ -61,7 +61,7 @@ nav, footer{
 			<label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
 				<?php
-				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_dbc_versions ON wow_dbc_table_versions.versionid=wow_dbc_versions.id WHERE wow_dbc_table_versions.tableid = ? ORDER BY version DESC");
+				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_dbc_versions ON wow_dbc_table_versions.versionid=wow_dbc_versions.id WHERE wow_dbc_table_versions.tableid = ? AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY version DESC");
 				$vq->execute([$currentDB['id']]);
 				$versions = $vq->fetchAll();
 				foreach($versions as $row){
