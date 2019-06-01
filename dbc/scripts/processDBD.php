@@ -1,4 +1,5 @@
 <?php
+if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once("../../inc/config.php");
 
 $versionCacheByID = [];

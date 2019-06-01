@@ -1,4 +1,5 @@
 <?php
+if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 include("../../inc/config.php");
 
 $cq = $pdo->prepare("SELECT filedataid FROM wow_rootfiles_chashes WHERE contenthash = ?");
