@@ -14,6 +14,10 @@ if(!empty($_GET['bc'])){
 		echo "<meta http-equiv='refresh' content='0; url=https://wow.tools".$newurl."'>";
 		die();
 	}
+}else if(!empty($_GET['dbc']) && strpos($_GET['dbc'], "db2") !== false){
+	$newurl = str_replace(".db2", "", $_SERVER['REQUEST_URI']);
+	echo "<meta http-equiv='refresh' content='0; url=https://wow.tools".$newurl."'>";
+	die();
 }
 
 $tables = [];
