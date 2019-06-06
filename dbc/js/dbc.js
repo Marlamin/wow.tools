@@ -37,7 +37,7 @@ function openFKModal(value, location){
 			});
 			var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 			var page = Math.floor(((json.offset - 1) / 25) + 1);
-			$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + ".db2&bc=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+			$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 		}
 	});
 }
