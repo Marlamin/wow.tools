@@ -125,6 +125,9 @@ if($_GET['type'] == "areaname"){
 	}
 
 	$fdids = getFileDataIDs($buildrow['hash']);
+	if(!$fdids){
+		die("Got empty filedataids for build " . print_r($buildrow, true));
+	}
 
 	$map = trim(strtolower(filter_var($_GET['map'], FILTER_SANITIZE_STRING)));
 
