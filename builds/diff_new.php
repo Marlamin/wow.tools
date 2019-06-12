@@ -132,6 +132,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "blp":
 									case "lua":
 									case "xml":
+									case "sbt":
 									case "toc":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
