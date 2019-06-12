@@ -136,6 +136,9 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "toc":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
+									default:
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModalRaw(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview (raw)</a>";
+										break;
 								}
 								break;
 							case "removed":
@@ -210,7 +213,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 				<th style='width: 170px;'>FileData ID</th>
 				<th>Filename</th>
 				<th style='width: 50px'>Type</th>
-				<th style='width: 75px'>&nbsp;</th>
+				<th style='width: 85px'>&nbsp;</th>
 			</tr>
 		</thead>
 	</table>

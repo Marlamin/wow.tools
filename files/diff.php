@@ -101,7 +101,7 @@ if($type == "blp"){
     </script>
     <?php
 }else{
-    $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'];
+    $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'] . "&raw=" . $_GET['raw'];
 
     ?>
     <link rel="stylesheet" type="text/css" href="/css/diff2html.min.css">

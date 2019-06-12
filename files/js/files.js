@@ -105,7 +105,11 @@ function fillPreviewModal(buildconfig, filedataid){
 }
 
 function fillDiffModal(from, to, filedataid){
-	$( "#previewModalContent" ).load( "/files/diff.php?from=" + from + "&to=" + to + "&filedataid=" + filedataid);
+	$( "#previewModalContent" ).load( "/files/diff.php?from=" + from + "&to=" + to + "&filedataid=" + filedataid + "&raw=0");
+}
+
+function fillDiffModalRaw(from, to, filedataid){
+	$( "#previewModalContent" ).load( "/files/diff.php?from=" + from + "&to=" + to + "&filedataid=" + filedataid + "&raw=1");
 }
 
 function fillDBCDiffModal(from, to, dbc){
