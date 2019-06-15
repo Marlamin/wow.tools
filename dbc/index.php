@@ -177,6 +177,17 @@ $dbFound = false;
 			}
 		});
 
+		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
+			vars["build"] = $('#buildFilter').val();
+		}
+
+		$('#buildFilter').on('change', function(){
+			vars["build"] = $('#buildFilter').val();
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+		});
+
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+
 		if(!cleanDBC || !vars["build"]){
 			// Don't bother doing anything else if no DBC is selected
 			return;
@@ -267,12 +278,6 @@ $dbFound = false;
 			},
 			"dataType": "json"
 		});
-
-		$('#buildFilter').on('change', function(){
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
-		});
-
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 	}());
 </script>
 <?php require_once("../inc/footer.php"); ?>
