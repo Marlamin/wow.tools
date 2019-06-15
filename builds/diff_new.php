@@ -108,7 +108,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
 											var db2name = full.filename.replace("dbfilesclient/", "").replace(".db2", "");
-											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $toBuildName ?>' target='_BLANK'>View table</a>";
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&build=<?= $toBuildName ?>' target='_BLANK'>View table</a>";
 										}
 										break;
 									case "m2":
@@ -146,7 +146,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 									case "db2":
 										if (full.filename && full.filename != "Unknown") {
 											var db2name = full.filename.replace("dbfilesclient/", "");
-											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&bc=<?= $fromBuildName ?>' target='_BLANK'>Preview</a>";
+											content = "<a href='//wow.tools/dbc/?dbc=" + db2name + "&build=<?= $fromBuildName ?>' target='_BLANK'>Preview</a>";
 										}
 										break;
 									default:
