@@ -456,7 +456,7 @@ function updateURLs(){
             "targets": 1,
             "orderable": false,
             "createdCell": function (td, cellData, rowData, row, col) {
-                if (!cellData) {
+                if (!cellData && !rowData[7]) {
                     $(td).css('background-color', '#ff5858');
                     $(td).css('color', 'white');
                 }
