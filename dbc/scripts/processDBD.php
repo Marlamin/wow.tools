@@ -3,7 +3,7 @@ if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once("../../inc/config.php");
 
 $versionCacheByID = [];
-foreach($pdo->query("SELECT id, version FROM wow_dbc_versions") as $version){
+foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){
 	$versionCacheByID[$version['id']] = $version['version'];
 }
 

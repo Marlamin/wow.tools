@@ -3,7 +3,7 @@ if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once("../../inc/config.php");
 
 $versionCache = [];
-foreach($pdo->query("SELECT id, version FROM wow_dbc_versions") as $version){
+foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){
 	$versionCache[$version['version']] = $version['id'];
 }
 
@@ -24,7 +24,7 @@ function getOrCreateVersionID($version){
 	if(!array_key_exists($version, $versionCache)){
 		// Version does not exist, create and return id
 		echo "Creating version id for " . $version . "\n";
-		$q = $pdo->prepare("INSERT INTO wow_dbc_versions (version) VALUES (?)");
+		$q = $pdo->prepare("INSERT INTO wow_builds (version) VALUES (?)");
 		$q->execute([$version]);
 		$insertId = $pdo->lastInsertId();
 		$versionCache[$version] = $insertId;

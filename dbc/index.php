@@ -42,7 +42,7 @@ $dbFound = false;
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'>
 				<?php
-				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_dbc_versions ON wow_dbc_table_versions.versionid=wow_dbc_versions.id WHERE wow_dbc_table_versions.tableid = ?  AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY version DESC");
+				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_builds ON wow_dbc_table_versions.versionid=wow_builds.id WHERE wow_dbc_table_versions.tableid = ?  AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY version DESC");
 				$vq->execute([$currentDB['id']]);
 				$versions = $vq->fetchAll();
 				foreach($versions as $row){
