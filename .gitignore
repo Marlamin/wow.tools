@@ -5,6 +5,7 @@ inc/config.php
 tpr/
 maps/data/
 maps/tiles/
+maps/png/
 
 # Non-public files
 dbc/scripts/hook.php
