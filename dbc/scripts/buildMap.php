@@ -24,8 +24,10 @@ function getOrCreateVersionID($version){
 	if(!array_key_exists($version, $versionCache)){
 		// Version does not exist, create and return id
 		echo "Creating version id for " . $version . "\n";
-		$q = $pdo->prepare("INSERT INTO wow_builds (version) VALUES (?)");
-		$q->execute([$version]);
+		$expl = explode(".", $version);
+
+		$q = $pdo->prepare("INSERT INTO wow_builds (version, expansion, major, minor, build) VALUES (?, ?, ?, ?, ?)");
+		$q->execute([$version, $expl[0], $expl[1], $expl[2], $expl[3]]);
 		$insertId = $pdo->lastInsertId();
 		$versionCache[$version] = $insertId;
 	}
