@@ -25,7 +25,30 @@ while($row = $productq->fetch()){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
+<div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="previewModalLabel">Preview</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="previewModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script type='text/javascript'>
+	function fillDiffModal(from, to){
+		$( "#previewModalContent" ).load( "/monitor/scripts/diff.php?from=" + from + "&to=" + to);
+	}
+
 	(function() {
 		var searchHash = location.hash.substr(1),
 		searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];

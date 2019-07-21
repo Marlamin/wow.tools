@@ -122,7 +122,7 @@ foreach($dataq->fetchAll() as $row){
 		$diffs = CompareArrays::Flatten($diffs);
 
 		$difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
-		$difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th></thead>";
+		$difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th><th>&nbsp;</th></thead>";
 		foreach($diffs as $name => $diff){
 			switch($diff->Type){
 				case "added":
@@ -159,9 +159,9 @@ foreach($dataq->fetchAll() as $row){
 			}
 
 			if($showUrl){
-				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td><a href='".$oldurl."' target='_BLANK'>".$diff->OldValue."</a></td><td><a href='".$newurl."' target='_BLANK'>".$diff->NewValue."</a></td></tr>";
+				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td><a href='".$oldurl."' target='_BLANK'>".$diff->OldValue."</a></td><td><a href='".$newurl."' target='_BLANK'>".$diff->NewValue."</a></td><td><a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"" . str_replace("http://blzddist1-a.akamaihd.net/", "", $oldurl) ."\", \"" . str_replace("http://blzddist1-a.akamaihd.net/", "", $newurl) ."\")'>Preview</a>";
 			}else{
-				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td></tr>";
+				$difftext .= "<tr><td><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td><td></td></tr>";
 			}
 		}
 	}
