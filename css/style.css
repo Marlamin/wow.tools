@@ -112,7 +112,7 @@ pre{
 	height: 30px;
 	background-image: url('/img/cog.png');
 	background-size: 30px;
-	animation: spin 10s infinite linear;
+	/*animation: spin 10s infinite linear;*/
 }
 
 #nocog span{
