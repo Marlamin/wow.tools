@@ -52,6 +52,7 @@ if(!empty($_GET['filedataid'])){
 	$returndata = array("filedataid" => $row['id'], "filename" => $row['filename'], "lookup" => $row['lookup'], "versions" => $versions, "type" => $row['type']);
 
 	echo "<table class='table table-striped'>";
+	echo "<thead><tr><th style='width: 400px'></th><th></th></tr></thead>";
 	echo "<tr><td>FileDataID</td><td>".$returndata['filedataid']."</td></tr>";
 	if(!empty($returndata['filename'])) { echo "<tr><td>Filename</td><td>".$returndata['filename']."</td></tr>"; }
 	echo "<tr><td>Lookup</td><td>".$returndata['lookup']."</td></tr>";
@@ -69,10 +70,9 @@ if(!empty($_GET['filedataid'])){
 			}
 			echo "</td></tr>";
 		}
-
 	}
 
-	$eq = $pdo->prepare("SELECT wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
+	$eq = $pdo->prepare("SELECT wow_tactkey.id, wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
 	$eq->bindParam(":id", $returndata['filedataid']);
 	$eq->execute();
 	foreach($eq->fetchAll(PDO::FETCH_ASSOC) as $er){
@@ -81,14 +81,14 @@ if(!empty($_GET['filedataid'])){
 		}else{
 			$keyAvailable = "<span style='color: red;'>unknown</span>";
 		}
-		echo "<tr><td>Encrypted with ".$keyAvailable." key</td><td>".$er['keyname']." ".$er['description']."</td></tr>";
+		echo "<tr><td>Encrypted with ".$keyAvailable." key <span class='hash'>".$er['keyname']." (".$er['id'].")</span> </td><td>".$er['description']."</td></tr>";
 	}
 	echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
 	echo "<tr><td colspan='2'>
 	<table class='table table-condensed'>";
 	echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>&nbsp;</th></tr>";
 	foreach($versions as $version){
-		echo "<tr><td>".$version['description']."</td><td>".$version['buildconfig']."</td><td><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td>";
+		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td>";
 		echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"".$version['buildconfig']."\", \"".$returndata['filedataid']."\")'>Preview</a></td>";
 		echo "</tr>";
 	}
