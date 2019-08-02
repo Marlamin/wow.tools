@@ -21,7 +21,7 @@ while($row = $q->fetch()){
 		}else{
 			// creature vo
 			if($isNumericVO){
-				$cleaned = str_replace(array("vo_82_", "vo_815_", "vo_81_", "vo_801_", "vo_735_"), "", substr($row['name'], 0, -2));
+				$cleaned = str_replace(array("vo_825_","vo_82_", "vo_815_", "vo_81_", "vo_801_", "vo_735_"), "", substr($row['name'], 0, -2));
 				if(is_numeric(substr($cleaned, -3, 3))){
 					// _xxx
 					$cleaned = substr($cleaned, 0, -4);
@@ -38,7 +38,7 @@ while($row = $q->fetch()){
 
 				$exploded = explode("_", $row['name']);
 
-				$cleaned = str_replace(array("vo_82_", "vo_815_", "vo_81_", "vo_801_", "vo_735_"), "", $row['name']);
+				$cleaned = str_replace(array("vo_825_","vo_82_", "vo_815_", "vo_81_", "vo_801_", "vo_735_"), "", $row['name']);
 
 				if(!array_key_exists($row['name'], $globnameindex)){
 					$globnameindex[$row['name']] = 1;
