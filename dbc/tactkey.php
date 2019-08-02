@@ -19,7 +19,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 	<? if(!empty($_GET['build'])){
 		$build = $_GET['build'];
 	}else{
-		$build = "8.2.0.30948";
+		$build = "8.2.5.31337";
 	}
 	?>
 	<div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>
@@ -76,7 +76,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 							if(tactkeys[lookup]['description'] == null){
 								if(lookup in encrypted){
 									if(encrypted[lookup].length > 7){
-										tactkeys[lookup]['description'] = "starts at fdid " + encrypted[lookup][0] + ", total of " + encrypted[lookup].length + " fdids";
+										tactkeys[lookup]['description'] = "starts at fdid " + encrypted[lookup][0] + ", " + encrypted[lookup].length + " files";
 									}else{
 										tactkeys[lookup]['description'] = "fdid " + encrypted[lookup].join(', ');
 									}
@@ -85,7 +85,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 								}
 							}
 
-							output[parseInt(entry[0])] = " <a href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
+							output[parseInt(entry[0])] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
 						}else{
 							var keybytes = "????????????????????????????????";
 							if(tactkeydb[entry[0]] != null){
@@ -94,14 +94,14 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 
 							if(lookup in encrypted){
 								if(encrypted[lookup].length > 7){
-									var desc  = "starts at fdid " + encrypted[lookup][0] + ", total of " + encrypted[lookup].length + " fdids";
+									var desc  = "starts at fdid " + encrypted[lookup][0] + ", " + encrypted[lookup].length + " files";
 								}else{
 									var desc  = "fdid " + encrypted[lookup].join(', ');
 								}
 							}else{
 								var desc = "";
 							}
-							output[parseInt(entry[0])] = " <a href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
+							output[parseInt(entry[0])] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
 						}
 					});
 
@@ -118,7 +118,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 								values.added = "                       ";
 							}
 
-							output[values.id] = " <a href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + values.id.toString().padEnd(3, ' ') + " " + values.added.padEnd(24, ' ') + "  " + values.description;
+							output[values.id] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + values.id.toString().padEnd(3, ' ') + " " + values.added.padEnd(24, ' ') + "  " + values.description;
 						}
 					}
 
