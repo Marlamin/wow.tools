@@ -7,6 +7,15 @@
 	<div class='row'>
 		<div class='col-md-6'>
 			<h4>Recent updates</h4>
+			<b>23-06-2019</b>
+			<ul>
+				<li>
+					<b>DBCs</b>
+					<ul>
+						<li>Add older versions, redo DBC selection: <a href='https://www.patreon.com/posts/8-2-exporter-wow-27838791' target='_BLANK'>read more in this post</a></li>
+					</ul>
+				</li>
+			</ul>
 			<b>22-05-2019</b>
 			<ul>
 				<li>
