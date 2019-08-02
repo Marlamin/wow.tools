@@ -28,30 +28,35 @@ foreach(explode("\n", $output) as $line){
 	if(empty(trim($line))) continue;
 	$line = explode(" ", trim($line));
 	$filedataid = $line[0];
-	$lookup = reverseLookup($line[1]);
-	$encryptedfiles[$filedataid] = $lookup;
+	foreach(explode(",", $line[1]) as $key){
+		$lookup = reverseLookup($key);
+		$encryptedfiles[$filedataid][] = $lookup;
+	}
 }
 
 echo "[Encrypted file list] Currently have " . count($encryptedfiles) . " encrypted filedataids!\n";
 ksort($encryptedfiles);
 
-$currentids = array();
-$q = $pdo->query("SELECT filedataid FROM wow_encrypted");
+$current = array();
+$q = $pdo->query("SELECT * FROM wow_encrypted");
 foreach($q->fetchAll() as $row){
-	$currentids[] = $row['filedataid'];
+	$current[] = $row['filedataid'].".".$row['keyname'];
 }
 
 $inserted = 0;
 
 $q = $pdo->prepare("INSERT INTO wow_encrypted (filedataid, keyname) VALUES (:filedataid, :key)");
 
-foreach($encryptedfiles as $filedataid => $key){
-	if(!in_array($filedataid, $currentids)){
-		$q->bindParam(":filedataid", $filedataid);
-		$q->bindParam(":key", $key);
-		$q->execute();
-		$inserted++;
+foreach($encryptedfiles as $filedataid => $keysarr){
+	foreach($keysarr as $key){
+		if(!in_array($filedataid.".".$key, $current)){
+			$q->bindParam(":filedataid", $filedataid);
+			$q->bindParam(":key", $key);
+			$q->execute();
+			$inserted++;
+		}
 	}
+
 }
 
 echo "[Encrypted file list] Inserted " . $inserted . " new encrypted filedataids!\n";

@@ -65,7 +65,7 @@ if(!empty($_GET['search']['value'])){
 		}else if($c == "unshipped") {
 			array_push($clauses, " wow_rootfiles.id NOT IN (SELECT filedataid FROM wow_rootfiles_chashes) ");
 		}else if($c == "encrypted") {
-			array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid ");
+			array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted) ");
 		}else if(substr($c, 0, 10) == "encrypted:"){
 			array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid AND keyname = ? ");
 			$joinparams[] = str_replace("encrypted:", "", $c);
@@ -250,22 +250,33 @@ while($row = $dataq->fetch()){
 		$row['filename'] = null;
 	}
 	if(!$mv && !$dbc){
-		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key
+		// enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key, enc 3 = encrypted with multiple keys, some known
 		$encq->execute([$row['id']]);
-		$encr = $encq->fetch();
-		if(!empty($encr)){
-			$key = $encr['keyname'];
+
+		$encryptedKeyCount = 0;
+		$encryptedAvailableKeys = 0;
+		$enc = 0;
+		$usedkeys = [];
+		foreach($encq->fetchAll(PDO::FETCH_ASSOC) as $encr){
+			$encryptedKeyCount++;
+			$usedkeys[] = $encr['keyname'];
 			if(array_key_exists($encr['keyname'], $keys)){
 				if(!empty($keys[$encr['keyname']])){
-					$enc = 2;
+					$encryptedAvailableKeys++;
+				}
+			}
+		}
+
+		if($encryptedKeyCount > 0){
+			if($encryptedKeyCount == $encryptedAvailableKeys){
+				$enc = 2;
+			}else{
+				if($encryptedKeyCount > 1 && $encryptedKeyCount > $encryptedAvailableKeys){
+					$enc = 3;
 				}else{
 					$enc = 1;
 				}
-			}else{
-				$enc = 1;
 			}
-		}else{
-			$enc = 0;
 		}
 
 		/* CROSS REFERENCES */
@@ -321,7 +332,7 @@ while($row = $dataq->fetch()){
 
 		$subrow['enc'] = $enc;
 		if($enc > 0){
-			$subrow['key'] = $key;
+			$subrow['key'] = implode(", ", $usedkeys);
 		}
 
 		// Mention firstseen if it is from first casc build

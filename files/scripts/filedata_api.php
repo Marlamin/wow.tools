@@ -72,12 +72,16 @@ if(!empty($_GET['filedataid'])){
 
 	}
 
-	$eq = $pdo->prepare("SELECT wow_encrypted.keyname, wow_tactkey.description FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
+	$eq = $pdo->prepare("SELECT wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
 	$eq->bindParam(":id", $returndata['filedataid']);
 	$eq->execute();
-	$er = $eq->fetch();
-	if(!empty($er)){
-		echo "<tr><td>Encrypted with key</td><td>".$er['keyname']." ".$er['description']."</td></tr>";
+	foreach($eq->fetchAll(PDO::FETCH_ASSOC) as $er){
+		if(!empty($er['keybytes'])){
+			$keyAvailable = "<span style='color: green;'>known</span>";
+		}else{
+			$keyAvailable = "<span style='color: red;'>unknown</span>";
+		}
+		echo "<tr><td>Encrypted with ".$keyAvailable." key</td><td>".$er['keyname']." ".$er['description']."</td></tr>";
 	}
 	echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
 	echo "<tr><td colspan='2'>
