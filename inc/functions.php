@@ -298,4 +298,36 @@ function getUsernameByUserID($id){
 		return $user['username'];
 	}
 }
+
+function githubRequest($path, $data = null){
+	global $github;
+	$ch = curl_init('https://api.github.com/' . $path);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	if(!empty($data)){
+		$data_string = json_encode($data);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+	}
+
+	curl_setopt($ch, CURLOPT_USERPWD, $github['username'] . ":" . $github['oauthkey']);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/json',
+		'User-Agent: WoW.tools changelog'
+	));
+
+	$result = curl_exec($ch);
+	$json = json_decode($result, true);
+
+	if(!$json){
+		die("An error occured during JSON decoding. cURL result: " + $result);
+	}
+
+	return $json;
+}
+
+function compareTimestamp($a, $b)
+{
+   return ($a['timestamp']< $b['timestamp']);
+}
+
 ?>

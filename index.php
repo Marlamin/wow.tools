@@ -7,52 +7,55 @@
 	<div class='row'>
 		<div class='col-md-6'>
 			<h4>Recent updates</h4>
-			<b>23-06-2019</b>
-			<ul>
-				<li>
-					<b>DBCs</b>
-					<ul>
-						<li>Add older versions, redo DBC selection: <a href='https://www.patreon.com/posts/8-2-exporter-wow-27838791' target='_BLANK'>read more in this post</a></li>
-					</ul>
-				</li>
-			</ul>
-			<b>22-05-2019</b>
-			<ul>
-				<li>
-					<b>Build diffs</b>
-					<ul>
-						<li>WIP version of new build diff page is now available: <a href='https://wow.tools/builds/diff_new.php?from=54b3dc4ced90d45071f72a05fecfd063&to=eb9dc13f6f32a1b4992b61d6217dd6ab'>give it a try for the latest 8.2 build here!</a></li>
-					</ul>
-				</li>
-			</ul>
-			<b>18-05-2019</b>
-			<ul>
-				<li>
-					<b>DBCs</b>
-					<ul>
-						<li><a href='https://wow.tools/dbc/diff.php?dbc=map.db2&old=b82ac0499b1a56cfc8559e485f183799&new=54b3dc4ced90d45071f72a05fecfd063'>New DBC diffs!</a></li>
-					</ul>
-				</li>
-			</ul>
-			<b>12-05-2019</b>
-			<ul>
-				<li>
-					<b>Homepage</b>
-					<ul>
-						<li>Add recent updates</li>
-						<li>Add current WoW version per branch</li>
-					</ul>
-				</li>
-			</ul>
-			<b>11-05-2019</b>
-			<ul>
-				<li>
-					<b>Files</b>
-					<ul>
-						<li>Change background color for community named files to purple</li>
-					</ul>
-				</li>
-			</ul>
+			<table class='table table-striped table-condensed' style='width: 100%'>
+			<thead><tr><th style='min-width: 140px'>Project</th><th>Description</th><th style='min-width: 300px'>Author / date</th></tr></thead>
+			<?php
+				if(!$memcached->get("github.commits.json") || strtotime("-5 minutes") > $memcached->get("github.commits.lastupdated")){
+					$commits = [];
+
+					$i = 0;
+					$res = githubRequest("repos/marlamin/wow.tools/commits");
+					foreach($res as $commit){
+						$commits[] = array("repo" => "Website", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+						$i++;
+						if($i > 10) break;
+					}
+
+					$i = 0;
+					$res = githubRequest("repos/marlamin/casctoolhost/commits");
+					foreach($res as $commit){
+						$commits[] = array("repo" => "File backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+						$i++;
+						if($i > 10) break;
+					}
+
+					$i = 0;
+					$res = githubRequest("repos/marlamin/dbcdumphost/commits");
+					foreach($res as $commit){
+						$commits[] = array("repo" => "DBC backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+						$i++;
+						if($i > 10) break;
+					}
+
+					$i = 0;
+					$res = githubRequest("repos/wowdev/wowdbdefs/commits");
+					foreach($res as $commit){
+						$commits[] = array("repo" => "DBC definitions", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+						$i++;
+						if($i > 10) break;
+					}
+
+					usort($commits, "compareTimestamp");
+					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 15)));
+					$memcached->set("github.commits.lastupdated", strtotime("now"));
+				}
+
+				$commits = json_decode($memcached->get("github.commits.json"));
+				foreach($commits as $commit){
+					echo "<tr><td>".$commit->repo."</td><td><a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></td></tr>";
+				}
+			?>
+			</table>
 		</div>
 		<div class='col-md-6'>
 			<h4>Current WoW versions per branch</h4>
