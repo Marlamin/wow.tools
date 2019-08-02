@@ -12,29 +12,16 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 	$tactkeys[$row['keyname']] = $row;
 }
 
-$q = $pdo->query("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.description, wow_buildconfig.hash, wow_buildconfig.description, wow_versions.cdnconfig FROM wow_rootfiles_chashes JOIN wow_buildconfig ON wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn JOIN wow_versions ON wow_buildconfig.hash=wow_versions.buildconfig WHERE filedataid = 1302851 ORDER BY wow_buildconfig.description DESC");
-$versions = array();
-while($row = $q->fetch()){
-	$rawdesc = str_replace("WOW-", "", $row['description']);
-	$build = substr($rawdesc, 0, 5);
-	$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
-	$descexpl = explode("_", $rawdesc);
-	$row['build'] = $descexpl[0].".".$build;
-	if($build >= 25600){
-		$versions[] = $row;
-	}
-}
+
 
 ?>
 <div class="container-fluid" style='margin-top: 15px;'>
-	<form>
-		Select build:
-		<select name='bc' id='buildFilter' style='width: 225px; display: inline-block; margin-left: 5px; margin-bottom: 5px;' class='form-control form-control-sm'>
-			<?foreach($versions as $row){?>
-				<option value='<?=$row['build']?>'<? if(!empty($_GET['bc']) && $row['hash'] == $_GET['bc']){ echo " SELECTED"; }?>><?=$row['description']?></option>
-			<? } ?>
-		</select>
-	</form>
+	<? if(!empty($_GET['build'])){
+		$build = $_GET['build'];
+	}else{
+		$build = "8.2.0.30948";
+	}
+	?>
 	<div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>
 
 	</div>
@@ -98,7 +85,7 @@ while($row = $q->fetch()){
 								}
 							}
 
-							output[parseInt(entry[0])] = " " + lookup + "  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
+							output[parseInt(entry[0])] = " <a href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
 						}else{
 							var keybytes = "????????????????????????????????";
 							if(tactkeydb[entry[0]] != null){
@@ -114,7 +101,7 @@ while($row = $q->fetch()){
 							}else{
 								var desc = "";
 							}
-							output[parseInt(entry[0])] = " " + lookup + "  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
+							output[parseInt(entry[0])] = " <a href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
 						}
 					});
 
@@ -131,7 +118,7 @@ while($row = $q->fetch()){
 								values.added = "                       ";
 							}
 
-							output[values.id] = " " + values.keyname + "  " + values.keybytes + "  salsa20   " + values.id.toString().padEnd(3, ' ') + " " + values.added.padEnd(24, ' ') + "  " + values.description;
+							output[values.id] = " <a href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + values.id.toString().padEnd(3, ' ') + " " + values.added.padEnd(24, ' ') + "  " + values.description;
 						}
 					}
 
@@ -144,7 +131,7 @@ while($row = $q->fetch()){
 
 		}
 
-		loadBuild($("#buildFilter").val());
+		loadBuild("<?=$build?>");
 
 		$('#buildFilter').on('change', function() {
 			loadBuild(this.value);
