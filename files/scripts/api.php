@@ -271,7 +271,7 @@ while($row = $dataq->fetch()){
 			if($encryptedKeyCount == $encryptedAvailableKeys){
 				$enc = 2;
 			}else{
-				if($encryptedKeyCount > 1 && $encryptedKeyCount > $encryptedAvailableKeys){
+				if($encryptedKeyCount > 1 && $encryptedAvailableKeys > 1){
 					$enc = 3;
 				}else{
 					$enc = 1;
