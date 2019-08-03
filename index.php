@@ -46,7 +46,7 @@
 					}
 
 					usort($commits, "compareTimestamp");
-					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 15)));
+					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 13)));
 					$memcached->set("github.commits.lastupdated", strtotime("now"));
 				}
 
@@ -61,9 +61,9 @@
 			?>
 			</table>
 		</div>
-		<div class='col-md-6'>
+		<div class='col-md-4'>
 			<h4>Current WoW versions per branch</h4>
-			<table class='table table-condensed table-striped table-hover' style='width: 450px;'>
+			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 				<thead><tr><th>Name</th><th>Version</th><th>Build time (PT)</th></tr></thead>
 				<?php
 				$productq = $pdo->query("SELECT id, name FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
