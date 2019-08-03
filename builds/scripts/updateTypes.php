@@ -7,7 +7,7 @@ include("../../inc/config.php");
 while(true){
 	$uq = $pdo->prepare("UPDATE wow_rootfiles SET type = :type WHERE id = :id");
 
-	// /* Known filenames */
+	/* Known filenames */
 	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type IS NULL AND filename IS NOT NULL OR type = 'unk' AND filename != '' ORDER BY id DESC") as $row){
 		if($row['id'] == 841983) continue; // Skip signaturefile
 		$ext = pathinfo($row['filename'], PATHINFO_EXTENSION);
@@ -18,6 +18,25 @@ while(true){
 		$uq->execute();
 	}
 
+	/* Known types */
+	$modelFileData = $pdo->query("SELECT FileDataID FROM wowdata.modelfiledata")->fetchAll(PDO::FETCH_COLUMN);
+	$textureFileData = $pdo->query("SELECT FileDataID FROM wowdata.texturefiledata")->fetchAll(PDO::FETCH_COLUMN);
+
+	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type = 'unk'") as $file){
+		if(in_array($file['id'], $modelFileData)){
+			echo "File " . $file['id'] . " is a model!\n";
+			$uq->bindValue(":type", "m2");
+			$uq->bindParam(":id", $file['id']);
+			$uq->execute();
+		}
+
+		if(in_array($file['id'], $textureFileData)){
+			echo "File " . $file['id'] . " is a blp!\n";
+			$uq->bindValue(":type", "blp");
+			$uq->bindParam(":id", $file['id']);
+			$uq->execute();
+		}
+	}
 	/* Unknown filenames */
 	$files = array();
 
