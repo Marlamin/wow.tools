@@ -77,7 +77,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 <div class="container-fluid">
 	<?php if(empty($_SESSION['loggedin']) || $_SESSION['rank'] == 0){?>
 		<div class='alert alert-danger'>
-			You need to be logged in as a moderator to submit filenames.
+			You need to be logged in as a moderator to approve/deny filenames.
 		</div>
 	<?php }else{ ?>
 		<table class='table table-striped table-condensed'>

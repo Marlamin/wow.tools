@@ -5,10 +5,10 @@
 		Having had many different sites for many of the tools I work on, I decided to move them all under one roof. This is what WoW.tools is, a collection for all those tools under one roof, allowing for better integration between the tools and costing me less time to keep everything up-to-date separately. Keep in mind many of the tools are still only meant for the technical/datamining minded amongst you, some stuff might not be friendly to beginners at this stage. I plan on adding tutorials/guides on how to get started doing some basic stuff.
 	</p>
 	<div class='row'>
-		<div class='col-md-6'>
+		<div class='col-md-4'>
 			<h4>Recent updates</h4>
-			<table class='table table-striped table-condensed' style='width: 100%'>
-			<thead><tr><th style='min-width: 140px'>Project</th><th>Description</th><th style='min-width: 300px'>Author / date</th></tr></thead>
+			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<thead><tr><th>Description</th></tr></thead>
 			<?php
 				if(!$memcached->get("github.commits.json") || strtotime("-5 minutes") > $memcached->get("github.commits.lastupdated")){
 					$commits = [];
@@ -46,13 +46,13 @@
 					}
 
 					usort($commits, "compareTimestamp");
-					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 13)));
+					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 10)));
 					$memcached->set("github.commits.lastupdated", strtotime("now"));
 				}
 
 				$commits = json_decode($memcached->get("github.commits.json"));
 				foreach($commits as $commit){
-					echo "<tr><td>".$commit->repo."</td><td><a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></td></tr>";
+					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a><br><span class='text-muted'>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
 				}
 			?>
 			</table>
@@ -87,6 +87,19 @@
 				}
 				?>
 			</table>
+		</div>
+		<div class='col-md-4'>
+			<h4>Latest filename additions</h4>
+			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<thead><tr><th>Amount</th><th>User</th><th>Submitted at</th></tr></thead>
+			<?php
+			$previousTime = '';
+			$suggestions = $pdo->query("SELECT userid, submitted, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY submitted ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
+			foreach($suggestions as $row){
+				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitted']."</td></tr>";
+			}
+			?>
+		</table>
 		</div>
 	</div>
 </div>
