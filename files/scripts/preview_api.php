@@ -78,7 +78,7 @@ if($type == "ogg"){
 			<div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 500px;'><code><?=htmlentities($output)?></pre></code></div>
 		</div>
 		<?php
-	}else if($type == "xml" || $type == "lua" || $type == "toc"){
+	}else if($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc"){
 		echo "<pre style='max-height: 500px;'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
 	}else{
 		// dump via hd
