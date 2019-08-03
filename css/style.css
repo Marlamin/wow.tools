@@ -289,7 +289,7 @@ footer p{
 }
 
 /* Mobile Devices */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 992px) {
 	textarea[name='files'] {
 		width: 100%;
 	}
