@@ -93,7 +93,6 @@
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Amount</th><th>User</th><th>Submitted at</th></tr></thead>
 			<?php
-			$previousTime = '';
 			$suggestions = $pdo->query("SELECT userid, submitted, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY submitted ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
 			foreach($suggestions as $row){
 				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitted']."</td></tr>";
