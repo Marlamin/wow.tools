@@ -21,6 +21,7 @@ while(true){
 	/* Known types */
 	$modelFileData = $pdo->query("SELECT FileDataID FROM wowdata.modelfiledata")->fetchAll(PDO::FETCH_COLUMN);
 	$textureFileData = $pdo->query("SELECT FileDataID FROM wowdata.texturefiledata")->fetchAll(PDO::FETCH_COLUMN);
+	$movieFileData = $pdo->query("SELECT ID FROM wowdata.moviefiledata")->fetchAll(PDO::FETCH_COLUMN);
 
 	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type = 'unk'") as $file){
 		if(in_array($file['id'], $modelFileData)){
@@ -33,6 +34,13 @@ while(true){
 		if(in_array($file['id'], $textureFileData)){
 			echo "File " . $file['id'] . " is a blp!\n";
 			$uq->bindValue(":type", "blp");
+			$uq->bindParam(":id", $file['id']);
+			$uq->execute();
+		}
+
+		if(in_array($file['id'], $movieFileData)){
+			echo "File " . $file['id'] . " is an avi!\n";
+			$uq->bindValue(":type", "avi");
 			$uq->bindParam(":id", $file['id']);
 			$uq->execute();
 		}

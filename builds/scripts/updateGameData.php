@@ -36,6 +36,7 @@ function importDB2($name, $outdir, $fields){
 
 importDB2("modelfiledata", $outdir, "(FileDataID)");
 importDB2("texturefiledata", $outdir, "(FileDataID)");
+importDB2("moviefiledata", $outdir, "(ID)");
 importDB2("soundkitname", $outdir, "(id, name)");
 importDB2("soundkitentry", $outdir, "(@id, @soundkitid, @filedataid) SET id=@filedataid, entry=@soundkitid");
 importDB2("manifestinterfacedata", $outdir, "(filedataid, path, name)");
