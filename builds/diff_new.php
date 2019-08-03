@@ -131,6 +131,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 										break;
 									case "blp":
 									case "lua":
+									case "xsd":
 									case "xml":
 									case "sbt":
 									case "toc":
