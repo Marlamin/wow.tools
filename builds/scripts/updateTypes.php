@@ -11,6 +11,9 @@ while(true){
 	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type IS NULL AND filename IS NOT NULL OR type = 'unk' AND filename != '' ORDER BY id DESC") as $row){
 		if($row['id'] == 841983) continue; // Skip signaturefile
 		$ext = pathinfo($row['filename'], PATHINFO_EXTENSION);
+
+		if($ext == "unk") continue;
+
 		echo "Adding type ".$ext." for FileData ID " . $row['id']."\n";
 
 		$uq->bindParam(":type", $ext);
