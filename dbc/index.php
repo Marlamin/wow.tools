@@ -171,15 +171,21 @@ $dbFound = false;
 			var cleanDBC = vars["dbc"].replace(".db2", "").toLowerCase();
 		}
 
-		$('#fileFilter').on( 'change', function () {
-			if($(this).val() != ""){
-				document.location = "https://wow.tools/dbc/?dbc=" + $(this).val();
-			}
-		});
+
 
 		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
 			vars["build"] = $('#buildFilter').val();
 		}
+
+		$('#fileFilter').on( 'change', function () {
+			if($(this).val() != ""){
+				if(vars["build"] != undefined){
+					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val() + "&build=" + vars["build"];
+				}else{
+					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val();
+				}
+			}
+		});
 
 		$('#buildFilter').on('change', function(){
 			vars["build"] = $('#buildFilter').val();
