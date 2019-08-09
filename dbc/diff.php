@@ -94,73 +94,6 @@ $(function() {
 	<?php if($canDiff){ ?>
 		$(function() {
 
-	/*
-		Overrides cell rendering in particular the cell's value if there is an applicable diff
-		- for Added/Removed, this applies a flat +/- diff snippet
-		- for Replaced this applies a html snippet containing diff information
-			- for numbers this is a flat '-x+y', for text diff_match_patch is used
-			*/
-			$.fn.dataTable.render.wowtools_diff_cells = function() {
-				return function (data, type, row, meta) {
-
-			// grab the formatted field name
-			var field = meta.settings.aoColumns[meta.col].sTitle;
-
-			//! USE THIS
-			// if an array split out the field and ordinal
-			//var match = /^(.*)\[(\d+)\]$/.exec(field);
-			var match = false;
-
-			// assign the cell value
-			data = match ? row.row[match[1]][match[2]] : row.row[field];
-
-			// only apply on the initial display event for replaced rows that have a diff
-			if(type !== 'display' || row.op !== "Replaced" || row.diff === null)
-				return data;
-
-			// find and apply the specific diff for this field
-			// if no diff is found then return the default data value
-			var diff = row.diff.find(x => x.property == field);
-			if(!diff) {
-				return data;
-			}
-
-			// apply the diff html information
-			switch(diff.op) {
-
-				case "Added":
-				return '<ins class="diff-added">' + diff.currentvalue + '</ins>';
-				case "Removed":
-				return '<del class="diff-removed">' + diff.currentvalue + '</del>';
-				case "Replaced":
-				{
-					if(!isNaN(diff.previousvalue) && !isNaN(diff.currentvalue)) {
-						// for numbers return a fake diff to save on computation
-						return '<del class="diff-removed">' + diff.previousvalue + '</del> &rarr; ' +
-						'<ins class="diff-added">' + diff.currentvalue + '</ins>';
-					} else {
-						// for text use diff_match_patch to compute a real diff
-						var dmp = new diff_match_patch();
-						var dmp_diff = dmp.diff_main(diff.previousvalue, diff.currentvalue);
-						dmp.diff_cleanupSemantic(dmp_diff);
-						return dmp.diff_prettyHtml(dmp_diff);
-					}
-				}
-			}
-
-			return data;
-		};
-	};
-
-	/* Overrides row rendering for Added/Removed rows */
-	$.fn.dataTable.render.wowtools_diff_rows = function() {
-		return function(ele, row, rowIndex) {
-			if(row.op == "Added" || row.op == "Removed") {
-				$(ele).addClass(row.op.toLowerCase()); // apply the formatting class
-			}
-		};
-	};
-
 	var oldBuild = $("#oldbuild option:selected").text();
 	var newBuild = $("#newbuild option:selected").text();
 	var dataURL = "/api/diff?name=<?=$currentDB['name']?>&build1=" + oldBuild + "&build2=" + newBuild;
@@ -195,13 +128,74 @@ $(function() {
 	    			"pagingType": "input",
 	    			"columnDefs": [{
 	    				"targets": "_all",
-	    				"render": $.fn.dataTable.render.wowtools_diff_cells(),
+	    				"render":
+	    						/*
+								Overrides cell rendering in particular the cell's value if there is an applicable diff
+								- for Added/Removed, this applies a flat +/- diff snippet
+								- for Replaced this applies a html snippet containing diff information
+									- for numbers this is a flat '-x+y', for text diff_match_patch is used
+									*/
+						 function (data, type, row, meta) {
+
+							// grab the formatted field name
+							var field = meta.settings.aoColumns[meta.col].sTitle;
+
+							//! USE THIS
+							// if an array split out the field and ordinal
+							//var match = /^(.*)\[(\d+)\]$/.exec(field);
+							var match = false;
+
+							// assign the cell value
+							data = match ? row.row[match[1]][match[2]] : row.row[field];
+
+							// only apply on the initial display event for replaced rows that have a diff
+							if(type !== 'display' || row.op !== "Replaced" || row.diff === null)
+								return data;
+
+							// find and apply the specific diff for this field
+							// if no diff is found then return the default data value
+							var diff = row.diff.find(x => x.property == field);
+							if(!diff) {
+								return data;
+							}
+
+							// apply the diff html information
+							switch(diff.op) {
+
+								case "Added":
+								return '<ins class="diff-added">' + diff.currentvalue + '</ins>';
+								case "Removed":
+								return '<del class="diff-removed">' + diff.currentvalue + '</del>';
+								case "Replaced":
+								{
+									if(!isNaN(diff.previousvalue) && !isNaN(diff.currentvalue)) {
+										// for numbers return a fake diff to save on computation
+										return '<del class="diff-removed">' + diff.previousvalue + '</del> &rarr; ' +
+										'<ins class="diff-added">' + diff.currentvalue + '</ins>';
+									} else {
+										// for text use diff_match_patch to compute a real diff
+										var dmp = new diff_match_patch();
+										var dmp_diff = dmp.diff_main(diff.previousvalue, diff.currentvalue);
+										dmp.diff_cleanupSemantic(dmp_diff);
+										return dmp.diff_prettyHtml(dmp_diff);
+									}
+								}
+							}
+
+							return data;
+						},
 	    				"defaultContent": ""
 	    			}],
 	    			"language": {
 	    				"emptyTable": "No differences were found"
 	    			},
-	    			"createdRow": $.fn.dataTable.render.wowtools_diff_rows()
+	    			"createdRow":
+						/* Overrides row rendering for Added/Removed rows */
+						function(ele, row, rowIndex) {
+							if(row.op == "Added" || row.op == "Removed") {
+								$(ele).addClass(row.op.toLowerCase()); // apply the formatting class
+							}
+						}
 	    		});
 	    	},
 	    	"dataType": "json"
