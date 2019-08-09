@@ -18,6 +18,7 @@ if (empty($fromBuild) || empty($toBuild)) {
 $fromBuildName = parseBuildName($fromBuild['description'])['full'];
 $toBuildName = parseBuildName($toBuild['description'])['full'];
 
+$encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -57,6 +58,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 	}
 
 	$(document).ready(function() {
+		var encrypted = <?=json_encode($encrypted)?>;
 		var table = $('#buildtable').DataTable({
 			ajax: '//wow.tools/casc/root/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
 			columns: [{
@@ -156,7 +158,9 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 								}
 								break;
 						}
-
+						if(encrypted.includes(parseInt(full.id))){
+							content += " <i style=\"color: red\" title=\"File is encrypted, preview might be broken\" class=\"fa fa-lock\"></i>";
+						}
 						return content;
 					}
 				}
@@ -214,7 +218,7 @@ $toBuildName = parseBuildName($toBuild['description'])['full'];
 				<th style='width: 170px;'>FileData ID</th>
 				<th>Filename</th>
 				<th style='width: 50px'>Type</th>
-				<th style='width: 85px'>&nbsp;</th>
+				<th style='width: 95px'>&nbsp;</th>
 			</tr>
 		</thead>
 	</table>
