@@ -132,11 +132,13 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 										}
 										break;
 									case "blp":
+									case "htm":
+									case "html":
 									case "lua":
-									case "xsd":
-									case "xml":
 									case "sbt":
 									case "toc":
+									case "xml":
+									case "xsd":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
 									default:
