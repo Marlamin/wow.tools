@@ -25,7 +25,7 @@ function importDB2($name, $outdir, $fields){
 		$pdo->exec("
 			LOAD DATA LOCAL INFILE '".$csv."'
 			INTO TABLE `wowdata`.".$name."
-			FIELDS TERMINATED BY ','
+			FIELDS TERMINATED BY ',' ESCAPED BY '\b'
 			LINES TERMINATED BY '\n'
 			IGNORE 1 LINES
 			".$fields."
