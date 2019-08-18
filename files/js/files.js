@@ -120,6 +120,10 @@ function fillChashModal(contenthash){
 	$( "#chashModalContent" ).load( "/files/scripts/filedata_api.php?contenthash=" + contenthash);
 }
 
+function fillSkitModal(skitid){
+	$( "#moreInfoModalContent" ).load( "/files/sounds.php?embed=1&skitid=" + skitid );
+}
+
 $("html").on('hidden.bs.modal', '#moreInfoModal', function(e) {
 	console.log("Clearing modal");
 	$( "#moreInfoModalContent" ).html( '<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>' );
