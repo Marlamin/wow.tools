@@ -27,8 +27,8 @@ body{
 .layerbutton {
 	position: absolute;
 	cursor: pointer;
-	top: 20px;
-	right: 20px;
+	top: 70px;
+	right: 10px;
 	width: 46px;
 	height: 46px;
 	border: 0;
@@ -37,7 +37,6 @@ body{
 	border-radius: 50%;
 	outline: none;
 	z-index: 2;
-	display: none;
 }
 
 .layerbutton:hover,
@@ -169,6 +168,7 @@ body{
 
 .layers.closed {
 	right: -250px;
+	display: none;
 }
 
 #js-map-select {

@@ -28,8 +28,8 @@
 		<i class="fa fa-map-marker fa-2x"></i>
 	</button>
 
-	<div id="js-layers" class="overlay layers">
-		<div style='font-size: 12px; margin-top: 5px'>WIP, still buggy! <br>Things might take a few sec to load.</div>
+	<div id="js-layers" class="overlay layers closed">
+		<div style='font-size: 12px; margin-top: 5px'>WIP, still buggy!</div>
 		<div style='font-size: 12px; margin-top: 5px'><input type='checkbox' name='flightpoints' id='js-flightlayer'> <label for="js-flightlayer">Flight masters</label></div>
 		<div style='font-size: 12px;'><input type='checkbox' name='pois' id='js-poilayer'> <label for="js-poilayer">Points of interest</label></div>
 	</div>
