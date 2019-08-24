@@ -32,7 +32,7 @@
 <h3>Can I help?</h3>
 You can support the site in many ways:
 <ul>
-	<li>Report issues or feature requests on our Discord</li>
+	<li>Report issues or feature requests on <a href='https://github.com/Marlamin/wow.tools/'>GitHub</a> or the  Discord</li>
 	<li>Help pay for the server hosting the site by joining our <a href='https://patreon.com/marlamin' target='_BLANK'>Patreon</a> or donating via <a href='https://paypal.me/marlamin' target='_BLANK'>PayPal</a></li>
 	<li>Contribute to the code that powers this site. A full list of tools and repositories is available on the <a href='/about.php'>About</a> page</li>
 </ul>

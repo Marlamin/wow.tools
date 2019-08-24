@@ -7,7 +7,7 @@ I've been programming WoW (<a target='_BLANK' href='https://en.wikipedia.org/wik
 <h3>Privacy Policy</h3>
 <h5>Logs</h5>
 <p>
-All requests are logged to monitor for (and prevent) abuse. Logged information includes IP address, the page you visited and with what browser you did so. The site also uses Google Analytics (with anonimized IPs).
+All requests are logged to monitor for (and prevent) abuse. Logged information includes IP address, the page you visited and with what browser you did so. The site also uses Google Analytics (with anonymized IPs).
 </p>
 <h5>Accounts</h5>
 If you create an account on the site, the following information is stored:
@@ -17,10 +17,11 @@ If you create an account on the site, the following information is stored:
 	<li>E-mail (for account recovery)</li>
 </ul>
 <h5>Submitted information</h5>
-<p>If you submit filenames to be added to the database while logged in, your username is stored and will be mentioned in the <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>listfile</a> commit your filenames end up in as a way of saying thanks. If you don't want this, log out when submitting filenames.</p>
+<p>If you submit filenames to be added to the database while logged in, your username is stored and will be mentioned on the frontpage as a way of saying thanks. If you don't want this, log out when submitting filenames.</p>
 <h3>Open source</h3>
-Some of the tools powering the site are open source. The site itself is planned to be open-sourced as well.
+The site and some of the tools powering the site are open source.
 <ul>
+<li><a href='https://github.com/Marlamin/wow.tools/' target='_BLANK'>wow.tools</a> - Website code</li>
 <li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> - Makes backups of builds on Blizzard's CDN</li>
 <li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> - Powers listfile generation, file downloads and previews</li>
 <li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> - Powers database file browsing, searching and lookups for the modelviewer</li>
