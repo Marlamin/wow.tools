@@ -121,6 +121,9 @@
 0 string REVM\4\0\0\0\x19\0\0\0KNCA .adt.dat
 !:mime wow/adt/dat
 
+0 string REVM\4\0\0\0\x1A\0\0\0KNCA .adt.dat
+!:mime wow/adt/dat
+
 # WMO
 0 string REVM\4\0\0\0\x11\0\0\0DHOM .wmo
 !:mime wow/wmo/root
