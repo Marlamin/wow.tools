@@ -63,14 +63,57 @@ $( document ).ready(function() {
 	}
 
 	function openInstallDiff(){
-		$("#moreInfoModal").modal('show');
-		$("#moreInfoModalContent").html("Coming soon!");
+		$("#installDiffModal").modal('show');
+		$("#installDiffModalContent").html("Generating diff..");
+
+		var fromArray = [];
+		var toArray = [];
+
+		var added = [];
+		var modified = [];
+		var removed = [];
+
+		var result = "<table>";
 
 		$.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build1, function( fromData ) {
 			$.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build2, function( toData ) {
-				// TODO
-				console.log(fromData);
-				console.log(toData);
+				$.each( fromData, function( key, val ) {
+					fromArray[val.name] = val;
+				});
+
+				$.each( toData, function( key, val ) {
+					toArray[val.name] = val;
+				});
+
+				$.each( fromData, function( key, val ) {
+					if(val.name in toArray){
+						if(val.contentHash != toArray[val.name].contentHash){
+							modified.push(val);
+						}
+					}else{
+						removed.push(val);
+					}
+				});
+
+				$.each( toData, function( key, val ) {
+					if(!(val.name in fromArray)){
+						added.push(val);
+					}
+				});
+
+				added.forEach(function( val ) {
+					result += "<tr><td><span class='badge badge-success'>Added</span></td><td>" + val.name + "</td></tr>";
+				});
+				modified.forEach(function( val ) {
+					result += "<tr><td><span class='badge badge-warning'>Modified</span></td><td>" + val.name + "</td></tr>";
+				});
+				removed.forEach(function( val ) {
+					result += "<tr><td><span class='badge badge-danger'>Removed</span></td><td>" + val.name + "</td></tr>";
+				});
+
+				result += "</table>";
+
+				$("#installDiffModalContent").html(result);
 			});
 		});
 

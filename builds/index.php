@@ -43,16 +43,16 @@ $allbuilds = $res->fetchAll();
 $odd = false;
 ?>
 <script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
-<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+<div class="modal" id="installDiffModal" tabindex="-1" role="dialog" aria-labelledby="installDiffModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
+				<h5 class="modal-title" id="installDiffModalLabel">Install diff</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body" id="moreInfoModalContent">
+			<div class="modal-body" id="installDiffModalContent">
 				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 			</div>
 			<div class="modal-footer">
