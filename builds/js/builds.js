@@ -7,6 +7,7 @@ $( document ).ready(function() {
 		build2 = null;
 		$('.diffbadge').remove();
 		$('#openDiffButton').hide();
+		$('#openInstallDiffButton').hide();
 		$('#resetButton').hide();
 		$('#diffButton').show();
 		$('#buildtable tbody').off('click', 'tr', onBuildClick);
@@ -17,9 +18,9 @@ $( document ).ready(function() {
 		$('#diffButton').hide();
 		$('#resetButton').show();
 		$('#openDiffButton')
-			.attr('href', '#')
-			.text('Click the row of the first build (old)')
-			.show();
+		.attr('href', '#')
+		.text('Click the row of the first build (old)')
+		.show();
 
 		return false;
 	}).removeClass('disabled');
@@ -36,6 +37,14 @@ $( document ).ready(function() {
 		resetDiffs();
 	});
 
+	$('#openInstallDiffButton').on('click', function() {
+		if (!build1 || !build2) {
+			return false;
+		}
+
+		openInstallDiff();
+	});
+
 	function onBuildClick() {
 		const hashElement = $(this).find('.buildconfighash');
 
@@ -47,8 +56,24 @@ $( document ).ready(function() {
 			build2 = hashElement.text();
 			hashElement.after(' <span class="badge badge-danger diffbadge">New build</span>');
 			$('#openDiffButton')
-				.text('Click to diff (might take up to a minute to generate)')
-				.attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
+			.text('Click to diff (might take up to a minute to generate)')
+			.attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
+			$('#openInstallDiffButton').show();
 		}
+	}
+
+	function openInstallDiff(){
+		$("#moreInfoModal").modal('show');
+		$("#moreInfoModalContent").html("Coming soon!");
+
+		$.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build1, function( fromData ) {
+			$.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build2, function( toData ) {
+				// TODO
+				console.log(fromData);
+				console.log(toData);
+			});
+		});
+
+		return false;
 	}
 });

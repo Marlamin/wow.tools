@@ -43,9 +43,27 @@ $allbuilds = $res->fetchAll();
 $odd = false;
 ?>
 <script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
+<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="moreInfoModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class='container-fluid'>
 	<h3 style='float: left'><?=count($allbuilds)?> builds in DB</h3>
-	<div style='float: left; margin-left: 10px; position: sticky; top: 0;'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
+	<div style='float: left; margin-left: 10px; position: sticky; top: 0;'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
 	<form>
 		<input type='hidden' id='buildFrom'><input type='hidden' id='buildTo'>
 	</form>
