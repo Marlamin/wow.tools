@@ -17,24 +17,6 @@ foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions") as 
 	$versionTableCache[$tv['versionid']][] = $tv['tableid'];
 }
 
-function getOrCreateVersionID($version){
-	global $pdo;
-	global $versionCache;
-
-	if(!array_key_exists($version, $versionCache)){
-		// Version does not exist, create and return id
-		echo "Creating version id for " . $version . "\n";
-		$expl = explode(".", $version);
-
-		$q = $pdo->prepare("INSERT INTO wow_builds (version, expansion, major, minor, build) VALUES (?, ?, ?, ?, ?)");
-		$q->execute([$version, $expl[0], $expl[1], $expl[2], $expl[3]]);
-		$insertId = $pdo->lastInsertId();
-		$versionCache[$version] = $insertId;
-	}
-
-	return $versionCache[$version];
-}
-
 function getOrCreateTableID($table, $displayname){
 	global $pdo;
 	global $tableCache;
