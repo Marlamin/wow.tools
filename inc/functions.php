@@ -122,28 +122,53 @@ function prettyTitle($queryString){
 	}
 }
 
-function prettyBranch($branch){
+function prettyBranch($branch, $pretty = true){
 	switch($branch){
 		case "wow":
-		return "<span class='badge badge-primary'>Retail</span>";
+		$color = "primary";
+		$branch = "Retail";
+		break;
 		case "wowt":
-		return "<span class='badge badge-warning'>PTR</span>";
+		$color = "warning";
+		$branch = "PTR";
+		break;
 		case "wow_beta":
-		return "<span class='badge badge-danger'>Beta</span>";
+		$color = "danger";
+		$branch = "Beta";
+		break;
 		case "wowz":
-		return "<span class='badge badge-success'>Submission</span>";
+		$color = "success";
+		$branch = "Submission";
+		break;
 		case "wow_classic":
-		return "<span class='badge badge-info'>Classic</span>";
+		$color = "info";
+		$branch = "Classic";
+		break;
 		case "wow_classic_beta":
-		return "<span class='badge badge-info'>Classic Beta</span>";
+		$color = "info";
+		$branch = "Classic Beta";
+		break;
 		case "wowe1":
-		return "<span class='badge badge-secondary'>Event 1</span>";
+		$color = "secondary";
+		$branch = "Event 1";
+		break;
 		case "wowe2":
-		return "<span class='badge badge-secondary'>Event 2</span>";
+		$color = "secondary";
+		$branch = "Event 2";
+		break;
 		case "wowe3":
-		return "<span class='badge badge-secondary'>Event 3</span>";
+		$color = "secondary";
+		$branch = "Event 3";
+		break;
 		default:
-		return "UNKNOWN";
+		$color = "danger";
+		$branch = "unknown";
+	}
+
+	if($pretty){
+		return "<span class='badge badge-".$color."'>".$branch."</span>";
+	}else{
+		return $branch;
 	}
 }
 

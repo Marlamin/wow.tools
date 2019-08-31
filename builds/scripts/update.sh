@@ -23,4 +23,5 @@ php updateGameData.php
 # php addOGGNames.php
 php ../../files/scripts/addMDINames.php
 php encrypted.php
+php fixBranches.php
 # sudo -u www-data php dumpDBD.php
