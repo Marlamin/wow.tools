@@ -70,7 +70,7 @@
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = Initialize;
-	xhr.open( 'GET', '/maps/data/data.json', true );
+	xhr.open( 'GET', '/maps/data/data.new.json', true );
 	xhr.responseType = 'json';
 	xhr.send();
 
@@ -239,9 +239,9 @@
 					element.selected = true;
 				}
 
-				if( version.desc.length > 0 )
+				if( version.branch != undefined && version.branch.length > 0 )
 				{
-					element.textContent = version.fullbuild + ' (' + version.desc + ')';
+					element.textContent = version.fullbuild + ' (' + version.branch + ')';
 				}
 				else
 				{

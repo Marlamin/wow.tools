@@ -4,10 +4,10 @@ include "../../inc/config.php";
 
 function getConfigByMapVersion($mapid, $versionid){
 	global $pdo;
-	
+
 	$q = $pdo->prepare("SELECT resx, resy, zoom, minzoom, maxzoom FROM wow_maps_config WHERE mapid = ? AND versionid = ? AND resx != 0");
 	$q->execute([$mapid, $versionid]);
-	
+
 	$config = $q->fetch(PDO::FETCH_ASSOC);
 	if(empty($config)){
 		$config = [];
@@ -22,7 +22,7 @@ function getConfigByMapVersion($mapid, $versionid){
 	return $config;
 }
 
-// Map config JSON, this used for everything important
+// Map config JSON, this is used for everything important
 
 header("Content-Type: application/json");
 $data = [
