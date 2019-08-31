@@ -45,6 +45,14 @@
 						if($i > 10) break;
 					}
 
+					$i = 0;
+					$res = githubRequest("repos/marlamin/wowtools.minimaps/commits");
+					foreach($res as $commit){
+						$commits[] = array("repo" => "Minimap backend", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+						$i++;
+						if($i > 10) break;
+					}
+
 					usort($commits, "compareTimestamp");
 					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 10)));
 					$memcached->set("github.commits.lastupdated", strtotime("now"));
