@@ -116,12 +116,25 @@ if($_GET['type'] == "areaname"){
 		die();
 	}
 
+	$map = trim(filter_var($_GET['map'], FILTER_SANITIZE_STRING));
+
 	$buildq = $pdo->prepare("SELECT hash FROM wow_buildconfig WHERE description LIKE :desc LIMIT 1");
 	$buildq->bindValue(":desc", "WOW-" . $build . "%");
 	$buildq->execute();
 	$buildrow = $buildq->fetch();
 	if(empty($buildrow)){
-		die("Build not found in database!");
+		// Check old offset DB
+		$oldOffsets = json_decode(file_get_contents("data/offsets.json"), true);
+		if(array_key_exists($build, $oldOffsets)){
+			if(array_key_exists($map, $oldOffsets[$build])){
+				echo json_encode($oldOffsets[$build][$map]);
+			}else{
+				echo json_encode(array("error" => "Map not found in offsets", "map" => $map));
+			}
+		}else{
+			echo json_encode(array("error" => "Offset build not found", "map" => $map));
+		}
+		die();
 	}
 
 	$fdids = getFileDataIDs($buildrow['hash']);
@@ -129,7 +142,7 @@ if($_GET['type'] == "areaname"){
 		die("Got empty filedataids for build " . print_r($buildrow, true));
 	}
 
-	$map = trim(strtolower(filter_var($_GET['map'], FILTER_SANITIZE_STRING)));
+	$map = strtolower($map);
 
 	$offset['y'] = 63;
 	$offset['x'] = 63;
