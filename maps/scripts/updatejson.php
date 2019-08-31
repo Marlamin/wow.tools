@@ -52,13 +52,13 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 		$mapversion['config']['minzoom'] = (int) $mapversion['config']['minzoom'];
 		$mapversion['config']['maxzoom'] = (int) $mapversion['config']['maxzoom'];
 
-		$maprawdir = "/home/marlamin/wow/automatic/" . $mapversion['expansion'].".".$mapversion['major'].".".$mapversion['minor'].".".$mapversion['build']."/World/Minimaps/".$mapnameraw;
-
 		$mapversion['config']['offset']['min']['y'] = 63;
 		$mapversion['config']['offset']['min']['x'] = 63;
 
 		$mapversion['config']['offset']['max']['y'] = 0;
 		$mapversion['config']['offset']['max']['x'] = 0;
+
+		$maprawdir = "/home/wow/minimaps/raw/" . $mapversion['expansion'].".".$mapversion['major'].".".$mapversion['minor'].".".$mapversion['build']."/World/Minimaps/".$mapnameraw;
 
 		// if(is_dir($maprawdir)){
 
