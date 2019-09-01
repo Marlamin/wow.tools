@@ -5,7 +5,7 @@ include "../../inc/config.php";
 function getConfigByMapVersion($mapid, $versionid){
 	global $pdo;
 
-	$q = $pdo->prepare("SELECT resx, resy, zoom, minzoom, maxzoom FROM wow_maps_config WHERE mapid = ? AND versionid = ? AND resx != 0");
+	$q = $pdo->prepare("SELECT resx, resy, zoom, minzoom, maxzoom, offsetx, offsety FROM wow_maps_config WHERE mapid = ? AND versionid = ? AND resx != 0");
 	$q->execute([$mapid, $versionid]);
 
 	$config = $q->fetch(PDO::FETCH_ASSOC);
@@ -16,6 +16,8 @@ function getConfigByMapVersion($mapid, $versionid){
 		$config['zoom'] = 4;
 		$config['minzoom'] = 4;
 		$config['maxzoom'] = 7;
+		$config['offset']['min']['y'] = 63;
+		$config['offset']['min']['x'] = 63;
 		$config['fallback'] = true;
 	}
 
@@ -50,33 +52,11 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 		$mapversion['config']['minzoom'] = (int) $mapversion['config']['minzoom'];
 		$mapversion['config']['maxzoom'] = (int) $mapversion['config']['maxzoom'];
 
-		$mapversion['config']['offset']['min']['y'] = 63;
-		$mapversion['config']['offset']['min']['x'] = 63;
-
-		$mapversion['config']['offset']['max']['y'] = 0;
-		$mapversion['config']['offset']['max']['x'] = 0;
-
-		$maprawdir = "/home/wow/minimaps/raw/" . $mapversion['expansion'].".".$mapversion['major'].".".$mapversion['minor'].".".$mapversion['build']."/world/minimaps/".$mapnameraw;
-
-		if(is_dir($maprawdir)){
-
-			foreach(glob($maprawdir."/*") as $tileindir){
-				$tileparts = explode ("/", $tileindir);
-				$tile = str_replace(".blp", "", $tileparts[9]);
-				$tile = str_replace("map", "", $tile);
-				$tile = explode("_", $tile);
-
-				if(!is_numeric($tile[0])){ continue; }
-
-				if($mapversion['config']['offset']['min']['y'] > $tile[0]){ $mapversion['config']['offset']['min']['y'] = (int) $tile[0]; }
-				if($mapversion['config']['offset']['min']['x'] > $tile[1]){ $mapversion['config']['offset']['min']['x'] = (int) $tile[1]; }
-				if($mapversion['config']['offset']['max']['y'] < $tile[0]){ $mapversion['config']['offset']['max']['y'] = (int) $tile[0]; }
-				if($mapversion['config']['offset']['max']['x'] < $tile[1]){ $mapversion['config']['offset']['max']['x'] = (int) $tile[1]; }
-			}
-		}
+		$mapversion['config']['offset']['min']['y'] = (int) $mapversion['config']['offsety'];;
+		$mapversion['config']['offset']['min']['x'] = (int) $mapversion['config']['offsetx'];;
 
 		/* Unship data not used in JSON! */
-		unset($mapversion['id'], $mapversion['expansion'], $mapversion['major'], $mapversion['minor'], $mapversion['map_id'], $mapversion['builton'], $mapversion['version'], $mapversion['tilemd5']);
+		unset($mapversion['id'], $mapversion['expansion'], $mapversion['major'], $mapversion['minor'], $mapversion['map_id'], $mapversion['builton'], $mapversion['version'], $mapversion['tilemd5'], $mapversion['config']['offsetx'], $mapversion['config']['offsety']);
 
 		$mapversion['build'] = (int)$mapversion['build'];
 
@@ -86,4 +66,4 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 	uasort($data['versions'][$map['id']], function($a, $b) { if($a['build'] === $b['build']) return 0; return $a['build'] < $b['build']; } );
 }
 
-file_put_contents("/var/www/wow.tools/maps/data/data.new.json", json_encode($data));
+file_put_contents("/var/www/wow.tools/maps/data/data.json", json_encode($data));
