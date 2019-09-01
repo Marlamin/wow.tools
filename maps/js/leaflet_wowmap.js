@@ -7,6 +7,8 @@
 	var MinimapLayer;
 	var FlightPathLayer;
 	var POILayer;
+	var ADTGridLayer;
+	var ADTGridTextLayer;
 	var Versions;
 	var Offsets;
 	var Elements =
@@ -20,7 +22,8 @@
 		TechBox: document.getElementById( 'js-techbox' ),
 		Layers: document.getElementById('js-layers'),
 		FlightLayer: document.getElementById('js-flightlayer'),
-		POILayer: document.getElementById('js-poilayer')
+		POILayer: document.getElementById('js-poilayer'),
+		ADTGrid: document.getElementById('js-adtgrid')
 	};
 
 	var Current =
@@ -30,6 +33,10 @@
 		InternalMapID: false,
 		Version: 0
 	};
+
+	var maxSize = 51200 / 3; 		//17066,66666666667
+	var mapSize = maxSize * 2; 		//34133,33333333333
+	var adtSize = mapSize / 64; 	//533,3333333333333
 
 	// Sidebar button
 	document.getElementById( 'js-sidebar-button' ).addEventListener( 'click', function( )
@@ -79,7 +86,7 @@
 	offsxhr.onreadystatechange = InitializeOffs;
 	offsxhr.open( 'GET', '/maps/data/offsets.json', true );
 	offsxhr.responseType = 'json';
-	offsxhr.send();
+	///offsxhr.send();
 
 	var anxhr = new XMLHttpRequest();
 	anxhr.onreadystatechange = ProcessAreaResult;
@@ -125,7 +132,13 @@
 			return;
 		}
 
-		Offsets = offsxhr.response;
+		if(Offsets == undefined){
+			Offsets = new Array();
+		}
+
+		Object.keys(offsxhr.response).forEach(function(key) {
+		    Offsets[key] = offsxhr.response[key];
+		});
 	}
 
 	function InitializeMap()
@@ -136,7 +149,8 @@
 			minZoom: 2,
 			maxZoom: 7,
 			crs: L.CRS.Simple,
-			zoomControl: false
+			zoomControl: false,
+			preferCanvas: true
 		});
 	}
 
@@ -299,9 +313,11 @@
 			if(!Offsets[Versions[Current.Map][Current.Version].build]){
 				Elements.FlightLayer.disabled = true;
 				Elements.POILayer.disabled = true;
+				Elements.ADTGrid.disabled = true;
 			}else{
 				Elements.FlightLayer.disabled = false;
 				Elements.POILayer.disabled = false;
+				Elements.ADTGrid.disabled = false;
 			}
 		} );
 
@@ -377,14 +393,56 @@
 			}
 		} );
 
+		Elements.ADTGrid.addEventListener( 'click', function( )
+		{
+			if(Elements.ADTGrid.checked){
+				ADTGridLayer = new L.LayerGroup();
+				ADTGridTextLayer = new L.LayerGroup();
+				for(var x = 0; x < 64; x++){
+					for(var y = 0; y < 64; y++){
+						var fromlat = WoWtoLatLng(maxSize - (x * adtSize), -maxSize);
+						var tolat = WoWtoLatLng(maxSize - (x * adtSize), maxSize);
+						ADTGridLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 0.1, color: 'red'}));
+
+						var fromlat = WoWtoLatLng(maxSize, maxSize - (x * adtSize));
+						var tolat = WoWtoLatLng(-maxSize , maxSize - (x * adtSize));
+						ADTGridLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 0.1, color: 'red'}));
+					}
+				}
+				if (LeafletMap.getZoom() < 6){
+					LeafletMap.removeLayer(ADTGridTextLayer);
+				}
+				else
+				{
+					LeafletMap.addLayer(ADTGridTextLayer);
+					refreshADTGridText();
+				}
+				ADTGridLayer.addTo(LeafletMap);
+			}else{
+				LeafletMap.removeLayer(ADTGridLayer);
+			}
+		} );
+
 		LeafletMap.on('dragend', function()
 		{
 			SynchronizeTitleAndURL();
+			if(Elements.ADTGrid.checked){
+				refreshADTGridText();
+			}
 		} );
 
 		LeafletMap.on('zoomend', function()
 		{
 			SynchronizeTitleAndURL();
+			if(Elements.ADTGrid.checked){
+				if (LeafletMap.getZoom() < 6){
+					LeafletMap.removeLayer(ADTGridTextLayer);
+				}
+				else
+				{
+					LeafletMap.addLayer(ADTGridTextLayer);
+				}
+			}
 		} );
 
 		LeafletMap.on('click', function(e)
@@ -398,6 +456,19 @@
 		RequestOffset();
 	}
 
+	function refreshADTGridText(){
+		var drawing = 0;
+		for(var x = 0; x < 64; x++){
+			for(var y = 0; y < 64; y++){
+				var latlng = WoWtoLatLng(maxSize - (x * adtSize) - 25, maxSize - (y * adtSize) - 25);
+				if(LeafletMap.getBounds().contains(latlng)){
+					var myIcon = L.divIcon({className: 'adtcoordicon', html: '<div class="adtcoord">' + y + '_' + x + '</div>'});
+					ADTGridTextLayer.addLayer(new L.marker(latlng, {icon: myIcon}));;
+					drawing++;
+				}
+			}
+		}
+	}
 	function ProcessPOIResult(response){
 		LeafletMap.removeLayer(POILayer);
 
@@ -434,6 +505,7 @@
 	}
 	function RequestOffset(){
 		if(Versions[Current.Map][Current.Version].config.offset.min.x != 63){
+			console.log("Found offset in JSON. Skipping lookup.");
 			ProcessOffsetResult(Versions[Current.Map][Current.Version].config.offset.min);
 			return;
 		}
@@ -463,13 +535,21 @@
 	function ProcessOffsetResult(offset){
 		var build = Versions[Current.Map][Current.Version].build;
 
-		if(Offsets[build] == undefined){
+		if(Offsets == undefined){
+			console.log("Offsets not defined!");
+			Offsets = new Array();
+		}
+
+		if(!(build in Offsets)){
+			console.log("Build not defined!");
 			Offsets[build] = new Array();
 		}
-		Offsets[build][Current.InternalMap] = offset;
 
+		Offsets[build][Current.InternalMap] = offset;
+		console.log(Offsets[build][Current.InternalMap]);
 		Elements.FlightLayer.disabled = false;
 		Elements.POILayer.disabled = false;
+		Elements.ADTGrid.disabled = false;
 	}
 
 	function ProcessOffsetClick(e, offset){
@@ -578,21 +658,19 @@
 		}
 	}
 
-	var maxSize = 51200 / 3; 		//17066,66666666667
-	var mapSize = maxSize * 2; 		//34133,33333333333
-	var adtSize = mapSize / 64; 	//533,3333333333333
-
 	function WoWtoLatLng( x, y ){
 		var pxPerCoord = adtSize / 256; //2.0833333333
 
 		if(Versions[Current.Map][Current.Version].build > 26707){
 			pxPerCoord = adtSize / 512;
 		}
-		var offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
-		if(!offset){
+
+		if(!(Current.InternalMap in Offsets[Versions[Current.Map][Current.Version].build])){
 			RequestOffset();
-			offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
 		}
+
+		offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
+
 		var offsetX = (offset.y * adtSize) / pxPerCoord;
 		var offsetY = (offset.x * adtSize) / pxPerCoord;
 
