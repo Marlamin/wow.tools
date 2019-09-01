@@ -277,16 +277,6 @@
 					], LeafletMap.getMaxZoom())
 				, 2, true, false
 				);
-
-			if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
-				Elements.FlightLayer.disabled = true;
-				Elements.POILayer.disabled = true;
-				Elements.ADTGrid.disabled = true;
-			}else{
-				Elements.FlightLayer.disabled = false;
-				Elements.POILayer.disabled = false;
-				Elements.ADTGrid.disabled = false;
-			}
 		} );
 
 		Elements.Versions.addEventListener( 'change', ChangeVersion );
@@ -656,21 +646,14 @@
 		Current.Version = Elements.Versions.value;
 
 		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
-			Elements.FlightLayer.disabled = true;
-			Elements.POILayer.disabled = true;
-			Elements.ADTGrid.disabled = true;
-		}else{
-			Elements.FlightLayer.disabled = false;
-			Elements.POILayer.disabled = false;
-			Elements.ADTGrid.disabled = false;
+			RequestOffset();
 		}
+
 		RenderMap(LeafletMap.getCenter(), LeafletMap.getZoom(), false, true);
 
 		UpdateArrowButtons();
 
 		SynchronizeTitleAndURL();
-
-		RequestOffset();
 	}
 
 	var markers = [];
@@ -724,9 +707,15 @@
 		Elements.POILayer.checked = false;
 		Elements.ADTGrid.checked = false;
 
-		Elements.FlightLayer.disabled = true;
-		Elements.POILayer.disabled = true;
-		Elements.ADTGrid.disabled = true;
+		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
+			Elements.FlightLayer.disabled = true;
+			Elements.POILayer.disabled = true;
+			Elements.ADTGrid.disabled = true;
+		}else{
+			Elements.FlightLayer.disabled = false;
+			Elements.POILayer.disabled = false;
+			Elements.ADTGrid.disabled = false;
+		}
 
 		if(LeafletMap.hasLayer(FlightPathLayer)){ LeafletMap.removeLayer(FlightPathLayer); }
 		FlightPathLayer = new L.LayerGroup();

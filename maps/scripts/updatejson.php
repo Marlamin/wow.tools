@@ -52,8 +52,13 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 		$mapversion['config']['minzoom'] = (int) $mapversion['config']['minzoom'];
 		$mapversion['config']['maxzoom'] = (int) $mapversion['config']['maxzoom'];
 
-		$mapversion['config']['offset']['min']['y'] = (int) $mapversion['config']['offsety'];;
-		$mapversion['config']['offset']['min']['x'] = (int) $mapversion['config']['offsetx'];;
+		if(!empty($mapversion['config']['offsety'])){
+			$mapversion['config']['offset']['min']['y'] = (int) $mapversion['config']['offsety'];
+			$mapversion['config']['offset']['min']['x'] = (int) $mapversion['config']['offsetx'];
+		}else{
+			$mapversion['config']['offset']['min']['y'] = 63;
+			$mapversion['config']['offset']['min']['x'] = 63;
+		}
 
 		/* Unship data not used in JSON! */
 		unset($mapversion['id'], $mapversion['expansion'], $mapversion['major'], $mapversion['minor'], $mapversion['map_id'], $mapversion['builton'], $mapversion['version'], $mapversion['tilemd5'], $mapversion['config']['offsetx'], $mapversion['config']['offsety']);
