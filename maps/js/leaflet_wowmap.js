@@ -735,6 +735,7 @@
 
 		UpdateArrowButtons();
 
+		SynchronizeTitleAndURL();
 		RequestOffset();
 	}
 
