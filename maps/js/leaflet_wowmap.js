@@ -35,6 +35,7 @@
 	document.getElementById( 'js-sidebar-button' ).addEventListener( 'click', function( )
 	{
 		Elements.Sidebar.classList.toggle( 'closed' );
+		document.getElementById( 'js-sidebar-button' ).classList.toggle( 'closed' );
 	} );
 
 	// Layer button

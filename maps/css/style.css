@@ -45,11 +45,10 @@ body{
 }
 
 .hamburger {
-	display: none;
 	position: absolute;
 	cursor: pointer;
-	top: 65px;
-	left: 20px;
+	top: 70px;
+	left: 260px;
 	width: 46px;
 	height: 46px;
 	border: 0;
@@ -77,6 +76,10 @@ body{
 
 .hamburger .icon-bar + .icon-bar {
 	margin-top: 4px;
+}
+
+.hamburger.closed{
+	left: 10px;
 }
 
 .sidebar {
