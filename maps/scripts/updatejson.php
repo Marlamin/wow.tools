@@ -22,8 +22,6 @@ function getConfigByMapVersion($mapid, $versionid){
 	return $config;
 }
 
-// Map config JSON, this is used for everything important
-
 header("Content-Type: application/json");
 $data = [
 	'maps' => [],
@@ -84,47 +82,8 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 
 		$data['versions'][$map['id']][$version] = $mapversion;
 	}
-	// $data['versions'][$map['id']] = array_reverse($data['versions'][$map['id']], true);
+
 	uasort($data['versions'][$map['id']], function($a, $b) { if($a['build'] === $b['build']) return 0; return $a['build'] < $b['build']; } );
 }
 
 file_put_contents("/var/www/wow.tools/maps/data/data.new.json", json_encode($data));
-
-// Offsets json. Gets top-left ADT tile. Generated from partial tilesets. Needs to be complete before production!
-
-die("Offsets stuff is todo");
-
-// $offsets = array();
-
-// foreach(glob("/home/marlamin/wow/automatic/*", GLOB_ONLYDIR) as $dir){
-// 	$parts = explode("/", $dir);
-// 	$ver = explode(".", $parts[5]);
-
-// 	if(count($ver) != 4){ continue;	} // Skip dirs without versions
-
-// 	$offsets[$ver[3]] = array();
-
-// 	foreach(glob($dir."/World/Minimaps/*", GLOB_ONLYDIR) as $versiondir){
-// 		$versionparts = explode("/", $versiondir);
-// 		if($versionparts[8] == "WMO" || $versionparts[8] == "wmo"){ continue; } // Skip WMOs... for now :)
-// 		$versionparts[8] = str_replace("'", '', str_replace('-', '', $versionparts[8]));
-// 		$offsets[$ver[3]][$versionparts[8]] = array("x" => 63, "y" => 63);
-
-// 		foreach(glob($versiondir."/*") as $tileindir){
-// 			$tileparts = explode ("/", $tileindir);
-// 			$tile = str_replace(".blp", "", $tileparts[9]);
-// 			$tile = str_replace("map", "", $tile);
-// 			$tile = explode("_", $tile);
-
-// 			if(!is_numeric($tile[0])){ continue; }
-
-// 			//Y and X are flipped yo
-
-// 			if($offsets[$ver[3]][$versionparts[8]]['y'] > $tile[0]){ $offsets[$ver[3]][$versionparts[8]]['y'] = (int) $tile[0]; }
-// 			if($offsets[$ver[3]][$versionparts[8]]['x'] > $tile[1]){ $offsets[$ver[3]][$versionparts[8]]['x'] = (int) $tile[1]; }
-// 		}
-// 	}
-// }
-
-
-// file_put_contents("offsets70.json", json_encode($offsets));

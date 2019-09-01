@@ -195,3 +195,10 @@ body{
 	background-repeat: no-repeat;
 	background-position: 16px 16px;
 }
+
+.adtcoord{
+    color: white;
+    background-color: #00000099;
+    width: 50px;
+    text-align: center;
+}

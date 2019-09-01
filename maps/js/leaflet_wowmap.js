@@ -10,7 +10,6 @@
 	var ADTGridLayer;
 	var ADTGridTextLayer;
 	var Versions;
-	var Offsets;
 	var Elements =
 	{
 		Maps: document.getElementById( 'js-map-select' ),
@@ -61,9 +60,9 @@
 		debugEl.style.zIndex = 1337;
 		debugEl.style.color = '#FFF';
 		debugEl.style.position = 'absolute';
-		debugEl.style.bottom = '0px';
+		debugEl.style.bottom = '80px';
 		debugEl.style.left = '5px';
-		debugEl.style.maxHeight = '150px';
+		debugEl.style.maxHeight = '475px';
 		debugEl.style.overflowY = 'hidden';
 		debugEl.style.backgroundColor = 'rgba(0, 0, 0, .5)';
 
@@ -78,15 +77,9 @@
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = Initialize;
-	xhr.open( 'GET', '/maps/data/data.new.json', true );
+	xhr.open( 'GET', '/maps/data/data.json', true );
 	xhr.responseType = 'json';
 	xhr.send();
-
-	var offsxhr = new XMLHttpRequest();
-	offsxhr.onreadystatechange = InitializeOffs;
-	offsxhr.open( 'GET', '/maps/data/offsets.json', true );
-	offsxhr.responseType = 'json';
-	///offsxhr.send();
 
 	var anxhr = new XMLHttpRequest();
 	anxhr.onreadystatechange = ProcessAreaResult;
@@ -114,31 +107,6 @@
 
 		InitializeMapOptions( xhr.response.maps );
 		InitializeEvents();
-	}
-
-	function InitializeOffs()
-	{
-		if( offsxhr.readyState !== 4 )
-		{
-			return;
-		}
-
-		d( 'Offset data loaded: ' + offsxhr.status );
-
-		if( offsxhr.status !== 200 )
-		{
-			alert( 'Failed to load offset data. Whoops.' );
-
-			return;
-		}
-
-		if(Offsets == undefined){
-			Offsets = new Array();
-		}
-
-		Object.keys(offsxhr.response).forEach(function(key) {
-		    Offsets[key] = offsxhr.response[key];
-		});
 	}
 
 	function InitializeMap()
@@ -310,7 +278,7 @@
 				, 2, true, false
 				);
 
-			if(!Offsets[Versions[Current.Map][Current.Version].build]){
+			if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
 				Elements.FlightLayer.disabled = true;
 				Elements.POILayer.disabled = true;
 				Elements.ADTGrid.disabled = true;
@@ -330,21 +298,6 @@
 			ChangeVersion();
 		} );
 
-		// L.event.addDomListener( document, 'keydown', function (e) {
-		// 	console.log(e);
-
-		// 	var element = Elements.Versions.options[ Elements.Versions.selectedIndex ];
-
-		// 	if (e.keyCode == '37' && element.nextSibling !== null) {
-		// 		Elements.Versions.selectedIndex = Elements.Versions.selectedIndex + 1;
-		// 		ChangeVersion();
-		// 	}
-		// 	else if (e.keyCode == '39' && element.previousSibling !== null) {
-		// 		Elements.Versions.selectedIndex = Elements.Versions.selectedIndex - 1;
-		// 		ChangeVersion();
-		// 	}
-		// });
-
 		Elements.NextMap.addEventListener( 'click', function( )
 		{
 			Elements.Versions.selectedIndex = Elements.Versions.selectedIndex - 1;
@@ -355,14 +308,16 @@
 		Elements.FlightLayer.addEventListener( 'click', function( )
 		{
 			if(Elements.FlightLayer.checked){
+				d('Enabled flight paths');
 				if(Current.InternalMapID == undefined){
-					console.log("Unknown mapid, can't request fps");
+					d("Unknown mapid, can't request fps");
 					return;
 				}
 				fpxhr.open( 'GET', '/maps/api.php?type=flightpaths&build=' + Versions[Current.Map][Current.Version].fullbuild + '&mapid=' + Current.InternalMapID);
 				fpxhr.responseType = 'json';
 				fpxhr.send();
 			}else{
+				d('Disabled flight paths');
 				LeafletMap.removeLayer(FlightPathLayer);
 				FlightPathLayer = new L.LayerGroup();
 			}
@@ -371,9 +326,9 @@
 		Elements.POILayer.addEventListener( 'click', function( )
 		{
 			if(Elements.POILayer.checked){
-				console.log("Requesting POIs");
+				d('Enabled POIs');
 				if(Current.InternalMapID == undefined){
-					console.log("Unknown mapid, can't request POIs");
+					d("Unknown mapid, can't request POIs");
 					return;
 				}
 
@@ -388,6 +343,7 @@
 				poixhr.open( 'GET', '/maps/api.php?type=pois&build=' + Versions[Current.Map][Current.Version].fullbuild + '&mapid=' + Current.InternalMapID, true );
 				poixhr.send();
 			}else{
+				d('Disabled POIs')
 				LeafletMap.removeLayer(POILayer);
 				POILayer = new L.LayerGroup();
 			}
@@ -396,6 +352,7 @@
 		Elements.ADTGrid.addEventListener( 'click', function( )
 		{
 			if(Elements.ADTGrid.checked){
+				d('Enabled ADT grid');
 				ADTGridLayer = new L.LayerGroup();
 				ADTGridTextLayer = new L.LayerGroup();
 				for(var x = 0; x < 64; x++){
@@ -409,45 +366,26 @@
 						ADTGridLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 0.1, color: 'red'}));
 					}
 				}
-				if (LeafletMap.getZoom() < 6){
-					LeafletMap.removeLayer(ADTGridTextLayer);
-				}
-				else
-				{
-					LeafletMap.addLayer(ADTGridTextLayer);
-					refreshADTGridText();
-				}
+				refreshADTGrid();
 				ADTGridLayer.addTo(LeafletMap);
 			}else{
+				d('Disabled ADT grid')
 				LeafletMap.removeLayer(ADTGridLayer);
+				LeafletMap.removeLayer(ADTGridTextLayer);
 			}
 		} );
 
-		LeafletMap.on('dragend', function()
+		LeafletMap.on('moveend zoomend dragend', function()
 		{
 			SynchronizeTitleAndURL();
 			if(Elements.ADTGrid.checked){
-				refreshADTGridText();
-			}
-		} );
-
-		LeafletMap.on('zoomend', function()
-		{
-			SynchronizeTitleAndURL();
-			if(Elements.ADTGrid.checked){
-				if (LeafletMap.getZoom() < 6){
-					LeafletMap.removeLayer(ADTGridTextLayer);
-				}
-				else
-				{
-					LeafletMap.addLayer(ADTGridTextLayer);
-				}
+				refreshADTGrid();
 			}
 		} );
 
 		LeafletMap.on('click', function(e)
 		{
-			ProcessOffsetClick(e, Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap]);
+			ProcessOffsetClick(e, Versions[Current.Map][Current.Version].config.offset.min);
 		} );
 
 		Elements.Maps.disabled = false;
@@ -456,8 +394,15 @@
 		RequestOffset();
 	}
 
-	function refreshADTGridText(){
+	function refreshADTGrid(){
 		var drawing = 0;
+		if (LeafletMap.getZoom() < 6){
+			LeafletMap.removeLayer(ADTGridTextLayer);
+			return;
+		}
+
+		LeafletMap.removeLayer(ADTGridTextLayer);
+		ADTGridTextLayer = new L.LayerGroup();
 		for(var x = 0; x < 64; x++){
 			for(var y = 0; y < 64; y++){
 				var latlng = WoWtoLatLng(maxSize - (x * adtSize) - 25, maxSize - (y * adtSize) - 25);
@@ -468,13 +413,16 @@
 				}
 			}
 		}
+
+		d( 'Refreshed ADT grid, drawing ' + drawing + ' coordinate boxes');
+		LeafletMap.addLayer(ADTGridTextLayer);
 	}
 	function ProcessPOIResult(response){
 		LeafletMap.removeLayer(POILayer);
 
 		POILayer = new L.LayerGroup();
 
-		if(!Offsets[Versions[Current.Map][Current.Version].build]){
+		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
 			RequestOffset();
 		}
 
@@ -504,12 +452,7 @@
 		POILayer.addTo(LeafletMap);
 	}
 	function RequestOffset(){
-		if(Versions[Current.Map][Current.Version].config.offset.min.x != 63){
-			console.log("Found offset in JSON. Skipping lookup.");
-			ProcessOffsetResult(Versions[Current.Map][Current.Version].config.offset.min);
-			return;
-		}
-
+		d('Requesting offset');
 		document.getElementById("clickedADT").textContent = "Loading..";
 		document.getElementById("clickedCoord").textContent = "Loading..";
 		var offsapixhr = new XMLHttpRequest();
@@ -533,20 +476,11 @@
 	}
 
 	function ProcessOffsetResult(offset){
+		d('Processed new offset ' + offset.x +' ' + offset.y);
 		var build = Versions[Current.Map][Current.Version].build;
 
-		if(Offsets == undefined){
-			console.log("Offsets not defined!");
-			Offsets = new Array();
-		}
+		Versions[Current.Map][Current.Version].config.offset.min = offset;
 
-		if(!(build in Offsets)){
-			console.log("Build not defined!");
-			Offsets[build] = new Array();
-		}
-
-		Offsets[build][Current.InternalMap] = offset;
-		console.log(Offsets[build][Current.InternalMap]);
 		Elements.FlightLayer.disabled = false;
 		Elements.POILayer.disabled = false;
 		Elements.ADTGrid.disabled = false;
@@ -618,44 +552,39 @@
 			shadowSize:  [41, 41]
 		});
 
-		console.log(fpxhr.response);
-		if(!Offsets[Versions[Current.Map][Current.Version].build]){
-			console.log("Flight paths not supported");
-		}else{
-			for(var i = 0; i < fpxhr.response.ids.length; i++){
-				var id = fpxhr.response.ids[i];
+		for(var i = 0; i < fpxhr.response.ids.length; i++){
+			var id = fpxhr.response.ids[i];
 
-				var icon = unknownIcon;
+			var icon = unknownIcon;
 
-				if(fpxhr.response.points[id].type == 'alliance'){
-					icon = allianceIcon;
-				}else if(fpxhr.response.points[id].type == 'horde'){
-					icon = hordeIcon;
-				}else if(fpxhr.response.points[id].type == 'neutral'){
-					icon = neutralIcon;
-				}
+			if(fpxhr.response.points[id].type == 'alliance'){
+				icon = allianceIcon;
+			}else if(fpxhr.response.points[id].type == 'horde'){
+				icon = hordeIcon;
+			}else if(fpxhr.response.points[id].type == 'neutral'){
+				icon = neutralIcon;
+			}
 
-				FlightPathLayer.addLayer(new L.marker(WoWtoLatLng(fpxhr.response.points[id].x, fpxhr.response.points[id].y), {icon: icon}).bindPopup(fpxhr.response.points[id].name));
-				if(fpxhr.response.points[id].connected){ // If it has connected flight points
-					for(var j = 0; j < fpxhr.response.points[id].connected.length; j++){
-						var connectedID = fpxhr.response.points[id].connected[j];
-						if(fpxhr.response.points[connectedID]){ // If connected flight point exists, Blizzard actually references non-existant ones. :(
-							var fromlat = WoWtoLatLng(fpxhr.response.points[id].x, fpxhr.response.points[id].y);
-							var tolat = WoWtoLatLng(fpxhr.response.points[connectedID].x, fpxhr.response.points[connectedID].y);
-							if(fpxhr.response.points[id].type == 'alliance'){
-								FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'blue'}));
-							}else if(fpxhr.response.points[id].type == 'horde'){
-								FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'red'}));
-							}else if(fpxhr.response.points[id].type == 'neutral'){
-								FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'yellow'}));
-							}
+			FlightPathLayer.addLayer(new L.marker(WoWtoLatLng(fpxhr.response.points[id].x, fpxhr.response.points[id].y), {icon: icon}).bindPopup(fpxhr.response.points[id].name));
+			if(fpxhr.response.points[id].connected){ // If it has connected flight points
+				for(var j = 0; j < fpxhr.response.points[id].connected.length; j++){
+					var connectedID = fpxhr.response.points[id].connected[j];
+					if(fpxhr.response.points[connectedID]){ // If connected flight point exists, Blizzard actually references non-existant ones. :(
+						var fromlat = WoWtoLatLng(fpxhr.response.points[id].x, fpxhr.response.points[id].y);
+						var tolat = WoWtoLatLng(fpxhr.response.points[connectedID].x, fpxhr.response.points[connectedID].y);
+						if(fpxhr.response.points[id].type == 'alliance'){
+							FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'blue'}));
+						}else if(fpxhr.response.points[id].type == 'horde'){
+							FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'red'}));
+						}else if(fpxhr.response.points[id].type == 'neutral'){
+							FlightPathLayer.addLayer(new L.polyline([fromlat, tolat], {weight: 1, color: 'yellow'}));
 						}
 					}
 				}
 			}
-
-			FlightPathLayer.addTo(LeafletMap);
 		}
+
+		FlightPathLayer.addTo(LeafletMap);
 	}
 
 	function WoWtoLatLng( x, y ){
@@ -665,11 +594,12 @@
 			pxPerCoord = adtSize / 512;
 		}
 
-		if(!(Current.InternalMap in Offsets[Versions[Current.Map][Current.Version].build])){
-			RequestOffset();
+		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
+			d("Cannot do latlng lookup, no valid offset!");
+			return;
 		}
 
-		offset = Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap];
+		offset = Versions[Current.Map][Current.Version].config.offset.min;
 
 		var offsetX = (offset.y * adtSize) / pxPerCoord;
 		var offsetY = (offset.x * adtSize) / pxPerCoord;
@@ -683,7 +613,7 @@
 	}
 
 	function LatLngToWoW( latlng ){
-		return PointToWoW(LeafletMap.project(latlng, LeafletMap.getMaxZoom()), Offsets[Versions[Current.Map][Current.Version].build][Current.InternalMap]);
+		return PointToWoW(LeafletMap.project(latlng, LeafletMap.getMaxZoom()), Versions[Current.Map][Current.Version].config.offset.min);
 	}
 
 	function PointToWoW( point, offset, build ){
@@ -725,17 +655,21 @@
 
 		Current.Version = Elements.Versions.value;
 
-		if(!Offsets[Versions[Current.Map][Current.Version].build]){
+		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
 			Elements.FlightLayer.disabled = true;
+			Elements.POILayer.disabled = true;
+			Elements.ADTGrid.disabled = true;
 		}else{
 			Elements.FlightLayer.disabled = false;
+			Elements.POILayer.disabled = false;
+			Elements.ADTGrid.disabled = false;
 		}
-
 		RenderMap(LeafletMap.getCenter(), LeafletMap.getZoom(), false, true);
 
 		UpdateArrowButtons();
 
 		SynchronizeTitleAndURL();
+
 		RequestOffset();
 	}
 
@@ -788,14 +722,22 @@
 
 		Elements.FlightLayer.checked = false;
 		Elements.POILayer.checked = false;
+		Elements.ADTGrid.checked = false;
+
 		Elements.FlightLayer.disabled = true;
 		Elements.POILayer.disabled = true;
+		Elements.ADTGrid.disabled = true;
 
 		if(LeafletMap.hasLayer(FlightPathLayer)){ LeafletMap.removeLayer(FlightPathLayer); }
 		FlightPathLayer = new L.LayerGroup();
 
 		if(LeafletMap.hasLayer(POILayer)){ LeafletMap.removeLayer(POILayer); }
 		POILayer = new L.LayerGroup();
+
+		if(LeafletMap.hasLayer(ADTGridLayer)){ LeafletMap.removeLayer(ADTGridLayer); }
+		if(LeafletMap.hasLayer(ADTGridTextLayer)){ LeafletMap.removeLayer(ADTGridTextLayer); }
+		ADTGridLayer = new L.LayerGroup();
+		ADTGridTextLayer = new L.LayerGroup();
 	}
 
 	var markers = [];
