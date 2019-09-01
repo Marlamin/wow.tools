@@ -433,6 +433,11 @@
 		POILayer.addTo(LeafletMap);
 	}
 	function RequestOffset(){
+		if(Versions[Current.Map][Current.Version].config.offset.min.x != 63){
+			ProcessOffsetResult(Versions[Current.Map][Current.Version].config.offset.min);
+			return;
+		}
+
 		document.getElementById("clickedADT").textContent = "Loading..";
 		document.getElementById("clickedCoord").textContent = "Loading..";
 		var offsapixhr = new XMLHttpRequest();

@@ -58,24 +58,24 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 		$mapversion['config']['offset']['max']['y'] = 0;
 		$mapversion['config']['offset']['max']['x'] = 0;
 
-		$maprawdir = "/home/wow/minimaps/raw/" . $mapversion['expansion'].".".$mapversion['major'].".".$mapversion['minor'].".".$mapversion['build']."/World/Minimaps/".$mapnameraw;
+		$maprawdir = "/home/wow/minimaps/raw/" . $mapversion['expansion'].".".$mapversion['major'].".".$mapversion['minor'].".".$mapversion['build']."/world/minimaps/".$mapnameraw;
 
-		// if(is_dir($maprawdir)){
+		if(is_dir($maprawdir)){
 
-		// 	foreach(glob($maprawdir."/*") as $tileindir){
-		// 		$tileparts = explode ("/", $tileindir);
-		// 		$tile = str_replace(".blp", "", $tileparts[9]);
-		// 		$tile = str_replace("map", "", $tile);
-		// 		$tile = explode("_", $tile);
+			foreach(glob($maprawdir."/*") as $tileindir){
+				$tileparts = explode ("/", $tileindir);
+				$tile = str_replace(".blp", "", $tileparts[9]);
+				$tile = str_replace("map", "", $tile);
+				$tile = explode("_", $tile);
 
-		// 		if(!is_numeric($tile[0])){ continue; }
+				if(!is_numeric($tile[0])){ continue; }
 
-		// 		if($mapversion['config']['offset']['min']['x'] > $tile[0]){ $mapversion['config']['offset']['min']['x'] = (int) $tile[0]; }
-		// 		if($mapversion['config']['offset']['min']['y'] > $tile[1]){ $mapversion['config']['offset']['min']['y'] = (int) $tile[1]; }
-		// 		if($mapversion['config']['offset']['max']['x'] < $tile[0]){ $mapversion['config']['offset']['max']['x'] = (int) $tile[0]; }
-		// 		if($mapversion['config']['offset']['max']['y'] < $tile[1]){ $mapversion['config']['offset']['max']['y'] = (int) $tile[1]; }
-		// 	}
-		// }
+				if($mapversion['config']['offset']['min']['y'] > $tile[0]){ $mapversion['config']['offset']['min']['y'] = (int) $tile[0]; }
+				if($mapversion['config']['offset']['min']['x'] > $tile[1]){ $mapversion['config']['offset']['min']['x'] = (int) $tile[1]; }
+				if($mapversion['config']['offset']['max']['y'] < $tile[0]){ $mapversion['config']['offset']['max']['y'] = (int) $tile[0]; }
+				if($mapversion['config']['offset']['max']['x'] < $tile[1]){ $mapversion['config']['offset']['max']['x'] = (int) $tile[1]; }
+			}
+		}
 
 		/* Unship data not used in JSON! */
 		unset($mapversion['id'], $mapversion['expansion'], $mapversion['major'], $mapversion['minor'], $mapversion['map_id'], $mapversion['builton'], $mapversion['version'], $mapversion['tilemd5']);
