@@ -19,8 +19,7 @@
 		<div style='font-size: 12px; margin-top: 5px'>
 		<b>Details for last click:</b><br>
 		Coord: <span id="clickedCoord">No click. :(</span><br>
-		Tile: <span id="clickedADT">No click. :(</span><br>
-		Name: <span id="clickedName">No click. :(</span>
+		Tile: <span id="clickedADT">No click. :(</span>
 		</div>
 	</div>
 

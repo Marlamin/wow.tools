@@ -81,9 +81,6 @@
 	xhr.responseType = 'json';
 	xhr.send();
 
-	var anxhr = new XMLHttpRequest();
-	anxhr.onreadystatechange = ProcessAreaResult;
-
 	var fpxhr = new XMLHttpRequest();
 	fpxhr.onreadystatechange = ProcessFPResult;
 
@@ -483,22 +480,6 @@
 
 		document.getElementById("clickedCoord").textContent =  Math.floor(ingame.x) + ' ' + Math.floor(ingame.y) + ' 200 ' + Current.InternalMapID;
 		document.getElementById("clickedADT").textContent = Current.InternalMap + '_' + adt.x + '_' + adt.y;
-
-		var mcnkIndex = WoWTileAndCoordToMCNK(adt, ingame);
-
-		anxhr.open( 'GET', '/maps/api.php?type=areaname&id=' + Current.InternalMapID + '&adt=' + adt.x + '_' + adt.y + '&index=' + Math.floor(mcnkIndex), true );
-		anxhr.responseType = 'json';
-		anxhr.send();
-	}
-
-	function ProcessAreaResult()
-	{
-		if( anxhr.readyState !== 4 )
-		{
-			return;
-		}
-
-		document.getElementById("clickedName").textContent = anxhr.response.name;
 	}
 
 	function ProcessFPResult()
@@ -698,7 +679,6 @@
 		if(isMapChange){
 			document.getElementById("clickedCoord").textContent = "No click. :(";
 			document.getElementById("clickedADT").textContent = "No click. :(";
-			document.getElementById("clickedName").textContent = Elements.Maps.options[ Elements.Maps.selectedIndex ].textContent;
 		}
 
 		Elements.FlightLayer.checked = false;
