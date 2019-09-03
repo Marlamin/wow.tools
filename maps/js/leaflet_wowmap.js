@@ -380,8 +380,6 @@
 
 		Elements.Maps.disabled = false;
 		Elements.Versions.disabled = false;
-
-		RequestOffset();
 	}
 
 	function refreshADTGrid(){
