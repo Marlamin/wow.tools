@@ -646,21 +646,21 @@
 					if(offsetBefore.x > offsetAfter.x){
 						// Positive x
 						var offsetX = offsetBefore.x - offsetAfter.x;
-						newCenter.x += offsetX * adtSize;
+						newCenter.x -= offsetX * adtSize;
 					}else if(offsetBefore.x < offsetAfter.x){
 						// Negative x
 						var offsetX = offsetAfter.x - offsetBefore.x;
-						newCenter.x -= offsetX * adtSize;
+						newCenter.x += offsetX * adtSize;
 					}
 
 					if(offsetBefore.y > offsetAfter.y){
 						// Positive y
 						var offsetY = offsetBefore.y - offsetAfter.y;
-						newCenter.y += offsetY * adtSize;
+						newCenter.y -= offsetY * adtSize;
 					}else if(offsetBefore.y < offsetAfter.y){
 						// Negative y
 						var offsetY = offsetAfter.y - offsetBefore.y;
-						newCenter.y -= offsetY * adtSize;
+						newCenter.y += offsetY * adtSize;
 					}
 
 					d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
