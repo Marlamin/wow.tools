@@ -44,7 +44,21 @@ if(empty($argv[1])){
 	die("Need buildconfig hash as argument");
 }
 
+if(!empty($argv[2]) && $argv[2] == "true"){
+	$regenerate = true;
+}else{
+	$regenerate = false;
+}
+
 $build = getVersionByBuildConfigHash($argv[1]);
+if(empty($build)){
+	die("Could not find build!");
+}
+
+if(empty($build['buildconfig']['description'])){
+	die("Empty build description!");
+}
+
 $rawdesc = str_replace("WOW-", "", $build['buildconfig']['description']);
 $buildnum = substr($rawdesc, 0, 5);
 $rawdesc = str_replace(array($buildnum, "patch"), "", $rawdesc);
@@ -52,14 +66,25 @@ $descexpl = explode("_", $rawdesc);
 $outdir = $descexpl[0].".".$buildnum;
 
 echo "Extracting tiles..\n";
+
+if($regenerate){
+	echo "Removing raw directory..\n";
+	shell_exec("rm -rf /home/wow/minimaps/raw/".$outdir);
+}
+
 echo "Creating raw directory..\n";
 if(file_exists("/home/wow/minimaps/raw/".$outdir)){
 	echo "Raw directory already exists, skipping extraction..\n";
 }else{
 	shell_exec("mkdir -p /home/wow/minimaps/raw/".$outdir);
 	echo "Extracting tiles..\n";
-	$extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll /var/www/wow.tools/ ".escapeshellarg($build['buildconfig']['hash'])." ".escapeshellarg($build['cdnconfig']['hash'])." ".escapeshellarg("/home/wow/minimaps/raw/".$outdir));
+	$extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll /var/www/wow.tools/tpr/wow/ ".escapeshellarg($build['buildconfig']['hash'])." ".escapeshellarg($build['cdnconfig']['hash'])." ".escapeshellarg("/home/wow/minimaps/raw/".$outdir));
 	print_r($extractionoutput);
+}
+
+if($regenerate){
+	echo "Removing output directory..\n";
+	shell_exec("rm -rf /home/wow/minimaps/png/".$outdir);
 }
 
 echo "Creating output directory..\n";
@@ -90,6 +115,21 @@ echo "Updating database..\n";
 $versionCache = [];
 foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){
 	$versionCache[$version['version']] = $version['id'];
+}
+
+if($regenerate){
+	echo "Removing existing entries for this version..\n";
+
+	$versionid = getOrCreateVersionID($outdir);
+	if(empty($versionid)){
+		die("Unable to get/create version id!");
+	}
+
+	$vdelq = $pdo->prepare("DELETE FROM wow_maps_versions WHERE versionid = ?");
+	$vdelq->execute([$versionid]);
+
+	$cdelq = $pdo->prepare("DELETE FROM wow_maps_config WHERE versionid = ?");
+	$cdelq->execute([$versionid]);
 }
 
 $mapCache = [];
