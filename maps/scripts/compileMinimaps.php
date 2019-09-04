@@ -71,7 +71,14 @@ if(file_exists("/home/wow/minimaps/png/".$outdir)){
 	foreach(glob("/home/wow/minimaps/raw/".$outdir."/world/minimaps/*", GLOB_ONLYDIR) as $directory){
 		$mapname = str_replace("/home/wow/minimaps/raw/".$outdir."/world/minimaps/", "", $directory);
 		echo "Compiling map " . $mapname . "\n";
-		$compilationoutput = shell_exec("cd /home/wow/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll ".escapeshellarg("../raw/".$outdir."/world/minimaps/".$mapname)." " . escapeshellarg("/home/wow/minimaps/png/".$outdir."/".$mapname.".png")." 512");
+		$res = 256;
+
+		// Ensure classic compatibility
+		if($build > 26707 && substr($descexpl[0], 0, 1) > 8){
+			$res = 512;
+		}
+
+		$compilationoutput = shell_exec("cd /home/wow/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll ".escapeshellarg("../raw/".$outdir."/world/minimaps/".$mapname)." " . escapeshellarg("/home/wow/minimaps/png/".$outdir."/".$mapname.".png")." ".escapeshellarg($res));
 		if(!file_exists("/home/wow/minimaps/png/".$outdir."/".$mapname.".png")){
 			echo "Compilation failed:" . print_r($compilationoutput, true);
 		}
