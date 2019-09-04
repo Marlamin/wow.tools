@@ -51,8 +51,7 @@
 	} );
 
 	var d;
-	// var isDebug = window.location.hash !== '#nodebug';
-	var isDebug = false;
+	var isDebug = window.location.hash === '#debug';
 
 	if( isDebug )
 	{
@@ -622,13 +621,71 @@
 	{
 		d( 'Changed version to ' + Elements.Versions.value + ' from ' + Current.Version );
 
-		Current.Version = Elements.Versions.value;
+		var offsetBefore = Versions[Current.Map][Current.Version].config.offset.min;
+
+		var center = LeafletMap.getCenter();
 
 		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
 			RequestOffset();
+		}else{
+			// Don't support offset adjustments when offset is initially unknown
+			var offsetAfter = Versions[Current.Map][Elements.Versions.value].config.offset.min;
+
+			d( 'Offset before: ' + offsetBefore.x + '_' + offsetBefore.y + ', after: ' + offsetAfter.x + '_' + offsetAfter.y);
+
+			if(offsetBefore.x != offsetAfter.x || offsetBefore.y != offsetAfter.y){
+				d( 'Offset differs, map adjustment needed' );
+				if(offsetBefore.x != 63 && offsetAfter.x != 63){
+					// get current map loc and convert to wow
+					var wowCenter = LatLngToWoW(center);
+					d ('Current map center: ' + center.lat + ' ' + center.lng);
+					d ('Current wow center: ' + wowCenter.x + ' ' + wowCenter.y);
+					var newCenter = wowCenter;
+
+					// calculate offset... offset?
+					if(offsetBefore.x > offsetAfter.x){
+						// Positive x
+						var offsetX = offsetBefore.x - offsetAfter.x;
+						newCenter.x += offsetX * adtSize;
+					}else if(offsetBefore.x < offsetAfter.x){
+						// Negative x
+						var offsetX = offsetAfter.x - offsetBefore.x;
+						newCenter.x -= offsetX * adtSize;
+					}
+
+					if(offsetBefore.y > offsetAfter.y){
+						// Positive y
+						var offsetY = offsetBefore.y - offsetAfter.y;
+						newCenter.y += offsetY * adtSize;
+					}else if(offsetBefore.y < offsetAfter.y){
+						// Negative y
+						var offsetY = offsetAfter.y - offsetBefore.y;
+						newCenter.y -= offsetY * adtSize;
+					}
+
+					d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
+
+					center = WoWtoLatLng(newCenter.x, newCenter.y);
+
+					// bug?
+					center.lat = center.lat / 2;
+					center.lng = center.lng / 2;
+
+					d ('New map center: ' + center.lat + ' ' + center.lng);
+
+					// use old center for now
+					if(!isDebug){
+						center = LeafletMap.getCenter();
+					}
+				}else{
+					d( 'One of the offsets is unknown, not applying changes' );
+				}
+			}
 		}
 
-		RenderMap(LeafletMap.getCenter(), LeafletMap.getZoom(), false, true);
+		Current.Version = Elements.Versions.value;
+
+		RenderMap(center, LeafletMap.getZoom(), false, true);
 
 		UpdateArrowButtons();
 
@@ -701,9 +758,14 @@
 		if(LeafletMap.hasLayer(POILayer)){ LeafletMap.removeLayer(POILayer); }
 		POILayer = new L.LayerGroup();
 
-		if(LeafletMap.hasLayer(ADTGridLayer)){ LeafletMap.removeLayer(ADTGridLayer); }
+		if(!isDebug){
+			if(LeafletMap.hasLayer(ADTGridLayer)){ LeafletMap.removeLayer(ADTGridLayer); }
+		}
+
 		if(LeafletMap.hasLayer(ADTGridTextLayer)){ LeafletMap.removeLayer(ADTGridTextLayer); }
-		ADTGridLayer = new L.LayerGroup();
+		if(!isDebug){
+			ADTGridLayer = new L.LayerGroup();
+		}
 		ADTGridTextLayer = new L.LayerGroup();
 	}
 
@@ -713,7 +775,7 @@
 	{
 		d("Setting center " + center + " and zoom " + zoom);
 
-		LeafletMap.setView( center , zoom );
+		LeafletMap.setView( center , zoom , {animate: false} );
 
 		if(!urlSet)
 		{
@@ -740,6 +802,10 @@
 
 		// Disable latlng linking for now
 		var url = '/maps/' + Current.InternalMap + '/' + Current.Version + '/' + zoom + '/' + latlng.lat.toFixed(3) + '/' + latlng.lng.toFixed(3);
+
+		if(isDebug){
+			url += "#debug";
+		}
 
 		if( isMapChange )
 		{
