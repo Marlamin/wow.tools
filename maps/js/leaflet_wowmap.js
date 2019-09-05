@@ -709,7 +709,7 @@
 		}
 
 		TileLayer = new L.tileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {
-			attribution: 'Map data &copy; Blizzard Entertainment',
+			attribution: 'World of Warcraft &copy; Blizzard Entertainment',
 			continuousWorld: true,
 			bounds: mapbounds
 		}).addTo(LeafletMap);

@@ -11,7 +11,7 @@ foreach($pdo->query("SELECT version, build FROM wow_builds ORDER BY build DESC")
 	if(count($firstseen) > 0){
 		echo "<h3>".$row['version']."</h3>";
 		foreach($firstseen as $map){
-			echo "<span class='badge badge-success'>Added</span> <a href='/maps/png/".$row['version']."/".$map['name'].".png'>".$map['name']."</a><br>";
+			echo "<span class='badge badge-success'>Added</span> <a href='/maps/png/".$row['version']."/".rawurlencode($map['internal']).".png'>".$map['name']."</a><br>";
 		}
 		echo "<br>";
 	}

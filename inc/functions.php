@@ -357,7 +357,11 @@ function compareTimestamp($a, $b)
 
 function getOrCreateVersionID($version){
 	global $pdo;
-	global $versionCache;
+
+	$versionCache = [];
+	foreach($pdo->query("SELECT id, version FROM wow_builds") as $ver){
+		$versionCache[$ver['version']] = $ver['id'];
+	}
 
 	if(!array_key_exists($version, $versionCache)){
 		// Version does not exist, create and return id

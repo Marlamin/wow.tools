@@ -112,11 +112,6 @@ if(file_exists("/home/wow/minimaps/png/".$outdir)){
 
 echo "Updating database..\n";
 
-$versionCache = [];
-foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){
-	$versionCache[$version['version']] = $version['id'];
-}
-
 if($regenerate){
 	echo "Removing existing entries for this version..\n";
 
