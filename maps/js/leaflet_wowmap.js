@@ -9,6 +9,7 @@
 	var POILayer;
 	var ADTGridLayer;
 	var ADTGridTextLayer;
+	var WorldMapLayer;
 	var Versions;
 	var Elements =
 	{
@@ -22,7 +23,8 @@
 		Layers: document.getElementById('js-layers'),
 		FlightLayer: document.getElementById('js-flightlayer'),
 		POILayer: document.getElementById('js-poilayer'),
-		ADTGrid: document.getElementById('js-adtgrid')
+		ADTGrid: document.getElementById('js-adtgrid'),
+		WorldMap: document.getElementById('js-worldmap')
 	};
 
 	var Current =
@@ -361,6 +363,17 @@
 			}
 		} );
 
+		Elements.WorldMap.addEventListener( 'click', function( )
+		{
+			if(Elements.WorldMap.checked){
+				WorldMapLayer = new L.LayerGroup();
+				drawWorldMap();
+				LeafletMap.addLayer(WorldMapLayer);
+			}else{
+				LeafletMap.removeLayer(WorldMapLayer);
+			}
+		} );
+
 		LeafletMap.on('moveend zoomend dragend', function()
 		{
 			SynchronizeTitleAndURL();
@@ -392,7 +405,7 @@
 				var latlng = WoWtoLatLng(maxSize - (x * adtSize) - 25, maxSize - (y * adtSize) - 25);
 				if(LeafletMap.getBounds().contains(latlng)){
 					var myIcon = L.divIcon({className: 'adtcoordicon', html: '<div class="adtcoord">' + y + '_' + x + '</div>'});
-					ADTGridTextLayer.addLayer(new L.marker(latlng, {icon: myIcon}));;
+					ADTGridTextLayer.addLayer(new L.marker(latlng, {icon: myIcon}));
 					drawing++;
 				}
 			}
@@ -401,6 +414,28 @@
 		d( 'Refreshed ADT grid, drawing ' + drawing + ' coordinate boxes');
 		LeafletMap.addLayer(ADTGridTextLayer);
 	}
+
+	function drawWorldMap(){
+		var wmapxhr = new XMLHttpRequest();
+		wmapxhr.open( 'GET', '/api/data/uimapassignment/?build=' + Versions[Current.Map][Current.Version].fullbuild + '&draw=1&start=0&length=10000&search%5Bvalue%5D=&search%5Bregex%5D=false&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=' + Current.InternalMapID, true );
+		wmapxhr.responseType = 'json';
+		wmapxhr.onreadystatechange = function() {
+			if (wmapxhr.readyState === 4){
+				var drawn = new Array();
+				for(var i = 0; i < wmapxhr.response.data.length; i++){
+					if(!drawn.includes(wmapxhr.response.data[i][11])){
+						var latlngx = WoWtoLatLng(wmapxhr.response.data[i][4], wmapxhr.response.data[i][5]);
+						var latlngy = WoWtoLatLng(wmapxhr.response.data[i][7], wmapxhr.response.data[i][8]);
+						WorldMapLayer.addLayer(new L.imageOverlay("/maps/worldmap/" + wmapxhr.response.data[i][11] + ".png", [latlngx, latlngy], {opacity: 0.67}));
+						drawn.push(wmapxhr.response.data[i][11]);
+						console.log("Drawn " + wmapxhr.response.data[i][11]);
+					}
+				}
+			}
+		}
+		wmapxhr.send();
+	}
+
 	function ProcessPOIResult(response){
 		LeafletMap.removeLayer(POILayer);
 
@@ -468,6 +503,7 @@
 		Elements.FlightLayer.disabled = false;
 		Elements.POILayer.disabled = false;
 		Elements.ADTGrid.disabled = false;
+		Elements.WorldMap.disabled = false;
 	}
 
 	function ProcessOffsetClick(e, offset){
@@ -576,12 +612,11 @@
 		var tempx = (mapSize / 2 + tempx) / pxPerCoord - offsetX;
 		var tempy = x * -1; //flip it (°□°）︵ ┻━┻)
 		var tempy = (mapSize / 2 + tempy) / pxPerCoord - offsetY;
-
-		return LeafletMap.unproject([tempx,tempy], LeafletMap.getMaxZoom());
+		return LeafletMap.unproject([tempx, tempy], LeafletMap.getMaxZoom());
 	}
 
 	function LatLngToWoW( latlng ){
-		return PointToWoW(LeafletMap.project(latlng, LeafletMap.getMaxZoom()), Versions[Current.Map][Current.Version].config.offset.min);
+		return PointToWoW(LeafletMap.project(latlng, LeafletMap.getMaxZoom()), Versions[Current.Map][Current.Version].build);
 	}
 
 	function PointToWoW( point, offset, build ){
@@ -628,57 +663,59 @@
 		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
 			RequestOffset();
 		}else{
-			// Don't support offset adjustments when offset is initially unknown
-			var offsetAfter = Versions[Current.Map][Elements.Versions.value].config.offset.min;
+			if(isDebug){
+				// Don't support offset adjustments when offset is initially unknown
+				var offsetAfter = Versions[Current.Map][Elements.Versions.value].config.offset.min;
 
-			d( 'Offset before: ' + offsetBefore.x + '_' + offsetBefore.y + ', after: ' + offsetAfter.x + '_' + offsetAfter.y);
+				d( 'Offset before: ' + offsetBefore.x + '_' + offsetBefore.y + ', after: ' + offsetAfter.x + '_' + offsetAfter.y);
 
-			if(offsetBefore.x != offsetAfter.x || offsetBefore.y != offsetAfter.y){
-				d( 'Offset differs, map adjustment needed' );
-				if(offsetBefore.x != 63 && offsetAfter.x != 63){
-					// get current map loc and convert to wow
-					var wowCenter = LatLngToWoW(center);
-					d ('Current map center: ' + center.lat + ' ' + center.lng);
-					d ('Current wow center: ' + wowCenter.x + ' ' + wowCenter.y);
-					var newCenter = wowCenter;
+				if(offsetBefore.x != offsetAfter.x || offsetBefore.y != offsetAfter.y){
+					d( 'Offset differs, map adjustment needed' );
+					if(offsetBefore.x != 63 && offsetAfter.x != 63){
+						// get current map loc and convert to wow
+						var wowCenter = LatLngToWoW(center);
+						d ('Current map center: ' + center.lat + ' ' + center.lng);
+						d ('Current wow center: ' + wowCenter.x + ' ' + wowCenter.y);
+						var newCenter = wowCenter;
 
-					// calculate offset... offset?
-					if(offsetBefore.x > offsetAfter.x){
-						// Positive x
-						var offsetX = offsetBefore.x - offsetAfter.x;
-						newCenter.x -= offsetX * adtSize;
-					}else if(offsetBefore.x < offsetAfter.x){
-						// Negative x
-						var offsetX = offsetAfter.x - offsetBefore.x;
-						newCenter.x += offsetX * adtSize;
+						// calculate offset... offset?
+						if(offsetBefore.x > offsetAfter.x){
+							// Positive x
+							var offsetX = offsetBefore.x - offsetAfter.x;
+							newCenter.x -= offsetX * adtSize;
+						}else if(offsetBefore.x < offsetAfter.x){
+							// Negative x
+							var offsetX = offsetAfter.x - offsetBefore.x;
+							newCenter.x += offsetX * adtSize;
+						}
+
+						if(offsetBefore.y > offsetAfter.y){
+							// Positive y
+							var offsetY = offsetBefore.y - offsetAfter.y;
+							newCenter.y -= offsetY * adtSize;
+						}else if(offsetBefore.y < offsetAfter.y){
+							// Negative y
+							var offsetY = offsetAfter.y - offsetBefore.y;
+							newCenter.y += offsetY * adtSize;
+						}
+
+						d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
+
+						center = WoWtoLatLng(newCenter.x, newCenter.y);
+
+						// bug?
+						center.lat = center.lat / 2;
+						center.lng = center.lng / 2;
+
+						d ('New map center: ' + center.lat + ' ' + center.lng);
+
+						// use old center for now
+						if(!isDebug){
+							center = LeafletMap.getCenter();
+						}
+					}else{
+						d( 'One of the offsets is unknown, not applying changes' );
 					}
-
-					if(offsetBefore.y > offsetAfter.y){
-						// Positive y
-						var offsetY = offsetBefore.y - offsetAfter.y;
-						newCenter.y -= offsetY * adtSize;
-					}else if(offsetBefore.y < offsetAfter.y){
-						// Negative y
-						var offsetY = offsetAfter.y - offsetBefore.y;
-						newCenter.y += offsetY * adtSize;
-					}
-
-					d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
-
-					center = WoWtoLatLng(newCenter.x, newCenter.y);
-
-					// bug?
-					center.lat = center.lat / 2;
-					center.lng = center.lng / 2;
-
-					d ('New map center: ' + center.lat + ' ' + center.lng);
-
-					// use old center for now
-					if(!isDebug){
-						center = LeafletMap.getCenter();
-					}
-				}else{
-					d( 'One of the offsets is unknown, not applying changes' );
 				}
 			}
 		}
@@ -741,15 +778,22 @@
 		Elements.FlightLayer.checked = false;
 		Elements.POILayer.checked = false;
 		Elements.ADTGrid.checked = false;
+		Elements.WorldMap.checked = false;
 
-		if(Versions[Current.Map][Current.Version].config.offset.min.x == 63){
-			Elements.FlightLayer.disabled = true;
-			Elements.POILayer.disabled = true;
-			Elements.ADTGrid.disabled = true;
-		}else{
+		Elements.FlightLayer.disabled = true;
+		Elements.POILayer.disabled = true;
+		Elements.ADTGrid.disabled = true;
+		Elements.WorldMap.disabled = true;
+
+		if(Versions[Current.Map][Current.Version].config.offset.min.x != 63){
 			Elements.FlightLayer.disabled = false;
 			Elements.POILayer.disabled = false;
 			Elements.ADTGrid.disabled = false;
+
+			// uimapassignment builds only
+			if(Versions[Current.Map][Current.Version].build > 26787){
+				Elements.WorldMap.disabled = false;
+			}
 		}
 
 		if(LeafletMap.hasLayer(FlightPathLayer)){ LeafletMap.removeLayer(FlightPathLayer); }
@@ -767,6 +811,9 @@
 			ADTGridLayer = new L.LayerGroup();
 		}
 		ADTGridTextLayer = new L.LayerGroup();
+
+		if(LeafletMap.hasLayer(WorldMapLayer)){ LeafletMap.removeLayer(WorldMapLayer); }
+		WorldMapLayer = new L.LayerGroup();
 	}
 
 	var markers = [];
