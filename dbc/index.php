@@ -153,7 +153,26 @@ $dbFound = false;
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script type='text/javascript'>
 	var currentBuild = 0;
+	var filtersEnabled = false;
+	function toggleFilters(){
+		if(!filtersEnabled){
+			$("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
+			$("#tableContainer thead tr:eq(1) th").each( function (i) {
+				var title = $(this).text();
+				$(this).html( '<input type="text"/>' );
 
+				$( 'input', this ).on( 'keyup change', function () {
+					if ( $('#dbtable').DataTable().column(i).search() !== this.value ) {
+						$('#dbtable').DataTable().column(i).search(this.value).draw();
+					}
+				} );
+			} );
+			filtersEnabled = true;
+		}else{
+			$("#tableContainer thead tr:eq(1)").remove();
+			filtersEnabled = false;
+		}
+	}
 	(function() {
 		$('#fileFilter').select2();
 		var vars = {};
@@ -235,8 +254,8 @@ $dbFound = false;
 					"serverSide": true,
 					"ajax": {
 						"url": "/api/data/" + vars["dbc"].toLowerCase() + "/?build=" + vars["build"],
+						"type": "POST",
 						"data": function( result ) {
-							delete result.columns;
 							return result;
 						}
 					},
@@ -246,6 +265,7 @@ $dbFound = false;
 					"pagingType": "input",
 					"orderMulti": false,
 					"ordering": false,
+					"language": { "search": "<a class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
 					"search": { "search": searchString },
 					"columnDefs": [
 					{

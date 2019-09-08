@@ -417,13 +417,13 @@
 
 	function drawWorldMap(){
 		var wmapxhr = new XMLHttpRequest();
-		wmapxhr.open( 'GET', '/api/data/uimapassignment/?build=' + Versions[Current.Map][Current.Version].fullbuild + '&draw=1&start=0&length=10000&search%5Bvalue%5D=&search%5Bregex%5D=false&columns%5B6%5D%5Bsearch%5D%5Bvalue%5D=' + Current.InternalMapID, true );
+		wmapxhr.open( 'GET', '/api/data/uimapassignment/?build=' + Versions[Current.Map][Current.Version].fullbuild + '&draw=1&start=0&length=10000&search%5Bvalue%5D=&search%5Bregex%5D=false&columns%5B13%5D%5Bsearch%5D%5Bvalue%5D=exact:' + Current.InternalMapID, true );
 		wmapxhr.responseType = 'json';
 		wmapxhr.onreadystatechange = function() {
 			if (wmapxhr.readyState === 4){
 				var drawn = new Array();
 				for(var i = 0; i < wmapxhr.response.data.length; i++){
-					if(!drawn.includes(wmapxhr.response.data[i][11])){
+					if(wmapxhr.response.data[i][13] == Current.InternalMapID && !drawn.includes(wmapxhr.response.data[i][11])){
 						var latlngx = WoWtoLatLng(wmapxhr.response.data[i][4], wmapxhr.response.data[i][5]);
 						var latlngy = WoWtoLatLng(wmapxhr.response.data[i][7], wmapxhr.response.data[i][8]);
 						WorldMapLayer.addLayer(new L.imageOverlay("/maps/worldmap/" + wmapxhr.response.data[i][11] + ".png", [latlngx, latlngy], {opacity: 0.67}));
