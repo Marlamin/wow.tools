@@ -30,7 +30,7 @@ if(!empty($_GET['filedataid'])){
 	}
 
 	$contenthashes = array();
-	$subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = :id ORDER BY wow_buildconfig.description DESC");
+	$subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_rootfiles_sizes.size, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn LEFT OUTER JOIN wow_rootfiles_sizes on wow_rootfiles_sizes.contenthash=wow_rootfiles_chashes.contenthash WHERE filedataid = :id ORDER BY wow_buildconfig.description DESC");
 	$subq->bindParam(":id", $row['id'], PDO::PARAM_INT);
 	$subq->execute();
 	$versions = array();
@@ -44,6 +44,10 @@ if(!empty($_GET['filedataid'])){
 		}
 		if($subrow['contenthash'] == $prevcontenthash){
 			continue;
+		}
+
+		if(empty($subrow['size'])){
+			$subrow['size'] = 0;
 		}
 
 		$versions[] = $subrow;
@@ -86,9 +90,9 @@ if(!empty($_GET['filedataid'])){
 	echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
 	echo "<tr><td colspan='2'>
 	<table class='table table-condensed'>";
-	echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>&nbsp;</th></tr>";
+	echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th><th>&nbsp;</th></tr>";
 	foreach($versions as $version){
-		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td>";
+		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td><td>".$version['size']." bytes</td>";
 		echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"".$version['buildconfig']."\", \"".$returndata['filedataid']."\")'>Preview</a></td>";
 		echo "</tr>";
 	}
