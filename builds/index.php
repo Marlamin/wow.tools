@@ -1,4 +1,216 @@
 <?php
+
+if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
+	require_once("../inc/config.php");
+
+	if(empty($_GET['versionid']) || !filter_var($_GET['versionid'], FILTER_VALIDATE_INT)){
+		die("Invalid build ID!");
+	}
+
+	$query = $pdo->prepare("SELECT
+	wow_versions.id as versionid,
+	wow_versions.cdnconfig,
+	wow_versions.buildconfig,
+	wow_versions.patchconfig,
+	wow_versions.complete as versioncomplete,
+	wow_versions.product as versionproduct,
+	wow_buildconfig.id as buildconfigid,
+	wow_buildconfig.description,
+	wow_buildconfig.product,
+	wow_buildconfig.encoding,
+	wow_buildconfig.encoding_cdn,
+	wow_buildconfig.root,
+	wow_buildconfig.root_cdn,
+	wow_buildconfig.install,
+	wow_buildconfig.install_cdn,
+	wow_buildconfig.download,
+	wow_buildconfig.download_cdn,
+	wow_buildconfig.unarchivedcount,
+	wow_buildconfig.unarchivedcomplete,
+	wow_buildconfig.complete as buildconfigcomplete,
+	wow_buildconfig.builton,
+	wow_cdnconfig.archivecount,
+	wow_cdnconfig.archivecomplete,
+	wow_cdnconfig.indexcomplete,
+	wow_cdnconfig.patcharchivecount,
+	wow_cdnconfig.patcharchivecomplete,
+	wow_cdnconfig.patchindexcomplete,
+	wow_cdnconfig.complete as cdnconfigcomplete,
+	wow_patchconfig.patch,
+	wow_patchconfig.complete as patchconfigcomplete
+	FROM wow_versions
+	LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash
+	LEFT OUTER JOIN wow_cdnconfig ON wow_versions.cdnconfig=wow_cdnconfig.hash
+	LEFT OUTER JOIN wow_patchconfig ON wow_versions.patchconfig=wow_patchconfig.hash
+	WHERE wow_versions.id = ?
+	");
+
+	$query->execute([$_GET['versionid']]);
+
+	$build = $query->fetch(PDO::FETCH_ASSOC);
+
+	echo "<table class='table table-striped table-condensed'>";
+	echo "<tr><td>Description</td><td>".$build['description']."</td></tr>";
+	echo "<tr><td>Product</td><td>".$build['product']."</td></tr>";
+	if(!empty($build['builton'])) { echo "<tr><td>Compiled at</td><td>".$build['builton']."</td></tr>"; }
+	echo "</table>";
+	echo "<h4>Configs</h4>";
+	echo "<table class='table table-sm table-striped table-condensed'>";
+	echo "<thead>
+	<tr>
+	<th>File</th>
+	<th>Encoding/CDN hash</th>
+	</tr>
+	</thead>";
+	if(!empty($build['buildconfig'])){
+		echo "<tr><td>Build config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"".$build['buildconfig']."\")'>show</a>)</td><td>";
+		if($build['buildconfigcomplete'] == 1){
+			echo "<span class='badge badge-success hash'>".$build['buildconfig']."</span>";
+		}else{
+			echo "<span class='badge badge-danger hash'>".$build['buildconfig']."</span>";
+		}
+		echo "</td></tr>";
+	}
+
+	if(!empty($build['cdnconfig'])){
+		echo "<tr><td>CDN config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"".$build['cdnconfig']."\")'>show</a>)</td><td>";
+		if($build['cdnconfigcomplete'] == 1){
+			echo "<span class='badge badge-success hash'>".$build['cdnconfig']."</span>";
+		}else{
+			echo "<span class='badge badge-danger hash'>".$build['cdnconfig']."</span>";
+		}
+		echo "</td></tr>";		
+	}
+
+	if(!empty($build['patchconfig'])){
+		echo "<tr><td>Patch config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"".$build['patchconfig']."\")'>show</a>)</td><td>";
+		if($build['patchconfigcomplete'] == 1){
+			echo "<span class='badge badge-success hash'>".$build['patchconfig']."</span>";
+		}else{
+			echo "<span class='badge badge-danger hash'>".$build['patchconfig']."</span>";
+		}
+		echo "</td></tr>";		
+	}
+
+	echo "</table>";
+	echo "<h4>Build config files</h4>";
+	echo "<table class='table table-sm table-striped table-condensed'>";
+	echo "<thead>
+	<tr>
+	<th>File</th>
+	<th>Content hash</th>
+	<th>Encoding/CDN hash</th>
+	</tr>
+	</thead>";
+
+	if(!empty($build['encoding'])) {
+		echo "<tr><td>Encoding</td><td><span class='badge badge-secondary hash'>".$build['encoding']."</span></td><td>"; 
+		if(!empty($build['encoding_cdn']) && doesFileExist("data", $build['encoding_cdn'], $allowedproducts["wow"]['cdndir'])) {
+			echo "<span class='badge badge-success hash'>".$build['encoding_cdn']."</span>";
+		} else {
+			echo "<span class='badge badge-danger hash'>".$build['encoding_cdn']."</span>";
+		}
+		echo "</td></tr>";
+	}
+		
+	if(!empty($build['root'])) {
+		echo "<tr><td>Root</td><td><span class='badge badge-secondary hash'>".$build['root']."</span></td><td>"; 
+		if(!empty($build['root_cdn']) && doesFileExist("data", $build['root_cdn'], $allowedproducts["wow"]['cdndir'])) {
+			echo "<span class='badge badge-success hash'>".$build['root_cdn']."</span>";
+		} else {
+			echo "<span class='badge badge-danger hash'>".$build['root_cdn']."</span>";
+		}
+		echo "</td></tr>";
+	}
+
+	if(!empty($build['install'])) {
+		echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=".$build['buildconfig']."'>file list</a>)</td><td><span class='badge badge-secondary hash'>".$build['install']."</span></td><td>"; 
+		if(!empty($build['install_cdn']) && doesFileExist("data", $build['install_cdn'], $allowedproducts["wow"]['cdndir'])) {
+			echo "<span class='badge badge-success hash'>".$build['install_cdn']."</span>";
+		} else {
+			echo "<span class='badge badge-danger hash'>".$build['install_cdn']."</span>";
+		}
+		echo "</td></tr>";
+	}
+
+	if(!empty($build['download'])) {
+		echo "<tr><td>Download</td><td><span class='badge badge-secondary hash'>".$build['download']."</span></td><td>"; 
+		if(!empty($build['download_cdn']) && doesFileExist("data", $build['download_cdn'], $allowedproducts["wow"]['cdndir'])) {
+			echo "<span class='badge badge-success hash'>".$build['download_cdn']."</span>";
+		} else {
+			echo "<span class='badge badge-danger hash'>".$build['download_cdn']."</span>";
+		}
+		echo "</td></tr>";
+	}
+
+	echo "<tr><td>Unarchived</td>";
+
+	if($build['unarchivedcomplete'] == $build['unarchivedcount']){
+		echo "<td colspan='2' style='color: green'>";
+	}else{
+		echo "<td colspan='2' style='color: red'>";
+	}
+
+	if($build['unarchivedcount'] == 0){ 
+		$build['unarchivedcount'] = "???"; 
+	}
+
+	echo $build['unarchivedcomplete']."/".$build['unarchivedcount']."</td></tr>";
+	echo "</table>";
+	echo "<h4>CDN config files</h4>";
+	echo "<table class='table table-sm table-striped table-condensed'>";
+	echo "<thead>
+	<tr>
+	<th style='width: 200px'>Type</th>
+	<th>Status</th>
+	</tr>
+	</thead>";
+
+	echo "<tr><td>Archives</td>";
+	if($build['archivecomplete'] == $build['archivecount']){
+		echo "<td style='color: green'>";
+	}else{
+		echo "<td style='color: red'>";
+	}
+	echo $build['archivecomplete']."/".$build['archivecount']."</td></tr>";
+
+	echo "<tr><td>Archive indexes</td>";
+	if($build['indexcomplete'] == $build['archivecount']){
+		echo "<td style='color: green'>";
+	}else{
+		echo "<td style='color: red'>";
+	}
+	echo  $build['indexcomplete']."/".$build['archivecount']."</td></tr>";
+
+	echo "<tr><td>Patch archives</td>";
+	if($build['patcharchivecomplete'] == $build['patcharchivecount']){
+		echo "<td style='color: green'>";
+	}else{
+		echo "<td style='color: red'>";
+	}
+	echo $build['patcharchivecomplete']."/".$build['patcharchivecount']."</td></tr>";
+
+	echo "<tr><td>Patch archive indexes</td>";
+	if($build['patchindexcomplete'] == $build['patcharchivecount']){
+		echo "<td style='color: green'>";
+	}else{
+		echo "<td style='color: red'>";
+	}
+	echo $build['patchindexcomplete']."/".$build['patcharchivecount']."</td></tr>";
+	echo "</table>";
+	die();
+}else if(!empty($_GET['api']) && $_GET['api'] == "configdump"){
+	if(!empty($_GET['config']) && strlen($_GET['config']) == 32 && ctype_xdigit($_GET['config'])){
+		echo "<pre>";
+		echo file_get_contents("/var/www/wow.tools/tpr/wow/config/".$_GET['config'][0].$_GET['config'][1]."/".$_GET['config'][2].$_GET['config'][3]."/".$_GET['config']);
+		echo "</pre>";
+	}else{
+		die("Invalid config!");
+	}
+
+	die();
+}
+
 require_once("../inc/header.php");
 
 $query = "SELECT
@@ -53,6 +265,42 @@ $odd = false;
 				</button>
 			</div>
 			<div class="modal-body" id="installDiffModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="moreInfoModalLabel">Version information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="moreInfoModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="configModalLabel">Raw config</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="configModalContent">
 				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 			</div>
 			<div class="modal-footer">
@@ -124,148 +372,10 @@ $odd = false;
 
 			echo "<td style='width: 150px'>".$row['builton']."</td>";
 			echo "<td style='width: 100px'>";
-			echo "<a data-toggle='collapse' href='#versiondetails".$row['versionid']."'>Show details</a>";
+			echo "<a href='#' data-toggle='modal' data-target='#moreInfoModal' onClick='fillVersionModal(".$row['versionid'].")'>Show details</a>";
 			echo "</td>";
 			echo "</tr>";
-			echo "<tr class='collapse' id='versiondetails".$row['versionid']."'>";
-			echo "<td colspan='3'>&nbsp;</td>";
-			echo "<td style='width: 600px'>";
-			echo "<table class='table table-sm'>";
-			echo "<tr>";
-			echo "<td>Encoding</td>";
-			echo "<td>";
-			if(!empty($row['encoding'])) { echo "<span class='badge badge-secondary hash'>".$row['encoding']."</span>"; }
-			if(!empty($row['encoding_cdn']) && doesFileExist("data", $row['encoding_cdn'], $allowedproducts["wow"]['cdndir'])) {
-				echo " <span class='badge badge-success hash'>";
-				if(!empty($_SESSION['loggedin'])){
-					echo "<a target='_BLANK' style='color: white;' href='".generateURL("data", $row['encoding_cdn'], $allowedproducts["wow"]['cdndir'])."'>".$row['encoding_cdn']."</a>";
-				}else{
-					echo "<span style='color: white;'>".$row['encoding_cdn']."</span>";
-				}
-				echo "</span>";
-			} else {
-				echo " <span class='badge badge-danger hash'>".$row['encoding_cdn']."</span>";
-			}
-			echo "</td>";
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td>Root</td>";
-			echo "<td>";
-			if(!empty($row['root'])) { echo "<span class='badge badge-secondary hash'>".$row['root']."</span>"; }
-			if(!empty($row['root_cdn']) && doesFileExist("data", $row['root_cdn'], $allowedproducts["wow"]['cdndir'])) {
-				echo " <span class='badge badge-success hash'>";
-				if(!empty($_SESSION['loggedin'])){
-					echo "<a target='_BLANK' style='color: white;' href='".generateURL("data", $row['root_cdn'], $allowedproducts["wow"]['cdndir'])."'>".$row['root_cdn']."</a>";
-				}else{
-					echo "<span style='color: white;'>".$row['root_cdn']."</span>";
-				}
-				echo "</span>";
-			} else {
-				echo " <span class='badge badge-danger hash'>".$row['root_cdn']."</span>";
-			}
-			echo "</td>";
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td>Install</td>";
-			echo "<td>";
-			if(!empty($row['install'])) { echo "<span class='badge badge-secondary hash'>".$row['install']."</span>"; }
-			if(!empty($row['install_cdn']) && doesFileExist("data", $row['install_cdn'], $allowedproducts["wow"]['cdndir'])) {
-				echo " <span class='badge badge-success hash'>";
-				if(!empty($_SESSION['loggedin'])){
-					echo "<a target='_BLANK' style='color: white;' href='".generateURL("data", $row['install_cdn'], $allowedproducts["wow"]['cdndir'])."'>".$row['install_cdn']."</a>";
-				}else{
-					echo "<span style='color: white;'>".$row['install_cdn']."</span>";
-				}
-				echo "</span> <a href='/builds/extract.php?type=install&product="."wow"."&build=".$row['buildconfig']."'>(details)</a>";
-			} else {
-				echo " <span class='badge badge-danger hash'>".$row['install_cdn']."</span>";
-			}
-			echo "</td>";
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td>Download</td>";
-			echo "<td>";
-			if(!empty($row['download'])) { echo "<span class='badge badge-secondary hash'>".$row['download']."</span>"; }
-			if(!empty($row['download_cdn']) && doesFileExist("data", $row['download_cdn'], $allowedproducts["wow"]['cdndir'])) {
-				echo " <span class='badge badge-success hash'>";
-				if(!empty($_SESSION['loggedin'])){
-					echo "<a target='_BLANK' style='color: white;' href='".generateURL("data", $row['download_cdn'], $allowedproducts["wow"]['cdndir'])."'>".$row['download_cdn']."</a>";
-				}else{
-					echo "<span style='color: white;'>".$row['download_cdn']."</span>";
-				}
-				echo "</span>";
-
-			} else {
-				echo " <span class='badge badge-danger hash'>".$row['download_cdn']."</span>";
-			}
-			echo "</td>";
-			echo "</tr>";
-			if($row['unarchivedcount'] == 0){ $row['unarchivedcount'] = "???"; }
-			if($row['unarchivedcomplete'] == $row['unarchivedcount']){
-				echo "<tr style='color: green'>";
-			}else{
-				echo "<tr style='color: red'>";
-			}
-
-			echo "<td>Unarchived</td><td>".$row['unarchivedcomplete']."/".$row['unarchivedcount']."</td></tr>";
-			echo "<td colspan='2'><a href='/builds/config.php?bc=".$row['buildconfig']."' target='_BLANK'>More information</a></td></tr>";
-			echo "</table>";
-			echo "</td>";
-
-			echo "<td>";
-			echo "<table>";
-			echo "<tr>";
-			echo "<td>";
-			if(!empty($row['patch']) && doesFileExist("patch", $row['patch'], $allowedproducts["wow"]['cdndir'])) {
-				echo " <span class='badge badge-success hash'>";
-				if(!empty($_SESSION['loggedin'])){
-					echo "<a target='_BLANK' style='color: white;' href='".generateURL("patch", $row['patch'], $allowedproducts["wow"]['cdndir'])."'>".$row['patch']."</a>";
-				}else{
-					echo "<span style='color: white;'>".$row['patch']."</span>";
-				}
-				echo "</span>";
-			} else {
-				echo " <span class='badge badge-danger hash'>".$row['patch']."</span>";
-			}
-			echo "</td>";
-			echo "</tr>";
-			echo "</table>";
-			echo "</td>";
-
-			echo "<td style='width: 300px'>";
-			if(!empty($row['cdnconfig']) && doesFileExist("config", $row['cdnconfig'], $allowedproducts["wow"]['cdndir'])) {
-				echo "<table class='table table-sm'>";
-				if($row['archivecomplete'] == $row['archivecount']){
-					echo "<tr style='color: green'>";
-				}else{
-					echo "<tr style='color: red'>";
-				}
-				echo "<td>Archives</td><td>".$row['archivecomplete']."/".$row['archivecount']."</td></tr>";
-				if($row['indexcomplete'] == $row['archivecount']){
-					echo "<tr style='color: green'>";
-				}else{
-					echo "<tr style='color: red'>";
-				}
-				echo "<td>Archive indexes</td><td>".$row['indexcomplete']."/".$row['archivecount']."</td></tr>";
-				if($row['patcharchivecomplete'] == $row['patcharchivecount']){
-					echo "<tr style='color: green'>";
-				}else{
-					echo "<tr style='color: red'>";
-				}
-				echo "<td>Patch archives</td><td>".$row['patcharchivecomplete']."/".$row['patcharchivecount']."</td></tr>";
-				if($row['patchindexcomplete'] == $row['patcharchivecount']){
-					echo "<tr style='color: green'>";
-				}else{
-					echo "<tr style='color: red'>";
-				}
-				echo "<td>Patch archive indexes</td><td>".$row['patchindexcomplete']."/".$row['patcharchivecount']."</td></tr>";
-				echo "<td colspan='2'><a href='/builds/config.php?cdnc=".$row['cdnconfig']."' target='_BLANK'>More information</a></td></tr>";
-				echo "</table>";
-			}
-			echo "</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td>&nbsp;</td>";
-			echo "</tr>";
+			
 			if($odd){
 				$odd = false;
 			}else{

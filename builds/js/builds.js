@@ -120,3 +120,11 @@ $( document ).ready(function() {
 		return false;
 	}
 });
+
+function fillVersionModal(id){
+	$("#moreInfoModalContent").load("/builds/index.php?api=buildinfo&versionid=" + id);
+}
+
+function fillConfigModal(config){
+	$("#configModalContent").load("/builds/index.php?api=configdump&config=" + config);
+}
