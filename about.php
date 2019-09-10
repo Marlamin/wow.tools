@@ -19,12 +19,14 @@ If you create an account on the site, the following information is stored:
 <h5>Submitted information</h5>
 <p>If you submit filenames to be added to the database while logged in, your username is stored and will be mentioned on the frontpage as a way of saying thanks. If you don't want this, log out when submitting filenames.</p>
 <h3>Open source</h3>
-The site and some of the tools powering the site are open source.
+The site and the tools powering the site are open source.
 <ul>
 <li><a href='https://github.com/Marlamin/wow.tools/' target='_BLANK'>wow.tools</a> - Website code</li>
 <li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> - Makes backups of builds on Blizzard's CDN</li>
 <li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> - Powers listfile generation, file downloads and previews</li>
 <li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> - Powers database file browsing, searching and lookups for the modelviewer</li>
+<li><a href='https://github.com/Marlamin/WoWTools.Minimaps/' target='_BLANK'>Minimap tools</a> - Minimap extraction and compilation tools</li>
+<li><a href='https://github.com/Marlamin/WorldMapCompiler/' target='_BLANK'>WorldMapCompiler</a> - Compiles in-game world maps into single images</li>
 <li><a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>WoWDBDefs</a> - Definitions for database files</li>
 </ul>
 <h3>Legal stuff</h3>
