@@ -252,8 +252,8 @@ ORDER BY wow_buildconfig.description DESC
 ";
 $res = $pdo->query($query);
 $allbuilds = $res->fetchAll();
-$odd = false;
 ?>
+<link href="/builds/css/builds.css?v=<?=filemtime("/var/www/wow.tools/builds/css/builds.css")?>" rel="stylesheet">
 <script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
 <div class="modal" id="installDiffModal" tabindex="-1" role="dialog" aria-labelledby="installDiffModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
@@ -274,7 +274,7 @@ $odd = false;
 	</div>
 </div>
 <div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-xl" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="moreInfoModalLabel">Version information</h5>
@@ -312,18 +312,9 @@ $odd = false;
 <div class='container-fluid'>
 	<h3 style='float: left'><?=count($allbuilds)?> builds in DB</h3>
 	<div style='float: left; margin-left: 10px; position: sticky; top: 0;'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
-	<form>
-		<input type='hidden' id='buildFrom'><input type='hidden' id='buildTo'>
-	</form>
-	<table id='buildtable' class='table table-sm table-hover maintable'>
+	<table id='buildtable' class='table table-sm table-hover maintable' style='clear: both'>
 		<thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Build time</th><th>&nbsp;</th></tr></thead>
 		<?php foreach($allbuilds as $row){
-			if($odd){
-				echo "<tr class='odd'>";
-			}else{
-				echo "<tr>";
-			}
-
 			if(empty($row['product'])) $row['product'] = $row['versionproduct'];
 
 			$buildarr = parseBuildName($row['description']);
@@ -333,10 +324,6 @@ $odd = false;
 			echo "<td style='width: 600px'>";
 			echo "<span class='hash buildconfighash'>".$row['buildconfig']."</span>";
 
-			if(empty($row['buildconfig']) || !doesFileExist("config", $row['buildconfig'], $allowedproducts["wow"]['cdndir'])) {
-				echo "<span class='badge badge-danger'>Does not exist</span>";
-			}
-
 			if($row['buildconfigcomplete'] == 0) {
 				echo " <span class='badge badge-danger'>Incomplete</span>";
 			}
@@ -344,10 +331,6 @@ $odd = false;
 			echo "</td>";
 			echo "<td style='width: 300px'>";
 			echo "<span class='hash'>".$row['patchconfig']."</span>";
-
-			if(!empty($row['patchconfig']) && !doesFileExist("config", $row['patchconfig'], $allowedproducts["wow"]['cdndir'])) {
-				echo "<span class='badge badge-danger'>Does not exist</span>";
-			}
 
 			if(isset($row['patchconfigcomplete'])){
 				if($row['patchconfigcomplete'] == 0){
@@ -358,10 +341,6 @@ $odd = false;
 			echo "</td>";
 			echo "<td style='width: 300px;'>";
 			echo "<span class='hash'>".$row['cdnconfig']."</span>";
-
-			if(empty($row['cdnconfig']) || !doesFileExist("config", $row['cdnconfig'], $allowedproducts["wow"]['cdndir'])) {
-				echo "<span class='badge badge-danger'>Does not exist</span>";
-			}
 
 			if(isset($row['cdnconfigcomplete'])){
 				if($row['cdnconfigcomplete'] == 0){
@@ -374,14 +353,26 @@ $odd = false;
 			echo "<td style='width: 100px'>";
 			echo "<a href='#' data-toggle='modal' data-target='#moreInfoModal' onClick='fillVersionModal(".$row['versionid'].")'>Show details</a>";
 			echo "</td>";
-			echo "</tr>";
-			
-			if($odd){
-				$odd = false;
-			}else{
-				$odd = true;
-			}
+			echo "</tr>\n";
 		} ?>
 	</table>
 </div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<script type='text/javascript'>
+var table = $('#buildtable').DataTable({
+			"pagingType": "input",
+			"pageLength": 25,
+			"order": [[1, 'desc']],
+			"lengthMenu": [[25, 100, 500, 1000], [25, 100, 500, 1000]],
+			"columnDefs": [
+			{
+				"targets": [2,3,4,5,7],
+				"orderable": false,
+			}],
+		});
+
+</script>
 <?php require_once("../inc/footer.php"); ?>
