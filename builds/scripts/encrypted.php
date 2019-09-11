@@ -15,12 +15,18 @@ function reverseLookup($bytes){
 	return $result;
 }
 
-$q = $pdo->query("SELECT hash, description FROM wow_buildconfig ORDER BY id DESC LIMIT 1");
+$q = $pdo->query("SELECT hash, description FROM wow_buildconfig WHERE product IN ('wowt', 'wow_beta') ORDER BY id DESC LIMIT 1");
 $row = $q->fetch();
+
+$rawdesc = str_replace("WOW-", "", $row['description']);
+$build = substr($rawdesc, 0, 5);
+$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
+$descexpl = explode("_", $rawdesc);
+$fullbuild = $descexpl[0].".".$build;
 
 $encryptedfiles = array();
 
-echo "[Encrypted file list] Parsing ".$row['description']."\n";
+echo "[Encrypted file list] Parsing ".$fullbuild."\n";
 
 $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow ".escapeshellarg($row['hash']);
 $output = shell_exec($cmd);
@@ -39,8 +45,8 @@ ksort($encryptedfiles);
 
 $current = array();
 $q = $pdo->query("SELECT * FROM wow_encrypted");
-foreach($q->fetchAll() as $row){
-	$current[] = $row['filedataid'].".".$row['keyname'];
+foreach($q->fetchAll() as $enc){
+	$current[] = $enc['filedataid'].".".$enc['keyname'];
 }
 
 $inserted = 0;
@@ -56,7 +62,32 @@ foreach($encryptedfiles as $filedataid => $keysarr){
 			$inserted++;
 		}
 	}
-
 }
 
 echo "[Encrypted file list] Inserted " . $inserted . " new encrypted filedataids!\n";
+echo "[TACT key list] Dumping current TACT keys for ".$fullbuild."..\n";
+
+$inserted = 0;
+
+$db2 = file_get_contents("https://wow.tools/api/data/tactkeylookup/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$tactkeylookups = json_decode($db2, true)['data'];
+echo "[TACT key list] Have " . count($tactkeylookups) ." TACT key lookups from tactkeylookup.db2..\n";
+
+$q = $pdo->prepare("INSERT IGNORE INTO wow_tactkey (id, keyname, added) VALUES (?, ?, ?)");
+foreach($tactkeylookups as $tactkeylookup){
+	$id = $tactkeylookup[0];
+
+	$lookup = "";
+	for($i = 8; $i > 0; $i--){
+		$lookup = $lookup . str_pad(dechex((int)$tactkeylookup[$i]), 2, '0', STR_PAD_LEFT);
+	}
+	$lookup = strtoupper($lookup);
+
+	$q->execute([$id, $lookup, $row['description']]);
+
+	if($q->rowCount() > 0){
+		$inserted++;
+	}
+}
+
+echo "[TACT key list] Done, inserted " . $inserted . " new TACT keys!\n";
