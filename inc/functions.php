@@ -352,7 +352,7 @@ function githubRequest($path, $data = null){
 
 function compareTimestamp($a, $b)
 {
-   return ($a['timestamp']< $b['timestamp']);
+	return ($a['timestamp']< $b['timestamp']);
 }
 
 function getOrCreateVersionID($version){
@@ -377,5 +377,18 @@ function getOrCreateVersionID($version){
 	return $versionCache[$version];
 }
 
+function humanBytes(float $Bytes, int $Precision = 2) : string
+{
+	if($Bytes < 1024)
+	{
+		return $Bytes . ' B';
+	}
+
+	$Units = [ 'B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB' ];
+
+	$i = floor( log( $Bytes, 1024 ) );
+
+	return number_format( $Bytes / pow( 1024, $i ), $Precision, '.', '' ) . ' ' . $Units[ $i ];
+}
 
 ?>

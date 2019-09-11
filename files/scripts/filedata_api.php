@@ -92,7 +92,7 @@ if(!empty($_GET['filedataid'])){
 	<table class='table table-condensed'>";
 	echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th><th>&nbsp;</th></tr>";
 	foreach($versions as $version){
-		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td><td>".$version['size']." bytes</td>";
+		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td><td>".humanBytes($version['size'])." (".$version['size']." bytes)</td>";
 		echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"".$version['buildconfig']."\", \"".$returndata['filedataid']."\")'>Preview</a></td>";
 		echo "</tr>";
 	}
