@@ -86,8 +86,35 @@ foreach($tactkeylookups as $tactkeylookup){
 	$q->execute([$id, $lookup, $row['description']]);
 
 	if($q->rowCount() > 0){
+		echo "[TACT key list] Added TACT key lookup ".$id." " . $lookup."\n"; 
 		$inserted++;
 	}
 }
 
 echo "[TACT key list] Done, inserted " . $inserted . " new TACT keys!\n";
+
+$updated = 0;
+
+$db2 = file_get_contents("https://wow.tools/api/data/tactkey/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$tactkeys = json_decode($db2, true)['data'];
+echo "[TACT key list] Have " . count($tactkeys) ." TACT keys from tactkey.db2..\n";
+
+$q = $pdo->prepare("UPDATE wow_tactkey SET keybytes = ? WHERE id = ? AND keybytes = NULL");
+foreach($tactkeys as $tactkey){
+	$id = $tactkey[0];
+
+	$keybytes = "";
+	for($i = 16; $i > 0; $i--){
+		$keybytes = str_pad(dechex((int)$tactkey[$i]), 2, '0', STR_PAD_LEFT) . $keybytes;
+	}
+	$keybytes = strtoupper($keybytes);
+
+	$q->execute([$keybytes, $id]);
+
+	if($q->rowCount() > 0){
+		echo "[TACT key list] Added TACT key ".$id." " . $keybytes."\n"; 
+		$updated++;
+	}
+}
+
+echo "[TACT key list] Done, added " . $updated . " new TACT keys!\n";
