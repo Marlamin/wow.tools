@@ -141,7 +141,8 @@ if(!empty($_GET['filedataid'])){
 		</td></tr>";
 	}
 
-	$lq = $pdo->prepare("SELECT wow_rootfiles_links.*, wow_rootfiles.id, wow_rootfiles.filename, wow_rootfiles.type as filetype FROM wow_rootfiles_links INNER JOIN wow_rootfiles ON wow_rootfiles.id=wow_rootfiles_links.child WHERE parent = :id");
+	$bhashq = $pdo->prepare("SELECT hash FROM wow_buildconfig WHERE root_cdn IN (SELECT root_cdn FROM wow_rootfiles_chashes WHERE filedataid = ?) ORDER BY ID DESC LIMIT 1");
+	$lq = $pdo->prepare("SELECT wow_rootfiles_links.*, wow_encrypted.keyname, wow_rootfiles.id, wow_rootfiles.filename, wow_rootfiles.type as filetype FROM wow_rootfiles_links INNER JOIN wow_rootfiles ON wow_rootfiles.id=wow_rootfiles_links.child LEFT OUTER JOIN wow_encrypted ON wow_rootfiles.id=wow_encrypted.filedataid WHERE parent = :id");
 	$lq->bindParam(":id", $row['id']);
 	$lq->execute();
 	$children = $lq->fetchAll();
@@ -149,13 +150,43 @@ if(!empty($_GET['filedataid'])){
 		echo "<tr><td colspan='2'><b>Linked child files</b></td></tr>";
 		echo "<tr><td colspan='2'>
 		<table class='table table-condensed'>";
-		echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th></tr>";
+		echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th><th>&nbsp;</th></tr>";
 		foreach ($children as $lrow){
 			echo "<tr>";
 			echo "<td>".$lrow['type']."</td>";
 			echo "<td>".$lrow['child']."</td>";
 			echo "<td>".$lrow['filename']."</td>";
 			echo "<td>".$lrow['filetype']."</td>";
+			if($lrow['filetype'] == "blp"){
+				// select newest bc for this file, TODO: most recent one instead of random one
+				$bhashq->execute([$lrow['child']]);
+				$buildhashforchildres = $bhashq->fetch();
+				if(!empty($buildhashforchild)){
+					$buildhashforchild = $buildhashforchildres['hash'];
+				}else{
+					$buildhashforchild = $versions[0]['buildconfig'];
+				}
+				// check encryption
+				$eq->bindParam(":id", $lrow['child']);
+				$eq->execute();
+				$enc = 0;
+				foreach($eq->fetchAll(PDO::FETCH_ASSOC) as $er){
+					if(!empty($er['keybytes'])){
+						$enc = 2;
+					}else{
+						$enc = 1;
+					}
+				}
+				echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"".$buildhashforchild."\", \"".$lrow['child']."\")'>Preview</a>";
+				if($enc == 1){
+					echo " <i style='color: red' title='File is encrypted (key ".$lrow['keyname']." not known)' class='fa fa-lock'></i>";
+				}else if($enc == 2){
+					echo " <i style='color: green' title='File is encrypted (key ".$lrow['keyname']." is available)' class='fa fa-unlock'></i>";
+				}
+				echo "</td>";
+			}else{
+				echo "<td>&nbsp;</td>";
+			}
 			echo "</tr>";
 		}
 		echo "</table>
