@@ -49,6 +49,10 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 
 	$build = $query->fetch(PDO::FETCH_ASSOC);
 
+	if(empty($build)){
+		die("Version not found!");
+	}
+
 	echo "<table class='table table-striped table-condensed'>";
 	echo "<tr><td>Description</td><td>".$build['description']."</td></tr>";
 	echo "<tr><td>Product</td><td>".$build['product']."</td></tr>";
