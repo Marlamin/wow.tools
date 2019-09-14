@@ -20,11 +20,11 @@ foreach($lfproducts as $lfproduct){
 			</button>
 			<div class="dropdown-menu">
 				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download">TXT (Blizzard filenames only)</a>
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV (Blizzard filenames only)</a>
-			    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
-<?php foreach($lfbuilds as $lfproduct => $lfbuild){?>
-				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> (<?=$lfbuild['description']?>)</a>
-<?php } ?>
+				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV (Blizzard filenames only)</a>
+				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
+				<?php foreach($lfbuilds as $lfproduct => $lfbuild){?>
+					<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> (<?=$lfbuild['description']?>)</a>
+				<?php } ?>
 			</div>
 		</div>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
@@ -128,7 +128,6 @@ foreach($lfproducts as $lfproduct){
 		</div>
 	</div>
 </div>
-<input type='hidden' value='' id='fileBuildFilter'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -144,27 +143,17 @@ foreach($lfproducts as $lfproduct){
 		}
 
 		var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
-
-		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
-
-		var apiUrl = "scripts/api.php";
-
-		if(build != undefined && build != 'undefined' && build.length > 0){
-			apiUrl = "/casc/root/files?buildConfig=" + build;
-			$("#fileBuildFilter").val(build);
-			// $("#fileBuildFilter").trigger('change');
-		}
-
 		var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
-		var sortDesc = searchHash.substr(searchHash.indexOf('desc=')).split('&')[0].split('=')[1];
-
 		if(!sortCol){
 			sortCol = 0;
 		}
 
+		var sortDesc = searchHash.substr(searchHash.indexOf('desc=')).split('&')[0].split('=')[1];
 		if(!sortDesc){
 			sortDesc = "asc";
 		}
+
+		var apiUrl = "scripts/api.php";
 		var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 
 		var table = $('#files').DataTable({
@@ -315,38 +304,58 @@ foreach($lfproducts as $lfproduct){
 $('#files').on( 'draw.dt', function () {
 	var currentSearch = encodeURIComponent($("#files_filter label input").val());
 	var currentPage = $('#files').DataTable().page() + 1;
-	var currentBuild = $('#fileBuildFilter').val();
-	window.location.hash = null;
 
 	var sort = $('#files').DataTable().order();
 	var sortCol = sort[0][0];
 	var sortDir = sort[0][1];
 
-	if(currentBuild != undefined && currentBuild != ''){
-		window.location.hash = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir + "&build=" + currentBuild;
-	}else{
-		window.location.hash = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
-	}
+	var url = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
+
+	console.log("Setting URL to " + url);
+
+	window.location.hash = url;
 
 	$("[data-toggle=popover]").popover();
 });
 
-$('#fileBuildFilter').on( 'change', function () {
-	console.log("Build filter changed!");
-	var build = $(this).val();
-	$.ajax({
-		url: "/files/scripts/api.php?switchbuild=" + build,
-		beforeSend: function() {
-			$("#files_processing").show();
-		}
-	})
-	.done(function( data ) {
-		console.log(data);
-		table.ajax.reload();
-		$("#files_processing").hide();
-	});
-});
 }());
-</script>
 
+function locationHashChanged(event) {
+	var searchHash = location.hash.substr(1),
+	searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
+
+	if(searchString != undefined && searchString.length > 0){
+		searchString = decodeURIComponent(searchString);
+	}
+
+	if($("#files_filter label input").val() != searchString){
+		console.log("Setting search to " + searchString);
+		$("#files_filter label input").val(searchString);
+		$('#files').DataTable().search(searchString).draw(false);
+	}
+	var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
+	if($('#files').DataTable().page() != page){
+		console.log("Setting page to " + page);
+		$('#files').DataTable().page(page).draw(false);
+	}
+
+	var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
+	if(!sortCol){
+		sortCol = 0;
+	}
+
+	var sortDesc = searchHash.substr(searchHash.indexOf('desc=')).split('&')[0].split('=')[1];
+	if(!sortDesc){
+		sortDesc = "asc";
+	}
+
+	var curSort = $('#files').DataTable().order();
+	if(sortCol != curSort[0][0] || sortDesc != curSort[0][1]){
+		console.log("Setting sort to " + sortCol + ", " + sortDesc);
+		$('#files').DataTable().order([sortCol, sortDesc]).draw(false);
+	}
+}
+
+window.onhashchange = locationHashChanged;
+</script>
 <?php require_once("../inc/footer.php"); ?>
