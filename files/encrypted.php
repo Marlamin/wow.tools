@@ -44,8 +44,9 @@ $encryptedfileq = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id IN (SELECT
 
 $cmdq = $pdo->prepare("SELECT * FROM wowdata.creaturemodeldata WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE keyname = ?)");
 $csdq = $pdo->prepare("SELECT * FROM wowdata.creaturesounddata WHERE ID = ?");
-
-foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY id DESC") as $tactkey){
+$contenthashMatchQ = $pdo->prepare("SELECT filedataid, contenthash FROM wow_rootfiles_chashes WHERE contenthash IN (SELECT contenthash FROM wow_rootfiles_chashes WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname = ?)) AND filedataid NOT IN (SELECT filedataid FROM wow_encrypted)
+");
+foreach($pdo->query("SELECT * FROM wow_tactkey WHERE id > 120 ORDER BY id DESC") as $tactkey){
 
 	$encryptedfileq->execute([$tactkey['keyname']]);
 	$filesforkey = $encryptedfileq->fetchAll(PDO::FETCH_ASSOC);
@@ -87,12 +88,12 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY id DESC") as $tactkey){
 	}
 
 	if(array_key_exists("m2", $types)){
-
 		$cmdq->execute([$tactkey['keyname']]);
 		$cmds = $cmdq->fetchAll();
 		if(count($cmds) > 0){
 			echo "<tr><td>Creatures</td><td><table class='table table-sm table-striped'>";
 			foreach($cmds as $cmd){
+				echo "<tr><td>FileDataID " . $cmd['filedataid']."</td><td>&nbsp;</td></tr>";
 				echo "<tr><td>CreatureModelData " . $cmd['id']."</td><td>&nbsp;</td></tr>";
 				echo "<tr><td>CreatureSoundData " . $cmd['soundid']."</td><td>&nbsp;</td></tr>";
 				$csdq->execute([$cmd['soundid']]);
@@ -108,24 +109,38 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY id DESC") as $tactkey){
 							$shown = true;
 							echo "<tr><td>" . $type . " = SoundKitID <a style=\"padding-top: 0px; padding-bottom: 0px; cursor: pointer\" data-toggle=\"modal\" data-target=\"#moreInfoModal\" onclick=\"fillSkitModal(".$soundkitid.")\">" . $soundkitid ."</a></td><td>&nbsp;</td></tr>";
 						}
-					}	
+					}
 
 					if(!$shown){
 						echo "<tr><td>No non-0 sounds</td></tr>";
-					}			
+					}
 				}
 				echo "</tr>";
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			}
-			echo "</table>";		
+			echo "</table>";
 		}
-
 	}
 
+	$contenthashMatchQ->execute([$tactkey['keyname']]);
+	$matches = $contenthashMatchQ->fetchAll();
+	if(count($matches) > 0){
+		echo "<tr><td>Content hash matches with other files</td><td><table class='table table-sm table-striped'>";
+		$prevhash = "";
+		$matchCount = 0;
+		foreach($matches as $match){
+			$matchCount++;
+			if($prevhash != $match['contenthash']){
+				echo "<tr><td>A file (TODO: which file??) in this key matches contenthash <span class='hash'>".$match['contenthash']."</span> from non-encrypted file " .$match['filedataid']."</td></tr>";
+			}
+			$prevhash = $match['contenthash'];
+		}
+		echo "</table></td></tr>";
+	}
 	echo "</table>";
 	echo "<hr>";
 }
-
+echo "<p>Older keys than key ID 120 are hidden for performance reasons.</p>";
 echo "</div>";
 ?>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
