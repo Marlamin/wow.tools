@@ -26,7 +26,22 @@ while(true){
 	$textureFileData = $pdo->query("SELECT FileDataID FROM wowdata.texturefiledata")->fetchAll(PDO::FETCH_COLUMN);
 	$movieFileData = $pdo->query("SELECT ID FROM wowdata.moviefiledata")->fetchAll(PDO::FETCH_COLUMN);
 	$mp3Manifest = $pdo->query("SELECT ID FROM wowdata.manifestmp3")->fetchAll(PDO::FETCH_COLUMN);
-
+	$cdi = $pdo->query("SELECT PortraitTextureFileDataID, `TextureVariationFileDataID[0]`, `TextureVariationFileDataID[1]`, `TextureVariationFileDataID[2]` FROM wowdata.creaturedisplayinfo");
+	$cdifdids = [];
+	foreach($cdi->fetchAll(PDO::FETCH_ASSOC) as $entry){
+		if($entry['PortraitTextureFileDataID'] != 0){
+			$cdifdids[] = $entry['PortraitTextureFileDataID'];
+		}
+		if($entry['TextureVariationFileDataID[0]'] != 0){
+			$cdifdids[] = $entry['TextureVariationFileDataID[0]'];
+		}
+		if($entry['TextureVariationFileDataID[1]'] != 0){
+			$cdifdids[] = $entry['TextureVariationFileDataID[1]'];
+		}
+		if($entry['TextureVariationFileDataID[2]'] != 0){
+			$cdifdids[] = $entry['TextureVariationFileDataID[2]'];
+		}
+	}
 	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type = 'unk'") as $file){
 		if(in_array($file['id'], $modelFileData)){
 			echo "File " . $file['id'] . " is a model!\n";
@@ -35,7 +50,7 @@ while(true){
 			$uq->execute();
 		}
 
-		if(in_array($file['id'], $textureFileData)){
+		if(in_array($file['id'], $textureFileData) || in_array($file['id'], $cdifdids)){
 			echo "File " . $file['id'] . " is a blp!\n";
 			$uq->bindValue(":type", "blp");
 			$uq->bindParam(":id", $file['id']);
