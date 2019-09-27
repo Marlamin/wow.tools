@@ -14,9 +14,6 @@ $ngdpurls[] = array("name" => "Blobs", "url" => "http://us.patch.battle.net:1119
 $DEBUG = false;
 
 function MessageDiscord($product, $message){
-	// Disable for now
-	return false;
-
 	global $discord;
 	global $pdo;
 
@@ -51,9 +48,6 @@ function MessageDiscord($product, $message){
 
 function telegramRequest ($method, $params)
 {
-	// Disable for now
-	return false;
-
 	global $telegram;
 
 	$payload = http_build_query ($params);
@@ -173,6 +167,7 @@ foreach($pdo->query("SELECT * FROM ngdp_products") as $prog){
 			$iq = $pdo->prepare("INSERT INTO ngdp_urls (name, type, url) VALUES (? , 'ngdp', ?)");
 			$name = $prog['name']." ".$url['name'];
 			$iq->execute([$name, $url['url']]);
+			telegramSendMessage("Now tracking " . $name);
 		}
 	}
 }
@@ -181,9 +176,7 @@ $histstatq = $pdo->prepare("INSERT INTO ngdp_history (url_id, event, oldvalue, n
 $histvalq = $pdo->prepare("INSERT INTO ngdp_history (url_id, event, oldvalue, newvalue) VALUES (?, 'valuechange', ?, ?)");
 $checkq = $pdo->prepare("SELECT * FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' AND oldvalue = ? AND newvalue = ?");
 
-foreach($pdo->query("SELECT * FROM ngdp_urls") as $row){
-	if($row['enabled'] == 0) continue;
-
+foreach($pdo->query("SELECT * FROM ngdp_urls WHERE enabled = 1") as $row){
 	$history = getUrlHistory($row['id']);
 
 	$ch = curl_init();
@@ -202,13 +195,13 @@ foreach($pdo->query("SELECT * FROM ngdp_urls") as $row){
 			// bad cdn
 		}else{
 			$histstatq->execute([$row['id'], $history['laststatus'], $httpcode]);
-			telegramSendMessage ($row['url']." (".$row['name'].") status: ".$history['laststatus']." → ".$httpcode."\nhttps://wow.tools/monitor/?p=urlhistory&id=".$row['id']);
+			telegramSendMessage ($row['url']." (".$row['name'].") status: ".$history['laststatus']." → ".$httpcode."\nhttps://wow.tools/monitor/");
 		}
 	}
 
 	if(!in_array($httpcode, $badhttpcodes)){
         //Valid HTTP code, lets check contents!
-		if($history['lastcontent'] != $content && !empty($content)){
+		if(!empty($content) && $history['lastcontent'] != $content){
 			$checkq->execute([$row['id'], $history['lastcontent'], $content]);
 			if(count($checkq->fetchAll()) == 0){
 				$histvalq->execute([$row['id'], $history['lastcontent'], $content]);
@@ -217,9 +210,9 @@ foreach($pdo->query("SELECT * FROM ngdp_urls") as $row){
 					$msg = diffNGDParrays(parseNGDPcontentToArray($history['lastcontent']), parseNGDPcontentToArray($content));
 					$product = explode("/", str_replace("http://us.patch.battle.net:1119/", "", $row['url']));
 					MessageDiscord($product[0], $msg);
-					telegramSendMessage (str_replace("http://us.patch.battle.net:1119/", "", $row['url'])."\n".$msg."\nhttps://wow.tools/monitor/?p=urlhistory&id=".$row['id']);
+					telegramSendMessage (str_replace("http://us.patch.battle.net:1119/", "", $row['url'])."\n".$msg."\n https://wow.tools/monitor/");
 				}else{
-					telegramSendMessage ("Change detected: ".$row['url']."\nhttps://wow.tools/monitor/?p=urlhistory&id=".$row['id']);
+					telegramSendMessage ("Change detected: ".$row['url']."\nhttps://wow.tools/monitor/");
 				}
 			}
 		}
