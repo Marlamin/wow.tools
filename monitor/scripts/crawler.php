@@ -27,7 +27,7 @@ function MessageDiscord($product, $message){
 
 	$uq = $pdo->prepare("SELECT name FROM ngdp_products WHERE program = ?");
 	$uq->execute([$product]);
-	$name = $uq->fetch();
+	$name = $uq->fetch(PDO::FETCH_COLUMN);
 	if(empty($name)){
 		$username = "Unknown";
 	}else{
