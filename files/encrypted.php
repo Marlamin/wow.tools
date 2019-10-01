@@ -122,20 +122,22 @@ foreach($pdo->query("SELECT * FROM wow_tactkey WHERE id > 120 ORDER BY id DESC")
 		}
 	}
 
-	$contenthashMatchQ->execute([$tactkey['keyname']]);
-	$matches = $contenthashMatchQ->fetchAll();
-	if(count($matches) > 0){
-		echo "<tr><td>Content hash matches with other files</td><td><table class='table table-sm table-striped'>";
-		$prevhash = "";
-		$matchCount = 0;
-		foreach($matches as $match){
-			$matchCount++;
-			if($prevhash != $match['contenthash']){
-				echo "<tr><td>A file (TODO: which file??) in this key matches contenthash <span class='hash'>".$match['contenthash']."</span> from non-encrypted file " .$match['filedataid']."</td></tr>";
+	if(empty($tactkey['keybytes'])){
+		$contenthashMatchQ->execute([$tactkey['keyname']]);
+		$matches = $contenthashMatchQ->fetchAll();
+		if(count($matches) > 0){
+			echo "<tr><td>Content hash matches with other files</td><td><table class='table table-sm table-striped'>";
+			$prevhash = "";
+			$matchCount = 0;
+			foreach($matches as $match){
+				$matchCount++;
+				if($prevhash != $match['contenthash']){
+					echo "<tr><td>A file (TODO: which file??) in this key matches contenthash <span class='hash'>".$match['contenthash']."</span> from non-encrypted file " .$match['filedataid']."</td></tr>";
+				}
+				$prevhash = $match['contenthash'];
 			}
-			$prevhash = $match['contenthash'];
+			echo "</table></td></tr>";
 		}
-		echo "</table></td></tr>";
 	}
 	echo "</table>";
 	echo "<hr>";
