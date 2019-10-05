@@ -214,7 +214,7 @@ html, body{
     color: rgba(255, 255, 255, 0.30);
 }
 
-.dropdown-toggle::after{
+#mvfiles .dropdown-toggle::after{
     display: none;
 }
 
