@@ -47,7 +47,7 @@ if(!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])){
 		<?php }?>
 	</select>
 	<?php if(!empty($currentDB)){ ?>
-		<form id='dbcform' action='/dbc/diff.php' method='GET'>
+		<form class='form-inline' id='dbcform' action='/dbc/diff.php' method='GET'>
 			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
 			<label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
 			<select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
@@ -71,6 +71,10 @@ if(!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])){
 				}
 				?>
 			</select>
+			<div class="form-check" style='padding-left: 5px;'>
+				<input type="checkbox" class="form-check-input" id="useHotfixes" name="useHotfixes" <?php if(!empty($_GET['useHotfixes'])){?>CHECKED<?php } ?>>
+				<label class="form-check-label" for="useHotfixes">Use hotfixes?</label>
+			</div>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Diff'>
 		</form><br>
 		<?php
@@ -97,6 +101,9 @@ $(function() {
 	var oldBuild = $("#oldbuild option:selected").text();
 	var newBuild = $("#newbuild option:selected").text();
 	var dataURL = "/api/diff?name=<?=$currentDB['name']?>&build1=" + oldBuild + "&build2=" + newBuild;
+	if($("#useHotfixes").is(":checked")){
+		dataURL += "&useHotfixesFor2=true";
+	}
 	var header1URL = "/api/header/<?=$currentDB['name']?>/?build=" + oldBuild;
 	var header2URL = "/api/header/<?=$currentDB['name']?>/?build=" + newBuild;
 
