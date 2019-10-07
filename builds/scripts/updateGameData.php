@@ -3,7 +3,7 @@ if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
 include("../../inc/config.php");
 
-$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' ORDER BY description DESC LIMIT 1");
+$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
 $row = $q->fetch();
 
 $rawdesc = str_replace("WOW-", "", $row['description']);
@@ -14,14 +14,14 @@ $outdir = $descexpl[0].".".$build;
 
 function importDB2($name, $outdir, $fields){
 	global $pdo;
-	$db2 = "https://wow.tools/api/export/?name=".$name."&build=".$outdir;
+	$db2 = "https://wow.tools/api/export/?name=".$name."&build=".$outdir."&t=".strtotime("now");
 	$csv = "/tmp/".$name.".csv";
 	if(file_exists($csv)){ unlink($csv); }
 	$outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");
 	if(!file_exists($csv)){
 		echo "An error occured during ".$name." import: ".$outputdump;
 	}else{
-		echo "	Writing ".$name."..";
+		echo "	Writing ".$name." (".$outdir.")..";
 		$pdo->exec("
 			LOAD DATA LOCAL INFILE '".$csv."'
 			INTO TABLE `wowdata`.".$name."
