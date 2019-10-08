@@ -26,7 +26,7 @@ if(empty($_SESSION['loggedin'])){
 
 <h4>How to install/run the uploader:</h4>
 <ol>
-	<li>Download <a href='/pub/WoWTools.Uploader_1.0.zip'>this zip</a></li>
+	<li>Download <a href='/pub/WoWTools.Uploader_SC.zip'>this zip</a></li>
 	<li>Extract it in a place it can safely stay for now (no installer... yet)</li>
 	<li>Run WoWTools.Uploader.exe to configure it</li>
 	<li>Enter your personal API token: <span class='hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!</li>
