@@ -84,7 +84,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 			<?php
 			$previousTime = '';
 			$cq = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE id = ?");
-			$suggestions = $pdo->query("SELECT * FROM wow_rootfiles_suggestions WHERE status = 'todo'")->fetchAll();
+			$suggestions = $pdo->query("SELECT * FROM wow_rootfiles_suggestions WHERE status = 'todo' ORDER BY submitted DESC")->fetchAll();
 			if(count($suggestions) == 0){
 				echo "There are currently no submitted files waiting for approval.";
 			}else{

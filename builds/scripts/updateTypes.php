@@ -12,7 +12,7 @@ while(true){
 		if($row['id'] == 841983) continue; // Skip signaturefile
 		$ext = pathinfo($row['filename'], PATHINFO_EXTENSION);
 
-		if($ext == "unk") continue;
+		if($ext == "unk" || empty($ext)) continue;
 
 		echo "Adding type ".$ext." for FileData ID " . $row['id']."\n";
 
@@ -26,6 +26,8 @@ while(true){
 	$textureFileData = $pdo->query("SELECT FileDataID FROM wowdata.texturefiledata")->fetchAll(PDO::FETCH_COLUMN);
 	$movieFileData = $pdo->query("SELECT ID FROM wowdata.moviefiledata")->fetchAll(PDO::FETCH_COLUMN);
 	$mp3Manifest = $pdo->query("SELECT ID FROM wowdata.manifestmp3")->fetchAll(PDO::FETCH_COLUMN);
+	$skitManifest = $pdo->query("SELECT ID from wowdata.soundkitentry")->fetchAll(PDO::FETCH_COLUMN);
+
 	$cdi = $pdo->query("SELECT PortraitTextureFileDataID, `TextureVariationFileDataID[0]`, `TextureVariationFileDataID[1]`, `TextureVariationFileDataID[2]` FROM wowdata.creaturedisplayinfo");
 	$cdifdids = [];
 	foreach($cdi->fetchAll(PDO::FETCH_ASSOC) as $entry){
@@ -67,6 +69,13 @@ while(true){
 		if(in_array($file['id'], $mp3Manifest)){
 			echo "File " . $file['id'] . " is an mp3!\n";
 			$uq->bindValue(":type", "mp3");
+			$uq->bindParam(":id", $file['id']);
+			$uq->execute();
+		}
+
+		if(in_array($file['id'], $skitManifest)){
+			echo "File " . $file['id'] . " is an ogg!\n";
+			$uq->bindValue(":type", "ogg");
 			$uq->bindParam(":id", $file['id']);
 			$uq->execute();
 		}
