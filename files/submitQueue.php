@@ -48,16 +48,18 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 
 		$statusq->execute(["approved", urldecode($_GET['approve'])]);
 
-		$message = "Approved " . count($suggestedfiles) . " files.";
-		$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $discordfilenames);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-		curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
-		curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
-		$response = curl_exec($ch);
-		curl_close($ch);
+		if(count($suggestedfiles) > 0){
+			$message = "Approved " . count($suggestedfiles) . " files.";
+			$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $discordfilenames);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+			curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
+			curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
+			$response = curl_exec($ch);
+			curl_close($ch);
+		}
 
 		echo "<div class='container-fluid'>";
 		echo "<h4>Log</h4>";
