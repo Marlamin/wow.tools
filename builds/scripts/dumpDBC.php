@@ -62,6 +62,12 @@ foreach($pdo->query($query) as $row){
 	echo "Requesting filedataids for build " . $row['description']."\n";
 	$fdids = getFileDataIDs($row['buildconfig'], $row['cdnconfig']);
 	echo "Got " . count($fdids) . " filedataids for build " . $row['description']."\n";
+	if(empty($fdids)){
+		echo "Error retrieving FDIDs!";
+		fclose($fhandle);
+		unlink($extractList);
+		continue;
+	}
 
 	$missingFiles = [];
 	foreach($dbcs as $dbc){
