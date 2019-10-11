@@ -49,6 +49,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 		$statusq->execute(["approved", urldecode($_GET['approve'])]);
 
 		if(count($suggestedfiles) > 0){
+			file_get_contents("https://wow.tools/casc/root/diff_api_invalidate?t=" . strtotime("now"));
 			$message = "Approved " . count($suggestedfiles) . " files.";
 			$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
 			$ch = curl_init();
