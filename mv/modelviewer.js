@@ -9,7 +9,7 @@ function showError(error){
 }
 
 window.onerror = function(message, source, lineno, colno, error) {
-    showError("An error occured! You might have to reload the page.<br>Let us know via Discord (button in the menu).");
+    showError("An error occured! You might have to force reload the page with <kbd>CTRL-F5</kbd>.");
 }
 
 var Elements =
