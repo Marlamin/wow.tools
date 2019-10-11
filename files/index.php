@@ -11,7 +11,6 @@ foreach($lfproducts as $lfproduct){
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
 		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
-		<a href='/files/checkFiles.php' class='btn btn-outline-success btn-sm'>Add filenames</a>
 		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames</a>
 		<div class="btn-group">
 			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download community CSV listfile</a>
