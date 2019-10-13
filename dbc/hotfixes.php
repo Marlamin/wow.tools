@@ -8,7 +8,7 @@ require_once("../inc/header.php");
 <?php
 foreach($pdo->query("SELECT * FROM wow_hotfixes ORDER BY pushID DESC") as $hotfix){
 ?>
-<tr><td><?=$hotfix['pushID']?></td><td><?=$hotfix['build']?></td><td><?=$hotfix['tableName']?></td><td><?=$hotfix['build']?></td></tr>
+<tr><td><?=$hotfix['pushID']?></td><td><?=$hotfix['tableName']?></td><td><?=$hotfix['recordID']?></td><td><?=$hotfix['build']?></td></tr>
 <? } ?>
 </table>
 </div>
