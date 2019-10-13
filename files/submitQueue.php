@@ -60,6 +60,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 			curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
 			$response = curl_exec($ch);
 			curl_close($ch);
+			flushQueryCache();
 		}
 
 		echo "<div class='container-fluid'>";
