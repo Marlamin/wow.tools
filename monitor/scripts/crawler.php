@@ -46,35 +46,6 @@ function MessageDiscord($product, $message){
 	curl_close($ch);
 }
 
-function telegramRequest ($method, $params)
-{
-	global $telegram;
-
-	$payload = http_build_query ($params);
-
-	$ch = curl_init ('https://api.telegram.org/bot' . $telegram['token'] . '/' . $method);
-	curl_setopt ($ch, CURLOPT_CUSTOMREQUEST, "POST");
-	curl_setopt ($ch, CURLOPT_POSTFIELDS, $payload);
-	curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt ($ch, CURLOPT_HTTPHEADER, array (
-		'Content-Type: application/x-www-form-urlencoded',
-		'Content-Length: ' . strlen($payload))
-);
-
-	return json_decode (curl_exec ($ch), true);
-}
-
-function telegramSendMessage ($text)
-{
-	global $telegram, $DEBUG;
-
-	return telegramRequest ( "sendMessage"
-		, array ( "chat_id" => $telegram["chat_id"]
-			, "text" => ($DEBUG ? "DEBUG: " : "") . $text
-		)
-	);
-}
-
 function getIDByURL($url){
 	global $pdo;
 
