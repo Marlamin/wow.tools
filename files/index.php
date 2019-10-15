@@ -253,7 +253,7 @@ foreach($lfproducts as $lfproduct){
 						});
 
 						test += "</div>";
-					}else if(full[3].length == 1){
+					}else if(full[3].length == 1 && full[3][0].buildconfig != null){
 						if(full[1]){
 							var filename = full[1].replace(/^.*[\\\/]/, '');
 						}else{
