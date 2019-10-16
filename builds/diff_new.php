@@ -8,9 +8,6 @@ if (empty($_GET['from']) || empty($_GET['to'])) {
 $fromBuild = getBuildConfigByBuildConfigHash($_GET['from']);
 $toBuild = getBuildConfigByBuildConfigHash($_GET['to']);
 
-$fromCDN = getVersionByBuildConfigHash($_GET['from'])['cdnconfig']['hash'];
-$toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
-
 if (empty($fromBuild) || empty($toBuild)) {
 	die("Invalid builds!");
 }
@@ -143,8 +140,8 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
 									case "ogg":
-									content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
-									break;
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										break;
 									default:
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModalRaw(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview (raw)</a>";
 										break;
