@@ -142,6 +142,9 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 									case "xsd":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
+									case "ogg":
+									content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+									break;
 									default:
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModalRaw(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview (raw)</a>";
 										break;
