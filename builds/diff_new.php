@@ -100,7 +100,6 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 					"targets": 4,
 					"render": function(data, type, full, meta) {
 						var content = "";
-
 						switch (full.action) {
 							case "added":
 								switch (full.type) {
