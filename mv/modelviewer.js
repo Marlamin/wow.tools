@@ -30,7 +30,8 @@ var Current =
 
 var Settings =
 {
-    showFPS: true
+    showFPS: true,
+    clearColor: [0.117, 0.207, 0.392]
 }
 
 var screenshot = false;
@@ -48,6 +49,20 @@ function loadSettings(){
     }
 
     document.getElementById("showFPS").checked = Settings.showFPS;
+
+    /* Clear color */
+    var storedCustomClearColor = localStorage.getItem('settings[customClearColor]');
+    if(storedCustomClearColor){
+        document.getElementById("customClearColor").value = storedCustomClearColor;
+    }else{
+        document.getElementById("customClearColor").value = '#1e3564';
+    }
+
+    var rawClearColor = document.getElementById("customClearColor").value.replace('#', '');
+    var r = parseInt('0x' + rawClearColor.substring(0, 2)) / 255;
+    var g = parseInt('0x' + rawClearColor.substring(2, 4)) / 255;
+    var b = parseInt('0x' + rawClearColor.substring(4, 6)) / 255;
+    Settings.clearColor = [r, g, b];
 }
 
 function saveSettings(){
@@ -56,6 +71,8 @@ function saveSettings(){
     }else{
         localStorage.setItem('settings[showFPS]', '0');
     }
+
+    localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
 
     loadSettings();
 }
@@ -132,6 +149,8 @@ window.createscene = function () {
 
     Module._createWebJsScene(document.body.clientWidth, document.body.clientHeight, ptrUrl, ptrUrlFileDataId);
 
+    Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
+
     loadModel(Current.type, Current.fileDataID, Current.buildConfig, Current.cdnConfig)
 
     _free(ptrUrl);
@@ -155,6 +174,7 @@ window.createscene = function () {
         })
 
     };
+
     var renderfunc = function(){
         var currentTimeStamp = new Date().getTime();
         var timeDelta = 0;
@@ -225,6 +245,10 @@ $('#js-sidebar').on('input', '.paginate_input', function(){
 });
 
 window.addEventListener('keydown', function(event){
+    if(document.activeElement.tagName == "SELECT"){
+        return;
+    }
+
     if($(".selected").length == 1){
          if(event.key == "ArrowDown"){
             if($(".selected")[0].rowIndex == 20) return;
@@ -235,20 +259,20 @@ window.addEventListener('keydown', function(event){
         }
     }
 
-    if(document.activeElement.tagName == "INPUT"){
+    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
 }, true);
 
 window.addEventListener('keyup', function(event){
     if(event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) screenshot = true;
-    if(document.activeElement.tagName == "INPUT"){
+    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
 }, true);
 
 window.addEventListener('keypress', function(event){
-    if(document.activeElement.tagName == "INPUT"){
+    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
 }, true);
@@ -275,6 +299,8 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     Current.cdnConfig = cdnconfig;
     Current.fileDataID = filedataid;
     Current.type = type;
+
+    Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
 
     $.ajax({
         url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID

@@ -72,7 +72,8 @@ nav{
 				</div>
 				<div class="modal-body">
 					<form id='settingsForm'>
-						<input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show FPS</label>
+						<input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show FPS</label><br>
+						<input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -135,6 +136,7 @@ nav{
 					<ul>
 						<li>(MV) Terrain rendering improvements</li>
 						<li>(MV) Add support for future UI options</li>
+						<li>(UI) Add support for changing background color</li>
 					</ul>
 					<h5>Version 0.9.2 <small>(12-04-2019)</small></h5>
 					<ul>
@@ -256,7 +258,7 @@ nav{
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%'")->fetchAll(PDO::FETCH_COLUMN); ?>
+	<script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%' OR description LIKE '%8.3%'")->fetchAll(PDO::FETCH_COLUMN); ?>
 	var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
 	</script>
 	<script src="/mv/modelviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.js")?>"></script>
