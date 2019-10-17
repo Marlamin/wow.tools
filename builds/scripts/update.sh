@@ -24,5 +24,6 @@ php updateGameData.php
 php ../../files/scripts/addMDINames.php
 php encrypted.php
 php fixBranches.php
+php ../../files/scripts/updateSizes.php
 php ../../dbc/scripts/updateHotfixes.php
 # sudo -u www-data php dumpDBD.php
