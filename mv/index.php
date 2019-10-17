@@ -131,6 +131,11 @@ nav{
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
+					<h5>Version 0.9.3 <small>(17-10-2019)</small></h5>
+					<ul>
+						<li>(MV) Terrain rendering improvements</li>
+						<li>(MV) Add support for future UI options</li>
+					</ul>
 					<h5>Version 0.9.2 <small>(12-04-2019)</small></h5>
 					<ul>
 						<li>(UI) Fix manual page input not working</li>
