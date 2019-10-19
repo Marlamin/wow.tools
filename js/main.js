@@ -48,3 +48,27 @@ $(function() {
 		}
 	});
 });
+
+function renderBLPToIMGElement(url, elementID){
+	// Check if data-loaded is present and true, hackfix
+	if(document.getElementById(elementID).getAttribute('data-loaded') == 'true'){
+		return;
+	}
+
+	fetch(url).then(function(response) {
+		return response.arrayBuffer();
+	}).then(function(arrayBuffer) {
+		let data = new Bufo(arrayBuffer);
+		let blp = new BLPFile(data);
+
+		let canvas = document.createElement('canvas');
+		canvas.width = blp.width;
+		canvas.height = blp.height;
+
+		let image = blp.getPixels(0, canvas);
+
+		let img = document.getElementById(elementID);
+		img.src = canvas.toDataURL();
+		img.setAttribute('data-loaded', true);
+	});
+}

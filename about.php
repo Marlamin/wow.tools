@@ -29,6 +29,10 @@ The site and the tools powering the site are open source.
 <li><a href='https://github.com/Marlamin/WorldMapCompiler/' target='_BLANK'>WorldMapCompiler</a> - Compiles in-game world maps into single images</li>
 <li><a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>WoWDBDefs</a> - Definitions for database files</li>
 </ul>
+<h4>Third party</h4>
+<ul>
+	<li><a href='https://github.com/Kruithne/node-bufo' target='_BLANK'>Bufo</a> and <a href='https://github.com/Kruithne/js-blp/' target='_BLANK'>js-blp</a> by Kruithne for client-side BLP conversion</li>
+</ul>
 <h3>Legal stuff</h3>
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
 </div>
