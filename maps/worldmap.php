@@ -7,6 +7,11 @@ require_once("../inc/header.php");
 	#breadcrumbs{
 		position: absolute;
 		left: 50px;
+		top: 100px;
+	}
+
+	.breadcrumb{
+		background-color: rgba(0,0,0,0);
 	}
 
 </style>
@@ -107,14 +112,13 @@ require_once("../inc/header.php");
 			parent = row.ParentUiMapID;
 			breadcrumbs.unshift([row.ID, row.Name_lang]);
 		}
-		console.log(breadcrumbs);
 
-		$("#breadcrumbs").html("Root ");
+		$("#breadcrumbs").html("<nav aria-label='breadcrumb'><ol id='breadcrumbList' class='breadcrumb'></ol></nav>");
 
 		breadcrumbs.forEach(function (breadcrumb){
-			console.log(breadcrumb);
-			$("#breadcrumbs")[0].innerHTML += " => " + breadcrumb[1] + " (" + breadcrumb[0] + ")";
+			$("#breadcrumbList").append("<li class='breadcrumb-item'><a href='#'>" + breadcrumb[1] + "</a></li>");
 		});
+
 	}
 
 	function getParentMapByUIMapID(uiMapID){
