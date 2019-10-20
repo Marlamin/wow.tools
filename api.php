@@ -6,13 +6,13 @@ if(empty($_GET['type'])){
 }
 
 if($_GET['type'] == "token" && !empty($_GET['token'])){
-	$q = $pdo->prepare("SELECT COUNT(id) as count FROM users WHERE apitoken = ?");
+	$q = $pdo->prepare("SELECT COUNT(id) as count, id FROM users WHERE apitoken = ?");
 	$q->execute([$_GET['token']]);
-	$count = $q->fetchColumn();
-	if($count == 0){
+	$row = $q->fetch(PDO::FETCH_ASSOC);
+	if($row['count'] == 0){
 		echo 0;
 	}else{
-		echo 1;
+		echo $row['id'];
 	}
 }
 ?>

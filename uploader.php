@@ -26,16 +26,16 @@ if(empty($_SESSION['loggedin'])){
 
 <h4>How to install/run the uploader:</h4>
 <ol>
-	<li>Download <a href='/pub/WoWTools.Uploader_SC.zip'>this zip</a></li>
-	<li>Extract it in a place it can safely stay for now (no installer... yet)</li>
-	<li>Run WoWTools.Uploader.exe to configure it</li>
-	<li>Enter your personal API token: <span class='hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!</li>
+	<li>Download <a href='/pub/WoWTools.Uploader.NET48_v1.1.zip'>this zip</a></li>
+	<li>Extract it in a place it can safely stay (no installer... yet)</li>
+	<li>Run WoWTools.Uploader.exe once to configure it</li>
+	<li>Enter your personal API token: <span class='hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed hotfixes. This is hopefully a temporary measure.</li>
 	<li>Enter your WoW directory if it's not already filled in</li>
 	<li>Press check to check if the directory is correct</li>
 	<li>Press Save, the app will restart and move to tray</li>
 </ol>
 
-Bug reports/feature requests are very welcome via the regular channels listed at the bottom of <a href='https://wow.tools/faq.php'>the FAQ</a>, I've only tested the application on my machine so stuff might break.
+Bug reports/feature requests are very welcome via the regular channels listed at the bottom of <a href='https://wow.tools/faq.php'>the FAQ</a>, I've only tested the application on my machine so it might be broken for you. Please let me know if it is.
 
 </p>
 </div>
