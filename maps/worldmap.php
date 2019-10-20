@@ -3,6 +3,13 @@ require_once("../inc/header.php");
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=2"></script>
+<style type='text/css'>
+	#breadcrumbs{
+		position: absolute;
+		left: 50px;
+	}
+
+</style>
 <div class='container-fluid'>
 	<p style='height: 35px;'>
 		<select name='map' id='mapSelect'>
@@ -10,6 +17,8 @@ require_once("../inc/header.php");
 		</select>
 		<input type='checkbox' id='showExplored'> <label for='showExplored'>Show explored?</label>
 	</p>
+	<div id='breadcrumbs'>
+	</div>
 	<div id ='map'>
 
 	</div>
@@ -62,10 +71,17 @@ require_once("../inc/header.php");
 
 		var dbEntries = [];
 
+		var idCol = -1;
+		header.responseJSON.headers.forEach(function (data, key){
+			if (data == "ID"){
+				idCol = key;
+			}
+		});
+
 		data.responseJSON.data.forEach(function (data, rowID) {
-			dbEntries[rowID] = {};
+			dbEntries[data[idCol]] = {};
 			Object.values(data).map(function(value, key) {
-				dbEntries[rowID][header.responseJSON.headers[key]] = value;
+				dbEntries[data[idCol]][header.responseJSON.headers[key]] = value;
 			});
 		});
 
@@ -73,22 +89,62 @@ require_once("../inc/header.php");
 	}
 
 	$('#mapSelect').on( 'change', function () {
+		generateBreadcrumb(this.value);
+		renderMap(this.value);
+	});
+
+	function generateBreadcrumb(uiMapID){
+		var parent = uiMapID;
+
+		var breadcrumbs = [];
+		while(parent != 0){
+			var row = getParentMapByUIMapID(parent);
+
+			if(row == false){
+				console.log("No parent found for uiMapID " + uiMapID);
+				return;
+			}
+			parent = row.ParentUiMapID;
+			breadcrumbs.unshift([row.ID, row.Name_lang]);
+		}
+		console.log(breadcrumbs);
+
+		$("#breadcrumbs").html("Root ");
+
+		breadcrumbs.forEach(function (breadcrumb){
+			console.log(breadcrumb);
+			$("#breadcrumbs")[0].innerHTML += " => " + breadcrumb[1] + " (" + breadcrumb[0] + ")";
+		});
+	}
+
+	function getParentMapByUIMapID(uiMapID){
+		console.log("Getting parent map ID for " + uiMapID);
+		if(uiMapID in uiMap){
+			return uiMap[uiMapID];
+		}else{
+			return false;
+		}
+	}
+
+	function renderMap(uiMapID){
 		// Remove existing images
 		$(".uiMapArt").remove();
 
 		var showExplored = $("#showExplored").prop('checked');
-
-		var uiMapID = this.value;
 		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
 			if(uiMapXMapArtRow.UiMapID == uiMapID){
 				var uiMapArtID = uiMapXMapArtRow.UiMapArtID;
 				console.log("Found uiMapArtID " + uiMapArtID + " for uiMapID " + uiMapID);
+				if(uiMapXMapArtRow.PhaseID > 0){
+					console.log("Ignoring PhaseID " + uiMapXMapArtRow.PhaseID);
+					return;
+				}
 				uiMapArtTile.forEach(function(uiMapArtTileRow){
 					if(uiMapArtTileRow.UiMapArtID == uiMapArtID){
 						// console.log(uiMapArtTileRow.RowIndex + "x" + uiMapArtTileRow.ColIndex + " = fdid " + uiMapArtTileRow.FileDataID);
 
-						var imagePosX = 100 + uiMapArtTileRow.RowIndex * 256;
-						var imagePosY = 100 + uiMapArtTileRow.ColIndex * 256;
+						var imagePosX = 150 + uiMapArtTileRow.RowIndex * 256;
+						var imagePosY = 50 + uiMapArtTileRow.ColIndex * 256;
 						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
 
 						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='/img/loading-256px.png' style='z-index: 1; margin: 0px; width: 256px; height: 256px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
@@ -101,8 +157,8 @@ require_once("../inc/header.php");
 				}
 			}
 		});
-	});
 
+	}
 	function renderExplored(){
 		var showExplored = $("#showExplored").prop('checked');
 
@@ -116,8 +172,8 @@ require_once("../inc/header.php");
 					if(wmoRow.UiMapArtID == uiMapArtID){
 						worldMapOverlayTile.forEach(function(wmotRow){
 							if(wmotRow.WorldMapOverlayID == wmoRow.ID){
-								var layerPosX = parseInt(wmoRow.OffsetX) + 100 + (wmotRow.ColIndex * 256);
-								var layerPosY = parseInt(wmoRow.OffsetY) + 100 + (wmotRow.RowIndex * 256);
+								var layerPosX = parseInt(wmoRow.OffsetX) + 50 + (wmotRow.ColIndex * 256);
+								var layerPosY = parseInt(wmoRow.OffsetY) + 150 + (wmotRow.RowIndex * 256);
 								var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
 								$("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='/img/loading-256px.png' style='z-index: 2; margin: 0px; max-width: 256px; max-height: 256px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
