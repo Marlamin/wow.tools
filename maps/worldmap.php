@@ -51,6 +51,12 @@ require_once("../inc/header.php");
 		loadedDBs[0].forEach(function (data){
 			$("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
 		});
+
+		let params = (new URL(document.location)).searchParams;
+		if(params.has('id')){
+			var id = params.get('id');
+			renderMap(id);
+		}
 	}
 
 	function loadDatabase(database, build){
@@ -94,7 +100,6 @@ require_once("../inc/header.php");
 	}
 
 	$('#mapSelect').on( 'change', function () {
-		generateBreadcrumb(this.value);
 		renderMap(this.value);
 	});
 
@@ -116,7 +121,7 @@ require_once("../inc/header.php");
 		$("#breadcrumbs").html("<nav aria-label='breadcrumb'><ol id='breadcrumbList' class='breadcrumb'></ol></nav>");
 
 		breadcrumbs.forEach(function (breadcrumb){
-			$("#breadcrumbList").append("<li class='breadcrumb-item'><a href='#'>" + breadcrumb[1] + "</a></li>");
+			$("#breadcrumbList").append("<li class='breadcrumb-item'><a onclick='renderMap("+ breadcrumb[0] + ")' href='#'>" + breadcrumb[1] + "</a></li>");
 		});
 
 	}
@@ -134,6 +139,10 @@ require_once("../inc/header.php");
 		// Remove existing images
 		$(".uiMapArt").remove();
 
+		if($("#mapSelect").val() != uiMapID){
+			$("#mapSelect").val(uiMapID);
+		}
+		generateBreadcrumb(uiMapID);
 		var showExplored = $("#showExplored").prop('checked');
 		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
 			if(uiMapXMapArtRow.UiMapID == uiMapID){
@@ -162,6 +171,8 @@ require_once("../inc/header.php");
 			}
 		});
 
+		updateURL();
+
 	}
 	function renderExplored(){
 		var showExplored = $("#showExplored").prop('checked');
@@ -188,6 +199,21 @@ require_once("../inc/header.php");
 				});
 			}
 		});
+	}
+
+	function updateURL(){
+		var uiMapID =  $("#mapSelect").val();
+		if(uiMapID in uiMap){
+			var title = "WoW.tools | Map Browser | " + uiMap[uiMapID].Name_lang;
+		}else{
+			var title = "WoW.tools | Map Browser";
+		}
+
+		var url = '/maps/worldmap.php?id=' + $("#mapSelect").val();
+
+		window.history.pushState( {uiMapID: uiMapID}, title, url );
+
+		document.title = title;
 	}
 
 	$("#showExplored").on("click", function (){
