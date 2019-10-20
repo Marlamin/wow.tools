@@ -50,11 +50,6 @@ $(function() {
 });
 
 function renderBLPToIMGElement(url, elementID){
-	// Check if data-loaded is present and true, hackfix
-	if(document.getElementById(elementID).getAttribute('data-loaded') == 'true'){
-		return;
-	}
-
 	fetch(url).then(function(response) {
 		return response.arrayBuffer();
 	}).then(function(arrayBuffer) {
@@ -68,6 +63,10 @@ function renderBLPToIMGElement(url, elementID){
 		let image = blp.getPixels(0, canvas);
 
 		let img = document.getElementById(elementID);
+		if(!img){
+			console.log("Target image element does not exist: " + elementID);
+			return;
+		}
 		img.src = canvas.toDataURL();
 		img.setAttribute('data-loaded', true);
 	});

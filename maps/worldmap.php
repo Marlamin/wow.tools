@@ -8,6 +8,7 @@ require_once("../inc/header.php");
 		<select name='map' id='mapSelect'>
 			<option value = ''>Select a map</option>
 		</select>
+		<input type='checkbox' id='showExplored'> <label for='showExplored'>Show explored?</label>
 	</p>
 	<div id ='map'>
 
@@ -16,19 +17,23 @@ require_once("../inc/header.php");
 <script type='text/javascript'>
 	var build = "8.3.0.32218";
 
-	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile"];
+	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile"];
 	const promises = dbsToLoad.map(db => loadDatabase(db, build));
 	const finalPromise = Promise.all(promises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
 
 	var uiMap = {};
 	var uiMapXMapArt = {};
 	var uiMapArtTile = {};
+	var worldMapOverlay = {};
+	var worldMapOverlayTile = {};
 
 	function databasesAreLoadedNow(loadedDBs){
 		console.log("Loaded DBs", loadedDBs);
 		uiMap = loadedDBs[0];
 		uiMapXMapArt = loadedDBs[1];
 		uiMapArtTile = loadedDBs[2];
+		worldMapOverlay = loadedDBs[3];
+		worldMapOverlayTile = loadedDBs[4];
 		loadedDBs[0].forEach(function (data){
 			$("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
 		});
@@ -71,6 +76,8 @@ require_once("../inc/header.php");
 		// Remove existing images
 		$(".uiMapArt").remove();
 
+		var showExplored = $("#showExplored").prop('checked');
+
 		var uiMapID = this.value;
 		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
 			if(uiMapXMapArtRow.UiMapID == uiMapID){
@@ -82,12 +89,52 @@ require_once("../inc/header.php");
 
 						var imagePosX = 100 + uiMapArtTileRow.RowIndex * 256;
 						var imagePosY = 100 + uiMapArtTileRow.ColIndex * 256;
-						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=	deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
+						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
 
-						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='/img/loading-256px.png' style='margin: 0px; width: 256px; height: 256px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;' onload=\"renderBLPToIMGElement('" + bgURL + "', 'art" + uiMapArtTileRow.ID +"')\" >");
+						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='/img/loading-256px.png' style='z-index: 1; margin: 0px; width: 256px; height: 256px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
+						renderBLPToIMGElement(bgURL , "art" + uiMapArtTileRow.ID);
+					}
+				});
+
+				if(showExplored){
+					renderExplored();
+				}
+			}
+		});
+	});
+
+	function renderExplored(){
+		var showExplored = $("#showExplored").prop('checked');
+
+		var uiMapID = $("#mapSelect").val();
+		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
+			if(uiMapXMapArtRow.UiMapID == uiMapID){
+				var uiMapArtID = uiMapXMapArtRow.UiMapArtID;
+				console.log("Found uiMapArtID " + uiMapArtID + " for uiMapID " + uiMapID);
+
+				worldMapOverlay.forEach(function(wmoRow){
+					if(wmoRow.UiMapArtID == uiMapArtID){
+						worldMapOverlayTile.forEach(function(wmotRow){
+							if(wmotRow.WorldMapOverlayID == wmoRow.ID){
+								var layerPosX = parseInt(wmoRow.OffsetX) + 100 + (wmotRow.ColIndex * 256);
+								var layerPosY = parseInt(wmoRow.OffsetY) + 100 + (wmotRow.RowIndex * 256);
+								var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+
+								$("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='/img/loading-256px.png' style='z-index: 2; margin: 0px; max-width: 256px; max-height: 256px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
+								renderBLPToIMGElement(bgURL, "exploredArt" + wmotRow.ID);
+							}
+						});
 					}
 				});
 			}
 		});
+	}
+
+	$("#showExplored").on("click", function (){
+		if($(this).prop('checked') == false){
+			$(".uiMapExploredArt").remove();
+		}else{
+			renderExplored();
+		}
 	});
 </script>
