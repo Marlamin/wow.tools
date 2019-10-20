@@ -20,7 +20,7 @@ require_once("../inc/header.php");
 		<select name='map' id='mapSelect'>
 			<option value = ''>Select a map</option>
 		</select>
-		<input type='checkbox' id='showExplored'> <label for='showExplored'>Show explored?</label>
+		<input type='checkbox' id='showExplored' CHECKED> <label for='showExplored'>Show explored?</label>
 	</p>
 	<div id='breadcrumbs'>
 	</div>
@@ -31,7 +31,7 @@ require_once("../inc/header.php");
 <script type='text/javascript'>
 	var build = "8.3.0.32218";
 
-	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile"];
+	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart"];
 	const promises = dbsToLoad.map(db => loadDatabase(db, build));
 	const finalPromise = Promise.all(promises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
 
@@ -40,6 +40,7 @@ require_once("../inc/header.php");
 	var uiMapArtTile = {};
 	var worldMapOverlay = {};
 	var worldMapOverlayTile = {};
+	var uiMapArt = {};
 
 	function databasesAreLoadedNow(loadedDBs){
 		console.log("Loaded DBs", loadedDBs);
@@ -48,6 +49,8 @@ require_once("../inc/header.php");
 		uiMapArtTile = loadedDBs[2];
 		worldMapOverlay = loadedDBs[3];
 		worldMapOverlayTile = loadedDBs[4];
+		uiMapArt = loadedDBs[5];
+
 		loadedDBs[0].forEach(function (data){
 			$("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
 		});
@@ -143,6 +146,7 @@ require_once("../inc/header.php");
 			$("#mapSelect").val(uiMapID);
 		}
 		generateBreadcrumb(uiMapID);
+		var scale = getScaleByUIMapID(uiMapID);
 		var showExplored = $("#showExplored").prop('checked');
 		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
 			if(uiMapXMapArtRow.UiMapID == uiMapID){
@@ -156,11 +160,11 @@ require_once("../inc/header.php");
 					if(uiMapArtTileRow.UiMapArtID == uiMapArtID){
 						// console.log(uiMapArtTileRow.RowIndex + "x" + uiMapArtTileRow.ColIndex + " = fdid " + uiMapArtTileRow.FileDataID);
 
-						var imagePosX = 150 + uiMapArtTileRow.RowIndex * 256;
-						var imagePosY = 50 + uiMapArtTileRow.ColIndex * 256;
+						var imagePosX = 150 + uiMapArtTileRow.RowIndex * (256 / scale);
+						var imagePosY = 50 + uiMapArtTileRow.ColIndex * (256 / scale);
 						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
 
-						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='/img/loading-256px.png' style='z-index: 1; margin: 0px; width: 256px; height: 256px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
+						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 1; margin: 0px; width: " + (256 / scale) + "px; height: " + (256 / scale) + "px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
 						renderBLPToIMGElement(bgURL , "art" + uiMapArtTileRow.ID);
 					}
 				});
@@ -174,10 +178,39 @@ require_once("../inc/header.php");
 		updateURL();
 
 	}
+
+	function getScaleByUIMapID(uiMapID) {
+		for (var i = 0; i < uiMapXMapArt.length; i++) {
+			const row = uiMapXMapArt[i];
+
+			if (row == undefined) { continue; }
+			if (row.UiMapID != uiMapID) { continue; }
+			if (!(row.UiMapArtID in uiMapArt)) { continue; }
+
+			const uiMapArtRow = uiMapArt[row.UiMapArtID];
+			console.log(uiMapArtRow.UiMapArtStyleID);
+			switch (uiMapArtRow.UiMapArtStyleID) {
+				case "1":
+				case "4":
+					return 1
+				case "2":
+				case "3":
+				case "5":
+				case "106":
+				case "107":
+					return 4
+				default:
+					return 1
+			}
+		}
+	}
+
 	function renderExplored(){
 		var showExplored = $("#showExplored").prop('checked');
 
 		var uiMapID = $("#mapSelect").val();
+		var scale = getScaleByUIMapID(uiMapID);
+
 		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
 			if(uiMapXMapArtRow.UiMapID == uiMapID){
 				var uiMapArtID = uiMapXMapArtRow.UiMapArtID;
@@ -187,11 +220,11 @@ require_once("../inc/header.php");
 					if(wmoRow.UiMapArtID == uiMapArtID){
 						worldMapOverlayTile.forEach(function(wmotRow){
 							if(wmotRow.WorldMapOverlayID == wmoRow.ID){
-								var layerPosX = parseInt(wmoRow.OffsetX) + 50 + (wmotRow.ColIndex * 256);
-								var layerPosY = parseInt(wmoRow.OffsetY) + 150 + (wmotRow.RowIndex * 256);
+								var layerPosX = parseInt(wmoRow.OffsetX) + 50 + (wmotRow.ColIndex * (256 / scale));
+								var layerPosY = parseInt(wmoRow.OffsetY) + 150 + (wmotRow.RowIndex * (256 / scale));
 								var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
-								$("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='/img/loading-256px.png' style='z-index: 2; margin: 0px; max-width: 256px; max-height: 256px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
+								$("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 2; margin: 0px; max-width: " + (256 / scale) + "px; max-height: " + (256 / scale) + "px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
 								renderBLPToIMGElement(bgURL, "exploredArt" + wmotRow.ID);
 							}
 						});
