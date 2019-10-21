@@ -72,10 +72,12 @@ function renderBLPToIMGElement(url, elementID){
 	});
 }
 
-function renderBLPToCanvasElement(url, elementID, canvasX, canvasY){
-	fetch(url).then(function(response) {
+function renderBLPToCanvasElement(url, elementID, canvasX, canvasY) {
+	return fetch(url)
+	.then(function(response) {
 		return response.arrayBuffer();
-	}).then(function(arrayBuffer) {
+	})
+	.then(function(arrayBuffer) {
 		let data = new Bufo(arrayBuffer);
 		let blp = new BLPFile(data);
 		let canvas = document.getElementById(elementID);

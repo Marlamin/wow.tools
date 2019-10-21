@@ -14,6 +14,12 @@ require_once("../inc/header.php");
 		background-color: rgba(0,0,0,0);
 	}
 
+	#mapCanvas{
+		position: absolute;
+		top: 150px;
+		left: 50px;
+		z-index: 0;
+	}
 </style>
 <div class='container-fluid'>
 	<p style='height: 35px;'>
@@ -24,15 +30,12 @@ require_once("../inc/header.php");
 	</p>
 	<div id='breadcrumbs'>
 	</div>
-	<div id ='map'>
-
-	</div>
-	<canvas style='position: absolute; top: 100px; left: 50px; z-index: 0;' id='mapCanvas' width='1024' height='1024'></canvas>
+	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
 	var build = "8.3.0.32218";
 
-	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart"];
+	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
 	const promises = dbsToLoad.map(db => loadDatabase(db, build));
 	const finalPromise = Promise.all(promises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
 
@@ -42,6 +45,7 @@ require_once("../inc/header.php");
 	var worldMapOverlay = {};
 	var worldMapOverlayTile = {};
 	var uiMapArt = {};
+	var uiMapArtStyleLayer = {};
 
 	function databasesAreLoadedNow(loadedDBs){
 		console.log("Loaded DBs", loadedDBs);
@@ -51,6 +55,7 @@ require_once("../inc/header.php");
 		worldMapOverlay = loadedDBs[3];
 		worldMapOverlayTile = loadedDBs[4];
 		uiMapArt = loadedDBs[5];
+		uiMapArtStyleLayer = loadedDBs[6];
 
 		loadedDBs[0].forEach(function (data){
 			$("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
@@ -103,10 +108,6 @@ require_once("../inc/header.php");
 		return dbEntries;
 	}
 
-	$('#mapSelect').on( 'change', function () {
-		renderMap(this.value);
-	});
-
 	function generateBreadcrumb(uiMapID){
 		var parent = uiMapID;
 
@@ -115,9 +116,9 @@ require_once("../inc/header.php");
 			var row = getParentMapByUIMapID(parent);
 
 			if(row == false){
-				console.log("No parent found for uiMapID " + uiMapID);
 				return;
 			}
+
 			parent = row.ParentUiMapID;
 			breadcrumbs.unshift([row.ID, row.Name_lang]);
 		}
@@ -131,7 +132,6 @@ require_once("../inc/header.php");
 	}
 
 	function getParentMapByUIMapID(uiMapID){
-		console.log("Getting parent map ID for " + uiMapID);
 		if(uiMapID in uiMap){
 			return uiMap[uiMapID];
 		}else{
@@ -139,98 +139,72 @@ require_once("../inc/header.php");
 		}
 	}
 
-	function renderMap(uiMapID){
-		// Remove existing images
-		$(".uiMapArt").remove();
-
-		if($("#mapSelect").val() != uiMapID){
+	function renderMap(uiMapID) {
+		if ($("#mapSelect").val() != uiMapID) {
 			$("#mapSelect").val(uiMapID);
 		}
+
 		generateBreadcrumb(uiMapID);
-		var scale = getScaleByUIMapID(uiMapID);
-		var showExplored = $("#showExplored").prop('checked');
-		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
-			if(uiMapXMapArtRow.UiMapID == uiMapID){
-				var uiMapArtID = uiMapXMapArtRow.UiMapArtID;
-				console.log("Found uiMapArtID " + uiMapArtID + " for uiMapID " + uiMapID);
-				if(uiMapXMapArtRow.PhaseID > 0){
-					console.log("Ignoring PhaseID " + uiMapXMapArtRow.PhaseID);
-					return;
-				}
-				uiMapArtTile.forEach(function(uiMapArtTileRow){
-					if(uiMapArtTileRow.UiMapArtID == uiMapArtID){
-						// console.log(uiMapArtTileRow.RowIndex + "x" + uiMapArtTileRow.ColIndex + " = fdid " + uiMapArtTileRow.FileDataID);
 
-						var imagePosX = uiMapArtTileRow.RowIndex * (256 / scale);
-						var imagePosY = uiMapArtTileRow.ColIndex * (256 / scale);
-						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
+		const artStyle = getArtStyleByUIMapID(uiMapID);
+		const canvas = document.getElementById("mapCanvas");
+		canvas.width = artStyle.LayerWidth;
+		canvas.height = artStyle.LayerHeight;
 
-						//$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 1; margin: 0px; width: " + (256 / scale) + "px; height: " + (256 / scale) + "px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
-						//renderBLPToIMGElement(bgURL , "art" + uiMapArtTileRow.ID);
-						renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
-					}
-				});
+		const showExplored = $("#showExplored").prop("checked");
 
-				if(showExplored){
-					renderExplored();
-				}
+		const uiMapXMapArtRow = uiMapXMapArt.find(row => row && row.UiMapID == uiMapID);
+		const uiMapArtID = uiMapXMapArtRow.UiMapArtID;
+
+		if (uiMapXMapArtRow.PhaseID > 0) {
+			console.log("Ignoring PhaseID " + uiMapXMapArtRow.PhaseID);
+			return;
+		}
+
+		const unexploredPromises = uiMapArtTile
+		.filter(row => row.UiMapArtID == uiMapArtID)
+		.map(row => {
+			const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
+			const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
+			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=${row.FileDataID}`;
+
+			return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
+		});
+
+		Promise.all(unexploredPromises).then(_ => {
+			if (showExplored) {
+				renderExplored();
 			}
 		});
 
 		updateURL();
-
 	}
 
-	function getScaleByUIMapID(uiMapID) {
-		for (var i = 0; i < uiMapXMapArt.length; i++) {
-			const row = uiMapXMapArt[i];
-
-			if (row == undefined) { continue; }
-			if (row.UiMapID != uiMapID) { continue; }
-			if (!(row.UiMapArtID in uiMapArt)) { continue; }
-
-			const uiMapArtRow = uiMapArt[row.UiMapArtID];
-			console.log(uiMapArtRow.UiMapArtStyleID);
-			switch (uiMapArtRow.UiMapArtStyleID) {
-				case "1":
-				case "4":
-					return 1
-				case "2":
-				case "3":
-				case "5":
-				case "106":
-				case "107":
-					return 4
-				default:
-					return 1
-			}
-		}
+	function getArtStyleByUIMapID(uiMapID){
+		const uiMapXMapArtRow = uiMapXMapArt.find(row => row && row.UiMapID == uiMapID);
+		const uiMapArtID = uiMapXMapArtRow.UiMapArtID;
+		const uiMapArtRow = uiMapArt[uiMapArtID];
+		return uiMapArtStyleLayer.find(row => row && row.UiMapArtStyleID == uiMapArtRow.UiMapArtStyleID);
 	}
 
 	function renderExplored(){
 		var showExplored = $("#showExplored").prop('checked');
 
 		var uiMapID = $("#mapSelect").val();
-		var scale = getScaleByUIMapID(uiMapID);
 
-		uiMapXMapArt.forEach(function(uiMapXMapArtRow){
-			if(uiMapXMapArtRow.UiMapID == uiMapID){
-				var uiMapArtID = uiMapXMapArtRow.UiMapArtID;
-				console.log("Found uiMapArtID " + uiMapArtID + " for uiMapID " + uiMapID);
+		const artStyle = getArtStyleByUIMapID(uiMapID);
+		const uiMapXMapArtRow = uiMapXMapArt.find(row => row && row.UiMapID == uiMapID);
+		const uiMapArtID = uiMapXMapArtRow.UiMapArtID;
 
-				worldMapOverlay.forEach(function(wmoRow){
-					if(wmoRow.UiMapArtID == uiMapArtID){
-						worldMapOverlayTile.forEach(function(wmotRow){
-							if(wmotRow.WorldMapOverlayID == wmoRow.ID){
-								var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (256 / scale));
-								var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (256 / scale));
-								var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+		worldMapOverlay.forEach(function(wmoRow){
+			if(wmoRow.UiMapArtID == uiMapArtID){
+				worldMapOverlayTile.forEach(function(wmotRow){
+					if(wmotRow.WorldMapOverlayID == wmoRow.ID){
+						var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
+						var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
+						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
-								// $("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 2; margin: 0px; max-width: " + (256 / scale) + "px; max-height: " + (256 / scale) + "px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
-								// renderBLPToIMGElement(bgURL, "exploredArt" + wmotRow.ID);
-								renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
-							}
-						});
+						renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
 					}
 				});
 			}
@@ -251,6 +225,11 @@ require_once("../inc/header.php");
 
 		document.title = title;
 	}
+
+	$('#mapSelect').on( 'change', function () {
+		renderMap(this.value);
+	});
+
 
 	$("#showExplored").on("click", function (){
 		if($(this).prop('checked') == false){
