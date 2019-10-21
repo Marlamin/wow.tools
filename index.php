@@ -6,58 +6,11 @@
 	</p>
 	<div class='row'>
 		<div class='col-md-4'>
+			<?php $updatedago = strtotime("now") - $memcached->get("github.commits.lastupdated"); ?>
 			<h4>Recent updates</h4>
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
-			<thead><tr><th>Description</th></tr></thead>
+			<thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th></tr></thead>
 			<?php
-				if(!$memcached->get("github.commits.json") || strtotime("-5 minutes") > $memcached->get("github.commits.lastupdated")){
-					$commits = [];
-
-					$i = 0;
-					$res = githubRequest("repos/marlamin/wow.tools/commits");
-					foreach($res as $commit){
-						$commits[] = array("repo" => "Website", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-						$i++;
-						if($i > 10) break;
-					}
-
-					$i = 0;
-					$res = githubRequest("repos/marlamin/casctoolhost/commits");
-					foreach($res as $commit){
-						$commits[] = array("repo" => "File backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-						$i++;
-						if($i > 10) break;
-					}
-
-					$i = 0;
-					$res = githubRequest("repos/marlamin/dbcdumphost/commits");
-					foreach($res as $commit){
-						$commits[] = array("repo" => "DBC backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-						$i++;
-						if($i > 10) break;
-					}
-
-					$i = 0;
-					$res = githubRequest("repos/wowdev/wowdbdefs/commits");
-					foreach($res as $commit){
-						$commits[] = array("repo" => "DBC definitions", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-						$i++;
-						if($i > 10) break;
-					}
-
-					$i = 0;
-					$res = githubRequest("repos/marlamin/wowtools.minimaps/commits");
-					foreach($res as $commit){
-						$commits[] = array("repo" => "Minimap backend", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-						$i++;
-						if($i > 10) break;
-					}
-
-					usort($commits, "compareTimestamp");
-					$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 10)));
-					$memcached->set("github.commits.lastupdated", strtotime("now"));
-				}
-
 				$commits = json_decode($memcached->get("github.commits.json"));
 				foreach($commits as $commit){
 					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a><br><span class='text-muted'>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
