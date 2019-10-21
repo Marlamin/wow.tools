@@ -2,7 +2,7 @@
 require_once("../inc/header.php");
 ?>
 <script src="/js/bufo.js"></script>
-<script src="/js/js-blp.js?v=2"></script>
+<script src="/js/js-blp.js?v=<?=filemtime("/var/www/wow.tools/js/js-blp.js")?>"></script>
 <style type='text/css'>
 	#breadcrumbs{
 		position: absolute;
@@ -27,6 +27,7 @@ require_once("../inc/header.php");
 	<div id ='map'>
 
 	</div>
+	<canvas style='position: absolute; top: 100px; left: 50px; z-index: 0;' id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
 	var build = "8.3.0.32218";
@@ -160,12 +161,13 @@ require_once("../inc/header.php");
 					if(uiMapArtTileRow.UiMapArtID == uiMapArtID){
 						// console.log(uiMapArtTileRow.RowIndex + "x" + uiMapArtTileRow.ColIndex + " = fdid " + uiMapArtTileRow.FileDataID);
 
-						var imagePosX = 150 + uiMapArtTileRow.RowIndex * (256 / scale);
-						var imagePosY = 50 + uiMapArtTileRow.ColIndex * (256 / scale);
+						var imagePosX = uiMapArtTileRow.RowIndex * (256 / scale);
+						var imagePosY = uiMapArtTileRow.ColIndex * (256 / scale);
 						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=" + uiMapArtTileRow.FileDataID;
 
-						$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 1; margin: 0px; width: " + (256 / scale) + "px; height: " + (256 / scale) + "px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
-						renderBLPToIMGElement(bgURL , "art" + uiMapArtTileRow.ID);
+						//$("#map").append("<img class='uiMapArt' id='art" + uiMapArtTileRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 1; margin: 0px; width: " + (256 / scale) + "px; height: " + (256 / scale) + "px; position: absolute; top: " + imagePosX + "px; left: " + imagePosY + "px;'>");
+						//renderBLPToIMGElement(bgURL , "art" + uiMapArtTileRow.ID);
+						renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
 					}
 				});
 
@@ -220,12 +222,13 @@ require_once("../inc/header.php");
 					if(wmoRow.UiMapArtID == uiMapArtID){
 						worldMapOverlayTile.forEach(function(wmotRow){
 							if(wmotRow.WorldMapOverlayID == wmoRow.ID){
-								var layerPosX = parseInt(wmoRow.OffsetX) + 50 + (wmotRow.ColIndex * (256 / scale));
-								var layerPosY = parseInt(wmoRow.OffsetY) + 150 + (wmotRow.RowIndex * (256 / scale));
+								var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (256 / scale));
+								var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (256 / scale));
 								var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
-								$("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 2; margin: 0px; max-width: " + (256 / scale) + "px; max-height: " + (256 / scale) + "px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
-								renderBLPToIMGElement(bgURL, "exploredArt" + wmotRow.ID);
+								// $("#map").append("<img class='uiMapArt uiMapExploredArt' id='exploredArt" + wmotRow.ID + "' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' style='z-index: 2; margin: 0px; max-width: " + (256 / scale) + "px; max-height: " + (256 / scale) + "px; position: absolute; top: " + layerPosY + "px; left: " + layerPosX + "px;'>");
+								// renderBLPToIMGElement(bgURL, "exploredArt" + wmotRow.ID);
+								renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
 							}
 						});
 					}
@@ -251,7 +254,7 @@ require_once("../inc/header.php");
 
 	$("#showExplored").on("click", function (){
 		if($(this).prop('checked') == false){
-			$(".uiMapExploredArt").remove();
+			renderMap($("#mapSelect").val());
 		}else{
 			renderExplored();
 		}

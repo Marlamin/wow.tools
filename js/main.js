@@ -71,3 +71,14 @@ function renderBLPToIMGElement(url, elementID){
 		img.setAttribute('data-loaded', true);
 	});
 }
+
+function renderBLPToCanvasElement(url, elementID, canvasX, canvasY){
+	fetch(url).then(function(response) {
+		return response.arrayBuffer();
+	}).then(function(arrayBuffer) {
+		let data = new Bufo(arrayBuffer);
+		let blp = new BLPFile(data);
+		let canvas = document.getElementById(elementID);
+		let image = blp.getPixels(0, canvas, canvasX, canvasY);
+	});
+}

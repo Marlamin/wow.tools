@@ -93,7 +93,7 @@ const BLPFile = ((Bufo) => {
 		 * @param {number} [mipmap]
 		 * @param {HTMLElement} [canvas]
 		 */
-		getPixels(mipmap, canvas = null) {
+		getPixels(mipmap, canvas = null, canvasX = null, canvasY = null) {
 			// Constrict the requested mipmap to a valid range..
 			mipmap = Math.max(0, Math.min(mipmap || 0, this.mapCount - 1));
 
@@ -109,8 +109,16 @@ const BLPFile = ((Bufo) => {
 
 			// Canvas
 			if (canvas !== null) {
-				this.imageContext = canvas.getContext('2d');
-				this.imageData = this.imageContext.createImageData(this.scaledWidth, this.scaledHeight);
+				if(canvasX !== null){
+					this.newCanvas = document.createElement('canvas');
+					this.newCanvas.width = this.width;
+					this.newCanvas.height = this.height;
+					this.imageContext = this.newCanvas.getContext('2d');
+					this.imageData = this.imageContext.createImageData(this.scaledWidth, this.scaledHeight);
+				}else{
+					this.imageContext = canvas.getContext('2d');
+					this.imageData = this.imageContext.createImageData(this.scaledWidth, this.scaledHeight);
+				}
 			}
 
 			// Decode the raw data depending on the file..
@@ -130,7 +138,13 @@ const BLPFile = ((Bufo) => {
 			}
 
 			if (canvas !== null) {
-				this.imageContext.putImageData(this.imageData, 0, 0);
+				if(canvasX !== null){
+					this.imageContext.putImageData(this.imageData, 0, 0);
+					let existingImageContext = canvas.getContext('2d');
+					existingImageContext.drawImage(this.newCanvas, canvasX, canvasY);
+				}else{
+					this.imageContext.putImageData(this.imageData, canvasX, canvasY);
+				}
 				return this.imageContext;
 			}
 		}
