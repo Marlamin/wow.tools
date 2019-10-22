@@ -111,10 +111,8 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 										break;
 									case "m2":
 									case "wmo":
-										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
-										break;
 									default:
-										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
 										break;
 								}
 								break;
@@ -139,7 +137,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
 									case "ogg":
-										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
 										break;
 									default:
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModalRaw(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview (raw)</a>";
@@ -155,7 +153,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 										}
 										break;
 									default:
-										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"<?= $fromBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $fromBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
 										break;
 								}
 								break;

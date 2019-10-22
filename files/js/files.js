@@ -104,6 +104,10 @@ function fillPreviewModal(buildconfig, filedataid){
 	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
 }
 
+function fillPreviewModalByContenthash(buildconfig, filedataid, contenthash){
+	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+}
+
 function fillDiffModal(from, to, filedataid){
 	$( "#previewModalContent" ).load( "/files/diff.php?from=" + from + "&to=" + to + "&filedataid=" + filedataid + "&raw=0");
 }

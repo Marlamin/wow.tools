@@ -43,8 +43,13 @@ function downloadFile($params, $outfile){
 	}
 }
 
-
-$cascparams = "/fdid?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&filename=".urlencode($row2['filename'])."&filedataid=".$_GET['filedataid'];
+if(!empty($_GET['contenthash'])){
+	// If contenthash is available, use that for faster lookups
+	$cascparams = "/chash?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&filename=".urlencode($row2['filename'])."&contenthash=".$_GET['contenthash'];
+}else{
+	// Otherwise, use filedataid
+	$cascparams = "/fdid?buildconfig=".$build['buildconfig']['hash']."&cdnconfig=".$build['cdnconfig']['hash']."&filename=".urlencode($row2['filename'])."&filedataid=".$_GET['filedataid'];
+}
 if($type == "ogg"){
 	echo "<audio autoplay controls><source src='//wow.tools/casc/preview".$cascparams."' type='audio/ogg'></audio>";
 	die();
