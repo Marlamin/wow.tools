@@ -288,6 +288,11 @@ footer p{
 	-webkit-overflow-scrolling: touch; /* iOS fix */
 }
 
+.fa-stack{
+	height: 0em;
+	line-height: 0em;
+}
+
 /* Mobile Devices */
 @media screen and (max-width: 992px) {
 	textarea[name='files'] {

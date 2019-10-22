@@ -53,7 +53,6 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 	String.prototype.capitalize = function() {
 		return this.charAt(0).toUpperCase() + this.slice(1)
 	}
-
 	$(document).ready(function() {
 		var encrypted = <?=json_encode($encrypted)?>;
 		var table = $('#buildtable').DataTable({
@@ -114,6 +113,10 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 									default:
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
 										break;
+								}
+
+								if(full.md5 == "de6135861a6cacfe176830f18f597c3e"){
+								content += " <span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
 								}
 								break;
 							case "modified":
@@ -191,7 +194,10 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 						}, 50));
 					}
 				});
-			}
+			},
+			"drawCallback": function() {
+				$('[data-toggle="popover"]').popover();
+  			}
 		});
 
 		window.table = table;
@@ -199,7 +205,6 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 	table.on( 'xhr', function () {
 		var json = table.ajax.json();
 		$("#summary").html(" <span class='badge badge-" + actionToBadge("added") + "'>" + json['added'] + " added</span> <span class='badge badge-" + actionToBadge("modified") + "'>" + json['modified'] + " modified</span> <span class='badge badge-" + actionToBadge("removed") + "'>" + json['removed'] + " removed</span>");
-		console.log(json);
 	} );
 	});
 </script>
