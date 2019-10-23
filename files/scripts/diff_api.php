@@ -51,7 +51,6 @@ function getDiff($fromBuild, $toBuild, $fileDataID, $raw)
 {
     $fromFile = tempnam('/tmp/', 'PREVIEW');
     $toFile = tempnam('/tmp/', 'PREVIEW');
-
     downloadFile($fromFile, $fromBuild, $fileDataID);
     downloadFile($toFile, $toBuild, $fileDataID);
 
@@ -63,10 +62,19 @@ function getDiff($fromBuild, $toBuild, $fileDataID, $raw)
         shell_exec("/usr/bin/hd -n62144 ".escapeshellarg($toFile)." > " . escapeshellarg($rawToFile));
 
         $cmd = "diff -u " . escapeshellarg($rawFromFile) . " " . escapeshellarg($rawToFile);
+        $result = shell_exec($cmd);
+
+        if(empty($result)){
+            shell_exec("/usr/bin/hd ".escapeshellarg($fromFile)." > " . escapeshellarg($rawFromFile));
+            shell_exec("/usr/bin/hd ".escapeshellarg($toFile)." > " . escapeshellarg($rawToFile));
+
+            $cmd = "diff -u " . escapeshellarg($rawFromFile) . " " . escapeshellarg($rawToFile);
+            $result = shell_exec($cmd);
+        }
     }else{
         $cmd = "diff -u " . escapeshellarg($fromFile) . " " . escapeshellarg($toFile);
+        $result = shell_exec($cmd);
     }
-    $result = shell_exec($cmd);
     unlink($fromFile);
     unlink($toFile);
 
