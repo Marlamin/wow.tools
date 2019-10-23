@@ -1,7 +1,7 @@
 <?php
 require_once("../inc/config.php");
 
-if(!$memcached->get("github.commits.json") || strtotime("-2 minutes") > $memcached->get("github.commits.lastupdated")){
+if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcached->get("github.commits.lastupdated")){
 	$commits = [];
 
 	$i = 0;

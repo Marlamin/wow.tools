@@ -11,6 +11,10 @@
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th></tr></thead>
 			<?php
+				if(!$memcached->get("github.commits.json")){
+					require_once("scripts/updateGitHistory.php");
+				}
+
 				$commits = json_decode($memcached->get("github.commits.json"));
 				foreach($commits as $commit){
 					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a><br><span class='text-muted'>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
