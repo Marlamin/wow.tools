@@ -10,6 +10,7 @@
 	var ADTGridLayer;
 	var ADTGridTextLayer;
 	var WorldMapLayer;
+	var MNAMLayer;
 	var Versions;
 	var Elements =
 	{
@@ -24,7 +25,8 @@
 		FlightLayer: document.getElementById('js-flightlayer'),
 		POILayer: document.getElementById('js-poilayer'),
 		ADTGrid: document.getElementById('js-adtgrid'),
-		WorldMap: document.getElementById('js-worldmap')
+		WorldMap: document.getElementById('js-worldmap'),
+		MNAM: document.getElementById('js-mnam')
 	};
 
 	var Current =
@@ -32,7 +34,8 @@
 		Map: false,
 		InternalMap: false,
 		InternalMapID: false,
-		Version: 0
+		Version: 0,
+		wdtFileDataID: 0
 	};
 
 	var maxSize = 51200 / 3; 		//17066,66666666667
@@ -131,6 +134,7 @@
 			option = document.createElement( 'option' );
 			option.dataset.internal = map.internal;
 			option.dataset.imapid = map.internal_mapid;
+			option.dataset.wdtfiledataid = map.wdtFileDataID;
 			option.value = map.id;
 			option.textContent = map.name;
 
@@ -144,6 +148,7 @@
 				Current.Map = map.id;
 				Current.InternalMap = map.internal;
 				Current.InternalMapID = map.internal_mapid;
+				Current.wdtFileDataID = map.wdtFileDataID;
 				Current.Version = '' + parseInt( url[ 3 ], 10 );
 				if( map.internal === decodeURIComponent(url[ 2 ]) )
 				{
@@ -264,6 +269,7 @@
 			Current.Map = this.value;
 			Current.InternalMap = this.options[ this.selectedIndex ].dataset.internal;
 			Current.InternalMapID = this.options[ this.selectedIndex ].dataset.imapid;
+			Current.wdtFileDataID = this.options[ this.selectedIndex ].dataset.wdtfiledataid;
 
 			UpdateMapVersions();
 
@@ -272,7 +278,7 @@
 					[
 					Versions[ Current.Map ][ Current.Version ].config.resy / 2,
 					Versions[ Current.Map ][ Current.Version ].config.resx / 2
-					], LeafletMap.getMaxZoom())
+					], Versions[ Current.Map ][ Current.Version ].config.maxzoom)
 				, 2, true, false
 				);
 		} );
@@ -374,6 +380,17 @@
 			}
 		} );
 
+		Elements.MNAM.addEventListener( 'click', function( )
+		{
+			if(Elements.MNAM.checked){
+				MNAMLayer = new L.LayerGroup();
+				drawMNAM();
+				LeafletMap.addLayer(MNAMLayer);
+			}else{
+				LeafletMap.removeLayer(MNAMLayer);
+			}
+		} );
+
 		LeafletMap.on('moveend zoomend dragend', function()
 		{
 			SynchronizeTitleAndURL();
@@ -434,6 +451,69 @@
 			}
 		}
 		wmapxhr.send();
+	}
+
+	function drawMNAM(){
+		/* ICON STUFF */
+		var coordArr = Array();
+		var i = 0;
+		var xPos = 0;
+		var yPos = 0;
+		for(var x = 0; x < 28; x++){
+			for(var y = 0; y < 14; y++){
+				coordArr[i] = [yPos, xPos];
+				yPos += 18;
+				i++;
+			}
+			yPos = 0;
+			xPos += 18;
+		}
+
+		var mnamxhr = new XMLHttpRequest();
+		mnamxhr.open( 'GET', '/maps/data/mnam/' + Current.wdtFileDataID + ".json", true );
+		mnamxhr.responseType = 'json';
+		mnamxhr.onreadystatechange = function() {
+			if (mnamxhr.readyState === 4){
+				if(mnamxhr.response.countB == 0){
+					return;
+				}
+
+				let mnam = mnamxhr.response.entriesB;
+				for(var i = 0; i < mnam.length; i++){
+					var entry = mnam[i];
+					for(var j = 0; j < entry.posPlusNormalCount; j++){
+						var name = "ID " + entry.c + ", index " + j + ", type " + entry.type;
+						var icon = 45;
+						switch(entry.type){
+							case 2:
+								icon = 43;
+								break;
+							case 6:
+								icon = 44;
+								break;
+							default:
+								console.log("Encountered new type: " + entry.type);
+								icon = 45;
+								break;
+						}
+
+						var newLatLng = WoWtoLatLng(entry.posPlusNormal[j].position.X, entry.posPlusNormal[j].position.Y);
+
+						var leftPx = coordArr[icon][0] * -1;
+						var topPx = coordArr[icon][1] * -1;
+						let myIcon = L.divIcon({className: 'poiatlas', iconSize: [18, 18], html: '<div class="poiatlas" style="background-position: ' + leftPx + 'px ' + topPx + 'px;">&nbsp</div>'});
+
+						if(j > 1){
+
+							var prevLatLng = WoWtoLatLng(entry.posPlusNormal[j-1].position.X, entry.posPlusNormal[j-1].position.Y);
+							MNAMLayer.addLayer(new L.polyline([prevLatLng, newLatLng], {weight: 1, color: 'red'}));
+						}
+						MNAMLayer.addLayer(new L.marker(newLatLng, {icon: myIcon}).bindPopup(name));
+					}
+				}
+			}
+		}
+		mnamxhr.send();
 	}
 
 	function ProcessPOIResult(response){
@@ -504,10 +584,11 @@
 		Elements.POILayer.disabled = false;
 		Elements.ADTGrid.disabled = false;
 		Elements.WorldMap.disabled = false;
+		Elements.MNAM.disabled = false;
 	}
 
 	function ProcessOffsetClick(e, offset){
-		var layerPoint = LeafletMap.project(e.latlng, LeafletMap.getMaxZoom()).floor();
+		var layerPoint = LeafletMap.project(e.latlng, Versions[ Current.Map ][ Current.Version ].config.maxzoom).floor();
 
 		var build = Versions[Current.Map][Current.Version].build;
 		var adt = PointToWoWTile(layerPoint, offset, build);
@@ -612,11 +693,11 @@
 		var tempx = (mapSize / 2 + tempx) / pxPerCoord - offsetX;
 		var tempy = x * -1; //flip it (°□°）︵ ┻━┻)
 		var tempy = (mapSize / 2 + tempy) / pxPerCoord - offsetY;
-		return LeafletMap.unproject([tempx, tempy], LeafletMap.getMaxZoom());
+		return LeafletMap.unproject([tempx, tempy], Versions[ Current.Map ][ Current.Version ].config.maxzoom);
 	}
 
 	function LatLngToWoW( latlng ){
-		return PointToWoW(LeafletMap.project(latlng, LeafletMap.getMaxZoom()), Versions[Current.Map][Current.Version].build);
+		return PointToWoW(LeafletMap.project(latlng, Versions[ Current.Map ][ Current.Version ].config.maxzoom), Versions[Current.Map][Current.Version].build);
 	}
 
 	function PointToWoW( point, offset, build ){
@@ -737,9 +818,9 @@
 
 		d( 'Loading map ' + name );
 
-		LeafletMap.options.maxZoom = Versions[ Current.Map ][ Current.Version ].config.maxzoom;
+		LeafletMap.options.maxZoom = 10;
 
-		var mapbounds = new L.LatLngBounds(LeafletMap.unproject([1, Versions[ Current.Map ][ Current.Version ].config.resy - 1], LeafletMap.getMaxZoom()), LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resx - 1, 1], LeafletMap.getMaxZoom()));
+		var mapbounds = new L.LatLngBounds(LeafletMap.unproject([1, Versions[ Current.Map ][ Current.Version ].config.resy - 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom), LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resx - 1, 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom));
 
 		if(TileLayer){
 			LeafletMap.removeLayer(TileLayer);
@@ -748,7 +829,9 @@
 		TileLayer = new L.tileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {
 			attribution: '<a href="/maps/list.php" title="Raw PNGs used to generate tiles for this viewer">Raw images</a> | World of Warcraft &copy; Blizzard Entertainment',
 			continuousWorld: true,
-			bounds: mapbounds
+			bounds: mapbounds,
+			maxNativeZoom : Versions[ Current.Map ][ Current.Version ].config.maxzoom,
+			maxZoom: 12
 		}).addTo(LeafletMap);
 
 		if(!center){
@@ -759,7 +842,7 @@
 			var zoom = LeafletMap.getZoom();
 		}
 
-		var mapCenter = LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resy / 2,Versions[ Current.Map ][ Current.Version ].config.resx / 2], LeafletMap.getMaxZoom());
+		var mapCenter = LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resy / 2,Versions[ Current.Map ][ Current.Version ].config.resx / 2], Versions[ Current.Map ][ Current.Version ].config.maxzoom);
 
 		MinimapLayer = new L.TileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {minZoom: 2, maxZoom: 2, continuousWorld: true, bounds: mapbounds});
 		if(Minimap){
@@ -779,16 +862,19 @@
 		Elements.POILayer.checked = false;
 		Elements.ADTGrid.checked = false;
 		Elements.WorldMap.checked = false;
+		Elements.MNAM.checked = false;
 
 		Elements.FlightLayer.disabled = true;
 		Elements.POILayer.disabled = true;
 		Elements.ADTGrid.disabled = true;
 		Elements.WorldMap.disabled = true;
+		Elements.MNAM.disabled = true;
 
 		if(Versions[Current.Map][Current.Version].config.offset.min.x != 63){
 			Elements.FlightLayer.disabled = false;
 			Elements.POILayer.disabled = false;
 			Elements.ADTGrid.disabled = false;
+			Elements.MNAM.disabled = false;
 
 			// uimapassignment builds only
 			if(Versions[Current.Map][Current.Version].build > 26787){
@@ -814,6 +900,9 @@
 
 		if(LeafletMap.hasLayer(WorldMapLayer)){ LeafletMap.removeLayer(WorldMapLayer); }
 		WorldMapLayer = new L.LayerGroup();
+
+		if(LeafletMap.hasLayer(MNAMLayer)){ LeafletMap.removeLayer(MNAMLayer); }
+		MNAMLayer = new L.LayerGroup();
 	}
 
 	var markers = [];
@@ -827,7 +916,7 @@
 		if(!urlSet)
 		{
 			d('Fitting map!');
-			var mapbounds = new L.LatLngBounds(LeafletMap.unproject([1, Versions[ Current.Map ][ Current.Version ].config.resy - 1], LeafletMap.getMaxZoom()), LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resx - 1, 1], LeafletMap.getMaxZoom()));
+			var mapbounds = new L.LatLngBounds(LeafletMap.unproject([1, Versions[ Current.Map ][ Current.Version ].config.resy - 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom), LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resx - 1, 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom));
 			LeafletMap.fitBounds(mapbounds);
 		}
 	}
