@@ -842,8 +842,6 @@
 			var zoom = LeafletMap.getZoom();
 		}
 
-		var mapCenter = LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resy / 2,Versions[ Current.Map ][ Current.Version ].config.resx / 2], Versions[ Current.Map ][ Current.Version ].config.maxzoom);
-
 		MinimapLayer = new L.TileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {minZoom: 2, maxZoom: 2, continuousWorld: true, bounds: mapbounds});
 		if(Minimap){
 			Minimap.changeLayer(MinimapLayer);

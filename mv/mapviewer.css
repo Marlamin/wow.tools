@@ -1,0 +1,9 @@
+.map-canvas {
+	width: 100%;
+	height: calc(100% - 100px);
+	z-index: 0;
+}
+
+#js-map-select {
+	width: 100%;
+}

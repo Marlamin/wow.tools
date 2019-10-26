@@ -8,6 +8,13 @@ html, body{
     padding: 0px;
 }
 
+#mvTabs{
+    height: calc(100% - 200px);
+}
+
+.tab-pane{
+    height: 100%;
+}
 /* Canvas */
 #wowcanvas {
     width: 100%;

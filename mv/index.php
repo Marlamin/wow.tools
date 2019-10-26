@@ -16,12 +16,14 @@ nav{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
 <link href="/mv/modelviewer.css?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.css")?>" rel="stylesheet">
+<link href="/maps/css/leaflet.css?v=<?=filemtime($basedir."/maps/css/leaflet.css")?>" rel="stylesheet">
+<link href="/mv/mapviewer.css?v=<?=filemtime("/var/www/wow.tools/mv/mapviewer.css")?>" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" crossorigin="anonymous"></script>
 	<button id="js-sidebar-button" class="hamburger">
 		<i class='fa fa-reorder'></i>
 	</button>
 	<div id="js-sidebar" class="overlay sidebar closed container">
-		<b style='margin-left: 75px; margin-top: 0px;'>Uses WIP modelviewer by Deamon</b>
+		<b style='margin-left: 75px; margin-top: 0px;'>Uses WIP viewer by Deamon</b>
 		<div class='row justify-content-md-center'>
 			<div class='col-md-11'>
 				<div class="btn-group" role="group">
@@ -31,22 +33,42 @@ nav{
 				</div>
 			</div>
 		</div>
-		<div class='row justify-content-center' style='margin-top: 10px;'>
-			<div class='col-md-4' style='text-align: center'><label title='terrain files (makes search slower)' for='showADT'>Show ADT: <input class='filterBox' type='checkbox' id='showADT'></label></div>
-			<div class='col-md-4' style='text-align: center'><label title='larger models (buildings, cities, dungeons, raids etc)' for='showWMO'>Show WMO: <input class='filterBox' type='checkbox' id='showWMO' CHECKED></label></div>
-			<div class='col-md-4' style='text-align: center'><label title='smaller more complex models (creatures, foliage, props etc)' for='showM2'>Show M2: <input class='filterBox' type='checkbox' id='showM2' CHECKED></label></div>
-		</div>
-		<div class='row'>
-			<div class='col'>
-				<table id='mvfiles' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-							<th style='width: 50px;'>ID</th>
-							<th>Filename</th>
-							<th style='width: 15px;'>&nbsp;</th>
-						</tr>
-					</thead>
-				</table>
+		<ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
+			<li class="nav-item">
+				<a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#map" data-toggle="tab" role="tab">Map viewer</a>
+			</li>
+		</ul>
+		<div class="tab-content" id="mvTabs">
+			<div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="model-tab">
+				<div class='row justify-content-center' style='margin-top: 10px;'>
+					<div class='col-md-4' style='text-align: center'><label title='terrain files (makes search slower)' for='showADT'>Show ADT: <input class='filterBox' type='checkbox' id='showADT'></label></div>
+					<div class='col-md-4' style='text-align: center'><label title='larger models (buildings, cities, dungeons, raids etc)' for='showWMO'>Show WMO: <input class='filterBox' type='checkbox' id='showWMO' CHECKED></label></div>
+					<div class='col-md-4' style='text-align: center'><label title='smaller more complex models (creatures, foliage, props etc)' for='showM2'>Show M2: <input class='filterBox' type='checkbox' id='showM2' CHECKED></label></div>
+				</div>
+				<div class='row'>
+					<div class='col'>
+						<table id='mvfiles' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th style='width: 50px;'>ID</th>
+									<th>Filename</th>
+									<th style='width: 15px;'>&nbsp;</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+				Coming soon! 👀
+				<!--<div>
+					<select id="js-map-select" disabled></select>
+					<select id="js-version-select" disabled></select>
+				</div>
+				<div id="js-map" class="map-canvas">&nbsp;</div>-->
 			</div>
 		</div>
 	</div>
@@ -264,5 +286,7 @@ nav{
 	<script src="/mv/modelviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.js")?>"></script>
 	<script src="/mv/anims.js?v=<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
 	<script src="/mv/project.js?v=<?=filemtime("/var/www/wow.tools/mv/project.js")?>"></script>
+	<script src="/maps/js/leaflet.js?v=<?=filemtime($basedir."/maps/js/leaflet.js")?>"></script>
+	<!--<script src="/mv/mapviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/mapviewer.js")?>"></script>-->
 </body>
 </html>
