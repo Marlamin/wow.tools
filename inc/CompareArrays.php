@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Diffing multi dimensional arrays the easy way.
  *
