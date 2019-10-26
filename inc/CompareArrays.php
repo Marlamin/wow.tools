@@ -62,14 +62,14 @@ class CompareArrays
 	{
 		$Diff = [];
 		
-		if( $Old == $New )
+		if( $Old === $New )
 		{
 			return $Diff;
 		}
 		
 		foreach( $Old as $Key => $Value )
 		{
-			if( !isset( $New[ $Key ] ) )
+			if( !array_key_exists( $Key, $New ) )
 			{
 				$Diff[ $Key ] = self::Singular( ComparedValue::TYPE_REMOVED, $Value );
 				
@@ -105,7 +105,7 @@ class CompareArrays
 				continue;
 			}
 			
-			if( $Value != $ValueNew )
+			if( $Value !== $ValueNew )
 			{
 				$Diff[ $Key ] = new ComparedValue( ComparedValue::TYPE_MODIFIED, $Value, $ValueNew );
 			}
@@ -113,7 +113,7 @@ class CompareArrays
 		
 		foreach( $New as $Key => $Value )
 		{
-			if( !isset( $Old[ $Key ] ) )
+			if( !array_key_exists( $Key, $Old ) )
 			{
 				$Diff[ $Key ] = self::Singular( ComparedValue::TYPE_ADDED, $Value );
 			}
