@@ -83,10 +83,17 @@ if(!empty($_GET['search']['value'])){
 			$c = str_replace("\\", "/", trim($c));
 			$subquery = "";
 
-			if(!empty($c) && $c[0] == '^'){
-				$search = substr($c, 1)."%";
-			}else{
-				$search = "%".$c."%";
+			$search = "";
+			if(!empty($c)){
+				if($c[0] != '^'){
+					$search .= "%";
+				}
+
+				$search .= str_replace(["^","$"], "", $c);
+
+				if($c[strlen($c) - 1] != '$'){
+					$search .= "%";
+				}
 			}
 
 			if($mv){
