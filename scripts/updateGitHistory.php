@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/config.php");
+require_once("/var/www/wow.tools/inc/config.php");
 
 if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcached->get("github.commits.lastupdated")){
 	$commits = [];
