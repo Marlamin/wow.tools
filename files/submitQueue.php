@@ -40,6 +40,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 			}else{
 				// File does not exist
 				$log[] = "<b>WARNING!</b> Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
+				$suggestedfiles[$fdid] = $fname;
 				$iq->execute([$fdid, $fname]);
 			}
 		}
