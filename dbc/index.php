@@ -152,7 +152,6 @@ $dbFound = false;
 <script src="/files/js/files.js" crossorigin="anonymous"></script>
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script type='text/javascript'>
-	var currentBuild = 0;
 	var filtersEnabled = false;
 	function toggleFilters(){
 		if(!filtersEnabled){
@@ -276,6 +275,8 @@ $dbFound = false;
 							if(meta.col in fkCols){
 								if(fkCols[meta.col] == "FileData::ID"){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
+								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(vars["build"][0]) > 6){
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\")'>" + full[meta.col] + "</a>";
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\")'>" + full[meta.col] + "</a>";
 								}
