@@ -11,6 +11,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 		}
 
 		$uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ? AND verified = 0");
+		$iq = $pdo->prepare("INSERT INTO wow_rootfiles (id, filename, verified) VALUES (?, ?, 0)");
 
 		$date = urldecode($_GET['approve']);
 
@@ -38,7 +39,8 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 				}
 			}else{
 				// File does not exist
-				$log[] = "<b>WARNING!</b> FileDataID " . $fdid . " does not exist or is a file with a bruteforcable lookup!";
+				$log[] = "<b>WARNING!</b> Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
+				$iq->execute([$fdid, $fname]);
 			}
 		}
 

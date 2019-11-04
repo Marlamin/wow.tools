@@ -7,8 +7,6 @@ foreach($kfq as $row){
 	$knownfiles[$row['id']] = $row['filename'];
 }
 
-$uq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ? WHERE id = ? AND verified = 0");
-
 $cq = $pdo->prepare("SELECT id FROM wow_rootfiles WHERE filename = ?");
 
 if(!empty($_SESSION['loggedin'])){
@@ -63,46 +61,40 @@ if(!empty($_SESSION['loggedin'])){
 				}
 			}else{
 				// File does not exist
-				$log[] = "<b>WARNING!</b> FileDataID " . $fdid . " does not exist or is a file with a bruteforcable lookup!";
+				$log[] = "<b>WARNING!</b> Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
+				$suggestedfiles[$fdid] = $fname;
 			}
 		}
 
 		$isq = $pdo->prepare("INSERT INTO wow_rootfiles_suggestions (filedataid, filename, userid, submitted) VALUES (?, ?, ?, ?)");
 
 		if(empty($_POST['checkBox'])){
-			if(isset($_POST['skipQueue']) && isset($_SESSION['rank']) && $_SESSION['rank'] > 0){
-				// Send to wow_rootfiles
-				foreach($suggestedfiles as $fdid => $fname){
-					$uq->execute([$fname, $fdid]);
-				}
-			}else{
-				// Send to queue
+			// Send to queue
 
-				// Set insert time to one value in case in case things take longer than a second to insert
-				$time = date("Y-m-d H:i:s");
+			// Set insert time to one value in case in case things take longer than a second to insert
+			$time = date("Y-m-d H:i:s");
 
+			foreach($suggestedfiles as $fdid => $fname){
+				$isq->execute([$fdid, $fname, $_SESSION['userid'], $time]);
+			}
+			if(count($suggestedfiles) > 0){
+				$message = "Submitted " . count($suggestedfiles) . " files to the [moderation queue](https://wow.tools/files/submitQueue.php).```";
 				foreach($suggestedfiles as $fdid => $fname){
-					$isq->execute([$fdid, $fname, $_SESSION['userid'], $time]);
-				}
-				if(count($suggestedfiles) > 0){
-					$message = "Submitted " . count($suggestedfiles) . " files to the [moderation queue](https://wow.tools/files/submitQueue.php).```";
-					foreach($suggestedfiles as $fdid => $fname){
-						$line = $fdid . " => " . $fname ."\n";
-						if((strlen($message) + strlen($line) + 3) < 2000){
-							$message.= $line;
-						}
+					$line = $fdid . " => " . $fname ."\n";
+					if((strlen($message) + strlen($line) + 3) < 2000){
+						$message.= $line;
 					}
-					$message .= "```";
-					$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, $discordfilenames);
-					curl_setopt($ch, CURLOPT_POST, true);
-					curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-					curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
-					curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
-					$response = curl_exec($ch);
-					curl_close($ch);
 				}
+				$message .= "```";
+				$json = json_encode([ "username" => getUsernameByUserID($_SESSION['userid']), "content" => $message]);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $discordfilenames);
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+				curl_setopt($ch, CURLOPT_USERAGENT, "WoW.Tools Discord Integration");
+				curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length" => strlen($json), "Content-Type" => "application/json"]);
+				$response = curl_exec($ch);
+				curl_close($ch);
 			}
 		}else{
 			echo "<div class='alert alert-warning'><b>Warning</b> Currently only comparing with listfile, not saving anything to database.</div>";
@@ -138,7 +130,6 @@ if(!empty($_SESSION['loggedin'])){
 			<br>
 			<input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
 			<br>
-			<?php if($_SESSION['rank'] > 0){ ?><input id='skipBox' type='checkbox' name='skipQueue'> <label for='skipBox'>Skip queue and write directly to DB <b>(Mod-only, please only use if queue is broken)</b></label><br><?}?>
 			<textarea name='files' rows='15' cols='200'></textarea>
 			<br>
 			<input class='btn btn-success' type='submit' value='Submit'>
