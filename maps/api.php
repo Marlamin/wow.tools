@@ -91,6 +91,7 @@ if($_GET['type'] == "areaname"){
 	foreach($csv as $entry){
 		if(!isset($entry['ContinentID']) || $entry['ContinentID'] != $mapid) continue;
 		if(empty($entry['Pos[0]']) && empty($entry['Pos[1]'])) continue;
+		if(!isset($entry['MountCreatureID[0]'])) continue;
 
 		if($entry['MountCreatureID[0]'] != 0 && $entry['MountCreatureID[1]'] != 0){
 			$type = "neutral";
@@ -192,7 +193,7 @@ if($_GET['type'] == "areaname"){
 	}
 	$pois=[];
 	foreach($dbc as $row){
-		if(empty($row['ID']))
+		if(empty($row['ID']) || empty($row['Name_lang']))
 			continue;
 
 		if((int)$row['ContinentID'] != (int)$_GET['mapid'])
