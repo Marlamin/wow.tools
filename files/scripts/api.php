@@ -243,7 +243,7 @@ if(!($returndata['recordsTotal'] = $memcached->get("files.total"))){
 $returndata['data'] = array();
 
 $encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ?");
-$soundkitq = $pdo->prepare("SELECT soundkitentry.id as id, soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry INNER JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = ?");
+$soundkitq = $pdo->prepare("SELECT soundkitentry.id as id, soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry LEFT JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = ?");
 $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedataid = ?");
 $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
@@ -295,6 +295,9 @@ while($row = $dataq->fetch()){
 		if(count($soundkits) > 0){
 			$xrefs['soundkit'] = "<b>Part of SoundKit(s):</b><br>";
 			foreach($soundkits as $soundkitrow){
+				if(empty($soundkitrow['name'])){
+					$soundkitrow['name'] = "Unknown";
+				}
 				$xrefs['soundkit'] .= $soundkitrow['entry'] . " (" .htmlentities($soundkitrow['name'], ENT_QUOTES) . ")<br>";
 			}
 		}
