@@ -37,7 +37,11 @@ function openFKModal(value, location){
 				"success": function(json) {
 					json.values.forEach(function (value) {
 						if(value.item1 in headerjson.fks){
-							$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"" + headerjson.fks[value.item1] + "\")'>" + value.item2 + "</a></td></tr>");
+							if(headerjson.fks[value.item1] == "SoundEntries::ID" && parseInt($("#buildFilter").val()[0]) > 6){
+								$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"SoundKit::ID\")'>" + value.item2 + "</a></td></tr>");
+							}else{
+								$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"" + headerjson.fks[value.item1] + "\")'>" + value.item2 + "</a></td></tr>");
+							}
 						}else{
 							$("#fktable").append("<tr><td>" + value.item1 + "</td><td>" + value.item2 + "</td></tr>");
 						}
