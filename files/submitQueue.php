@@ -65,19 +65,21 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 			curl_close($ch);
 			flushQueryCache();
 		}
+	}
 
+	if(!empty($_GET['decline'])){
+		$statusq->execute(["declined", urldecode($_GET['decline'])]);
+		$log = [];
+		$log[] = "Declined files with submit time " .htmlentities(urldecode($_GET['decline']));
+	}
+
+	if(!empty($log)){
 		echo "<div class='container-fluid'>";
 		echo "<h4>Log</h4>";
 		echo "<pre style='max-height: 500px; overflow-y: scroll'>";
 		echo implode("\n", $log);
 		echo "</pre>";
 		echo "</div>";
-	}
-
-	if(!empty($_GET['decline'])){
-		$statusq->execute(["declined", urldecode($_GET['decline'])]);
-		header("Location: /files/submitQueue.php");
-		die();
 	}
 }
 ?>

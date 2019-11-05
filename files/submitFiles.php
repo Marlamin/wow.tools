@@ -61,8 +61,14 @@ if(!empty($_SESSION['loggedin'])){
 				}
 			}else{
 				// File does not exist
-				$log[] = "<b>WARNING!</b> Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
-				$suggestedfiles[$fdid] = $fname;
+				$cq->execute([$fname]);
+				$cr = $cq->fetch(PDO::FETCH_ASSOC);
+				if(empty($cr)){
+					$log[] = "Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
+					$suggestedfiles[$fdid] = $fname;
+				}else{
+					$log[] = "<b>WARNING!</b> Filename <kbd>" . $fname . "</kbd> already exists as FileDataID " . $cr['id'].", skipping";
+				}
 			}
 		}
 
