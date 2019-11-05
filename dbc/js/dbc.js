@@ -27,17 +27,26 @@ function getFKCols(headers, fks){
 function openFKModal(value, location){
 	console.log("Opening FK link to " + location + " (build " +  $("#buildFilter").val() + ") with value " + value);
 	var splitLocation = location.split("::");
-	var url = "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value;
 	$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
 	$.ajax({
-		"url": url,
-		"success": function(json) {
-			json.values.forEach(function (value) {
-				$("#fktable").append("<tr><td>" + value.item1 + "</td><td>" + value.item2 + "</td></tr>");
+		"url": "/api/header/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val(),
+		"success": function(headerjson) {
+			console.log(headerjson);
+			$.ajax({
+				"url": "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value,
+				"success": function(json) {
+					json.values.forEach(function (value) {
+						if(value.item1 in headerjson.fks){
+							$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"" + headerjson.fks[value.item1] + "\")'>" + value.item2 + "</a></td></tr>");
+						}else{
+							$("#fktable").append("<tr><td>" + value.item1 + "</td><td>" + value.item2 + "</td></tr>");
+						}
+					});
+					var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
+					var page = Math.floor(((json.offset - 1) / 25) + 1);
+					$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+				}
 			});
-			var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
-			var page = Math.floor(((json.offset - 1) / 25) + 1);
-			$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 		}
 	});
 }
