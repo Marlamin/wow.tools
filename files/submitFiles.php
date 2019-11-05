@@ -7,7 +7,7 @@ foreach($kfq as $row){
 	$knownfiles[$row['id']] = $row['filename'];
 }
 
-$cq = $pdo->prepare("SELECT id FROM wow_rootfiles WHERE filename = ?");
+$cq = $pdo->prepare("SELECT id, filename FROM wow_rootfiles WHERE filename = ? OR id = ?");
 
 if(!empty($_SESSION['loggedin'])){
 	if(!empty($_POST['files'])){
@@ -38,13 +38,13 @@ if(!empty($_SESSION['loggedin'])){
 			if(array_key_exists($fdid, $knownfiles)){
 				if(empty($knownfiles[$fdid])){
 					// No filename currently set
-					$cq->execute([$fname]);
+					$cq->execute([$fname, $fdid]);
 					$cr = $cq->fetch(PDO::FETCH_ASSOC);
 					if(empty($cr)){
 						$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
 						$suggestedfiles[$fdid] = $fname;
 					}else{
-						$log[] = "<b>WARNING!</b> Filename " . $fname . " already exists as FileDataID " . $cr['id']."!";
+						$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
 					}
 
 				}else if($knownfiles[$fdid] != $fname){
@@ -61,13 +61,13 @@ if(!empty($_SESSION['loggedin'])){
 				}
 			}else{
 				// File does not exist
-				$cq->execute([$fname]);
+				$cq->execute([$fname, $fdid]);
 				$cr = $cq->fetch(PDO::FETCH_ASSOC);
 				if(empty($cr)){
 					$log[] = "Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
 					$suggestedfiles[$fdid] = $fname;
 				}else{
-					$log[] = "<b>WARNING!</b> Filename <kbd>" . $fname . "</kbd> already exists as FileDataID " . $cr['id'].", skipping";
+					$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
 				}
 			}
 		}
