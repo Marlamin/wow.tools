@@ -44,7 +44,13 @@ if(!empty($_SESSION['loggedin'])){
 						$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
 						$suggestedfiles[$fdid] = $fname;
 					}else{
-						$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
+						if(!empty($cr['filename']))
+						{
+							$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
+						}else{
+							$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
+							$suggestedfiles[$fdid] = $fname;
+						}
 					}
 
 				}else if($knownfiles[$fdid] != $fname){
@@ -67,7 +73,13 @@ if(!empty($_SESSION['loggedin'])){
 					$log[] = "Adding entirely new file <kbd>".$fname."</kbd> to new filedataid ".$fdid;
 					$suggestedfiles[$fdid] = $fname;
 				}else{
-					$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
+					if(!empty($cr['filename']))
+					{
+						$log[] = "<b>WARNING!</b> Submitted fileDataID ".$fdid." or filename <kbd>".$fname."</kbd> conflicts with FileDataID " . $cr['id'] . " or filename <kbd>" . $cr['filename']."</kbd>, skipping!";
+					}else{
+						$log[] = "Adding <kbd>".$fname."</kbd> to ".$fdid;
+						$suggestedfiles[$fdid] = $fname;
+					}
 				}
 			}
 		}
