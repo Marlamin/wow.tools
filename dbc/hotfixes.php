@@ -1,5 +1,10 @@
 <?php
 require_once("../inc/header.php");
+
+$dbcs = [];
+foreach($pdo->query("SELECT * FROM wow_dbc_tables") as $dbc){
+	$dbcs[$dbc['name']] = $dbc;
+}
 ?>
 <div class='container-fluid'>
 <table class='table'>

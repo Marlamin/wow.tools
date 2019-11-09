@@ -19,7 +19,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 	<? if(!empty($_GET['build'])){
 		$build = $_GET['build'];
 	}else{
-		$build = "8.2.5.31599";
+		$build = "8.2.5.32305";
 	}
 	?>
 	<div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>
@@ -34,7 +34,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 			console.log("Loading " + build);
 
 			$.ajax({
-				url: "/api/data/tactkey/?build=" + build + "&draw=1&start=0&length=500",
+				url: "/api/data/tactkey/?build=" + build + "&draw=1&start=0&length=500&includeHotfixes=true",
 				context: document.body
 			}).done(function(tactkeydata) {
 				var tactkeydb = new Array();
@@ -50,7 +50,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 				});
 
 				$.ajax({
-					url: "/api/data/tactkeylookup/?build=" + build + "&draw=1&start=0&length=500",
+					url: "/api/data/tactkeylookup/?build=" + build + "&draw=1&start=0&length=500&includeHotfixes=true",
 					context: document.body
 				}).done(function(data) {
 					data.data.forEach(function(entry, key){

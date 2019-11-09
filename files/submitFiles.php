@@ -29,11 +29,16 @@ if(!empty($_SESSION['loggedin'])){
 			$fdid = (int)$split[0];
 			if(count($split) != 2)
 			{
-				$log[] = "An error occurred parsing a line, please check that the format is valid (fdid;filename).";
+				$log[] = "An error occurred parsing a line, please check that the format is valid: <kbd>fdid;filename</kbd>.";
 				continue;
 			}
 
 			$fname = strtolower(str_replace("\\", "/", trim($split[1])));
+
+			if(strlen($fname) > 255){
+				$log[] = "<b>WARNING!</b> Filename " . $fname . " exceeds max filename length of 255, skipping..";
+				continue;
+			}
 
 			if(array_key_exists($fdid, $knownfiles)){
 				if(empty($knownfiles[$fdid])){
@@ -84,10 +89,9 @@ if(!empty($_SESSION['loggedin'])){
 			}
 		}
 
-		$isq = $pdo->prepare("INSERT INTO wow_rootfiles_suggestions (filedataid, filename, userid, submitted) VALUES (?, ?, ?, ?)");
-
 		if(empty($_POST['checkBox'])){
 			// Send to queue
+			$isq = $pdo->prepare("INSERT INTO wow_rootfiles_suggestions (filedataid, filename, userid, submitted) VALUES (?, ?, ?, ?)");
 
 			// Set insert time to one value in case in case things take longer than a second to insert
 			$time = date("Y-m-d H:i:s");
