@@ -105,3 +105,42 @@ thead input { width: 100% }
 	}
 }
 
+.encounterJournalHolder{
+	display: flex;
+}
+
+.encounterJournalInstance{
+	width: 512px;
+	height: 512px;
+	float: left;
+}
+
+.encounterJournalInstance h4{
+	position: relative;
+	top: 15px;
+	left: 20px;
+	z-index: 1;
+}
+
+.encounterJournalInstance p{
+	position: relative;
+	top: 15px;
+	left: 20px;
+	max-width: 325px;
+	font-size: 14px;
+	width: 100%;
+	height: 60%;
+	z-index: 1;
+}
+
+.ejButton{
+	position: relative;
+	left: 20px;
+	width: 350px;
+}
+
+.encounterBackground{
+   position: absolute;
+   z-index: 0;
+   opacity: 0.65;
+}

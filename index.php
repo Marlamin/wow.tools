@@ -56,11 +56,11 @@
 		<div class='col-md-4'>
 			<h4>Latest filename additions</h4>
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
-			<thead><tr><th>Amount</th><th>User</th><th>Submitted at</th></tr></thead>
+			<thead><tr><th>Amount</th><th>User</th><th>Submitted at</th><th>Status</th></tr></thead>
 			<?php
-			$suggestions = $pdo->query("SELECT userid, submitted, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY submitted ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
+			$suggestions = $pdo->query("SELECT userid, submitted, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY submitted ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
 			foreach($suggestions as $row){
-				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitted']."</td></tr>";
+				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitted']."</td><td>".$row['status']."</td></tr>";
 			}
 			?>
 		</table>

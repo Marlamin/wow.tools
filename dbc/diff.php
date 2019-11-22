@@ -100,12 +100,12 @@ $(function() {
 
 	var oldBuild = $("#oldbuild option:selected").text();
 	var newBuild = $("#newbuild option:selected").text();
-	var dataURL = "/api/diff?name=<?=$currentDB['name']?>&build1=" + oldBuild + "&build2=" + newBuild;
+	var dataURL = "/dbc/api/diff?name=<?=$currentDB['name']?>&build1=" + oldBuild + "&build2=" + newBuild;
 	if($("#useHotfixes").is(":checked")){
 		dataURL += "&useHotfixesFor2=true";
 	}
-	var header1URL = "/api/header/<?=$currentDB['name']?>/?build=" + oldBuild;
-	var header2URL = "/api/header/<?=$currentDB['name']?>/?build=" + newBuild;
+	var header1URL = "/dbc/api/header/<?=$currentDB['name']?>/?build=" + oldBuild;
+	var header2URL = "/dbc/api/header/<?=$currentDB['name']?>/?build=" + newBuild;
 
 	$.when($.getJSON(header1URL), $.getJSON(header2URL)).then(function (resp1, resp2) {
 	    //this callback will be fired once all ajax calls have finished.

@@ -29,11 +29,11 @@ function openFKModal(value, location){
 	var splitLocation = location.split("::");
 	$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
 	$.ajax({
-		"url": "/api/header/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val(),
+		"url": "/dbc/api/header/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val(),
 		"success": function(headerjson) {
 			console.log(headerjson);
 			$.ajax({
-				"url": "/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value,
+				"url": "/dbc/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value,
 				"success": function(json) {
 					json.values.forEach(function (value) {
 						if(value.item1 in headerjson.fks){

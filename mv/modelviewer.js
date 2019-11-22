@@ -358,9 +358,9 @@ function loadModelTextures() {
     //TODO build, fix wrong skin showing up after initial load
     var loadedTextures = Array();
     var currentFDID = Current.fileDataID;
-    $.ajax({url: "https://wow.tools/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
+    $.ajax({url: "https://wow.tools/dbc/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
         console.log("Texture lookup", data);
-        var forFDID = this.url.replace("https://wow.tools/api/texture/", "").replace("?build=" + Current.buildName, "");
+        var forFDID = this.url.replace("https://wow.tools/dbc/api/texture/", "").replace("?build=" + Current.buildName, "");
         if(Current.fileDataID != forFDID){
             console.log("This request is not for this filedataid, discarding..");
             return;

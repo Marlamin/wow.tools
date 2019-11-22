@@ -15,4 +15,12 @@ if($_GET['type'] == "token" && !empty($_GET['token'])){
 		echo $row['id'];
 	}
 }
+
+if($_GET['type'] == "tactkeys"){
+	$q = $pdo->query("SELECT * FROM wow_tactkey WHERE keybytes IS NOT NULL");
+	$tactkeys = $q->fetchAll(PDO::FETCH_ASSOC);
+	foreach($tactkeys as $tactkey){
+		echo $tactkey['keyname']." ".$tactkey['keybytes']."\n";
+	}
+}
 ?>

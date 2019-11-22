@@ -69,7 +69,7 @@ echo "[TACT key list] Dumping current TACT keys for ".$fullbuild."..\n";
 
 $inserted = 0;
 
-$db2 = file_get_contents("https://wow.tools/api/data/tactkeylookup/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$db2 = file_get_contents("https://wow.tools/dbc/api/data/tactkeylookup/?build=".$fullbuild."&draw=1&start=0&length=1000");
 $tactkeylookups = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeylookups) ." TACT key lookups from tactkeylookup.db2..\n";
 
@@ -86,7 +86,7 @@ foreach($tactkeylookups as $tactkeylookup){
 	$q->execute([$id, $lookup, $row['description']]);
 
 	if($q->rowCount() > 0){
-		echo "[TACT key list] Added TACT key lookup ".$id." " . $lookup."\n"; 
+		echo "[TACT key list] Added TACT key lookup ".$id." " . $lookup."\n";
 		$inserted++;
 	}
 }
@@ -95,7 +95,7 @@ echo "[TACT key list] Done, inserted " . $inserted . " new TACT keys!\n";
 
 $updated = 0;
 
-$db2 = file_get_contents("https://wow.tools/api/data/tactkey/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$db2 = file_get_contents("https://wow.tools/dbc/api/data/tactkey/?build=".$fullbuild."&draw=1&start=0&length=1000");
 $tactkeys = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeys) ." TACT keys from tactkey.db2..\n";
 
@@ -112,7 +112,7 @@ foreach($tactkeys as $tactkey){
 	$q->execute([$keybytes, $id]);
 
 	if($q->rowCount() > 0){
-		echo "[TACT key list] Added TACT key ".$id." " . $keybytes."\n"; 
+		echo "[TACT key list] Added TACT key ".$id." " . $keybytes."\n";
 		$updated++;
 	}
 }

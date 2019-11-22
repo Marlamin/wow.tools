@@ -206,10 +206,10 @@ $dbFound = false;
 		$('#buildFilter').on('change', function(){
 			vars["build"] = $('#buildFilter').val();
 			document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + vars["build"];
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 		});
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 
 		if(!cleanDBC || !vars["build"]){
 			// Don't bother doing anything else if no DBC is selected
@@ -217,7 +217,7 @@ $dbFound = false;
 		}
 
 		$.ajax({
-			"url": "/api/header/" + cleanDBC + "/?build=" + vars["build"],
+			"url": "/dbc/api/header/" + cleanDBC + "/?build=" + vars["build"],
 			"success": function(json) {
 				if(json['error'] != null){
 					if(json['error'] == "No valid definition found for this layouthash or build!"){
@@ -252,7 +252,7 @@ $dbFound = false;
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/api/data/" + vars["dbc"].toLowerCase() + "/?build=" + vars["build"],
+						"url": "/dbc/api/data/" + vars["dbc"].toLowerCase() + "/?build=" + vars["build"],
 						"type": "POST",
 						"data": function( result ) {
 							return result;
