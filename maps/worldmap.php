@@ -33,7 +33,7 @@ require_once("../inc/header.php");
 	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
-	var build = "8.3.0.32218";
+	var build = "8.3.0.32489";
 
 	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
 	const promises = dbsToLoad.map(db => loadDatabase(db, build));
@@ -77,12 +77,12 @@ require_once("../inc/header.php");
 
 	function loadHeaders(database, build){
 		console.log("Loading " + database + " headers for build " + build);
-		return $.get("https://wow.tools/api/header/" + database + "/?build=" + build);
+		return $.get("https://wow.tools/dbc/api/header/" + database + "/?build=" + build);
 	}
 
 	function loadData(database, build){
 		console.log("Loading " + database + " data for build " + build);
-		return $.post("https://wow.tools/api/data/" + database + "/?build=" + build, { draw: 1, start: 0, length: 50000});
+		return $.post("https://wow.tools/dbc/api/data/" + database + "/?build=" + build, { draw: 1, start: 0, length: 50000});
 	}
 
 	async function mapEntries(database, header, data){
@@ -166,7 +166,7 @@ require_once("../inc/header.php");
 		.map(row => {
 			const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
 			const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
-			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=maptile&filedataid=${row.FileDataID}`;
+			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=424c612143a360fc93233cf2acf0cb14&cdnconfig=a36bf1577fa3b3c96d7efc2780068442&filename=maptile&filedataid=${row.FileDataID}`;
 
 			return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
 		});
@@ -202,7 +202,7 @@ require_once("../inc/header.php");
 					if(wmotRow.WorldMapOverlayID == wmoRow.ID){
 						var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
 						var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
-						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=deb02554fac3ac20d9344b3f9386b7da&cdnconfig=7af3569eea7becd9b9a9adb57f15a199&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=424c612143a360fc93233cf2acf0cb14&cdnconfig=a36bf1577fa3b3c96d7efc2780068442&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
 						renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
 					}

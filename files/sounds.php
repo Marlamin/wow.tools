@@ -203,7 +203,7 @@ $version = $vq->fetch();
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
-				"url": "/api/data/" + vars["dbc"] + "/?build=" + vars["build"],
+				"url": "/dbc/api/data/" + vars["dbc"] + "/?build=" + vars["build"],
 				"data": function( result ) {
 					delete result.columns;
 					return result;

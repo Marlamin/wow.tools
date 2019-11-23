@@ -8,8 +8,8 @@ if(empty($argv[1])){
 
 $build = $argv[1];
 
-$headers = json_decode(file_get_contents("https://wow.tools/api/header/map/?build=" . $build), true)['headers'];
-$mapjson = json_decode(file_get_contents("https://wow.tools/api/data/map/?build=" . $build . "&start=0&length=3000"), true);
+$headers = json_decode(file_get_contents("https://wow.tools/dbc/api/header/map/?build=" . $build), true)['headers'];
+$mapjson = json_decode(file_get_contents("https://wow.tools/dbc/api/data/map/?build=" . $build . "&start=0&length=3000"), true);
 if(empty($mapjson['data'])){
 	die("Unable to retrieve map DBC data for this build!");
 }
