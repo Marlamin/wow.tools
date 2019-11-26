@@ -2,9 +2,15 @@
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once("../../inc/config.php");
 
+$knownPushIDs = $pdo->query("SELECT DISTINCT pushID FROM wow_hotfixes")->fetchAll(PDO::FETCH_COLUMN);
+
 $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 foreach($files as $file) {
+	// Only process hotfixes newer than 1 day ago
+	if(filemtime($file) < strtotime("-1 days"))
+		continue;
+
 	$md5 = md5_file($file);
 	if(in_array($md5, $processedMD5s))
 		continue;
@@ -13,9 +19,17 @@ foreach($files as $file) {
 	$output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
 	$json = json_decode($output, true);
 
+	if($json['build'] < 32593)
+		continue;
+
 	$insertQ = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes (pushID, recordID, tableName, isValid, build) VALUES (?, ?, ?, ?, ?)");
 	$messages = [];
 	foreach($json['entries'] as $entry){
+		if(in_array($entry['pushID'], $knownPushIDs))
+			continue;
+
+		echo "attempting insert";
+
 		$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
 		if($insertQ->rowCount() == 1){
 			echo "Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
