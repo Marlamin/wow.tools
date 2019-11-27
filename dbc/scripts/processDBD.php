@@ -13,7 +13,7 @@ foreach($pdo->query("SELECT id, name FROM wow_dbc_tables") as $table){
 }
 
 $versionTableCache = [];
-foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions") as $tv){
+foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions WHERE hasDefinition = 0") as $tv){
 	$versionTableCache[$tv['versionid']][] = $tv['tableid'];
 }
 
