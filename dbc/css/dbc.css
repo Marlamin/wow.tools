@@ -44,6 +44,12 @@
 	margin: auto;
 }
 
+
+.colHasComment{
+	border-bottom: 2px dashed var(--border-color) !important;
+	cursor: help;
+}
+
 .added, .diff-added {
 	background: var(--diff-added-color) !important;
 	text-decoration: none;

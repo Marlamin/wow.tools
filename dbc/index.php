@@ -227,7 +227,11 @@ $dbFound = false;
 				}
 				var allCols = [];
 				$.each(json['headers'], function(i, val){
-					tableHeaders += "<th>" + val + "</th>";
+					if(val in json['comments']){
+						tableHeaders += "<th title='" + json['comments'][val] +"' class='colHasComment'>" + val + "</th>";
+					}else{
+						tableHeaders += "<th>" + val + "</th>";
+					}
 					if(val == "ID"){
 						idHeader = i;
 					}
