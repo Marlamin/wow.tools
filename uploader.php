@@ -26,7 +26,7 @@ if(empty($_SESSION['loggedin'])){
 
 <h4>How to install/run the uploader:</h4>
 <ol>
-	<li>Download <a href='/pub/WoWTools.Uploader.NET48_v1.1.zip'>this zip</a></li>
+	<li>Download <a href='/pub/WoWTools.Uploader.NET48_v1.1.0.1.zip'>this zip</a></li>
 	<li>Extract it in a place it can safely stay (no installer... yet)</li>
 	<li>Run WoWTools.Uploader.exe once to configure it</li>
 	<li>Enter your personal API token: <span class='hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed hotfixes. This is hopefully a temporary measure.</li>
