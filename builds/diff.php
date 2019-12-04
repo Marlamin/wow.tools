@@ -1,5 +1,8 @@
 <?php
 require_once("../inc/header.php");
+if(empty($_GET['from']) || empty($_GET['to'])){
+	die("Missing from and to buildconfig arguments in URL.");
+}
 $bc1 = getBuildConfigByBuildConfigHash($_GET['from']);
 $bc2 = getBuildConfigByBuildConfigHash($_GET['to']);
 ?>
