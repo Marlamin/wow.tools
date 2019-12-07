@@ -15,3 +15,11 @@ sftp-config.json
 
 # Bugsnag
 inc/bugsnag/*
+
+# Composer
+composer.json
+composer.lock
+vendor
+
+# Psalm
+psalm.xml
