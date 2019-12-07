@@ -231,6 +231,9 @@ try{
 	die();
 }
 
+if(empty($_GET['draw']))
+	$_GET['draw'] = 0;
+
 $returndata['draw'] = (int)$_GET['draw'];
 
 if(!($returndata['recordsTotal'] = $memcached->get("files.total"))){
