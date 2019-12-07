@@ -1,6 +1,6 @@
 <?php
-include("../inc/config.php");
-include("../inc/header.php");
+include(__DIR__ . "/../inc/config.php");
+include(__DIR__ . "/../inc/header.php");
 ?>
 <div class="container-fluid">
 	<?php
@@ -87,4 +87,4 @@ include("../inc/header.php");
 	}
 	?>
 </div>
-<?php include "../inc/footer.php"; ?>
+<?php include __DIR__ . "/../inc/footer.php"; ?>

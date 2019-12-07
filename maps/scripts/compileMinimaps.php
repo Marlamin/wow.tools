@@ -80,7 +80,7 @@ if(strlen($argv[1]) == 32){
 	}else{
 		shell_exec("mkdir -p /home/wow/minimaps/raw/".$outdir);
 		echo "Extracting tiles..\n";
-		$extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll /var/www/wow.tools/tpr/wow/ ".escapeshellarg($build['buildconfig']['hash'])." ".escapeshellarg($build['cdnconfig']['hash'])." ".escapeshellarg("/home/wow/minimaps/raw/".$outdir));
+		$extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll ".__DIR__."/../../tpr/wow/ ".escapeshellarg($build['buildconfig']['hash'])." ".escapeshellarg($build['cdnconfig']['hash'])." ".escapeshellarg("/home/wow/minimaps/raw/".$outdir));
 		print_r($extractionoutput);
 	}
 }else{

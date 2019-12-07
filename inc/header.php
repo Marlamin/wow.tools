@@ -1,4 +1,4 @@
-<?php require_once("/var/www/wow.tools/inc/config.php");?><!DOCTYPE html>
+<?php require_once(__DIR__ . "/config.php");?><!DOCTYPE html>
 <html>
 <head>
 	<title><?=prettyTitle($_SERVER['REQUEST_URI'])?></title>

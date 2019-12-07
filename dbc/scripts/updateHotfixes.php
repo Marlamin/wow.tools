@@ -1,6 +1,6 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-require_once("../../inc/config.php");
+require_once(__DIR__ . "/../../inc/config.php");
 
 $knownPushIDs = $pdo->query("SELECT DISTINCT pushID FROM wow_hotfixes")->fetchAll(PDO::FETCH_COLUMN);
 

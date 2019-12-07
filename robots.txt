@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /api
-Disallow: /casc
 Disallow: /builds/extract.php
+Disallow: /casc
+Disallow: /dbc/api

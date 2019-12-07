@@ -1,11 +1,11 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-require_once("../../inc/config.php");
+require_once(__DIR__ . "/../../inc/config.php");
 
 foreach($pdo->query("SELECT internal, wdtFileDataID FROM wow_maps_maps WHERE wdtFileDataID IS NOT NULL") as $map){
 	echo $map['internal']."\n";
 
-	$destinationjson = "/var/www/wow.tools/maps/data/mnam/".$map['wdtFileDataID'].".json";
+	$destinationjson = __DIR__ . "/../data/mnam/".$map['wdtFileDataID'].".json";
 
 	$tempname = tempnam("/tmp", "mnamdump");
 

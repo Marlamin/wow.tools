@@ -1,5 +1,5 @@
 <?
-require_once("../inc/header.php");
+require_once(__DIR__ . "/../inc/header.php");
 
 $encrypted = [];
 $tactkeys = [];
@@ -139,4 +139,4 @@ foreach($pdo->query("SELECT * FROM wow_tactkey") as $row){
 	</script>
 </div>
 <?
-require_once("../inc/footer.php");
+require_once(__DIR__ . "/../inc/footer.php");

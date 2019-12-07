@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/header.php");
+require_once(__DIR__ . "/../inc/header.php");
 
 if(empty($_GET['bc']) && empty($_GET['cdnc'])){
 	die("No config set");
@@ -68,7 +68,7 @@ if(!empty($_GET['bc'])){
 	echo "</table>";
 	echo "<h3>Raw file</h3>";
 	echo "<pre>";
-	echo file_get_contents("/var/www/wow.tools/tpr/".$allowedproducts["wow"]['cdndir']."/config/".$row['hash'][0].$row['hash'][1]."/".$row['hash'][2].$row['hash'][3]."/".$row['hash']);
+	echo file_get_contents(__DIR__ . "/../tpr/".$allowedproducts["wow"]['cdndir']."/config/".$row['hash'][0].$row['hash'][1]."/".$row['hash'][2].$row['hash'][3]."/".$row['hash']);
 	echo "</pre>";
 	echo "</div>";
 }else if(!empty($_GET['cdnc'])){
@@ -153,7 +153,7 @@ if(!empty($_GET['bc'])){
 	echo "</table>";
 	echo "<h4>Raw file</h4>";
 	echo "<pre>";
-	echo file_get_contents("/var/www/wow.tools/tpr/".$allowedproducts["wow"]['cdndir']."/config/".$row['hash'][0].$row['hash'][1]."/".$row['hash'][2].$row['hash'][3]."/".$row['hash']);
+	echo file_get_contents(__DIR__ . "/../tpr/".$allowedproducts["wow"]['cdndir']."/config/".$row['hash'][0].$row['hash'][1]."/".$row['hash'][2].$row['hash'][3]."/".$row['hash']);
 	echo "</pre>";
 	echo "</div>";
 }

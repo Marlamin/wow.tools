@@ -28,7 +28,7 @@ function makeOutDir($description){
 	return $outdir;
 }
 
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 
 // TODO: Filter this by type when needing to support non-named db2s
 $dbcs = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient%'")->fetchAll(PDO::FETCH_ASSOC);

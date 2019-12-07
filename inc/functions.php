@@ -13,7 +13,7 @@ function doesFileExist($type, $hash, $cdndir = "wow"){
 		die("Empty hash! Hash: ".$hash." Type: ".$type);
 	}
 
-	if(file_exists($GLOBALS['basedir'] . "/" . generateURL($type, $hash, $cdndir))){
+	if(file_exists(__DIR__ . "/../" . generateURL($type, $hash, $cdndir))){
 		return true;
 	}else{
 		return false;
@@ -21,6 +21,7 @@ function doesFileExist($type, $hash, $cdndir = "wow"){
 }
 
 function parseBuildName($buildname){
+	$build = [];
 	$build['original'] = $buildname;
 
 	$buildname = str_replace("WOW-", "", $buildname);
@@ -174,6 +175,7 @@ function prettyBranch($branch, $pretty = true){
 
 function parseBPSV($bpsv){
 	$result = [];
+	$headers = [];
 	foreach($bpsv as $key => $line){
 		if(empty(trim($line))){
 			continue;
@@ -341,10 +343,15 @@ function githubRequest($path, $data = null){
 	));
 
 	$result = curl_exec($ch);
+
+	if(!$result){
+		die("An error occured contacting GitHub!");
+	}
+
 	$json = json_decode($result, true);
 
 	if(!$json){
-		die("An error occured during JSON decoding. cURL result: " + $result);
+		die("An error occured during JSON decoding. cURL result: " . $result);
 	}
 
 	return $json;
@@ -404,9 +411,15 @@ function telegramRequest ($method, $params)
 	curl_setopt ($ch, CURLOPT_HTTPHEADER, array (
 		'Content-Type: application/x-www-form-urlencoded',
 		'Content-Length: ' . strlen($payload))
-);
+	);
 
-	return json_decode (curl_exec ($ch), true);
+	$result = curl_exec($ch);
+
+	if(!$result){
+		die("Error contact Telegram!");
+	}
+
+	return json_decode($result, true);
 }
 
 function telegramSendMessage ($text)

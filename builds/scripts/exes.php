@@ -1,6 +1,6 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 
 $res = $pdo->query(
 	"SELECT

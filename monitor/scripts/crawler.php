@@ -1,7 +1,7 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
-include_once("../../inc/config.php");
+require_once(__DIR__ . "/../../inc/config.php");
 
 ini_set('memory_limit','2048M');
 

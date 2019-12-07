@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/header.php");
+require_once(__DIR__ . "/../inc/header.php");
 $builds = $pdo->query("SELECT version FROM wow_builds ORDER BY version DESC")->fetchAll(PDO::FETCH_COLUMN);
 
 if(!empty($_GET['build']) && in_array($_GET['build'], $builds)){
@@ -10,7 +10,7 @@ if(!empty($_GET['build']) && in_array($_GET['build'], $builds)){
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=2"></script>
-<link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
+<link href="/dbc/css/dbc.css?v=<?=filemtime(__DIR__ . "/css/dbc.css")?>" rel="stylesheet">
 <div class='container-fluid'>
 	<h3>Encounter Journal
 		<select class='form-control form-control-sm buildFilter' style='width: 250px; float: right;' id='buildFilter'>

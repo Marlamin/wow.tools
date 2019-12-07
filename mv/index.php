@@ -1,4 +1,4 @@
-<?php require_once("../inc/header.php");
+<?php require_once(__DIR__ . "/../inc/header.php");
 
 if(!empty($_GET['embed'])){
 ?>
@@ -15,9 +15,9 @@ nav{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
-<link href="/mv/modelviewer.css?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.css")?>" rel="stylesheet">
-<link href="/maps/css/leaflet.css?v=<?=filemtime($basedir."/maps/css/leaflet.css")?>" rel="stylesheet">
-<link href="/mv/mapviewer.css?v=<?=filemtime("/var/www/wow.tools/mv/mapviewer.css")?>" rel="stylesheet">
+<link href="/mv/modelviewer.css?v=<?=filemtime(__DIR__ . "/modelviewer.css")?>" rel="stylesheet">
+<link href="/maps/css/leaflet.css?v=<?=filemtime(__DIR__ . "/../maps/css/leaflet.css")?>" rel="stylesheet">
+<link href="/mv/mapviewer.css?v=<?=filemtime(__DIR__ . "/mapviewer.css")?>" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" crossorigin="anonymous"></script>
 	<button id="js-sidebar-button" class="hamburger">
 		<i class='fa fa-reorder'></i>
@@ -283,10 +283,10 @@ nav{
 	<script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%' OR description LIKE '%8.3%'")->fetchAll(PDO::FETCH_COLUMN); ?>
 	var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
 	</script>
-	<script src="/mv/modelviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/modelviewer.js")?>"></script>
-	<script src="/mv/anims.js?v=<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
-	<script src="/mv/project.js?v=<?=filemtime("/var/www/wow.tools/mv/project.js")?>"></script>
-	<script src="/maps/js/leaflet.js?v=<?=filemtime($basedir."/maps/js/leaflet.js")?>"></script>
-	<!--<script src="/mv/mapviewer.js?v=<?=filemtime("/var/www/wow.tools/mv/mapviewer.js")?>"></script>-->
+	<script src="/mv/modelviewer.js?v=<?=filemtime(__DIR__ . "/modelviewer.js")?>"></script>
+	<script src="/mv/anims.js?v=<?=filemtime(__DIR__ . "/anims.js")?>"></script>
+	<script src="/mv/project.js?v=<?=filemtime(__DIR__ . "/project.js")?>"></script>
+	<script src="/maps/js/leaflet.js?v=<?=filemtime(__DIR__ . "/../maps/js/leaflet.js")?>"></script>
+	<!--<script src="/mv/mapviewer.js?v=<?=filemtime(__DIR__ . "/mapviewer.js")?>"></script>-->
 </body>
 </html>

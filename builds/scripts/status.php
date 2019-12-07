@@ -1,7 +1,7 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 $missingfiles = array();
 
 function insertMissingFile($dir, $file, $type, $product = "wow"){
@@ -24,7 +24,7 @@ if(!empty($argv[1])){
 foreach($products as $code => $product){
 	echo "Processing ".$code."..\n";
 
-	$di = new RecursiveDirectoryIterator($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
+	$di = new RecursiveDirectoryIterator(__DIR__ . "/../../tpr/".$product['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
 	$it = new RecursiveIteratorIterator($di);
 
 	$bcs = array();
@@ -54,7 +54,7 @@ foreach($products as $code => $product){
 			insertMissingFile("config", $bc['original-filename'], "buildconfig", $product['cdndir']);
 		} else {
 			$urlt = explode("/", $bc['original-filename']);
-			$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$bc['original-filename'][0].$bc['original-filename'][1]."/".$bc['original-filename'][2].$bc['original-filename'][3]."/".$bc['original-filename']);
+			$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$bc['original-filename'][0].$bc['original-filename'][1]."/".$bc['original-filename'][2].$bc['original-filename'][3]."/".$bc['original-filename']);
 			if($md5 != $bc['original-filename']){
 				echo "MD5 mismatch on file ".$bc['original-filename']." (actual md5: ".$md5.")\n";
 			}
@@ -90,7 +90,7 @@ foreach($products as $code => $product){
 			insertMissingFile("config", $cdnc['original-filename'], "cdnconfig", $product['cdndir']);
 		}else{
 			$urlt = explode("/", $cdnc['original-filename']);
-			$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$cdnc['original-filename'][0].$cdnc['original-filename'][1]."/".$cdnc['original-filename'][2].$cdnc['original-filename'][3]."/".$cdnc['original-filename']);
+			$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$cdnc['original-filename'][0].$cdnc['original-filename'][1]."/".$cdnc['original-filename'][2].$cdnc['original-filename'][3]."/".$cdnc['original-filename']);
 			if($md5 != $cdnc['original-filename']){
 				echo "MD5 mismatch on file ".$cdnc['original-filename']." (actual md5: ".$md5.")\n";
 			}
@@ -132,7 +132,7 @@ foreach($products as $code => $product){
 					echo "Missing build config ".$build." (from cdn config ".$cdnc['original-filename'].")\n";
 					insertMissingFile("config", $build, "buildconfig", $product['cdndir']);
 				} else {
-					$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$build[0].$build[1]."/".$build[2].$build[3]."/".$build);
+					$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$build[0].$build[1]."/".$build[2].$build[3]."/".$build);
 					if($md5 != $build){
 						echo "MD5 mismatch on file ".$build." (actual md5: ".$md5.")\n";
 					}
@@ -204,7 +204,7 @@ foreach($products as $code => $product){
 					insertMissingFile("config", $row['buildconfig'], "buildconfig", $product['cdndir']);
 					$buildconfigcomplete = 0;
 				} else {
-					$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$row['buildconfig'][0].$row['buildconfig'][1]."/".$row['buildconfig'][2].$row['buildconfig'][3]."/".$row['buildconfig']);
+					$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$row['buildconfig'][0].$row['buildconfig'][1]."/".$row['buildconfig'][2].$row['buildconfig'][3]."/".$row['buildconfig']);
 					if($md5 != $row['buildconfig']){
 						echo "MD5 mismatch on file ".$row['buildconfig']." (actual md5: ".$md5.")\n";
 					}
@@ -223,7 +223,7 @@ foreach($products as $code => $product){
 								$buildconfigcomplete = 0;
 							}else{
 								if($key == "root_cdn" && $code == "catalogs"){
-									$json = json_decode(file_get_contents($GLOBALS['basedir'] . "tpr/catalogs/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value));
+									$json = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value));
 
 									if(!empty($json->files->default)){
 										$curr = current($json->files->default);
@@ -237,7 +237,7 @@ foreach($products as $code => $product){
 											insertMissingFile("data", $fragment->hash, "fragment", $product['cdndir']);
 											$buildconfigcomplete = 0;
 										}else{
-											$fragmentjson = json_decode(file_get_contents($GLOBALS['basedir'] . "tpr/catalogs/data/" . $fragment->hash[0] . $fragment->hash[1] . "/" . $fragment->hash[2] . $fragment->hash[3] . "/" . $fragment->hash));
+											$fragmentjson = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $fragment->hash[0] . $fragment->hash[1] . "/" . $fragment->hash[2] . $fragment->hash[3] . "/" . $fragment->hash));
 											if(!empty($fragmentjson->files->default)){
 												foreach($fragmentjson->files->default as $file){
 													if(!doesFileExist("data", $file->hash, $product['cdndir'])){
@@ -251,8 +251,8 @@ foreach($products as $code => $product){
 								}
 							}
 						}else{
-							if($code != "catalogs"){ 
-								$buildconfigcomplete = 0; 
+							if($code != "catalogs"){
+								$buildconfigcomplete = 0;
 							}
 						}
 					}
@@ -289,7 +289,7 @@ foreach($products as $code => $product){
 					insertMissingFile("config", $row['cdnconfig'], "cdnconfig", $product['cdndir']);
 					$cdnconfigcomplete = 0;
 				} else {
-					$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$row['cdnconfig'][0].$row['cdnconfig'][1]."/".$row['cdnconfig'][2].$row['cdnconfig'][3]."/".$row['cdnconfig']);
+					$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$row['cdnconfig'][0].$row['cdnconfig'][1]."/".$row['cdnconfig'][2].$row['cdnconfig'][3]."/".$row['cdnconfig']);
 					if($md5 != $row['cdnconfig']){
 						echo "MD5 mismatch on file ".$row['cdnconfig']." (actual md5: ".$md5.")\n";
 					}
@@ -350,7 +350,7 @@ foreach($products as $code => $product){
 					insertMissingFile("config", $row['patchconfig'], "patchconfig", $product['cdndir']);
 					$patchconfigcomplete = 0;
 				} else {
-					$md5 = md5_file($GLOBALS['basedir'] . "tpr/".$product['cdndir']."/config/".$row['patchconfig'][0].$row['patchconfig'][1]."/".$row['patchconfig'][2].$row['patchconfig'][3]."/".$row['patchconfig']);
+					$md5 = md5_file(__DIR__ . "/../../tpr/".$product['cdndir']."/config/".$row['patchconfig'][0].$row['patchconfig'][1]."/".$row['patchconfig'][2].$row['patchconfig'][3]."/".$row['patchconfig']);
 					if($md5 != $row['patchconfig']){
 						echo "MD5 mismatch on file ".$row['patchconfig']." (actual md5: ".$md5.")\n";
 					}

@@ -1,6 +1,6 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 
 $bq = $pdo->prepare("SELECT product FROM wow_buildconfig WHERE description LIKE ? ORDER BY id ASC");
 $uq = $pdo->prepare("UPDATE wow_builds SET branch = ? WHERE id = ?");

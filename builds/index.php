@@ -1,7 +1,6 @@
 <?php
-
 if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
-	require_once("../inc/config.php");
+	require_once(__DIR__ . "/../inc/config.php");
 
 	if(empty($_GET['versionid']) || !filter_var($_GET['versionid'], FILTER_VALIDATE_INT)){
 		die("Invalid build ID!");
@@ -206,7 +205,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 }else if(!empty($_GET['api']) && $_GET['api'] == "configdump"){
 	if(!empty($_GET['config']) && strlen($_GET['config']) == 32 && ctype_xdigit($_GET['config'])){
 		echo "<pre>";
-		echo file_get_contents("/var/www/wow.tools/tpr/wow/config/".$_GET['config'][0].$_GET['config'][1]."/".$_GET['config'][2].$_GET['config'][3]."/".$_GET['config']);
+		echo file_get_contents(__DIR__ . "/../tpr/wow/config/".$_GET['config'][0].$_GET['config'][1]."/".$_GET['config'][2].$_GET['config'][3]."/".$_GET['config']);
 		echo "</pre>";
 	}else{
 		die("Invalid config!");
@@ -245,8 +244,8 @@ ORDER BY wow_buildconfig.description DESC
 $res = $pdo->query($query);
 $allbuilds = $res->fetchAll();
 ?>
-<link href="/builds/css/builds.css?v=<?=filemtime("/var/www/wow.tools/builds/css/builds.css")?>" rel="stylesheet">
-<script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime("/var/www/wow.tools/builds/js/builds.js")?>'></script>
+<link href="/builds/css/builds.css?v=<?=filemtime(__DIR__ "/css/builds.css")?>" rel="stylesheet">
+<script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime(__DIR__ . "/js/builds.js")?>'></script>
 <div class="modal" id="installDiffModal" tabindex="-1" role="dialog" aria-labelledby="installDiffModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">

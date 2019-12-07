@@ -1,8 +1,7 @@
 <?php
-
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 
 while(true){
 	$uq = $pdo->prepare("UPDATE wow_rootfiles SET type = :type WHERE id = :id");

@@ -1,8 +1,8 @@
 <?php
 if(!empty($_GET['embed'])){
-	require_once("/var/www/wow.tools/inc/config.php");
+	require_once(__DIR__ . "/../inc/config.php");
 }else{
-	require_once("../inc/header.php");
+	require_once(__DIR__ . "/../inc/header.php");
 }
 
 // Map old URL to new url for backwards compatibility
@@ -216,4 +216,4 @@ $(function() {
 		}
 	});
 </script>
-<?php if(empty($_GET['embed'])){ require_once("../inc/footer.php");} ?>
+<?php if(empty($_GET['embed'])){ require_once(__DIR__ . "/../inc/footer.php");} ?>

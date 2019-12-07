@@ -20,12 +20,12 @@ while($row = $productq->fetch()){
 </tbody>
 </table>
 </div>
-<link href="css/monitor.css?v=<?=filemtime($basedir."/monitor/css/monitor.css")?>" rel="stylesheet">
+<link href="css/monitor.css?v=<?=filemtime(__DIR__ . "/css/monitor.css")?>" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
-<script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
+<script src="/files/js/files.js?v=<?=filemtime(__DIR__ . "/../files/js/files.js")?>"></script>
 <div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">

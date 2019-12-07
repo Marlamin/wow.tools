@@ -2,7 +2,7 @@
 require_once("../inc/header.php");
 ?>
 <script src="/js/bufo.js"></script>
-<script src="/js/js-blp.js?v=<?=filemtime("/var/www/wow.tools/js/js-blp.js")?>"></script>
+<script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
 <style type='text/css'>
 	#breadcrumbs{
 		position: absolute;

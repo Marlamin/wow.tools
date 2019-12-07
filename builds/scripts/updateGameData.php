@@ -1,7 +1,7 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 
 $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
 $row = $q->fetch();

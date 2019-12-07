@@ -1,7 +1,7 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 
-include "/var/www/wow.tools/inc/config.php";
+include(__DIR__ . "/../../inc/config.php");
 
 $validargs = array("versions", "buildconfig", "buildconfiglong", "cdnconfig", "patchconfig");
 
@@ -142,7 +142,7 @@ function updateBuildConfig($product){
 	global $allowedproducts;
 	$builds = array();
 
-	$di = new RecursiveDirectoryIterator($GLOBALS['basedir'] . "tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
+	$di = new RecursiveDirectoryIterator(__DIR__ . "/../../tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
 	$it = new RecursiveIteratorIterator($di);
 
 	$bcs = array();
@@ -401,7 +401,7 @@ function updatePatchConfig($product){
 	global $pdo;
 	global $allowedproducts;
 	if($product != "wow") return;
-	$di = new RecursiveDirectoryIterator($GLOBALS['basedir'] . "tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
+	$di = new RecursiveDirectoryIterator(__DIR__ . "/../../tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
 	$it = new RecursiveIteratorIterator($di);
 
 	$pcs = array();
@@ -438,7 +438,7 @@ function updateCDNConfig($product){
 
 	$builds = array();
 
-	$di = new RecursiveDirectoryIterator($GLOBALS['basedir'] . "tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
+	$di = new RecursiveDirectoryIterator(__DIR__ . "/../../tpr/".$allowedproducts[$product]['cdndir']."/config",RecursiveDirectoryIterator::SKIP_DOTS);
 	$it = new RecursiveIteratorIterator($di);
 
 	$cdncs = array();

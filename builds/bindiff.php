@@ -1,7 +1,8 @@
 <?php
-include("../inc/config.php");
+include(__DIR__ . "/../inc/config.php");
+include(__DIR__ . "/../inc/header.php");
+
 ini_set('memory_limit','1G');
-include("../inc/header.php");
 ?>
 <div class="container-fluid">
 	<?php

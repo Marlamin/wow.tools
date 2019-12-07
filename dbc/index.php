@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/header.php");
+require_once(__DIR__ . "/../inc/header.php");
 
 // Map old URL to new url for backwards compatibility
 if(!empty($_GET['bc'])){
@@ -310,4 +310,4 @@ $dbFound = false;
 		});
 	}());
 </script>
-<?php require_once("../inc/footer.php"); ?>
+<?php require_once(__DIR__ . "/../inc/footer.php"); ?>

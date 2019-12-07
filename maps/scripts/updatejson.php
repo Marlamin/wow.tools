@@ -71,4 +71,4 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 	uasort($data['versions'][$map['id']], function($a, $b) { if($a['build'] === $b['build']) return 0; return $a['build'] < $b['build']; } );
 }
 
-file_put_contents("/var/www/wow.tools/maps/data/data.json", json_encode($data));
+file_put_contents(__DIR__ . "/../data/data.json", json_encode($data));

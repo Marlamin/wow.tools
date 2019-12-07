@@ -1,6 +1,6 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-require_once("../../inc/config.php");
+require_once(__DIR__ . "/../../inc/config.php");
 
 $versionCache = [];
 foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){

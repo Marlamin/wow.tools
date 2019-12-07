@@ -1,5 +1,5 @@
 <?php
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(__DIR__ . "/../../inc/config.php");
 
 function downloadFile($url, $out)
 {

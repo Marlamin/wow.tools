@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/header.php");
+require_once(__DIR__ "/../inc/header.php");
 
 $versionCacheByID = [];
 foreach($pdo->query("SELECT id, version FROM wow_builds") as $version){

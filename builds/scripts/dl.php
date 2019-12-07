@@ -1,6 +1,6 @@
 <?php
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
-include("../../inc/config.php");
+include(__DIR__ . "/../../inc/config.php");
 $res = $pdo->query("SELECT * FROM missingfiles ORDER BY type, url ASC");
 $cdns[] = "http://cdn.blizzard.com/";
 $cdns[] = "http://level3.blizzard.com/";
@@ -21,7 +21,7 @@ while($row = $res->fetch()){
 	if($row['triedcdn'] == 0){
 		foreach($cdns as $cdn){
 			echo "Trying ".$cdn."\n";
-			if(!doesLocalFileExist($row['url'])){ exec("cd ".$GLOBALS['basedir']."; wget -c -x -nvH -t 1 ".$cdn.$row['url']); }
+			if(!doesLocalFileExist($row['url'])){ exec("cd /var/www/wow.tools/; wget -c -x -nvH -t 1 ".$cdn.$row['url']); }
 			if(doesLocalFileExist($row['url'])){
 				echo "File ".$row['url']." (".$row['type'].") succesfully retrieved from ".$cdn."!\n";
 				$dq->execute([$row['url']]);
@@ -40,7 +40,7 @@ while($row = $res->fetch()){
 	}
 }
 function doesLocalFileExist($url){
-	if(file_exists($GLOBALS['basedir'].$url)){
+	if(file_exists("/var/www/wow.tools/".$url)){
 		return true;
 	}else{
 		return false;
