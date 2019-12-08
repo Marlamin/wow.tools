@@ -90,6 +90,10 @@ function generateMeta($queryString){
 function prettyTitle($queryString){
 	$url = parse_url($queryString);
 	$addendum = "";
+
+	if(empty($url['path']))
+		return "WoW.tools";
+
 	switch($url['path']){
 		case "/":
 		case "/index.php":

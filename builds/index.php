@@ -244,7 +244,7 @@ ORDER BY wow_buildconfig.description DESC
 $res = $pdo->query($query);
 $allbuilds = $res->fetchAll();
 ?>
-<link href="/builds/css/builds.css?v=<?=filemtime(__DIR__ "/css/builds.css")?>" rel="stylesheet">
+<link href="/builds/css/builds.css?v=<?=filemtime(__DIR__ . "/css/builds.css")?>" rel="stylesheet">
 <script type='text/javascript' src='/builds/js/builds.js?v=<?=filemtime(__DIR__ . "/js/builds.js")?>'></script>
 <div class="modal" id="installDiffModal" tabindex="-1" role="dialog" aria-labelledby="installDiffModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
