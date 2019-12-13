@@ -53,7 +53,7 @@ $dbFound = false;
 				?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
-			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
+			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>Warning</b><br>Limited to 10 exports per minute due to continued abuse. Exceeding this will trigger an automatic 1 hour IP block.'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
 	<?php } ?>
 	<?php if(!empty($_GET['build'])){ ?>
