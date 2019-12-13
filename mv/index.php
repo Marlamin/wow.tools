@@ -154,6 +154,11 @@ nav{
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
+					<h5>Version 0.9.4 <small>(13-12-2019)</small></h5>
+					<ul>
+						<li>(MV) Experimental WebGL1 support</li>
+						<li>(MV) Fix issue loading some animations</li>
+					</ul>
 					<h5>Version 0.9.3 <small>(17-10-2019)</small></h5>
 					<ul>
 						<li>(MV) Terrain rendering improvements</li>

@@ -124,22 +124,22 @@ if(urlEmbed){
 
 window.createscene = function () {
     Module["canvas"] = document.getElementById("wowcanvas");
-    var gl = Module["canvas"].getContext("webgl2");
+    // var gl = Module["canvas"].getContext("webgl2");
 
-    if (!gl){
-        showError("WebGL2 is required but not supported by your browser or device.");
-        return;
-    }
+    // if (!gl){
+    //     showError("WebGL2 is required but not supported by your browser or device.");
+    //     return;
+    // }
 
-    var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-    if(!debugInfo){
-        console.log("Unknown WebGL unmasked renderer!");
-    }else{
-        var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-        if(renderer){
-            console.log("WebGL unmasked renderer: " + renderer);
-        }
-    }
+    // var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    // if(!debugInfo){
+    //     console.log("Unknown WebGL unmasked renderer!");
+    // }else{
+    //     var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    //     if(renderer){
+    //         console.log("WebGL unmasked renderer: " + renderer);
+    //     }
+    // }
 
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
     var urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
