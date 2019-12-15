@@ -14,7 +14,7 @@ $outdir = $descexpl[0].".".$build;
 
 function importDB2($name, $outdir, $fields){
 	global $pdo;
-	$db2 = "https://wow.tools/dbc/api/export/?name=".$name."&build=".$outdir."&t=".strtotime("now");
+	$db2 = "http://127.0.0.1:5000/api/export/?name=".$name."&build=".$outdir."&t=".strtotime("now");
 	$csv = "/tmp/".$name.".csv";
 	if(file_exists($csv)){ unlink($csv); }
 	$outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");

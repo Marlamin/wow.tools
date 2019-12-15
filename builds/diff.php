@@ -1,10 +1,13 @@
 <?php
-require_once("../inc/header.php");
+require_once(__DIR__ . "/../inc/header.php");
 if(empty($_GET['from']) || empty($_GET['to'])){
 	die("Missing from and to buildconfig arguments in URL.");
 }
 $bc1 = getBuildConfigByBuildConfigHash($_GET['from']);
 $bc2 = getBuildConfigByBuildConfigHash($_GET['to']);
+
+if(empty($bc1) || empty($bc2))
+	die("Invalid builds!");
 ?>
 <div class='container-fluid' id='diffContainer'>
 <h3>Diff between <?=$bc1['description']?> and <?=$bc2['description']?></h3>
@@ -24,5 +27,5 @@ if($data == ""){
 </pre>
 </div>
 <?php
-require_once("../inc/footer.php");
+require_once(__DIR__ . "/../inc/footer.php");
 ?>
