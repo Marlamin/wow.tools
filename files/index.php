@@ -333,7 +333,7 @@ function locationHashChanged(event) {
 
 	if($("#files_filter label input").val() != searchString){
 		console.log("Setting search to " + searchString);
-		$("#files_filter label input").val(searchString);
+		//$("#files_filter label input").val(searchString); // This causes issues where search field is overwritten while typing
 		$('#files').DataTable().search(searchString).draw(false);
 	}
 	var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
