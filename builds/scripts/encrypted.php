@@ -99,7 +99,7 @@ $db2 = file_get_contents("https://wow.tools/dbc/api/data/tactkey/?build=".$fullb
 $tactkeys = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeys) ." TACT keys from tactkey.db2..\n";
 
-$q = $pdo->prepare("UPDATE wow_tactkey SET keybytes = ? WHERE id = ? AND keybytes = NULL");
+$q = $pdo->prepare("UPDATE wow_tactkey SET keybytes = ? WHERE id = ? AND keybytes IS NULL");
 foreach($tactkeys as $tactkey){
 	$id = $tactkey[0];
 
