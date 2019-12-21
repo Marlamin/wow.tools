@@ -53,7 +53,7 @@ $dbFound = false;
 				?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
-			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>NOTICE</b><br>Due to continued crawling impacting site performance, this functionality is currently disabled.'><i class='fa fa-download'></i> CSV</a>
+			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>WARNING</b><br> Due to automated constant DBC exports by some users, this functionality has been heavily rate-limited.'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
 	<?php } ?>
 	<?php if(!empty($_GET['build'])){ ?>
