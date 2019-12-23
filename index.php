@@ -58,7 +58,7 @@
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Amount</th><th>User</th><th>Submitted on</th><th>Status</th></tr></thead>
 			<?php
-			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
+			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
 			foreach($suggestions as $row){
 				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitday']."</td><td>".$row['status']."</td></tr>";
 			}
