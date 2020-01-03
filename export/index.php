@@ -45,10 +45,15 @@
 		<div class='col-8 offset-2'>
 			<h4>Download</h4>
 			<p>First time installs only, the application has a built-in updater that notifies you when a new version is available.</p>
-			<p><a href='https://wow.tools/export/download/win-x64/wow.export-0.1.5.zip' class='btn btn-primary'>Download</a></p>
+			<p><a href='https://wow.tools/export/download/win-x64/wow.export-0.1.6.zip' class='btn btn-primary'>Download</a></p>
 			<p>
 			<b>Changelog</b>
-			<pre><b>0.1.5</b> (03-01-2020)
+			<pre><b>0.1.6</b> (03-01-2020)
+- Fix crash exporting modern ADTs
+- Fix ADT WMO Blender import rotations
+- Reduce download/update size by compressing loading animation
+
+<b>0.1.5</b> (03-01-2020)
 - Fix WMO-only Blender import doodad rotations
 
 <b>0.1.4</b> (03-01-2020)
