@@ -7,6 +7,10 @@ maps/data/
 maps/tiles/
 maps/png/
 
+# Exporter
+export/download
+export/update
+
 # Non-public files
 dbc/scripts/hook.php
 
