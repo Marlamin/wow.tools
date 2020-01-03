@@ -94,10 +94,25 @@ if(!empty($_GET['build']) && in_array($_GET['build'], $builds)){
 
 					journalEncounterSection.forEach(function(row, id) {
 						console.log(row);
-						$("#encounterTab" + encounterID).append("<h5>" + row.Title_lang + "</h5><p>" + row.BodyText_lang + "</p>");
+						$("#encounterTab" + encounterID).append("<h5>" + row.Title_lang + "</h5><p>" + parseWoWText(row.BodyText_lang) + "</p>");
 					});
 				});
 			});
+		}
+
+		// By Maku
+		function parseWoWText(input) {
+			if (typeof input !== 'string' || input instanceof String) {
+				return input
+			}
+
+			var output = input
+			.replace(/\|n/g, "\n")
+			.replace(/\|H[^\|]+\|h/g, "")
+			.replace(/\|[cC][0-9A-Fa-f]{8}/g, "")
+			.replace(/\|[rRh]/g, "")
+			.replace(/\$bullet;/g, "•")
+			return output
 		}
 	</script>
 </div>
