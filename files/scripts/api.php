@@ -80,7 +80,7 @@ if(!empty($_GET['search']['value'])){
 			$joinparams[] = str_replace("skit:", "", $c);
 		} else {
 			// Point slashes the correct way :)
-			$c = str_replace("\\", "/", trim($c));
+			$c = trim($c);
 			$subquery = "";
 
 			$search = "";
