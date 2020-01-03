@@ -28,8 +28,6 @@ foreach($files as $file) {
 		if(in_array($entry['pushID'], $knownPushIDs))
 			continue;
 
-		echo "attempting insert";
-
 		$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
 		if($insertQ->rowCount() == 1){
 			echo "Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
