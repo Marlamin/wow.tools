@@ -65,6 +65,9 @@ function generateMeta($queryString){
 			case "/builds/":
 			$desc = "List of all World of Warcraft versions since 6.0 (including diff tool)";
 			break;
+			case "/export/":
+			$desc = "Model, map, sound and cinematic exporter for World of Warcraft";
+			break;
 		}
 
 		$tags[] = "<meta name='description' content='" . $desc . "'>";
@@ -116,6 +119,9 @@ function prettyTitle($queryString){
 		break;
 		case "/builds/":
 		$addendum = "Builds";
+		break;
+		case "/export/":
+		$addendum = "Export";
 		break;
 	}
 
