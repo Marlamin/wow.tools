@@ -15,7 +15,7 @@ function reverseLookup($bytes){
 	return $result;
 }
 
-$q = $pdo->query("SELECT hash, description FROM wow_buildconfig WHERE product IN ('wowt', 'wow_beta') ORDER BY id DESC LIMIT 1");
+$q = $pdo->query("SELECT hash, description FROM wow_buildconfig WHERE product IN ('wow', 'wowt', 'wow_beta') ORDER BY id DESC LIMIT 1");
 $row = $q->fetch();
 
 $rawdesc = str_replace("WOW-", "", $row['description']);
@@ -69,7 +69,7 @@ echo "[TACT key list] Dumping current TACT keys for ".$fullbuild."..\n";
 
 $inserted = 0;
 
-$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkeylookup/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkeylookup/?build=".$fullbuild."&draw=1&start=0&length=1000&useHotfixes=true");
 $tactkeylookups = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeylookups) ." TACT key lookups from tactkeylookup.db2..\n";
 
@@ -95,7 +95,7 @@ echo "[TACT key list] Done, inserted " . $inserted . " new TACT keys!\n";
 
 $updated = 0;
 
-$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkey/?build=".$fullbuild."&draw=1&start=0&length=1000");
+$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkey/?build=".$fullbuild."&draw=1&start=0&length=1000&useHotfixes=true");
 $tactkeys = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeys) ." TACT keys from tactkey.db2..\n";
 
@@ -117,4 +117,8 @@ foreach($tactkeys as $tactkey){
 	}
 }
 
+if($updated > 1){
+	// Refresh backend keys
+	file_get_contents("http://127.0.0.1:5005/casc/reloadkeys");
+}
 echo "[TACT key list] Done, added " . $updated . " new TACT keys!\n";
