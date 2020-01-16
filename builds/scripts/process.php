@@ -173,7 +173,7 @@ function updateBuildConfig($product){
 
 		$existingBuild = getBuildConfigByBuildConfigHash($build['original-filename'], $product);
 
-		if(empty($existingBuild['encoding']) || empty($existingBuild['encoding_cdn']) || empty($existingBuild['root']) || empty($existingBuild['install']) || empty($existingBuild['download'])){
+		if(empty($existingBuild['encoding']) || empty($existingBuild['encoding_cdn']) || empty($existingBuild['root']) || empty($existingBuild['install']) || empty($existingBuild['download']) || empty($existingBuild['size'])){
 			if($product == "catalogs"){
 				if(empty($existingBuild['root_cdn'])){
 					$ucq = $pdo->prepare("UPDATE ".$product."_buildconfig SET root_cdn = ? WHERE hash = ?");
@@ -183,6 +183,9 @@ function updateBuildConfig($product){
 				$encoding = explode(" ", $build['encoding']);
 				$install = explode(" ", $build['install']);
 				$download = explode(" ", $build['download']);
+				if(!empty($build['size'])){
+					$size = explode(" ", $build['size']);
+				}
 
 				$uq = $pdo->prepare("UPDATE ".$product."_buildconfig SET
 					encoding = :encoding,
@@ -191,23 +194,45 @@ function updateBuildConfig($product){
 					install = :install,
 					install_cdn = :install_cdn,
 					download = :download,
-					download_cdn = :download_cdn
+					download_cdn = :download_cdn,
+					size = :size,
+					size_cdn = :size_cdn
 					WHERE hash = :hash");
 				$uq->bindParam(":encoding", $encoding[0]);
 				$uq->bindParam(":encoding_cdn", $encoding[1]);
 				$uq->bindParam(":root", $build['root']);
 				$uq->bindParam(":install", $install[0]);
+
 				if(count($install) > 1){
 					$uq->bindParam(":install_cdn", $install[1]);
 				}else{
 					$uq->bindValue(":install_cdn", null, PDO::PARAM_NULL);
 				}
+
 				$uq->bindParam(":download", $download[0]);
 				if(count($download) > 1){
 					$uq->bindParam(":download_cdn", $download[1]);
 				}else{
 					$uq->bindValue(":download_cdn", null, PDO::PARAM_NULL);
 				}
+
+				// Size is optional and not present in all products
+				if(isset($size)){
+					if(!empty($size[0])){
+						$uq->bindParam(":size", $size[0]);
+						if(count($size) > 1){
+							$uq->bindParam(":size_cdn", $size[1]);
+						}else{
+							$uq->bindValue(":size_cdn", null, PDO::PARAM_NULL);
+						}
+					}else{
+						$uq->bindValue(":size", null, PDO::PARAM_NULL);
+					}
+				}else{
+					$uq->bindValue(":size", null, PDO::PARAM_NULL);
+					$uq->bindValue(":size_cdn", null, PDO::PARAM_NULL);
+				}
+
 				$uq->bindParam(":hash", $build['original-filename']);
 				$uq->execute();
 			}
