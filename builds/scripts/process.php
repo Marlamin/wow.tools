@@ -173,7 +173,7 @@ function updateBuildConfig($product){
 
 		$existingBuild = getBuildConfigByBuildConfigHash($build['original-filename'], $product);
 
-		if(empty($existingBuild['encoding']) || empty($existingBuild['encoding_cdn']) || empty($existingBuild['root']) || empty($existingBuild['install']) || empty($existingBuild['download']) || empty($existingBuild['size'])){
+		if(empty($existingBuild['encoding']) || empty($existingBuild['encoding_cdn']) || empty($existingBuild['root']) || empty($existingBuild['install']) || empty($existingBuild['download']))){
 			if($product == "catalogs"){
 				if(empty($existingBuild['root_cdn'])){
 					$ucq = $pdo->prepare("UPDATE ".$product."_buildconfig SET root_cdn = ? WHERE hash = ?");
