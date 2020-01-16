@@ -24,6 +24,8 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 	wow_buildconfig.install_cdn,
 	wow_buildconfig.download,
 	wow_buildconfig.download_cdn,
+	wow_buildconfig.size,
+	wow_buildconfig.size_cdn,
 	wow_buildconfig.unarchivedcount,
 	wow_buildconfig.unarchivedcomplete,
 	wow_buildconfig.complete as buildconfigcomplete,
@@ -142,6 +144,16 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 			echo "<span class='badge badge-success hash'>".$build['download_cdn']."</span>";
 		} else {
 			echo "<span class='badge badge-danger hash'>".$build['download_cdn']."</span>";
+		}
+		echo "</td></tr>";
+	}
+
+		if(!empty($build['size'])) {
+		echo "<tr><td>Size</td><td><span class='badge badge-secondary hash'>".$build['size']."</span></td><td>"; 
+		if(!empty($build['size_cdn']) && doesFileExist("data", $build['size_cdn'], $allowedproducts["wow"]['cdndir'])) {
+			echo "<span class='badge badge-success hash'>".$build['size_cdn']."</span>";
+		} else {
+			echo "<span class='badge badge-danger hash'>".$build['size_cdn']."</span>";
 		}
 		echo "</td></tr>";
 	}

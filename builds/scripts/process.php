@@ -235,6 +235,8 @@ function updateBuildConfig($product){
 
 				$uq->bindParam(":hash", $build['original-filename']);
 				$uq->execute();
+
+				unset($size);
 			}
 		}
 
@@ -341,7 +343,7 @@ function updateBuildConfigLong($product){
 	$res = $pdo->query("SELECT * FROM ".$product."_versions WHERE cdnconfig IS NOT NULL AND buildconfig IS NOT NULL");
 	while($row = $res->fetch()){
 		// Skip builds that encoding does not exist for
-		$encodingres = $pdo->prepare("SELECT encoding_cdn, unarchived FROM ".$product."_buildconfig WHERE hash = :hash");
+		$encodingres = $pdo->prepare("SELECT encoding_cdn, install_cdn, unarchived FROM ".$product."_buildconfig WHERE hash = :hash");
 		$encodingres->bindParam(":hash", $row['buildconfig']);
 		$encodingres->execute();
 		$encodingrow = $encodingres->fetch();
@@ -360,7 +362,7 @@ function updateBuildConfigLong($product){
 		if(!doesFileExist("config", $row['cdnconfig'], $allowedproducts[$product]['cdndir'])) continue;
 
 		// Already done
-		if(!empty($encodingrow['unarchived'])){
+		if(!empty($encodingrow['install_cdn']) && !empty($encodingrow['unarchived'])){
 			continue;
 		}
 
