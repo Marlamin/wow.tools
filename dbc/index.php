@@ -302,7 +302,7 @@ $dbFound = false;
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\")'>" + full[meta.col] + "</a>";
 								}
 							}else if(vars["dbc"].toLowerCase() == "itemsparse" && json["headers"][meta.col].substring(0,5) == "Flags"){
-								returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</a>";
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
 							}else{
 								returnVar = full[meta.col];
 							}
