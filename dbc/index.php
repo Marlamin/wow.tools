@@ -143,6 +143,24 @@ $dbFound = false;
 		</div>
 	</div>
 </div>
+<div class="modal" id="flagModal" tabindex="-1" role="dialog" aria-labelledby="flagModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="flagModalLabel">Flag viewer</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="flagModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -251,7 +269,6 @@ $dbFound = false;
 
 				var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
 				var highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
-
 				var table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
@@ -284,6 +301,8 @@ $dbFound = false;
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\")'>" + full[meta.col] + "</a>";
 								}
+							}else if(vars["dbc"].toLowerCase() == "itemsparse" && json["headers"][meta.col].substring(0,5) == "Flags"){
+								returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]).join(", ") + "'>" + full[meta.col] + "</a>";
 							}else{
 								returnVar = full[meta.col];
 							}
@@ -303,6 +322,7 @@ $dbFound = false;
 					var currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
 					var currentPage = $('#dbtable').DataTable().page() + 1;
 					window.location.hash = "search=" + currentSearch + "&page=" + currentPage;
+					$("[data-toggle=popover]").popover();
 				});
 
 			},
