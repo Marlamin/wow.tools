@@ -61,7 +61,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 }
 ?>
 <div class="container-fluid">
-<p>Realm status for every known US/EU realm, updated every 5 minutes.</p>
+<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Still WIP, status might not be reliable just yet.</p>
 
 <?php
 foreach($groupedRealms as $region => $realms){

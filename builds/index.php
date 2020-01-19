@@ -84,7 +84,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 		}else{
 			echo "<span class='badge badge-danger hash'>".$build['cdnconfig']."</span>";
 		}
-		echo "</td></tr>";		
+		echo "</td></tr>";
 	}
 
 	if(!empty($build['patchconfig'])){
@@ -94,7 +94,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 		}else{
 			echo "<span class='badge badge-danger hash'>".$build['patchconfig']."</span>";
 		}
-		echo "</td></tr>";		
+		echo "</td></tr>";
 	}
 
 	echo "</table>";
@@ -109,7 +109,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 	</thead>";
 
 	if(!empty($build['encoding'])) {
-		echo "<tr><td>Encoding</td><td><span class='badge badge-secondary hash'>".$build['encoding']."</span></td><td>"; 
+		echo "<tr><td>Encoding</td><td><span class='badge badge-secondary hash'>".$build['encoding']."</span></td><td>";
 		if(!empty($build['encoding_cdn']) && doesFileExist("data", $build['encoding_cdn'], $allowedproducts["wow"]['cdndir'])) {
 			echo "<span class='badge badge-success hash'>".$build['encoding_cdn']."</span>";
 		} else {
@@ -117,9 +117,9 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 		}
 		echo "</td></tr>";
 	}
-		
+
 	if(!empty($build['root'])) {
-		echo "<tr><td>Root</td><td><span class='badge badge-secondary hash'>".$build['root']."</span></td><td>"; 
+		echo "<tr><td>Root</td><td><span class='badge badge-secondary hash'>".$build['root']."</span></td><td>";
 		if(!empty($build['root_cdn']) && doesFileExist("data", $build['root_cdn'], $allowedproducts["wow"]['cdndir'])) {
 			echo "<span class='badge badge-success hash'>".$build['root_cdn']."</span>";
 		} else {
@@ -129,7 +129,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 	}
 
 	if(!empty($build['install'])) {
-		echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=".$build['buildconfig']."'>file list</a>)</td><td><span class='badge badge-secondary hash'>".$build['install']."</span></td><td>"; 
+		echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=".$build['buildconfig']."'>file list</a>)</td><td><span class='badge badge-secondary hash'>".$build['install']."</span></td><td>";
 		if(!empty($build['install_cdn']) && doesFileExist("data", $build['install_cdn'], $allowedproducts["wow"]['cdndir'])) {
 			echo "<span class='badge badge-success hash'>".$build['install_cdn']."</span>";
 		} else {
@@ -139,7 +139,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 	}
 
 	if(!empty($build['download'])) {
-		echo "<tr><td>Download</td><td><span class='badge badge-secondary hash'>".$build['download']."</span></td><td>"; 
+		echo "<tr><td>Download</td><td><span class='badge badge-secondary hash'>".$build['download']."</span></td><td>";
 		if(!empty($build['download_cdn']) && doesFileExist("data", $build['download_cdn'], $allowedproducts["wow"]['cdndir'])) {
 			echo "<span class='badge badge-success hash'>".$build['download_cdn']."</span>";
 		} else {
@@ -149,7 +149,7 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 	}
 
 		if(!empty($build['size'])) {
-		echo "<tr><td>Size</td><td><span class='badge badge-secondary hash'>".$build['size']."</span></td><td>"; 
+		echo "<tr><td>Size</td><td><span class='badge badge-secondary hash'>".$build['size']."</span></td><td>";
 		if(!empty($build['size_cdn']) && doesFileExist("data", $build['size_cdn'], $allowedproducts["wow"]['cdndir'])) {
 			echo "<span class='badge badge-success hash'>".$build['size_cdn']."</span>";
 		} else {
@@ -166,8 +166,8 @@ if(!empty($_GET['api']) && $_GET['api'] == "buildinfo"){
 		echo "<td colspan='2' style='color: red'>";
 	}
 
-	if($build['unarchivedcount'] == 0){ 
-		$build['unarchivedcount'] = "???"; 
+	if($build['unarchivedcount'] == 0){
+		$build['unarchivedcount'] = "???";
 	}
 
 	echo $build['unarchivedcomplete']."/".$build['unarchivedcount']."</td></tr>";

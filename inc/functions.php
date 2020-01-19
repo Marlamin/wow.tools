@@ -68,6 +68,9 @@ function generateMeta($queryString){
 			case "/export/":
 			$desc = "Model, map, sound and cinematic exporter for World of Warcraft";
 			break;
+			case "/realms/":
+			$desc = "Realm status for US, EU and PTR World of Warcraft realms";
+			break;
 		}
 
 		$tags[] = "<meta name='description' content='" . $desc . "'>";
@@ -122,6 +125,9 @@ function prettyTitle($queryString){
 		break;
 		case "/export/":
 		$addendum = "Export";
+		break;
+		case "/realms/":
+		$addendum = "Realm status";
 		break;
 	}
 

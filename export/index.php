@@ -45,9 +45,9 @@
 		<div class='col-8 offset-2'>
 			<h4>Download</h4>
 			<p>First time installs only, the application has a built-in updater that notifies you when a new version is available.</p>
-			<p><a href='https://wow.tools/export/download/win-x64/wow.export-0.1.6.zip' class='btn btn-primary'><i class='fa fa-download'></i> Download v0.1.6</a></p>
+			<p><a href='https://wow.tools/export/download/win-x64/wow.export-0.1.9.zip' class='btn btn-primary'><i class='fa fa-download'></i> Download v0.1.9</a></p>
 			<p>
-			<b>Changelog</b> <i>(versions without date are not yet released)</i>
+			<b>Changelog</b></i>
 			<?php $changelog = htmlentities(file_get_contents("https://raw.githubusercontent.com/Kruithne/wow.export/master/CHANGELOG.md")); ?>
 			<pre><?=$changelog?></pre>
 			</p>
