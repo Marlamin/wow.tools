@@ -61,6 +61,15 @@
 				<li class="nav-item<?php if($page == "mirror"){ echo " active"; } ?>">
 					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o fa-lg" aria-hidden="true"></i> Builds</a>
 				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-cog fa-lg" aria-hidden="true"></i> Experimental
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navDropdown">
+						<a class="dropdown-item" href="/realms/">Realm status</a>
+						<a class="dropdown-item" href="/dbc/hotfixes.php">Hotfix diffs</a>
+					</div>
+				</li>
 			</ul>
 			<form class="form-inline my-md-2 my-lg-0">
 				<button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="button">
