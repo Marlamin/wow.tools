@@ -33,7 +33,7 @@ require_once("../inc/header.php");
 	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
-	var build = "8.3.0.32489";
+	var build = "8.3.0.33115";
 
 	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
 	const promises = dbsToLoad.map(db => loadDatabase(db, build));
