@@ -35,17 +35,19 @@ function openFKModal(value, location){
 			$.ajax({
 				"url": "/dbc/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value,
 				"success": function(json) {
-					json.values.forEach(function (value) {
-						if(value.item1 in headerjson.fks){
-							if(headerjson.fks[value.item1] == "SoundEntries::ID" && parseInt($("#buildFilter").val()[0]) > 6){
-								$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"SoundKit::ID\")'>" + value.item2 + "</a></td></tr>");
+					Object.keys(json.values).forEach(function (key) {
+						var val = json.values[key];
+						if(key in headerjson.fks){
+							if(headerjson.fks[key] == "SoundEntries::ID" && parseInt($("#buildFilter").val()[0]) > 6){
+								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\")'>" + val + "</a></td></tr>");
 							}else{
-								$("#fktable").append("<tr><td>" + value.item1 + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + value.item2 + ", \"" + headerjson.fks[value.item1] + "\")'>" + value.item2 + "</a></td></tr>");
+								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\")'>" + val + "</a></td></tr>");
 							}
 						}else{
-							$("#fktable").append("<tr><td>" + value.item1 + "</td><td>" + value.item2 + "</td></tr>");
+							$("#fktable").append("<tr><td>" + key + "</td><td>" + val + "</td></tr>");
 						}
 					});
+
 					var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 					var page = Math.floor(((json.offset - 1) / 25) + 1);
 					$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");

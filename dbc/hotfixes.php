@@ -73,15 +73,10 @@ require_once(__DIR__ . "/../inc/header.php");
 
 		Promise.all([beforeReq, afterReq])
 		.then(json => {
-			let before = new Array();
-			json[0].values.map(obj => {
-				before[obj.item1] = obj.item2;
-			});
+			console.log(json[0]);
+			let before = json[0].values;
 
-			let after = new Array();
-			json[1].values.map(obj => {
-				after[obj.item1] = obj.item2;
-			});
+			let after = json[1].values;
 
 			let changes = "<table>";
 			if(Object.keys(before).length == 0){
