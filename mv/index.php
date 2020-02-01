@@ -38,7 +38,7 @@ nav{
 				<a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#map" data-toggle="tab" role="tab">Map viewer</a>
+				<a class="nav-link" href="#map" data-toggle="tab" role="tab" id="mapViewerButton">Map viewer</a>
 			</li>
 		</ul>
 		<div class="tab-content" id="mvTabs">
@@ -63,12 +63,12 @@ nav{
 				</div>
 			</div>
 			<div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
-				Coming soon! 👀
-				<!--<div>
+				Keep in mind the map viewer is even more experimental than the regular model viewer and might be more laggy/unstable.
+				<div>
 					<select id="js-map-select" disabled></select>
 					<select id="js-version-select" disabled></select>
 				</div>
-				<div id="js-map" class="map-canvas">&nbsp;</div>-->
+				<div id="js-map" class="map-canvas">&nbsp;</div>
 			</div>
 		</div>
 	</div>
@@ -292,6 +292,6 @@ nav{
 	<script src="/mv/anims.js?v=<?=filemtime(__DIR__ . "/anims.js")?>"></script>
 	<script src="/mv/project.js?v=<?=filemtime(__DIR__ . "/project.js")?>"></script>
 	<script src="/maps/js/leaflet.js?v=<?=filemtime(__DIR__ . "/../maps/js/leaflet.js")?>"></script>
-	<!--<script src="/mv/mapviewer.js?v=<?=filemtime(__DIR__ . "/mapviewer.js")?>"></script>-->
+	<script src="/mv/mapviewer.js?v=<?=filemtime(__DIR__ . "/mapviewer.js")?>"></script>
 </body>
 </html>

@@ -1,9 +1,13 @@
 .map-canvas {
 	width: 100%;
-	height: calc(100% - 100px);
+	height: 90%;
 	z-index: 0;
 }
 
 #js-map-select {
 	width: 100%;
 }
+
+.leaflet-container {
+	background-color: #001D28;
+};

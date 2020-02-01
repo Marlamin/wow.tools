@@ -16,6 +16,7 @@
 		Maps: document.getElementById( 'js-map-select' ),
 		Versions: document.getElementById( 'js-version-select' ),
 		Map: document.getElementById( 'js-map' ),
+		TabButton: document.getElementById( 'mapViewerButton' )
 	};
 
 	var Versions;
@@ -30,6 +31,9 @@
 	xhr.responseType = 'json';
 	xhr.send();
 
+	Elements.TabButton.addEventListener("click", function (){
+		setTimeout(function(){ LeafletMap.invalidateSize()}, 400);
+	});
 	function InitializeMap()
 	{
 		return new L.map('js-map', {
@@ -206,11 +210,6 @@
 
 		Elements.Versions.addEventListener( 'change', ChangeVersion );
 
-		LeafletMap.on('moveend zoomend dragend', function()
-		{
-			SynchronizeTitleAndURL();
-		} );
-
 		LeafletMap.on('click', function(e)
 		{
 			ProcessOffsetClick(e, Versions[Current.Map][Current.Version].config.offset.min);
@@ -221,12 +220,14 @@
 	}
 
 	function ProcessOffsetClick(e, offset){
+		$("#js-controls").addClass("closed");
+
 		var layerPoint = LeafletMap.project(e.latlng, Versions[ Current.Map ][ Current.Version ].config.maxzoom).floor();
 
 		var build = Versions[Current.Map][Current.Version].build;
 		var ingame = PointToWoW(layerPoint, offset, build);
 		console.log("Setting map to " + Current.wdtFileDataID);
-		window.Module._setMap(0, Current.wdtFileDataID, Math.floor(ingame.x), Math.floor(ingame.y), 0);
+		window.Module._setMap(0, Current.wdtFileDataID, Math.floor(ingame.x), Math.floor(ingame.y), 200);
 	}
 
 	function PointToWoW( point, offset, build ){
@@ -253,8 +254,6 @@
 		Current.Version = Elements.Versions.value;
 
 		RenderMap(LeafletMap.getCenter(), LeafletMap.getZoom(), false, true);
-
-		SynchronizeTitleAndURL();
 	}
 
 	function RequestOffset(){
@@ -311,10 +310,5 @@
 			var mapbounds = new L.LatLngBounds(LeafletMap.unproject([1, Versions[ Current.Map ][ Current.Version ].config.resy - 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom), LeafletMap.unproject([Versions[ Current.Map ][ Current.Version ].config.resx - 1, 1], Versions[ Current.Map ][ Current.Version ].config.maxzoom));
 			LeafletMap.fitBounds(mapbounds);
 		}
-	}
-
-	function SynchronizeTitleAndURL( isMapChange )
-	{
-		return false;
 	}
 }())
