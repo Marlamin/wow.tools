@@ -80,7 +80,9 @@
 			option.value = map.id;
 			option.textContent = map.name;
 
-			fragment.appendChild( option );
+			if(map.wdtFileDataID != undefined){
+				fragment.appendChild( option );
+			}
 
 			// Either first map, or specified map
 			if( i === 0 || map.internal === decodeURIComponent(url[ 2 ]) )
