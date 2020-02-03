@@ -153,7 +153,14 @@ foreach($lfproducts as $lfproduct){
 			sortDesc = "asc";
 		}
 
+		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
+
 		var apiUrl = "scripts/api.php";
+
+		if(build !== undefined){
+			apiUrl = "/casc/filetable/files?buildConfig=" + build;
+		}
+		
 		var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 
 		var table = $('#files').DataTable({
@@ -313,9 +320,12 @@ $('#files').on( 'draw.dt', function () {
 	var sortCol = sort[0][0];
 	var sortDir = sort[0][1];
 
-	var url = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
+	var build = $('#files').DataTable().ajax.url().split("buildConfig=")[1];
 
-	console.log("Setting URL to " + url);
+	var url = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
+	if(build){
+		url += "&build=" + build;
+	}
 
 	window.location.hash = url;
 
@@ -341,6 +351,11 @@ function locationHashChanged(event) {
 	if($('#files').DataTable().page() != page){
 		console.log("Setting page to " + page);
 		$('#files').DataTable().page(page).draw(false);
+	}
+	
+	var build = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
+	if(!build){
+		$('#files').ajax.url("/casc/filetable/files?buildConfig=" + build).draw(false);
 	}
 
 	var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
