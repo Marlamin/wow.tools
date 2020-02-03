@@ -160,7 +160,9 @@ foreach($lfproducts as $lfproduct){
 		if(build !== undefined){
 			apiUrl = "/casc/filetable/files?buildConfig=" + build;
 		}
-		
+
+		var orderingEnabled = build === undefined;
+
 		var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 
 		var table = $('#files').DataTable({
@@ -177,8 +179,12 @@ foreach($lfproducts as $lfproduct){
 			"order": [[sortCol, sortDesc]],
 			"columnDefs": [
 			{
+				"targets": [0,2,4],
+				"orderable": orderingEnabled
+			},
+			{
 				"targets": 1,
-				"orderable": true,
+				"orderable": orderingEnabled,
 				"createdCell": function (td, cellData, rowData, row, col) {
 					if (!cellData) {
 						if(!rowData[7]){
@@ -227,7 +233,7 @@ foreach($lfproducts as $lfproduct){
 			},
 			{
 				"targets": 3,
-				"orderable": true,
+				"orderable": orderingEnabled,
 				"render": function ( data, type, full, meta ) {
 					if(full[3].length > 0){
 						if(full[3][0].enc == 1){
@@ -313,6 +319,8 @@ foreach($lfproducts as $lfproduct){
 
 
 $('#files').on( 'draw.dt', function () {
+
+
 	var currentSearch = encodeURIComponent($("#files_filter label input").val());
 	var currentPage = $('#files').DataTable().page() + 1;
 
@@ -326,6 +334,11 @@ $('#files').on( 'draw.dt', function () {
 	if(build){
 		url += "&build=" + build;
 	}
+
+	if(build){
+		$("#files_filter").html("<div class='alert alert-danger' role='alert' style='width: 650px; line-height: 1'>Searching, ordering and other functionality is not yet available in build filter mode.</div>");
+	}
+
 
 	window.location.hash = url;
 
@@ -352,7 +365,7 @@ function locationHashChanged(event) {
 		console.log("Setting page to " + page);
 		$('#files').DataTable().page(page).draw(false);
 	}
-	
+
 	var build = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
 	if(!build){
 		$('#files').ajax.url("/casc/filetable/files?buildConfig=" + build).draw(false);
