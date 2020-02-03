@@ -14,8 +14,9 @@ export/update
 # Non-public files
 dbc/scripts/hook.php
 
-# Sublime files
+# Editor files
 sftp-config.json
+.vscode/*
 
 # Bugsnag
 inc/bugsnag/*
