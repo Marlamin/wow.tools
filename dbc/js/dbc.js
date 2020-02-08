@@ -29,11 +29,13 @@ function openFKModal(value, location, build){
 	wowDBMap.set("spell", "https://www.wowdb.com/spells/");
 	wowDBMap.set("item", "https://www.wowdb.com/items/");
 	wowDBMap.set("itemsparse", "https://www.wowdb.com/items/");
+	wowDBMap.set("questv2", "https://www.wowdb.com/quests/");
 
 	const wowheadMap = new Map();
 	wowheadMap.set("spell", "https://www.wowhead.com/spell=");
 	wowheadMap.set("item", "https://www.wowhead.com/item=");
 	wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
+	wowheadMap.set("questv2", "https://www.wowhead.com/quest=");
 
 	console.log("Opening FK link to " + location + " (build " +  build + ") with value " + value);
 
