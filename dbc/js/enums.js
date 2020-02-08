@@ -5,7 +5,7 @@ const reputationLevels = {
 	3: 'Neutral',
 	4: 'Friendly',
 	5: 'Honored',
-	6: 'Reverted',
+	6: 'Revered',
 	7: 'Exalted',
 }
 

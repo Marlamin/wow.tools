@@ -56,6 +56,8 @@ require_once(__DIR__ . "/../inc/header.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
+<script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
+<script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
 	var table = $('#hotfixTable').DataTable({
 		"processing": true,
@@ -102,28 +104,43 @@ require_once(__DIR__ . "/../inc/header.php");
 		}]
 	});
 
+	function getAddendum(dbc, col, value){
+		let addendum = "";
+		dbc = dbc.toLowerCase();
+		if(enumMap.has(dbc + "." + col)){
+			addendum = " (" + enumMap.get(dbc + "." + col)[value] + ")";
+		}
+
+		return addendum;
+	}
+
 	function showRowDiff(dbc, build, recordID){
 		var beforeReq = fetch("/dbc/api/peek/" + dbc.toLowerCase() + "?build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
 		var afterReq = fetch("/dbc/api/peek/" + dbc.toLowerCase() + "?build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
 
 		Promise.all([beforeReq, afterReq])
 		.then(json => {
-			let before = json[0].values;
-			let after = json[1].values;
+			const before = json[0].values;
+			const after = json[1].values;
 
 			let changes = "<table>";
+
 			if(Object.keys(before).length == 0){
 				Object.keys(after).forEach(function (key) {
-					changes += "<tr><td>"+ key + "</td><td><ins class='diff-added'>"+after[key] + "</ins></td></tr>";
+					let addendum = getAddendum(dbc, key, after[key]);
+					changes += "<tr><td>"+ key + "</td><td><ins class='diff-added'>"+ after[key] + addendum + "</ins></td></tr>";
 				});
 			} else if(Object.keys(after).length == 0){
 				Object.keys(before).forEach(function (key) {
-					changes += "<tr><td>"+ key + "</td><td><del class='diff-removed'>"+before[key] + "</del></td></tr>";
+					let addendum = getAddendum(dbc, key, before[key]);
+					changes += "<tr><td>"+ key + "</td><td><del class='diff-removed'>"+ before[key] + addendum + "</del></td></tr>";
 				});
 			}else{
 				Object.keys(before).forEach(function (key) {
 					if(before[key] != after[key]){
-						changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + before[key] + "</del> &rarr; <ins class='diff-added'>" + after[key] + "</ins></td></tr>";
+						let addendumBefore = getAddendum(dbc, key, before[key]);
+						let addendumAfter = getAddendum(dbc, key, after[key]);
+						changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + before[key] + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + after[key] + addendumAfter + "</ins></td></tr>";
 					}
 				});
 			}
