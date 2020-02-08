@@ -25,15 +25,28 @@ function getFKCols(headers, fks){
 }
 
 function openFKModal(value, location, build){
+	const wowDBMap = new Map();
+	wowDBMap.set("spell", "https://www.wowdb.com/spells/");
+	wowDBMap.set("item", "https://www.wowdb.com/items/");
+	wowDBMap.set("itemsparse", "https://www.wowdb.com/items/");
+
+	const wowheadMap = new Map();
+	wowheadMap.set("spell", "https://www.wowhead.com/spell=");
+	wowheadMap.set("item", "https://www.wowhead.com/item=");
+	wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
+
 	console.log("Opening FK link to " + location + " (build " +  build + ") with value " + value);
-	var splitLocation = location.split("::");
-	$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
+
+	const splitLocation = location.split("::");
+	const db = splitLocation[0].toLowerCase();
+	const col = splitLocation[1];
+
+	$("#fkModalContent").html("<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
 	$.ajax({
-		"url": "/dbc/api/header/" + splitLocation[0].toLowerCase() + "?build=" + build,
+		"url": "/dbc/api/header/" + db + "?build=" + build,
 		"success": function(headerjson) {
-			console.log(headerjson);
 			$.ajax({
-				"url": "/dbc/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + build + "&col=" + splitLocation[1] + "&val=" + value,
+				"url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
 				"success": function(json) {
 					Object.keys(json.values).forEach(function (key) {
 						var val = json.values[key];
@@ -50,11 +63,19 @@ function openFKModal(value, location, build){
 
 					var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 					var page = Math.floor(((json.offset - 1) / 25) + 1);
-					$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+					$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 				}
 			});
 		}
 	});
+
+	if(wowDBMap.has(db)){
+		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning'>View on WoWDB</a>");
+	}
+
+	if(wowheadMap.has(db)){
+		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning'>View on Wowhead</a>");
+	}
 }
 
 function getFlagDescriptions(db, field, value){
