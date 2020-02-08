@@ -167,7 +167,7 @@ $dbFound = false;
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
 <script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
-	var filtersEnabled = false;
+	let filtersEnabled = false;
 	function toggleFilters(){
 		if(!filtersEnabled){
 			$("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
@@ -194,24 +194,25 @@ $dbFound = false;
 			vars[key] = value;
 		});
 
-		var tableHeaders = "";
-
-		var idHeader = 0;
+		let tableHeaders = "";
+		let idHeader = 0;
+		let cleanDBC;
+		let cleanBuild;
 
 		if(vars["dbc"] == null){
-			var cleanDBC = "";
+			cleanDBC = "";
 		}else{
-			var cleanDBC = vars["dbc"].replace(".db2", "").toLowerCase();
+			cleanDBC = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
 		}
 
 		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
-			vars["build"] = $('#buildFilter').val();
+			cleanBuild = $('#buildFilter').val();
 		}
 
 		$('#fileFilter').on( 'change', function () {
 			if($(this).val() != ""){
-				if(vars["build"] != undefined){
-					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val() + "&build=" + vars["build"];
+				if(cleanBuild != undefined){
+					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val() + "&build=" + cleanBuild;
 				}else{
 					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val();
 				}
@@ -219,21 +220,21 @@ $dbFound = false;
 		});
 
 		$('#buildFilter').on('change', function(){
-			vars["build"] = $('#buildFilter').val();
-			document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + vars["build"];
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+			cleanBuild = $('#buildFilter').val();
+			document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
 		});
 
-		if(!cleanDBC || !vars["build"]){
+		if(!cleanDBC || !cleanBuild){
 			// Don't bother doing anything else if no DBC is selected
 			return;
 		}
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
-
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
 		$("#loadingMessage").html("Loading..");
+
 		$.ajax({
-			"url": "/dbc/api/header/" + cleanDBC + "/?build=" + vars["build"],
+			"url": "/dbc/api/header/" + cleanDBC + "/?build=" + cleanBuild,
 			"success": function(json) {
 				if(json['error'] != null){
 					if(json['error'] == "No valid definition found for this layouthash or build!"){
@@ -241,7 +242,7 @@ $dbFound = false;
 					}
 					alert("An error occured on the server:\n" + json['error']);
 				}
-				var allCols = [];
+				let allCols = [];
 				$.each(json['headers'], function(i, val){
 					if(val in json['comments']){
 						tableHeaders += "<th title='" + json['comments'][val] +"' class='colHasComment'>" + val + "</th>";
@@ -254,24 +255,24 @@ $dbFound = false;
 					allCols.push(i);
 				});
 
-				var fkCols = getFKCols(json['headers'], json['fks']);
+				const fkCols = getFKCols(json['headers'], json['fks']);
 				$("#tableContainer").empty();
 				$("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 
-				var searchHash = location.hash.substr(1),
+				const searchHash = location.hash.substr(1),
 				searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
 
 				if(searchString != undefined && searchString.length > 0){
 					searchString = decodeURIComponent(searchString);
 				}
 
-				var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
-				var highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
-				var table = $('#dbtable').DataTable({
+				const page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
+				const highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
+				let table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/dbc/api/data/" + vars["dbc"].toLowerCase() + "/?build=" + vars["build"],
+						"url": "/dbc/api/data/" + cleanDBC + "/?build=" + cleanBuild,
 						"type": "POST",
 						"data": function( result ) {
 							return result;
@@ -289,19 +290,19 @@ $dbFound = false;
 					{
 						"targets": allCols,
 						"render": function ( data, type, full, meta ) {
-							var returnVar = full[meta.col];
+							let returnVar = full[meta.col];
 
 							if(meta.col in fkCols){
 								if(fkCols[meta.col] == "FileData::ID"){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
-								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(vars["build"][0]) > 6){
+								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(cleanBuild[0]) > 6){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\"\"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}
-							}else if(flagMap.has(vars["dbc"].toLowerCase() + '.' + json["headers"][meta.col])){
-								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
-							}else if(enumMap.has(vars["dbc"].toLowerCase() + '.' + json["headers"][meta.col])){
+							}else if(flagMap.has(cleanDBC + '.' + json["headers"][meta.col])){
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(cleanDBC, json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
+							}else if(enumMap.has(cleanDBC + '.' + json["headers"][meta.col])){
 								returnVar = full[meta.col] + " <i>(" + getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]) + ")</i>";
 							}else{
 								returnVar = full[meta.col];
@@ -319,10 +320,9 @@ $dbFound = false;
 				});
 
 				$('#dbtable').on( 'draw.dt', function () {
-					var currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
-					var currentPage = $('#dbtable').DataTable().page() + 1;
-					console.log(window.location);
-					window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + vars["dbc"] + "&build=" + vars["build"]);
+					const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
+					const currentPage = $('#dbtable').DataTable().page() + 1;
+					window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild);
 					window.location.hash = "search=" + currentSearch + "&page=" + currentPage;
 					$("[data-toggle=popover]").popover();
 				});

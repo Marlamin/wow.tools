@@ -3,17 +3,17 @@ function makeBuild(text){
 		return "";
 	}
 
-	var rawdesc = text.replace("WOW-", "");
-	var build  = rawdesc.substring(0, 5);
+	let rawdesc = text.replace("WOW-", "");
+	const build  = rawdesc.substring(0, 5);
 
-	var rawdesc = rawdesc.replace(build, "").replace("patch", "");
-	var descexpl = rawdesc.split("_");
+	rawdesc = rawdesc.replace(build, "").replace("patch", "");
+	const descexpl = rawdesc.split("_");
 
 	return descexpl[0] + "." + build;
 }
 
 function getFKCols(headers, fks){
-	var fkCols = [];
+	let fkCols = [];
 	headers.forEach(function(header, index){
 		Object.keys(fks).forEach(function(key) {
 			if(key == header){
@@ -37,8 +37,6 @@ function openFKModal(value, location, build){
 	wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
 	wowheadMap.set("questv2", "https://www.wowhead.com/quest=");
 
-	console.log("Opening FK link to " + location + " (build " +  build + ") with value " + value);
-
 	const splitLocation = location.split("::");
 	const db = splitLocation[0].toLowerCase();
 	const col = splitLocation[1];
@@ -51,7 +49,7 @@ function openFKModal(value, location, build){
 				"url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
 				"success": function(json) {
 					Object.keys(json.values).forEach(function (key) {
-						var val = json.values[key];
+						const val = json.values[key];
 						if(key in headerjson.fks){
 							if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
 								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\")'>" + val + "</a></td></tr>");
@@ -63,8 +61,8 @@ function openFKModal(value, location, build){
 						}
 					});
 
-					var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
-					var page = Math.floor(((json.offset - 1) / 25) + 1);
+					const numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
+					const page = Math.floor(((json.offset - 1) / 25) + 1);
 					$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 				}
 			});
