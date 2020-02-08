@@ -24,21 +24,21 @@ function getFKCols(headers, fks){
 	return fkCols;
 }
 
-function openFKModal(value, location){
-	console.log("Opening FK link to " + location + " (build " +  $("#buildFilter").val() + ") with value " + value);
+function openFKModal(value, location, build){
+	console.log("Opening FK link to " + location + " (build " +  build + ") with value " + value);
 	var splitLocation = location.split("::");
 	$("#fkModalContent").html("<b>Lookup into table " + splitLocation[0].toLowerCase() + " on col '" + splitLocation[1] + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
 	$.ajax({
-		"url": "/dbc/api/header/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val(),
+		"url": "/dbc/api/header/" + splitLocation[0].toLowerCase() + "?build=" + build,
 		"success": function(headerjson) {
 			console.log(headerjson);
 			$.ajax({
-				"url": "/dbc/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + $("#buildFilter").val() + "&col=" + splitLocation[1] + "&val=" + value,
+				"url": "/dbc/api/peek/" + splitLocation[0].toLowerCase() + "?build=" + build + "&col=" + splitLocation[1] + "&val=" + value,
 				"success": function(json) {
 					Object.keys(json.values).forEach(function (key) {
 						var val = json.values[key];
 						if(key in headerjson.fks){
-							if(headerjson.fks[key] == "SoundEntries::ID" && parseInt($("#buildFilter").val()[0]) > 6){
+							if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
 								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\")'>" + val + "</a></td></tr>");
 							}else{
 								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\")'>" + val + "</a></td></tr>");
@@ -50,7 +50,7 @@ function openFKModal(value, location){
 
 					var numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 					var page = Math.floor(((json.offset - 1) / 25) + 1);
-					$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + $("#buildFilter").val() + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+					$("#fkModalContent").append("<a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 				}
 			});
 		}

@@ -32,11 +32,30 @@ require_once(__DIR__ . "/../inc/header.php");
 		</div>
 	</div>
 </div>
+<div class="modal" id="fkModal" tabindex="-1" role="dialog" aria-labelledby="fkModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="fkModalLabel">Foreign key lookup</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="fkModalContent">
+				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <link href="/dbc/css/dbc.css?v=<?=filemtime(__DIR__ . "/css/dbc.css")?>" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script type='text/javascript'>
 	var table = $('#hotfixTable').DataTable({
 		"processing": true,
@@ -98,7 +117,7 @@ require_once(__DIR__ . "/../inc/header.php");
 			changes += "</table>";
 
 			if(changes == "<table></table>")
-				changes = "No changes detected";
+				changes = "No changes detected (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
 
 			var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID);
 			if(resultHolder){
