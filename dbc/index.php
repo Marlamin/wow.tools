@@ -56,20 +56,15 @@ $dbFound = false;
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>WARNING</b><br> Due to automated constant DBC exports by some users, this functionality has been heavily rate-limited.'><i class='fa fa-download'></i> CSV</a>
 		</form><br>
 	<?php } ?>
-	<?php if(!empty($_GET['build'])){ ?>
-		<div id='tableContainer'>
+		<div id='tableContainer'><br>
 			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
-					<tr>
-						<th>&nbsp;</th>
-					</tr>
 				</thead>
 				<tbody>
-
+					<tr><td style='text-align: center' id='loadingMessage'>Select a table/build above</td></tr>
 				</tbody>
 			</table>
 		</div>
-	<?php } ?>
 </div>
 <div class="modal" id="fkModal" tabindex="-1" role="dialog" aria-labelledby="fkModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
@@ -229,13 +224,14 @@ $dbFound = false;
 			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
 		});
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
-
 		if(!cleanDBC || !vars["build"]){
 			// Don't bother doing anything else if no DBC is selected
 			return;
 		}
 
+		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + vars["build"];
+
+		$("#loadingMessage").html("Loading..");
 		$.ajax({
 			"url": "/dbc/api/header/" + cleanDBC + "/?build=" + vars["build"],
 			"success": function(json) {
@@ -325,6 +321,8 @@ $dbFound = false;
 				$('#dbtable').on( 'draw.dt', function () {
 					var currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
 					var currentPage = $('#dbtable').DataTable().page() + 1;
+					console.log(window.location);
+					window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + vars["dbc"] + "&build=" + vars["build"]);
 					window.location.hash = "search=" + currentSearch + "&page=" + currentPage;
 					$("[data-toggle=popover]").popover();
 				});
