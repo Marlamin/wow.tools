@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../inc/header.php");
 <div class='container-fluid'>
 	<table class='table' id='hotfixTable'>
 		<thead>
-			<tr><th>Push ID</th><th>Table name</th><th>Record ID</th><th>Build</th><th>First seen at</th><th>&nbsp;</th></tr>
+			<tr><th>Push ID</th><th>Table name</th><th>Record ID</th><th>Build</th><th>Valid?</th><th>First seen at</th><th>&nbsp;</th></tr>
 		</thead>
 		<tbody>
 
@@ -74,9 +74,25 @@ require_once(__DIR__ . "/../inc/header.php");
 		"search": { "search": "" },
 		"columnDefs": [
 		{
-			"targets": 5,
+			"targets": 2,
 			"render": function ( data, type, full, meta ) {
-				if(full[5]){
+				return "<a href='#' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[2] + ", \"" + full[1].toLowerCase() + "::ID" + "\", \"" + full[3] + "\")'>" + full[2] + "</a>";
+			}
+		},
+		{
+			"targets": 4,
+			"render": function ( data, type, full, meta ) {
+				if(full[4] == 1){
+					return "Valid";
+				}else{
+					return "Invalidated";
+				}
+			}
+		},
+		{
+			"targets": 6,
+			"render": function ( data, type, full, meta ) {
+				if(full[6]){
 					showRowDiff(full[1], full[3], full[2]);
 					return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] +"'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i></div>";
 				}else{
@@ -92,9 +108,7 @@ require_once(__DIR__ . "/../inc/header.php");
 
 		Promise.all([beforeReq, afterReq])
 		.then(json => {
-			console.log(json[0]);
 			let before = json[0].values;
-
 			let after = json[1].values;
 
 			let changes = "<table>";
@@ -116,8 +130,9 @@ require_once(__DIR__ . "/../inc/header.php");
 
 			changes += "</table>";
 
-			if(changes == "<table></table>")
+			if(changes == "<table></table>"){
 				changes = "No changes detected (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
+			}
 
 			var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID);
 			if(resultHolder){

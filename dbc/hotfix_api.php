@@ -34,7 +34,7 @@ $dataq->execute();
 
 $returndata['data'] = array();
 while($row = $dataq->fetch()){
-	$returndata['data'][] = array($row['pushID'], $row['tableName'], $row['recordID'], $fullbuilds[$row['build']], $row['firstdetected'], isTableAvailableForBuild($row['tableName'], $row['build']));
+	$returndata['data'][] = array($row['pushID'], $row['tableName'], $row['recordID'], $fullbuilds[$row['build']], $row['isValid'], $row['firstdetected'], isTableAvailableForBuild($row['tableName'], $row['build']));
 }
 
 echo json_encode($returndata);
