@@ -187,10 +187,11 @@ $dbFound = false;
 			filtersEnabled = false;
 		}
 	}
+
 	(function() {
 		$('#fileFilter').select2();
-		var vars = {};
-		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		let vars = {};
+		let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 			vars[key] = value;
 		});
 

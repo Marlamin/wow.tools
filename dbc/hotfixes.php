@@ -58,6 +58,7 @@ require_once(__DIR__ . "/../inc/header.php");
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
 <script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
+<script src="https://wow.tools/js/diff_match_patch.js"></script>
 <script type='text/javascript'>
 	var table = $('#hotfixTable').DataTable({
 		"processing": true,
@@ -138,9 +139,17 @@ require_once(__DIR__ . "/../inc/header.php");
 			}else{
 				Object.keys(before).forEach(function (key) {
 					if(before[key] != after[key]){
-						let addendumBefore = getAddendum(dbc, key, before[key]);
-						let addendumAfter = getAddendum(dbc, key, after[key]);
-						changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + before[key] + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + after[key] + addendumAfter + "</ins></td></tr>";
+						if (!isNaN(before[key]) && !isNaN(after[key])) {
+							let addendumBefore = getAddendum(dbc, key, before[key]);
+							let addendumAfter = getAddendum(dbc, key, after[key]);
+							changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + before[key] + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + after[key] + addendumAfter + "</ins></td></tr>";
+						} else {
+							var dmp = new diff_match_patch();
+							var dmp_diff = dmp.diff_main(before[key], after[key]);
+							dmp.diff_cleanupSemantic(dmp_diff);
+							data = dmp.diff_prettyHtml(dmp_diff);
+							changes += "<tr><td>" + key + "</td><td>" + data + "</td></tr>";
+						}
 					}
 				});
 			}
