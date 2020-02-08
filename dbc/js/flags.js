@@ -1,4 +1,4 @@
-// Flags are retrieved from TrinityCore repo, in a best case scenario these would come from DBD.
+// Flags are currently retrieved from TrinityCore repo, in a best case scenario these would come from DBD.
 const itemSparseFlags0 = {
 	NO_PICKUP 							: 0x1,
 	CONJURED							: 0x2, // Conjured item
@@ -120,21 +120,48 @@ const itemSparseFlags3 = {
 
 
 const classMask = {
-	WARRIOR : 0x1,
-	PALADIN : 0x2,
-	HUNTER : 0x4,
-	ROGUE : 0x8,
-	PRIEST : 0x10,
-	DEATH_KNIGHT : 0x20,
-	SHAMAN : 0x40,
-	MAGE : 0x80,
-	WARLOCK : 0x100,
-	MONK : 0x200,
-	DRUID : 0x400,
-	DEMON_HUNTER : 0x800,
+	WARRIOR 		: 0x1,
+	PALADIN 		: 0x2,
+	HUNTER 			: 0x4,
+	ROGUE 			: 0x8,
+	PRIEST 			: 0x10,
+	DEATH_KNIGHT 	: 0x20,
+	SHAMAN 			: 0x40,
+	MAGE 			: 0x80,
+	WARLOCK 		: 0x100,
+	MONK 			: 0x200,
+	DRUID 			: 0x400,
+	DEMON_HUNTER 	: 0x800,
+}
+
+const achievementFlags = {
+	COUNTER					: 0x1,
+	HIDDEN 					: 0x2,
+	PLAY_NO_VISUAL			: 0x4,
+	SUM 					: 0x8,
+	MAX_USED				: 0x10,
+	REQ_COUNT				: 0x20,
+	AVERAGE					: 0x40,
+	PROGRESS_BAR			: 0x80,
+	REALM_FIRST_REACH		: 0x100,
+	REALM_FIRST_KILL		: 0x200,
+	UNK3					: 0x400,
+	HIDE_INCOMPLETE			: 0x800,
+	SHOW_IN_GUILD_NEWS		: 0x1000,
+	SHOW_IN_GUILD_HEADER	: 0x2000,
+	GUILD 					: 0x4000,
+	SHOW_GUILD_MEMBERS		: 0x8000,
+	SHOW_CRITERIA_MEMBERS 	: 0x10000,
+	ACCOUNT_WIDE			: 0x20000,
+	UNK5					: 0x40000,
+	HIDE_ZERO_COUNTER		: 0x80000,
+	TRACKING_FLAG			: 0x100000,
 }
 
 window.flagMap = new Map();
+
+/* Achievement */
+flagMap.set("achievement.Flags", achievementFlags);
 
 /* ItemSparse */
 flagMap.set("itemsparse.Flags[0]", itemSparseFlags0);

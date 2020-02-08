@@ -92,3 +92,12 @@ function getFlagDescriptions(db, field, value){
 	}
 	return usedFlags;
 }
+
+function getEnum(db, field, value){
+	const targetEnum = enumMap.get(db + '.' + field);
+	if(targetEnum[value] !== undefined){
+		return enumMap.get(db + '.' + field)[value];
+	}else{
+		return false;
+	}
+}
