@@ -168,7 +168,9 @@ $dbFound = false;
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/files/js/files.js" crossorigin="anonymous"></script>
-<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
+<script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
+<script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
 	var filtersEnabled = false;
 	function toggleFilters(){
@@ -301,8 +303,10 @@ $dbFound = false;
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\")'>" + full[meta.col] + "</a>";
 								}
-							}else if(vars["dbc"].toLowerCase() == "itemsparse" && json["headers"][meta.col].substring(0,5) == "Flags"){
+							}else if(flagMap.has(vars["dbc"].toLowerCase() + '.' + json["headers"][meta.col])){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
+							}else if(enumMap.has(vars["dbc"].toLowerCase() + '.' + json["headers"][meta.col])){
+								returnVar = full[meta.col] + " <i>(" + enumMap.get(vars["dbc"].toLowerCase() + '.' + json["headers"][meta.col])[full[meta.col]] + ")</i>";
 							}else{
 								returnVar = full[meta.col];
 							}
