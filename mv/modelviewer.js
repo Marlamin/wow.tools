@@ -77,11 +77,13 @@ function saveSettings(){
     loadSettings();
 }
 
-// Sidebar button
-document.getElementById( 'js-sidebar-button' ).addEventListener( 'click', function( )
-{
-    Elements.Sidebar.classList.toggle( 'closed' );
-} );
+// Sidebar button, might not exist in embedded mode
+if(document.getElementById( 'js-sidebar-button' )){
+    document.getElementById( 'js-sidebar-button' ).addEventListener( 'click', function( )
+    {
+        Elements.Sidebar.classList.toggle( 'closed' );
+    } );
+}
 
 try {
     if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
@@ -124,22 +126,6 @@ if(urlEmbed){
 
 window.createscene = function () {
     Module["canvas"] = document.getElementById("wowcanvas");
-    // var gl = Module["canvas"].getContext("webgl2");
-
-    // if (!gl){
-    //     showError("WebGL2 is required but not supported by your browser or device.");
-    //     return;
-    // }
-
-    // var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-    // if(!debugInfo){
-    //     console.log("Unknown WebGL unmasked renderer!");
-    // }else{
-    //     var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-    //     if(renderer){
-    //         console.log("WebGL unmasked renderer: " + renderer);
-    //     }
-    // }
 
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
     var urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
@@ -310,7 +296,9 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
 
         updateURLs();
 
-        history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
+        if(!embeddedMode){
+            history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
+        }
 
         $("#js-controls").addClass("closed");
         $("#animationSelect").hide();
@@ -359,7 +347,6 @@ function loadModelTextures() {
     var loadedTextures = Array();
     var currentFDID = Current.fileDataID;
     $.ajax({url: "https://wow.tools/dbc/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
-        console.log("Texture lookup", data);
         var forFDID = this.url.replace("https://wow.tools/dbc/api/texture/", "").replace("?build=" + Current.buildName, "");
         if(Current.fileDataID != forFDID){
             console.log("This request is not for this filedataid, discarding..");
@@ -450,10 +437,17 @@ function updateURLs(){
 }
 
 (function() {
-    loadSettings();
     $('#wowcanvas').bind('contextmenu', function(e){
         return false;
     });
+
+    // Skip further initialization in embedded mode
+    if(embeddedMode){
+        return;
+    }
+
+    loadSettings();
+
     Elements.table = $('#mvfiles').DataTable({
         "processing": true,
         "serverSide": true,

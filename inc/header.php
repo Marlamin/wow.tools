@@ -1,4 +1,4 @@
-<?php require_once(__DIR__ . "/config.php");?><!DOCTYPE html>
+<?php require_once(__DIR__ . "/config.php"); if(!empty($_GET['embed'])){ $embed = true; } else { $embed = false; }?><!DOCTYPE html>
 <html>
 <head>
 	<title><?=prettyTitle($_SERVER['REQUEST_URI'])?></title>
@@ -12,6 +12,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<?php if(!$embed){ ?>
 	<script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -22,8 +23,9 @@
 		ga('create', 'UA-8420950-6', 'auto');
 		ga('send', 'pageview');
 	</script>
+<?php } ?>
 </head>
-<body>
+<body><?php if(!$embed){ ?>
 	<nav class="navbar navbar-expand-lg">
 		<a class="navbar-brand" href="/">
 			<div id='logo'>
@@ -84,3 +86,4 @@
 			</form>
 		</div>
 	</nav>
+<?php } ?>
