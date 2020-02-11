@@ -61,7 +61,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 }
 ?>
 <div class="container-fluid">
-<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Still WIP!</p>
+<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Basic realm status is not retrieved from the Official API allowing for more realms (including PTR/Beta) to be listed as well. Still WIP!</p>
 
 <?php
 foreach($groupedRealms as $region => $realms){
