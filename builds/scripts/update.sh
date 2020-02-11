@@ -1,4 +1,11 @@
 #!/bin/bash
+if { set -C; 2>/dev/null > /home/wow/buildbackup/buildbackup.lock; }; then
+        trap "rm -f /home/wow/buildbackup/buildbackup.lock" EXIT
+else
+        echo "Lock file exists… exiting" >&2
+        exit 
+fi
+
 cd /home/wow/buildbackup/
 /usr/bin/dotnet BuildBackup.dll
 cd /var/www/wow.tools/builds/scripts/
