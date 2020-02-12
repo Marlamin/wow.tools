@@ -268,7 +268,7 @@ $dbFound = false;
 				}
 
 				const page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
-				const highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
+				let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
 				let table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
