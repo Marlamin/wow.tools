@@ -29,7 +29,16 @@ $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsTotal'] = $pdo->query("SELECT count(*) FROM wow_hotfixes")->fetchColumn();
 $returndata['recordsFiltered'] = $returndata['recordsTotal'];
 
-$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
+if(empty($_GET['search']['value'])){
+	$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
+}else{
+	$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
+	$dataq->bindValue(":pushID", "%".$_GET['search']['value']."%");
+	$dataq->bindValue(":recordID", "%".$_GET['search']['value']."%");
+	$dataq->bindValue(":tableName", "%".$_GET['search']['value']."%");
+	$dataq->bindValue(":build", "%".$_GET['search']['value']."%");
+	$dataq->bindValue(":firstDetected", "%".$_GET['search']['value']."%");
+}
 $dataq->execute();
 
 $returndata['data'] = array();

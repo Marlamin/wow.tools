@@ -72,7 +72,7 @@ require_once(__DIR__ . "/../inc/header.php");
 		"pagingType": "input",
 		"orderMulti": false,
 		"ordering": false,
-		"searching": false,
+		"searching": true,
 		"language": { "search": "<a class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
 		"search": { "search": "" },
 		"columnDefs": [
