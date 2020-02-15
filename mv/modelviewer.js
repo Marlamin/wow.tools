@@ -31,6 +31,7 @@ var Current =
 var Settings =
 {
     showFPS: true,
+    retailOnly: false,
     clearColor: [0.117, 0.207, 0.392]
 }
 
@@ -49,6 +50,18 @@ function loadSettings(){
     }
 
     document.getElementById("showFPS").checked = Settings.showFPS;
+
+    /* Enable/disable retail-only */
+    var storedRetailOnly = localStorage.getItem('settings[retailOnly]');
+    if(storedRetailOnly){
+        if(storedRetailOnly== "1"){
+            Settings.retailOnly = true;
+        }else{
+            Settings.retailOnly = false;
+        }
+    }
+
+    document.getElementById("retailOnly").checked = Settings.retailOnly;
 
     /* Clear color */
     var storedCustomClearColor = localStorage.getItem('settings[customClearColor]');
@@ -70,6 +83,12 @@ function saveSettings(){
         localStorage.setItem('settings[showFPS]', '1');
     }else{
         localStorage.setItem('settings[showFPS]', '0');
+    }
+
+    if(document.getElementById("retailOnly").checked){
+        localStorage.setItem('settings[retailOnly]', '1');
+    }else{
+        localStorage.setItem('settings[retailOnly]', '0');
     }
 
     localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
@@ -128,7 +147,13 @@ window.createscene = function () {
     Module["canvas"] = document.getElementById("wowcanvas");
 
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
-    var urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
+    let urlFileId;
+
+    if(Settings.retailOnly){
+        urlFileId = "https://wow.tools/casc/extract/";
+    }else{
+        urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
+    }
 
     var ptrUrl = allocate(intArrayFromString(url), 'i8', ALLOC_NORMAL);
     var ptrUrlFileDataId = allocate(intArrayFromString(urlFileId), 'i8', ALLOC_NORMAL);
@@ -425,7 +450,13 @@ function setModelTexture(textures, offset){
 
 function updateURLs(){
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
-    var urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
+
+    let urlFileId;
+    if(Settings.retailOnly){
+        urlFileId = "https://wow.tools/casc/extract/";
+    }else{
+        urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
+    }
 
     var ptrUrl = allocate(intArrayFromString(url), 'i8', ALLOC_NORMAL);
     var ptrUrlFileDataId = allocate(intArrayFromString(urlFileId), 'i8', ALLOC_NORMAL);

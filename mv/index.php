@@ -105,6 +105,7 @@ if($embed){
 			<div class="modal-body">
 				<form id='settingsForm'>
 					<input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show FPS</label><br>
+					<input type='checkbox' id='retailOnly' name='settings[retailOnly]'> <label for='retailOnly'>Only use current retail version (fastest, disable history)</label><br>
 					<input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label>
 				</form>
 			</div>
@@ -147,7 +148,7 @@ if($embed){
 				</p>
 				<h5>Embed</h5>
 				<p>
-					An embeddable version of the modelviewer <a href='//marlamin.com/u/mvxdomain.html' target='_BLANK'>is available</a> , but how exactly/if it will continue to work (or how costs will be dealt with if it gets popular) is still to be decided. Please contact me if you want to embed it.
+					An embeddable version of the modelviewer <a href='//marlamin.com/u/mvxdomain.html' target='_BLANK'>is available</a> , but how exactly/if it will continue to work (or how costs will be dealt with if it gets popular) is still to be decided. Please contact me if you want to embed it. If you do, keep in mind it is still WIP/experimental and to not rely on it in any way.
 				</p>
 			</div>
 			<div class="modal-footer">
