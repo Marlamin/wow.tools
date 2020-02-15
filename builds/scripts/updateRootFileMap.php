@@ -20,32 +20,42 @@ function getFileDataIDs($buildconfig){
 	}
 }
 
-$checkSetQ = $pdo->prepare("SELECT COUNT(fileid) FROM wow_rootfiles_builds WHERE fileid = ? AND FIND_IN_SET(?, buildconfigids)");
-$addToSetQ = $pdo->prepare("INSERT INTO wow_rootfiles_builds (fileid, buildconfigids) VALUES(?, ?) ON DUPLICATE KEY UPDATE buildconfigids = CONCAT(buildconfigids, ?)");
+$builds = $pdo->query("SELECT id, hash FROM wow_buildconfig ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$builds = $pdo->query("SELECT id, hash FROM wow_buildconfig")->fetchAll(PDO::FETCH_KEY_PAIR);
 
 foreach($builds as $buildconfigid => $buildconfighash){
-	echo "[Build ".$buildconfigid."] Preparing transaction for hash ". $buildconfighash . "...\n";
-	$i = 0;
-	$pdo->beginTransaction();
-	$fdids = getFileDataIDs($buildconfighash);
-	$totalFDIDs = count($fdids);
-	foreach($fdids as $fileid){
-		$checkSetQ->execute([$fileid, $buildconfigid]);
-
-		if((int)$checkSetQ->fetchColumn() === 0){
-			$addToSetQ->execute([$fileid, $buildconfigid, "," . $buildconfigid]);
-		}
-
-		if($i % 10000 == 0){
-			echo "[Build ".$buildconfigid."] ".$i."/".$totalFDIDs."\n";
-		}
-
-		$i++;
+	$checkQ = $pdo->query("SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(".$buildconfigid.", buildconfigids) LIMIT 0,1");
+	if(!empty($checkQ->fetchColumn())){
+		echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Skipping, already imported!\n";
+		continue;
 	}
-	echo "[Build ".$buildconfigid."] Committing...";
-	$pdo->commit();
-	echo "done!\n";
 
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Getting FileDataIDs for hash ". $buildconfighash . "...\n";
+	$fdids = getFileDataIDs($buildconfighash);
+
+	$tempFile = tempnam("/tmp", "filesperbuild");
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Writing temporary CSV file with ".count($fdids)." FDIDs to disk (".$tempFile.")..\n";
+	file_put_contents($tempFile, implode("\n", $fdids));
+
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Creating temporary table..\n";
+	$pdo->exec("DROP TABLE IF EXISTS wow_rootfiles_buildstemp");
+	$pdo->exec("CREATE TABLE `wow_rootfiles_buildstemp` (
+	  `filedataid` int(11) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Loading data into temporary table..\n";
+	$pdo->exec("LOAD DATA LOCAL INFILE '".$tempFile."' INTO TABLE wow_rootfiles_buildstemp
+		FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'
+	");
+
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Removing files from temporary table that already have this build set..\n";
+	$pdo->exec("DELETE FROM wow_rootfiles_buildstemp WHERE filedataid IN (SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(".$buildconfigid.", buildconfigids))");
+
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Updating main table..\n";
+	$pdo->exec("INSERT INTO wow_rootfiles_builds (fileid, buildconfigids) SELECT filedataid, '".$buildconfigid."' FROM wow_rootfiles_buildstemp ON DUPLICATE KEY UPDATE buildconfigids = CONCAT(buildconfigids, ',".$buildconfigid."')
+	");
+
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Cleaning up..\n";
+	$pdo->exec("DROP TABLE IF EXISTS wow_rootfiles_buildstemp");
+	unlink($tempFile);
 }
