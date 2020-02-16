@@ -1,6 +1,13 @@
 <?php
 require_once("/var/www/wow.tools/inc/config.php");
 
+$profiling = false;
+if($profiling){
+	$pdo->exec('set @@session.profiling_history_size = 300;');
+	$pdo->exec('set profiling=1');
+	$returndata['profiletimings'][] = microtime(true);
+}
+
 header('Content-Type: application/json');
 if(!isset($_SESSION)){ session_start(); }
 
@@ -33,27 +40,14 @@ if(isset($_GET['switchbuild'])){
 	die();
 }
 
-if(empty($_SESSION['buildfilter'])){
-	$query = "FROM wow_rootfiles ";
-} else {
-	$qq = $pdo->prepare("SELECT id FROM wow_rootfiles_available_roots WHERE root8 = :root8id");
-	$qq->bindValue(":root8id", hexdec(substr($_SESSION['buildfilter'], 0, 8)));
-	$qq->execute();
-	$qqr = $qq->fetch();
-	if(empty($qqr)){
-		die("invalid buildfilter");
-	}else{
-		$rootid = $qqr['id'];
-	}
-
-	$query = "FROM wow_rootfiles_available build JOIN wow_rootfiles ON build.root8id = ".$rootid." AND wow_rootfiles.id = build.filedataid";
-}
+$query = "FROM wow_rootfiles ";
 
 $joinparams = [];
 $clauseparams = [];
+$clauses = [];
+$joins = [];
+
 if(!empty($_GET['search']['value'])){
-	$joins = [];
-	$clauses = [];
 	$criteria = array_filter( explode(",", $_GET['search']['value']), 'strlen' );
 
 	$i = 0;
@@ -136,11 +130,6 @@ if(!empty($_GET['search']['value'])){
 		}
 		$i++;
 	}
-
-	$query .= implode(" ", $joins);
-	if(count($clauses) > 0){
-		$query .= " WHERE " . implode(" AND ", $clauses);
-	}
 }else{
 	if($mv){
 		$types = array();
@@ -161,6 +150,26 @@ if(!empty($_GET['search']['value'])){
 			$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
 		}
 	}
+}
+
+if(!empty($_SESSION['buildfilter'])){
+	$qq = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE hash = :hash");
+	$qq->bindValue(":hash", $_SESSION['buildfilter']);
+	$qq->execute();
+	$qqr = $qq->fetchColumn();
+	if(empty($qqr)){
+		die("Invalid buildfilter!");
+	}else{
+		$buildid = $qqr;
+	}
+	$returndata['buildfilter'] = $_SESSION['buildfilter'];
+	array_push($clauses, " wow_rootfiles.ID IN (SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(?, buildconfigids)) ");
+	$clauseparams[] = $buildid;
+}
+
+$query .= implode(" ", $joins);
+if(count($clauses) > 0){
+	$query .= " WHERE " . implode(" AND ", $clauses);
 }
 
 $orderby = '';
@@ -199,31 +208,25 @@ $length = (int)filter_input( INPUT_GET, 'length', FILTER_SANITIZE_NUMBER_INT );
 
 $params = array_merge($joinparams, $clauseparams);
 
-$profiling = false;
-if($profiling){
-	$pdo->exec('set @@session.profiling_history_size = 100;');
-	$pdo->exec('set profiling=1');
-}
-
 try{
-	$qmd5 = md5($query.implode('|',$params));
+	$qmd5 = md5($query.implode('|', $params));
 	$returndata['rfq'] = $query;
 	if(!($returndata['recordsFiltered'] = $memcached->get("query." . $qmd5))){
+		$returndata['rfcachehit'] = false;
 		$numrowsq = $pdo->prepare("SELECT COUNT(wow_rootfiles.id) " . $query);
 		$numrowsq->execute($params);
 		$returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
 		if(!$memcached->set("query." . $qmd5, $returndata['recordsFiltered'])){
 			$returndata['mc1error'] = $memcached->getResultMessage();
 		}
+	}else{
+		$returndata['rfcachehit'] = true;
 	}
 
 	$dataq = $pdo->prepare("SELECT wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
 	$dataq->execute($params);
 }catch(Exception $e){
 	$returndata['data'] = [];
-	// echo "<pre>";
-	// print_r($e);
-	// echo "</pre>";
 	$returndata['query'] = $query;
 	$returndata['params'] = $params;
 	$returndata['error'] = "I'm currently working on this functionality right now and broke it. Hopefully back soon. <3";
@@ -231,16 +234,20 @@ try{
 	die();
 }
 
+
 if(empty($_GET['draw']))
 	$_GET['draw'] = 0;
 
 $returndata['draw'] = (int)$_GET['draw'];
 
 if(!($returndata['recordsTotal'] = $memcached->get("files.total"))){
+	$returndata['rtcachehit'] = false;
 	$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wow_rootfiles")->fetchColumn();
 	if(!$memcached->set("files.total", $returndata['recordsTotal'])){
 		$returndata['mc2error'] = $memcached->getResultMessage();
 	}
+}else{
+	$returndata['rtcachehit'] = true;
 }
 
 $returndata['data'] = array();
@@ -251,7 +258,6 @@ $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedata
 $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
-
 while($row = $dataq->fetch()){
 	$contenthashes = array();
 	$cfname = "";
@@ -362,6 +368,12 @@ while($row = $dataq->fetch()){
 if($profiling){
 	$profileq = $pdo->query('show profiles');
 	$returndata['profiling'] = $profileq->fetchAll(PDO::FETCH_ASSOC);
+	$totalDuration = 0;
+	foreach($returndata['profiling'] as $profile){
+		$totalDuration += $profile['Duration'];
+	}
+	$returndata['profiletotalquerytime'] = $totalDuration;
+	$returndata['profiletimings'][] = microtime(true);
 	$pdo->exec('set profiling=0');
 }
 

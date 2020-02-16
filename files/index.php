@@ -7,6 +7,7 @@ foreach($lfproducts as $lfproduct){
 	$buildq->execute([$lfproduct]);
 	$lfbuilds[$lfproduct] = $buildq->fetch(PDO::FETCH_ASSOC);
 }
+
 ?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
@@ -155,21 +156,13 @@ foreach($lfproducts as $lfproduct){
 
 		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
 
-		var apiUrl = "scripts/api.php";
-
-		if(build !== undefined){
-			apiUrl = "/casc/filetable/files?buildConfig=" + build;
-		}
-
-		var orderingEnabled = build === undefined;
-
 		var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 
 		var table = $('#files').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"search": { "search": searchString },
-			"ajax": apiUrl,
+			"ajax": "scripts/api.php",
 			"pageLength": 25,
 			"language": { "search": "Search: _INPUT_ <a class='btn btn-dark btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
@@ -179,12 +172,7 @@ foreach($lfproducts as $lfproduct){
 			"order": [[sortCol, sortDesc]],
 			"columnDefs": [
 			{
-				"targets": [0,2,4],
-				"orderable": orderingEnabled
-			},
-			{
 				"targets": 1,
-				"orderable": orderingEnabled,
 				"createdCell": function (td, cellData, rowData, row, col) {
 					if (!cellData) {
 						if(!rowData[7]){
@@ -233,7 +221,6 @@ foreach($lfproducts as $lfproduct){
 			},
 			{
 				"targets": 3,
-				"orderable": orderingEnabled,
 				"render": function ( data, type, full, meta ) {
 					if(full[3].length > 0){
 						if(full[3][0].enc == 1){
@@ -319,8 +306,6 @@ foreach($lfproducts as $lfproduct){
 
 
 $('#files').on( 'draw.dt', function () {
-
-
 	var currentSearch = encodeURIComponent($("#files_filter label input").val());
 	var currentPage = $('#files').DataTable().page() + 1;
 
@@ -338,7 +323,6 @@ $('#files').on( 'draw.dt', function () {
 	if(build){
 		$("#files_filter").html("<div class='alert alert-danger' role='alert' style='width: 650px; line-height: 1'>Searching, ordering and other functionality is not yet available in build filter mode.</div>");
 	}
-
 
 	window.location.hash = url;
 
@@ -367,9 +351,9 @@ function locationHashChanged(event) {
 	}
 
 	var build = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
-	if(!build){
-		$('#files').ajax.url("/casc/filetable/files?buildConfig=" + build).draw(false);
-	}
+	//if(!build){
+	//	$('#files').ajax.url("/casc/filetable/files?buildConfig=" + build).draw(false);
+	//}
 
 	var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
 	if(!sortCol){
