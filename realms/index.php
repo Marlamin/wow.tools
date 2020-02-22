@@ -31,6 +31,29 @@ function time_elapsed_string($datetime, $full = false) {
 	return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
+function getPopulation($population){
+	switch($population){
+		case 0:
+		return "<span class='badge badge-secondary'>Offline</span>";
+		case 1:
+		return "<span class='badge badge-success'>Low</span>";
+		case 2:
+		return "<span class='badge badge-warning'>Medium</span>";
+		case 3:
+		return "<span class='badge badge-danger'>High</span>";
+		case 4:
+		return "<span class='badge badge-light'>New</span>";
+		case 5:
+		return "<span class='badge badge-primary'>Recommended</span>";
+		case 6:
+		return "<span class='badge badge-dark'>Full</span>";
+		case 7:
+		return "<span class='badge badge-dark'>Locked</span>";
+		default:
+		return "<span class='badge badge-dark'>Unknown</span>";
+	}
+}
+
 function getGroupInfo($group){
 	$groupInfo = [];
 	$expl = explode(".", $group);
@@ -50,7 +73,7 @@ function getGroupInfo($group){
 		case 24:
 		case 25:
 		case 26:
-		$groupInfo['project'] = "Tournament";
+		$groupInfo['project'] = "Arena Tournament";
 		break;
 		case 41:
 		case 42:
@@ -120,7 +143,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 					<?php foreach($categories as $category => $realms){ ?>
 						<li class="nav-item">
 							<a class="nav-link <?php if($firstNav){?>active<?} $firstNav = false; ?>" data-toggle="tab" href="#group<?=$realms[key($realms)]['group']['id']?>" role="tab">
-								<?=$category?> (<?=count($realms)?> realms)
+								<?=$category?> <span class="badge badge-light"><?=count($realms)?> realms</span>
 							</a>
 						</li>&nbsp;
 					<?php } ?>
@@ -134,7 +157,14 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 								<?php
 								foreach($realms as $realm){
 									$realm['status'] == 1 ? $status = "<span style='color: green'><i class='fa fa-arrow-circle-up'></i></span> Up" : $status = "<span style='color: red;'><i class='fa fa-arrow-circle-down'></i></span> Down";
-									echo "<tr><td>".$status."</td><td>".$realm['name']."</td><td></td><td></td><td>".$realm['version']."</td><td>".$realm['lastseen']." (".time_elapsed_string($realm['lastseen']).")</td></tr>";
+									echo "<tr>";
+									echo "<td>".$status."</td>";
+									echo "<td>".$realm['name']."</td>";
+									echo "<td></td>";
+									echo "<td>".getPopulation($realm['population'])."</td>";
+									echo "<td>".$realm['version']."</td>";
+									echo "<td>".$realm['lastseen']." (".time_elapsed_string($realm['lastseen']).")</td>";
+									echo "</tr>";
 								}
 								?>
 							</table>
@@ -143,4 +173,6 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 				</div>
 			</div>
 		<?php } ?>
-		<?php include("../inc/footer.php"); ?>
+	</div>
+</div>
+<?php include("../inc/footer.php"); ?>
