@@ -223,6 +223,7 @@ try{
 		$returndata['rfcachehit'] = true;
 	}
 
+	$returndata['fullq'] = "SELECT wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length;
 	$dataq = $pdo->prepare("SELECT wow_rootfiles.* " . $query . $orderby . " LIMIT " . $start .", " . $length);
 	$dataq->execute($params);
 }catch(Exception $e){
