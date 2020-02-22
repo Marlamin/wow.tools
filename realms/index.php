@@ -162,14 +162,14 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 		}
 		?>
 	</ul>
-	<div class="tab-content"><br>
+	<div class="tab-content" style='margin-top: 5px'>
 		<?php
 		$firstTab = true;
 		foreach($groupedRealms as $region => $categories){
 			$firstNav = true;
 			?>
 			<div class="tab-pane <?php if($firstTab){?>show active<?php $firstTab = false; } ?>" id="region<?=$region?>" role="tabpanel">
-				<ul class="nav nav-tabs" role="tablist">
+				<ul class="nav nav-pills" role="tablist">
 					<?php foreach($categories as $category => $realms){ ?>
 						<li class="nav-item">
 							<a class="nav-link <?php if($firstNav){?>active<?} $firstNav = false; ?>" data-toggle="tab" href="#group<?=$realms[key($realms)]['group']['id']?>" role="tab">
