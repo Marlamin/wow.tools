@@ -117,7 +117,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 }
 ?>
 <div class="container-fluid">
-	<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Basic realm status is not retrieved from the Official API allowing for more realms (including PTR/Beta) to be listed as well. Still WIP!</p>
+	<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Basic realm status is not retrieved from the Official API allowing for more realms (including PTR/Beta) to be listed as well. Still WIP, some values (such as population) might not be up to date.</p>
 	<?php
 	?>
 	<ul class="nav nav-pills" role="tablist">
@@ -156,7 +156,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 								<thead><tr><th style='width: 80px'></th><th style='width: 300px'>Name</th><th style='width: 50px;'>Type</th><th style='width: 80px'>Population</th><th>Server version</th><th>Last seen in realmlist at (UTC+1)</th></tr></thead>
 								<?php
 								foreach($realms as $realm){
-									$realm['status'] == 1 ? $status = "<span style='color: green'><i class='fa fa-arrow-circle-up'></i></span> Up" : $status = "<span style='color: red;'><i class='fa fa-arrow-circle-down'></i></span> Down";
+									$realm['status'] == 1 ? $status = "<span class='badge badge-success'><i class='fa fa-arrow-circle-up'></i> Up</span>" : $status = "<span class='badge badge-danger'><i class='fa fa-arrow-circle-down'></i> Down</span>";
 									echo "<tr>";
 									echo "<td>".$status."</td>";
 									echo "<td>".$realm['name']."</td>";
