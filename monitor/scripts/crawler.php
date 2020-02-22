@@ -68,12 +68,20 @@ function getUrlHistory($id){
 	$res = $pdo->prepare("SELECT newvalue FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY `timestamp` DESC LIMIT 1");
 	$res->execute([$id]);
 	$lastval = $res->fetch();
-	$ret['lastcontent'] = $lastval['newvalue'];
+	if(!empty($lastval)){
+		$ret['lastcontent'] = $lastval['newvalue'];
+	}else{
+		$ret['lastcontent'] = null;
+	}
 
 	$res = $pdo->prepare("SELECT newvalue FROM ngdp_history WHERE url_id = ? AND event = 'statuschange' ORDER BY `timestamp` DESC LIMIT 1");
 	$res->execute([$id]);
 	$laststatus = $res->fetch();
-	$ret['laststatus'] = $laststatus['newvalue'];
+	if(!empty($laststatus)){
+		$ret['laststatus'] = $laststatus['newvalue'];
+	}else{
+		$ret['laststatus'] = 0;
+	}
 
 	return $ret;
 }

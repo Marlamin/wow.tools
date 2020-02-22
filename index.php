@@ -31,19 +31,23 @@
 				while($row = $productq->fetch(PDO::FETCH_ASSOC)){
 					$histq = $pdo->prepare("SELECT newvalue, timestamp FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY ID DESC LIMIT 1");
 					$histq->execute([$row['id']]);
-					$histr = $histq->fetch(PDO::FETCH_ASSOC);
-					$bc = parseBPSV(explode("\n", $histr['newvalue']));
+
 					$highestBuild = 0;
 					$highestBuildName = "<i>Unknown</i>";
 					$buildTime = "<i>Unknown</i>";
-					foreach($bc as $bcregion){
-						if($bcregion['BuildId'] > $highestBuild){
-							$highestBuild = $bcregion['BuildId'];
-							$highestBuildName = $bcregion['VersionsName'];
-							$highestConfig = $bcregion['BuildConfig'];
-							$build = getBuildConfigByBuildConfigHash($bcregion['BuildConfig']);
-							if(!empty($build['builton'])){
-								$buildTime = $build['builton'];
+
+					$histr = $histq->fetch(PDO::FETCH_ASSOC);
+					if(!empty($histr)){
+						$bc = parseBPSV(explode("\n", $histr['newvalue']));
+						foreach($bc as $bcregion){
+							if($bcregion['BuildId'] > $highestBuild){
+								$highestBuild = $bcregion['BuildId'];
+								$highestBuildName = $bcregion['VersionsName'];
+								$highestConfig = $bcregion['BuildConfig'];
+								$build = getBuildConfigByBuildConfigHash($bcregion['BuildConfig']);
+								if(!empty($build['builton'])){
+									$buildTime = $build['builton'];
+								}
 							}
 						}
 					}

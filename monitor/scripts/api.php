@@ -23,7 +23,7 @@ function buildURL($product, $type, $value){
 	if(empty($cdndir)){
 		return false;
 	}else{
-		if(empty($cdndir)){
+		if(empty($cdndir) || empty($value)){
 			return false;
 		}else{
 			if($type == "config"){
