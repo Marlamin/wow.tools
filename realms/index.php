@@ -31,6 +31,17 @@ function time_elapsed_string($datetime, $full = false) {
 	return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
+function getStatus($status){
+	switch($status){
+		case 0:
+		return "<span class='badge badge-danger'><i class='fa fa-arrow-circle-down'></i> Down</span>";
+		case 1:
+		return "<span class='badge badge-success'><i class='fa fa-arrow-circle-up'></i> Up</span>";
+		default:
+		return "<span class='badge badge-dark'><i class='fa fa-arrow-circle-up'></i> Unknown</span>";
+	}
+}
+
 function getPopulation($population){
 	switch($population){
 		case 0:
@@ -51,6 +62,25 @@ function getPopulation($population){
 		return "<span class='badge badge-dark'>Locked</span>";
 		default:
 		return "<span class='badge badge-dark'>Unknown</span>";
+	}
+}
+
+function getRealmType($type){
+	switch($type){
+		case 1:
+		return "<span class='badge badge-success'>PvE</span>";
+		case 2:
+		return "<span class='badge badge-warning'>PvP</span>";
+		case 7:
+		return "<span class='badge badge-info'>RP</span>";
+		case 9:
+		return "<span class='badge badge-danger'>RP-PvP</span>";
+		case 12:
+		return "<span class='badge badge-primary'>Arena</span>";
+		case 14:
+		return "<span class='badge badge-primary'>Dungeon</span>";
+		default:
+		return "<span class='badge badge-dark'>Unknown (".$type.")</span>";
 	}
 }
 
@@ -156,11 +186,10 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 								<thead><tr><th style='width: 80px'></th><th style='width: 300px'>Name</th><th style='width: 50px;'>Type</th><th style='width: 80px'>Population</th><th>Server version</th><th>Last seen in realmlist at (UTC+1)</th></tr></thead>
 								<?php
 								foreach($realms as $realm){
-									$realm['status'] == 1 ? $status = "<span class='badge badge-success'><i class='fa fa-arrow-circle-up'></i> Up</span>" : $status = "<span class='badge badge-danger'><i class='fa fa-arrow-circle-down'></i> Down</span>";
 									echo "<tr>";
-									echo "<td>".$status."</td>";
+									echo "<td>".getStatus($realm['status'])."</td>";
 									echo "<td>".$realm['name']."</td>";
-									echo "<td></td>";
+									echo "<td>".getRealmType($realm['type'])."</td>";
 									echo "<td>".getPopulation($realm['population'])."</td>";
 									echo "<td>".$realm['version']."</td>";
 									echo "<td>".$realm['lastseen']." (".time_elapsed_string($realm['lastseen']).")</td>";
