@@ -36,6 +36,9 @@ function getDiff($from, $to)
     return $result;
 }
 
+if(empty($_GET['from']) || empty($_GET['to']))
+    die("Not enough information to diff");
+
 $diff = getDiff($_GET['from'], $_GET['to']);
 ?>
 
