@@ -19,7 +19,7 @@ function getFileDataIDs($buildconfig){
 
 function getDBC($name, $build){
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, " http://127.0.0.1:5000/api/export/?name=".urlencode($name)."&build=".urlencode($build));
+	curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/export/?name=".urlencode($name)."&build=".urlencode($build));
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	$data = curl_exec($ch);
@@ -76,16 +76,24 @@ if($_GET['type'] == "areaname"){
 	echo json_encode($return);
 }elseif($_GET['type'] == "flightpaths"){
 	$csv = getDBC("taxinodes", $_GET['build']);
-	$mapid = intval($_GET['mapid']);
+	if(!is_array($csv)){
+		echo json_encode(["error" => "Invalid taxinodes CSV!"]);
+		die();
+	}
 
 	$pathcsv = getDBC("taxipath", $_GET['build']);
-	$paths = array();
+	if(!is_array($pathcsv)){
+		echo json_encode(["error" => "Invalid taxipath CSV!"]);
+		die();
+	}
 
+	$paths = array();
 	foreach($pathcsv as $path){
 		if(empty($path['FromTaxiNode']) || empty($path['ToTaxiNode'])) continue;
 		$paths[$path['FromTaxiNode']][] = $path['ToTaxiNode'];
 	}
 
+	$mapid = intval($_GET['mapid']);
 	$return = array();
 
 	foreach($csv as $entry){
@@ -186,11 +194,11 @@ if($_GET['type'] == "areaname"){
 	header('Content-Type: application/json');
 
 	$dbc = getDBC("areapoi", $_GET['build']);
-
-	if(empty($dbc)){
+	if(empty($dbc) || !is_array($dbc)){
 		echo json_encode(array("error" => "Error retrieving DBC!"));
 		die();
 	}
+
 	$pois=[];
 	foreach($dbc as $row){
 		if(empty($row['ID']) || empty($row['Name_lang']))
