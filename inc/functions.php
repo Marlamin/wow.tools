@@ -165,6 +165,10 @@ function prettyBranch($branch, $pretty = true){
 		$color = "info";
 		$branch = "Classic Beta";
 		break;
+		case "wow_classic_ptr":
+		$color = "info";
+		$branch = "Classic PTR";
+		break;
 		case "wowe1":
 		$color = "secondary";
 		$branch = "Event 1";
