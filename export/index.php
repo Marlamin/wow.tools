@@ -3,8 +3,8 @@
 <div class='container-fluid'>
 	<div class='row'>
 		<div class='col-8 offset-2'>
-			<h1>WoW.export public beta</h1>
-			<p class="lead">A complete rewrite of <a href='https://marlam.in/obj/'>WoW Export Tools</a> now available for public beta testing</p>
+			<h1>WoW.export</h1>
+			<p class="lead">A complete rewrite of <a href='https://marlam.in/obj/'>WoW Export Tools</a> now available</p>
 		</div>
 	</div>
 	<div class='row'>
@@ -23,17 +23,11 @@
 				<li>Modelviewer with better controls</li>
 				<li>Better sound/music player</li>
 			</ul>
-				Features from the old exporter still in development:
-				<ul>
-					<li>Terrain foliage exports</li>
-					<li>Unnamed models/textures in file list</li>
-				</ul>
 		</div>
 	</div>
 	<div class='row'>
 		<div class='col-8 offset-2'>
-			<h4>Beta</h4>
-			<p>We feel that this version is now feature-complete enough to start testing it publicly. Please report issues on the <a href='https://github.com/Kruithne/wow.export/issues' target='_BLANK'>issue tracker</a> or <a href='https://discord.gg/52mHpxC'>Discord</a>.
+			<p>We feel that this version is now stable enough to stop supporting the old exporter. If you do find any issues, please report them on the <a href='https://github.com/Kruithne/wow.export/issues' target='_BLANK'>issue tracker</a> and/or <a href='https://discord.gg/52mHpxC'>Discord</a>.
 			</p>
 			<div class='alert alert-danger'>
 				<b>Important</b><br>- When setting up, please use a <b>NEW</b> export folder rather than one you used for WoW Export Tools (or other tools) so that in the case of bugs, we're not getting mixed up data.<br>
