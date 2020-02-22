@@ -165,6 +165,11 @@ if($embed){
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
+				<h5>Version 0.9.5 <small>(12-02-2019)</small></h5>
+				<ul>
+					<li>(MV) Map viewer interface</li>
+					<li>(MV) Optional 'retail-only' mode for faster loading of assets</li>
+				</ul>
 				<h5>Version 0.9.4 <small>(13-12-2019)</small></h5>
 				<ul>
 					<li>(MV) Experimental WebGL1 support</li>
