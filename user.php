@@ -37,11 +37,11 @@ if($_GET['p'] == "login"){
 					header("Location: index.php");
 				}else{
 					$message['type'] = "danger";
-					$message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on IRC, Discord or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
+					$message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
 				}
 			}else{
 				$message['type'] = "danger";
-				$message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on IRC, Discord or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
+				$message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
 			}
 		}
 	}
@@ -65,7 +65,7 @@ if($_GET['p'] == "login"){
 				$q->execute();
 			}catch(Exception $e){
 				$message['type'] = "danger";
-				$message['text'] = "<b>Username or e-mail already exists or something else went wrong.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on IRC, Discord or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.";
+				$message['text'] = "<b>Username or e-mail already exists or something else went wrong.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.";
 			}
 
 			if(empty($message)){
@@ -82,7 +82,7 @@ if($_GET['p'] == "login"){
 			$res = $q->fetch();
 			if(empty($res)){
 				$message['type'] = "danger";
-				$message['text'] = "<b>Unknown e-mail address!</b><br>If you are one of the 30 users that signed up before e-mails were required during registering, give me a poke on Discord or IRC to resolve this.";
+				$message['text'] = "<b>Unknown e-mail address!</b><br>If you are one of the 30 users that signed up before e-mails were required during registering, give me a poke on Discord (Marlamin) to resolve this.";
 			}else{
 				$recoverytoken = bin2hex(random_bytes(16));
 
@@ -239,7 +239,7 @@ if(!isset($_SESSION['loggedin'])){
 						<div class="form-group">
 							<label for="email">Enter the e-mail address connected to your account</label>
 							<input type="text" id="email" minlength="12" maxlength="72" class="form-control" placeholder="E-mail" name="email">
-							<small class="form-text">Don't remember? Contact me on Discord.</small>
+							<small class="form-text">Don't remember? Poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
@@ -249,10 +249,10 @@ if(!isset($_SESSION['loggedin'])){
 		<?php
 	}else if($_GET['p'] == "login"){
 	// Log in
-		if(empty($message)){
-			$message['type'] = 'success';
-			$message['text'] = 'If you already had an account on the old site, it was transferred over to this one.';
-		}
+		// if(empty($message)){
+		// 	$message['type'] = 'success';
+		// 	$message['text'] = 'If you already had an account on the old site, it was transferred over to this one.';
+		// }
 		?>
 		<div class="container-fluid">
 			<div class="row">
@@ -270,7 +270,7 @@ if(!isset($_SESSION['loggedin'])){
 						<div class="form-group">
 							<label for="password">Password</label>
 							<input type="password" id="password" minlength="12" maxlength="72" class="form-control" placeholder="Password" name="password" tabindex='2'>
-							<small class="form-text">Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on IRC, Discord or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
+							<small class="form-text">Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
