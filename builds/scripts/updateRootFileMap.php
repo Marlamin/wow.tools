@@ -20,42 +20,42 @@ function getFileDataIDs($buildconfig){
 	}
 }
 
-$builds = $pdo->query("SELECT id, hash FROM wow_buildconfig ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
+/* Erorus method: https://gist.github.com/erorus/560e53f434948b67314aa5bd0533d5ca */
+/**
+ * Returns a SQL statement to save a list of file IDs associated with the given build ID.
+ *
+ * @param int $buildId
+ * @param int[] $fileIds
+ */
+function generateBuildFilesQuery(int $buildId, array $fileIds): string {
+    $maxId = max($fileIds);
+    $buffer = array_fill(0, floor($maxId / 8) + 1, 0);
+    foreach ($fileIds as $fileId) {
+        $bufferIndex = (int)floor($fileId / 8);
+        $bitPosition = $fileId % 8;
 
+        $buffer[$bufferIndex] = $buffer[$bufferIndex] | (1 << $bitPosition);
+    }
 
+    $binString = '';
+    foreach ($buffer as $char) {
+        $binString .= chr($char);
+    }
+
+    return "REPLACE INTO wow_rootfiles_builds_erorus (build, files) VALUES ($buildId, FROM_BASE64('" . base64_encode($binString) . "'));\n";
+}
+
+$checkQ = $pdo->prepare("SELECT build FROM wow_rootfiles_builds_erorus WHERE build = ?");
+$builds = $pdo->query("SELECT id, hash FROM wow_buildconfig GROUP BY root ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 foreach($builds as $buildconfigid => $buildconfighash){
-	$checkQ = $pdo->query("SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(".$buildconfigid.", buildconfigids) LIMIT 0,1");
+	$checkQ->execute([$buildconfigid]);
 	if(!empty($checkQ->fetchColumn())){
-		echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Skipping, already imported!\n";
 		continue;
 	}
 
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Getting FileDataIDs for hash ". $buildconfighash . "...\n";
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Getting FileDataIDs for hash ". $buildconfighash . "...\n";;
 	$fdids = getFileDataIDs($buildconfighash);
 
-	$tempFile = tempnam("/tmp", "filesperbuild");
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Writing temporary CSV file with ".count($fdids)." FDIDs to disk (".$tempFile.")..\n";
-	file_put_contents($tempFile, implode("\n", $fdids));
-
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Creating temporary table..\n";
-	$pdo->exec("DROP TABLE IF EXISTS wow_rootfiles_buildstemp");
-	$pdo->exec("CREATE TABLE `wow_rootfiles_buildstemp` (
-	  `filedataid` int(11) NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Loading data into temporary table..\n";
-	$pdo->exec("LOAD DATA LOCAL INFILE '".$tempFile."' INTO TABLE wow_rootfiles_buildstemp
-		FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'
-	");
-
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Removing files from temporary table that already have this build set..\n";
-	$pdo->exec("DELETE FROM wow_rootfiles_buildstemp WHERE filedataid IN (SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(".$buildconfigid.", buildconfigids))");
-
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Updating main table..\n";
-	$pdo->exec("INSERT INTO wow_rootfiles_builds (fileid, buildconfigids) SELECT filedataid, '".$buildconfigid."' FROM wow_rootfiles_buildstemp ON DUPLICATE KEY UPDATE buildconfigids = CONCAT(buildconfigids, ',".$buildconfigid."')
-	");
-
-	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Cleaning up..\n";
-	$pdo->exec("DROP TABLE IF EXISTS wow_rootfiles_buildstemp");
-	unlink($tempFile);
+	echo "[".date("H:i:s")."] [Build ".$buildconfigid."] Loading data into table..\n";
+	$pdo->query(generateBuildFilesQuery($buildconfigid, $fdids));
 }
