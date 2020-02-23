@@ -88,12 +88,44 @@ function queueAllFiles(){
 
 function showDifferentBuildWarning(){
 	$("#multipleFileDLButton").popover({
-        title: 'Warning',
-        placement: 'bottom',
-        content: '<p>You have files from different builds selected, this is currently not supported. Files will be retrieved from only the first build you selected.</p>',
-        html: true
-    });
-    $("#multipleFileDLButton").popover('show');
+		title: 'Warning',
+		placement: 'bottom',
+		content: '<p>You have files from different builds selected, this is currently not supported. Files will be retrieved from only the first build you selected.</p>',
+		html: true
+	});
+	$("#multipleFileDLButton").popover('show');
+}
+
+function applyBuildFilter(build){
+	if(build == undefined){
+		build = "";
+	}
+	$.ajax("/files/scripts/api.php?switchbuild=" + build)
+	.always(function() {
+		$('#files').DataTable().ajax.reload();
+	});
+
+	updateBuildFilterButton();
+}
+
+function buildFilterClick(){
+	if(window.rootFiltering){
+		window.rootFiltering = false;
+		applyBuildFilter();
+	}else{
+		window.rootFiltering = true;
+		applyBuildFilter($("#buildFilter").val());
+	}
+}
+
+function updateBuildFilterButton(){
+	if(window.rootFiltering){
+		$("#buildFilterButton").hide();
+		$("#clearBuildFilterButton").show();
+	}else{
+		$("#buildFilterButton").show();
+		$("#clearBuildFilterButton").hide();
+	}
 }
 
 function fillModal(fileDataID){

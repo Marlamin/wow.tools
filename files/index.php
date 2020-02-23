@@ -28,6 +28,8 @@ foreach($lfproducts as $lfproduct){
 				<?php } ?>
 			</div>
 		</div>
+		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'>Filter by build</a>
+		<a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear build filter</a>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
@@ -129,10 +131,35 @@ foreach($lfproducts as $lfproduct){
 		</div>
 	</div>
 </div>
+<div class="modal" id="buildModal" tabindex="-1" role="dialog" aria-labelledby="buildModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="buildModalLabel">Filter by build (coming soon!)</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="buildModalContent">
+				<select id='buildFilter' style='width: 100%'>
+				<?php foreach($pdo->query("SELECT description, root_cdn FROM wow_buildconfig ORDER BY wow_buildconfig.description DESC") as $build){ ?>
+					<option value='<?=$build['root_cdn']?>'><?=prettyBuild($build['description'])?></option>
+				<?php } ?>
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" data-dismiss="modal" onClick="buildFilterClick()">Select Build</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
 <script type='text/javascript'>
 	(function() {
@@ -164,7 +191,7 @@ foreach($lfproducts as $lfproduct){
 			"search": { "search": searchString },
 			"ajax": "scripts/api.php",
 			"pageLength": 25,
-			"language": { "search": "Search: _INPUT_ <a class='btn btn-dark btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
+			"language": { "search": "Search: _INPUT_ <a class='btn btn-outline-light btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
 			"autoWidth": false,
 			"pagingType": "input",
@@ -320,15 +347,12 @@ $('#files').on( 'draw.dt', function () {
 		url += "&build=" + build;
 	}
 
-	if(build){
-		$("#files_filter").html("<div class='alert alert-danger' role='alert' style='width: 650px; line-height: 1'>Searching, ordering and other functionality is not yet available in build filter mode.</div>");
-	}
-
 	window.location.hash = url;
 
 	$("[data-toggle=popover]").popover();
 });
 
+$("#buildFilter").select2();
 }());
 
 function locationHashChanged(event) {
@@ -373,5 +397,12 @@ function locationHashChanged(event) {
 }
 
 window.onhashchange = locationHashChanged;
+
+<?php if(!empty($_SESSION['buildfilterid'])){ ?>
+var rootFiltering = true;
+<?php }else{ ?>
+var rootFiltering = false;
+<?php } ?>
+updateBuildFilterButton();
 </script>
 <?php require_once("../inc/footer.php"); ?>

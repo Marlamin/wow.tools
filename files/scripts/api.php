@@ -31,21 +31,33 @@ while($tactrow = $tactq->fetch()){
 
 if(isset($_GET['switchbuild'])){
 	if(empty($_GET['switchbuild'])){
-		$_SESSION['buildfilter'] = null;
+		$_SESSION['buildfilterid'] = null;
 		return;
 	}else{
 		if(strlen($_GET['switchbuild']) != 32 || !ctype_xdigit($_GET['switchbuild'])) die("Invalid contenthash!");
-		$_SESSION['buildfilter'] = $_GET['switchbuild'];
+		$selectBuildFilterQ = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
+		$selectBuildFilterQ->execute([$_GET['switchbuild']]);
+		$filteredBuildID = $selectBuildFilterQ->fetchColumn();
+		if(!empty($filteredBuildID)){
+			$_SESSION['buildfilterid'] = $filteredBuildID;
+		}
 	}
 	die();
 }
 
 $query = "FROM wow_rootfiles ";
 
+
 $joinparams = [];
 $clauseparams = [];
 $clauses = [];
 $joins = [];
+
+if(!empty($_SESSION['buildfilterid']) && !$mv && !$dbc){
+	$query .= "JOIN wow_rootfiles_builds_erorus ON ORD(MID(wow_rootfiles_builds_erorus.files, 1 + FLOOR(wow_rootfiles.id / 8), 1)) & (1 << (wow_rootfiles.id % 8)) ";
+	array_push($clauses, " wow_rootfiles_builds_erorus.build = ? ");
+	$clauseparams[] = $_SESSION['buildfilterid'];
+}
 
 if(!empty($_GET['search']['value'])){
 	$criteria = array_filter( explode(",", $_GET['search']['value']), 'strlen' );
@@ -150,21 +162,6 @@ if(!empty($_GET['search']['value'])){
 			$query .= " AND wow_rootfiles.filename NOT LIKE '%_obj0.adt' AND wow_rootfiles.filename NOT LIKE '%_obj1.adt' AND wow_rootfiles.filename NOT LIKE '%_tex0.adt' AND wow_rootfiles.filename NOT LIKE '%_tex1.adt' AND wow_rootfiles.filename NOT LIKE '%_lod.adt'";
 		}
 	}
-}
-
-if(!empty($_SESSION['buildfilter'])){
-	$qq = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE hash = :hash");
-	$qq->bindValue(":hash", $_SESSION['buildfilter']);
-	$qq->execute();
-	$qqr = $qq->fetchColumn();
-	if(empty($qqr)){
-		die("Invalid buildfilter!");
-	}else{
-		$buildid = $qqr;
-	}
-	$returndata['buildfilter'] = $_SESSION['buildfilter'];
-	array_push($clauses, " wow_rootfiles.ID IN (SELECT fileid FROM wow_rootfiles_builds WHERE FIND_IN_SET(?, buildconfigids)) ");
-	$clauseparams[] = $buildid;
 }
 
 $query .= implode(" ", $joins);
