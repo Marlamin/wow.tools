@@ -24,7 +24,7 @@ foreach($lfproducts as $lfproduct){
 				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unknown">CSV (FileDataIDs with no filenames)</a>
 				<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
 				<?php foreach($lfbuilds as $lfproduct => $lfbuild){?>
-					<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> (<?=$lfbuild['description']?>)</a>
+					<a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> <?=prettyBuild($lfbuild['description'])?></a>
 				<?php } ?>
 			</div>
 		</div>
@@ -38,7 +38,7 @@ foreach($lfproducts as $lfproduct){
 				<th style='width: 50px;'>FD ID</th>
 				<th>Filename</th>
 				<th style='width: 100px;'>Lookup</th>
-				<th style='width: 215px;'>Versions</th>
+				<th style='width: 160px;'>Versions</th>
 				<th style='width: 50px;'>Type</th>
 				<th style='width: 20px;'>&nbsp;</th><th style='width: 20px;'>&nbsp;</th>
 			</tr>

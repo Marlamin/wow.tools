@@ -32,6 +32,7 @@ function parseBuildName($buildname){
 	$build['full'] = $descexpl[0].".".$buildnum;
 	$build['patch'] = $descexpl[0];
 	$build['build'] = $buildnum;
+	$build['branch'] = $descexpl[1];
 	return $build;
 }
 
@@ -139,7 +140,7 @@ function prettyTitle($queryString){
 	}
 }
 
-function prettyBranch($branch, $pretty = true){
+function prettyBranch($branch, $realPretty = true){
 	switch($branch){
 		case "wow":
 		$color = "primary";
@@ -183,14 +184,19 @@ function prettyBranch($branch, $pretty = true){
 		break;
 		default:
 		$color = "danger";
-		$branch = "unknown";
+		$branch = "unknown (".$branch.")";
 	}
 
-	if($pretty){
+	if($realPretty){
 		return "<span class='badge badge-".$color."'>".$branch."</span>";
 	}else{
 		return $branch;
 	}
+}
+
+function prettyBuild($build){
+	$parsedBuild = parseBuildName($build);
+	return $parsedBuild['full']." (".$parsedBuild['branch'].")";
 }
 
 function parseBPSV($bpsv){

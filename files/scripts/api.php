@@ -360,6 +360,7 @@ while($row = $dataq->fetch()){
 			$subrow['firstseen'] = $row['firstseen'];
 		}
 
+		$subrow['description'] = prettyBuild($subrow['description']);
 		$versions[] = $subrow;
 	}
 
