@@ -105,7 +105,7 @@ if($embed){
 			<div class="modal-body">
 				<form id='settingsForm'>
 					<input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show FPS</label><br>
-					<input type='checkbox' id='retailOnly' name='settings[retailOnly]'> <label for='retailOnly'>Only use current retail version (fastest, limits to current retail build)</label><br>
+					<input type='checkbox' id='retailOnly' name='settings[retailOnly]'> <label for='retailOnly'>Use static files (fastest, limited to current retail build)</label><br>
 					<input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label>
 				</form>
 			</div>
