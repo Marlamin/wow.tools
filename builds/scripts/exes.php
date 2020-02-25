@@ -20,6 +20,7 @@ while($row = $res->fetch()){
 	if($row['bdid'] > 1315){
 		if($row['product'] == "wow") $target = "Wow.exe";
 		if($row['product'] == "wow_classic") $target = "WowClassic.exe";
+		if($row['product'] == "wow_classic_ptr") $target = "WowClassicT.exe";
 		if($row['product'] == "wowt") $target = "WowT.exe";
 		if($row['product'] == "wow_beta" || $row['product'] == "wowz" || $row['product'] == "wow_classic_beta") $target = "WowB.exe";
 	}else{
