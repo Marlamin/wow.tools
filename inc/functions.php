@@ -452,10 +452,6 @@ function telegramSendMessage ($text)
 {
 	global $telegram;
 
-	return telegramRequest ( "sendMessage"
-		, array ( "chat_id" => $telegram["chat_id"]
-			, "text" => $text
-		)
-	);
+	return telegramRequest ( "sendMessage", array ( "chat_id" => $telegram["chat_id"], "text" => $text, "disable_web_page_preview" => true)	);
 }
 ?>
