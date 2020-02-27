@@ -105,6 +105,9 @@ function getGroupInfo($group){
 		case 26:
 		$groupInfo['project'] = "Arena Tournament";
 		break;
+		case 40:
+		$groupInfo['project'] = "Classic PTR";
+		break;
 		case 41:
 		case 42:
 		case 43:
@@ -116,7 +119,10 @@ function getGroupInfo($group){
 		$groupInfo['project'] = "Public Test Realm";
 		break;
 		case 60:
-		$groupInfo['project'] = "Alpha";
+		$groupInfo['project'] = "8.x Alpha/Beta";
+		break;
+		case 65:
+		$groupInfo['project'] = "9.x (Take-home employee-only?) Alpha";
 		break;
 		case 71:
 		case 72:
