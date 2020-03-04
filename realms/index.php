@@ -154,6 +154,9 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 ?>
 <div class="container-fluid">
 	<p>Realm status for every known US/EU/TEST realm, updated every 5 minutes. Basic realm status is not retrieved from the Official API allowing for more realms (including PTR/Beta) to be listed as well. Still WIP, some values (such as population) might not be up to date.</p>
+	<div class='alert alert-warning'><h4>Shadowlands Alpha realm status</h4>
+		It appears Blizzard fixed WoW.tools being able to monitor the Shadowlands Alpha realm so it will appear as <?=getStatus(0)?> for now. Until Alpha/Beta flagging starts up, shown status will be wrong.
+	</div>
 	<?php
 	?>
 	<ul class="nav nav-pills" role="tablist">
