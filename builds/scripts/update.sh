@@ -20,6 +20,7 @@ php process.php versions
 echo "Processing buildconfigs (long)"
 php process.php buildconfiglong
 php updateRoot.php
+php updateRootFileMap.php
 cd /home/wow/buildbackup/
 /usr/bin/dotnet BuildBackup.dll
 cd /var/www/wow.tools/builds/scripts/
