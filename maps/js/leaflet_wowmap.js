@@ -588,6 +588,12 @@
 	}
 
 	function ProcessOffsetClick(e, offset){
+		if(Versions[Current.Map][Current.Version].config.offset.min.x == -1 || Versions[Current.Map][Current.Version].config.offset.min.y == -1){
+			document.getElementById("clickedCoord").textContent = "Not supported on map";
+			document.getElementById("clickedADT").textContent = "Not supported on map";
+			return;
+		}
+
 		var layerPoint = LeafletMap.project(e.latlng, Versions[ Current.Map ][ Current.Version ].config.maxzoom).floor();
 
 		var build = Versions[Current.Map][Current.Version].build;

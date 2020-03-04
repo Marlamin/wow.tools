@@ -7,8 +7,8 @@ function getConfigByMapVersion($mapid, $versionid){
 
 	$q = $pdo->prepare("SELECT resx, resy, zoom, minzoom, maxzoom, offsetx, offsety FROM wow_maps_config WHERE mapid = ? AND versionid = ? AND resx != 0");
 	$q->execute([$mapid, $versionid]);
-
 	$config = $q->fetch(PDO::FETCH_ASSOC);
+
 	if(empty($config)){
 		$config = [];
 		$config['resx'] = 0;
@@ -16,8 +16,8 @@ function getConfigByMapVersion($mapid, $versionid){
 		$config['zoom'] = 4;
 		$config['minzoom'] = 4;
 		$config['maxzoom'] = 7;
-		$config['offset']['min']['y'] = 63;
-		$config['offset']['min']['x'] = 63;
+		$config['offsety'] = -1;
+		$config['offsetx'] = -1;
 		$config['fallback'] = true;
 	}
 
@@ -56,8 +56,8 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 			$mapversion['config']['offset']['min']['y'] = (int) $mapversion['config']['offsety'];
 			$mapversion['config']['offset']['min']['x'] = (int) $mapversion['config']['offsetx'];
 		}else{
-			$mapversion['config']['offset']['min']['y'] = 63;
-			$mapversion['config']['offset']['min']['x'] = 63;
+			$mapversion['config']['offset']['min']['y'] = -1;
+			$mapversion['config']['offset']['min']['x'] = -1;
 		}
 
 		/* Unship data not used in JSON! */
