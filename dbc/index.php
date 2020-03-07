@@ -27,6 +27,21 @@ foreach($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc){
 	if(!empty($_GET['dbc']) && $_GET['dbc'] == $dbc['name']) $currentDB = $dbc;
 }
 
+$locales = [
+	["name" => "Korean", "value" => "koKR"],
+	["name" => "French", "value" => "frFR"],
+	["name" => "German", "value" => "deDE"],
+	["name" => "Simplified Chinese", "value" => "zhCN"],
+	["name" => "Spanish", "value" => "esES"],
+	["name" => "Taiwanese Mandarin", "value" => "zhTW"],
+	["name" => "English", "value" => "enGB"],
+	["name" => "Mexican Spanish", "value" => "esMX"],
+	["name" => "Russian", "value" => "ruRU"],
+	["name" => "Brazilian Portugese", "value" => "ptBR"],
+	["name" => "Italian", "value" => "itIT"],
+	["name" => "Portugese", "value" => "ptPT"],
+];
+
 $dbFound = false;
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
@@ -51,6 +66,12 @@ $dbFound = false;
 					<?php
 				}
 				?>
+			</select>
+			<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
+				<option value='' <? if(empty($_GET['locale']) || $_GET['locale'] == ""){ echo " SELECTED"; }?>>enUS (Default)</option>
+				<?php foreach($locales as $locale){ ?>
+					<option value='<?=$locale['value']?>' <? if(!empty($_GET['locale']) && $_GET['locale'] == $locale['value']){ echo " SELECTED"; }?>><?=$locale['name']?></option>
+				<?php } ?>
 			</select>
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>WARNING</b><br> Due to automated constant DBC exports by some users, this functionality has been heavily rate-limited.'><i class='fa fa-download'></i> CSV</a>
@@ -199,11 +220,18 @@ $dbFound = false;
 		let idHeader = 0;
 		let cleanDBC;
 		let cleanBuild;
+		let cleanLocale;
 
 		if(vars["dbc"] == null){
 			cleanDBC = "";
 		}else{
 			cleanDBC = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
+		}
+
+		if(vars["locale"] == null){
+			cleanLocale = "";
+		}else{
+			cleanLocale = vars["locale"];
 		}
 
 		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
@@ -222,8 +250,23 @@ $dbFound = false;
 
 		$('#buildFilter').on('change', function(){
 			cleanBuild = $('#buildFilter').val();
-			document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
+			if(cleanLocale != ""){
+				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
+			}else{
+				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
+			}
 			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
+		});
+
+		$('#localeSelection').on('change', function(){
+			cleanLocale = $('#localeSelection').val();
+			if(cleanLocale != ""){
+				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
+				document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
+			}else{
+				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
+				document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
+			}
 		});
 
 		if(!cleanDBC || !cleanBuild){
@@ -231,11 +274,22 @@ $dbFound = false;
 			return;
 		}
 
-		document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
+		if(cleanLocale != ""){
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
+		}else{
+			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
+		}
+
 		$("#loadingMessage").html("Loading..");
 
+		let apiArgs = cleanDBC + "/?build=" + cleanBuild;
+
+		if(cleanLocale != ""){
+			 apiArgs += "&locale=" + cleanLocale;
+		}
+
 		$.ajax({
-			"url": "/dbc/api/header/" + cleanDBC + "/?build=" + cleanBuild,
+			"url": "/dbc/api/header/" + apiArgs,
 			"success": function(json) {
 				if(json['error'] != null){
 					if(json['error'] == "No valid definition found for this layouthash or build!"){
@@ -273,7 +327,7 @@ $dbFound = false;
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/dbc/api/data/" + cleanDBC + "/?build=" + cleanBuild,
+						"url": "/dbc/api/data/" + apiArgs,
 						"type": "POST",
 						"data": function( result ) {
 							return result;
@@ -323,7 +377,11 @@ $dbFound = false;
 				$('#dbtable').on( 'draw.dt', function () {
 					const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
 					const currentPage = $('#dbtable').DataTable().page() + 1;
-					window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild);
+					if(cleanLocale != ""){
+						window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale);
+					}else{
+						window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild);
+					}
 					window.location.hash = "search=" + currentSearch + "&page=" + currentPage;
 					$("[data-toggle=popover]").popover();
 				});
