@@ -31,7 +31,35 @@ const mapTypes = {
 	5: 'Scenario',
 }
 
+const itemBonusTypes = {
+	0: 'Unk',
+	1: 'ItemLevel',
+	2: 'StatModifier',
+	3: 'Unk',
+	4: 'ItemTitleModifier',
+	5: 'ItemNameModifier',
+	6: 'Socket',
+	7: 'Unk',
+	8: 'Unk',
+	9: 'Unk',
+	10: 'Unk',
+	11: 'Unk',
+	12: 'Unk',
+	13: 'Unk',
+	14: 'ItemLevel2',
+	15: 'Unk',
+	16: 'Unk',
+	17: 'Unk',
+	18: 'Level',
+	19: 'AzeriteTierUnlockSetID',
+	20: 'Unk',
+	21: 'Unk',
+	22: 'Unused22',
+	23: 'ItemEffectID',
+}
+
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);
 enumMap.set("playercondition.MinReputation[0]", reputationLevels);
+enumMap.set("itembonus.Type", itemBonusTypes);
