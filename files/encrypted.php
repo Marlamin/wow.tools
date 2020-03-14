@@ -145,9 +145,5 @@ foreach($pdo->query("SELECT * FROM wow_tactkey WHERE id > 120 ORDER BY id DESC")
 echo "<p>Older keys than key ID 120 are hidden for performance reasons.</p>";
 echo "</div>";
 ?>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/input.js" crossorigin="anonymous"></script>
 <script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>" crossorigin="anonymous"></script>
 <?php require_once("../inc/footer.php"); ?>
