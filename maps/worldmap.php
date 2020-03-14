@@ -33,11 +33,12 @@ require_once("../inc/header.php");
 	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
-	var build = "8.3.0.33115";
+	var build = "8.3.0.33528";
 
+	/* Required DBs */
 	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
-	const promises = dbsToLoad.map(db => loadDatabase(db, build));
-	const finalPromise = Promise.all(promises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
+	const dbPromises = dbsToLoad.map(db => loadDatabase(db, build));
+	Promise.all(dbPromises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
 
 	var uiMap = {};
 	var uiMapXMapArt = {};
@@ -47,8 +48,15 @@ require_once("../inc/header.php");
 	var uiMapArt = {};
 	var uiMapArtStyleLayer = {};
 
+	/* Secondary DBs */
+	// const secondaryDBsToLoad = ["questpoiblob", "questpoipoint"];
+	// const secondaryDBPromises = secondaryDBsToLoad.map(db => loadDatabase(db, build));
+	// Promise.all(secondaryDBPromises).then(loadedDBs => secondaryDatabasesAreLoadedNow(loadedDBs));
+
+	// var questPOIBlob = {};
+	// var questPOIPoint = {};
+
 	function databasesAreLoadedNow(loadedDBs){
-		console.log("Loaded DBs", loadedDBs);
 		uiMap = loadedDBs[0];
 		uiMapXMapArt = loadedDBs[1];
 		uiMapArtTile = loadedDBs[2];
@@ -68,6 +76,11 @@ require_once("../inc/header.php");
 		}
 	}
 
+	function secondaryDatabasesAreLoadedNow(loadedDBs){
+		questPOIBlob = loadedDBs[0];
+		questPOIPoint = loadedDBs[1];
+	}
+
 	function loadDatabase(database, build){
 		console.log("Loading database " + database + " for build " + build);
 		const header = loadHeaders(database, build);
@@ -82,7 +95,7 @@ require_once("../inc/header.php");
 
 	function loadData(database, build){
 		console.log("Loading " + database + " data for build " + build);
-		return $.post("https://wow.tools/dbc/api/data/" + database + "/?build=" + build, { draw: 1, start: 0, length: 50000});
+		return $.post("https://wow.tools/dbc/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
 	}
 
 	async function mapEntries(database, header, data){
@@ -212,7 +225,7 @@ require_once("../inc/header.php");
 	}
 
 	function updateURL(){
-		var uiMapID =  $("#mapSelect").val();
+		const uiMapID =  $("#mapSelect").val();
 		if(uiMapID in uiMap){
 			var title = "WoW.tools | Map Browser | " + uiMap[uiMapID].Name_lang;
 		}else{
@@ -225,6 +238,28 @@ require_once("../inc/header.php");
 
 		document.title = title;
 	}
+
+	// function renderQuestBlob(){
+	// 	const uiMapID =  $("#mapSelect").val();
+	// 	const results = questPOIBlob.filter(row => row && row.UiMapID == uiMapID && row.NumPoints > 1);
+
+	// 	const canvas = document.getElementById('mapCanvas');
+	// 	const ctx = canvas.getContext('2d');
+
+	// 	results.forEach(function(result){
+	// 		console.log(result);
+	// 		const pointResults = questPOIPoint.filter(row => row && row.QuestPOIBlobID == result.ID);
+
+	// 		ctx.beginPath();
+	// 		pointResults.forEach(function(pointResult){
+	// 			const x = (parseInt(pointResult.X) + 10000) + canvas.width / 2;
+	// 			const y = (parseInt(pointResult.Y) + 0) + canvas.height / 2z;
+	// 			console.log("Drawing line between " + pointResult.X + " (" + x + ") and " + y);
+	// 			ctx.lineTo(x, y);
+	// 		});
+	// 		ctx.fill();
+	// 	});
+	// }
 
 	$('#mapSelect').on( 'change', function () {
 		renderMap(this.value);
