@@ -15,7 +15,7 @@ foreach($files as $file) {
 	if(in_array($md5, $processedMD5s))
 		continue;
 
-	echo $file."\n";
+	echo "[Hotfix updater] Reading " . $file . "\n";
 	$output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
 	$json = json_decode($output, true);
 
@@ -30,7 +30,7 @@ foreach($files as $file) {
 
 		$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
 		if($insertQ->rowCount() == 1){
-			echo "Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
+			echo "[Hotfix updater] Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
 
 			if(!array_key_exists($entry['pushID'], $messages)){
 				$messages[$entry['pushID']] = "Push ID " . $entry['pushID'] . " for build " . $json['build']."\n";
