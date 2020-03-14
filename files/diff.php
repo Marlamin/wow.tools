@@ -119,21 +119,19 @@ if($type == "blp"){
     $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'] . "&raw=" . $_GET['raw'];
 
     ?>
-    <link rel="stylesheet" type="text/css" href="/css/diff2html.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/diff2html-ui.min.js"></script>
-    <script type="text/javascript" src="/js/diff2html.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
             if(localStorage.getItem('theme') == "dark"){
                 $('#previewModalContent').append('<link rel="stylesheet" type="text/css" href="/css/diff2html-dark.css?v= ' + Date.now() +'">');
             }
             $.get("<?= $diff_api_url ?>", function(data) {
-                var diffHtml = Diff2Html.getPrettyHtml(
+                var diffHtml = Diff2Html.html(
                     data, {
                         inputFormat: 'diff',
-                        showFiles: false,
+                        drawFileList: false,
                         matching: 'lines',
                         outputFormat: 'side-by-side'
                     }

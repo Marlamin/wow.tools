@@ -126,21 +126,16 @@ unlink($fromFile);
 unlink($toFile);
 ?>
 
-<link rel="stylesheet" type="text/css" href="/css/diff2html.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/js/diff2html-ui.min.js"></script>
-<script type="text/javascript" src="/js/diff2html.min.js"></script>
-
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         if(localStorage.getItem('theme') == "dark"){
             $('#previewModalContent').append('<link rel="stylesheet" type="text/css" href="/css/diff2html-dark.css?v= ' + Date.now() +'">');
         }
 
-        var diffHtml = Diff2Html.getPrettyHtml(
+        var diffHtml = Diff2Html.html(
             document.getElementById("rawdiff").innerHTML, {
                 inputFormat: 'diff',
-                showFiles: false,
+                drawFileList: false,
                 matching: 'lines',
                 outputFormat: 'side-by-side'
             }
@@ -150,18 +145,16 @@ unlink($toFile);
 </script>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="sbs-tab" data-toggle="tab" href="#sbs" role="tab" aria-controls="sbs" aria-selected="true">Side-by-Side</a>
+            <a class="nav-link active" id="sbs-tab" data-toggle="tab" href="#sbs" role="tab" aria-controls="sbs" aria-selected="true">Side-by-Side diff</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="parsed-tab" data-toggle="tab" href="#parsed" role="tab" aria-controls="parsed" aria-selected="false">Diff</a>
+            <a class="nav-link" id="parsed-tab" data-toggle="tab" href="#parsed" role="tab" aria-controls="parsed" aria-selected="false">Parsed diff</a>
         </li>
     </ul>
-    <div class="tab-content" style='width: 100%'>
+    <div class="tab-content">
         <div class="tab-pane show active" id="sbs" role="tabpanel" aria-labelledby="sbs-tab">
-            <div class='row'>
                 <div id='rawdiff' style='display: none'><?=$diff?></div>
                 <div id='diff' style='width: 100%;'>Generating diff..</div>
-            </div>
         </div>
         <div class="tab-pane" id="parsed" role="tabpanel" aria-labelledby="parsed-tab">
                <div id="jsondiff">
@@ -187,11 +180,9 @@ unlink($toFile);
                                     $color = 'danger';
                                 break;
                             }
-                            
                             echo "<tr><td class='text-" . $color . "'><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$parsedDiff->OldValue."</td><td>".$parsedDiff->NewValue."</td><td></td></tr>";
                         }
                     }
-                   
                     ?>
             </table>
         </div>

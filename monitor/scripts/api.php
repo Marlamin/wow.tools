@@ -31,7 +31,7 @@ function buildURL($product, $type, $value){
 			}else if($type == "data"){
 				return $cdn.$cdndir."/data/".$value[0].$value[1]."/".$value[2].$value[3]."/".$value;
 			}else if($type == "tpr/configs/data"){
-				return $cdn."/".$type."/".$value[0].$value[1]."/".$value[2].$value[3]."/".$value;
+				return $cdn.$type."/".$value[0].$value[1]."/".$value[2].$value[3]."/".$value;
 			}
 		}
 	}
