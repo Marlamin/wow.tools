@@ -310,7 +310,7 @@ $dbFound = false;
 				$("#tableContainer").empty();
 				$("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
 
-				const searchHash = location.hash.substr(1),
+				let searchHash = location.hash.substr(1),
 				searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
 
 				if(searchString != undefined && searchString.length > 0){
