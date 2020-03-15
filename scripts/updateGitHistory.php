@@ -24,6 +24,6 @@ if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcach
 	}
 
 	usort($commits, "compareTimestamp");
-	$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 10)));
+	$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 14)));
 	$memcached->set("github.commits.lastupdated", strtotime("now"));
 }
