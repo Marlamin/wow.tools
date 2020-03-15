@@ -4,44 +4,23 @@ require_once(__DIR__ . "/../inc/config.php");
 if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcached->get("github.commits.lastupdated")){
 	$commits = [];
 
-	$i = 0;
-	$res = githubRequest("repos/marlamin/wow.tools/commits");
-	foreach($res as $commit){
-		$commits[] = array("repo" => "Website", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-		$i++;
-		if($i > 10) break;
-	}
+	$repos = [
+		["name" => "Website", "url" => "marlamin/wow.tools"],
+		["name" => "File service", "url" => "marlamin/casctoolhost"],
+		["name" => "Database service", "url" => "marlamin/dbcdumphost"],
+		["name" => "Database definitions", "url" => "wowdev/wowdbdefs"],
+		["name" => "Minimap tools", "url" => "marlamin/wowtools.minimaps"],
+		["name" => "API", "url" => "marlamin/wow.tools.api"]
+	];
 
-	$i = 0;
-	$res = githubRequest("repos/marlamin/casctoolhost/commits");
-	foreach($res as $commit){
-		$commits[] = array("repo" => "File backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-		$i++;
-		if($i > 10) break;
-	}
-
-	$i = 0;
-	$res = githubRequest("repos/marlamin/dbcdumphost/commits");
-	foreach($res as $commit){
-		$commits[] = array("repo" => "DBC backend","message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-		$i++;
-		if($i > 10) break;
-	}
-
-	$i = 0;
-	$res = githubRequest("repos/wowdev/wowdbdefs/commits");
-	foreach($res as $commit){
-		$commits[] = array("repo" => "DBC definitions", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-		$i++;
-		if($i > 10) break;
-	}
-
-	$i = 0;
-	$res = githubRequest("repos/marlamin/wowtools.minimaps/commits");
-	foreach($res as $commit){
-		$commits[] = array("repo" => "Minimap backend", "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
-		$i++;
-		if($i > 10) break;
+	foreach($repos as $repo){
+		$i = 0;
+		$res = githubRequest("repos/".$repo['url']."/commits");
+		foreach($res as $commit){
+			$commits[] = array("repo" => $repo['name'], "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+			$i++;
+			if($i > 10) break;
+		}
 	}
 
 	usort($commits, "compareTimestamp");
