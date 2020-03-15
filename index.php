@@ -17,7 +17,7 @@
 
 				$commits = json_decode($memcached->get("github.commits.json"));
 				foreach($commits as $commit){
-					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td><span class='text-muted'>By <b>".$commit->author."</b> on <b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
+					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td><span class='text-muted'><b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
 				}
 			?>
 			</table>
