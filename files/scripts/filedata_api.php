@@ -89,7 +89,7 @@ if(!empty($_GET['filedataid'])){
 	}
 	echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
 	echo "<tr><td colspan='2'>
-	<table class='table table-condensed'>";
+	<table class='table table-sm'>";
 	echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th><th>&nbsp;</th></tr>";
 	foreach($versions as $version){
 		echo "<tr><td>".$version['description']."</td><td class='hash'>".$version['buildconfig']."</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"".$version['contenthash']."\")'>".$version['contenthash']."</a></td><td>".humanBytes($version['size'])." (".$version['size']." bytes)</td>";
@@ -105,7 +105,7 @@ if(!empty($_GET['filedataid'])){
 	$nbq->execute();
 
 	echo "<tr><td colspan='2'>
-	<table class='table table-condensed'>";
+	<table class='table table-sm'>";
 	echo "<tr><th>ID</th><th>Filename</th></tr>";
 	while ($nbrow = $nbq->fetch()){
 		echo "<tr>";
@@ -127,7 +127,7 @@ if(!empty($_GET['filedataid'])){
 	if(count($parents) > 0){
 		echo "<tr><td colspan='2'><b>Linked parent files</b></td></tr>";
 		echo "<tr><td colspan='2'>
-		<table class='table table-condensed'>";
+		<table class='table'>";
 		echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th></tr>";
 		foreach ($parents as $lrow){
 			echo "<tr>";
@@ -149,7 +149,7 @@ if(!empty($_GET['filedataid'])){
 	if(count($children) > 0){
 		echo "<tr><td colspan='2'><b>Linked child files</b></td></tr>";
 		echo "<tr><td colspan='2'>
-		<table class='table table-condensed'>";
+		<table class='table'>";
 		echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th><th>&nbsp;</th></tr>";
 		foreach ($children as $lrow){
 			echo "<tr>";
@@ -161,7 +161,7 @@ if(!empty($_GET['filedataid'])){
 				// select newest bc for this file, TODO: most recent one instead of random one
 				$bhashq->execute([$lrow['child']]);
 				$buildhashforchildres = $bhashq->fetch();
-				if(!empty($buildhashforchild)){
+				if(!empty($buildhashforchildres)){
 					$buildhashforchild = $buildhashforchildres['hash'];
 				}else{
 					$buildhashforchild = $versions[0]['buildconfig'];
@@ -205,7 +205,7 @@ if(!empty($_GET['contenthash'])){
 	$chashes = $chashq->fetchAll();
 
 	echo count($chashes)." results for this contenthash!";
-	echo "<table class='table table-condensed' id='chashtable'>";
+	echo "<table class='table' id='chashtable'>";
 	foreach($chashes as $chashrow){
 		echo "<tr><td style='width: 85px;'>".$chashrow['filedataid']."</td><td>".$chashrow['filename']."</td></tr>";
 	}
