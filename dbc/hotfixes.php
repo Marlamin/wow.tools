@@ -112,8 +112,8 @@ require_once(__DIR__ . "/../inc/header.php");
 	}
 
 	function showRowDiff(dbc, build, recordID){
-		var beforeReq = fetch("/dbc/api/peek/" + dbc.toLowerCase() + "?build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
-		var afterReq = fetch("/dbc/api/peek/" + dbc.toLowerCase() + "?build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
+		var beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
+		var afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
 
 		Promise.all([beforeReq, afterReq])
 		.then(json => {

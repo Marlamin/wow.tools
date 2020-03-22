@@ -2,6 +2,40 @@
 require_once(__DIR__ . "/../inc/config.php");
 header('Content-Type: application/json');
 
+function peekDBCRow($name, $build, $col, $val, $useHotfix){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/".$name."?build=".urlencode($build)."&col=".$col."&val=".$val."&useHotfixes=".$useHotfix."&calcOffset=false");
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$data = curl_exec($ch);
+	if(!$data){
+		die("cURL fail: " . print_r(curl_error($ch))."\n");
+	}
+	curl_close($ch);
+	return $data;
+}
+
+if(!empty($_GET['cacheproxy']) && $_GET['cacheproxy'] == 1){
+	if(empty($_GET['dbc']) || empty($_GET['build']) || empty($_GET['col']) || empty($_GET['val']) || empty($_GET['useHotfixes'])){
+		die("Not enough parameters");
+	}
+
+	$cacheName = "hotfix.cache.".$_GET['dbc'].".".$_GET['build'].".".$_GET['col'].".".$_GET['val'].".".$_GET['useHotfixes'];
+	if(!($entry = $memcached->get($cacheName))){
+		$cacheHit = false;
+		$entry = peekDBCRow($_GET['dbc'], $_GET['build'], $_GET['col'], $_GET['val'], $_GET['useHotfixes']);
+		if(!$memcached->set($cacheName, $entry)){
+			die("Failed to set memcache entry: " . $memcached->getResultMessage());
+		}
+	}else{
+		$cacheHit = true;
+	}
+
+	$json = json_decode($entry, true);
+	$json['cacheHit'] = $cacheHit;
+	echo json_encode($json);
+	die();
+}
 $fullbuilds = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $buildsToID = $pdo->query("SELECT build, id FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $tablesToID = $pdo->query("SELECT name, id FROM wow_dbc_tables")->fetchAll(PDO::FETCH_KEY_PAIR);
