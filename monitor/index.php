@@ -25,7 +25,11 @@ while($row = $productq->fetch()){
 <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
 <script src="/files/js/files.js?v=<?=filemtime(__DIR__ . "/../files/js/files.js")?>"></script>
-
+<style type='text/css'>
+#files_paginate{
+	float: right;
+}
+</style>
 <div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -58,15 +62,8 @@ while($row = $productq->fetch()){
 		}
 
 		var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
-
+		var selectedProduct = searchHash.substr(searchHash.indexOf('product=')).split('&')[0].split('=')[1];
 		var products = <?=json_encode($products)?>;
-
-		var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
-
-		if(build != undefined && build.length > 0){
-			$("#fileBuildFilter").val(build);
-			$("#fileBuildFilter").trigger('change');
-		}
 
 		var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
 		var sortDesc = searchHash.substr(searchHash.indexOf('desc=')).split('&')[0].split('=')[1];
@@ -84,7 +81,8 @@ while($row = $productq->fetch()){
 			"processing": true,
 			"serverSide": true,
 			"searching": true,
-			"dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"search": { "search": searchString },
+			"dom": "<'row'<'col-sm-6 col-md-2'l><'col-sm-12 col-md-10'pf>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			"ajax": "scripts/api.php",
 			"pageLength": 5,
 			"displayStart": page * 5,
@@ -93,11 +91,12 @@ while($row = $productq->fetch()){
 			"orderMulti": false,
 			"order": [[sortCol, sortDesc]],
 			"lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+			"searchCols": [null, {"search": selectedProduct ? '/'+selectedProduct+'/' : '', regex: true }, null],
 			initComplete: function () {
 				this.api().columns().every( function (col) {
 					var column = this;
 					if(col == 1){
-						var select = $('<select style="max-width: 100%"><option value="">Product</option></select>')
+						var select = $('<select id="productSelect" style="max-width: 100%"><option value="">Product</option></select>')
 						.appendTo( $(column.header()).empty() )
 						.on( 'change', function () {
 							var val = $.fn.dataTable.util.escapeRegex(
@@ -110,7 +109,11 @@ while($row = $productq->fetch()){
 						} );
 
 						products.forEach(function(product){
-							select.append('<option value="'+ product.product +'">'+product.name+'</option>');
+							if(selectedProduct == product.product){
+								select.append('<option value="'+ product.product +'" SELECTED>'+product.name+'</option>');
+							}else{
+								select.append('<option value="'+ product.product +'">'+product.name+'</option>');
+							}
 						});
 					}
 				} );
@@ -123,5 +126,25 @@ while($row = $productq->fetch()){
 			"language": {"search": ""}
 		});
 	}());
+
+	$('#files').on( 'draw.dt', function () {
+		var currentSearch = encodeURIComponent($("#files_filter label input").val());
+		var currentPage = $('#files').DataTable().page() + 1;
+
+		var sort = $('#files').DataTable().order();
+		var sortCol = sort[0][0];
+		var sortDir = sort[0][1];
+
+		var product = $('#files').DataTable().column(1).search();
+
+		var url = "search=" + currentSearch + "&page=" + currentPage + "&sort=" + sortCol +"&desc=" + sortDir;
+		if(product){
+			url += "&product=" + product.replace('/', '').replace('/', '');
+		}
+
+		window.location.hash = url;
+
+		$("[data-toggle=popover]").popover();
+	});
 </script>
 <?php require_once("../inc/footer.php"); ?>

@@ -42,10 +42,15 @@ if(!isset($_SESSION)){ session_start(); }
 $query = "FROM ngdp_history INNER JOIN ngdp_urls on ngdp_urls.id=ngdp_history.url_id";
 
 if(!empty($_GET['columns'][1]['search']['value'])) {
-	$query .= " WHERE event = 'valuechange' AND ngdp_urls.url LIKE :search";
-	$search = "%".$_GET['columns'][1]['search']['value']."%";
+	$query .= " WHERE event = 'valuechange' AND ngdp_urls.url LIKE :prodSearch";
+	$prodSearch = "%".$_GET['columns'][1]['search']['value']."%";
 }else{
 	$query .= " WHERE event = 'valuechange'";
+}
+
+if(!empty($_GET['search']['value'])){
+	$query .= " AND CONCAT_WS(' ', ngdp_history.oldvalue, ngdp_history.newvalue) LIKE :search";
+	$search = "%". $_GET['search']['value'] . "%";
 }
 
 $orderby = '';
@@ -80,18 +85,21 @@ $length = (int)filter_input( INPUT_GET, 'length', FILTER_SANITIZE_NUMBER_INT );
 $numrowsq = $pdo->prepare("SELECT COUNT(1) " . $query);
 $dataq = $pdo->prepare("SELECT * " . $query . $orderby . " LIMIT " . $start .", " . $length);
 
+if(!empty($prodSearch)){
+	$numrowsq->bindParam(":prodSearch", $prodSearch);
+	$dataq->bindParam(":prodSearch", $prodSearch);
+}
+
 if(!empty($search)){
 	$numrowsq->bindParam(":search", $search);
 	$dataq->bindParam(":search", $search);
 }
-
 $numrowsq->execute();
 $dataq->execute();
 
 $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
 $returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM ngdp_history WHERE event='valuechange'")->fetchColumn();
-
 $returndata['data'] = array();
 
 foreach($dataq->fetchAll() as $row){
