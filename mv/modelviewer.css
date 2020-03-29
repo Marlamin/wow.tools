@@ -111,23 +111,23 @@ html, body{
 }
 
 /* Files table */
-#mvfiles_first{
+/*#mvfiles_first{
     position: absolute;
     left: 15px;
-}
+}*/
 
 #mvfiles_processing{
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 10px;
 }
-
+/*
 #mvfiles_previous{
     position: absolute;
     left: 80px;
-}
+}*/
 
-.paginate_page{
+/*.paginate_page{
     position: absolute;
     left: 180px;
 }
@@ -141,8 +141,8 @@ html, body{
     position: absolute;
     left: 275px;
 }
-
-#mvfiles_next{
+*/
+/*#mvfiles_next{
     position: absolute;
     left: 340px;
 }
@@ -151,7 +151,7 @@ html, body{
     position: absolute;
     left: 410px;
 }
-
+*/
 #mvfiles_filter{
     float: none;
     width: 450px;
