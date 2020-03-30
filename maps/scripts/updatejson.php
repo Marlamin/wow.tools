@@ -52,7 +52,7 @@ foreach($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $ma
 		$mapversion['config']['minzoom'] = (int) $mapversion['config']['minzoom'];
 		$mapversion['config']['maxzoom'] = (int) $mapversion['config']['maxzoom'];
 
-		if(!empty($mapversion['config']['offsety'])){
+		if(isset($mapversion['config']['offsety'])){
 			$mapversion['config']['offset']['min']['y'] = (int) $mapversion['config']['offsety'];
 			$mapversion['config']['offset']['min']['x'] = (int) $mapversion['config']['offsetx'];
 		}else{
