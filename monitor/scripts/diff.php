@@ -159,6 +159,7 @@ unlink($toFile);
         <div class="tab-pane" id="parsed" role="tabpanel" aria-labelledby="parsed-tab">
                <div id="jsondiff">
                 <table class='table table-sm table-striped'>
+                    <thead><tr><th>&nbsp;</th><th>Key</th><th>Before</th><th>After</th></tr></thead>
                     <?php
                     if($parsedDiffs == "Unsupported"){
                         echo $parsedDiffs;

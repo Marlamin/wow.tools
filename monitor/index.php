@@ -110,9 +110,9 @@ while($row = $productq->fetch()){
 
 						products.forEach(function(product){
 							if(selectedProduct == product.product){
-								select.append('<option value="'+ product.product +'" SELECTED>'+product.name+'</option>');
+								select.append('<option value="'+ product.product +'" SELECTED>'+product.name+' ('+product.product+')</option>');
 							}else{
-								select.append('<option value="'+ product.product +'">'+product.name+'</option>');
+								select.append('<option value="'+ product.product +'">'+product.name+' ('+product.product+')</option>');
 							}
 						});
 					}
