@@ -2,10 +2,10 @@
 if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 include(__DIR__ . "/../../inc/config.php");
 $res = $pdo->query("SELECT * FROM missingfiles ORDER BY type, url ASC");
+$cdns[] = "http://blzddist1-a.akamaihd.net/";
 $cdns[] = "http://cdn.blizzard.com/";
 $cdns[] = "http://level3.blizzard.com/";
 $cdns[] = "http://edgecast.blizzard.com/";
-$cdns[] = "http://blzddist1-a.akamaihd.net/";
 $cdns[] = "http://dist.blizzard.com.edgesuite.net/";
 $cdns[] = "http://blizzard.dl.llnw.net/";
 $cdns[] = "http://client01.pdl.wow.battlenet.com.cn/";
