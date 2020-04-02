@@ -119,6 +119,9 @@ $version = $vq->fetch();
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
+<div class='alert alert-warning'>
+	Blizzard removed SoundKit names during 8.3 so soundkits more recent than that will not be available on this page.
+</div>
 	<br>
 	<div id='tableContainer'>
 		<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
