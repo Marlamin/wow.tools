@@ -67,14 +67,22 @@ $dbFound = false;
 				}
 				?>
 			</select>
+
 			<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
 				<option value='' <? if(empty($_GET['locale']) || $_GET['locale'] == ""){ echo " SELECTED"; }?>>enUS (Default)</option>
 				<?php foreach($locales as $locale){ ?>
 					<option value='<?=$locale['value']?>' <? if(!empty($_GET['locale']) && $_GET['locale'] == $locale['value']){ echo " SELECTED"; }?>><?=$locale['name']?></option>
 				<?php } ?>
 			</select>
+
+
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>WARNING</b><br> Due to automated constant DBC exports by some users, this functionality has been heavily rate-limited.'><i class='fa fa-download'></i> CSV</a>
+
+			<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
+				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?
+			</label>
+
 		</form><br>
 	<?php } ?>
 		<div id='tableContainer'><br>
@@ -205,84 +213,110 @@ $dbFound = false;
 		}
 	}
 
+	function buildURL(currentParams){
+		let url = "https://wow.tools/dbc/";
+
+		if(currentParams["dbc"]){
+			url += "?dbc=" + currentParams["dbc"];
+		}
+
+		if(currentParams["build"]){
+			url += "&build=" + currentParams["build"];
+		}
+
+		if(currentParams["locale"]){
+			url += "&locale=" + currentParams["locale"];
+		}
+
+		if(currentParams["hotfixes"]){
+			url += "&hotfixes=" + currentParams["hotfixes"];
+		}
+
+		return url;
+	}
+
 	(function() {
 		$('#fileFilter').select2();
 		let vars = {};
 		let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-			vars[key] = value;
+			if(value.includes('#')){
+				const splitString = value.split('#');
+				vars[key] = splitString[0];
+			}else{
+				vars[key] = value;
+			}
 		});
 
-		let tableHeaders = "";
-		let idHeader = 0;
-		let cleanDBC;
-		let cleanBuild;
-		let cleanLocale;
+		let currentParams = [];
 
 		if(vars["dbc"] == null){
-			cleanDBC = "";
+			currentParams["dbc"] = "";
 		}else{
-			cleanDBC = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
+			currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
 		}
 
 		if(vars["locale"] == null){
-			cleanLocale = "";
+			currentParams["locale"] = "";
 		}else{
-			cleanLocale = vars["locale"];
+			currentParams["locale"] = vars["locale"];
 		}
 
 		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
-			cleanBuild = $('#buildFilter').val();
+			currentParams["build"] = $('#buildFilter').val();
+		}
+
+		currentParams["hotfixes"] = false;
+		if(vars["hotfixes"] == "true"){
+			currentParams["hotfixes"] = true;
 		}
 
 		$('#fileFilter').on( 'change', function () {
 			if($(this).val() != ""){
-				if(cleanBuild != undefined){
-					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val() + "&build=" + cleanBuild;
-				}else{
-					document.location = "https://wow.tools/dbc/?dbc=" + $(this).val();
-				}
+				currentParams["dbc"] = $(this).val();
+				document.location = buildURL(currentParams);
 			}
 		});
 
 		$('#buildFilter').on('change', function(){
-			cleanBuild = $('#buildFilter').val();
-			if(cleanLocale != ""){
-				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
-			}else{
-				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
-			}
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
+			currentParams["build"] = $('#buildFilter').val();
+			document.location = buildURL(currentParams);
 		});
 
 		$('#localeSelection').on('change', function(){
-			cleanLocale = $('#localeSelection').val();
-			if(cleanLocale != ""){
-				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
-				document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
-			}else{
-				document.location = "https://wow.tools/dbc/?dbc=" + cleanDBC + "&build=" + cleanBuild;
-				document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
-			}
+			currentParams["locale"] = $('#localeSelection').val();
+			document.location = buildURL(currentParams);
 		});
 
-		if(!cleanDBC || !cleanBuild){
+		$('#hotfixToggle').on('change', function(){
+			if(document.getElementById('hotfixToggle').checked){
+				currentParams["hotfixes"] = true;
+			}else{
+				currentParams["hotfixes"] = false;
+			}
+			document.location = buildURL(currentParams);
+		});
+
+		if(!currentParams["dbc"] || !currentParams["build"]){
 			// Don't bother doing anything else if no DBC is selected
 			return;
 		}
 
-		if(cleanLocale != ""){
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale;
-		}else{
-			document.getElementById('downloadCSVButton').href = "https://wow.tools/dbc/api/export/?name=" + cleanDBC + "&build=" + cleanBuild;
-		}
+		document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
 
 		$("#loadingMessage").html("Loading..");
 
-		let apiArgs = cleanDBC + "/?build=" + cleanBuild;
+		let apiArgs = currentParams["dbc"] + "/?build=" + currentParams["build"];
 
-		if(cleanLocale != ""){
-			 apiArgs += "&locale=" + cleanLocale;
+		if(currentParams["locale"] != ""){
+			 apiArgs += "&locale=" + currentParams["locale"];
 		}
+
+		if(currentParams["hotfixes"]){
+			apiArgs += "&useHotfixes=true";
+		}
+
+		let tableHeaders = "";
+		let idHeader = 0;
 
 		$.ajax({
 			"url": "/dbc/api/header/" + apiArgs,
@@ -346,14 +380,14 @@ $dbFound = false;
 							if(meta.col in fkCols){
 								if(fkCols[meta.col] == "FileData::ID"){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
-								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(cleanBuild[0]) > 6){
+								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\",\"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}
-							}else if(flagMap.has(cleanDBC + '.' + json["headers"][meta.col])){
-								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(cleanDBC, json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
-							}else if(enumMap.has(cleanDBC + '.' + json["headers"][meta.col])){
+							}else if(flagMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col]).join(", ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
+							}else if(enumMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
 								returnVar = full[meta.col] + " <i>(" + getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]) + ")</i>";
 							}else{
 								returnVar = full[meta.col];
@@ -371,14 +405,18 @@ $dbFound = false;
 				});
 
 				$('#dbtable').on( 'draw.dt', function () {
+					window.history.pushState('dbc', 'WoW.Tools | Database browser', buildURL(currentParams));
+
+					let currentPage = $('#dbtable').DataTable().page() + 1;
+					let hashPart = "page=" + currentPage;
+
 					const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
-					const currentPage = $('#dbtable').DataTable().page() + 1;
-					if(cleanLocale != ""){
-						window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild + "&locale=" + cleanLocale);
-					}else{
-						window.history.pushState('dbc', 'WoW.Tools | Database browser', "?dbc=" + cleanDBC + "&build=" + cleanBuild);
+					if(currentSearch != ""){
+						hashPart += "&search=" + currentSearch;
 					}
-					window.location.hash = "search=" + currentSearch + "&page=" + currentPage;
+
+					window.location.hash = hashPart;
+
 					$("[data-toggle=popover]").popover();
 				});
 
