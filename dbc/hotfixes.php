@@ -56,6 +56,24 @@ require_once(__DIR__ . "/../inc/header.php");
 <script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script src="https://wow.tools/js/diff_match_patch.js"></script>
 <script type='text/javascript'>
+	let vars = {};
+	let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		if(value.includes('#')){
+			const splitString = value.split('#');
+			vars[key] = splitString[0];
+		}else{
+			vars[key] = value;
+		}
+	});
+
+	let currentParams = [];
+
+	if(vars["search"] == null){
+		currentParams["search"] = "";
+	}else{
+		currentParams["search"] = vars["search"];
+	}
+
 	var table = $('#hotfixTable').DataTable({
 		"processing": true,
 		"serverSide": true,
@@ -70,7 +88,7 @@ require_once(__DIR__ . "/../inc/header.php");
 		"ordering": false,
 		"searching": true,
 		"language": { "search": "Search: _INPUT_ " },
-		"search": { "search": "" },
+		"search": { "search": currentParams["search"] },
 		"columnDefs": [
 		{
 			"targets": 2,
