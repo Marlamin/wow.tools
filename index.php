@@ -58,14 +58,24 @@
 			</table>
 		</div>
 		<div class='col-md-4'>
+			<h4>Latest detected hotfixes</h4>
+			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<thead><tr><th>Tables</th><th>Record count</th><th>Push ID</th><th>Detected on</th></tr></thead>
+			<?php
+			$hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
+			foreach($hotfixes as $hotfix){
+				echo "<tr><td>".implode('<br>', explode(',', $hotfix['tables']))."</td><td>".$hotfix['rowCount']."</td><td>".$hotfix['pushID']."</td><td>".$hotfix['firstdetected']."</td></tr>";
+			}
+			?>
+			</table>
 			<h4>Latest filename additions</h4>
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Amount</th><th>User</th><th>Submitted on</th><th>Status</th></tr></thead>
 			<?php
-			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,15")->fetchAll();
+			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
 			$i = 0;
 			foreach($suggestions as $row){
-				if($i > 13)
+				if($i > 5)
 					continue;
 
 				echo "<tr><td>".$row['count']." files</td><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitday']."</td><td>".$row['status']."</td></tr>";
@@ -73,7 +83,7 @@
 				$i++;
 			}
 			?>
-		</table>
+			</table>
 		</div>
 	</div>
 </div>
