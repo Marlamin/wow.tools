@@ -66,12 +66,17 @@ $returndata['recordsFiltered'] = $returndata['recordsTotal'];
 if(empty($_GET['search']['value'])){
 	$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
 }else{
-	$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
-	$dataq->bindValue(":pushID", "%".$_GET['search']['value']."%");
-	$dataq->bindValue(":recordID", "%".$_GET['search']['value']."%");
-	$dataq->bindValue(":tableName", "%".$_GET['search']['value']."%");
-	$dataq->bindValue(":build", "%".$_GET['search']['value']."%");
-	$dataq->bindValue(":firstDetected", "%".$_GET['search']['value']."%");
+	if(substr($_GET['search']['value'], 0, 7) == "pushid:"){
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
+		$dataq->bindValue(":pushID", str_replace("pushid:", "", $_GET['search']['value']));
+	}else{
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
+		$dataq->bindValue(":pushID", "%".$_GET['search']['value']."%");
+		$dataq->bindValue(":recordID", "%".$_GET['search']['value']."%");
+		$dataq->bindValue(":tableName", "%".$_GET['search']['value']."%");
+		$dataq->bindValue(":build", "%".$_GET['search']['value']."%");
+		$dataq->bindValue(":firstDetected", "%".$_GET['search']['value']."%");
+	}
 }
 $dataq->execute();
 
