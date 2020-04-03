@@ -19,11 +19,11 @@ if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcach
 		foreach($res as $commit){
 			$commits[] = array("repo" => $repo['name'], "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
 			$i++;
-			if($i > 10) break;
+			if($i > 7) break;
 		}
 	}
 
 	usort($commits, "compareTimestamp");
-	$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 14)));
+	$memcached->set("github.commits.json", json_encode(array_slice($commits, 0, 10)));
 	$memcached->set("github.commits.lastupdated", strtotime("now"));
 }
