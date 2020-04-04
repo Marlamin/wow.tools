@@ -30,18 +30,30 @@ function openFKModal(value, location, build){
 	wowDBMap.set("item", "https://www.wowdb.com/items/");
 	wowDBMap.set("itemsparse", "https://www.wowdb.com/items/");
 	wowDBMap.set("questv2", "https://www.wowdb.com/quests/");
+	wowDBMap.set("creature", "https://www.wowdb.com/npcs/");
 
 	const wowheadMap = new Map();
 	wowheadMap.set("spell", "https://www.wowhead.com/spell=");
 	wowheadMap.set("item", "https://www.wowhead.com/item=");
 	wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
 	wowheadMap.set("questv2", "https://www.wowhead.com/quest=");
+	wowheadMap.set("creature", "https://www.wowhead.com/npc=");
 
 	const splitLocation = location.split("::");
 	const db = splitLocation[0].toLowerCase();
 	const col = splitLocation[1];
 
-	$("#fkModalContent").html("<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
+	$("#fkModalContent").html("<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br>");
+
+	if(wowDBMap.has(db)){
+		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on WoWDB</a>");
+	}
+
+	if(wowheadMap.has(db)){
+		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>");
+	}
+
+	$("#fkModalContent").append("<table id='fktable' class='table table-condensed table-striped'>");
 
 	$.ajax({
 		"url": "/dbc/api/header/" + db + "?build=" + build,
@@ -87,14 +99,6 @@ function openFKModal(value, location, build){
 	}).fail(function() {
 		$("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
 	});
-
-	if(wowDBMap.has(db)){
-		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning'>View on WoWDB</a>");
-	}
-
-	if(wowheadMap.has(db)){
-		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning'>View on Wowhead</a>");
-	}
 }
 
 function getFlagDescriptions(db, field, value){
