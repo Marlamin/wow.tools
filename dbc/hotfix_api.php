@@ -74,7 +74,7 @@ if(empty($_GET['search']['value'])){
 		$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC");
 		$countq->bindValue(":pushID", str_replace("pushid:", "", $_GET['search']['value']));
 	}else{
-		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC");
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC LIMIT " . $start .", " . $length);
 		$dataq->bindValue(":pushID", "%".$_GET['search']['value']."%");
 		$dataq->bindValue(":recordID", "%".$_GET['search']['value']."%");
 		$dataq->bindValue(":tableName", "%".$_GET['search']['value']."%");
