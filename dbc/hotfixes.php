@@ -94,7 +94,7 @@ require_once(__DIR__ . "/../inc/header.php");
 			"targets": 0,
 			"render": function ( data, type, full, meta ) {
 				if(full[7]){
-					return "<a href='/dbc/hotfix_log.php#" + full[0] + "'>" + full[0] + "</a>";
+					return "<a href='/dbc/hotfix_log.php#" + full[0] + "'>" + full[0] + " <i class='fa fa-info-circle'></i></a>";
 				}else{
 					return full[0];
 				}

@@ -48,22 +48,36 @@ function openFKModal(value, location, build){
 			$.ajax({
 				"url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
 				"success": function(json) {
-					Object.keys(json.values).forEach(function (key) {
-						const val = json.values[key];
-						if(key in headerjson.fks){
-							if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
-								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\")'>" + val + "</a></td></tr>");
-							}else{
-								$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\")'>" + val + "</a></td></tr>");
-							}
-						}else{
-							$("#fktable").append("<tr><td>" + key + "</td><td>" + val + "</td></tr>");
-						}
-					});
+					if(Object.keys(json.values).length == 0){
+						$("#fkModalContent").append("No row returned, this entry is not available in clients and/or is supplied by the server upon request.");
+					}else{
+						Object.keys(json.values).forEach(function (key) {
+							const val = json.values[key];
+							if(key in headerjson.fks){
+								if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
+									$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\")'>" + val + "</a></td></tr>");
+								}else{
+									$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\")'>" + val + "</a></td></tr>");
+								}
 
-					const numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
-					const page = Math.floor(((json.offset - 1) / 25) + 1);
-					$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+								var cleanDBname = headerjson.fks[key].split('::')[0].toLowerCase();
+
+								if(wowDBMap.has(cleanDBname)){
+									$("#fktable:first tr:last-child td:last-child").append(" <a target='_BLANK' href='" + wowDBMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on WoWDB</a></td></tr>");
+								}
+
+								if(wowheadMap.has(cleanDBname)){
+									$("#fktable:first tr:last-child td:last-child").append(" <a target='_BLANK' href='" + wowheadMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on Wowhead</a></td></tr>");
+								}
+							}else{
+								$("#fktable").append("<tr><td>" + key + "</td><td>" + val + "</td></tr>");
+							}
+						});
+
+						const numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
+						const page = Math.floor(((json.offset - 1) / 25) + 1);
+						$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+					}
 				}
 			});
 		}
