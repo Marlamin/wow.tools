@@ -42,13 +42,14 @@ function openFKModal(value, location, build){
 	const col = splitLocation[1];
 
 	$("#fkModalContent").html("<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br><br><table id='fktable' class='table table-condensed table-striped'>");
+
 	$.ajax({
 		"url": "/dbc/api/header/" + db + "?build=" + build,
 		"success": function(headerjson) {
 			$.ajax({
 				"url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
 				"success": function(json) {
-					if(Object.keys(json.values).length == 0){
+					if(!json || Object.keys(json.values).length == 0){
 						$("#fkModalContent").append("No row returned, this entry is not available in clients and/or is supplied by the server upon request.");
 					}else{
 						Object.keys(json.values).forEach(function (key) {
@@ -79,8 +80,12 @@ function openFKModal(value, location, build){
 						$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 					}
 				}
-			});
+			}).fail(function() {
+				$("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
+			});;
 		}
+	}).fail(function() {
+		$("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
 	});
 
 	if(wowDBMap.has(db)){
