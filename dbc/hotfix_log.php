@@ -36,7 +36,7 @@ foreach($hotfixes as $hotfix){
             $tableDesc .= "<br>";
         }
     }
-    echo "<hr><h3>Hotfix push " . $hotfix['pushID']." (".$hotfix['name'].") <a class='btn btn-outline-primary btn-sm' target='_BLANK' href='https://wow.tools/dbc/hotfixes.php?search=pushid:".$hotfix['pushID']."'>View ".$hotfix['rowCount']." hotfix(es)</a></h3>";
+    echo "<hr><h3 id='".$hotfix['pushID']."'>Hotfix push " . $hotfix['pushID']." (".$hotfix['name'].") <a class='btn btn-outline-primary btn-sm' target='_BLANK' href='https://wow.tools/dbc/hotfixes.php?search=pushid:".$hotfix['pushID']."'>View ".$hotfix['rowCount']." hotfix(es)</a></h3>";
     echo "<span class='text-muted'>First detected at " . $hotfix['firstdetected']." CE(S)T</span><br>";
     echo "<p>";
     echo "<h5>Affected tables:</h5>";

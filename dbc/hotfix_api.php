@@ -39,6 +39,7 @@ if(!empty($_GET['cacheproxy']) && $_GET['cacheproxy'] == 1){
 $fullbuilds = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $buildsToID = $pdo->query("SELECT build, id FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $tablesToID = $pdo->query("SELECT name, id FROM wow_dbc_tables")->fetchAll(PDO::FETCH_KEY_PAIR);
+$loggedFixes = $pdo->query("SELECT pushID from wow_hotfixlogs")->fetchAll(PDO::FETCH_COLUMN);
 
 $versionTableCache = [];
 foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions") as $tv){
@@ -96,7 +97,7 @@ $returndata['recordsFiltered'] = $countq->fetchColumn();
 
 $returndata['data'] = array();
 while($row = $dataq->fetch()){
-	$returndata['data'][] = array($row['pushID'], $row['tableName'], $row['recordID'], $fullbuilds[$row['build']], $row['isValid'], $row['firstdetected'], isTableAvailableForBuild($row['tableName'], $row['build']));
+	$returndata['data'][] = array($row['pushID'], $row['tableName'], $row['recordID'], $fullbuilds[$row['build']], $row['isValid'], $row['firstdetected'], isTableAvailableForBuild($row['tableName'], $row['build']), in_array($row['pushID'], $loggedFixes));
 }
 
 echo json_encode($returndata);

@@ -91,6 +91,16 @@ require_once(__DIR__ . "/../inc/header.php");
 		"search": { "search": currentParams["search"] },
 		"columnDefs": [
 		{
+			"targets": 0,
+			"render": function ( data, type, full, meta ) {
+				if(full[7]){
+					return "<a href='/dbc/hotfix_log.php#" + full[0] + "'>" + full[0] + "</a>";
+				}else{
+					return full[0];
+				}
+			}
+		},
+		{
 			"targets": 2,
 			"render": function ( data, type, full, meta ) {
 				return "<a href='#' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[2] + ", \"" + full[1].toLowerCase() + "::ID" + "\", \"" + full[3] + "\")'>" + full[2] + "</a>";
