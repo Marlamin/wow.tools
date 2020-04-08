@@ -116,8 +116,12 @@ function getFlagDescriptions(db, field, value){
 
 function getEnum(db, field, value){
 	const targetEnum = enumMap.get(db + '.' + field);
+	return getEnumVal(targetEnum, value);
+}
+
+function getEnumVal(targetEnum, value){
 	if(targetEnum[value] !== undefined){
-		return enumMap.get(db + '.' + field)[value];
+		return targetEnum[value];
 	}else{
 		return false;
 	}

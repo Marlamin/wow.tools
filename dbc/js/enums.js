@@ -366,6 +366,79 @@ const criteriaAdditionalCondition = {
 	285: 'UNK_285'
 };
 
+const itemStatType = {
+    0: 'MANA',
+    1: 'HEALTH',
+    3: 'AGILITY',
+    4: 'STRENGTH',
+    5: 'INTELLECT',
+    6: 'SPIRIT',
+    7: 'STAMINA',
+    12: 'DEFENSE_SKILL_RATING',
+    13: 'DODGE_RATING',
+    14: 'PARRY_RATING',
+    15: 'BLOCK_RATING',
+    16: 'HIT_MELEE_RATING',
+    17: 'HIT_RANGED_RATING',
+    18: 'HIT_SPELL_RATING',
+    19: 'CRIT_MELEE_RATING',
+    20: 'CRIT_RANGED_RATING',
+    21: 'CRIT_SPELL_RATING',
+    22: 'CORRUPTION',
+    23: 'CORRUPTION_RESISTANCE',
+    24: 'HIT_TAKEN_SPELL_RATING',
+    25: 'CRIT_TAKEN_MELEE_RATING',
+    26: 'CRIT_TAKEN_RANGED_RATING',
+    27: 'CRIT_TAKEN_SPELL_RATING',
+    28: 'HASTE_MELEE_RATING',
+    29: 'HASTE_RANGED_RATING',
+    30: 'HASTE_SPELL_RATING',
+    31: 'HIT_RATING',
+    32: 'CRIT_RATING',
+    33: 'HIT_TAKEN_RATING',
+    34: 'CRIT_TAKEN_RATING',
+    35: 'RESILIENCE_RATING',
+    36: 'HASTE_RATING',
+    37: 'EXPERTISE_RATING',
+    38: 'ATTACK_POWER',
+    39: 'RANGED_ATTACK_POWER',
+    40: 'VERSATILITY',
+    41: 'SPELL_HEALING_DONE',
+    42: 'SPELL_DAMAGE_DONE',
+    43: 'MANA_REGENERATION',
+    44: 'ARMOR_PENETRATION_RATING',
+    45: 'SPELL_POWER',
+    46: 'HEALTH_REGEN',
+    47: 'SPELL_PENETRATION',
+    48: 'BLOCK_VALUE',
+    49: 'MASTERY_RATING',
+    50: 'EXTRA_ARMOR',
+    51: 'FIRE_RESISTANCE',
+    52: 'FROST_RESISTANCE',
+    53: 'HOLY_RESISTANCE',
+    54: 'SHADOW_RESISTANCE',
+    55: 'NATURE_RESISTANCE',
+    56: 'ARCANE_RESISTANCE',
+    57: 'PVP_POWER',
+    58: 'CR_AMPLIFY',
+    59: 'CR_MULTISTRIKE',
+    60: 'CR_READINESS',
+    61: 'CR_SPEED',
+    62: 'CR_LIFESTEAL',
+    63: 'CR_AVOIDANCE',
+    64: 'CR_STURDINESS',
+    65: 'CR_UNUSED_7',
+    66: 'CR_CLEAVE',
+    67: 'CR_UNUSED_9',
+    68: 'CR_UNUSED_10',
+    69: 'CR_UNUSED_11',
+    70: 'CR_UNUSED_12',
+    71: 'AGI_STR_INT',
+    72: 'AGI_STR',
+    73: 'AGI_INT',
+    74: 'STR_INT'
+};
+
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);
@@ -374,3 +447,20 @@ enumMap.set("itembonus.Type", itemBonusTypes);
 enumMap.set("criteriatree.Operator", criteriaTreeOperator);
 enumMap.set("modifiertree.Operator", modifierTreeOperator);
 enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
+
+// Conditional enums
+let conditionalEnums = new Map();
+conditionalEnums.set("itembonus.Value[0]",
+	[
+		['itembonus.Type=2', itemStatType],
+	]
+);
+
+// Conditional FKs (move to sep file?)
+let conditionalFKs = new Map();
+conditionalFKs.set("itembonus.Value[0]",
+	[
+		['itembonus.Type=19','azeritetierunlockset::ID'],
+		['itembonus.Type=23','itemeffect::ID']
+	]
+);
