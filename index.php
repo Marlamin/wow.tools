@@ -64,7 +64,7 @@
 			<?php
 			$hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
 			foreach($hotfixes as $hotfix){
-				echo "<tr><td>".implode('<br>', explode(',', $hotfix['tables']))."</td><td>".$hotfix['rowCount']."</td><td>".$hotfix['pushID']."</td><td>".$hotfix['firstdetected']."</td></tr>";
+				echo "<tr><td>".implode('<br>', explode(',', $hotfix['tables']))."</td><td>".$hotfix['rowCount']."</td><td><a href='/dbc/hotfixes.php?search=pushid:".$hotfix['pushID']."'>".$hotfix['pushID']."</a></td><td>".$hotfix['firstdetected']."</td></tr>";
 			}
 			?>
 			</table>
