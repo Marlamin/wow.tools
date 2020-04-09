@@ -30,4 +30,13 @@ foreach($pdo->query("SELECT id, internal FROM wow_maps_maps WHERE wdtFileDataID 
 	}
 }
 
+$updq = $pdo->prepare("UPDATE wow_maps_maps SET name = ? WHERE id = ?");
+foreach($pdo->query("SELECT id, name, internal FROM wow_maps_maps") as $map){
+	if(is_numeric($map['name'])){
+		echo $map['name'] . " => " . $mapsByInternal[$map['internal']]['MapName_lang']."\n";
+		$updq->execute([$mapsByInternal[$map['internal']]['MapName_lang'], $map['id']]);
+	}
+}
+
+
 ?>
