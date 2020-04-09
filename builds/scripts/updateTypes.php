@@ -43,7 +43,7 @@ while(true){
 			$cdifdids[] = $entry['TextureVariationFileDataID[2]'];
 		}
 	}
-	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type = 'unk'") as $file){
+	foreach($pdo->query("SELECT id, filename FROM wow_rootfiles WHERE type IS NULL OR type = 'unk'") as $file){
 		if(in_array($file['id'], $modelFileData)){
 			echo "File " . $file['id'] . " is a model!\n";
 			$uq->bindValue(":type", "m2");
