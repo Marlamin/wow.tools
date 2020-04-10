@@ -81,7 +81,7 @@
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = Initialize;
-	xhr.open( 'GET', '/maps/data/data.json', true );
+	xhr.open( 'GET', '/maps/data/data.json?cb=2', true );
 	xhr.responseType = 'json';
 	xhr.send();
 
@@ -600,7 +600,11 @@
 		var adt = PointToWoWTile(layerPoint, offset, build);
 		var ingame = PointToWoW(layerPoint, offset, build);
 
-		document.getElementById("clickedCoord").textContent =  Math.floor(ingame.x) + ' ' + Math.floor(ingame.y) + ' 200 ' + Current.InternalMapID;
+		let zPos = 200;
+		if(Current.InternalMapID == 2222){
+			zPos = 5000;
+		}
+		document.getElementById("clickedCoord").textContent =  Math.floor(ingame.x) + ' ' + Math.floor(ingame.y) + ' ' + zPos + ' ' + Current.InternalMapID;
 		document.getElementById("clickedADT").textContent = Current.InternalMap + '_' + adt.x + '_' + adt.y;
 	}
 
