@@ -265,7 +265,11 @@ foreach($lfproducts as $lfproduct){
 							if(full[1]){
 								var filename = full[1].replace(/^.*[\\\/]/, '');
 							}else{
-								var filename = full[0] + "." + full[4];
+								if(full[7]){
+									var filename = full[7].replace(/^.*[\\\/]/, '');
+								}else{
+									var filename = full[0] + "." + full[4];
+								}
 							}
 							test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
 
@@ -281,7 +285,11 @@ foreach($lfproducts as $lfproduct){
 						if(full[1]){
 							var filename = full[1].replace(/^.*[\\\/]/, '');
 						}else{
-							var filename = full[0] + "." + full[4];
+							if(full[7]){
+								var filename = full[7].replace(/^.*[\\\/]/, '');
+							}else{
+								var filename = full[0] + "." + full[4];
+							}
 						}
 						test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
 
