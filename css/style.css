@@ -162,6 +162,10 @@ pre{
 	background-color: transparent;
 }
 
+.table tr{
+	word-break: break-word;
+}
+
 .table td, .table th{
 	border-top: 0px;
 }

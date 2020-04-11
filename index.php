@@ -17,7 +17,7 @@
 
 				$commits = json_decode($memcached->get("github.commits.json"));
 				foreach($commits as $commit){
-					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td><span class='text-muted'><b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
+					echo "<tr><td>[".$commit->repo."] <a target='_BLANK' href='".$commit->url."'>".$commit->message."</a></td><td style='min-width: 100px'><span class='text-muted'><b>".date("Y-m-d H:i:s", $commit->timestamp)."</b></span></td></tr>";
 				}
 			?>
 			</table>
@@ -72,7 +72,7 @@
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Amount</th><th>User</th><th>Submitted on</th><th>Status</th></tr></thead>
 			<?php
-			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
+			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,7")->fetchAll();
 			$i = 0;
 			foreach($suggestions as $row){
 				if($i > 5)
