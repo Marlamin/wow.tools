@@ -8,7 +8,7 @@
 		<div class='col-md-4'>
 			<?php $updatedago = strtotime("now") - $memcached->get("github.commits.lastupdated"); ?>
 			<h4>Recent updates</h4>
-			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
 			<thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th><th>&nbsp;</th></tr></thead>
 			<?php
 				if(!$memcached->get("github.commits.json")){
@@ -24,7 +24,7 @@
 		</div>
 		<div class='col-md-4'>
 			<h4>Current WoW versions per branch</h4>
-			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
 				<thead><tr><th>Name</th><th>Version</th><th>Build time (PT)</th></tr></thead>
 				<?php
 				$productq = $pdo->query("SELECT id, name FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
@@ -59,7 +59,7 @@
 		</div>
 		<div class='col-md-4'>
 			<h4>Latest detected hotfixes</h4>
-			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
+			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
 			<thead><tr><th>Tables</th><th>Record count</th><th>Push ID</th><th>Detected on</th></tr></thead>
 			<?php
 			$hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
