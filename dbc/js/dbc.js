@@ -67,7 +67,9 @@ function openFKModal(value, location, build){
 						Object.keys(json.values).forEach(function (key) {
 							const val = json.values[key];
 							if(key in headerjson.fks){
-								if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
+								if(headerjson.fks[key] == "FileData::ID"){
+									$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a></td></tr>");
+								}else if(headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
 									$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a></td></tr>");
 								}else{
 									$("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a></td></tr>");
