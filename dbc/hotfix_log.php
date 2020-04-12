@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../inc/header.php");
 <p>
 This page is an experiment to see if we can figure out enough information about a hotfix push to find out what exactly is being hotfixed. Sometimes they're pretty straightforward but other times not so much.<br><br>
 <?php
-if($_GET['showAll'] && $_GET['showAll'] == "true"){
+if(isset($_GET['showAll']) && $_GET['showAll'] === "true"){
     echo "<a class='btn btn-sm btn-primary' href='/dbc/hotfix_log.php'>Only show documented hotfixes</a>";
     $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, GROUP_CONCAT(tableName) as fullTables, wow_hotfixes.pushID, firstdetected, wow_hotfixlogs.name, wow_hotfixlogs.description, wow_hotfixlogs.status, wow_hotfixlogs.contributedby FROM wow_hotfixes LEFT JOIN wow_hotfixlogs ON wow_hotfixes.pushID=wow_hotfixlogs.pushID GROUP BY wow_hotfixes.pushID ORDER BY firstdetected DESC, wow_hotfixes.pushID DESC LIMIT 0,50")->fetchAll();
 }else{
