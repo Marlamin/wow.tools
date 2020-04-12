@@ -119,7 +119,7 @@ function getGroupInfo($group){
 		$groupInfo['project'] = "Public Test Realm";
 		break;
 		case 60:
-		$groupInfo['project'] = "8.x Alpha/Beta (possibly reused for 9.x)";
+		$groupInfo['project'] = "Alpha/Beta";
 		break;
 		case 65:
 		$groupInfo['project'] = "9.x (employee-only?) Alpha";
