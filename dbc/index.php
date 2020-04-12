@@ -329,11 +329,23 @@ $dbFound = false;
 				}
 				let allCols = [];
 				$.each(json['headers'], function(i, val){
+					tableHeaders += "<th style='white-space: nowrap' ";
 					if(val in json['comments']){
-						tableHeaders += "<th title='" + json['comments'][val] +"' class='colHasComment'>" + val + "</th>";
+						tableHeaders += "title='" + json['comments'][val] +"' class='colHasComment'>";
 					}else{
-						tableHeaders += "<th>" + val + "</th>";
+						tableHeaders += ">";
 					}
+
+					tableHeaders += val;
+
+					if(val.startsWith("Field_")){
+						tableHeaders += " <i class='fa fa-question' style='color: red; font-size: 12px' title='This column is not yet named'></i> ";
+					}else if(json['unverifieds'].includes(val)){
+						tableHeaders += " <i class='fa fa-question' style='font-size: 12px' title='This column name is not verified to be 100% accurate'></i> ";
+					}
+
+					tableHeaders += "</th>";
+
 					if(val == "ID"){
 						idHeader = i;
 					}
