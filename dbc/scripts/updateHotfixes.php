@@ -3,6 +3,7 @@ if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once(__DIR__ . "/../../inc/config.php");
 
 $knownPushIDs = $pdo->query("SELECT DISTINCT pushID FROM wow_hotfixes")->fetchAll(PDO::FETCH_COLUMN);
+$knownKeys = $pdo->query("SELECT keyname FROM wow_tactkey")->fetchAll(PDO::FETCH_COLUMN);
 
 $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
@@ -42,6 +43,17 @@ foreach($files as $file) {
 
 	foreach($messages as $message){
 		telegramSendMessage($message);
+	}
+
+	$output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions") . " true");
+	foreach(explode("\n", $output2) as $line){
+		if(empty($line))
+			continue;
+
+		$expl = explode(" ", trim($line));
+		if(!in_array($expl[0], $knownKeys)){
+			echo "Found new key! Lookup: " . $expl[0]."\n";
+		}
 	}
 
 	$processedMD5s[] = $md5;
