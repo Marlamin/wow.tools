@@ -76,6 +76,9 @@ function generateMeta($queryString){
 			case "/realms/":
 			$desc = "Realm status for US, EU and PTR World of Warcraft realms";
 			break;
+			case "/uploader/":
+			$desc = "Contribute data to WoW.tools by automatically uploading hotfixes";
+			break;
 		}
 
 		$tags[] = "<meta name='description' content='" . $desc . "'>";
@@ -133,6 +136,9 @@ function prettyTitle($queryString){
 		break;
 		case "/realms/":
 		$addendum = "Realm status";
+		break;
+		case "/uploader/":
+		$addendum = "Hotfix uploader";
 		break;
 	}
 
