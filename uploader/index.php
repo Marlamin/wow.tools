@@ -30,13 +30,17 @@ if(empty($_SESSION['loggedin'])){
 	<li>Download <a href='/pub/WoWTools.Uploader.v1.2.1.0.zip'>this zip</a> (version 1.2.1.0)</li>
 	<li>Extract it in a place it can safely stay (no installer... yet)</li>
 	<li>Run WoWTools.Uploader.exe once to configure it</li>
-	<li>Enter your personal API token: <span class='badge badge-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed/private server hotfixes. This is hopefully a temporary measure and only I can map user IDs to users.</small></i></li>
+	<li>The API token is already filled in with a standard one for now, but if you want your own token to be be used, use this one: <span class='badge badge-secondary hash'><?=$token?></span></li>
+	<!-- <li>Enter your personal API token: <span class='badge badge-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed/private server hotfixes. This is hopefully a temporary measure and only I can map user IDs to users.</small></i></li> -->
 	<li>Enter your WoW directory if it's not already filled in</li>
 	<li>Press check to check if the directory is correct</li>
 	<li>Press Save, the app will restart and move to tray</li>
 </ol>
 
-Bug reports/feature requests are very welcome via the regular channels listed at the bottom of <a href='https://wow.tools/faq.php'>the FAQ</a>, I've only tested the application with a handful of people so there might still be issues. Please let me know if it is.
+Bug reports/feature requests are very welcome via the regular channels listed at the bottom of <a href='https://wow.tools/faq.php'>the FAQ</a>, I've only tested the application with a handful of people so there might still be issues.
+
+
+<br><br><a href='https://github.com/Marlamin/WoWTools.Hotfixes/tree/master/WoWTools.Uploader.NET48' target='_BLANK'>The hotfix uploader is open-source and can be found on GitHub.</a>
 
 </p>
 </div>
