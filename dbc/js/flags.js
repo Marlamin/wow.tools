@@ -158,6 +158,19 @@ const achievementFlags = {
 	TRACKING_FLAG			: 0x100000,
 }
 
+const charSectionFlags = {
+	CHAR: 0x1,
+	BARBERSHOP : 0x2,
+	DEATHKNIGHT : 0x4,
+	NPCSKIN : 0x8,
+	SKIN : 0x10,
+	DEMONHUNTER: 0x20,
+	DEMONHUNTERFACE: 0x40,
+	DHBLINDFOLDS: 0x80,
+	SILHOUETTE: 0x100,
+	VOIDELF: 0x200
+}
+
 window.flagMap = new Map();
 
 /* Achievement */
@@ -171,3 +184,6 @@ flagMap.set("itemsparse.Flags[3]", itemSparseFlags3);
 
 /* PlayerCondition */
 flagMap.set("playercondition.ClassMask", classMask);
+
+/* CharSections */
+flagMap.set("charsections.Flags", charSectionFlags);

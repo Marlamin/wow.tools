@@ -732,6 +732,11 @@ const charSectionType = {
 	15: 'HDCustom3'
 }
 
+const charSex = {
+	0: 'Male',
+	1: 'Female'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -743,7 +748,9 @@ enumMap.set("modifiertree.Operator", modifierTreeOperator);
 enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
 enumMap.set("spelleffect.Effect", spellEffectName);
 enumMap.set("charsections.BaseSection", charSectionType);
+enumMap.set("charsections.SexID", charSex);
 enumMap.set("charsectioncondition.BaseSection", charSectionType);
+enumMap.set("charsectioncondition.Sex", charSex);
 
 // Conditional enums
 let conditionalEnums = new Map();
