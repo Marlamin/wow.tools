@@ -50,6 +50,7 @@ input{
 select{
 	background-color: var(--background-color) !important;
 	color: var(--text-color) !important;
+	width: 100%;
 }
 
 pre{

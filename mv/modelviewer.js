@@ -20,9 +20,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "73819d732878c4352c634c4d40ba5baa",
-    cdnConfig: "819e3df384392721acdd4e96ab8e0431",
-    buildName: "9.0.1.33978",
+    buildConfig: "8253e7343cf72ac651ce30fd2f0cf83b",
+    cdnConfig: "53cca21285180a01b2d817d8a41c02c3",
+    buildName: "9.0.1.34081",
     fileDataID: 397940,
     type: "m2",
     embedded: false

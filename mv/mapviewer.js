@@ -229,7 +229,8 @@
 		var build = Versions[Current.Map][Current.Version].build;
 		var ingame = PointToWoW(layerPoint, offset, build);
 		console.log("Setting map to " + Current.wdtFileDataID);
-		window.Module._setMap(0, Current.wdtFileDataID, Math.floor(ingame.x), Math.floor(ingame.y), 200);
+		var zPos = $("#mapZPos").val();
+		window.Module._setMap(0, Current.wdtFileDataID, Math.floor(ingame.x), Math.floor(ingame.y), zPos);
 	}
 
 	function PointToWoW( point, offset, build ){

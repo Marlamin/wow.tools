@@ -65,7 +65,8 @@ if($embed){
 			Keep in mind the map viewer is even more experimental than the regular model viewer and might be more laggy/unstable.
 			<div>
 				<select id="js-map-select" disabled></select>
-				<select id="js-version-select" disabled></select>
+				<select id="js-version-select" disabled></select><br>
+				<label for="mapZPos">Teleport height</label> <input id="mapZPos" value="5000">
 			</div>
 			<div id="js-map" class="map-canvas">&nbsp;</div>
 		</div>
@@ -161,6 +162,12 @@ if($embed){
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
+				<h5>Version 0.9.6 <small>(17-04-2020)</small></h5>
+				<ul>
+					<li>(MV) Crash fixes</li>
+					<li>(MV) Performance updates</li>
+					<li>(MV) Shadowlands support</li>
+				</ul>
 				<h5>Version 0.9.5 <small>(12-02-2019)</small></h5>
 				<ul>
 					<li>(MV) Map viewer interface</li>
