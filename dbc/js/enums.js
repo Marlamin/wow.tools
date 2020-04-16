@@ -713,6 +713,25 @@ const spellEffectName = {
     271: 'APPLY_AREA_AURA_PARTY_NONRANDOM'
 };
 
+const charSectionType = {
+	0: 'Skin',
+	1: 'Face',
+	2: 'FacialHair',
+	3: 'Hair',
+	4: 'Underwear',
+	5: 'HDSkin',
+	6: 'HDFace',
+	7: 'HDFacialHair',
+	8: 'HDHair',
+	9: 'HDUnderwear',
+	10: 'Custom1',
+	11: 'HDCustom1',
+	12: 'Custom2',
+	13: 'HDCustom2',
+	14: 'Custom3',
+	15: 'HDCustom3'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -723,6 +742,8 @@ enumMap.set("criteriatree.Operator", criteriaTreeOperator);
 enumMap.set("modifiertree.Operator", modifierTreeOperator);
 enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
 enumMap.set("spelleffect.Effect", spellEffectName);
+enumMap.set("charsections.BaseSection", charSectionType);
+enumMap.set("charsectioncondition.BaseSection", charSectionType);
 
 // Conditional enums
 let conditionalEnums = new Map();
