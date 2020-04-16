@@ -32,12 +32,15 @@ var Settings =
 {
     showFPS: true,
     retailOnly: false,
-    clearColor: [0.117, 0.207, 0.392]
+    clearColor: [0.117, 0.207, 0.392],
+    farClip: 1500,
+    farClipCull: 1500
+
 }
 
 var screenshot = false;
 
-function loadSettings(){
+function loadSettings(applyNow = false){
     /* Show/hide FPS counter */
     var storedShowFPS = localStorage.getItem('settings[showFPS]');
     if(storedShowFPS){
@@ -76,6 +79,31 @@ function loadSettings(){
     var g = parseInt('0x' + rawClearColor.substring(2, 4)) / 255;
     var b = parseInt('0x' + rawClearColor.substring(4, 6)) / 255;
     Settings.clearColor = [r, g, b];
+
+    /* Far clip */
+    var storedFarClip = localStorage.getItem('settings[farClip]');
+    if(storedFarClip){
+        Settings.farClip = storedFarClip;
+        document.getElementById('farClip').value = storedFarClip;
+    }else{
+        document.getElementById('farClip').value = Settings.farClip;
+    }
+
+    /* Far clip (model culling) */
+    var storedFarClipCull = localStorage.getItem('settings[farClipCull]');
+    if(storedFarClipCull){
+        Settings.farClipCull = storedFarClipCull;
+        document.getElementById('farClipCull').value = storedFarClipCull;
+    }else{
+        document.getElementById('farClipCull').value = Settings.farClipCull;
+    }
+
+    /* If settings should be applied now (don't do this on page load!) */
+    if(applyNow){
+        Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
+        Module._setFarPlane(Settings.farClip);
+        Module._setFarPlaneForCulling(Settings.farClipCull);
+    }
 }
 
 function saveSettings(){
@@ -92,8 +120,9 @@ function saveSettings(){
     }
 
     localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
-
-    loadSettings();
+    localStorage.setItem('settings[farClip]', document.getElementById("farClip").value);
+    localStorage.setItem('settings[farClipCull]', document.getElementById("farClipCull").value);
+    loadSettings(true);
 }
 
 // Sidebar button, might not exist in embedded mode
@@ -312,6 +341,8 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     Current.type = type;
 
     Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
+    Module._setFarPlane(Settings.farClip);
+    Module._setFarPlaneForCulling(Settings.farClipCull);
 
     $.ajax({
         url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID

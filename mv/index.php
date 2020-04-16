@@ -103,7 +103,9 @@ if($embed){
 				<form id='settingsForm'>
 					<input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show FPS</label><br>
 					<input type='checkbox' id='retailOnly' name='settings[retailOnly]'> <label for='retailOnly'>Use static files (fastest, limited to current retail build)</label><br>
-					<input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label>
+					<input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label><br>
+					<input type='text' id='farClip' name='settings[farClip]'> <label for='farClip'>View distance</label><br>
+					<input type='text' id='farClipCull' name='settings[farClipCull]'> <label for='farClipCull'>Model culling distance</label>
 				</form>
 			</div>
 			<div class="modal-footer">
