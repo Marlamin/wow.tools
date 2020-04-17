@@ -109,7 +109,7 @@ function getFlagDescriptions(db, field, value){
 	if(targetFlags !== undefined){
 		Object.keys(targetFlags).forEach(function (flag) {
 			if(value & targetFlags[flag]){
-				usedFlags.push(flag);
+				usedFlags.push('0x' + "" + Number(targetFlags[flag]).toString(16) + ": " + flag);
 			}
 		});
 	}
