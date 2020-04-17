@@ -159,16 +159,39 @@ const achievementFlags = {
 }
 
 const charSectionFlags = {
-	CHAR: 0x1,
-	BARBERSHOP : 0x2,
-	DEATHKNIGHT : 0x4,
-	NPCSKIN : 0x8,
-	SKIN : 0x10,
-	DEMONHUNTER: 0x20,
-	DEMONHUNTERFACE: 0x40,
-	DHBLINDFOLDS: 0x80,
-	SILHOUETTE: 0x100,
-	VOIDELF: 0x200
+	CHAR 			: 0x1,
+	BARBERSHOP 		: 0x2,
+	DEATHKNIGHT 	: 0x4,
+	NPCSKIN 		: 0x8,
+	SKIN 			: 0x10,
+	DEMONHUNTER 	: 0x20,
+	DEMONHUNTERFACE	: 0x40,
+	DHBLINDFOLDS	: 0x80,
+	SILHOUETTE		: 0x100,
+	VOIDELF			: 0x200
+}
+
+const chrRacesFlags = {
+	NOT_PLAYABLE	: 0x1,
+	BARE_FEET		: 0x2,
+	CAN_MOUNT		: 0x4,
+	PLAYABLE_MAYBE	: 0x8,
+	UNK0			: 0x10,
+	UNK1			: 0x20,
+	UNK2			: 0x40,
+	DISALLOW_LOW_RES: 0x80,
+	GOBLIN_RACIAL	: 0x100,
+	CREATIONUNK		: 0x200,
+	SELECTIONUNK	: 0x400,
+	UNK3			: 0x800,
+	UNK4			: 0x1000,
+	UNK5			: 0x2000,
+	UNK6			: 0x4000,
+	UNK7			: 0x8000,
+	SKINISHAIRUNK	: 0x10000,
+	UNK8			: 0x20000,
+	UNK9			: 0x40000,
+	UNK10			: 0x80000
 }
 
 window.flagMap = new Map();
@@ -187,3 +210,6 @@ flagMap.set("playercondition.ClassMask", classMask);
 
 /* CharSections */
 flagMap.set("charsections.Flags", charSectionFlags);
+
+/* ChrRaces */
+flagMap.set("chrraces.Flags", chrRacesFlags);
