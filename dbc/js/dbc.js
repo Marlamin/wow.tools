@@ -108,14 +108,10 @@ function getFlagDescriptions(db, field, value){
 	const targetFlags = flagMap.get(db + '.' + field);
 
 	for(let i = 0; i < 32; i++){
-		let toCheck = Number(Math.pow(2, i));
+		let toCheck = 1 << i;
 		if(value & toCheck){
-			if(targetFlags !== undefined && Object.values(targetFlags).includes(toCheck)){
-				Object.keys(targetFlags).forEach(function (flag) {
-					if(targetFlags[flag] == toCheck){
-						usedFlags.push('0x' + "" + Number(targetFlags[flag]).toString(16) + ": " + flag);
-					}
-				});
+			if(targetFlags !== undefined && targetFlags[toCheck]){
+				usedFlags.push('0x' + "" + Number(toCheck).toString(16) + ": " + targetFlags[toCheck]);
 			}else{
 				usedFlags.push('0x' + "" + Number(toCheck).toString(16));
 			}
