@@ -9,7 +9,7 @@ $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 foreach($files as $file) {
 	// Only process hotfixes newer than 1 day ago
-	if(filemtime($file) < strtotime("-1 days"))
+	if(filemtime($file) < strtotime("-6 hours"))
 		continue;
 
 	$md5 = md5_file($file);
@@ -52,7 +52,7 @@ foreach($files as $file) {
 
 		$expl = explode(" ", trim($line));
 		if(!in_array($expl[0], $knownKeys)){
-			echo "Found new key! Lookup: " . $expl[0]."\n";
+			echo "Found new key! " . $expl[0]." " . $expl[1]."\n";
 		}
 	}
 
