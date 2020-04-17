@@ -23,6 +23,41 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	}
 });
 
+function togglePreviewPane(){
+
+	var visibility = document.getElementById("files_preview").style.display;
+	if($("#files_preview").is(":visible")){
+		// Refresh table to rewrite the preview links
+		$('#files').DataTable().draw(false);
+
+		// Hide preview pane
+		document.getElementById("files_preview").style.display = "none";
+
+		// Resize table to 100%
+		$("#files_wrapper").width('100%');
+		document.getElementById("files_wrapper").style.float = "none";
+
+		// Show footer
+		$("footer").show();
+	}else{
+		// Clear window to stop currently playing sound/models
+		document.getElementById("files_preview").innerHTML = "";
+
+		// Refresh table to rewrite the preview links
+		$('#files').DataTable().draw(false);
+
+		// Show preview pane
+		document.getElementById("files_preview").style.display = "block";
+
+		// Resize table to 55%
+		$("#files_wrapper").width('55%');
+		document.getElementById("files_wrapper").style.float = "left";
+
+		// Hide footer
+		$("footer").hide();
+	}
+}
+
 function addFileToDownloadQueue(file){
 	// Parse URL
 	var url = new URL(file);
@@ -133,11 +168,19 @@ function fillModal(fileDataID){
 }
 
 function fillPreviewModal(buildconfig, filedataid){
-	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+	if($("#files_preview").is(":visible")){
+		$( "#files_preview" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+	}else{
+		$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+	}
 }
 
 function fillPreviewModalByContenthash(buildconfig, filedataid, contenthash){
-	$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+	if($("#files_preview").is(":visible")){
+		$( "#files_preview" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+	}else{
+		$( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+	}
 }
 
 function fillDiffModal(from, to, filedataid){

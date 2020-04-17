@@ -12,9 +12,9 @@ foreach($lfproducts as $lfproduct){
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons'>
 		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
-		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest filenames</a>
+		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest names</a>
 		<div class="btn-group">
-			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download community CSV listfile</a>
+			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download CSV listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
@@ -28,11 +28,12 @@ foreach($lfproducts as $lfproduct){
 				<?php } ?>
 			</div>
 		</div>
-		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'>Filter by build</a>
+		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'>Filter build</a>
 		<a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear build filter</a>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
+		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm'>Toggle preview</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
@@ -49,6 +50,7 @@ foreach($lfproducts as $lfproduct){
 
 		</tbody>
 	</table>
+	<div id='files_preview'>Click on the <i class='fa fa-eye'></i> icon to preview a file.</div>
 </div>
 <div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
@@ -71,12 +73,6 @@ foreach($lfproducts as $lfproduct){
 <div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="previewModalLabel">Preview</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
 			<div class="modal-body" id="previewModalContent">
 				<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 			</div>
@@ -323,7 +319,11 @@ foreach($lfproducts as $lfproduct){
 				"orderable": false,
 				"render": function ( data, type, full, meta ) {
 					if(full[3].length && full[3][0].enc != 1){
+					if($("#files_preview").is(":visible")){
+						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
+					}else{
 						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
+					}
 
 					}else{
 						var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";

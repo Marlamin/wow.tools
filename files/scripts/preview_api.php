@@ -77,19 +77,19 @@ if($type == "ogg"){
 		</ul>
 		<div class="tab-content" id="myTabContent">
 			<div class="tab-pane show active" id="model" role="tabpanel" aria-labelledby="model-tab">
-				<iframe style='border:0px;width:100%;min-height: 60vh' src='https://wow.tools/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
+				<iframe style='border:0px;width:100%;min-height: 75vh' src='https://wow.tools/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
 				<center><a href='https://wow.tools/mv/?buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>' target='_BLANK'>Open in modelviewer</a></center>
 			</div>
-			<div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 500px;'><code><?=htmlentities($output)?></pre></code></div>
+			<div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 80vh'><code><?=htmlentities($output)?></pre></code></div>
 		</div>
 		<?php
 	}else if($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc" || $type == "htm" || $type == "html" || $type == "sbt" || $type == "txt"){
-		echo "<pre style='max-height: 500px;'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
+		echo "<pre style='max-height: 80vh'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
 	}else{
 		// dump via hd
 		echo "Not a supported file for previews, dumping hex output (until 1MB).";
 		$output = shell_exec("/usr/bin/hd -n1048576 ".escapeshellarg($tempfile));
-		echo "<pre style='max-height: 500px;'><code>".htmlentities($output)."</pre></code>";
+		echo "<pre style='max-height: 80vh'><code>".htmlentities($output)."</pre></code>";
 	}
 	unlink($tempfile);
 }
