@@ -377,11 +377,6 @@ function locationHashChanged(event) {
 		$('#files').DataTable().page(page).draw(false);
 	}
 
-	var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
-	if(!build){
-		$('#files').ajax.url("/casc/filetable/files?buildConfig=" + build).draw(false);
-	}
-
 	var sortCol = searchHash.substr(searchHash.indexOf('sort=')).split('&')[0].split('=')[1];
 	if(!sortCol){
 		sortCol = 0;
