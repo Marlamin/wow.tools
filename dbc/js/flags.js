@@ -191,7 +191,12 @@ const chrRacesFlags = {
 	SKINISHAIRUNK	: 0x10000,
 	UNK8			: 0x20000,
 	UNK9			: 0x40000,
-	UNK10			: 0x80000
+	UNK10			: 0x80000,
+	UNK11			: 0x100000,
+	UNK12			: 0x200000,
+	UNK13			: 0x400000,
+	UNK14			: 0x800000,
+	UNK15			: 0x1000000,
 }
 
 window.flagMap = new Map();

@@ -136,6 +136,11 @@ require_once(__DIR__ . "/../inc/header.php");
 			addendum = " (" + enumMap.get(dbc + "." + col)[value] + ")";
 		}
 
+		if(flagMap.has(dbc + "." + col)){
+			let usedFlags = getFlagDescriptions(dbc, col, value).join(", ");
+			addendum = " (" + usedFlags + ")";
+		}
+
 		return addendum;
 	}
 
@@ -153,12 +158,20 @@ require_once(__DIR__ . "/../inc/header.php");
 			if(Object.keys(before).length == 0){
 				Object.keys(after).forEach(function (key) {
 					let addendum = getAddendum(dbc, key, after[key]);
-					changes += "<tr><td>"+ key + "</td><td><ins class='diff-added'>"+ after[key] + addendum + "</ins></td></tr>";
+					let displayedValue = after[key];
+					if(flagMap.has(dbc.toLowerCase() + "." + key)){
+						displayedValue = "0x" + Number(after[key]).toString(16);
+					}
+					changes += "<tr><td>"+ key + "</td><td><ins class='diff-added'>"+ displayedValue + addendum + "</ins></td></tr>";
 				});
 			} else if(Object.keys(after).length == 0){
 				Object.keys(before).forEach(function (key) {
 					let addendum = getAddendum(dbc, key, before[key]);
-					changes += "<tr><td>"+ key + "</td><td><del class='diff-removed'>"+ before[key] + addendum + "</del></td></tr>";
+					let displayedValue = before[key];
+					if(flagMap.has(dbc.toLowerCase() + "." + key)){
+						displayedValue = "0x" + Number(before[key]).toString(16);
+					}
+					changes += "<tr><td>"+ key + "</td><td><del class='diff-removed'>"+ displayedValue + addendum + "</del></td></tr>";
 				});
 			}else{
 				Object.keys(before).forEach(function (key) {
@@ -166,7 +179,13 @@ require_once(__DIR__ . "/../inc/header.php");
 						if (!isNaN(before[key]) && !isNaN(after[key])) {
 							let addendumBefore = getAddendum(dbc, key, before[key]);
 							let addendumAfter = getAddendum(dbc, key, after[key]);
-							changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + before[key] + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + after[key] + addendumAfter + "</ins></td></tr>";
+							let displayedValBefore = before[key];
+							let displayedValAfter = after[key];
+							if(flagMap.has(dbc.toLowerCase() + "." + key)){
+								displayedValBefore = "0x" + Number(before[key]).toString(16);
+								displayedValAfter = "0x" + Number(after[key]).toString(16);
+							}
+							changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + displayedValBefore + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + displayedValAfter + addendumAfter + "</ins></td></tr>";
 						} else {
 							var dmp = new diff_match_patch();
 							var dmp_diff = dmp.diff_main(before[key], after[key]);
