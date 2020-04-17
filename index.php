@@ -58,7 +58,7 @@
 			</table>
 		</div>
 		<div class='col-md-4'>
-			<h4>Latest detected hotfixes</h4>
+			<h4>Recently detected hotfixes</h4>
 			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
 			<thead><tr><th>Tables</th><th>Record count</th><th>Push ID</th><th>Detected on</th></tr></thead>
 			<?php

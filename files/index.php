@@ -14,7 +14,7 @@ foreach($lfproducts as $lfproduct){
 		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
 		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest names</a>
 		<div class="btn-group">
-			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Download CSV listfile</a>
+			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Get CSV listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
@@ -29,11 +29,11 @@ foreach($lfproducts as $lfproduct){
 			</div>
 		</div>
 		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'>Filter build</a>
-		<a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear build filter</a>
+		<a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear filter</a>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
-		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm'>Toggle preview</a>
+		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white'>Toggle preview</a>
 	</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
