@@ -106,13 +106,22 @@ function openFKModal(value, location, build){
 function getFlagDescriptions(db, field, value){
 	let usedFlags = Array();
 	const targetFlags = flagMap.get(db + '.' + field);
-	if(targetFlags !== undefined){
-		Object.keys(targetFlags).forEach(function (flag) {
-			if(value & targetFlags[flag]){
-				usedFlags.push('0x' + "" + Number(targetFlags[flag]).toString(16) + ": " + flag);
+
+	for(let i = 0; i < 32; i++){
+		let toCheck = Number(Math.pow(2, i));
+		if(value & toCheck){
+			if(targetFlags !== undefined && Object.values(targetFlags).includes(toCheck)){
+				Object.keys(targetFlags).forEach(function (flag) {
+					if(targetFlags[flag] == toCheck){
+						usedFlags.push('0x' + "" + Number(targetFlags[flag]).toString(16) + ": " + flag);
+					}
+				});
+			}else{
+				usedFlags.push('0x' + "" + Number(toCheck).toString(16));
 			}
-		});
+		}
 	}
+
 	return usedFlags;
 }
 
