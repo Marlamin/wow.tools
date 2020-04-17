@@ -199,11 +199,10 @@ foreach($lfproducts as $lfproduct){
 				"createdCell": function (td, cellData, rowData, row, col) {
 					if (!cellData) {
 						if(!rowData[7]){
-							$(td).css('background-color', '#ff5858');
+							$(td).css('background-color', '#ff585870');
 						}else{
-							$(td).css('background-color', '#673AB7');
+							$(td).css('background-color', '#673ab770');
 						}
-						$(td).css('color', 'white');
 					}
 				},
 				"render": function ( data, type, full, meta ) {
