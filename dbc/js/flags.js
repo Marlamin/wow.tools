@@ -209,6 +209,14 @@ const mapFlags = {
 	0x4000000: 'GARRISON'
 }
 
+const soundkitFlags = {
+	0x0001: 'UNK1',
+	0x0020: 'NO_DUPLICATES',
+	0x0200: 'LOOPING',
+	0x0400: 'VARY_PITCH',
+	0x0800: 'VARY_VOLUME'
+};
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -231,3 +239,5 @@ flagMap.set("difficulty.Flags", difficultyFlags);
 flagMap.set("emotes.EmoteFlags", emoteFlags);
 
 flagMap.set("map.Flags[0]", mapFlags);
+
+flagMap.set("soundkit.Flags", soundkitFlags);
