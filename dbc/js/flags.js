@@ -183,22 +183,51 @@ const chrRacesFlags = {
 	0x10000 : 'SKINISHAIRUNK',
 }
 
+const taxiNodeFlags = {
+	0x1 : 'ALLIANCE',
+	0x2 : 'HORDE',
+	0x10 : 'USE_FAVORITE_MOUNT'
+}
+
+const difficultyFlags = {
+	0x1: 'HEROIC',
+	0x2: 'DEFAULT',
+	0x4: 'CAN_SELECT',
+	0x8: 'CHALLENGE_MODE',
+	0x20: 'LEGACY',
+	0x40: 'DISPLAY_HEROIC',
+	0x80: 'DISPLAY_MYTHIC'
+}
+
+const emoteFlags = {
+
+}
+
+const mapFlags = {
+	0x100: 'CAN_TOGGLE_DIFFICULTY',
+	0x8000: 'FLEX_LOCKING',
+	0x4000000: 'GARRISON'
+}
+
 window.flagMap = new Map();
 
-/* Achievement */
 flagMap.set("achievement.Flags", achievementFlags);
 
-/* ItemSparse */
 flagMap.set("itemsparse.Flags[0]", itemSparseFlags0);
 flagMap.set("itemsparse.Flags[1]", itemSparseFlags1);
 flagMap.set("itemsparse.Flags[2]", itemSparseFlags2);
 flagMap.set("itemsparse.Flags[3]", itemSparseFlags3);
 
-/* PlayerCondition */
 flagMap.set("playercondition.ClassMask", classMask);
 
-/* CharSections */
 flagMap.set("charsections.Flags", charSectionFlags);
 
-/* ChrRaces */
 flagMap.set("chrraces.Flags", chrRacesFlags);
+
+flagMap.set("taxinodes.Flags", taxiNodeFlags);
+
+flagMap.set("difficulty.Flags", difficultyFlags);
+
+flagMap.set("emotes.EmoteFlags", emoteFlags);
+
+flagMap.set("map.Flags[0]", mapFlags);

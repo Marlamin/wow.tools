@@ -737,10 +737,21 @@ const charSex = {
 	1: 'Female'
 }
 
+const uiMapType = {
+	0: 'Cosmic',
+	1: 'World',
+	2: 'Continent',
+	3: 'Zone',
+	4: 'Dungeon',
+	5: 'Micro',
+	6: 'Orphan'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);
+enumMap.set("difficulty.InstanceType", mapTypes);
 enumMap.set("playercondition.MinReputation[0]", reputationLevels);
 enumMap.set("itembonus.Type", itemBonusTypes);
 enumMap.set("criteriatree.Operator", criteriaTreeOperator);
@@ -751,7 +762,7 @@ enumMap.set("charsections.BaseSection", charSectionType);
 enumMap.set("charsections.SexID", charSex);
 enumMap.set("charsectioncondition.BaseSection", charSectionType);
 enumMap.set("charsectioncondition.Sex", charSex);
-
+enumMap.set("uimap.Type", uiMapType);
 // Conditional enums
 let conditionalEnums = new Map();
 conditionalEnums.set("itembonus.Value[0]",
