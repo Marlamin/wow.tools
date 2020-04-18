@@ -217,6 +217,11 @@ const soundkitFlags = {
 	0x0800: 'VARY_VOLUME'
 };
 
+const globalstringsFlags ={
+	0x1: 'FRAMEXML',
+	0x2: 'GLUEXML'
+};
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -241,3 +246,5 @@ flagMap.set("emotes.EmoteFlags", emoteFlags);
 flagMap.set("map.Flags[0]", mapFlags);
 
 flagMap.set("soundkit.Flags", soundkitFlags);
+
+flagMap.set("globalstrings.Flags", globalstringsFlags);
