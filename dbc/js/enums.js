@@ -713,6 +713,41 @@ const spellEffectName = {
     271: 'APPLY_AREA_AURA_PARTY_NONRANDOM'
 };
 
+const soundkitSoundType = {
+	0: 'Unused/Miscellaneous',
+	1: 'Spells',
+	2: 'UI',
+	3: 'Footsteps',
+	4: 'Weapons/Impact',
+	6: 'Weapons/Miss',
+	7: 'Greetings',
+	8: 'Casting',
+	9: 'Pick Up/Put Down',
+	10: 'NPC Combat',
+	12: 'Errors',
+	13: 'Ambient FX',
+	14: 'Objects',
+	16: 'Death',
+	17: 'NPC Greetings',
+	18: 'Test/Temporary',
+	19: 'Armor/Foley',
+	20: 'Footsteps',
+	21: 'Water/Character',
+	22: 'Water/Liquid',
+	23: 'Tradeskills',
+	24: 'Misc. FX',
+	25: 'Doodads',
+	26: 'Spell Fizzle',
+	27: 'NPC Loops',
+	28: 'Zone Music',
+	29: 'Emotes',
+	30: 'Narration Music',
+	31: 'Narration',
+	50: 'Zone Ambience',
+	52: 'Zone Emitters',
+	53: 'Vehicle'
+};
+
 const charSectionType = {
 	0: 'Skin',
 	1: 'Face',
@@ -763,6 +798,7 @@ enumMap.set("charsections.SexID", charSex);
 enumMap.set("charsectioncondition.BaseSection", charSectionType);
 enumMap.set("charsectioncondition.Sex", charSex);
 enumMap.set("uimap.Type", uiMapType);
+enumMap.set("soundkit.SoundType", soundkitSoundType);
 // Conditional enums
 let conditionalEnums = new Map();
 conditionalEnums.set("itembonus.Value[0]",
