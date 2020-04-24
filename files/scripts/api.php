@@ -257,6 +257,7 @@ $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as usernam
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
 $tfdq = $pdo->prepare("SELECT MaterialResourcesID FROM `wowdata`.texturefiledata WHERE FileDataID = ?");
+$mfdq = $pdo->prepare("SELECT ModelResourcesID FROM `wowdata`.modelfiledata WHERE FileDataID = ?");
 while($row = $dataq->fetch()){
 	$contenthashes = array();
 	$cfname = "";
@@ -322,6 +323,13 @@ while($row = $dataq->fetch()){
 		$tfdr = $tfdq->fetch();
 		if(!empty($tfdr)){
 			$xrefs['tfd'] = "<b>MaterialResourcesID:</b> ".$tfdr['MaterialResourcesID']."<br>";
+		}
+
+		// ModelFileData
+		$mfdq->execute([$row['id']]);
+		$mfdr = $mfdq->fetch();
+		if(!empty($mfdr)){
+			$xrefs['mfd'] = "<b>ModelResourcesID:</b> ".$mfdr['ModelResourcesID']."<br>";
 		}
 
 		// Comments

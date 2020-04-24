@@ -227,13 +227,16 @@ foreach($lfproducts as $lfproduct){
 							if(test == ""){
 								test = full[5]['soundkit'].split("<br>").join("");
 							}
-							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['soundkit'] +"'><i class='fa fa-music'></i></a></span>";
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['soundkit'] +"'><i class='fa fa-music'></i>&nbsp;</a></span>";
 						}
 						if(full[5]['cmd']){
-							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['cmd'] +"'><i class='fa fa-bug'></i></a></span>";
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['cmd'] +"'><i class='fa fa-bug'></i>&nbsp;</a></span>";
 						}
 						if(full[5]['tfd']){
-							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['tfd'] +"'><i class='fa fa-picture-o'></i></a></span>";
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['tfd'] +"'><i class='fa fa-picture-o'></i>&nbsp;</a></span>";
+						}
+						if(full[5]['mfd']){
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['mfd'] +"'><i class='fa fa-cube'></i>&nbsp;</a></span>";
 						}
 					}
 
