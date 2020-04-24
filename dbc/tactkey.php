@@ -124,7 +124,22 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 								values.added = "                       ";
 							}
 
-							output[values.keyname] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + paddedID + " " + values.added.padEnd(24, ' ') + "  " + values.description;
+							if(values.description == null){
+								if(values.keyname in encrypted){
+									if(encrypted[values.keyname].length > 7){
+										var desc  = "starts at fdid " + encrypted[values.keyname][0] + ", " + encrypted[values.keyname].length + " files";
+									}else{
+										var desc  = "fdid " + encrypted[values.keyname].join(', ');
+									}
+								}else{
+									var desc = "";
+								}
+							}else{
+								var desc = "";
+							}
+
+
+							output[values.keyname] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + paddedID + " " + values.added.padEnd(24, ' ') + "  " + desc;
 						}
 					}
 

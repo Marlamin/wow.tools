@@ -42,7 +42,7 @@ foreach(explode("\n", $output) as $line){
 
 echo "[Encrypted file list] Currently have " . count($encryptedfiles) . " encrypted filedataids!\n";
 ksort($encryptedfiles);
-
+// print_r($encryptedfiles);
 $current = array();
 $q = $pdo->query("SELECT * FROM wow_encrypted");
 foreach($q->fetchAll() as $enc){
