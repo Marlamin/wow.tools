@@ -232,6 +232,9 @@ foreach($lfproducts as $lfproduct){
 						if(full[5]['cmd']){
 							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['cmd'] +"'><i class='fa fa-bug'></i></a></span>";
 						}
+						if(full[5]['tfd']){
+							test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' style='color: ;' data-content='" + full[5]['tfd'] +"'><i class='fa fa-picture-o'></i></a></span>";
+						}
 					}
 
 					return test;
