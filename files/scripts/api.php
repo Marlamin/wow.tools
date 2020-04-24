@@ -302,13 +302,15 @@ while($row = $dataq->fetch()){
 		$soundkitq->execute([$row['id']]);
 		$soundkits = $soundkitq->fetchAll();
 		if(count($soundkits) > 0){
-			$xrefs['soundkit'] = "<b>Part of SoundKit(s):</b><br>";
+			$usedKits = [];
 			foreach($soundkits as $soundkitrow){
-				if(empty($soundkitrow['name'])){
-					$soundkitrow['name'] = "Unknown";
+				$kitDesc = $soundkitrow['entry'];
+				if(!empty($soundkitrow['name'])){
+					$kitDesc .= " (".htmlentities($soundkitrow['name'], ENT_QUOTES).")";
 				}
-				$xrefs['soundkit'] .= $soundkitrow['entry'] . " (" .htmlentities($soundkitrow['name'], ENT_QUOTES) . ")<br>";
+				$usedKits[] = $kitDesc;
 			}
+			$xrefs['soundkit'] = "<b>Part of SoundKit(s):</b> ". implode(", ", $usedKits);
 		}
 
 		// Creature Model Data
