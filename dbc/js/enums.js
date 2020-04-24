@@ -968,6 +968,18 @@ const criteriaType = {
     216: 'UNK'
 }
 
+const itemComponentSection = {
+	0: 'ArmUpper',
+	1: 'ArmLower',
+	2: 'Hand',
+	3: 'TorsoUpper',
+	4: 'TorsoLower',
+	5: 'LegUpper',
+	6: 'LegLower',
+	7: 'Foot',
+	8: 'Accessory'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -986,6 +998,7 @@ enumMap.set("charsectioncondition.Sex", charSex);
 enumMap.set("uimap.Type", uiMapType);
 enumMap.set("soundkit.SoundType", soundkitSoundType);
 enumMap.set("criteria.Type", criteriaType);
+enumMap.set("itemdisplayinfomaterialres.ComponentSection", itemComponentSection);
 
 // Conditional enums
 let conditionalEnums = new Map();
