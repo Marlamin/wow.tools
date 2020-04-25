@@ -168,7 +168,8 @@ const charSectionFlags = {
 	0x40 : 'DEMONHUNTERFACE',
 	0x80 : 'DHBLINDFOLDS',
 	0x100 : 'SILHOUETTE',
-	0x200 : 'VOIDELF'
+	0x200 : 'VOIDELF',
+	0x400 : 'HAS_CONDITION?'
 }
 
 const chrRacesFlags = {

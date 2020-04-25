@@ -33,7 +33,7 @@ require_once("../inc/header.php");
 	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
-	var build = "9.0.1.33978";
+	var build = "9.0.1.34137";
 
 	/* Required DBs */
 	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
@@ -179,7 +179,7 @@ require_once("../inc/header.php");
 		.map(row => {
 			const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
 			const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
-			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=73819d732878c4352c634c4d40ba5baa&cdnconfig=819e3df384392721acdd4e96ab8e0431&filename=maptile&filedataid=${row.FileDataID}`;
+			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=e232197b8eb788ab32196da5ba2fb60b&cdnconfig=126b8c6b7b52313ab4bfbdea97c11ae5&filename=maptile&filedataid=${row.FileDataID}`;
 
 			return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
 		});
@@ -215,7 +215,7 @@ require_once("../inc/header.php");
 					if(wmotRow.WorldMapOverlayID == wmoRow.ID){
 						var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
 						var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
-						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=73819d732878c4352c634c4d40ba5baa&cdnconfig=819e3df384392721acdd4e96ab8e0431&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=e232197b8eb788ab32196da5ba2fb60b&cdnconfig=126b8c6b7b52313ab4bfbdea97c11ae5&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
 						renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
 					}
