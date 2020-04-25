@@ -1007,6 +1007,7 @@ const geosetType = {
 	18: 'Belt',
 	19: 'Tail',
 	20: 'Feet',
+	22: 'Torso',
 	23: 'DH Hands',
 	24: 'Head attachments',
 	25: 'DH Blindfolds',
