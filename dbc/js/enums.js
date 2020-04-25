@@ -968,7 +968,7 @@ const criteriaType = {
     216: 'UNK'
 }
 
-const itemComponentSection = {
+const componentSection = {
 	0: 'ArmUpper',
 	1: 'ArmLower',
 	2: 'Hand',
@@ -977,7 +977,45 @@ const itemComponentSection = {
 	5: 'LegUpper',
 	6: 'LegLower',
 	7: 'Foot',
-	8: 'Accessory'
+	8: 'Accessory',
+	9: 'ScalpUpper',
+	10: 'ScalpLower',
+	11: 'UNK0',
+	12: 'Tattoo unk0',
+	13: 'Tattoo unk1'
+}
+
+const geosetType = {
+	0: 'Skin/Hair',
+	1: 'Face 1',
+	2: 'Face 2',
+	3: 'Face 3',
+	4: 'Gloves',
+	5: 'Boots',
+	6: 'Unknown',
+	7: 'Ears',
+	8: 'Sleeves',
+	9: 'Kneepads',
+	10: 'Chest',
+	11: 'Pants',
+	12: 'Tabard',
+	13: 'Trousers',
+	14: 'Unknown',
+	15: 'Cloak',
+	16: 'Mechagnome Chin',
+	17: 'Eyeglows',
+	18: 'Belt',
+	19: 'Tail',
+	20: 'Feet',
+	23: 'DH Hands',
+	24: 'Head attachments',
+	25: 'DH Blindfolds',
+	29: 'Mechagnome Arms/Hands',
+	30: 'Mechagnome Legs',
+	31: 'Mechagnome Feet',
+	32: 'Face',
+	33: 'Eyes',
+	34: 'Eyebrows'
 }
 
 // Regular enums
@@ -998,7 +1036,14 @@ enumMap.set("charsectioncondition.Sex", charSex);
 enumMap.set("uimap.Type", uiMapType);
 enumMap.set("soundkit.SoundType", soundkitSoundType);
 enumMap.set("criteria.Type", criteriaType);
-enumMap.set("itemdisplayinfomaterialres.ComponentSection", itemComponentSection);
+enumMap.set("itemdisplayinfomaterialres.ComponentSection", componentSection);
+enumMap.set("charcomponenttexturesections.SectionType", componentSection);
+enumMap.set("chrcustomization.ComponentSection[0]", componentSection);
+enumMap.set("chrcustomization.ComponentSection[1]", componentSection);
+enumMap.set("chrcustomization.ComponentSection[2]", componentSection);
+enumMap.set("charhairgeosets.GeosetType", geosetType);
+enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
+enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
 
 // Conditional enums
 let conditionalEnums = new Map();
