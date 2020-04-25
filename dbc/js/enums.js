@@ -1015,7 +1015,9 @@ const geosetType = {
 	31: 'Mechagnome Feet',
 	32: 'Face',
 	33: 'Eyes',
-	34: 'Eyebrows'
+	34: 'Eyebrows',
+	35: 'Earrings',
+	36: 'Necklace'
 }
 
 // Regular enums
