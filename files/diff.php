@@ -117,7 +117,6 @@ if($type == "blp"){
 <?php
 }else{
     $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'] . "&raw=" . $_GET['raw'];
-
     ?>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html.min.js"></script>
@@ -136,14 +135,12 @@ if($type == "blp"){
                         outputFormat: 'side-by-side'
                     }
                     );
-                document.getElementById("diff").innerHTML = diffHtml;
+                document.getElementById("rawdiff").innerHTML = diffHtml;
             });
         });
     </script>
-
     <?php
 }
-
 if($type == "m2" || $type == "wmo"){
     $fromparams = "/fdid?buildconfig=".$frombuild['buildconfig']['hash']."&cdnconfig=".$frombuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
     $toparams = "/fdid?buildconfig=".$tobuild['buildconfig']['hash']."&cdnconfig=".$tobuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
@@ -154,14 +151,14 @@ if($type == "m2" || $type == "wmo"){
     downloadFile($toparams, $tofile);
     $fromOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($fromfile)." 2>&1"), true);
     $toOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($tofile)." 2>&1"), true);
-    $diffs = CompareArrays::Diff($fromOutput, $toOutput);
-    if(!empty($diffs)){
-        $diffs = CompareArrays::Flatten($diffs);
+    if(!empty($fromOutput) && !empty($toOutput)){
+        $diffs = CompareArrays::Diff($fromOutput, $toOutput);
+        if(!empty($diffs)){
+            $diffs = CompareArrays::Flatten($diffs);
+        }
     }
 }
-
 ?>
-
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="rawdiff-tab" data-toggle="tab" href="#rawdiff" role="tab" aria-controls="model" aria-selected="true">Raw diff</a>
