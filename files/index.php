@@ -119,6 +119,7 @@ foreach($lfproducts as $lfproduct){
 				<kbd>encrypted</kbd> for encrypted files<br>
 				<kbd>encrypted:KEY</kbd> for encrypted by key<br>
 				<kbd>skit:soundkitid</kbd> for searching by SoundKitID<br>
+				<kbd>range:start-end</kbd> search within a specific set of FileDataIDs<br>
 				<p>It is also possible to combine some of these options by separating them by a <kbd>,</kbd>. <br>Examples: <kbd>unnamed,type:wmo</kbd> <kbd>encrypted,creature,type:m2</kbd></p>
 			</div>
 			<div class="modal-footer">

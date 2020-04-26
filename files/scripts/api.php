@@ -84,6 +84,13 @@ if(!empty($_GET['search']['value'])){
 		}else if(substr($c, 0, 5) == "skit:"){
 			array_push($joins, " INNER JOIN `wowdata`.soundkitentry ON `wowdata`.soundkitentry.id=wow_rootfiles.id AND `wowdata`.soundkitentry.entry = ? ");
 			$joinparams[] = str_replace("skit:", "", $c);
+		}else if(substr($c, 0, 6) == "range:"){
+			$explRange = explode("-", str_replace("range:", "", $c));
+			if(count($explRange) == 2){
+				array_push($clauses, " (wow_rootfiles.ID BETWEEN ? AND ?) ");
+				$clauseparams[] = $explRange[0];
+				$clauseparams[] = $explRange[1];
+			}
 		} else {
 			// Point slashes the correct way :)
 			$c = trim($c);
