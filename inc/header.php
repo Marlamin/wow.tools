@@ -51,34 +51,36 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto mt-2 mt-md-0">
-				<?php $page = basename($_SERVER["SCRIPT_FILENAME"], '.php'); ?>
-				<li class="nav-item<?php if($page == "files"){ echo " active"; } ?>">
-					<a class="nav-link" href="/files/"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Files</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/files/"><i class="fa fa-files-o" aria-hidden="true"></i> Files</a>
 				</li>
-				<li class="nav-item<?php if($page == "dbc"){ echo " active"; } ?> dropdown">
+				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-table fa-lg" aria-hidden="true"></i> Database
+						<i class="fa fa-table" aria-hidden="true"></i> Database
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
 						<a class="dropdown-item" href="/dbc/">Browse table</a>
 						<a class="dropdown-item" href="/dbc/diff.php">Compare tables</a>
 					</div>
 				</li>
-				<li class="nav-item<?php if($page == "mv"){ echo " active"; } ?>">
-					<a class="nav-link" href="/mv/"><i class="fa fa-cube fa-lg" aria-hidden="true"></i> Models</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/mv/"><i class="fa fa-cube" aria-hidden="true"></i> Models</a>
 				</li>
-				<li class="nav-item<?php if($page == "maps"){ echo " active"; } ?>">
-					<a class="nav-link" href="/maps/"><i class="fa fa-map-o fa-lg" aria-hidden="true"></i> Maps</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/maps/"><i class="fa fa-map-o" aria-hidden="true"></i> Map</a>
 				</li>
-				<li class="nav-item<?php if($page == "monitor"){ echo " active"; } ?>">
-					<a class="nav-link" href="/monitor/"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Monitor</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/monitor/"><i class="fa fa-search" aria-hidden="true"></i> Monitor</a>
 				</li>
-				<li class="nav-item<?php if($page == "mirror"){ echo " active"; } ?>">
-					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o fa-lg" aria-hidden="true"></i> Builds</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o" aria-hidden="true"></i> Builds</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/export/"><img src='https://wow.tools/img/newlogosm.png' style='width: 16px;'> Export</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-cog fa-lg" aria-hidden="true"></i> Experimental
+						<i class="fa fa-flask" aria-hidden="true"></i> Experiments
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
 						<a class="dropdown-item" href="/realms/">Realm status</a>
