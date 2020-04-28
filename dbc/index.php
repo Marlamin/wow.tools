@@ -425,7 +425,6 @@ $dbFound = false;
 							if(conditionalEnums.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
 								let conditionalEnum = conditionalEnums.get(currentParams["dbc"] + '.' + json["headers"][meta.col]);
 								conditionalEnum.forEach(function(conditionalEnumEntry){
-									console.log(conditionalEnumEntry);
 									let condition = conditionalEnumEntry[0].split('=');
 									let conditionTarget = condition[0].split('.');
 									let conditionValue = condition[1];
@@ -436,8 +435,26 @@ $dbFound = false;
 									// Col target found?
 									if(colTarget > -1){
 										if(full[colTarget] == conditionValue){
-											console.log(resultEnum);
 											returnVar = full[meta.col] + " <i>(" + getEnumVal(resultEnum, full[meta.col]) + ")</i>";
+										}
+									}
+								});
+							}
+
+							if(conditionalFlags.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+								let conditionalFlag = conditionalFlags.get(currentParams["dbc"] + '.' + json["headers"][meta.col]);
+								conditionalFlag.forEach(function(conditionalFlagEntry){
+									let condition = conditionalFlagEntry[0].split('=');
+									let conditionTarget = condition[0].split('.');
+									let conditionValue = condition[1];
+									let resultFlag = conditionalFlagEntry[1];
+
+									let colTarget = json["headers"].indexOf(conditionTarget[1]);
+
+									// Col target found?
+									if(colTarget > -1){
+										if(full[colTarget] == conditionValue){
+											returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col], resultFlag).join(",<br> ") + "'>0x" + Number(full[meta.col]).toString(16) + "</span>";
 										}
 									}
 								});

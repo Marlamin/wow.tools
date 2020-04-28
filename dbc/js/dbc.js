@@ -103,9 +103,14 @@ function openFKModal(value, location, build){
 	});
 }
 
-function getFlagDescriptions(db, field, value){
+function getFlagDescriptions(db, field, value, targetFlags = 0){
 	let usedFlags = Array();
-	const targetFlags = flagMap.get(db + '.' + field);
+	if(targetFlags == 0){
+		targetFlags = flagMap.get(db + '.' + field);
+	}
+
+	if(value == "-1")
+		return ["All"];
 
 	for(let i = 0; i < 32; i++){
 		let toCheck = 1 << i;
@@ -130,6 +135,6 @@ function getEnumVal(targetEnum, value){
 	if(targetEnum[value] !== undefined){
 		return targetEnum[value];
 	}else{
-		return false;
+		return "Unk";
 	}
 }

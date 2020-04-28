@@ -1021,6 +1021,10 @@ const geosetType = {
 	36: 'Necklace'
 }
 
+const chrCustomizationReqType = {
+	1: 'ClassReq'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -1047,6 +1051,7 @@ enumMap.set("chrcustomization.ComponentSection[2]", componentSection);
 enumMap.set("charhairgeosets.GeosetType", geosetType);
 enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
 enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
+enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 
 // Conditional enums
 let conditionalEnums = new Map();

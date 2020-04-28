@@ -223,6 +223,7 @@ const globalstringsFlags ={
 	0x2: 'GLUEXML'
 };
 
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -249,3 +250,11 @@ flagMap.set("map.Flags[0]", mapFlags);
 flagMap.set("soundkit.Flags", soundkitFlags);
 
 flagMap.set("globalstrings.Flags", globalstringsFlags);
+
+// Conditional flags
+let conditionalFlags = new Map();
+conditionalFlags.set("chrcustomizationreq.ReqValue",
+	[
+		['chrcustomizationreq.ReqType=1', classMask],
+	]
+);
