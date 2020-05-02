@@ -1,5 +1,8 @@
 <?php
 require_once("../inc/header.php");
+$build = "9.0.1.34199";
+$buildconfig = "3122f021ed54960df43a84a6239c3827";
+$cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
@@ -33,7 +36,7 @@ require_once("../inc/header.php");
 	<canvas id='mapCanvas' width='1024' height='1024'></canvas>
 </div>
 <script type='text/javascript'>
-	var build = "9.0.1.34137";
+	var build = "<?=$build?>";
 
 	/* Required DBs */
 	const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
@@ -179,7 +182,7 @@ require_once("../inc/header.php");
 		.map(row => {
 			const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
 			const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
-			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=e232197b8eb788ab32196da5ba2fb60b&cdnconfig=126b8c6b7b52313ab4bfbdea97c11ae5&filename=maptile&filedataid=${row.FileDataID}`;
+			const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
 
 			return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
 		});
@@ -215,7 +218,7 @@ require_once("../inc/header.php");
 					if(wmotRow.WorldMapOverlayID == wmoRow.ID){
 						var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
 						var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
-						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=e232197b8eb788ab32196da5ba2fb60b&cdnconfig=126b8c6b7b52313ab4bfbdea97c11ae5&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+						var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
 						renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
 					}

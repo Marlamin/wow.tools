@@ -82,6 +82,8 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 		echo "</div>";
 	}
 }
+
+// $allFiles = $pdo->query("SELECT filename FROM wow_rootfiles")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <div class="container-fluid">
 	<?php if(empty($_SESSION['loggedin']) || $_SESSION['rank'] == 0){?>
@@ -110,7 +112,13 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 						echo "<tr><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['submitted']."</td><td><pre style='max-height: 200px; overflow-y: scroll; color: var(--text-color)'><table class='table table-minimal'><thead style='position: sticky; top: 0px;'><tr><th>FileDataID</th><th>Suggested name</th><th>Current name (if set)</th></tr></thead>";
 					}
 
-					echo "<tr><td>".$row['filedataid']."</td><td>".$row['filename']."</td>";
+					echo "<tr><td>".$row['filedataid']."</td>";
+					// if(in_array($row['filename'], $allFiles)){
+					// 	echo "<td>!!!! DUPLICATE !!!! ".$row['filename']."</td>";
+					// }else{
+						echo "<td>".$row['filename']."</td>";
+
+					// }
 					$cq->execute([$row['filedataid']]);
 					$cr = $cq->fetch();
 					if(!empty($cr['filename'])){
