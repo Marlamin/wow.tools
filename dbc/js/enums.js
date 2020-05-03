@@ -1101,7 +1101,7 @@ const effectAuraType = {
     60: 'MOD_PACIFY_SILENCE',
     61: 'MOD_SCALE',
     62: 'PERIODIC_HEALTH_FUNNEL',
-    // 63: '63',
+    63: 'MOD_ADDITIONAL_POWER_COST    ',
     64: 'PERIODIC_MANA_LEECH',
     65: 'MOD_CASTING_SPEED_NOT_STACK',
     66: 'FEIGN_DEATH',
@@ -1157,7 +1157,7 @@ const effectAuraType = {
     116: 'MOD_REGEN_DURING_COMBAT',
     117: 'MOD_MECHANIC_RESISTANCE',
     118: 'MOD_HEALING_PCT',
-    // 119: '119',
+    119: 'PVP_TALENTS',
     120: 'UNTRACKABLE',
     121: 'EMPATHY',
     122: 'MOD_OFFHAND_DAMAGE_PCT',
@@ -1296,7 +1296,7 @@ const effectAuraType = {
     255: 'MOD_MECHANIC_DAMAGE_TAKEN_PERCENT',
     256: 'NO_REAGENT_USE',
     257: 'MOD_TARGET_RESIST_BY_SPELL_CLASS',
-    // 258: '258',
+    258: 'OVERRIDE_SUMMONED_OBJECT',
     // 259: '259',
     260: 'SCREEN_EFFECT',
     261: 'PHASE',
@@ -1308,7 +1308,7 @@ const effectAuraType = {
     267: 'MOD_IMMUNE_AURA_APPLY_SCHOOL',
     // 268: '268',
     269: 'MOD_IGNORE_TARGET_RESIST',
-    // 270: '270',
+    270: 'SCHOOL_MASK_DAMAGE_FROM_CASTER',
     271: 'MOD_SPELL_DAMAGE_FROM_CASTER',
     272: 'IGNORE_MELEE_RESET',
     273: 'X_RAY',
@@ -1363,7 +1363,7 @@ const effectAuraType = {
     322: 'INTERFERE_TARGETTING',
     // 323: '323',
     // 324: '324',
-    // 325: '325',
+    325: 'LEARN_PVP_TALENT',
     326: 'PHASE_GROUP',
     // 327: '327',
     328: 'PROC_ON_POWER_AMOUNT',
@@ -1393,7 +1393,7 @@ const effectAuraType = {
     // 352: '352',
     353: 'MOD_CAMOUFLAGE',
     // 354: '354',
-    // 355: '355',
+    355: 'MOD_CASTING_SPEED',
     // 356: '356',
     357: 'ENABLE_BOSS1_UNIT_FRAME',
     358: 'WORGEN_ALTERED_FORM',
@@ -1411,13 +1411,13 @@ const effectAuraType = {
     370: 'SET_FAIR_FAR_CLIP',
     // 371: '371',
     // 372: '372',
-    // 373: '373',
+    373: 'MOD_SPEED_NO_CONTROL',
     374: 'MODIFY_FALL_DAMAGE_PCT',
     // 375: '375',
     376: 'MOD_CURRENCY_GAIN_FROM_SOURCE',
     377: 'CAST_WHILE_WALKING_2',
     // 378: '378',
-    // 379: '379',
+    379: 'MOD_MANA_REGEN_PCT',
     380: 'MOD_GLOBAL_COOLDOWN_BY_HASTE',
     // 381: '381',
     382: 'MOD_PET_STAT_PCT',
@@ -1444,10 +1444,10 @@ const effectAuraType = {
     403: 'OVERRIDE_SPELL_VISUAL',
     404: 'OVERRIDE_ATTACK_POWER_BY_SP_PCT',
     405: 'MOD_RATING_PCT',
-    // 406: '406',
+    406: 'KEYBOUND_OVERRIDE',
     407: 'MOD_FEAR_2',
     // 408: '408',
-    // 409: '409',
+    409: 'CAN_TURN_WHILE_FALLING',
     // 410: '410',
     411: 'MOD_MAX_CHARGES',
     // 412: '412',
@@ -1466,34 +1466,34 @@ const effectAuraType = {
     // 425: '425',
     // 426: '426',
     427: 'SCALE_PLAYER_LEVEL',
-    // 428: '428',
+    428: 'LINKED_SUMMON',
     // 429: '429',
-    // 430: '430',
-    // 431: '431',
-    // 432: '432',
-    // 433: '433',
-    // 434: '434',
-    // 435: '435',
+    430: 'SPELL_AURA_PLAY_SCENE',
+    431: 'MOD_OVERRIDE_ZONE_PVP_TYPE',
+    // 432: '432', // UNUSED IN 9.0.1.34199
+    // 433: '433', // UNUSED IN 9.0.1.34199
+    // 434: '434', // Attacking nearby units (players/NPCs) of same faction?
+    // 435: '435', // UNUSED IN 9.0.1.34199
     436: 'MOD_ENVIRONMENTAL_DAMAGE_TAKEN',
-    // 437: '437',
+    437: 'MOD_MINIMUM_SPEED_RATE',
     438: 'PRELOAD_PHASE',
-    // 439: '439',
+    // 439: '439', // UNUSED IN 9.0.1.34199
     440: 'MOD_MULTISTRIKE_DAMAGE',
     441: 'MOD_MULTISTRIKE_CHANCE',
     442: 'MOD_READINESS',
     443: 'MOD_LEECH',
-    // 444: '444',
-    // 445: '445',
-    // 446: '446',
+    // 444: '444', // UNUSED IN 9.0.1.34199
+    // 445: '445', // UNUSED IN 9.0.1.34199
+    // 446: '446', // UNUSED IN 9.0.1.34199
     447: 'MOD_XP_FROM_CREATURE_TYPE',
-    // 448: '448',
-    // 449: '449',
-    // 450: '450',
+    // 448: '448', // Related to PvP rules
+    // 449: '449', // UNUSED IN 9.0.1.34199
+    // 450: '450', // Only used in Character Upgrade Spell Tier (156747)
     451: 'OVERRIDE_PET_SPECS',
-    // 452: '452',
+    // 452: '452', // UNUSED IN 9.0.1.34199
     453: 'CHARGE_RECOVERY_MOD',
     454: 'CHARGE_RECOVERY_MULTIPLIER',
-    // 455: '455',
+    455: 'MOD_ROOT_2', // Related to being immobilized/rooted
     456: 'CHARGE_RECOVERY_AFFECTED_BY_HASTE',
     457: 'CHARGE_RECOVERY_AFFECTED_BY_HASTE_REGEN',
     458: 'IGNORE_DUAL_WIELD_HIT_PENALTY',
@@ -1523,7 +1523,7 @@ const effectAuraType = {
     // 482: '482', // Only used in S.E.L.F.I.E spells, always set to 120
     483: 'SUPPRESS_TRANSFORMS',
     // 484: '484', // INTERRUPTABLE_BY_SPELL
-    // 485: '485', // MOD_RESIST_FORCED_MOVEMENT_PCT
+    485: 'MOD_MOVEMENT_FORCE_MAGNITUDE',
     // 486: '486', // OBSCURED?
     // 487: '487', // 12 spells, possibly SpellVisual* related?
     // 488: '488', // Frozen effect? Paused anim?? (195289 + movement spells)
