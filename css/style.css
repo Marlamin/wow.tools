@@ -19,7 +19,7 @@ html {
 *,
 *:before,
 *:after {
-	transition: background-color 0.5s ease-out;
+	transition: background-color 0.3s ease-out;
 	box-sizing: inherit;
 }
 
@@ -161,6 +161,10 @@ pre{
 
 .table .table{
 	background-color: transparent;
+}
+
+.table tr:hover{
+	background-color: #f1515138 !important;
 }
 
 .fptable tr{
