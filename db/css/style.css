@@ -1,0 +1,19 @@
+#creatures_wrapper{
+	width: 45%;
+	float: left;
+}
+
+#creatures_preview{
+	width: 55%;
+    float: left;
+    padding-left: 15px;
+}
+
+tr.selected{
+    background-color: #8bc34aa1 !important;
+}
+
+#tableContainer{
+	max-height: 175px;
+	overflow-y: scroll;
+}
