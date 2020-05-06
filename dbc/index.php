@@ -483,6 +483,8 @@ $dbFound = false;
 
 					window.location.hash = hashPart;
 
+					$('.popover').remove();
+
 					$("[data-toggle=popover]").popover();
 				});
 

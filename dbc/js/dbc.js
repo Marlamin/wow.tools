@@ -53,6 +53,15 @@ function openFKModal(value, location, build){
 		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>");
 	}
 
+	// if(db == "creature"){
+	// 	$.ajax({
+	// 		"url": "https://wow.tools/db/creature_api.php?id=" + value,
+	// 		"success": function(json) {
+	// 			console.log(json);
+	// 		}
+	// 	});
+	// }
+
 	$("#fkModalContent").append("<table id='fktable' class='table table-condensed table-striped'>");
 
 	$.ajax({

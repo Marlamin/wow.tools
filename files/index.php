@@ -359,6 +359,8 @@ $('#files').on( 'draw.dt', function () {
 
 	window.location.hash = url;
 
+	$('.popover').remove();
+
 	$("[data-toggle=popover]").popover();
 });
 

@@ -1546,9 +1546,12 @@ conditionalFKs.set("itembonus.Value[0]",
 
 conditionalFKs.set("spelleffect.EffectMiscValue[0]",
 	[
+		['spelleffect.EffectAura=56','creature::ID'],
+		['spelleffect.Effect=28','creature::ID'],
 		['spelleffect.Effect=90','creature::ID'],
 		['spelleffect.Effect=131','soundkit::ID'],
 		['spelleffect.Effect=132','soundkit::ID'],
+		['spelleffect.Effect=134','creature::ID'],
 	]
 );
 
