@@ -37,5 +37,6 @@ php encrypted.php
 php fixBranches.php
 php ../../files/scripts/updateSizes.php
 php ../../dbc/scripts/updateHotfixes.php
+php ../../dbc/scripts/updateCaches.php
 cd /home/wow/autodbd/
 php update.php
