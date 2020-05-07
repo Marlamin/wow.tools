@@ -9,6 +9,17 @@
     padding-left: 15px;
 }
 
+#quests_wrapper{
+	width: 45%;
+	float: left;
+}
+
+#quests_preview{
+	width: 55%;
+    float: left;
+    padding-left: 15px;
+}
+
 tr.selected{
     background-color: #8bc34aa1 !important;
 }

@@ -2,33 +2,24 @@
 require_once("../inc/config.php");
 
 if(!empty($_GET['id'])){
-	$q = $pdo->prepare("SELECT json FROM wowdata.creatures WHERE id = ?");
+	$q = $pdo->prepare("SELECT json FROM wowdata.quests WHERE id = ?");
 	$q->execute([$_GET['id']]);
 
 	header("Content-Type: application/json");
 
 	$row = $q->fetch(PDO::FETCH_ASSOC);
 	if(empty($row)){
-		die(json_encode(["error" => "Creature not found!"]));
+		die(json_encode(["error" => "Quest not found!"]));
 	}
 
-	$creature = json_decode($row['json'], true);
+	$quest = json_decode($row['json'], true);
 
-	if(!empty($creature['CreatureDisplayInfoID[0]'])){
-		$cdi = $pdo->prepare("SELECT filedataid FROM wowdata.creaturemodeldata WHERE id IN (SELECT ModelID FROM wowdata.creaturedisplayinfo WHERE ID = ?)");
-		$cdi->execute([$creature['CreatureDisplayInfoID[0]']]);
-		$cdirow = $cdi->fetch(PDO::FETCH_ASSOC);
-		if(!empty($cdirow)){
-			$creature['filedataid'] = $cdirow['filedataid'];
-		}
-	}
-
-	echo json_encode($creature);
+	echo json_encode($quest);
 
 	die();
 }
 
-$query = "FROM wowdata.creatures ";
+$query = "FROM wowdata.quests ";
 
 if(!empty($_GET['search']['value'])){
 	$query .= " WHERE id LIKE :search1 OR name LIKE :search2";
@@ -40,16 +31,16 @@ if(!empty($_GET['order'])){
 	$orderby .= " ORDER BY ";
 	switch($_GET['order'][0]['column']){
 		case 0:
-		$orderby .= "creatures.id";
+		$orderby .= "quests.id";
 		break;
 		case 1:
-		$orderby .= "creatures.name";
+		$orderby .= "quests.name";
 		break;
 		case 2:
-		$orderby .= "creatures.firstseenbuild";
+		$orderby .= "quests.firstseenbuild";
 		break;
 		case 3:
-		$orderby .= "creatures.lastupdatedbuild";
+		$orderby .= "quests.lastupdatedbuild";
 		break;
 	}
 
@@ -81,7 +72,7 @@ $dataq->execute();
 
 $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
-$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wowdata.creatures")->fetchColumn();
+$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wowdata.quests")->fetchColumn();
 $returndata['data'] = array();
 
 foreach($dataq->fetchAll() as $row){
