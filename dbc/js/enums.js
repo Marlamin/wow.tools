@@ -1497,6 +1497,27 @@ const effectAuraType = {
     // 493: '493', // SUMMON_ADDITIONAL_PET?
 }
 
+const spellVisualKitEffectType = {
+	// 1: '1',
+	2: 'SpellVisualKitModelAttachID',
+	// 3: '3',
+	// 4: '4',
+	5: 'SoundKitID',
+	6: 'SpellVisualAnimID',
+	// 7: '7',
+	// 8: '8',
+	// 9: '9',
+	// 10: '10',
+	// 11: '11',
+	// 12: '12',
+	// 13: '13',
+	// 14: '14',
+	// 15: '15', // Unused
+	// 16: '16',
+	// 17: '17',
+	// 18: '18'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -1526,6 +1547,7 @@ enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
 enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
 enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
+enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 
 // Conditional enums
 let conditionalEnums = new Map();
@@ -1565,3 +1587,10 @@ conditionalFKs.set("criteria.Asset",
 	]
 );
 
+conditionalFKs.set("spellvisualkiteffect.Effect",
+	[
+		['spellvisualkiteffect.EffectType=2','spellvisualkitmodelattach::ID'],
+		['spellvisualkiteffect.EffectType=5','soundkit::ID'],
+		['spellvisualkiteffect.EffectType=6','spellvisualanim::ID'],
+	]
+);
