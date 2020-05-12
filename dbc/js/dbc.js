@@ -53,16 +53,18 @@ function openFKModal(value, location, build){
 		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>");
 	}
 
-	// if(db == "creature"){
-	// 	$.ajax({
-	// 		"url": "https://wow.tools/db/creature_api.php?id=" + value,
-	// 		"success": function(json) {
-	// 			console.log(json);
-	// 		}
-	// 	});
-	// }
+
 
 	$("#fkModalContent").append("<table id='fktable' class='table table-condensed table-striped'>");
+
+	if(db == "spell" && col == "ID"){
+		$.ajax({
+			"url": "/dbc/api/peek/spellname?build=" + build + "&col=ID&val=" + value,
+			"success": function(json) {
+				$("#fktable").append("<tr><td>Name <small>(from SpellName)</small></td><td>" + json.values["Name_lang"] + "</td></tr>");
+			}
+		});
+	}
 
 	$.ajax({
 		"url": "/dbc/api/header/" + db + "?build=" + build,
@@ -100,7 +102,7 @@ function openFKModal(value, location, build){
 
 						const numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
 						const page = Math.floor(((json.offset - 1) / 25) + 1);
-						$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + splitLocation[0].replace(".db2", "").toLowerCase() + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+						$("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + db.replace(".db2", "") + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
 					}
 				}
 			}).fail(function() {
