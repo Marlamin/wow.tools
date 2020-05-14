@@ -1,8 +1,8 @@
 <?php
 require_once("../inc/header.php");
-$build = "9.0.1.34199";
-$buildconfig = "3122f021ed54960df43a84a6239c3827";
-$cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
+$build = "9.0.1.34365";
+$buildconfig = "4996b79135b3feff1062f2c0a30c7b70";
+$cdnconfig = "c754e133385c36ccf4b5c0768f38bd5f";
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
@@ -276,4 +276,15 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
 			renderExplored();
 		}
 	});
+
+	// $("#mapCanvas").on("contextmenu", function (){
+	// 	var currentMap = $("#mapSelect").val();
+	// 	let parent = getParentMapByUIMapID(currentMap);
+	// 	console.log(parent);
+	// 	if(parent && parent.ParentUiMapID > 0){
+	// 		renderMap(parent.ParentUiMapID);
+	// 	}
+
+	// 	return false;
+	// });
 </script>
