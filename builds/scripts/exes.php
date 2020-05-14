@@ -59,7 +59,7 @@ while($row = $res->fetch()){
 		// Parse file only if exists (could be that previous step failed)
 		if(file_exists($filename)){
 			echo "	File exists, adding build time to DB\n";
-			$output = shell_exec("/usr/bin/strings ".$filename." | grep Built");
+			$output = shell_exec("/usr/bin/strings ".$filename." | grep \"Exe Built:\"");
 			$output = str_replace("Exe Built: ", "", $output);
 			$date = date('Y-m-d H:i:s',strtotime($output))."\n";
 			$uq = $pdo->prepare("UPDATE wow_buildconfig SET builton = ? WHERE hash = ?");
