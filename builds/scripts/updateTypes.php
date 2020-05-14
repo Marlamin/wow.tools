@@ -79,13 +79,13 @@ while(true){
 			$uq->execute();
 		}
 	}
-	/* Unknown but decrypted */
+	// /* Unknown but decrypted */
 
-	$resetTypeQ = $pdo->prepare("UPDATE wow_rootfiles SET type = NULL WHERE id = ?");
+	// $resetTypeQ = $pdo->prepare("UPDATE wow_rootfiles SET type = NULL WHERE id = ?");
 
-	foreach($pdo->query("SELECT id FROM wow_rootfiles WHERE id IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname IN (SELECT wow_tactkey.keyname FROM wow_tactkey WHERE wow_tactkey.keybytes IS NOT NULL)) AND wow_rootfiles.type = 'unk'") as $file){
-		$resetTypeQ->execute([$file['id']]);
-	}
+	// foreach($pdo->query("SELECT id FROM wow_rootfiles WHERE id IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname IN (SELECT wow_tactkey.keyname FROM wow_tactkey WHERE wow_tactkey.keybytes IS NOT NULL)) AND wow_rootfiles.type = 'unk'") as $file){
+	// 	$resetTypeQ->execute([$file['id']]);
+	// }
 
 	/* Unknown filenames */
 	$files = array();
@@ -125,9 +125,9 @@ while(true){
 		fclose($fhandle);
 
 		echo("Extracting " . $toextract . " unknown files (".$extracted ." already extracted) for buildconfig ".$buildconfig."\n");
-
+		// echo "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
 		if($toextract > 0){
-			$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt");
+			exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt");
 		}
 
 		foreach(glob("/tmp/casc/".$buildconfig."/*.unk") as $extractedfile){

@@ -59,9 +59,9 @@ foreach($pdo->query($query) as $row){
 	$fhandle = fopen($extractList, "w");
 
 	// Retrieve list of available filedatads in this build
-	echo "Requesting filedataids for build " . $row['description']."\n";
+	echo "[DB2 export] Requesting filedataids for build " . $row['description']."\n";
 	$fdids = getFileDataIDs($row['buildconfig'], $row['cdnconfig']);
-	echo "Got " . count($fdids) . " filedataids for build " . $row['description']."\n";
+	echo "[DB2 export] Got " . count($fdids) . " filedataids for build " . $row['description']."\n";
 	if(empty($fdids)){
 		echo "Error retrieving FDIDs!";
 		fclose($fhandle);
@@ -83,12 +83,12 @@ foreach($pdo->query($query) as $row){
 	fclose($fhandle);
 
 	if($buildNeedsExtract){
-		echo "Build " . $row['description'] . " needs an update! Missing files:\n";
+		echo "[DB2 export] Build " . $row['description'] . " needs an update! Missing files:\n";
 		foreach($missingFiles as $missingFile){
 			echo "	" . $missingFile."\n";
 		}
 
-		echo "Exporting DBCs to ".$outdir."\n";
+		echo "[DB2 export] Exporting DBCs to ".$outdir."\n";
 		$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist ".$row['buildconfig']." ".$row['cdnconfig']." /home/wow/dbcs/".$outdir."/ " . escapeshellarg($extractList));
 	}
 

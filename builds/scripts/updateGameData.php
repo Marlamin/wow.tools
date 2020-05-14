@@ -21,7 +21,7 @@ function importDB2($name, $outdir, $fields){
 	if(!file_exists($csv)){
 		echo "An error occured during ".$name." import: ".$outputdump;
 	}else{
-		echo "	Writing ".$name." (".$outdir.")..";
+		echo "[DB2 import] Writing ".$name." (".$outdir.")..";
 		$pdo->exec("
 			LOAD DATA LOCAL INFILE '".$csv."'
 			INTO TABLE `wowdata`.".$name."

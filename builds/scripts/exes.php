@@ -47,7 +47,7 @@ while($row = $res->fetch()){
 			// Remove if you magically get 18179 archives complete again
 				if($row['buildconfig'] == "cc7af6d878238d1c78d828db5146d343") continue;
 
-				echo $row['description'].": ".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"\n";
+				echo "[EXE dump] ".$row['description'].": ".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"\n";
 				$output = shell_exec("/usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilebycontenthash wow \"".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"");
 				shell_exec("chmod -R 777 /home/wow/exes/*");
 				print_r($output);
@@ -58,14 +58,14 @@ while($row = $res->fetch()){
 	if($row['builton'] == NULL){
 		// Parse file only if exists (could be that previous step failed)
 		if(file_exists($filename)){
-			echo "	File exists, adding build time to DB\n";
+			echo "[EXE dump] File exists, adding build time to DB\n";
 			$output = shell_exec("/usr/bin/strings ".$filename." | grep \"Exe Built:\"");
 			$output = str_replace("Exe Built: ", "", $output);
 			$date = date('Y-m-d H:i:s',strtotime($output))."\n";
 			$uq = $pdo->prepare("UPDATE wow_buildconfig SET builton = ? WHERE hash = ?");
 			$uq->execute([$date, $row['buildconfig']]);
 		}else{
-			echo "	File " . $filename . " does not exist.\n";
+			echo "[EXE dump] File " . $filename . " does not exist.\n";
 		}
 	}else{
 	}
