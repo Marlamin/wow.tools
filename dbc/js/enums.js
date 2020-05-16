@@ -1789,7 +1789,7 @@ const spellLabelName = {
 	// 613: '613',
 	// 614: '614',
 	615: 'Timewarp, Heroism, Drums etc',
-	// 616: '616',
+	// 616: '616', // Hardcoded check
 	// 617: '617',
 	// 621: '621',
 	// 623: '623',
@@ -1823,10 +1823,10 @@ const spellLabelName = {
 	// 664: '664',
 	// 665: '665',
 	// 666: '666',
-	// 667: '667',
-	// 668: '668',
-	// 669: '669',
-	// 670: '670',
+	// 667: '667', // PvP Hardcoded
+	// 668: '668', // PvP Hardcoded
+	// 669: '669', // PvP Hardcoded
+	// 670: '670', // PvP Hardcoded
 	// 671: '671',
 	672: 'Empowered Null Barrier',
 	673: 'Null Barrier',
@@ -1887,7 +1887,7 @@ const spellLabelName = {
 	// 743: '743',
 	// 744: '744',
 	// 745: '745',
-	// 746: '746',
+	// 746: '746', // Hardcoded check
 	// 747: '747',
 	// 748: '748',
 	// 749: '749',
@@ -2028,6 +2028,64 @@ const spellLabelName = {
 	963: 'Runes 3 (DK)', // Blood???
 }
 
+const unitConditionVariable = {
+	8: 'CAN_ASSIST',
+	9: 'CAN_ATTACK',
+	16: 'COMBO_POINTS',
+	24: 'DAMAGE_SCHOOL0_PERCENT',
+	25: 'DAMAGE_SCHOOL1_PERCENT',
+	26: 'DAMAGE_SCHOOL2_PERCENT',
+	27: 'DAMAGE_SCHOOL3_PERCENT',
+	28: 'DAMAGE_SCHOOL4_PERCENT',
+	29: 'DAMAGE_SCHOOL5_PERCENT',
+	30: 'DAMAGE_SCHOOL6_PERCENT',
+	37: 'NPC_NUM_MELEE_ATTACKERS',
+	40: 'IS_IN_MELEE_RANGE',
+	41: 'PURSUIT_TIME',
+	42: 'HARMFUL_AURA_CANCELLED_BY_DAMAGE',
+	45: 'NUM_FRIENDS',
+	46: 'THREAT_SCHOOL0_PERCENT',
+	47: 'THREAT_SCHOOL1_PERCENT',
+	48: 'THREAT_SCHOOL2_PERCENT',
+	49: 'THREAT_SCHOOL3_PERCENT',
+	50: 'THREAT_SCHOOL4_PERCENT',
+	51: 'THREAT_SCHOOL5_PERCENT',
+	52: 'THREAT_SCHOOL6_PERCENT',
+	53: 'IS_INTERRUPTIBLE',
+	55: 'NPC_NUM_RANGED_ATTACKERS',
+	56: 'CREATURE_TYPE',
+	57: 'IN_MELEE_RANGE',
+	60: 'SPELL_KNOWN',
+	62: 'IS_AREA_IMMUNE',
+	64: 'DAMAGE_MAGIC_PERCENT',
+	65: 'DAMAGE_PERCENT',
+	66: 'THREAT_MAGIC_PERCENT',
+	67: 'THREAT_PERCENT',
+	69: 'HAS_TOTEM1',
+	70: 'HAS_TOTEM2',
+	71: 'HAS_TOTEM3',
+	72: 'HAS_TOTEM4',
+	73: 'HAS_TOTEM5',
+	75: 'HAS_STRING_ID',
+	76: 'HAS_AURA',
+	77: 'REACTION_HOSTILE',
+	78: 'CHAR_SPECIALIZATION_???',
+	79: 'ROLE_IS_TANK',
+	80: 'CHAR_SPECIALIZATION_???',
+	81: 'ROLE_IS_HEALER',
+	84: 'PATH_FAIL_COUNT',
+	86: 'HAS_LABEL'
+}
+
+const unitConditionOperator = {
+	1: 'EQUAL TO',
+	2: 'NOT EQUAL TO',
+	3: 'LESS THAN',
+	4: 'LESS THAN OR EQUAL TO',
+	5: 'GREATER THAN',
+	6: 'GREATER THAN OR EQUAL TO',
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2059,6 +2117,11 @@ enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("spelllabel.LabelID", spellLabelName);
+
+for(let i = 0; i < 8; i++){
+	enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
+	enumMap.set("unitcondition.Op[" + i + "]", unitConditionOperator);
+}
 
 // Conditional enums
 let conditionalEnums = new Map();
@@ -2112,3 +2175,10 @@ conditionalFKs.set("modifiertree.Asset",
 	]
 );
 
+for(let i = 0; i < 8; i++){
+	conditionalFKs.set("unitcondition.Value[" + i + "]",
+		[
+			['unitcondition.Variable[' + i + ']=76','spell::ID'],
+		]
+	);
+}
