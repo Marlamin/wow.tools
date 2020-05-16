@@ -146,14 +146,28 @@ function getFlagDescriptions(db, field, value, targetFlags = 0){
 		let toCheck = 1 << i;
 		if(value & toCheck){
 			if(targetFlags !== undefined && targetFlags[toCheck]){
-				usedFlags.push('0x' + "" + dec2hex(toCheck) + ": " + targetFlags[toCheck]);
+				usedFlags.push(['0x' + "" + dec2hex(toCheck), targetFlags[toCheck]]);
 			}else{
-				usedFlags.push('0x' + "" + dec2hex(toCheck));
+				usedFlags.push(['0x' + "" + dec2hex(toCheck), ""]);
 			}
 		}
 	}
 
 	return usedFlags;
+}
+
+function fancyFlagTable(flagArrs){
+	if(flagArrs.length == 0){
+		return "";
+	}
+
+	let tableHtml = "<table class=\"table table-sm table-striped\">";
+	flagArrs.forEach((flagArr) => {
+		tableHtml += "<tr><td>" + flagArr[0] + "</td><td>" + flagArr[1] + "</td></tr>";
+	});
+	tableHtml += "</table>";
+
+	return tableHtml;
 }
 
 function getEnum(db, field, value){

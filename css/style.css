@@ -251,6 +251,7 @@ pre{
 
 .popover{
 	border: 1px solid var(--border-color);
+	max-width: 100%;
 	background-color: var(--background-color);
 }
 

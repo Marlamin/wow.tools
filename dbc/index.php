@@ -398,7 +398,7 @@ $dbFound = false;
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}
 							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
-								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col]).join(",<br> ") + "'>0x" + dec2hex(full[meta.col]) + "</span>";
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
 							}else if(enumMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
 								returnVar = full[meta.col] + " <i>(" + getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]) + ")</i>";
 							}
@@ -485,7 +485,7 @@ $dbFound = false;
 
 					$('.popover').remove();
 
-					$("[data-toggle=popover]").popover();
+					$("[data-toggle=popover]").popover({sanitize: false});
 				});
 
 			},
