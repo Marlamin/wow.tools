@@ -1793,9 +1793,9 @@ const spellLabelName = {
 	// 617: '617',
 	// 621: '621',
 	// 623: '623',
-	627: 'Torghast/Anima',
+	627: 'Torghast',
 	// 629: '629',
-	630: 'Torghast/Anima 2',
+	630: 'Anima Power',
 	// 634: '634',
 	// 638: '638',
 	// 640: '640',
@@ -2018,8 +2018,14 @@ const spellLabelName = {
 	940: 'Hex',
 	948: 'Warrior shouts',
 	// 951: '951',
-	// 952: '952',
-	// 954: '954',
+	952: 'Warrior cooldowns',
+	954: 'Priest heals',
+	958: 'Flasks',
+	959: 'Well Fed(s)',
+	960: 'Sinful Revelations', // (Priest? Pala?)
+	961: 'Runes (DK)', // Frost?
+	962: 'Runes 2 (DK)', // Unholy?
+	963: 'Runes 3 (DK)', // Blood???
 }
 
 // Regular enums
