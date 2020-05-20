@@ -1,7 +1,10 @@
 <?php
 require_once(__DIR__ . "/functions.php");
 require_once(__DIR__ . "/CompareArrays.php");
-require_once(__DIR__ . "/bugsnag/autoload.php");
+require_once(__DIR__ . "/worldStateExpression.php");
+if(empty($disableBugsnag)){
+	require_once(__DIR__ . "/bugsnag/autoload.php");
+}
 
 $db = '';
 $dbuser = '';

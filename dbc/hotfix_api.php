@@ -32,6 +32,15 @@ if(!empty($_GET['cacheproxy']) && $_GET['cacheproxy'] == 1){
 	}
 
 	$json = json_decode($entry, true);
+
+	foreach($json['values'] as $key => $value){
+		if($key == "Expression"){
+			$hrExp = new humanReadableWorldStateExpression();
+			$wState = new worldStateExpression($value);
+			$json['values'][$key] = $hrExp->stateToString($wState->state);
+		}
+	}
+
 	$json['cacheHit'] = $cacheHit;
 	echo json_encode($json);
 	die();
