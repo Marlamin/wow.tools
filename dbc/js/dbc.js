@@ -53,8 +53,6 @@ function openFKModal(value, location, build){
 		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>");
 	}
 
-
-
 	$("#fkModalContent").append("<table id='fktable' class='table table-condensed table-striped'>");
 
 	if(db == "spell" && col == "ID"){
