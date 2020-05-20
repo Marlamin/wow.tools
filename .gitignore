@@ -13,6 +13,8 @@ export/update
 
 # Non-public files
 dbc/scripts/hook.php
+dbc/experiments/
+priv/
 
 # Editor files
 sftp-config.json

@@ -38,6 +38,7 @@ function buildURL($product, $type, $value){
 }
 
 if(!isset($_SESSION)){ session_start(); }
+if(!isset($_GET['draw']) || !isset($_GET['order'][0]['column'])){ http_response_code(400); die(); }
 
 $query = "FROM ngdp_history INNER JOIN ngdp_urls on ngdp_urls.id=ngdp_history.url_id";
 
