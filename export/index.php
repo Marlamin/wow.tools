@@ -15,6 +15,12 @@
 	</div>
 	<div class='row'>
 		<div class='col-8 offset-2'>
+			<h4>Tutorial</h4>
+			<p><a href='CountessBelvane' target='_BLANK'>Belvane</a> made an excellent tutorial on how to install/use WoW.export!<br><a class='btn btn-warning' href='https://www.youtube.com/watch?v=ybcq2C93i2k' target='_BLANK'><i class="fa fa-film"></i> Watch Tutorial</a></p>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-8 offset-2'>
 			<h4>Features</h4>
 			<p>All the features you know and love from the old exporter are present, new features include:</p>
 			<ul>
