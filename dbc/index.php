@@ -313,6 +313,7 @@ $dbFound = false;
 
 		if(currentParams["hotfixes"]){
 			apiArgs += "&useHotfixes=true";
+			document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace("&hotfixes=", "&useHotfixes=");
 		}
 
 		let tableHeaders = "";
