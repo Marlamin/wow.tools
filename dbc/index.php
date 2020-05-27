@@ -400,12 +400,14 @@ $dbFound = false;
 								}
 							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
-							}else if(enumMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+							}
+
+							if(enumMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
 								var enumVal = getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
 								if(full[meta.col] == '0' && enumVal == "Unk"){
-									returnVar = full[meta.col];
+									// returnVar += full[meta.col];
 								}else{
-									returnVar = full[meta.col] + " <i>(" + enumVal + ")</i>";
+									returnVar += " <i>(" + enumVal + ")</i>";
 								}
 							}
 
