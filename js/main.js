@@ -32,12 +32,14 @@ function updateCSSVars(theme){
 		document.documentElement.style.setProperty('--hover-color', '#fff');
 		document.documentElement.style.setProperty('--diff-added-color', '#368a23');
 		document.documentElement.style.setProperty('--diff-removed-color', '#9b0d0d');
+		document.documentElement.style.setProperty('--table-header-color', '#272727');
 	}else if(theme == 'light'){
 		document.documentElement.style.setProperty('--background-color', '#f8f9fa');
 		document.documentElement.style.setProperty('--text-color', '#000000');
 		document.documentElement.style.setProperty('--hover-color', '#7e7e7e');
 		document.documentElement.style.setProperty('--diff-added-color', '#e6ffe6');
 		document.documentElement.style.setProperty('--diff-removed-color', '#ffe6e6');
+		document.documentElement.style.setProperty('--table-header-color', '#dee2e6');
 	}
 }
 /* multiple modal scroll fix */

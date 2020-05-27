@@ -56,11 +56,11 @@
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-table" aria-hidden="true"></i> Database
+						<i class="fa fa-table" aria-hidden="true"></i> Tables
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
-						<a class="dropdown-item" href="/dbc/">Browse table</a>
-						<a class="dropdown-item" href="/dbc/diff.php">Compare tables</a>
+						<a class="dropdown-item" href="/dbc/">Browse</a>
+						<a class="dropdown-item" href="/dbc/diff.php">Compare</a>
 					</div>
 				</li>
 				<li class="nav-item">
@@ -80,7 +80,7 @@
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-flask" aria-hidden="true"></i> Experiments
+						<i class="fa fa-flask" aria-hidden="true"></i> Lab
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
 						<a class="dropdown-item" href="/realms/">Realm status</a>
@@ -94,7 +94,7 @@
 					Toggle theme
 				</button>&nbsp;
 				<?php if(empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")){ ?>
-					<a href='/user.php?p=login' class='btn btn-sm align-middle btn-outline-success'>Log in</a>
+					<a href='/user.php?p=login' class='btn btn-sm align-middle btn-outline-success'>Login</a>
 				<?php }else{ ?>
 					<a href='/user.php?p=logout' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
 				<?php } ?>

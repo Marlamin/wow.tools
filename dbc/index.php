@@ -77,7 +77,7 @@ $dbFound = false;
 
 
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
-			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='right' data-content='<b>WARNING</b><br> Due to automated constant DBC exports by some users, this functionality has been heavily rate-limited.'><i class='fa fa-download'></i> CSV</a>
+			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
 
 			<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
 				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?

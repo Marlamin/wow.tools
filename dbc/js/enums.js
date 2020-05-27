@@ -2009,7 +2009,7 @@ const spellLabelName = {
 	931: 'New but old Mage Spells',
 	932: 'Mage barriers?',
 	933: 'Heroism (etc) exhaustions',
-	934: 'Kyrian (Piest 2)',
+	934: 'Kyrian (Priest 2)',
 	935: 'Disciplinary Command (Mage)',
 	936: 'Ascended Nova (Mage)',
 	937: 'Ascended Nova (Mage 2)',
@@ -2026,6 +2026,11 @@ const spellLabelName = {
 	961: 'Runes (DK)', // Frost?
 	962: 'Runes 2 (DK)', // Unholy?
 	963: 'Runes 3 (DK)', // Blood???
+	965: 'Temple of Kotmogu Holding Artifact',
+	966: 'Necrolord (Warlock)',
+	967: 'Necrolord (Warlock 2)',
+	968: 'Night Fae (Warlock)',
+	969: 'Shadowcore Oil',
 }
 
 const unitConditionVariable = {
@@ -2086,6 +2091,21 @@ const unitConditionOperator = {
 	6: 'GREATER THAN OR EQUAL TO',
 }
 
+const spellClassSet = {
+	3: 'Mage',
+	4: 'Warrior',
+	5: 'Warlock',
+	6: 'Priest',
+	7: 'Druid',
+	8: 'Rogue',
+	9: 'Hunter',
+	10: 'Paladin',
+	11: 'Shaman',
+	15: 'Death Knight',
+	53: 'Monk',
+	107: 'Demon Hunter',
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2117,6 +2137,7 @@ enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("spelllabel.LabelID", spellLabelName);
+enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
 
 for(let i = 0; i < 8; i++){
 	enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
