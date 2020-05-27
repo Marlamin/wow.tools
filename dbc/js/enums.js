@@ -2106,6 +2106,121 @@ const spellClassSet = {
 	107: 'Demon Hunter',
 }
 
+
+// ChrModelID is already an enum that will end up at a race/gender but this is just a quick way
+const tempChrModelIDEnum = {
+	1: 'Human Male',
+	2: 'Human Female',
+	3: 'Orc Male',
+	4: 'Orc Female',
+	5: 'Dwarf Male',
+	6: 'Dwarf Female',
+	7: 'Night Elf Male',
+	8: 'Night Elf Female',
+	9: 'Scourge Male',
+	10: 'Scourge Female',
+	11: 'Tauren Male',
+	12: 'Tauren Female',
+	13: 'Gnome Male',
+	14: 'Gnome Female',
+	15: 'Troll Male',
+	16: 'Troll Female',
+	17: 'Gobline Male',
+	18: 'Goblin Female',
+	19: 'Blood Elf Male',
+	20: 'Blood Elf Female',
+	21: 'Draenei Male',
+	22: 'Draenei Female',
+	23: 'Fel Orc Male',
+	24: 'Fel Orc Female',
+	25: 'Naga Male',
+	26: 'Naga Female',
+	27: 'Broken Male',
+	28: 'Broken Female',
+	29: 'Skeleton Male',
+	30: 'Skeleton (Fe)male',
+	31: 'Vrykul Male',
+	32: 'Vrykul (Fe)male',
+	33: 'Tuskarr Male',
+	34: 'Tuskarr Fe(male)',
+	35: 'Forest Troll Male',
+	36: 'Forest Troll (Fe)male',
+	37: 'Taunka Male',
+	38: 'Taunka (Fe)male',
+	39: 'Northrend Skeleton Male',
+	40: 'Northrend Skeleton (Fe)male',
+	41: 'Ice Troll Male',
+	42: 'Ice Troll (Fe)male',
+	43: 'Worgen Male',
+	44: 'Worgen Female',
+	45: 'Gilnean Male',
+	46: 'Gilnean Female',
+	47: 'Pandaren Male',
+	48: 'Pandaren Female',
+	53: 'Nightborne Male',
+	54: 'Nightborne Female',
+	55: 'Highmountain Tauren Male',
+	56: 'Highmountain Tauren Female',
+	57: 'Void Elf Male',
+	58: 'Void Elf Female',
+	59: 'Lightforged Draenei Male',
+	60: 'Lightforged Draenei Female',
+	61: 'Zandalari Male',
+	62: 'Zandalari Female',
+	63: 'Kul Tiran Male',
+	64: 'Kul Tiran Female',
+	65: 'Thin Human Male',
+	66: 'Thin Human (Fe)male',
+	67: 'Dark Iron Dwarf Male',
+	68: 'Dark Iron Dwarf Female',
+	69: 'Vulpera Male',
+	70: 'Vulpera Female',
+	71: 'Mag\'har Orc Male',
+	72: 'Mag\'har Orc Female',
+	73: 'Mechagnome Male',
+	74: 'Mechagnome Female',
+}
+
+const tempChrRaceIDEnum = {
+	1: 'Human',
+	2: 'Orc',
+	3: 'Dwarf',
+	4: 'Night Elf',
+	5: 'Scourge',
+	6: 'Tauren',
+	7: 'Gnome',
+	8: 'Troll',
+	9: 'Goblin',
+	10: 'Blood Elf',
+	11: 'Draenei',
+	12: 'Fel Orc',
+	13: 'Naga',
+	14: 'Broken',
+	15: 'Skeleton',
+	16: 'Vrykul',
+	17: 'Tuskarr',
+	18: 'Forest Troll',
+	19: 'Taunka',
+	20: 'Northrend Skeleton',
+	21: 'Ice Troll',
+	22: 'Worgen',
+	23: 'Gilnean',
+	24: 'Pandaren (Neutral)',
+	25: 'Pandaren (Alliance)',
+	26: 'Pandaren (Horde)',
+	27: 'Nightborne',
+	28: 'Highmountain Tauren',
+	29: 'Void Elf',
+	30: 'Lightforged Draenei',
+	31: 'Zandalari Troll',
+	32: 'Kul Tiran',
+	33: 'Thin Human',
+	34: 'Dark Iron Dwarf',
+	35: 'Vulpera',
+	36: 'Mag\'har Orc',
+	37: 'Mechagnome'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2138,6 +2253,35 @@ enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("spelllabel.LabelID", spellLabelName);
 enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
+
+enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
+enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
+enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
+
+/* Race IDs */
+enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
+enumMap.set("charvariations.RaceID", tempChrRaceIDEnum);
+enumMap.set("gluescreenemote.RaceID", tempChrRaceIDEnum);
+enumMap.set("chrraceracialability.ChrRacesID", tempChrRaceIDEnum);
+enumMap.set("chrcustomizationconversion.ChrRacesID", tempChrRaceIDEnum);
+enumMap.set("soundcharactermacrolines.Race", tempChrRaceIDEnum);
+enumMap.set("charstartkit.ChrRacesID", tempChrRaceIDEnum);
+enumMap.set("helmetgeosetdata.RaceID", tempChrRaceIDEnum);
+enumMap.set("characterfacialhairstyles.RaceID", tempChrRaceIDEnum);
+enumMap.set("charbaseinfo.RaceID", tempChrRaceIDEnum);
+enumMap.set("helmetanimscaling.RaceID", tempChrRaceIDEnum);
+enumMap.set("uicamfbacktransmogchrrace.ChrRaceID", tempChrRaceIDEnum);
+enumMap.set("chrcustomization.RaceID", tempChrRaceIDEnum);
+enumMap.set("namegen.RaceID", tempChrRaceIDEnum);
+enumMap.set("charstartoutfit.RaceID", tempChrRaceIDEnum);
+enumMap.set("alliedrace.RaceID", tempChrRaceIDEnum);
+enumMap.set("emotestextsound.RaceID", tempChrRaceIDEnum);
+enumMap.set("charsections.RaceID", tempChrRaceIDEnum);
+enumMap.set("barbershopstyle.Race", tempChrRaceIDEnum);
+enumMap.set("creaturedisplayinfoextra.DisplayRaceID", tempChrRaceIDEnum);
+enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
+enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
+enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
 
 for(let i = 0; i < 8; i++){
 	enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
