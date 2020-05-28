@@ -381,7 +381,8 @@ $dbFound = false;
 					"autoWidth": true,
 					"pagingType": "input",
 					"orderMulti": false,
-					"ordering": false,
+					"ordering": true,
+					"order": [], // Sets default order to nothing (as returned by backend)
 					"language": { "search": "<a class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
 					"search": { "search": searchString },
 					"columnDefs": [
