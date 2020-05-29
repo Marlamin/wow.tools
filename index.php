@@ -27,15 +27,16 @@
 			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
 				<thead><tr><th>Name</th><th>Version</th><th>Build time (PT)</th></tr></thead>
 				<?php
-				$productq = $pdo->query("SELECT id, name FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
-				while($row = $productq->fetch(PDO::FETCH_ASSOC)){
-					$histq = $pdo->prepare("SELECT newvalue, timestamp FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY ID DESC LIMIT 1");
+				$productCDNMap = $pdo->query("SELECT program, cdndir FROM ngdp_products WHERE program LIKE 'wow%'")->fetchAll(PDO::FETCH_KEY_PAIR);
+				$urlq = $pdo->query("SELECT id, name, url FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
+				$histq = $pdo->prepare("SELECT newvalue, timestamp FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY ID DESC LIMIT 1");
+				while($row = $urlq->fetch(PDO::FETCH_ASSOC)){
 					$histq->execute([$row['id']]);
 
+					$product = str_replace("/versions", "", substr($row['url'], strpos($row['url'], "wow")));
 					$highestBuild = 0;
 					$highestBuildName = "<i>Unknown</i>";
 					$buildTime = "<i>Unknown</i>";
-
 					$histr = $histq->fetch(PDO::FETCH_ASSOC);
 					if(!empty($histr)){
 						$bc = parseBPSV(explode("\n", $histr['newvalue']));
@@ -52,7 +53,13 @@
 						}
 					}
 
-					echo "<tr><td>".str_replace(" Versions", "", $row['name'])."</td><td>" . $highestBuildName."</td><td>".$buildTime."</td></tr>";
+					if(!empty($product) && array_key_exists($product, $productCDNMap) && in_array($productCDNMap[$product], ["tpr/wowdev", "tpr/wowv"])){
+						$encrypted = " <i title='This branch is encrypted' class='fa fa-lock'></i>";
+					}else{
+						$encrypted = "";
+					}
+
+					echo "<tr><td>".str_replace(" Versions", "", $row['name']) . $encrypted . "</td><td>" . $highestBuildName."</td><td>".$buildTime."</td></tr>";
 				}
 				?>
 			</table>
