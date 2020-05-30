@@ -334,15 +334,27 @@ foreach($lfproducts as $lfproduct){
 				"targets": 6,
 				"orderable": false,
 				"render": function ( data, type, full, meta ) {
-					if(full[3].length && full[3][0].enc != 1){
-					if($("#files_preview").is(":visible")){
-						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
+					if(full[4] == "db2" && (full[1] || full[7])){
+						let filename = "";
+						if(full[1]){
+							filename = full[1];
+						}else{
+							if(full[7]){
+								filename = full[7];
+							}
+						}
+						var db2name = filename.replace("dbfilesclient/", "").replace(".db2", "");
+						var test = "<a href='//wow.tools/dbc/?dbc=" + db2name + "' target='_BLANK'><i class='fa fa-table'></i></a>";
 					}else{
-						var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
-					}
-
-					}else{
-						var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";
+						if(full[3].length && full[3][0].enc != 1){
+							if($("#files_preview").is(":visible")){
+								var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
+							}else{
+								var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"" + full[3][0].buildconfig + "\",\"" + full[0] + "\",\"" + full[3][0].contenthash + "\")'><i class='fa fa-eye'></i></a></td>";
+							}
+						}else{
+							var test = "<i class='fa fa-ban' style='opacity: 0.3'></i></td>";
+						}
 					}
 					return test;
 				}
