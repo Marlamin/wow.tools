@@ -90,7 +90,7 @@ $dbFound = false;
 				<thead>
 				</thead>
 				<tbody>
-					<tr><td style='text-align: center' id='loadingMessage'>Select a table/build above</td></tr>
+					<tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr>
 				</tbody>
 			</table>
 		</div>
@@ -366,12 +366,17 @@ $dbFound = false;
 
 				const page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
 				let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
-				let table = $('#dbtable').DataTable({
+				var table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
 					"ajax": {
-						"url": "/dbc/api/data/" + apiArgs,
-						"type": "POST",
+						url: "/dbc/api/data/" + apiArgs,
+						type: "POST",
+						beforeSend: function() {
+							if (table && table.hasOwnProperty('settings')) {
+								table.settings()[0].jqXHR.abort();
+							}
+						},
 						"data": function( result ) {
 							return result;
 						}

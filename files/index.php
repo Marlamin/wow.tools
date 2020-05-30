@@ -182,7 +182,16 @@ foreach($lfproducts as $lfproduct){
 			"processing": true,
 			"serverSide": true,
 			"search": { "search": searchString },
-			"ajax": "scripts/api.php",
+			"ajax": "",
+			"ajax": {
+				url: 'scripts/api.php',
+				type: 'GET',
+				beforeSend: function() {
+					if (table && table.hasOwnProperty('settings')) {
+						table.settings()[0].jqXHR.abort();
+					}
+				}
+			},
 			"pageLength": 25,
 			"language": { "search": "Search: _INPUT_ <a class='btn btn-outline-light btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
@@ -341,8 +350,7 @@ foreach($lfproducts as $lfproduct){
 			]
 		});
 
-
-$('#files').on( 'draw.dt', function () {
+$("#files").on( 'draw.dt', function () {
 	var currentSearch = encodeURIComponent($("#files_filter label input").val());
 	var currentPage = $('#files').DataTable().page() + 1;
 
