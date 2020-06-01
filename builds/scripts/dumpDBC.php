@@ -61,13 +61,14 @@ foreach($pdo->query($query) as $row){
 	// Retrieve list of available filedatads in this build
 	echo "[DB2 export] Requesting filedataids for build " . $row['description']."\n";
 	$fdids = getFileDataIDs($row['buildconfig'], $row['cdnconfig']);
-	echo "[DB2 export] Got " . count($fdids) . " filedataids for build " . $row['description']."\n";
 	if(empty($fdids)){
-		echo "Error retrieving FDIDs!";
+		echo "[DB2 export] !!! Error retrieving filedataids for build " . $row['description']."\n";
 		fclose($fhandle);
 		unlink($extractList);
 		continue;
 	}
+
+	echo "[DB2 export] Got " . count($fdids) . " filedataids for build " . $row['description']."\n";
 
 	$missingFiles = [];
 	foreach($dbcs as $dbc){
