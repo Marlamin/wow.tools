@@ -2125,7 +2125,7 @@ const tempChrModelIDEnum = {
 	14: 'Gnome Female',
 	15: 'Troll Male',
 	16: 'Troll Female',
-	17: 'Gobline Male',
+	17: 'Goblin Male',
 	18: 'Goblin Female',
 	19: 'Blood Elf Male',
 	20: 'Blood Elf Female',
