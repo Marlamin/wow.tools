@@ -2221,6 +2221,11 @@ const tempChrRaceIDEnum = {
 	37: 'Mechagnome'
 }
 
+const challengeModeItemBonusOverrideType = {
+	0: 'Mythic+',
+	1: 'PvP'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2253,6 +2258,7 @@ enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("spelllabel.LabelID", spellLabelName);
 enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
+enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
 
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
