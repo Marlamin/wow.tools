@@ -205,6 +205,10 @@ $dbFound = false;
 						$('#dbtable').DataTable().column(i).search(this.value).draw();
 					}
 				} );
+
+				$('input', this).on('click', function(e) {
+					e.stopPropagation();
+				});
 			} );
 			filtersEnabled = true;
 		}else{
