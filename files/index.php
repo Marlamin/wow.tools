@@ -188,7 +188,7 @@ foreach($lfproducts as $lfproduct){
 				type: 'GET',
 				beforeSend: function() {
 					if (table && table.hasOwnProperty('settings')) {
-						table.settings()[0].jqXHR.abort();
+						//table.settings()[0].jqXHR.abort();
 					}
 				}
 			},
