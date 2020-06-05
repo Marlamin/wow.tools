@@ -2226,6 +2226,36 @@ const challengeModeItemBonusOverrideType = {
 	1: 'PvP'
 }
 
+const textureType = {
+	0: 'InFile',
+	1: 'Skin',
+	2: 'Object Skin',
+	3: 'Weapon Blade',
+	4: 'Weapon Handle',
+	5: '(OBSOLETE) Environment',
+	6: 'Hair',
+	7: '(OBSOLETE) Facial Hair',
+	8: 'Skin Extra',
+	9: 'UI Skin',
+	10: 'Tauren Mane',
+	11: 'Monster Skin 1',
+	12: 'Monster Skin 2',
+	13: 'Monster Skin 3',
+	14: 'Item Icon',
+	15: 'Guild BG Color',
+	16: 'Guild Emblem Color',
+	17: 'Guild Border Color',
+	18: 'Guild Emblem',
+	19: 'Eyes',
+	20: 'Accessory',
+	21: 'Secondary Skin',
+	22: 'Secondary Hair',
+}
+
+const chrModelMaterialSkinType = {
+	0: 'Primary Skin',
+	1: 'Secondary Skin',
+}
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2263,6 +2293,9 @@ enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrid
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
 enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
+enumMap.set("chrmodeltexturelayer.TextureType", textureType);
+enumMap.set("chrmodelmaterial.TextureType", textureType);
+enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
