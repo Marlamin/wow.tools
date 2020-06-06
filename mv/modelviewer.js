@@ -15,7 +15,8 @@ window.onerror = function(message, source, lineno, colno, error) {
 var Elements =
 {
     Sidebar: document.getElementById('js-sidebar'),
-    Counter: document.getElementById('fpsLabel')
+    Counter: document.getElementById('fpsLabel'),
+    EventLabel: document.getElementById('eventLabel'),
 };
 
 var Current =
@@ -31,10 +32,12 @@ var Current =
 var Settings =
 {
     showFPS: true,
+    paused: false,
     retailOnly: false,
     clearColor: [0.117, 0.207, 0.392],
     farClip: 1500,
-    farClipCull: 1500
+    farClipCull: 1500,
+    speed: 1000.0
 
 }
 
@@ -220,13 +223,13 @@ window.createscene = function () {
         var timeDelta = 0;
         if (lastTimeStamp !== undefined) {
             timeDelta = currentTimeStamp - lastTimeStamp;
-            if(Settings.showFPS && lastTimeStamp % 50 == 0){
-                Elements.Counter.textContent = Math.round(1000.0 / timeDelta) + " fps";
+            if(Settings.showFPS && lastTimeStamp % 10 == 0){
+                Elements.Counter.textContent = Math.round(Settings.speed / timeDelta) + " fps";
             }
         }
         lastTimeStamp = currentTimeStamp;
 
-        Module._gameloop(timeDelta / 1000.0);
+        Module._gameloop(timeDelta / Settings.speed);
 
         if(screenshot){
             screenshot = false;
@@ -301,7 +304,26 @@ window.addEventListener('keydown', function(event){
 
     if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
+    }else{
+        if(event.key == " "){
+            if(Settings.paused){
+                Settings.paused = false;
+                Elements.EventLabel.textContent = "";
+            }else{
+                Settings.paused = true;
+                Elements.EventLabel.innerHTML = "<i class='fa fa-pause'></i> Paused";
+            }
+
+            if(Settings.paused){
+                Settings.speed = 100000000.0;
+            }else{
+                Settings.speed = 1000.0;
+            }
+
+        }
     }
+
+
 }, true);
 
 window.addEventListener('keyup', function(event){

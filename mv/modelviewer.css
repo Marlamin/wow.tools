@@ -35,6 +35,19 @@ html, body{
     -o-user-select: none;
 }
 
+#eventLabel {
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    color: #999;
+    cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
 /* Menu */
 .hamburger {
     position: absolute;

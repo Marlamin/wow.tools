@@ -90,6 +90,7 @@ if($embed){
 <?php } ?>
 <div id='errors'></div>
 <div id='fpsLabel'></div>
+<div id='eventLabel'></div>
 <canvas id="wowcanvas"></canvas>
 <?php if(!$embed){ ?>
 <div class="modal" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
