@@ -2386,3 +2386,31 @@ for(let i = 0; i < 8; i++){
 		]
 	);
 }
+
+/* Colors */
+let colorFields = new Array();
+colorFields.push("chrcustomizationchoice.Color");
+colorFields.push("lightdata.DirectColor");
+colorFields.push("lightdata.AmbientColor");
+colorFields.push("lightdata.SkyTopColor");
+colorFields.push("lightdata.SkyMiddleColor");
+colorFields.push("lightdata.SkyBand1Color");
+colorFields.push("lightdata.SkyBand2Color");
+colorFields.push("lightdata.SkySmogColor");
+colorFields.push("lightdata.SkyFogColor");
+colorFields.push("lightdata.SunColor");
+colorFields.push("lightdata.CloudSunColor");
+colorFields.push("lightdata.CloudEmissiveColor");
+colorFields.push("lightdata.CloudLayer1AmbientColor");
+colorFields.push("lightdata.CloudLayer2AmbientColor");
+colorFields.push("lightdata.OceanCloseColor");
+colorFields.push("lightdata.OceanFarColor");
+colorFields.push("lightdata.RiverCloseColor");
+colorFields.push("lightdata.RiverFarColor");
+colorFields.push("lightdata.ShadowOpacity");
+colorFields.push("weather.OverrideColor");
+colorFields.push("highlightcolor.StartColor");
+colorFields.push("highlightcolor.MidColor");
+colorFields.push("highlightcolor.EndColor");
+colorFields.push("lightning.FlashColor");
+colorFields.push("lightning.BoltColor");
