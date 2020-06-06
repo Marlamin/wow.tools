@@ -24,20 +24,38 @@ foreach($files as $file) {
 		continue;
 
 	$insertQ = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes (pushID, recordID, tableName, isValid, build) VALUES (?, ?, ?, ?, ?)");
+	$insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build) VALUES (?, ?, ?, ?)");
 	$messages = [];
 	foreach($json['entries'] as $entry){
-		if(in_array($entry['pushID'], $knownPushIDs))
+		if($entry['pushID'] != "-1" && in_array($entry['pushID'], $knownPushIDs))
 			continue;
 
-		$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
-		if($insertQ->rowCount() == 1){
-			echo "[Hotfix updater] Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
+		if($entry['pushID'] != "-1"){
+			// With Push ID
+			$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
+			if($insertQ->rowCount() == 1){
+				echo "[Hotfix updater] Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
 
-			if(!array_key_exists($entry['pushID'], $messages)){
-				$messages[$entry['pushID']] = "Push ID " . $entry['pushID'] . " for build " . $json['build']."\n";
+				if(!array_key_exists($entry['pushID'], $messages)){
+					$messages[$entry['pushID']] = "Push ID " . $entry['pushID'] . " for build " . $json['build']."\n";
+				}
+
+				$messages[$entry['pushID']] .= $entry['tableName'] . " ID " .$entry['recordID']."\n";
 			}
+		}else{
+			// Without Push ID
+			if($entry['isValid'] == 1){
+				$insertCachedEntryQ->execute([$entry['recordID'], $entry['tableName'], $entry['dataMD5'], $json['build']]);
+				if($insertCachedEntryQ->rowCount() == 1){
+					echo "[Hotfix updater] Inserted new cached entry, Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']." with MD5 " . $entry['dataMD5']." \n";
 
-			$messages[$entry['pushID']] .= $entry['tableName'] . " ID " .$entry['recordID']."\n";
+					if(!array_key_exists(filemtime($file), $messages)){
+						$messages[filemtime($file)] = "Discovered new DBCache entries for build " . $json['build']."\n";
+					}
+
+					$messages[filemtime($file)] .= $entry['tableName'] . " ID " .$entry['recordID']."\n";
+				}
+			}
 		}
 	}
 
