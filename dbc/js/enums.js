@@ -963,7 +963,7 @@ const geosetType = {
 	11: 'Pants',
 	12: 'Tabard',
 	13: 'Trousers',
-	14: 'Unknown',
+	14: 'DH Loincloth',
 	15: 'Cloak',
 	16: 'Mechagnome Chin',
 	17: 'Eyeglows',
@@ -981,7 +981,8 @@ const geosetType = {
 	33: 'Eyes',
 	34: 'Eyebrows',
 	35: 'Earrings',
-	36: 'Necklace'
+	36: 'Necklace',
+	37: 'Headdress'
 }
 
 const chrCustomizationReqType = {
