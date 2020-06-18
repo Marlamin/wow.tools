@@ -75,6 +75,9 @@ if(!empty($_GET['bc'])){
 	$res = $pdo->prepare("SELECT * FROM wow_cdnconfig WHERE hash = ?");
 	$res->execute([$_GET['cdnc']]);
 	$row = $res->fetch();
+	if(empty($row)){
+		die("CDN config not found!");
+	}
 	echo "<div class='container-fluid'>";
 	echo "<h4>Processed information</h4>";
 	echo "<table class='table table-sm'>";

@@ -1,8 +1,8 @@
 <?php
 require_once("../inc/header.php");
-$build = "9.0.1.34490";
-$buildconfig = "4bb012fe8e05f3f476ba768f35ca8075";
-$cdnconfig = "a0d2df78b032d394be459bccf76288ab";
+$build = "9.0.1.34821";
+$buildconfig = "2b163f693d776589de3490a3ccf7233d";
+$cdnconfig = "2b33e783290422e0e219298c895c0975";
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>

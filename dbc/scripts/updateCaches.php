@@ -22,7 +22,7 @@ foreach($files as $file) {
 	echo "[Cache updater] Reading " . $file . "\n";
 	$output = shell_exec("cd /home/wow/wdbupdater; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql");
 	if(!$fullrun && substr($output, -34) != "New entries: 0\nUpdated entries: 0\n"){
-		telegramSendMessage($output);
+		//telegramSendMessage($output);
 	}
 	$processedMD5s[] = $md5;
 }

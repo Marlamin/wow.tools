@@ -81,7 +81,7 @@
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = Initialize;
-	xhr.open( 'GET', '/maps/data/data.json?cb=9', true );
+	xhr.open( 'GET', '/maps/data/data.json?cb=13', true );
 	xhr.responseType = 'json';
 	xhr.send();
 
