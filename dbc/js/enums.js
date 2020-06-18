@@ -2007,7 +2007,7 @@ const spellLabelName = {
 	927: 'Steward abilities/states',
 	928: 'Covenant (Mage)',
 	// 930: '930',
-	931: 'New but old Mage Spells',
+	931: 'New but old spells',
 	932: 'Mage barriers?',
 	933: 'Heroism (etc) exhaustions',
 	934: 'Kyrian (Priest 2)',

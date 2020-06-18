@@ -112,9 +112,37 @@ function openFKModal(value, location, build){
 	});
 }
 
-function dec2hex(str){
-	return (parseInt(str) >>> 0).toString(16);
+function dec2hex(str, big = false){
+	if(big){
+		return (BigInt(str)).toString(16).replace('-', '');
+	}else{
+		return (parseInt(str) >>> 0).toString(16);
+	}
 }
+
+function BGRA2RGBA(color){
+	var hex = dec2hex(color);
+
+	for (var bytes = [], c = 0; c < hex.length; c += 2)
+	{
+		bytes.push(parseInt(hex.substr(c, 2), 16));
+	}
+
+	for(let i = 0; i < 4; i++){
+		if(bytes[i] == undefined){
+			bytes[i] = 0;
+		}
+	}
+    console.log(color + " => #" + hex + " => " + bytes);
+
+    let b = bytes[2];
+    let g = bytes[1];
+    let r = bytes[0];
+    let a = 255;
+
+    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+}
+
 
 function getFlagDescriptions(db, field, value, targetFlags = 0){
 	let usedFlags = Array();
@@ -126,12 +154,12 @@ function getFlagDescriptions(db, field, value, targetFlags = 0){
 		return ["All"];
 
 	for(let i = 0; i < 32; i++){
-		let toCheck = 1 << i;
-		if(value & toCheck){
+		let toCheck = BigInt(1) << BigInt(i);
+		if(BigInt(value) & toCheck){
 			if(targetFlags !== undefined && targetFlags[toCheck]){
-				usedFlags.push(['0x' + "" + dec2hex(toCheck), targetFlags[toCheck]]);
+				usedFlags.push(['0x' + "" + dec2hex(toCheck, true), targetFlags[toCheck]]);
 			}else{
-				usedFlags.push(['0x' + "" + dec2hex(toCheck), ""]);
+				usedFlags.push(['0x' + "" + dec2hex(toCheck, true), ""]);
 			}
 		}
 	}

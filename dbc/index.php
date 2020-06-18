@@ -378,7 +378,7 @@ $dbFound = false;
 						type: "POST",
 						beforeSend: function() {
 							if (table && table.hasOwnProperty('settings')) {
-								table.settings()[0].jqXHR.abort();
+								// table.settings()[0].jqXHR.abort();
 							}
 						},
 						"data": function( result ) {
@@ -484,7 +484,7 @@ $dbFound = false;
 							}
 
 							if(colorFields.includes(currentParams["dbc"] + '.' + json["headers"][meta.col])){
-								returnVar = "<div style='display: inline-block; border: 2px solid black; height: 15px; width: 15px; background-color: #" + dec2hex(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
+								returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
 							}
 
 							return returnVar;
