@@ -159,7 +159,7 @@ foreach($pdo->query("SELECT map_id, versionid FROM wow_maps_versions") as $mapVe
 $createMapQ = $pdo->prepare("INSERT INTO wow_maps_maps (name, internal, firstseen) VALUES (?, ?, ?)");
 $createMapVersionQ = $pdo->prepare("INSERT INTO wow_maps_versions (map_id, versionid, md5) VALUES (?, ?, ?)");
 $createConfigQ = $pdo->prepare("INSERT INTO wow_maps_config (versionid, mapid, resx, resy, zoom, minzoom, maxzoom) VALUES (?, ?, ?, ?, 5, 2, ?)");
-
+$checkConfigQ = $pdo->prepare("SELECT * FROM wow_maps_config WHERE versionid = ? AND mapid = ?");
 foreach(glob("/home/wow/minimaps/png/*") as $dir){
 	$version = str_replace("/home/wow/minimaps/png/", "", $dir);
 	$versionex = explode(".", $version);
@@ -191,7 +191,12 @@ foreach(glob("/home/wow/minimaps/png/*") as $dir){
 
 			$createMapVersionQ->execute([$mapid, $versionid, $md5]);
 			$versionMapCache[$versionid][] = $mapid;
+		}
 
+		$checkConfigQ->execute([$versionid, $mapid]);
+
+		if(empty($checkConfigQ->fetch(PDO::FETCH_ASSOC))){
+			echo "[".$version."] [".$mapname."] Config unknown for map " . $mapname . " in version ".$version." (".$versionid."), adding..\n";
 			$sizes = getimagesize($map);
 
 			if($buildnum > 26706){
