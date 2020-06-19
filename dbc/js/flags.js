@@ -453,6 +453,38 @@ const spellAttributes13 = {
     0x00040000: 'ACTIVATES_REQUIRED_SHAPESHIFT', // 18
 };
 
+const inventoryTypeMask = {
+	0x1: 'Head',
+	0x2: 'Neck',
+	0x4: 'Shoulder',
+	0x8: 'Body',
+	0x10: 'Chest',
+	0x20: 'Waist',
+	0x40: 'Legs',
+	0x80: 'Feet',
+	0x100: 'Wrist',
+	0x200: 'Hand',
+	0x400: 'Finger',
+	0x800: 'Trinket',
+	0x1000: 'Main Hand',
+	0x2000: 'Off Hand',
+	0x4000: 'Ranged',
+	0x8000: 'Cloak',
+	0x10000: '2H Weapon',
+	0x20000: 'Bag',
+	0x40000: 'Tabard',
+	0x80000: 'Robe',
+	0x100000: 'Weapon Main Hand',
+	0x200000: 'Weapon Off Hand',
+	0x400000: 'Holdable',
+	0x800000: 'Ammo',
+	0x1000000: 'Thrown',
+	0x2000000: 'Ranged Right',
+	0x4000000: 'Quiver',
+	0x8000000: 'Relic'
+}
+
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -495,6 +527,7 @@ flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
 flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
 
+flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
 // Conditional flags
 let conditionalFlags = new Map();
 conditionalFlags.set("chrcustomizationreq.ReqValue",
