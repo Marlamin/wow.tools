@@ -1501,23 +1501,23 @@ const effectAuraType = {
 const spellVisualKitEffectType = {
 	1: 'SpellProceduralEffectID',
 	2: 'SpellVisualKitModelAttachID',
-	// 3: '3',
-	// 4: '4',
+	3: 'CameraEffectID',
+	4: 'CameraEffectID2',
 	5: 'SoundKitID',
 	6: 'SpellVisualAnimID',
 	7: 'ShadowyEffectID',
-	// 8: '8',
-	// 9: '9',
-	// 10: '10',
+	8: 'SpellEffectEmissionID',
+	9: 'OutlineEffectID',
+	10: 'UnitSoundType', // NOT soundkitSoundType!!!
 	11: 'DissolveEffectID',
 	12: 'EdgeGlowEffectID',
 	13: 'BeamEffectID',
-	// 14: '14',
-	// 15: '15', // Unused
+	14: 'ClientSceneEffectID',
+	15: 'CloneEffectID', // Unused
 	16: 'GradientEffectID',
-	// 17: '17',
-	// 18: '18'
-	// 19: '19'
+	17: 'BarrageEffectID',
+	18: 'RopeEffectID',
+	19: 'SpellVisualScreenEffectID',
 }
 
 const spellLabelName = {
@@ -2371,13 +2371,22 @@ conditionalFKs.set("spellvisualkiteffect.Effect",
 	[
 		['spellvisualkiteffect.EffectType=1','spellproceduraleffect::ID'],
 		['spellvisualkiteffect.EffectType=2','spellvisualkitmodelattach::ID'],
+		['spellvisualkiteffect.EffectType=3','cameraeffect::ID'],
+		['spellvisualkiteffect.EffectType=4','cameraeffect::ID'],
 		['spellvisualkiteffect.EffectType=5','soundkit::ID'],
 		['spellvisualkiteffect.EffectType=6','spellvisualanim::ID'],
 		['spellvisualkiteffect.EffectType=7','shadowyeffect::ID'],
+		['spellvisualkiteffect.EffectType=8','spelleffectemission::ID'],
+		['spellvisualkiteffect.EffectType=9','outlineeffect::ID'],
 		['spellvisualkiteffect.EffectType=11','dissolveeffect::ID'],
 		['spellvisualkiteffect.EffectType=12','edgegloweffect::ID'],
 		['spellvisualkiteffect.EffectType=13','beameffect::ID'],
+		['spellvisualkiteffect.EffectType=14','clientsceneeffect::ID'],
+		['spellvisualkiteffect.EffectType=15','cloneeffect::ID'],
 		['spellvisualkiteffect.EffectType=16','gradienteffect::ID'],
+		['spellvisualkiteffect.EffectType=17','barrageeffect::ID'],
+		['spellvisualkiteffect.EffectType=18','ropeeffect::ID'],
+		['spellvisualkiteffect.EffectType=19','spellvisualscreeneffect::ID'],
 	]
 );
 
