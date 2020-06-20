@@ -1499,24 +1499,25 @@ const effectAuraType = {
 }
 
 const spellVisualKitEffectType = {
-	// 1: '1',
+	1: 'SpellProceduralEffectID',
 	2: 'SpellVisualKitModelAttachID',
 	// 3: '3',
 	// 4: '4',
 	5: 'SoundKitID',
 	6: 'SpellVisualAnimID',
-	// 7: '7',
+	7: 'ShadowyEffectID',
 	// 8: '8',
 	// 9: '9',
 	// 10: '10',
-	// 11: '11',
-	// 12: '12',
-	// 13: '13',
+	11: 'DissolveEffectID',
+	12: 'EdgeGlowEffectID',
+	13: 'BeamEffectID',
 	// 14: '14',
 	// 15: '15', // Unused
-	// 16: '16',
+	16: 'GradientEffectID',
 	// 17: '17',
 	// 18: '18'
+	// 19: '19'
 }
 
 const spellLabelName = {
@@ -2368,9 +2369,15 @@ conditionalFKs.set("criteria.Asset",
 
 conditionalFKs.set("spellvisualkiteffect.Effect",
 	[
+		['spellvisualkiteffect.EffectType=1','spellproceduraleffect::ID'],
 		['spellvisualkiteffect.EffectType=2','spellvisualkitmodelattach::ID'],
 		['spellvisualkiteffect.EffectType=5','soundkit::ID'],
 		['spellvisualkiteffect.EffectType=6','spellvisualanim::ID'],
+		['spellvisualkiteffect.EffectType=7','shadowyeffect::ID'],
+		['spellvisualkiteffect.EffectType=11','dissolveeffect::ID'],
+		['spellvisualkiteffect.EffectType=12','edgegloweffect::ID'],
+		['spellvisualkiteffect.EffectType=13','beameffect::ID'],
+		['spellvisualkiteffect.EffectType=16','gradienteffect::ID'],
 	]
 );
 
