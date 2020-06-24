@@ -673,7 +673,10 @@ const spellEffectName = {
     265: 'LEARN_AZERITE_ESSENCE_POWER',
     268: 'APPLY_MOUNT_EQUIPMENT',
     269: 'UPGRADE_ITEM',
-    271: 'APPLY_AREA_AURA_PARTY_NONRANDOM'
+    271: 'APPLY_AREA_AURA_PARTY_NONRANDOM',
+    // 272: '',
+    // 273: '',
+    // 276: '',
 };
 
 const soundkitSoundType = {
@@ -928,7 +931,11 @@ const criteriaType = {
     213: 'REACH_ACCOUNT_HONOR_LEVEL',
     214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED',
     215: 'HEART_OF_AZEROTH_LEVEL_REACHED',
-    216: 'UNK'
+    // 216: '216',
+    // 217: '217',
+    // 218: '218',
+    // 219: '219',
+    // 220: '220',
 }
 
 const componentSection = {
@@ -2361,6 +2368,7 @@ conditionalFKs.set("criteria.Asset",
 	[
 		['criteria.Type=0','creature::ID'],
 		['criteria.Type=8','achievement::ID'],
+		['criteria.Type=12','currencytypes::ID'],
 		['criteria.Type=27','questv2::ID'],
 		['criteria.Type=29','spell::ID'],
 		['criteria.Type=36','item::ID'],

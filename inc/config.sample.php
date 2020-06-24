@@ -52,8 +52,11 @@ $discord['wow-classic']['products'] = ["wow_classic", "wow_classic_beta", "wowde
 $discord['wow-ptr']['url'] = "https://discordapp.com/api/webhooks/";
 $discord['wow-ptr']['products'] = ["wowt"];
 
+$discord['wow-beta']['url'] = "https://discordapp.com/api/webhooks/";
+$discord['wow-beta']['products'] = ["wow_beta"];
+
 $discord['wow-other']['url'] = "https://discordapp.com/api/webhooks/";
-$discord['wow-other']['products'] = ["wow_beta", "wowdev", "wowe1", "wowe2", "wowe3", "wowv", "wowv2", "wowz"];
+$discord['wow-other']['products'] = ["wowdev", "wowe1", "wowe2", "wowe3", "wowv", "wowv2", "wowz"];
 
 $discord['not-wow']['url'] = "https://discordapp.com/api/webhooks/";
 $discord['not-wow']['products'] = ["catalogs", "bna", "agent"];
