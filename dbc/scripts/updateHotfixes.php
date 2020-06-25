@@ -27,6 +27,11 @@ foreach($files as $file) {
 	$insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build) VALUES (?, ?, ?, ?)");
 	$messages = [];
 	foreach($json['entries'] as $entry){
+		if($entry['pushID'] > 999999){
+			$messages[] = "Got hotfix with a very high push ID: " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build'].", ignoring!!!\n";
+			continue;
+		}
+
 		if($entry['pushID'] != "-1" && in_array($entry['pushID'], $knownPushIDs))
 			continue;
 
