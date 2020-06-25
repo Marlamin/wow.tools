@@ -89,7 +89,7 @@ if($_GET['p'] == "login"){
 				$q = $pdo->prepare("UPDATE users SET recoverytoken = ?, tokengeneratedon = NOW() WHERE email = ?");
 				$q->execute([$recoverytoken, $res['email']]);
 
-				$mail = "Dear ".$res['username'].", please click the following link to reset your password: https://wow.tools/user.php?p=resetpass&token=" . $recoverytoken .". \nThis link will be valid for 1 day.";
+				$mail = "Dear ".$res['username'].", please click the following link to reset your password: https://wow.tools/user.php?p=resetpass&token=" . $recoverytoken ." \nThis link will be valid for 1 day.";
 
 				sendgridMail($res['email'], "WoW.tools recovery link", $mail);
 
