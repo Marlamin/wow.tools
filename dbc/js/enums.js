@@ -989,7 +989,10 @@ const geosetType = {
 	34: 'Eyebrows',
 	35: 'Earrings',
 	36: 'Necklace',
-	37: 'Headdress'
+	37: 'Headdress',
+	38: 'Tails',
+	39: 'Vines',
+	40: 'Tusks'
 }
 
 const chrCustomizationReqType = {
