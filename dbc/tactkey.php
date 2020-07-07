@@ -12,14 +12,15 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 	$tactkeys[$row['keyname']] = $row;
 }
 
-
-
 ?>
 <div class="container-fluid" style='margin-top: 15px;'>
+	<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
+		<input type="checkbox" autocomplete="off" id="idLessToggle" CHECKED> Show keys without ID
+	</label>
 	<? if(!empty($_GET['build'])){
 		$build = $_GET['build'];
 	}else{
-		$build = "9.0.1.34821";
+		$build = "9.0.1.34902";
 	}
 	?>
 	<div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>
@@ -28,7 +29,10 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 	<script type='text/javascript'>
 		var tactkeys = <?=json_encode($tactkeys)?>;
 		var encrypted = <?=json_encode($encrypted)?>;
-		function loadBuild(build){
+		var build = "<?=$build?>";
+		var showIDLess = true;
+
+		function loadBuild(build, showIDLess){
 			var output = new Array();
 			$("#output").html("");
 			console.log("Loading " + build);
@@ -65,6 +69,11 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 							if(tactkeydb[entry[0]] != null){
 								tactkeys[lookup]['keybytes'] = tactkeydb[entry[0]];
 							}
+
+							if(!showIDLess && tactkeys[lookup]['id'] == null){
+								return;
+							}
+
 							if(tactkeys[lookup]['keybytes'] == null || tactkeys[lookup]['keybytes'] == ""){
 								tactkeys[lookup]['keybytes'] = "????????????????????????????????";
 							}
@@ -118,7 +127,13 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 								}
 
 								paddedID = values.id.toString().padEnd(3, ' ');
+							}else{
+								if(!showIDLess){
+									continue;
+								}
 							}
+
+							console.log(paddedID);
 
 							if(values.added == null || values.added == ""){
 								values.added = "                       ";
@@ -155,10 +170,16 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 
 		}
 
-		loadBuild("<?=$build?>");
+		loadBuild("<?=$build?>", showIDLess);
 
 		$('#buildFilter').on('change', function() {
-			loadBuild(this.value);
+			build = this.value;
+			loadBuild(this.value, document.getElementById('idLessToggle').checked);
+		});
+
+		$('#idLessToggle').on('change', function() {
+			showIDLess = document.getElementById('idLessToggle').checked;
+			loadBuild(build, showIDLess);
 		});
 	</script>
 </div>
