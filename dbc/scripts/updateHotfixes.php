@@ -9,7 +9,7 @@ $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 foreach($files as $file) {
 	// Only process hotfixes newer than 1 day ago
-	if(filemtime($file) < strtotime("-6 hours"))
+	if(filemtime($file) < strtotime("-1 hour"))
 		continue;
 
 	$md5 = md5_file($file);

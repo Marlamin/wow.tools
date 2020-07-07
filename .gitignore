@@ -10,6 +10,7 @@ maps/png/
 # Exporter
 export/download
 export/update
+export/dev
 
 # Non-public files
 dbc/scripts/hook.php

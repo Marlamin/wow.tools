@@ -7,9 +7,12 @@ foreach($pdo->query("SELECT internal, wdtFileDataID FROM wow_maps_maps WHERE wdt
 
 	$destinationjson = __DIR__ . "/../data/mnam/".$map['wdtFileDataID'].".json";
 
+	if(file_exists($destinationjson))
+		continue;
+
 	$tempname = tempnam("/tmp", "mnamdump");
 
-	$data = @file_get_contents("https://wow.tools/casc/file/fdid?filedataid=" . $map['wdtFileDataID'] . "&buildconfig=a5d0282ea0d408bdd865de4bd45371c0&cdnconfig=c7ece5fa19f4e4c538cb0a2cf15589d4&filename=data.wdt");
+	$data = @file_get_contents("https://wow.tools/casc/file/fdid?filedataid=" . $map['wdtFileDataID'] . "&buildconfig=08cc8b6aa4c2a4468d71cd1b98b2d542&cdnconfig=8c3b2d29f6746551e930930d1359531b&filename=data.wdt");
 	if(!$data || empty($data)){
 		echo "Unable to dump WDT (fdid " . $map['wdtFileDataID'] . ") for " . $map['internal'].", likely unshipped!\n";
 		continue;

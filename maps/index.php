@@ -33,7 +33,7 @@
 		<div style='font-size: 12px;'><input type='checkbox' name='pois' id='js-poilayer'> <label for="js-poilayer">Points of interest</label></div>
 		<div style='font-size: 12px;'><input type='checkbox' name='adtgrid' id='js-adtgrid'> <label for="js-adtgrid">ADT grid</label></div>
 		<div style='font-size: 12px;'><input type='checkbox' name='worldmap' id='js-worldmap'> <label for="js-worldmap">World maps (up to 50MB data)</label></div>
-		<div style='font-size: 12px;'><input type='checkbox' name='mnam' id='js-mnam'> <label for="js-mnam">MNAM data (8.3)</label></div>
+		<div style='font-size: 12px;'><input type='checkbox' name='mnam' id='js-mnam'> <label for="js-mnam">Map Anima (MNAM) data</label></div>
 	</div>
 
 	<div id="js-map" class="map-canvas">&nbsp;</div>
