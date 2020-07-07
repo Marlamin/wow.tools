@@ -48,7 +48,12 @@ while($row = $res->fetch()){
 				if($row['buildconfig'] == "cc7af6d878238d1c78d828db5146d343") continue;
 
 				echo "[EXE dump] ".$row['description'].": ".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"\n";
-				$output = shell_exec("/usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilebycontenthash wow \"".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"");
+				$output = shell_exec("/usr/bin/wget -O \"".$filename."\" \"https://wow.tools/casc/file/chash?contenthash=".$md5."&buildconfig=".$row['buildconfig']."&cdnconfig=".$row['cdnconfig']."\"");
+
+				if(file_exists($filename) && filesize($filename) == 0){
+					echo "[EXE dump] Dumped file is 0 bytes, deleting...\n";
+					unlink($filename);
+				}
 				shell_exec("chmod -R 777 /home/wow/exes/*");
 				print_r($output);
 			}
@@ -57,7 +62,7 @@ while($row = $res->fetch()){
 
 	if($row['builton'] == NULL){
 		// Parse file only if exists (could be that previous step failed)
-		if(file_exists($filename)){
+		if(file_exists($filename) && filesize($filename) > 0){
 			echo "[EXE dump] File exists, adding build time to DB\n";
 			$output = shell_exec("/usr/bin/strings ".$filename." | grep \"Exe Built:\"");
 			$output = str_replace("Exe Built: ", "", $output);
@@ -65,7 +70,7 @@ while($row = $res->fetch()){
 			$uq = $pdo->prepare("UPDATE wow_buildconfig SET builton = ? WHERE hash = ?");
 			$uq->execute([$date, $row['buildconfig']]);
 		}else{
-			echo "[EXE dump] File " . $filename . " does not exist.\n";
+			echo "[EXE dump] File " . $filename . " does not exist or is empty.\n";
 		}
 	}else{
 	}
