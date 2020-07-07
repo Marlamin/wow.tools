@@ -60,7 +60,11 @@ function isTableAvailableForBuild($table, $build){
 	global $tablesToID;
 	global $versionTableCache;
 
-	return in_array($tablesToID[strtolower($table)], $versionTableCache[$buildsToID[$build]]);
+	if(array_key_exists(strtolower($table), $tablesToID)){
+		return in_array($tablesToID[strtolower($table)], $versionTableCache[$buildsToID[$build]]);
+	}else{
+		return false;
+	}
 
 }
 $start = (int)filter_input( INPUT_GET, 'start', FILTER_SANITIZE_NUMBER_INT );
