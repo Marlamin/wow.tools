@@ -68,12 +68,12 @@ $dbFound = false;
 				?>
 			</select>
 
-			<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
+<!-- 			<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
 				<option value='' <? if(empty($_GET['locale']) || $_GET['locale'] == ""){ echo " SELECTED"; }?>>enUS (Default)</option>
 				<?php foreach($locales as $locale){ ?>
 					<option value='<?=$locale['value']?>' <? if(!empty($_GET['locale']) && $_GET['locale'] == $locale['value']){ echo " SELECTED"; }?>><?=$locale['name']?></option>
 				<?php } ?>
-			</select>
+			</select> -->
 
 
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
@@ -287,8 +287,8 @@ $dbFound = false;
 		});
 
 		$('#localeSelection').on('change', function(){
-			currentParams["locale"] = $('#localeSelection').val();
-			document.location = buildURL(currentParams);
+			// currentParams["locale"] = $('#localeSelection').val();
+			// document.location = buildURL(currentParams);
 		});
 
 		$('#hotfixToggle').on('change', function(){
@@ -312,7 +312,7 @@ $dbFound = false;
 		let apiArgs = currentParams["dbc"] + "/?build=" + currentParams["build"];
 
 		if(currentParams["locale"] != ""){
-			 apiArgs += "&locale=" + currentParams["locale"];
+			 // apiArgs += "&locale=" + currentParams["locale"];
 		}
 
 		if(currentParams["hotfixes"]){
