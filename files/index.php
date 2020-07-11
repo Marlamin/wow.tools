@@ -34,7 +34,12 @@ foreach($lfproducts as $lfproduct){
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
 		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white'>Toggle preview</a>
+		<a role="button" id='toggleTree' onClick='toggleTree()' class='btn btn-danger btn-sm' style='color: white'>Toggle tree</a>
 	</div>
+	<div id='files_treeFilter' style='display: none'>
+		<input type='text' id='treeFilter' oninput='treeFilterChange(this)'>
+	</div>
+	<div id='files_tree' style='display: none'><div id='tree'></div></div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
 			<tr>
@@ -182,7 +187,6 @@ foreach($lfproducts as $lfproduct){
 			"processing": true,
 			"serverSide": true,
 			"search": { "search": searchString },
-			"ajax": "",
 			"ajax": {
 				url: 'scripts/api.php',
 				type: 'GET',
@@ -193,7 +197,7 @@ foreach($lfproducts as $lfproduct){
 				}
 			},
 			"pageLength": 25,
-			"language": { "search": "Search: _INPUT_ <a class='btn btn-outline-light btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
+			"language": { "search": "Search: _INPUT_ <a class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
 			"displayStart": page * 25,
 			"autoWidth": false,
 			"pagingType": "input",

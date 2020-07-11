@@ -25,6 +25,31 @@
 	-webkit-overflow-scrolling: touch;
 }
 
+#files_tree{
+	width: 220px;
+	max-width: 220px;
+	height: calc(100vh - 146px);
+	max-height: calc(100vh - 146px);
+	white-space: nowrap;
+	float: left;
+	overflow: auto;
+	display: block;
+}
+
+#treeFilter{
+	position: absolute;
+	top: 75px;
+}
+
+.treeEntry{
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.treeEntry.selected{
+	background-color: #8bc34aa1 !important;
+}
+
 /* Mobile Devices */
 @media screen and (max-width: 767px) {
 	#files_length{

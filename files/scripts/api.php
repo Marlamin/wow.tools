@@ -1,5 +1,28 @@
 <?php
 require_once("/var/www/wow.tools/inc/config.php");
+header('Content-Type: application/json');
+
+if(!empty($_GET['tree']) && isset($_GET['depth'])){
+	$treeQ = $pdo->prepare("SELECT DISTINCT(SUBSTRING_INDEX(filename, '/', :depth)) as entry, filename FROM wow_rootfiles WHERE filename LIKE :start AND filename LIKE :filter GROUP BY entry ASC");
+
+	$treeQ->bindParam(":depth", $_GET['depth']);
+
+	if(empty($_GET['start'])){
+		$treeQ->bindValue(":start", "%");
+	}else{
+		$treeQ->bindValue(":start", $_GET['start']."/%");
+	}
+
+	if(empty($_GET['filter'])){
+		$treeQ->bindValue(":filter", "%");
+	}else{
+		$treeQ->bindValue(":filter", "%".$_GET['filter']."%");
+	}
+
+	$treeQ->execute();
+	echo json_encode($treeQ->fetchAll(PDO::FETCH_ASSOC));
+	die();
+}
 
 $profiling = false;
 if($profiling){
@@ -8,7 +31,6 @@ if($profiling){
 	$returndata['profiletimings'][] = microtime(true);
 }
 
-header('Content-Type: application/json');
 if(!isset($_SESSION)){ session_start(); }
 
 if(!empty($_GET['src']) && $_GET['src'] == "mv"){

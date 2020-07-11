@@ -34,7 +34,11 @@ function togglePreviewPane(){
 		document.getElementById("files_preview").style.display = "none";
 
 		// Resize table to 100%
-		$("#files_wrapper").width('100%');
+		if($("#files_tree").is(":visible")){
+
+		}else{
+			$("#files_wrapper").width('100%');
+		}
 		document.getElementById("files_wrapper").style.float = "none";
 
 		// Show footer
@@ -50,7 +54,12 @@ function togglePreviewPane(){
 		document.getElementById("files_preview").style.display = "block";
 
 		// Resize table to 55%
-		$("#files_wrapper").width('55%');
+		if($("#files_tree").is(":visible")){
+
+		}else{
+			$("#files_wrapper").width('55%');
+		}
+
 		document.getElementById("files_wrapper").style.float = "left";
 
 		// Hide footer
@@ -221,3 +230,107 @@ $("html").on('hidden.bs.modal', '#chashModal', function(e) {
 $(function () {
 	$('[data-toggle="popover"]').popover()
 })
+
+function toggleTree(){
+	if($("#files_tree").is(":visible")){
+		$("#files_tree").hide();
+		$("#files_treeFilter").hide();
+		$("#files_buttons").css("left", '190px');
+		$("#files_tree").html("<div id='tree'></div>");
+	}else{
+		treeClick(document.getElementById("tree"));
+		$("#files_buttons").css("left", '420px');
+		$("#files_treeFilter").show();
+		$("#files_tree").show();
+	}
+}
+
+function treeFilterChange(event){
+	treeClick(document.getElementById("tree"), false);
+	return false;
+}
+
+function treeClick(event, returnAfterClear = true){
+	let parentElement = event.parentElement;
+	if(parentElement === undefined)
+		parentElement = event.srcElement;
+
+	// Check if loading icon already exists for this div, if so return to not load things twice
+	if(parentElement.querySelector('#loading') != null)
+		return;
+
+	let depth = 1;
+	let url = '/files/scripts/api.php?tree=1&depth=' + depth;
+	let start = parentElement.dataset.name;
+	if(start !== undefined){
+		depth = Number(parentElement.dataset.depth) + 1;
+		url = '/files/scripts/api.php?tree=1&start=' + start + '&depth=' + depth;
+	}
+
+	let filter = document.getElementById('treeFilter').value;
+	if(filter !== undefined && filter != ''){
+		url = url + "&filter=" + filter;
+	}
+
+	if(start !== undefined){
+		if(filter != ''){
+			$('#files').DataTable().search("^" + start + "%," + filter).draw();
+		}else{
+			$('#files').DataTable().search("^" + start + "%").draw();
+		}
+	}
+
+    $(".selected").removeClass("selected");
+    $(parentElement).addClass('selected');
+
+	// If children exist, delete children and collapse folder.
+	if(parentElement.querySelector('.treeEntry') != null){
+		parentElement.querySelectorAll('.treeEntry').forEach(function(child){
+			child.remove();
+		});
+
+		if(returnAfterClear){
+			return;
+		}
+	}
+
+	// Create loading icon
+	var newElement = document.createElement('div');
+	newElement.id = 'loading';
+	newElement.style.marginLeft = '10px;';
+	newElement.style.float = 'right';
+	newElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+	parentElement.appendChild(newElement);
+
+	// Fire off API request
+	fetch(url)
+	.then(response => response.json())
+	.then(result => {
+		// Remove loading icon
+		if(parentElement.querySelector('#loading') != null){
+			parentElement.querySelector('#loading').remove();
+		}
+
+		// Check if filter value changed at this point, if so bail and restart
+		if(filter != document.getElementById('treeFilter').value){
+			return treeClick(event, returnAfterClear);
+		}
+
+		result.forEach(function(entry){
+			// Ignore entry if entry is a file
+			if(entry.entry == entry.filename)
+				return;
+
+			let newElement = document.createElement('div');
+			newElement.textContent = entry.entry.replace(start + '/', '');
+			newElement.dataset.depth = depth;
+			newElement.dataset.name = entry.entry;
+			newElement.classList = ['treeEntry'];
+			newElement.addEventListener('click', treeClick);
+
+			parentElement.append(newElement);
+		});
+
+		$(".treeEntry").first().css("margin-top", "40px");
+	});
+}
