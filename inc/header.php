@@ -83,7 +83,6 @@
 						<i class="fa fa-flask" aria-hidden="true"></i> Lab
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navDropdown">
-						<a class="dropdown-item" href="/realms/">Realm status</a>
 						<a class="dropdown-item" href="/dbc/hotfixes.php">Hotfix diffs</a>
 						<a class="dropdown-item" href="/maps/worldmap.php">World map viewer</a>
 					</div>
