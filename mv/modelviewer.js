@@ -175,6 +175,14 @@ if(urlEmbed){
     console.log("Running modelviewer in embedded mode!");
 }
 
+var urlClearColor = new URL(window.location).searchParams.get("clearColor");
+if(urlClearColor){
+    var r = parseInt('0x' + urlClearColor.substring(0, 2)) / 255;
+    var g = parseInt('0x' + urlClearColor.substring(2, 4)) / 255;
+    var b = parseInt('0x' + urlClearColor.substring(4, 6)) / 255;
+    Settings.clearColor = [r, g, b];
+}
+
 window.createscene = function () {
     Module["canvas"] = document.getElementById("wowcanvas");
 
