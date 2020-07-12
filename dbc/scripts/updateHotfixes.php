@@ -4,12 +4,12 @@ require_once(__DIR__ . "/../../inc/config.php");
 
 $knownPushIDs = $pdo->query("SELECT DISTINCT pushID FROM wow_hotfixes")->fetchAll(PDO::FETCH_COLUMN);
 $knownKeys = $pdo->query("SELECT keyname FROM wow_tactkey")->fetchAll(PDO::FETCH_COLUMN);
-
+$keyInsert = $pdo->prepare("INSERT IGNORE INTO wow_tactkey (keyname, keybytes) VALUES (?, ?)");
 $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 foreach($files as $file) {
 	// Only process hotfixes newer than 1 day ago
-	if(filemtime($file) < strtotime("-1 hour"))
+	if(filemtime($file) < strtotime("-2 hours"))
 		continue;
 
 	$md5 = md5_file($file);
@@ -75,7 +75,13 @@ foreach($files as $file) {
 
 		$expl = explode(" ", trim($line));
 		if(!in_array($expl[0], $knownKeys)){
-			echo "Found new key! " . $expl[0]." " . $expl[1]."\n";
+			if($expl[1] == "exception"){
+				echo "Error retrieving tactkey " . $line."\n";
+			}else{
+				echo "Found new key! " . $expl[0]." " . $expl[1]."\n";
+				$knownKeys[] = $expl[0];
+				$keyInsert->execute([$expl[0], $expl[1]]);
+			}
 		}
 	}
 
