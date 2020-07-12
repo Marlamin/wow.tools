@@ -22,7 +22,7 @@ while($row = $res->fetch()){
 		if($row['product'] == "wow_classic") $target = "WowClassic.exe";
 		if($row['product'] == "wow_classic_ptr") $target = "WowClassicT.exe";
 		if($row['product'] == "wowt") $target = "WowT.exe";
-		if($row['product'] == "wow_beta" || $row['product'] == "wowz" || $row['product'] == "wow_classic_beta") $target = "WowB.exe";
+		if($row['product'] == "wow_beta" || $row['product'] == "wowz" || $row['product'] == "wow_classic_beta" || $row['product'] == "wowe1") $target = "WowB.exe";
 	}else{
 		if($row['product'] == "wow") $target = "Wow-64.exe";
 		if($row['product'] == "wowt") $target = "WowT-64.exe";
