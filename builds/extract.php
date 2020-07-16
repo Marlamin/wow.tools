@@ -18,7 +18,7 @@ include(__DIR__ . "/../inc/header.php");
 		$install = $build['buildconfig']['install_cdn'];
 	} else if (!empty($_GET['install'])){
 		// Recent ish build
-		$buildn = 30000;
+		$buildn = 35167;
 
 		if(strlen($_GET['install']) == 32 && ctype_xdigit($_GET['install'])){
 			$install = $_GET['install'];

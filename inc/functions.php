@@ -82,21 +82,19 @@ function generateMeta($queryString){
 		}
 
 		$tags[] = "<meta name='description' content='" . $desc . "'>";
-		$tags[] = "<meta property='og:description' content='" . $desc . "'>";
+		$tags[] = "	<meta property='og:description' content='" . $desc . "'>";
 	}
 
-	$tags[] = "<meta property='og:type' content='website'>";
-	$tags[] = "<meta property='og:site_name' content='WoW.tools'>";
-	$tags[] = "<meta property='og:title' content='" . prettyTitle($queryString) . "'>";
-	$tags[] = "<meta property='og:image' content='https://wow.tools/img/cogw.png'>";
-
-	$tags[] = "<meta property='twitter:image' content='https://wow.tools/img/cogw.png'>";
-	$tags[] = "<meta property='twitter:card' content='summary'>";
-	$tags[] = "<meta property='twitter:site' content='@Marlamin'>";
-
-	$tags[] = "<meta name='application-name' content='WoW.tools'>";
-	$tags[] = "<meta name='apple-mobile-web-app-title' content='WoW.tools'>";
-	$tags[] = "<meta name='theme-color' content='#343a40'>";
+	$tags[] = "	<meta property='og:type' content='website'>";
+	$tags[] = "	<meta property='og:site_name' content='WoW.tools'>";
+	$tags[] = "	<meta property='og:title' content='" . prettyTitle($queryString) . "'>";
+	$tags[] = "	<meta property='og:image' content='https://wow.tools/img/cogw.png'>";
+	$tags[] = "	<meta property='twitter:image' content='https://wow.tools/img/cogw.png'>";
+	$tags[] = "	<meta property='twitter:card' content='summary'>";
+	$tags[] = "	<meta property='twitter:site' content='@Marlamin'>";
+	$tags[] = "	<meta name='application-name' content='WoW.tools'>";
+	$tags[] = "	<meta name='apple-mobile-web-app-title' content='WoW.tools'>";
+	$tags[] = "	<meta name='theme-color' content='#343a40'>";
 	$tags[] = "";
 	return implode("\n", $tags);
 }
