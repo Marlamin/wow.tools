@@ -1,0 +1,42 @@
+{
+  "short_name": "WoW.tools",
+  "name": "WoW.tools: WoW Datamining Tools",
+  "description": "Various tools to interact with/view data from World of Warcraft",
+  "icons": [
+    {
+      "src": "/img/maskable_icon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/cogw-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/newlogo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#343a40",
+  "display": "minimal-ui",
+  "scope": "/",
+  "theme_color": "#343a40",
+  "shortcuts": [
+    {
+      "name": "Tables",
+      "short_name": "Tables",
+      "description": "View tables",
+      "url": "/dbc/"
+    },
+    {
+      "name": "Model viewer",
+      "short_name": "Model viewer",
+      "description": "View models",
+      "url": "/mv/"
+    }
+  ]
+}

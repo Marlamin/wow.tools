@@ -25,7 +25,7 @@
 		<div class='col-md-4'>
 			<h4>Current WoW versions per branch</h4>
 			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
-				<thead><tr><th>Name</th><th>Version</th><th>Build time (PT)</th></tr></thead>
+				<thead><tr><th>Name</th><th>Build</th><th>Built at (PT)</th></tr></thead>
 				<?php
 				$productCDNMap = $pdo->query("SELECT program, cdndir FROM ngdp_products WHERE program LIKE 'wow%'")->fetchAll(PDO::FETCH_KEY_PAIR);
 				$urlq = $pdo->query("SELECT id, name, url FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
@@ -59,7 +59,7 @@
 						$encrypted = "";
 					}
 
-					echo "<tr><td>".str_replace(" Versions", "", $row['name']) . $encrypted . "</td><td>" . $highestBuildName."</td><td>".$buildTime."</td></tr>";
+					echo "<tr><td>".str_replace("WoW ", "", str_replace(" Versions", "", $row['name'])) . $encrypted . "</td><td>" . $highestBuildName."</td><td>".$buildTime."</td></tr>";
 				}
 				?>
 			</table>
@@ -67,7 +67,7 @@
 		<div class='col-md-4'>
 			<h4>Recently detected hotfixes</h4>
 			<table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
-			<thead><tr><th>Tables</th><th>Record count</th><th>Push ID</th><th>Detected on</th></tr></thead>
+			<thead><tr><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Push ID</th><th>Detected on</th></tr></thead>
 			<?php
 			$hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
 			foreach($hotfixes as $hotfix){
@@ -77,7 +77,7 @@
 			</table>
 			<h4>Latest filename additions</h4>
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
-			<thead><tr><th>Amount</th><th>User</th><th>Submitted on</th><th>Status</th></tr></thead>
+			<thead><tr><th>Amount</th><th>User</th><th>Date</th><th>Status</th></tr></thead>
 			<?php
 			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,7")->fetchAll();
 			$i = 0;

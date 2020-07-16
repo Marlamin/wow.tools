@@ -6,6 +6,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="icon" type="image/png" href="/img/cogw.png" />
+	<link rel="apple-touch-icon" href="/img/cogw-192.png">
+	<link rel="manifest" href="/manifest.webmanifest">
 
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -76,7 +78,7 @@
 					<a class="nav-link" href="/builds/"><i class="fa fa-hdd-o" aria-hidden="true"></i> Builds</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/export/"><img src='https://wow.tools/img/newlogosm.png' style='width: 16px;'> Export</a>
+					<a class="nav-link" href="/export/"><img src='https://wow.tools/img/newlogosm.png' alt='Logo' style='width: 16px;'> Export</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
