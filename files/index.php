@@ -12,9 +12,9 @@ foreach($lfproducts as $lfproduct){
 <div class="container-fluid" id='files_container'>
 	<div id='files_buttons' class='notree'>
 		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
-		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest names</a>
+		<a href='/files/submitFiles.php' class='btn btn-success btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-content='Submit suggestions for filenames'><i class='fa fa-upload'></i> Suggest names</a>
 		<div class="btn-group">
-			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'>Get CSV listfile</a>
+			<a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'><i class='fa fa-download'></i> Listfile</a>
 			<button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
@@ -28,12 +28,12 @@ foreach($lfproducts as $lfproduct){
 				<?php } ?>
 			</div>
 		</div>
-		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'>Filter build</a>
+		<a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'><i class='fa fa-filter'></i> Filter build</a>
 		<a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear filter</a>
 		<a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
-		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white'>Toggle preview</a>
+		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white' data-trigger='hover' data-container='body' data-toggle='popover' data-content='Click this to toggle between showing previews on the right of the table, or in a separate popup.'><i class='fa fa-columns'></i> Toggle preview</a>
 	</div>
 	<div id='files_treeFilter' style='display: none'>
 		<input type='text' id='treeFilter' oninput='treeFilterChange(this)'>
@@ -197,7 +197,7 @@ foreach($lfproducts as $lfproduct){
 				}
 			},
 			"pageLength": 25,
-			"language": { "search": "Search: _INPUT_ <a class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'>Help</a>" },
+			"language": { "search": "Search: _INPUT_ <a style='margin-top: -5px;' class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'><i class='fa fa-question'></i></a>" },
 			"displayStart": page * 25,
 			"autoWidth": false,
 			"pagingType": "input",
@@ -209,9 +209,9 @@ foreach($lfproducts as $lfproduct){
 				"createdCell": function (td, cellData, rowData, row, col) {
 					if (!cellData) {
 						if(!rowData[7]){
-							$(td).css('background-color', '#ff585870');
+							$(td).css('background-color', '#ff585850');
 						}else{
-							$(td).css('background-color', '#673ab770');
+							$(td).css('background-color', '#673ab750');
 						}
 					}
 				},

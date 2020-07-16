@@ -185,7 +185,7 @@ pre{
 }
 
 .table-striped tbody tr:nth-of-type(odd){
-	background-color: rgba(0, 0, 0, 0.15);
+	background-color: rgba(0, 0, 0, 0.12);
 }
 
 .table-minimal tr th{
@@ -200,7 +200,7 @@ pre{
 }
 
 .odd{
-	background-color: rgba(0,0,0,.15);
+	background-color: rgba(0,0,0,.12);
 }
 
 .dropdown-menu{

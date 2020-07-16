@@ -23,7 +23,7 @@ $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow
 ?>
 <div class="container-fluid" style="width: 80%; margin-left: 10%; margin-top: 10px;">
 	<div class="row">
-		<div class="col-sm">
+		<div class="col-sm" style='max-height: 80vh; overflow-y: scroll'>
 			<h4>File types</h4>
 			<table class='table table-condensed table-striped'>
 			<?php
@@ -34,7 +34,7 @@ $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow
 			?>
 			</table>
 		</div>
-		<div class="col-sm">
+		<div class="col-sm" style='max-height: 80vh; overflow-y: scroll'>
 			<h4>File count per build</h4>
 			<table class='table table-condensed table-striped'>
 			<?php

@@ -34,7 +34,7 @@ function togglePreviewPane(){
 		document.getElementById("files_preview").style.display = "none";
 
 		// Resize table
-		document.getElementById("files_preview").style.width = "100%";
+		document.getElementById("files_wrapper").style.width = "100%";
 
 		document.getElementById("files_wrapper").style.float = "none";
 
@@ -52,9 +52,9 @@ function togglePreviewPane(){
 
 		// Resize table
 		if($("#files_tree").is(":visible")){
-			document.getElementById("files_preview").style.width = "45%";
+			document.getElementById("files_wrapper").style.width = "45%";
 		}else{
-			document.getElementById("files_preview").style.width = "55%";
+			document.getElementById("files_wrapper").style.width = "55%";
 		}
 
 		document.getElementById("files_wrapper").style.float = "left";
