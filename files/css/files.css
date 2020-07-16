@@ -6,14 +6,21 @@
 #files_buttons{
     position: absolute;
     top: 73px;
-    left: 190px;
     z-index: 2;
+}
+
+#files_buttons.notree{
+    left: 205px;
+}
+
+#files_buttons.tree{
+	left: 420px;
 }
 
 #files_preview{
 	display: none;
-	width: 45%;
-	float: left;
+	width: 42%;
+	float: right;
 	padding-left: 15px;
 }
 
@@ -34,6 +41,24 @@
 	float: left;
 	overflow: auto;
 	display: block;
+}
+
+#files_treetoggle{
+	width: 15px;
+	max-width: 15px;
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+	line-height: calc(100vh - 146px);
+	border: 1px solid var(--border-color);
+	height: calc(100vh - 156px);
+	max-height: calc(100vh - 156px);
+	float: left;
+	margin-right: 10px;
+}
+
+#files_treetoggle.collapsed{
+	margin-left: -10px;
 }
 
 #treeFilter{
@@ -73,7 +98,16 @@
 
 	#files_buttons .btn{
 		line-height: 1;
+		left: 0px;
 		font-size: 0.8rem;
+	}
+
+	#files_buttons.notree{
+		left: 0px;
+	}
+
+	#files_buttons.tree{
+		left: 0px;
 	}
 
 	.dropdown-toggle-split{

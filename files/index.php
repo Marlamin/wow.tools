@@ -10,7 +10,7 @@ foreach($lfproducts as $lfproduct){
 
 ?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
-	<div id='files_buttons'>
+	<div id='files_buttons' class='notree'>
 		<a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
 		<a href='/files/submitFiles.php' class='btn btn-success btn-sm'>Suggest names</a>
 		<div class="btn-group">
@@ -34,12 +34,12 @@ foreach($lfproducts as $lfproduct){
 		<a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
 		<a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
 		<a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white'>Toggle preview</a>
-		<a role="button" id='toggleTree' onClick='toggleTree()' class='btn btn-danger btn-sm' style='color: white'>Toggle tree</a>
 	</div>
 	<div id='files_treeFilter' style='display: none'>
 		<input type='text' id='treeFilter' oninput='treeFilterChange(this)'>
 	</div>
 	<div id='files_tree' style='display: none'><div id='tree'></div></div>
+	<div id='files_treetoggle' class='collapsed' onClick='toggleTree()'>&gt;</div>
 	<table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
 		<thead>
 			<tr>

@@ -33,12 +33,9 @@ function togglePreviewPane(){
 		// Hide preview pane
 		document.getElementById("files_preview").style.display = "none";
 
-		// Resize table to 100%
-		if($("#files_tree").is(":visible")){
+		// Resize table
+		document.getElementById("files_preview").style.width = "100%";
 
-		}else{
-			$("#files_wrapper").width('100%');
-		}
 		document.getElementById("files_wrapper").style.float = "none";
 
 		// Show footer
@@ -53,11 +50,11 @@ function togglePreviewPane(){
 		// Show preview pane
 		document.getElementById("files_preview").style.display = "block";
 
-		// Resize table to 55%
+		// Resize table
 		if($("#files_tree").is(":visible")){
-
+			document.getElementById("files_preview").style.width = "45%";
 		}else{
-			$("#files_wrapper").width('55%');
+			document.getElementById("files_preview").style.width = "55%";
 		}
 
 		document.getElementById("files_wrapper").style.float = "left";
@@ -235,13 +232,19 @@ function toggleTree(){
 	if($("#files_tree").is(":visible")){
 		$("#files_tree").hide();
 		$("#files_treeFilter").hide();
-		$("#files_buttons").css("left", '190px');
+		document.getElementById('files_treetoggle').classList.add("collapsed");
+		document.getElementById('files_buttons').classList.remove("tree");
+		document.getElementById('files_buttons').classList.add("notree");
 		$("#files_tree").html("<div id='tree'></div>");
+		$("#files_treetoggle").html("&gt;");
 	}else{
 		treeClick(document.getElementById("tree"));
-		$("#files_buttons").css("left", '420px');
+		document.getElementById('files_treetoggle').classList.remove("collapsed");
+		document.getElementById('files_buttons').classList.remove("notree");
+		document.getElementById('files_buttons').classList.add("tree");
 		$("#files_treeFilter").show();
 		$("#files_tree").show();
+		$("#files_treetoggle").html("&lt;");
 	}
 }
 
@@ -297,7 +300,6 @@ function treeClick(event, returnAfterClear = true){
 	// Create loading icon
 	var newElement = document.createElement('div');
 	newElement.id = 'loading';
-	newElement.style.marginLeft = '10px;';
 	newElement.style.float = 'right';
 	newElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
 	parentElement.appendChild(newElement);
