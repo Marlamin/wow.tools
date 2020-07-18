@@ -182,6 +182,7 @@ const chrRacesFlags = {
 	0x200 : 'CREATIONUNK',
 	0x400 : 'SELECTIONUNK',
 	0x10000 : 'SKINISHAIRUNK',
+	0x100000 : 'VOID_ELF_RACIAL',
 }
 
 const taxiNodeFlags = {
