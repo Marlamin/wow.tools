@@ -113,7 +113,7 @@ function openFKModal(value, location, build){
 }
 
 function dec2hex(str, big = false){
-	if(big){
+	if(BigInt !== undefined && big){
 		return (BigInt(str)).toString(16).replace('-', '');
 	}else{
 		return (parseInt(str) >>> 0).toString(16);
@@ -148,6 +148,10 @@ function getFlagDescriptions(db, field, value, targetFlags = 0){
 	let usedFlags = Array();
 	if(targetFlags == 0){
 		targetFlags = flagMap.get(db + '.' + field);
+	}
+
+	if(BigInt === undefined){
+		return [value];
 	}
 
 	if(value == "-1")
