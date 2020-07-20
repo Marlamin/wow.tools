@@ -86,11 +86,8 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 // $allFiles = $pdo->query("SELECT filename FROM wow_rootfiles")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <div class="container-fluid">
-	<?php if(empty($_SESSION['loggedin']) || $_SESSION['rank'] == 0){?>
-		<div class='alert alert-danger'>
-			You need to be logged in as a moderator to approve/deny filenames.
-		</div>
-	<?php }else{ ?>
+	<?php if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){?>
+		<h3>Open filename submissions</h3>
 		<table class='table table-striped table-condensed'>
 			<?php
 			$previousTime = '';
@@ -136,6 +133,36 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 			?>
 		</table>
 	<?php } ?>
+	<h3>Filenames submitted in the last 30 days</h3>
+	<table class='table table-striped table-condensed'>
+			<?php
+			$previousTime = '';
+			$filenames = $pdo->query("SELECT * FROM wow_rootfiles_suggestions WHERE submitted BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() ORDER BY submitted DESC")->fetchAll();
+			if(count($filenames) > 0){
+				echo "<thead><tr><th style='width: 100px'>User</th><th style='width: 100px'>Status</th><th style='width: 200px'>Submitted at</th><th>Files</th></tr></thead>";
+				foreach($filenames as $row){
+					if($previousTime != $row['submitted']){
+						if($previousTime == ''){
+							$endTag = "</table></pre></td></tr>";
+
+						}else{
+							$endTag = "</table></pre></td></tr>";
+						}
+						if($previousTime != '') echo $endTag;
+						echo "<tr><td>".getUsernameByUserID($row['userid'])."</td><td>".$row['status']."</td><td>".$row['submitted']."</td><td><pre style='max-height: 200px; overflow-y: scroll; color: var(--text-color)'><table class='table table-minimal'><thead style='position: sticky; top: 0px;'><tr><th style='width: 200px;'>FileDataID</th><th>Suggested name</th></tr></thead>";
+					}
+
+					echo "<tr><td>".$row['filedataid']."</td><td>".$row['filename']."</td></tr>";
+					$previousTime = $row['submitted'];
+				}
+
+				if($previousTime != ''){
+					echo "</table></pre></td></tr>";
+				}
+			}
+
+			?>
+		</table>
 </div>
 <?php
 include("../inc/footer.php");
