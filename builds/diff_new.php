@@ -15,7 +15,7 @@ if (empty($fromBuild) || empty($toBuild)) {
 $fromBuildName = parseBuildName($fromBuild['description'])['full'];
 $toBuildName = parseBuildName($toBuild['description'])['full'];
 
-$encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::FETCH_COLUMN);
+$encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL)")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <script src="/files/js/files.js?v=<?=filemtime(__DIR__ . "/../files/js/files.js")?>"></script>
 <script type="text/javascript" charset="utf-8">
@@ -133,6 +133,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted")->fetchAll(PDO::
 									case "txt":
 									case "xml":
 									case "xsd":
+									case "wtf":
 										content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
 										break;
 									case "ogg":
