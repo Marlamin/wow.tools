@@ -24,7 +24,7 @@ $tables = [];
 
 foreach($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc){
 	$tables[$dbc['id']] = $dbc;
-	if(!empty($_GET['dbc']) && $_GET['dbc'] == $dbc['name']) $currentDB = $dbc;
+	if(!empty($_GET['dbc']) && strtolower($_GET['dbc']) == $dbc['name']) $currentDB = $dbc;
 }
 
 $locales = [
@@ -49,7 +49,7 @@ $dbFound = false;
 	<select id='fileFilter' class='form-control form-control-sm'>
 		<option value="">Select a table</option>
 		<?php foreach($tables as $table){ ?>
-			<option value='<?=$table['name']?>' <? if(!empty($_GET['dbc']) && $_GET['dbc'] == $table['name']){ echo " SELECTED"; } ?>><?=$table['displayName']?></option>
+			<option value='<?=$table['name']?>' <? if(!empty($_GET['dbc']) && strtolower($_GET['dbc']) == $table['name']){ echo " SELECTED"; } ?>><?=$table['displayName']?></option>
 		<?php }?>
 	</select>
 	<?php if(!empty($currentDB)){ ?>
@@ -341,12 +341,20 @@ $dbFound = false;
 						tableHeaders += ">";
 					}
 
+					if(val in json['relationsToColumns']){
+						tableHeaders += " <i class='fa fa-reply' style='font-size: 10px' title='The following tables point to this column: " + json['relationsToColumns'][val].join(", ") + "'></i> ";
+					}
+
 					tableHeaders += val;
 
 					if(val.startsWith("Field_")){
 						tableHeaders += " <i class='fa fa-question' style='color: red; font-size: 12px' title='This column is not yet named'></i> ";
 					}else if(json['unverifieds'].includes(val)){
 						tableHeaders += " <i class='fa fa-question' style='font-size: 12px' title='This column name is not verified to be 100% accurate'></i> ";
+					}
+
+					if(val in json['fks']){
+						tableHeaders += " <i class='fa fa-share' style='font-size: 10px' title='This column points to " + json['fks'][val] + "'></i> ";
 					}
 
 					tableHeaders += "</th>";
