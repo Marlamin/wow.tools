@@ -29,6 +29,7 @@ if($embed){
 				<button style='margin-left: 48px;' class='btn btn-mv btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
 				<a class='btn btn-mv btn-sm' href='#' data-toggle='modal' data-target='#changelogModal'><i class='fa fa-bug'></i> Changelog</a>
 				<button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#helpModal'><i class='fa fa-info-circle'></i> Help/About</button>
+				<button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#textureModal'>Tex debug</button>
 			</div>
 		</div>
 	</div>
@@ -116,6 +117,43 @@ if($embed){
 		</div>
 	</div>
 </div>
+<div class="modal" id="textureModal" tabindex="-1" role="dialog" aria-labelledby="textureModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="textureModalLabel">Texture</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<form id='textureForm'>
+					<input type='text' id='tex0' name='textures[0]'> <label for='tex0'>Texture #0</label><br>
+					<input type='text' id='tex1' name='textures[1]'> <label for='tex1'>Texture #1</label><br>
+					<input type='text' id='tex2' name='textures[2]'> <label for='tex2'>Texture #2 (Object #1)</label><br>
+					<input type='text' id='tex3' name='textures[3]'> <label for='tex3'>Texture #3</label><br>
+					<input type='text' id='tex4' name='textures[4]'> <label for='tex4'>Texture #4</label><br>
+					<input type='text' id='tex5' name='textures[5]'> <label for='tex5'>Texture #5</label><br>
+					<input type='text' id='tex6' name='textures[6]'> <label for='tex6'>Texture #6</label><br>
+					<input type='text' id='tex7' name='textures[7]'> <label for='tex7'>Texture #7</label><br>
+					<input type='text' id='tex8' name='textures[8]'> <label for='tex8'>Texture #8</label><br>
+					<input type='text' id='tex9' name='textures[9]'> <label for='tex9'>Texture #9</label><br>
+					<input type='text' id='tex10' name='textures[10]'> <label for='tex10'>Texture #10</label><br>
+					<input type='text' id='tex11' name='textures[11]'> <label for='tex11'>Texture #11 (Monster #1)</label><br>
+					<input type='text' id='tex12' name='textures[12]'> <label for='tex12'>Texture #12 (Monster #2)</label><br>
+					<input type='text' id='tex13' name='textures[13]'> <label for='tex13'>Texture #13 (Monster #3)</label><br>
+					<input type='text' id='tex14' name='textures[14]'> <label for='tex14'>Texture #14</label><br>
+					<input type='text' id='tex15' name='textures[15]'> <label for='tex15'>Texture #15</label><br>
+					<input type='text' id='tex16' name='textures[16]'> <label for='tex16'>Texture #16</label><br>
+					<input type='text' id='tex17' name='textures[17]'> <label for='tex17'>Texture #17</label><br>
+					<input type='text' id='tex18' name='textures[18]'> <label for='tex18'>Texture #18</label><br>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="updateTextures();" data-dismiss="modal">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="modal" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -165,6 +203,10 @@ if($embed){
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
+				<h5>Version 0.9.7 <small>(29-07-2020)</small></h5>
+				<ul>
+					<li>(MV) Various updates</li>
+				</ul>
 				<h5>Version 0.9.6 <small>(17-04-2020)</small></h5>
 				<ul>
 					<li>(MV) Crash fixes</li>

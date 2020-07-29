@@ -21,9 +21,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "679386e82870b537ae98416ec461931a",
-    cdnConfig: "2aae82f313c31defc6f0df94f3c1ea00",
-    buildName: "9.0.1.35167",
+    buildConfig: "d40df72310590c634855b413870d97d2",
+    cdnConfig: "546b178da14301cf4749c1c772bb11c1",
+    buildName: "9.0.1.35256",
     fileDataID: 397940,
     type: "m2",
     embedded: false
@@ -490,12 +490,26 @@ function loadModelTextures() {
     });
 }
 
+function updateTextures(){
+    const textureArray = new Int32Array(18);
+    for(let i = 0; i < 18; i++){
+        if(document.getElementById('tex' + i)){
+            textureArray[i] = document.getElementById('tex' + i).value;
+        }
+    }
+    setModelTexture(textureArray, 0);
+}
 function setModelTexture(textures, offset){
     //Create real texture replace array
     const typedArray = new Int32Array(18);
 
     for(i = 0; i < textures.length; i++){
         typedArray[offset + i] = textures[i];
+        const inputTarget = offset + i;
+        console.log(inputTarget);
+        if(document.getElementById('tex' + inputTarget)){
+            document.getElementById('tex' + inputTarget).value = textures[i];
+        }
     }
 
     // Allocate some space in the heap for the data (making sure to use the appropriate memory size of the elements)
