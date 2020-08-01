@@ -1,8 +1,19 @@
 <?php
 require_once("../inc/header.php");
-$build = "9.0.1.35167";
-$buildconfig = "679386e82870b537ae98416ec461931a";
-$cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
+if(!empty($_GET['bc'])){
+	$version = getVersionByBuildConfigHash($_GET['bc']);
+	if(empty($version)){
+		die("Invalid buildconfig");
+	}else{
+		$build = parseBuildName($version['buildconfig']['description'])['full'];
+		$buildconfig = $version['buildconfig']['hash'];
+		$cdnconfig = $version['cdnconfig']['hash'];
+	}
+}else{
+	$build = "9.0.1.35360";
+	$buildconfig = "29258cdebd8f3717cf5bcf321e0d22a5";
+	$cdnconfig = "dda0f3c68ec4e670356a4efb59704e90";
+}
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
@@ -10,7 +21,7 @@ $cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
 	#breadcrumbs{
 		position: absolute;
 		left: 50px;
-		top: 100px;
+		top: 150px;
 	}
 
 	.breadcrumb{
@@ -19,15 +30,23 @@ $cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
 
 	#mapCanvas{
 		position: absolute;
-		top: 150px;
+		top: 200px;
 		left: 50px;
 		z-index: 0;
 	}
 </style>
 <div class='container-fluid'>
+	<p style='height: 15px;'>
+		<select name='bc' id='buildconfig'>
+			<option value=''>Select a build</option>
+			<?php foreach($pdo->query("SELECT hash, description FROM wow_buildconfig WHERE ID > 1393 ORDER BY ID DESC")->fetchAll(PDO::FETCH_KEY_PAIR) as $bc => $desc){ ?>
+				<option value='<?=$bc?>' <?php if($bc == $buildconfig){?>SELECTED<?php } ?>><?=$desc?></option>
+			<?php } ?>
+		</select>
+	</p>
 	<p style='height: 35px;'>
-		<select name='map' id='mapSelect'>
-			<option value = ''>Select a map</option>
+		<select name='map' id='mapSelect' DISABLED>
+			<option id='firstOption' value=''>Loading..</option>
 		</select>
 		<input type='checkbox' id='showExplored' CHECKED> <label for='showExplored'>Show explored?</label>
 	</p>
@@ -72,6 +91,8 @@ $cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
 			$("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
 		});
 
+		document.getElementById('mapSelect').disabled = false;
+		document.getElementById('firstOption').text = "Select a map..";
 		let params = (new URL(document.location)).searchParams;
 		if(params.has('id')){
 			var id = params.get('id');
@@ -235,9 +256,11 @@ $cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
 			var title = "WoW.tools | Map Browser";
 		}
 
-		var url = '/maps/worldmap.php?id=' + $("#mapSelect").val();
+		const buildConfig = $("#buildconfig").val();
 
-		window.history.pushState( {uiMapID: uiMapID}, title, url );
+		var url = '/maps/worldmap.php?id=' + uiMapID + "&bc=" + buildConfig;
+
+		window.history.pushState( {uiMapID: uiMapID, bc: buildConfig}, title, url );
 
 		document.title = title;
 	}
@@ -266,6 +289,11 @@ $cdnconfig = "2aae82f313c31defc6f0df94f3c1ea00";
 
 	$('#mapSelect').on( 'change', function () {
 		renderMap(this.value);
+	});
+
+	$('#buildconfig').on('change', function(){
+		// TODO: Redirect to same uiMap ID? What do we do if it's not available?
+		window.location.replace("/maps/worldmap.php?bc=" + $("#buildconfig").val());
 	});
 
 
