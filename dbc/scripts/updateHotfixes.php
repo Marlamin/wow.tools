@@ -9,7 +9,7 @@ $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 foreach($files as $file) {
 	// Only process hotfixes newer than 1 day ago
-	if(filemtime($file) < strtotime("-2 hours"))
+	if(filemtime($file) < strtotime("-30 minutes"))
 		continue;
 
 	$md5 = md5_file($file);
@@ -68,6 +68,7 @@ foreach($files as $file) {
 		telegramSendMessage($message);
 	}
 
+	$foundNewKeys = false;
 	$output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions") . " true");
 	foreach(explode("\n", $output2) as $line){
 		if(empty($line))
@@ -76,13 +77,19 @@ foreach($files as $file) {
 		$expl = explode(" ", trim($line));
 		if(!in_array($expl[0], $knownKeys)){
 			if($expl[1] == "exception"){
-				echo "Error retrieving tactkey " . $line."\n";
+				echo "[Hotfix updater] Error retrieving tactkey " . $line."\n";
 			}else{
-				echo "Found new key! " . $expl[0]." " . $expl[1]."\n";
+				echo "[Hotfix updater] Found new key! " . $expl[0]." " . $expl[1]."\n";
 				$knownKeys[] = $expl[0];
 				$keyInsert->execute([$expl[0], $expl[1]]);
+				$foundNewKeys = true;
 			}
 		}
+	}
+
+	if($foundNewKeys){
+		file_get_contents("https://wow.tools/casc/reloadkeys?t=" . strtotime("now"));
+		echo "[Hotfix updater] Reloaded TACT keys\n";
 	}
 
 	$processedMD5s[] = $md5;
