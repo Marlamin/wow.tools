@@ -81,8 +81,8 @@ if($_GET['p'] == "login"){
 			$q->execute([$_POST['email']]);
 			$res = $q->fetch();
 			if(empty($res)){
-				$message['type'] = "danger";
-				$message['text'] = "<b>Unknown e-mail address!</b><br>If you are one of the 30 users that signed up before e-mails were required during registering, give me a poke on Discord (Marlamin) to resolve this.";
+				$message['type'] = "success";
+				$message['text'] = "If this e-mail address is valid, a message containing a recovery link has been sent to it.";
 			}else{
 				$recoverytoken = bin2hex(random_bytes(16));
 
@@ -94,7 +94,7 @@ if($_GET['p'] == "login"){
 				sendgridMail($res['email'], "WoW.tools recovery link", $mail);
 
 				$message['type'] = "success";
-				$message['text'] = "A message containing a recovery link has been sent to the specified e-mail address.";
+				$message['text'] = "If this e-mail address is valid, a message containing a recovery link has been sent to it.";
 			}
 		}else{
 			$message['type'] = "danger";
