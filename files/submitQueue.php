@@ -137,7 +137,7 @@ if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){
 	<table class='table table-striped table-condensed'>
 			<?php
 			$previousTime = '';
-			$filenames = $pdo->query("SELECT * FROM wow_rootfiles_suggestions WHERE submitted BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() ORDER BY submitted DESC")->fetchAll();
+			$filenames = $pdo->query("SELECT * FROM wow_rootfiles_suggestions WHERE submitted BETWEEN NOW() - INTERVAL 30 DAY AND NOW() ORDER BY submitted DESC")->fetchAll();
 			if(count($filenames) > 0){
 				echo "<thead><tr><th style='width: 100px'>User</th><th style='width: 100px'>Status</th><th style='width: 200px'>Submitted at</th><th>Files</th></tr></thead>";
 				foreach($filenames as $row){
