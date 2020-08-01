@@ -106,6 +106,10 @@
 		left: 0px;
 	}
 
+	#files_treetoggle{
+		display: none;
+	}
+
 	#files_buttons.tree{
 		left: 0px;
 	}
