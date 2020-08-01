@@ -83,7 +83,7 @@ if($type == "ogg"){
 			<div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 80vh'><code><?=htmlentities($output)?></pre></code></div>
 		</div>
 		<?php
-	}else if($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc" || $type == "htm" || $type == "html" || $type == "sbt" || $type == "txt"){
+	}else if($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc" || $type == "htm" || $type == "html" || $type == "sbt" || $type == "txt" || $type == "wtf"){
 		echo "<pre style='max-height: 80vh'><code>".htmlentities(file_get_contents($tempfile))."</pre></code>";
 	}else{
 		// dump via hd
