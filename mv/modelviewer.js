@@ -618,6 +618,12 @@ function updateURLs(){
                     test = "<div class='btn-group'><button class='btn btn-sm dropdown-toggle historybutton' type='button' data-toggle='dropdown'><i class='fa fa-clock-o'></i></button>";
                     test += "<div class='dropdown-menu'>";
 
+                    full[3].sort(function(a, b){
+                        if(a['description'] < b['description']) { return 1; }
+                        if(a['description'] > b['description']) { return -1; }
+                        return 0;
+                    })
+
                     full[3].forEach(function (value) {
                         test += "<a class='dropdown-item filedropdown' href='#' onClick='loadModel(\"" + full[4] + "\", " + full[0] + ", \"" + value['buildconfig'] + "\", \"" + value['cdnconfig'] + "\");'>" + value['description'] + "</a>";
                     });
