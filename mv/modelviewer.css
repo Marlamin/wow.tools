@@ -24,7 +24,7 @@ html, body{
 
 #fpsLabel {
     position: absolute;
-    right: 20px;
+    right: 0px;
     top: 60px;
     color: #999;
     cursor: default;

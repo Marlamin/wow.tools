@@ -42,6 +42,7 @@ var Settings =
 }
 
 var screenshot = false;
+var stats = new Stats();
 
 function loadSettings(applyNow = false){
     /* Show/hide FPS counter */
@@ -49,9 +50,11 @@ function loadSettings(applyNow = false){
     if(storedShowFPS){
         if(storedShowFPS== "1"){
             Settings.showFPS = true;
+            stats.showPanel(1);
+            Elements.Counter.appendChild(stats.dom);
         }else{
             Settings.showFPS = false;
-            document.getElementById("fpsLabel").innerHTML = "";
+            Elements.Counter.innerHTML = "";
         }
     }
 
@@ -226,16 +229,16 @@ window.createscene = function () {
 
     };
 
-    var renderfunc = function(){
-        var currentTimeStamp = new Date().getTime();
+    var renderfunc = function(now){
+        stats.begin();
+
         var timeDelta = 0;
+
         if (lastTimeStamp !== undefined) {
-            timeDelta = currentTimeStamp - lastTimeStamp;
-            if(Settings.showFPS && lastTimeStamp % 10 == 0){
-                Elements.Counter.textContent = Math.round(Settings.speed / timeDelta) + " fps";
-            }
+            timeDelta = now - lastTimeStamp;
         }
-        lastTimeStamp = currentTimeStamp;
+
+        lastTimeStamp = now;
 
         Module._gameloop(timeDelta / Settings.speed);
 
@@ -249,7 +252,7 @@ window.createscene = function () {
             xhr.onload = function () {
                 let a = document.createElement('a');
                 a.href = window.URL.createObjectURL(xhr.response);
-                a.download = 'wowtoolsmv-' + currentTimeStamp + '.png';
+                a.download = 'wowtoolsmv-' + lastTimeStamp + '.png';
                 a.style.display = 'none';
                 document.body.appendChild(a);
                 a.click();
@@ -258,6 +261,8 @@ window.createscene = function () {
             xhr.open('GET', canvasImage);
             xhr.send();
         }
+
+        stats.end();
         window.requestAnimationFrame(renderfunc);
     };
 
