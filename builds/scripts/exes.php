@@ -48,7 +48,7 @@ while($row = $res->fetch()){
 				if($row['buildconfig'] == "cc7af6d878238d1c78d828db5146d343") continue;
 
 				echo "[EXE dump] ".$row['description'].": ".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"\n";
-				$output = shell_exec("/usr/bin/wget -O \"".$filename."\" \"https://wow.tools/casc/file/chash?contenthash=".$md5."&buildconfig=".$row['buildconfig']."&cdnconfig=".$row['cdnconfig']."\"");
+				$output = shell_exec("/usr/bin/wget -O \"".$filename."\" \"https://wow.tools/casc/file/chash?contenthash=".$md5."&buildconfig=".$row['buildconfig']."&cdnconfig=".$row['cdnconfig']."&filename=out.exe\"");
 
 				if(file_exists($filename) && filesize($filename) == 0){
 					echo "[EXE dump] Dumped file is 0 bytes, deleting...\n";
