@@ -1,3 +1,15 @@
 .jumbotron{
 	background-color: var(--background-color) !important;
 }
+
+#weCarousel{
+	width: 800px;
+	margin: auto;
+	border: 1px solid white;
+	box-shadow: black 0 0 10px
+}
+
+#changelog{
+	max-height: 350px;
+	overflow-y: scroll;
+}
