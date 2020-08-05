@@ -10,9 +10,9 @@ if(!empty($_GET['bc'])){
 		$cdnconfig = $version['cdnconfig']['hash'];
 	}
 }else{
-	$build = "9.0.1.35360";
-	$buildconfig = "29258cdebd8f3717cf5bcf321e0d22a5";
-	$cdnconfig = "dda0f3c68ec4e670356a4efb59704e90";
+	$build = "9.0.1.35432";
+	$buildconfig = "34e95b746d9695a40182b2ba1efdf846";
+	$cdnconfig = "05291e8d0afb8515f0675bd4803077fe";
 }
 ?>
 <script src="/js/bufo.js"></script>
