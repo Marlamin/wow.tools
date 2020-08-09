@@ -32,6 +32,7 @@ The site and the tools powering the site are open source.
 <h4>Third party</h4>
 <ul>
 	<li><a href='https://github.com/Kruithne/node-bufo' target='_BLANK'>Bufo</a> and <a href='https://github.com/Kruithne/js-blp/' target='_BLANK'>js-blp</a> by Kruithne for client-side BLP conversion</li>
+	<li>Expansion icons by Wowpedia & schlumpf</li>
 </ul>
 <h3>Legal stuff</h3>
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
