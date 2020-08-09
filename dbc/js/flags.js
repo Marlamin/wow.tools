@@ -485,7 +485,6 @@ const inventoryTypeMask = {
 	0x10000000: 'Relic'
 }
 
-
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);

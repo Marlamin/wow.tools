@@ -64,6 +64,16 @@ function openFKModal(value, location, build){
 		});
 	}
 
+	if(db == "item" && col == "ID"){
+		$.ajax({
+			"url": "/dbc/api/peek/itemsearchname?build=" + build + "&col=ID&val=" + value,
+			"success": function(json) {
+				console.log(json);
+				$("#fktable").append("<tr><td>Name <small>(from ItemSearchName)</small></td><td>" + json.values["Display_lang"] + "</td></tr>");
+			}
+		});
+	}
+
 	$.ajax({
 		"url": "/dbc/api/header/" + db + "?build=" + build,
 		"success": function(headerjson) {

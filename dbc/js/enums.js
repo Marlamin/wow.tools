@@ -439,6 +439,79 @@ const itemStatType = {
     74: 'STR_INT'
 };
 
+const itemPrettyStatType = {
+    0: 'Mana',
+    1: 'Health',
+    3: 'Agility',
+    4: 'Strength',
+    5: 'Intellect',
+    6: 'Spirit',
+    7: 'Stamina',
+    12: 'Defense',
+    13: 'Dodge',
+    14: 'Parry',
+    15: 'Block',
+    16: 'Hit (Melee)',
+    17: 'Hit (Ranged)',
+    18: 'Hit (Spell)',
+    19: 'Crit (Melee)',
+    20: 'Crit (Ranged)',
+    21: 'Crit (Spell)',
+    22: 'Corruption',
+    23: 'Corruption Resistance',
+    24: 'Hit Avoidance (Spell)', // Likely gone?
+    25: 'Critical Strike Avoidance (Melee)',
+    26: 'Critical Strike Avoidance (Ranged)',
+    27: 'Critical Strike Avoidance (Spell)',
+    28: 'Haste (Melee)',
+    29: 'Haste (Ranged)',
+    30: 'Haste (Spell)',
+    31: 'Hit',
+    32: 'Critical Strike',
+    33: 'Hit Avoidance',
+    34: 'Critical Strike Avoidance',
+    35: 'Resilience',
+    36: 'Haste',
+    37: 'Expertise',
+    38: 'Attack Power',
+    39: 'Attack Power (Ranged)',
+    40: 'Versatility',
+    41: 'Bonus Healing',
+    42: 'Bonus Damage',
+    43: 'Mana Regeneration',
+    44: 'Armor Penetration',
+    45: 'Spell Power',
+    46: 'Health Regen',
+    47: 'Spell Penetration',
+    48: 'Block',
+    49: 'Mastery',
+    50: 'Bonus Armor',
+    51: 'Fire Resistance',
+    52: 'Frost Resistance',
+    53: 'Holy Resistance',
+    54: 'Shadow Resistance',
+    55: 'Nature Resistance',
+    56: 'Arcane Resistance',
+    57: 'PvP Power',
+    58: 'Amplify',
+    59: 'Multistrike',
+    60: 'Readiness',
+    61: 'Speed',
+    62: 'Lifesteal',
+    63: 'Avoidance',
+    64: 'Sturdiness',
+    65: 'Unused (7)',
+    66: 'Cleave',
+    67: 'Versatility',
+    68: 'Unused (10)',
+    69: 'Unused (11)',
+    70: 'Unused (12)',
+    71: '[Agility or Strength or Intellect]',
+    72: '[Agility or Strength]',
+    73: '[Agility or Intellect]',
+    74: '[Strenth or Intellect]'
+};
+
 const spellEffectName = {
 	1: 'INSTAKILL',
     2: 'SCHOOL_DAMAGE',
@@ -2268,6 +2341,270 @@ const chrModelMaterialSkinType = {
 	0: 'Primary Skin',
 	1: 'Secondary Skin',
 }
+
+const inventoryTypeEnum = {
+	0: 'Non-equippable',
+	1: 'Head',
+	2: 'Neck',
+	3: 'Shoulder',
+	4: 'Shirt',
+	5: 'Chest',
+	6: 'Waist',
+	7: 'Legs',
+	8: 'Feet',
+	9: 'Wrist',
+	10: 'Hands',
+	11: 'Finger',
+	12: 'Trinket',
+	13: 'One-Hand',
+	14: 'Off Hand',
+	15: 'Ranged',
+	16: 'Back',
+	17: 'Two-Hand',
+	18: 'Bag',
+	19: 'Tabard',
+	20: 'Chest',
+	21: 'Main Hand',
+	22: 'Off Hand',
+	23: 'Held in Off-hand',
+	24: 'Ammo',
+	25: 'Thrown',
+	26: 'Ranged',
+	27: 'Quiver',
+	28: 'Relic'
+}
+
+// From ItemClass table -- by ClassID (not ID)
+const itemClassEnum = {
+	0: 'Consumable',
+	1: 'Container',
+	2: 'Weapon',
+	3: 'Gem',
+	4: 'Armor',
+	5: 'Reagent',
+	6: 'Projectile',
+	7: 'Tradeskill',
+	8: 'Item Enhancement',
+	9: 'Recipe',
+	10: 'Money (OBSOLETE)',
+	11: 'Quiver',
+	12: 'Quest',
+	13: 'Key',
+	14: 'Permanent (OBSOLETE)',
+	15: 'Miscellaneous',
+	16: 'Glyph',
+	17: 'Battle Pets',
+	18: 'WoW Token'
+}
+
+let itemSubClass = [];
+itemSubClass[0] = {
+	0: 'Explosives and Devices',
+	1: 'Potion',
+	2: 'Elixir',
+	3: 'Flask',
+	4: 'Scroll (OBSOLETE)',
+	5: 'Food & Drink',
+	6: 'Item Enhancement (OBSOLETE)',
+	7: 'Bandage',
+	8: 'Other',
+	9: 'Vantus Rune'
+}
+
+itemSubClass[1] = {
+	0: 'Bag',
+	1: 'Soul Bag',
+	2: 'Herb Bag',
+	3: 'Enchanting Bag',
+	4: 'Engineering Bag',
+	5: 'Gem Bag',
+	6: 'Mining Bag',
+	7: 'Leatherworking Bag',
+	8: 'Inscription Bag',
+	9: 'Tackle Box',
+	10: 'Cooking Bag'
+}
+
+itemSubClass[2] = {
+	0: 'Axe',
+	1: 'Axe', //2H
+	2: 'Bow',
+	3: 'Gun',
+	4: 'Mace',
+	5: 'Mace', //2H
+	6: 'Polearm',
+	7: 'Sword',
+	8: 'Sword', //2H
+	9: 'Warglaives',
+	10: 'Staff',
+	11: 'Bear Claws',
+	12: 'Cat Claws',
+	13: 'Fist Weapon',
+	14: 'Miscellaneous',
+	15: 'Dagger',
+	16: 'Thrown',
+	17: 'Spear',
+	18: 'Crossbow',
+	19: 'Wand',
+	20: 'Fishing Pole'
+}
+
+itemSubClass[3] = {
+	0: 'Intellect',
+	1: 'Agility',
+	2: 'Strength',
+	3: 'Stamina',
+	4: 'Spirit',
+	5: 'Critical Strike',
+	6: 'Mastery',
+	7: 'Haste',
+	8: 'Versatility',
+	9: 'Other',
+	10: 'Multiple Stats',
+	11: 'Artifact Relic'
+}
+
+itemSubClass[4] = {
+	0: 'Miscellaneous',
+	1: 'Cloth',
+	2: 'Leather',
+	3: 'Mail',
+	4: 'Plate',
+	5: 'Cosmetic',
+	6: 'Shield',
+	7: 'Libram',
+	8: 'Idol',
+	9: 'Totem',
+	10: 'Sigil',
+	11: 'Relic'
+}
+
+itemSubClass[5] = {
+	0: 'Reagent',
+	1: 'Keystone',
+	2: 'Context Token'
+}
+
+itemSubClass[6] = {
+	0: 'Wand(OBSOLETE)',
+	1: 'Bolt(OBSOLETE)',
+	2: 'Arrow',
+	3: 'Bullet',
+	4: 'Thrown(OBSOLETE)'
+}
+
+itemSubClass[7] = {
+	0: 'Trade Goods (OBSOLETE)',
+	1: 'Parts',
+	2: 'Explosives (OBSOLETE)',
+	3: 'Devices (OBSOLETE)',
+	4: 'Jewelcrafting',
+	5: 'Cloth',
+	6: 'Leather',
+	7: 'Metal & Stone',
+	8: 'Cooking',
+	9: 'Herb',
+	10: 'Elemental',
+	11: 'Other',
+	12: 'Enchanting',
+	13: 'Materials (OBSOLETE)',
+	14: 'Item Enchantment (OBSOLETE)',
+	15: 'Weapon Enchantment - Obsolete',
+	16: 'Inscription',
+	17: 'Explosives and Devices (OBSOLETE)',
+	18: 'Optional Reagents'
+}
+
+itemSubClass[8] = {
+	0: 'Head',
+	1: 'Neck',
+	2: 'Shoulder',
+	3: 'Cloak',
+	4: 'Chest',
+	5: 'Wrist',
+	6: 'Hands',
+	7: 'Waist',
+	8: 'Legs',
+	9: 'Feet',
+	10: 'Finger',
+	11: 'Weapon',
+	12: 'Two-Handed Weapon',
+	13: 'Shield/Off-hand',
+	14: 'Misc'
+}
+
+itemSubClass[9] = {
+	0: 'Book',
+	1: 'Leatherworking',
+	2: 'Tailoring',
+	3: 'Engineering',
+	4: 'Blacksmithing',
+	5: 'Cooking',
+	6: 'Alchemy',
+	7: 'First Aid',
+	8: 'Enchanting',
+	9: 'Fishing',
+	10: 'Jewelcrafting',
+	11: 'Inscription'
+}
+
+itemSubClass[10] = {
+	0: 'Money(OBSOLETE)',
+}
+
+itemSubClass[11] = {
+	0: 'Quiver(OBSOLETE)',
+	1: 'Bolt(OBSOLETE)',
+	2: 'Quiver',
+	3: 'Ammo Pouch'
+}
+
+itemSubClass[12] = {
+	0: 'Quest'
+}
+
+itemSubClass[13] = {
+	0: 'Key',
+	1: 'Lockpick'
+}
+
+itemSubClass[14] = {
+	0: 'Permanent'
+}
+
+itemSubClass[15] = {
+	0: 'Junk',
+	1: 'Reagent',
+	2: 'Companion Pets',
+	3: 'Holiday',
+	4: 'Other',
+	5: 'Mount',
+	6: 'Mount Equipment'
+}
+
+itemSubClass[16] = {
+	1: 'Warrior',
+	2: 'Paladin',
+	3: 'Hunter',
+	4: 'Rogue',
+	5: 'Priest',
+	6: 'Death Knight',
+	7: 'Shaman',
+	8: 'Mage',
+	9: 'Warlock',
+	10: 'Monk',
+	11: 'Druid',
+	12: 'Demon Hunter'
+}
+
+itemSubClass[17] = {
+	0: 'BattlePet'
+}
+
+itemSubClass[18] = {
+	0: 'WoW Token'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2301,6 +2638,8 @@ enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("spelllabel.LabelID", spellLabelName);
 enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
 enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
+enumMap.set("item.InventoryType", inventoryTypeEnum);
+enumMap.set("item.ClassID", itemClassEnum);
 
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
@@ -2344,6 +2683,30 @@ let conditionalEnums = new Map();
 conditionalEnums.set("itembonus.Value[0]",
 	[
 		['itembonus.Type=2', itemStatType],
+	]
+);
+
+conditionalEnums.set("item.SubclassID",
+	[
+		['item.ClassID=0',  itemSubClass[0]],
+		['item.ClassID=1',  itemSubClass[1]],
+		['item.ClassID=2',  itemSubClass[2]],
+		['item.ClassID=3',  itemSubClass[3]],
+		['item.ClassID=4',  itemSubClass[4]],
+		['item.ClassID=5',  itemSubClass[5]],
+		['item.ClassID=6',  itemSubClass[6]],
+		['item.ClassID=7',  itemSubClass[7]],
+		['item.ClassID=8',  itemSubClass[8]],
+		['item.ClassID=9',  itemSubClass[9]],
+		['item.ClassID=10', itemSubClass[10]],
+		['item.ClassID=11', itemSubClass[11]],
+		['item.ClassID=12', itemSubClass[12]],
+		['item.ClassID=13', itemSubClass[13]],
+		['item.ClassID=14', itemSubClass[14]],
+		['item.ClassID=15', itemSubClass[15]],
+		['item.ClassID=16', itemSubClass[16]],
+		['item.ClassID=17', itemSubClass[17]],
+		['item.ClassID=18', itemSubClass[18]]
 	]
 );
 
