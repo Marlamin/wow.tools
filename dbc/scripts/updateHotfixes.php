@@ -23,8 +23,8 @@ foreach($files as $file) {
 	if($json['build'] < 32593)
 		continue;
 
-	$insertQ = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes (pushID, recordID, tableName, isValid, build) VALUES (?, ?, ?, ?, ?)");
-	$insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build) VALUES (?, ?, ?, ?)");
+	$insertQ = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes (pushID, recordID, tableName, isValid, build, cachename) VALUES (?, ?, ?, ?, ?, ?)");
+	$insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build, cachename) VALUES (?, ?, ?, ?, ?)");
 	$messages = [];
 	foreach($json['entries'] as $entry){
 		if($entry['pushID'] > 999999){
@@ -37,7 +37,7 @@ foreach($files as $file) {
 
 		if($entry['pushID'] != "-1"){
 			// With Push ID
-			$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build']]);
+			$insertQ->execute([$entry['pushID'], $entry['recordID'], $entry['tableName'], $entry['isValid'], $json['build'], basename($file)]);
 			if($insertQ->rowCount() == 1){
 				echo "[Hotfix updater] Inserted new hotfix: Push ID " . $entry['pushID'] .", Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']."\n";
 
@@ -50,7 +50,7 @@ foreach($files as $file) {
 		}else{
 			// Without Push ID
 			if($entry['isValid'] == 1){
-				$insertCachedEntryQ->execute([$entry['recordID'], $entry['tableName'], $entry['dataMD5'], $json['build']]);
+				$insertCachedEntryQ->execute([$entry['recordID'], $entry['tableName'], $entry['dataMD5'], $json['build'], basename($file)]);
 				if($insertCachedEntryQ->rowCount() == 1){
 					echo "[Hotfix updater] Inserted new cached entry, Table " . $entry['tableName'] . " ID " .$entry['recordID']." from build " . $json['build']." with MD5 " . $entry['dataMD5']." \n";
 
@@ -75,15 +75,17 @@ foreach($files as $file) {
 			continue;
 
 		$expl = explode(" ", trim($line));
+
+		if(strlen($expl[0]) != 16 || strlen($expl[1]) != 32){
+			echo "[Hotfix updater] Read line that is not a key: " . $line."\n";
+			continue;
+		}
+
 		if(!in_array($expl[0], $knownKeys)){
-			if($expl[1] == "exception"){
-				echo "[Hotfix updater] Error retrieving tactkey " . $line."\n";
-			}else{
-				echo "[Hotfix updater] Found new key! " . $expl[0]." " . $expl[1]."\n";
-				$knownKeys[] = $expl[0];
-				$keyInsert->execute([$expl[0], $expl[1]]);
-				$foundNewKeys = true;
-			}
+			echo "[Hotfix updater] Found new key! " . $expl[0]." " . $expl[1]."\n";
+			$knownKeys[] = $expl[0];
+			$keyInsert->execute([$expl[0], $expl[1]]);
+			$foundNewKeys = true;
 		}
 	}
 
