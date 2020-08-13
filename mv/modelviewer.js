@@ -9,7 +9,7 @@ function showError(error){
 }
 
 window.onerror = function(message, source, lineno, colno, error) {
-    showError("An error occured! You might have to force reload the page with <kbd>CTRL-F5</kbd>.");
+    showError("An error occured! You might have to force reload the page with <kbd>CTRL-F5</kbd>. <br>Let us know what the error is by opening the console (<kbd>CTRL-SHIFT-J</kbd> on Chrome) and posting a screenshot of the error in <a href='https://discord.gg/SFKz4Nx'>Discord</a>.");
 }
 
 var Elements =
@@ -21,9 +21,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "34e95b746d9695a40182b2ba1efdf846",
-    cdnConfig: "05291e8d0afb8515f0675bd4803077fe",
-    buildName: "9.0.1.35432",
+    buildConfig: "7eb3d46b1a46d64593280509d05b5e63",
+    cdnConfig: "f81649916b62baffe80e0553aa7ad8be",
+    buildName: "9.0.1.35522",
     fileDataID: 397940,
     type: "m2",
     embedded: false

@@ -407,6 +407,7 @@ $dbFound = false;
 						"targets": allCols,
 						"render": function ( data, type, full, meta ) {
 							let returnVar = full[meta.col];
+							const columnWithTable = currentParams["dbc"] + '.' + json["headers"][meta.col];
 
 							if(meta.col in fkCols){
 								if(fkCols[meta.col] == "FileData::ID"){
@@ -416,11 +417,11 @@ $dbFound = false;
 								}else{
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}
-							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(columnWithTable)){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
 							}
 
-							if(enumMap.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+							if(enumMap.has(columnWithTable)){
 								var enumVal = getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
 								if(full[meta.col] == '0' && enumVal == "Unk"){
 									// returnVar += full[meta.col];
@@ -429,8 +430,8 @@ $dbFound = false;
 								}
 							}
 
-							if(conditionalFKs.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
-								let conditionalFK = conditionalFKs.get(currentParams["dbc"] + '.' + json["headers"][meta.col]);
+							if(conditionalFKs.has(columnWithTable)){
+								let conditionalFK = conditionalFKs.get(columnWithTable);
 								conditionalFK.forEach(function(conditionalFKEntry){
 									let condition = conditionalFKEntry[0].split('=');
 									let conditionTarget = condition[0].split('.');
@@ -448,8 +449,8 @@ $dbFound = false;
 								});
 							}
 
-							if(conditionalEnums.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
-								let conditionalEnum = conditionalEnums.get(currentParams["dbc"] + '.' + json["headers"][meta.col]);
+							if(conditionalEnums.has(columnWithTable)){
+								let conditionalEnum = conditionalEnums.get(columnWithTable);
 								conditionalEnum.forEach(function(conditionalEnumEntry){
 									let condition = conditionalEnumEntry[0].split('=');
 									let conditionTarget = condition[0].split('.');
@@ -472,8 +473,8 @@ $dbFound = false;
 								});
 							}
 
-							if(conditionalFlags.has(currentParams["dbc"] + '.' + json["headers"][meta.col])){
-								let conditionalFlag = conditionalFlags.get(currentParams["dbc"] + '.' + json["headers"][meta.col]);
+							if(conditionalFlags.has(columnWithTable)){
+								let conditionalFlag = conditionalFlags.get(columnWithTable);
 								conditionalFlag.forEach(function(conditionalFlagEntry){
 									let condition = conditionalFlagEntry[0].split('=');
 									let conditionTarget = condition[0].split('.');
@@ -491,7 +492,7 @@ $dbFound = false;
 								});
 							}
 
-							if(colorFields.includes(currentParams["dbc"] + '.' + json["headers"][meta.col])){
+							if(colorFields.includes(columnWithTable)){
 								returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
 							}
 

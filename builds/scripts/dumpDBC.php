@@ -36,7 +36,7 @@ $dbcs = $pdo->query("SELECT id,filename FROM wow_rootfiles WHERE filename LIKE '
 if(empty($argv[1])){
 	$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
 }else{
-	$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC";
+	$query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_versions.ID DESC";
 }
 
 
@@ -46,7 +46,7 @@ foreach($pdo->query($query) as $row){
 	if(!empty($argv[1])){
 		$rawdesc = str_replace("WOW-", "", $row['description']);
 		$build = substr($rawdesc, 0, 5);
-		if($build > 26310){
+		if($build < 33941){
 			continue;
 		}
 	}

@@ -34,7 +34,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 
 		function loadBuild(build, showIDLess){
 			var output = new Array();
-			$("#output").html("");
+			$("#output").html("Loading...");
 			console.log("Loading " + build);
 
 			$.ajax({
@@ -159,8 +159,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 					}
 
 					console.log(output);
-
-
+					$("#output").html("");
 					Object.keys(output).forEach(function(key){
 						$("#output").append(output[key] + "\n");
 					});
