@@ -2605,6 +2605,17 @@ itemSubClass[18] = {
 	0: 'WoW Token'
 }
 
+const itemEffectTriggerType = {
+	0: 'Use',
+	1: 'On Equip',
+	2: 'Chance on Hit',
+	// 3: 'UNKNOWN', // Only on 23442
+	4: 'Soulstone',
+	5: 'While carrying',
+	6: 'Learn Spell',
+	7: 'When obtained',
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2672,6 +2683,7 @@ enumMap.set("creaturedisplayinfoextra.DisplayRaceID", tempChrRaceIDEnum);
 enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
+enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
 
 for(let i = 0; i < 8; i++){
 	enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
