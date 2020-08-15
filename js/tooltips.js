@@ -306,6 +306,11 @@ function generateFKTooltip(targetFK, value, tooltip)
 
 		const json = data[0];
 		let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2 class='q2'>" + targetFK + " value " + value +"</h2></td></tr>";
+
+		if(!json || Object.keys(json.values).length == 0){
+			tooltipTable += "<tr><td colspan='2'>Row not available in client</td><td>";
+		}
+
 		Object.keys(json.values).forEach(function (key) {
 			const val = json.values[key];
 			tooltipTable += "<tr><td>" + key + "</td><td>";
