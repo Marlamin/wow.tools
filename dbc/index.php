@@ -83,6 +83,10 @@ $dbFound = false;
 				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?
 			</label>
 
+			<label class="btn btn-sm btn-secondary active">
+				<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> Enable tooltips?
+			</label>
+
 		</form><br>
 	<?php } ?>
 		<div id='tableContainer'><br>
@@ -238,7 +242,7 @@ $dbFound = false;
 
 		return url;
 	}
-
+	let build;
 	(function() {
 		$('#fileFilter').select2();
 		let vars = {};
@@ -304,6 +308,8 @@ $dbFound = false;
 			// Don't bother doing anything else if no DBC is selected
 			return;
 		}
+
+		build = currentParams["build"];
 
 		document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
 
@@ -414,8 +420,14 @@ $dbFound = false;
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
 								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\",\"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
+								}else if(fkCols[meta.col] == "Item::ID" && full[meta.col] > 0){
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
+								}else if(fkCols[meta.col] == "QuestV2::ID" && full[meta.col] > 0){
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='quest' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
+								}else if(fkCols[meta.col] == "Creature::ID" && full[meta.col] > 0){
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='creature' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}else{
-									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + fkCols[meta.col] + "' data-toggle='modal' data-target='#fkModal' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}
 							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(columnWithTable)){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";

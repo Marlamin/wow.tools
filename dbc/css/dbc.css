@@ -25,7 +25,7 @@
 
 #browseButton{
 	float: left;
-	width: 100px;
+	width: 75px;
 	display: inline-block;
 	margin-left: 5px;
 	color: #fff !important;
@@ -43,7 +43,6 @@
 #dbtable{
 	margin: auto;
 }
-
 
 .colHasComment{
 	border-bottom: 2px dashed var(--border-color) !important;

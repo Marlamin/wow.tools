@@ -351,6 +351,100 @@ footer p{
 	background-color: var(--background-color);
 }
 
+/* Tooltips */
+.wt-tooltip{
+	display: none;
+}
+.tooltip-icon{
+	clear: both;
+	float: left;
+	box-shadow: #000 0 0 10px;
+	border-radius: 5px;
+	width: 64px;
+	height: 64px;
+}
+
+.tooltip-icon img{
+	max-width: 64px;
+	max-height: 64px;
+}
+
+.tooltip-desc{
+	float: left;
+	border: 1px solid white;
+	min-width: 400px;
+	width: 400px;
+	padding: 6px;
+	box-shadow: #000 0 0 10px;
+	border-radius: 5px;
+	background: rgba(17, 17, 34, 0.90);
+	color: white;
+	margin-left: 4px;
+	font: normal 12px/1.5 Verdana,sans-serif;
+}
+
+.tooltip-desc h2{
+	font-size: 14px;
+	margin: 0;
+	line-height: 20px;
+}
+
+.tooltip-desc p{
+	margin: 0px;
+}
+
+.tooltip-desc .yellow{
+	color: #ffd200;
+}
+
+.tooltip-table{
+	width: 100%;
+}
+
+.tooltip-table tr td{
+	padding: 2px;
+}
+
+.tooltip-table tr td.right{
+	text-align: right;
+}
+
+.q0{
+	color: #a0a0a0 !important;
+}
+
+.q1{
+	color: #ffffff !important;
+}
+
+.q2{
+	color: #1eff00 !important;
+}
+
+.q3{
+	color: #008dff !important;
+}
+
+.q4{
+	color: #a335ee !important;
+}
+
+.q5{
+	color: #ff8000 !important;
+}
+
+.q6{
+	color: #e6cc80 !important;
+}
+
+.q7{
+	color: #00ccff !important;
+}
+
+.q8{
+	color: #00ccff !important;
+}
+
 /* Mobile Devices */
 @media screen and (max-width: 992px) {
 	textarea[name='files'] {

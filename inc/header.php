@@ -29,6 +29,7 @@
 	<link href="/css/style.css?v=<?=filemtime("/var/www/wow.tools/css/style.css")?>" rel="stylesheet">
 <?php if(!$embed){ ?>
 	<script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
+	<script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
