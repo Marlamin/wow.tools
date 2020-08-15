@@ -372,8 +372,8 @@ footer p{
 .tooltip-desc{
 	float: left;
 	border: 1px solid white;
-	min-width: 400px;
-	width: 400px;
+	min-width: 380px;
+	width: 380px;
 	padding: 6px;
 	box-shadow: #000 0 0 10px;
 	border-radius: 5px;

@@ -167,7 +167,7 @@ function generateItemTooltip(id, tooltip, build){
 		if(calcData["itemLevel"] != 0) tooltipTable += "<tr><td class='yellow'>Item Level " + calcData["itemLevel"] + "</td></tr>";
 		tooltipTable += "<tr><td>" + inventoryTypeEnum[calcData["inventoryType"]] + "</td><td class='right'>" + itemSubClass[calcData['classID']][calcData['subClassID']] + "</td></tr>";
 
-		if(calcData["classID"] == 2 && calcData["hasSparse"] == "true"){
+		if(calcData["classID"] == 2 && calcData["hasSparse"] == true){
 			tooltipTable += "<tr><td><span class='mindmg'>" + calcData["minDamage"] + "</span> - <span class='maxdmg'>" + calcData["maxDamage"] + "</span> Damage</td><td class='right'>Speed <span class='speed'>" + calcData["speed"] + "</span></td></tr>";
 			tooltipTable += "<tr><td>(<span class='dps'>" + calcData["dps"] + "</span> damage per second)</td></tr>";
 		}
@@ -190,18 +190,17 @@ function generateItemTooltip(id, tooltip, build){
 			}
 		}
 
-		// if(hasSparse){
-		// 	for(let statIndex = 0; statIndex < 10; statIndex++){
-		// 		var stat = itemSparseEntry["StatModifier_bonusStat[" + statIndex + "]"];
-		// 		var statPercentEditor = itemSparseEntry["StatPercentEditor[" + statIndex + "]"];
-		// 		if(stat == -1 || statPercentEditor == 0)
-		// 			continue;
+		if(calcData["hasSparse"] == true && calcData["stats"] != null && calcData["stats"].length > 0){
+			for(let statIndex = 0; statIndex < calcData["stats"].length; statIndex++){
+				var stat = calcData["stats"][statIndex];
 
-		// 		tooltipTable += "<tr><td>+ XX " + itemPrettyStatType[stat] + " (SPE " + itemSparseEntry["StatPercentEditor[" + statIndex + "]"] + ")</td></tr>";
-		// 	}
-		// }
+				tooltipTable += "<tr><td>+" + stat["value"] + " " + itemPrettyStatType[stat["statTypeID"]] + "</td></tr>";
+			}
+		}
 
-		// if(itemSearchNameEntry['RequiredLevel'] > 0) { tooltipTable += "<tr><td>Requires Level " + itemSearchNameEntry['RequiredLevel'] + "</td></tr>"; }
+		if(calcData["requiredLevel"] > 0) { tooltipTable += "<tr><td>Requires Level " + calcData["requiredLevel"] + "</td></tr>"; }
+
+		tooltipTable += "<tr><td class='yellow'>Item tooltips are still WIP, stats will be wrong.</td></tr>";
 
 		tooltipTable += "</table>";
 

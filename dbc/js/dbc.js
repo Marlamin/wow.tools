@@ -42,41 +42,36 @@ function openFKModal(value, location, build){
 	const splitLocation = location.split("::");
 	const db = splitLocation[0].toLowerCase();
 	const col = splitLocation[1];
+	const fkModal = document.getElementById("fkModalContent");
 
-	$("#fkModalContent").html("<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br>");
+	fkModal.innerHTML = "<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br>";
 
 	if(wowDBMap.has(db)){
-		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on WoWDB</a>");
+		fkModal.innerHTML += " <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on WoWDB</a>";
 	}
 
 	if(wowheadMap.has(db)){
-		$("#fkModalContent").append(" <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>");
+		fkModal.innerHTML += " <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
 	}
 
-	$("#fkModalContent").append("<table id='fktable' class='table table-condensed table-striped'>");
+	fkModal.innerHTML += "<table id='fktable' class='table table-condensed table-striped'></table>";
 
 	if(db == "spell" && col == "ID"){
+		// TODO: Replace with fetch
 		$.ajax({
 			"url": "/dbc/api/peek/spellname?build=" + build + "&col=ID&val=" + value,
 			"success": function(json) {
-				$("#fktable").append("<tr><td>Name <small>(from SpellName)</small></td><td>" + json.values["Name_lang"] + "</td></tr>");
+				document.getElementById("fktable").innerHTML += "<tr><td>Name <small>(from SpellName)</small></td><td>" + json.values["Name_lang"] + "</td></tr>";
 			}
 		});
 	}
 
-	if(db == "item" && col == "ID"){
-		$.ajax({
-			"url": "/dbc/api/peek/itemsearchname?build=" + build + "&col=ID&val=" + value,
-			"success": function(json) {
-				console.log(json);
-				$("#fktable").append("<tr><td>Name <small>(from ItemSearchName)</small></td><td>" + json.values["Display_lang"] + "</td></tr>");
-			}
-		});
-	}
-
+	// TODO: Get rid of JQuery
+	// TODO: Replace with fetch
 	$.ajax({
 		"url": "/dbc/api/header/" + db + "?build=" + build,
 		"success": function(headerjson) {
+			// TODO: Replace with fetch
 			$.ajax({
 				"url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
 				"success": function(json) {
