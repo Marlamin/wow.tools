@@ -1,10 +1,16 @@
 	function showTooltip(el){
-		console.log(el.dataset);
-
 		if(document.getElementById("tooltipToggle")){
 			if(!document.getElementById("tooltipToggle").checked){
 				return;
 			}
+		}
+
+		const bodyRect = document.body.getBoundingClientRect();
+		const elementRect = el.getBoundingClientRect();
+
+		let tooltipMarginLeft = el.offsetWidth;
+		if((elementRect.x + elementRect.width + 400) > bodyRect.width){
+			tooltipMarginLeft = bodyRect.width - (elementRect.x + elementRect.width + 400);
 		}
 
 		let localBuild = "";
@@ -24,6 +30,7 @@
 		tooltipDiv.style.position = "absolute";
 		tooltipDiv.style.zIndex = 5;
 		tooltipDiv.style.display = "block";
+		tooltipDiv.style.marginLeft = tooltipMarginLeft + "px";
 		tooltipDiv.classList.add('wt-tooltip');
 
 		if(tooltipType == "spell" || tooltipType == "item"){
@@ -298,7 +305,7 @@ function generateFKTooltip(targetFK, value, tooltip)
 		}
 
 		const json = data[0];
-		let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2>" + targetFK + " value " + value +"</h2></td></tr>";
+		let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2 class='q2'>" + targetFK + " value " + value +"</h2></td></tr>";
 		Object.keys(json.values).forEach(function (key) {
 			const val = json.values[key];
 			tooltipTable += "<tr><td>" + key + "</td><td>";
@@ -322,19 +329,59 @@ function generateFKTooltip(targetFK, value, tooltip)
 		tooltipTable += "</table>";
 
 		tooltipDesc.innerHTML = tooltipTable;
+
+		repositionTooltip(tooltip);
 	}).catch(function (error) {
 		console.log("An error occurred retrieving data to generate the tooltip: " + error);
 		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
 	});
 }
 
-function hideTooltip(el){
+function repositionTooltip(tooltip){
+		const bodyRect = document.body.getBoundingClientRect();
 
+		if(tooltip.parentElement == null)
+			return;
+
+		const parentRect = tooltip.parentElement.getBoundingClientRect();
+		const elementRect = tooltip.getBoundingClientRect();
+
+		let leftCutOff = false;
+		let bottomCutOff = false;
+
+		let tooltipMarginLeft = tooltip.parentElement.offsetWidth;
+		if((parentRect.x + parentRect.width + 400) > bodyRect.width){
+			tooltipMarginLeft = bodyRect.width - (parentRect.x + parentRect.width + 400);
+
+			leftCutOff = true;
+		}
+
+		let tooltipMarginTop = 10;
+		if(elementRect.bottom > bodyRect.bottom || elementRect.bottom > window.innerHeight){
+			if(bodyRect.bottom > window.innerHeight){
+				tooltipMarginTop = bodyRect.bottom - elementRect.bottom - (bodyRect.bottom - window.innerHeight + 25);
+			}else{
+				tooltipMarginTop = bodyRect.bottom - elementRect.bottom - 5;
+			}
+
+			bottomCutOff = true;
+		}
+
+		if(leftCutOff && bottomCutOff){
+			tooltipMarginLeft = -425;
+		}
+
+		tooltip.style.marginLeft = tooltipMarginLeft + "px";
+		tooltip.style.marginTop = tooltipMarginTop + "px";
+}
+
+function hideTooltip(el){
 	if(document.getElementById("keepTooltips")){
 		if(document.getElementById("keepTooltips").checked){
 			return;
 		}
 	}
+
 	if(el.children.length > 0){
 		for(let i = 0; i < el.children.length; i++){
 			if(el.children[i].classList.contains('wt-tooltip')){
