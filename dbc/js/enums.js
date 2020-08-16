@@ -464,8 +464,8 @@ const itemPrettyStatType = {
     21: 'Crit (Spell)',
     22: 'Corruption',
     23: 'Corruption Resistance',
-    24: 'Hit Avoidance (Spell)', // Likely gone?
-    25: 'Critical Strike Avoidance (Melee)',
+    24: 'Random Stat 1',
+    25: 'Random Stat 2',
     26: 'Critical Strike Avoidance (Ranged)',
     27: 'Critical Strike Avoidance (Spell)',
     28: 'Haste (Melee)',
@@ -511,10 +511,10 @@ const itemPrettyStatType = {
     68: 'Unused (10)',
     69: 'Unused (11)',
     70: 'Unused (12)',
-    71: '[Agility or Strength or Intellect]',
-    72: '[Agility or Strength]',
-    73: '[Agility or Intellect]',
-    74: '[Strenth or Intellect]'
+    71: 'Agility | Strength | Intellect',
+    72: 'Agility | Strength',
+    73: 'Agility | Intellect',
+    74: 'Strength | Intellect'
 };
 
 const spellEffectName = {
