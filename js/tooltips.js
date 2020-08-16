@@ -194,7 +194,11 @@ function generateItemTooltip(id, tooltip, build){
 			for(let statIndex = 0; statIndex < calcData["stats"].length; statIndex++){
 				var stat = calcData["stats"][statIndex];
 
-				tooltipTable += "<tr><td>+" + stat["value"] + " " + itemPrettyStatType[stat["statTypeID"]] + "</td></tr>";
+				if(stat["isCombatRating"]){
+					tooltipTable += "<tr><td class='q2'>+" + stat["value"] + " " + itemPrettyStatType[stat["statTypeID"]] + "</td></tr>";
+				}else{
+					tooltipTable += "<tr><td>+" + stat["value"] + " " + itemPrettyStatType[stat["statTypeID"]] + "</td></tr>";
+				}
 			}
 		}
 
