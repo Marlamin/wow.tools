@@ -431,6 +431,8 @@ $dbFound = false;
 								}
 							}else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(columnWithTable)){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
+							}else if(columnWithTable == "item.ID"){
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
 							}
 
 							if(enumMap.has(columnWithTable)){

@@ -190,7 +190,9 @@ function generateItemTooltip(id, tooltip, build){
 			}
 		}
 
+		let hasStats = false;
 		if(calcData["hasSparse"] == true && calcData["stats"] != null && calcData["stats"].length > 0){
+			hasStats = true;
 			for(let statIndex = 0; statIndex < calcData["stats"].length; statIndex++){
 				var stat = calcData["stats"][statIndex];
 
@@ -204,7 +206,9 @@ function generateItemTooltip(id, tooltip, build){
 
 		if(calcData["requiredLevel"] > 0) { tooltipTable += "<tr><td>Requires Level " + calcData["requiredLevel"] + "</td></tr>"; }
 
-		tooltipTable += "<tr><td class='yellow'>Item tooltips are still WIP, stats will be wrong.</td></tr>";
+		if(hasStats){
+			tooltipTable += "<tr><td class='yellow'><i>Still WIP, stats might be inaccurate.</i></td></tr>";
+		}
 
 		tooltipTable += "</table>";
 
