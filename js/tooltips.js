@@ -204,7 +204,11 @@ function generateItemTooltip(id, tooltip, build){
 			}
 		}
 
-		if(calcData["requiredLevel"] > 0) { tooltipTable += "<tr><td>Requires Level " + calcData["requiredLevel"] + "</td></tr>"; }
+		if(calcData["requiredLevel"] > 1) { tooltipTable += "<tr><td>Requires Level " + calcData["requiredLevel"] + "</td></tr>"; }
+
+		if(calcData["flavorText"] != null && calcData["flavorText"] != ""){
+			tooltipTable += "<tr><td class='yellow'>\"" + calcData["flavorText"] + "\"</td></tr>";
+		}
 
 		if(hasStats){
 			tooltipTable += "<tr><td class='yellow'><i>Still WIP, stats might be inaccurate.</i></td></tr>";
@@ -231,9 +235,7 @@ function generateSpellTooltip(id, tooltip)
 	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	Promise.all([
-		fetch("/dbc/api/peek/spellname?build=" + build + "&col=ID&val=" + id, {cache: "force-cache"}),
-		fetch("/dbc/api/peek/spell?build=" + build + "&col=ID&val=" + id, {cache: "force-cache"}),
-		fetch("/dbc/api/peek/spellmisc?build=" + build + "&col=SpellID&val=" + id, {cache: "force-cache"})
+		fetch("/dbc/api/tooltip/spell/" + id + "?build=" + build),
 		])
 	.then(function (responses) {
 		return Promise.all(responses.map(function (response) {
@@ -254,26 +256,11 @@ function generateSpellTooltip(id, tooltip)
 
 		console.log(data);
 
-		const spellNameEntry = data[0].values;
-		if(Object.keys(spellNameEntry).length === 0){
-			tooltipDesc.innerHTML = "An error occured: Spell name not found";
-			return;
-		}
+		const calcData = data[0];
 
-		const spellEntry = data[1].values;
-		if(Object.keys(spellEntry).length === 0){
-			tooltipDesc.innerHTML = "An error occured: Spell not found";
-			return;
-		}
-
-		const spellMiscEntry = data[2].values;
-		if(Object.keys(spellMiscEntry).length === 0){
-			tooltipDesc.innerHTML = "An error occured: Spell misc not found";
-			return;
-		}
-		tooltipDesc.innerHTML = "<h2>" + spellNameEntry["Name_lang"] + "</h2>";
-		tooltipDesc.innerHTML += "<p class='yellow'>" + spellEntry["Description_lang"];
-		tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + spellMiscEntry["SpellIconFileDataID"];
+		tooltipDesc.innerHTML = "<h2>" + calcData["name"] + "</h2>";
+		tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"];
+		tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
 	}).catch(function (error) {
 		console.log("An error occurred retrieving data to generate the tooltip: " + error);
 		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;

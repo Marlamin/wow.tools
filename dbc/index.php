@@ -336,7 +336,6 @@ $dbFound = false;
 					if(json['error'] == "No valid definition found for this layouthash or build!"){
 						json['error'] += "\n\nPlease open an issue on the WoWDBDefs repository with the DBC name and selected version on GitHub to request a definition for this build.\n\nhttps://github.com/wowdev/WoWDBDefs";
 					}
-					alert("An error occured on the server:\n" + json['error']);
 				}
 				let allCols = [];
 				$.each(json['headers'], function(i, val){
@@ -384,6 +383,10 @@ $dbFound = false;
 
 				const page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
 				let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
+				$.fn.dataTable.ext.errMode = 'none';
+				$('#dbtable').on( 'error.dt', function ( e, settings, techNote, message ) {
+					console.log( 'An error occurred: ', message );
+				});
 				var table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
@@ -433,6 +436,8 @@ $dbFound = false;
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
 							}else if(columnWithTable == "item.ID"){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
+							}else if(columnWithTable == "spell.ID"){
+								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
 							}
 
 							if(enumMap.has(columnWithTable)){
