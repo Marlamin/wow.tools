@@ -259,7 +259,9 @@ function generateSpellTooltip(id, tooltip)
 		const calcData = data[0];
 
 		tooltipDesc.innerHTML = "<h2>" + calcData["name"] + "</h2>";
-		tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"];
+		if(calcData["description"] != null){
+			tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"];
+		}
 		tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
 	}).catch(function (error) {
 		console.log("An error occurred retrieving data to generate the tooltip: " + error);
