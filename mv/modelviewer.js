@@ -306,7 +306,7 @@ window.addEventListener('keydown', function(event){
     }
 
     if($(".selected").length == 1){
-         if(event.key == "ArrowDown"){
+        if(event.key == "ArrowDown"){
             if($(".selected")[0].rowIndex == 20) return;
             $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
         }else if(event.key == "ArrowUp"){
@@ -335,8 +335,6 @@ window.addEventListener('keydown', function(event){
 
         }
     }
-
-
 }, true);
 
 window.addEventListener('keyup', function(event){
@@ -360,7 +358,7 @@ $("#animationSelect").change(function () {
 $("#skinSelect").change(function() {
     var display = $("#skinSelect option:selected").attr("value").split(',');
 
-    if(display.length == 3){
+    if(display.length == 3 || display.length == 4){
         // Creature
         setModelTexture(display, 11);
     }else{
@@ -444,7 +442,6 @@ function loadModelTextures() {
             return;
         }
 
-        var i = 0;
         $("#skinSelect").empty();
         for (let displayId in data) {
             if (!data.hasOwnProperty(displayId)) continue;
@@ -457,21 +454,11 @@ function loadModelTextures() {
             // Open controls overlay
             $("#js-controls").removeClass("closed");
             $("#skinSelect").show();
-            // Always select first set
-            if(i == 0){
-                if(intArray.length == 3){
-                    // Creature
-                    setModelTexture(intArray, 11);
-                }else{
-                    // Item
-                    setModelTexture(intArray, 2);
-                }
-            }
 
-            if(loadedTextures.includes(data[displayId].join(',')))
+            if(loadedTextures.includes(intArray.join(',')))
                 continue;
 
-            loadedTextures.push(data[displayId].join(','));
+            loadedTextures.push(intArray.join(','));
 
             $.ajax({
                 type: 'GET',
@@ -484,12 +471,30 @@ function loadModelTextures() {
             .done(function( filename ) {
                 var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
                 var textureFileDataID = textureFileDataIDs[0];
+
+                var optionHTML = '<option value="' + textureFileDataIDs + '"';
+
+                if($('#skinSelect option').length == 0){
+                    optionHTML += " SELECTED>";
+                    if(textureFileDataIDs.length == 3 || textureFileDataIDs.length == 4){
+                        // Creature
+                        setModelTexture(textureFileDataIDs, 11);
+                    }else{
+                        // Item
+                        setModelTexture(textureFileDataIDs, 2);
+                    }
+                }else{
+                    optionHTML += ">";
+                }
+
                 if(filename != ""){
                     var nopathname = filename.replace(/^.*[\\\/]/, '');
-                    $('#skinSelect').append('<option value="' + textureFileDataIDs + '">(' + textureFileDataID + ') ' + nopathname + '</option>');
+                    optionHTML += "(" + textureFileDataID + ") " + nopathname + "</option>";
                 }else{
-                    $('#skinSelect').append('<option value="' + textureFileDataIDs + '">' + textureFileDataID + '</option>');
+                    optionHTML += textureFileDataID + "</option>";
                 }
+
+                $("#skinSelect").append(optionHTML);
             });
         }
     });
@@ -509,11 +514,23 @@ function setModelTexture(textures, offset){
     const typedArray = new Int32Array(18);
 
     for(i = 0; i < textures.length; i++){
-        typedArray[offset + i] = textures[i];
-        const inputTarget = offset + i;
-        console.log(inputTarget);
-        if(document.getElementById('tex' + inputTarget)){
-            document.getElementById('tex' + inputTarget).value = textures[i];
+        if(offset == 11 && i == 3){
+            var particleColorID = textures[3];
+            console.log("Particle Color should be set to " + particleColorID);
+            // fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
+            // .then(function (response) {
+            //     return response.json();
+            // }).then(function (particleColorEntry) {
+            //     console.log(particleColorEntry.values);
+            // }).catch(function (error) {
+            //     console.log("An error occured retrieving particle colors for ID " + particleColorID);
+            // });
+        }else{
+            typedArray[offset + i] = textures[i];
+            const inputTarget = offset + i;
+            if(document.getElementById('tex' + inputTarget)){
+                document.getElementById('tex' + inputTarget).value = textures[i];
+            }
         }
     }
 
