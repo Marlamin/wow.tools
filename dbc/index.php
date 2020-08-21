@@ -75,18 +75,14 @@ $dbFound = false;
 				<?php } ?>
 			</select>
 
-
 			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
+
 			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
 
 			<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
 				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?
 			</label>
-
-			<label class="btn btn-sm btn-secondary active">
-				<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> Enable tooltips?
-			</label>
-
+			<a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'>Settings</a>
 		</form><br>
 	<?php } ?>
 		<div id='tableContainer'><br>
@@ -98,6 +94,26 @@ $dbFound = false;
 				</tbody>
 			</table>
 		</div>
+</div>
+<div class="modal" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="settingsModalContent">
+				<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> <label for='tooltipToggle'>Enable tooltips?</label><br>
+				<input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" onclick="saveSettings();" data-dismiss="modal">Save</button>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="modal" id="fkModal" tabindex="-1" role="dialog" aria-labelledby="fkModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
@@ -196,9 +212,58 @@ $dbFound = false;
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
 <script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
-	let filtersEnabled = false;
+	var Settings =
+	{
+	    filtersAlwaysEnabled: false,
+	    filtersCurrentlyEnabled: false,
+	    enableTooltips: true
+	}
+
+	function saveSettings(){
+	    if(document.getElementById("tooltipToggle").checked){
+	        localStorage.setItem('settings[tooltipToggle]', '1');
+	    }else{
+	        localStorage.setItem('settings[tooltipToggle]', '0');
+	    }
+
+	    if(document.getElementById("alwaysEnableFilters").checked){
+	        localStorage.setItem('settings[alwaysEnableFilters]', '1');
+	    }else{
+	        localStorage.setItem('settings[alwaysEnableFilters]', '0');
+	    }
+	}
+
+	function loadSettings(){
+	    /* Enable tooltips? */
+	    var tooltipToggle = localStorage.getItem('settings[tooltipToggle]');
+	    if(tooltipToggle){
+	        if(tooltipToggle== "1"){
+	            Settings.enableTooltips = true;
+	        }else{
+	            Settings.enableTooltips = false;
+	        }
+	    }
+
+	    document.getElementById("tooltipToggle").checked = Settings.enableTooltips;
+
+	    /* Filters always enabled? */
+	    var alwaysEnableFilters = localStorage.getItem('settings[alwaysEnableFilters]');
+	    if(alwaysEnableFilters){
+	        if(alwaysEnableFilters== "1"){
+	            Settings.filtersAlwaysEnabled = true;
+	        }else{
+	            Settings.filtersAlwaysEnabled = false;
+	        }
+	    }
+
+	    document.getElementById("alwaysEnableFilters").checked = Settings.filtersAlwaysEnabled;
+	}
+
+	loadSettings();
+
 	function toggleFilters(){
-		if(!filtersEnabled){
+		console.log("Toggling filters from " + Settings.filtersCurrentlyEnabled + " to " + !Settings.filtersCurrentlyEnabled);
+		if(!Settings.filtersCurrentlyEnabled){
 			$("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
 			$("#tableContainer thead tr:eq(1) th").each( function (i) {
 				var title = $(this).text();
@@ -214,10 +279,10 @@ $dbFound = false;
 					e.stopPropagation();
 				});
 			} );
-			filtersEnabled = true;
+			Settings.filtersCurrentlyEnabled = true;
 		}else{
 			$("#tableContainer thead tr:eq(1)").remove();
-			filtersEnabled = false;
+			Settings.filtersCurrentlyEnabled = false;
 		}
 	}
 
@@ -526,6 +591,10 @@ $dbFound = false;
 							highlightRow = -1;
 						}
 					},
+				});
+
+				$('#dbtable').on ('init.dt', function () {
+					if(Settings.filtersAlwaysEnabled){ toggleFilters(); };
 				});
 
 				$('#dbtable').on( 'draw.dt', function () {
