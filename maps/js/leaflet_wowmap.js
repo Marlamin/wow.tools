@@ -187,6 +187,37 @@
 		RenderMap( latlng, zoom, true, urlSet);
 	}
 
+	function wowMapMatcher(params, data) {
+		// If there are no search terms, return all of the data
+		if ($.trim(params.term) === '') {
+			return data;
+		}
+
+		// Do not display the item if there is no 'text' property
+		if (typeof data.text === 'undefined') {
+			return null;
+		}
+
+		if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+			var modifiedData = $.extend({}, data, true);
+			return modifiedData;
+		}
+
+		if (data.element.dataset.internal.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+			var modifiedData = $.extend({}, data, true);
+			modifiedData.text += ' (Internal match)';
+			return modifiedData;
+		}
+
+		if(data.element.dataset.imapid != null && data.element.dataset.imapid == params.term){
+			var modifiedData = $.extend({}, data, true);
+			modifiedData.text += ' (MapID match)';
+			return modifiedData;
+		}
+
+		return null;
+	}
+
 	function UpdateMapVersions()
 	{
 		var element,
@@ -262,15 +293,16 @@
 
 	function InitializeEvents()
 	{
-		Elements.Maps.addEventListener( 'change', function( )
+		var select2El = $("#js-map-select").select2({ matcher: wowMapMatcher, disabled: false });
+		Elements.MapSelect2 = select2El;
+		Elements.MapSelect2.on( 'change', function(e)
 		{
-			d( 'Changed map to ' + this.value + ' from ' + Current.Map );
+			d( '[SELECT2] Changed map to ' + this.value + ' from ' + Current.Map );
 
 			Current.Map = this.value;
 			Current.InternalMap = this.options[ this.selectedIndex ].dataset.internal;
 			Current.InternalMapID = this.options[ this.selectedIndex ].dataset.imapid;
 			Current.wdtFileDataID = this.options[ this.selectedIndex ].dataset.wdtfiledataid;
-
 			UpdateMapVersions();
 
 			RenderMap(
@@ -790,19 +822,23 @@
 							newCenter.y += offsetY * adtSize;
 						}
 
-						d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
-
-						center = WoWtoLatLng(newCenter.x, newCenter.y);
-
-						// bug?
-						center.lat = center.lat / 2;
-						center.lng = center.lng / 2;
-
-						d ('New map center: ' + center.lat + ' ' + center.lng);
-
-						// use old center for now
-						if(!isDebug){
+						if(Number.isNaN(newCenter.x) || Number. isNaN(newCenter.y)){
 							center = LeafletMap.getCenter();
+						}else{
+							d ('New wow center: ' + newCenter.x + ' ' + newCenter.y);
+
+							center = WoWtoLatLng(newCenter.x, newCenter.y);
+
+							// bug?
+							center.lat = center.lat / 2;
+							center.lng = center.lng / 2;
+
+							d ('New map center: ' + center.lat + ' ' + center.lng);
+
+							// use old center for now
+							if(!isDebug){
+								center = LeafletMap.getCenter();
+							}
 						}
 					}else{
 						d( 'One of the offsets is unknown, not applying changes' );
