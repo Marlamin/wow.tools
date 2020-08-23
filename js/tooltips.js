@@ -181,7 +181,21 @@ function generateItemTooltip(id, tooltip, build){
 				// }
 
 				if(itemEffect["spell"]["description"] != null){
-					tooltipTable += " " + itemEffect["spell"]["description"];
+					tooltipTable += "<span id='spelldesc-" + itemEffect["spell"]["spellID"] + "'>" + itemEffect["spell"]["description"] + "</span>";
+					fetch("/dbc/api/tooltip/spell/" + itemEffect["spell"]["spellID"] + "?build=" + build)
+					.then(function (spellResponse) {
+							return spellResponse.json();
+						}).then(function (data) {
+						if(data["description"] != null){
+							var spellDescHolder = document.getElementById("spelldesc-" + data["spellID"]);
+							if(spellDescHolder){
+								spellDescHolder.innerHTML = data["description"].replace("\n", "<br><br>");
+							}
+						}
+					}).catch(function (error) {
+						console.log("An error occurred retrieving data to generate spell description: " + error);
+					});
+
 				}else{
 					tooltipTable += " SpellID #" + itemEffect["spell"]["spellID"];
 				}
@@ -260,7 +274,7 @@ function generateSpellTooltip(id, tooltip)
 
 		tooltipDesc.innerHTML = "<h2>" + calcData["name"] + "</h2>";
 		if(calcData["description"] != null){
-			tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"];
+			tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"].replace("\n", "<br><br>");
 		}
 		tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
 	}).catch(function (error) {
