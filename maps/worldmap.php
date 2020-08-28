@@ -10,13 +10,15 @@ if(!empty($_GET['bc'])){
 		$cdnconfig = $version['cdnconfig']['hash'];
 	}
 }else{
-	$build = "9.0.1.35432";
-	$buildconfig = "34e95b746d9695a40182b2ba1efdf846";
-	$cdnconfig = "05291e8d0afb8515f0675bd4803077fe";
+	$build = "9.0.1.35679";
+	$buildconfig = "b8a03ea551a7bbcee507b1838064792c";
+	$cdnconfig = "aa82719fdfc5a0714553eec7b599fcdb";
 }
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <style type='text/css'>
 	#breadcrumbs{
 		position: absolute;
@@ -93,6 +95,7 @@ if(!empty($_GET['bc'])){
 
 		document.getElementById('mapSelect').disabled = false;
 		document.getElementById('firstOption').text = "Select a map..";
+
 		let params = (new URL(document.location)).searchParams;
 		if(params.has('id')){
 			var id = params.get('id');

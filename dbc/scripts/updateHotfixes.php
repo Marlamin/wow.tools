@@ -7,9 +7,15 @@ $knownKeys = $pdo->query("SELECT keyname FROM wow_tactkey")->fetchAll(PDO::FETCH
 $keyInsert = $pdo->prepare("INSERT IGNORE INTO wow_tactkey (keyname, keybytes) VALUES (?, ?)");
 $processedMD5s = [];
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
+
+if(!empty($argv[1])){
+	echo "[Hotfix updater] Only parsing one cache file: " . $argv[1]."\n";
+	$files = array($argv[1]);
+}
+
 foreach($files as $file) {
 	// Only process hotfixes newer than 1 day ago
-	if(filemtime($file) < strtotime("-30 minutes"))
+	if(empty($argv[1]) && filemtime($file) < strtotime("-30 minutes"))
 		continue;
 
 	$md5 = md5_file($file);

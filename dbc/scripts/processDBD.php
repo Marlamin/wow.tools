@@ -1,5 +1,5 @@
 <?php
-if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
+if(empty($includedProcessing) && php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
 require_once(__DIR__ . "/../../inc/config.php");
 
 $versionCacheByID = [];
@@ -17,11 +17,13 @@ foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions WHERE
 	$versionTableCache[$tv['versionid']][] = $tv['tableid'];
 }
 
+echo "[DBD processing] Parsing DBDs.";
 $dbdCache = [];
 foreach(glob("/home/wow/dbd/WoWDBDefs/definitions/*.dbd") as $dbd){
 	$reader = new DBDReader();
 	$dbdCache[strtolower(basename(str_replace(".dbd", "", $dbd)))] = $reader->read($dbd);
 }
+echo ".done.\n";
 
 $defq = $pdo->prepare("UPDATE wow_dbc_table_versions SET hasDefinition = ? WHERE versionid = ? AND tableid = ?");
 foreach($versionTableCache as $versionID => $versions){

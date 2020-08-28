@@ -21,12 +21,13 @@ If you create an account on the site, the following information is stored:
 <h3>Open source</h3>
 The site and the tools powering the site are open source.
 <ul>
-<li><a href='https://github.com/Marlamin/wow.tools/' target='_BLANK'>wow.tools</a> - Website code.</li>
-<li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> - Makes backups of builds on Blizzard's CDN.</li>
-<li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> - Powers listfile generation, file downloads and previews.</li>
-<li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> - Powers database file browsing, searching and lookups for the modelviewer. Uses <a href='https://github.com/wowdev/DBCD' target='_BLANK'>DBCD</a> for DBC/DB2 reading.</li>
-<li><a href='https://github.com/Marlamin/WoWTools.Minimaps/' target='_BLANK'>Minimap tools</a> - Minimap extraction and compilation tools.</li>
-<li><a href='https://github.com/Marlamin/WorldMapCompiler/' target='_BLANK'>WorldMapCompiler</a> - Compiles in-game world maps into single images.</li>
+<li><a href='https://github.com/Marlamin/wow.tools/' target='_BLANK'>wow.tools</a> (PHP) - Website code.</li>
+<li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> (C#) - Makes backups of builds on Blizzard's CDN.</li>
+<li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> (C#) - Powers listfile generation, file downloads and previews.</li>
+<li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> (C#) - Powers database file browsing, searching and lookups for the modelviewer. Uses <a href='https://github.com/wowdev/DBCD' target='_BLANK'>DBCD</a> (C#) for DBC/DB2 reading.</li>
+<li><a href='https://github.com/Marlamin/WoWTools.Hotfixes/' target='_BLANK'>Hotfix uploader (+dumper)</a> (C#) - Automated hotfix uploading as well as tools for dumping them.</li>
+<li><a href='https://github.com/Marlamin/WoWTools.Minimaps/' target='_BLANK'>Minimap tools</a> (C#) - Minimap extraction and compilation tools.</li>
+<li><a href='https://github.com/Marlamin/WorldMapCompiler/' target='_BLANK'>WorldMapCompiler</a> (C#) - Compiles in-game world maps into single images.</li>
 <li><a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>WoWDBDefs</a> - Definitions for database files.</li>
 </ul>
 <h4>Third party</h4>
@@ -37,5 +38,4 @@ The site and the tools powering the site are open source.
 <h3>Legal stuff</h3>
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
 </div>
-
 <?php require_once("inc/footer.php"); ?>

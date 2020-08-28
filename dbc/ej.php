@@ -111,7 +111,7 @@ if(!empty($_GET['build']) && in_array($_GET['build'], $builds)){
 			.replace(/\|H[^\|]+\|h/g, "")
 			.replace(/\|[cC][0-9A-Fa-f]{8}/g, "")
 			.replace(/\|[rRh]/g, "")
-			.replace(/\$bullet;/g, "•")
+			.replace(/\$bullet;/g, "<br>•")
 			return output
 		}
 	</script>
