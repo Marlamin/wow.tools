@@ -31,12 +31,9 @@ php dumpDBC.php
 php ../../dbc/scripts/buildMap.php
 php ../../dbc/scripts/processDBD.php
 php updateGameData.php
-# php addOGGNames.php
 php ../../files/scripts/addMDINames.php
 php encrypted.php
 php fixBranches.php
 php ../../files/scripts/updateSizes.php
-php ../../dbc/scripts/updateHotfixes.php
-php ../../dbc/scripts/updateCaches.php
 cd /home/wow/autodbd/
 php update.php
