@@ -401,6 +401,8 @@ $dbFound = false;
 					if(json['error'] == "No valid definition found for this layouthash or build!"){
 						json['error'] += "\n\nPlease open an issue on the WoWDBDefs repository with the DBC name and selected version on GitHub to request a definition for this build.\n\nhttps://github.com/wowdev/WoWDBDefs";
 					}
+					$("#loadingMessage").html("<div class='alert '><b>Whoops, something exploded while loading this DBC</b><br>It is possible this is due to maintenance or an issue with reading the DBC file itself. Please try again later or report the below error (together with the table name and version) in Discord if it persists. Thanks!</p><p style='margin: 5px;'><kbd>" + json['error'] + "</kbd></p></div>");
+					return;
 				}
 				let allCols = [];
 				$.each(json['headers'], function(i, val){
