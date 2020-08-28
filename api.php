@@ -5,6 +5,9 @@ if(empty($_GET['type'])){
 	die("No API given!");
 }
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET');
+
 if($_GET['type'] == "token" && !empty($_GET['token'])){
 	$q = $pdo->prepare("SELECT COUNT(id) as count, id FROM users WHERE apitoken = ?");
 	$q->execute([$_GET['token']]);
@@ -39,5 +42,33 @@ if($_GET['type'] == "dblist"){
 	$q->execute([$buildDesc."%"]);
 
 	echo implode(',', $q->fetchAll(PDO::FETCH_COLUMN));
+}
+
+if($_GET['type'] == "latestbuilds"){
+	$builds = [];
+	$urlq = $pdo->query("SELECT id, name, url FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
+	$histq = $pdo->prepare("SELECT newvalue, timestamp FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY ID DESC LIMIT 1");
+	while($row = $urlq->fetch(PDO::FETCH_ASSOC)){
+		$histq->execute([$row['id']]);
+
+		$product = str_replace("/versions", "", substr($row['url'], strpos($row['url'], "wow")));
+		$highestBuild = 0;
+		$highestBuildName = "";
+		$histr = $histq->fetch(PDO::FETCH_ASSOC);
+		if(!empty($histr)){
+			$bc = parseBPSV(explode("\n", $histr['newvalue']));
+			foreach($bc as $bcregion){
+				if($bcregion['BuildId'] > $highestBuild){
+					$highestBuild = $bcregion['BuildId'];
+					$highestBuildName = $bcregion['VersionsName'];
+				}
+			}
+		}
+
+		if(!empty($highestBuildName))
+			$builds[$product] = $highestBuildName;
+	}
+
+	echo json_encode($builds);
 }
 ?>
