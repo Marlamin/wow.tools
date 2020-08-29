@@ -323,6 +323,11 @@ function generateFKTooltip(targetFK, value, tooltip)
 
 		Object.keys(json.values).forEach(function (key) {
 			const val = json.values[key];
+
+			if(targetFK == "PlayerCondition::ID" && (val == 0 || val == -1)){
+				return;
+			}
+
 			tooltipTable += "<tr><td>" + key + "</td><td>";
 
 			if(key.startsWith("Flags") || flagMap.has(table + "." + key)){
@@ -341,7 +346,12 @@ function generateFKTooltip(targetFK, value, tooltip)
 
 			 tooltipTable += "</td></tr>"
 		});
+
 		tooltipTable += "</table>";
+
+		if(targetFK == "PlayerCondition::ID"){
+			tooltipTable += "<p class='yellow'>(Empty values hidden for this table)</p>";
+		}
 
 		tooltipDesc.innerHTML = tooltipTable;
 
