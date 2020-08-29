@@ -24,7 +24,6 @@ $tables = [];
 
 foreach($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc){
 	$tables[$dbc['id']] = $dbc;
-	if(!empty($_GET['dbc']) && strtolower($_GET['dbc']) == $dbc['name']) $currentDB = $dbc;
 }
 
 $locales = [
@@ -41,32 +40,12 @@ $locales = [
 	["name" => "Italian", "value" => "itIT"],
 	["name" => "Portugese", "value" => "ptPT"],
 ];
-
-$dbFound = false;
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
-	<select id='fileFilter' class='form-control form-control-sm'>
-		<option value="">Select a table</option>
-		<?php foreach($tables as $table){ ?>
-			<option value='<?=$table['name']?>' <? if(!empty($_GET['dbc']) && strtolower($_GET['dbc']) == $table['name']){ echo " SELECTED"; } ?>><?=$table['displayName']?></option>
-		<?php }?>
-	</select>
-	<?php if(!empty($currentDB)){ ?>
 		<form id='dbcform' action='/dbc/' method='GET'>
-			<input type='hidden' name='dbc' value='<?=$_GET['dbc']?>'>
-			<select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'>
-				<?php
-				$vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_builds ON wow_dbc_table_versions.versionid=wow_builds.id WHERE wow_dbc_table_versions.tableid = ?  AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY version DESC");
-				$vq->execute([$currentDB['id']]);
-				$versions = $vq->fetchAll();
-				foreach($versions as $row){
-					?>
-					<option value='<?=$row['version']?>'<? if(!empty($_GET['build']) && $row['version'] == $_GET['build']){ echo " SELECTED"; }?>><?=$row['version']?></option>
-					<?php
-				}
-				?>
-			</select>
+			<select id='fileFilter' class='form-control form-control-sm'></select>
+			<select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'></select>
 
 			<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
 				<option value='' <? if(empty($_GET['locale']) || $_GET['locale'] == ""){ echo " SELECTED"; }?>>enUS (Default)</option>
@@ -75,16 +54,13 @@ $dbFound = false;
 				<?php } ?>
 			</select>
 
-			<input type='submit' id='browseButton' class='form-control form-control-sm btn btn-sm btn-primary' value='Browse'>
-
-			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a>
+			<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i class='fa fa-download'></i> CSV</a>
 
 			<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
 				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?
 			</label>
 			<a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'>Settings</a>
 		</form><br>
-	<?php } ?>
 		<div id='tableContainer'><br>
 			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -107,6 +83,7 @@ $dbFound = false;
 			<div class="modal-body" id="settingsModalContent">
 				<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> <label for='tooltipToggle'>Enable tooltips?</label><br>
 				<input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
+				<input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -214,55 +191,78 @@ $dbFound = false;
 <script type='text/javascript'>
 	var Settings =
 	{
-	    filtersAlwaysEnabled: false,
-	    filtersCurrentlyEnabled: false,
-	    enableTooltips: true
+		filtersAlwaysEnabled: false,
+		filtersCurrentlyEnabled: false,
+		enableTooltips: true,
+		changedVersionsOnly: false
 	}
 
 	function saveSettings(){
-	    if(document.getElementById("tooltipToggle").checked){
-	        localStorage.setItem('settings[tooltipToggle]', '1');
-	    }else{
-	        localStorage.setItem('settings[tooltipToggle]', '0');
-	    }
+		if(document.getElementById("tooltipToggle").checked){
+			localStorage.setItem('settings[tooltipToggle]', '1');
+		}else{
+			localStorage.setItem('settings[tooltipToggle]', '0');
+		}
 
-	    if(document.getElementById("alwaysEnableFilters").checked){
-	        localStorage.setItem('settings[alwaysEnableFilters]', '1');
-	    }else{
-	        localStorage.setItem('settings[alwaysEnableFilters]', '0');
-	    }
+		if(document.getElementById("alwaysEnableFilters").checked){
+			localStorage.setItem('settings[alwaysEnableFilters]', '1');
+		}else{
+			localStorage.setItem('settings[alwaysEnableFilters]', '0');
+		}
+
+		if(document.getElementById("changedVersionsOnly").checked){
+			localStorage.setItem('settings[changedVersionsOnly]', '1');
+		}else{
+			localStorage.setItem('settings[changedVersionsOnly]', '0');
+		}
+
+		if(Settings.changedVersionsOnly != document.getElementById("changedVersionsOnly").checked){
+			loadSettings();
+			refreshVersions();
+		}
 	}
 
 	function loadSettings(){
-	    /* Enable tooltips? */
-	    var tooltipToggle = localStorage.getItem('settings[tooltipToggle]');
-	    if(tooltipToggle){
-	        if(tooltipToggle== "1"){
-	            Settings.enableTooltips = true;
-	        }else{
-	            Settings.enableTooltips = false;
-	        }
-	    }
+		/* Enable tooltips? */
+		var tooltipToggle = localStorage.getItem('settings[tooltipToggle]');
+		if(tooltipToggle){
+			if(tooltipToggle== "1"){
+				Settings.enableTooltips = true;
+			}else{
+				Settings.enableTooltips = false;
+			}
+		}
 
-	    document.getElementById("tooltipToggle").checked = Settings.enableTooltips;
+		document.getElementById("tooltipToggle").checked = Settings.enableTooltips;
 
-	    /* Filters always enabled? */
-	    var alwaysEnableFilters = localStorage.getItem('settings[alwaysEnableFilters]');
-	    if(alwaysEnableFilters){
-	        if(alwaysEnableFilters== "1"){
-	            Settings.filtersAlwaysEnabled = true;
-	        }else{
-	            Settings.filtersAlwaysEnabled = false;
-	        }
-	    }
+		/* Filters always enabled? */
+		var alwaysEnableFilters = localStorage.getItem('settings[alwaysEnableFilters]');
+		if(alwaysEnableFilters){
+			if(alwaysEnableFilters== "1"){
+				Settings.filtersAlwaysEnabled = true;
+			}else{
+				Settings.filtersAlwaysEnabled = false;
+			}
+		}
 
-	    document.getElementById("alwaysEnableFilters").checked = Settings.filtersAlwaysEnabled;
+		document.getElementById("alwaysEnableFilters").checked = Settings.filtersAlwaysEnabled;
+
+		/* Changed versions only? */
+		var changedVersionsOnly = localStorage.getItem('settings[changedVersionsOnly]');
+		if(changedVersionsOnly){
+			if(changedVersionsOnly== "1"){
+				Settings.changedVersionsOnly = true;
+			}else{
+				Settings.changedVersionsOnly = false;
+			}
+		}
+
+		document.getElementById("changedVersionsOnly").checked = Settings.changedVersionsOnly;
 	}
 
 	loadSettings();
 
 	function toggleFilters(){
-		console.log("Toggling filters from " + Settings.filtersCurrentlyEnabled + " to " + !Settings.filtersCurrentlyEnabled);
 		if(!Settings.filtersCurrentlyEnabled){
 			$("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
 			$("#tableContainer thead tr:eq(1) th").each( function (i) {
@@ -307,77 +307,84 @@ $dbFound = false;
 
 		return url;
 	}
-	let build;
-	(function() {
-		$('#fileFilter').select2();
-		let vars = {};
-		let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-			if(value.includes('#')){
-				const splitString = value.split('#');
-				vars[key] = splitString[0];
-			}else{
-				vars[key] = value;
+
+	function refreshFiles(){
+		console.log("Refreshing files");
+		fetch("https://api.wow.tools/databases")
+		.then(function (fileResponse) {
+			return fileResponse.json();
+		}).then(function (data) {
+			var fileFilter = document.getElementById('fileFilter');
+			fileFilter.innerHTML = "";
+
+			var option = document.createElement("option");
+			option.text = "Select a table";
+			fileFilter.appendChild(option);
+
+			data.forEach((file) => {
+				var option = document.createElement("option");
+				option.value = file.name;
+				option.text = file.displayName;
+				if(option.value == currentParams["dbc"]){
+					option.selected = true;
+				}
+				fileFilter.appendChild(option);
+			});
+		}).catch(function (error) {
+			console.log("An error occurred retrieving files: " + error);
+		});
+	}
+
+	function refreshVersions(){
+		if(currentParams["dbc"] == "")
+			return;
+
+		console.log("Refreshing versions");
+		var versionAPIURL = "https://api.wow.tools/databases/" + currentParams["dbc"] + "/versions";
+		if(Settings.changedVersionsOnly)
+			versionAPIURL += "?uniqueOnly=true";
+
+		fetch(versionAPIURL)
+		.then(function (versionResponse) {
+			return versionResponse.json();
+		}).then(function (data) {
+			var buildFilter = document.getElementById('buildFilter');
+			buildFilter.innerHTML = "";
+
+			data.forEach((version) => {
+				var option = document.createElement("option");
+				option.value = version;
+				option.text = version;
+				if(option.value == currentParams["build"]){
+					option.selected = true;
+				}
+				buildFilter.appendChild(option);
+			});
+
+			if(currentParams["build"] == "" || !data.includes(currentParams["build"])){
+				// No build was selected, load table with the latest build
+				currentParams["build"] = data[0];
+				loadTable();
 			}
+		}).catch(function (error) {
+			console.log("An error occurred retrieving versions: " + error);
 		});
+	}
 
-		let currentParams = [];
-
-		if(vars["dbc"] == null){
-			currentParams["dbc"] = "";
-		}else{
-			currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
-		}
-
-		if(vars["locale"] == null){
-			currentParams["locale"] = "";
-		}else{
-			currentParams["locale"] = vars["locale"];
-		}
-
-		if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
-			currentParams["build"] = $('#buildFilter').val();
-		}
-
-		currentParams["hotfixes"] = false;
-		if(vars["hotfixes"] == "true"){
-			currentParams["hotfixes"] = true;
-		}
-
-		$('#fileFilter').on( 'change', function () {
-			if($(this).val() != ""){
-				currentParams["dbc"] = $(this).val();
-				document.location = buildURL(currentParams);
-			}
-		});
-
-		$('#buildFilter').on('change', function(){
-			currentParams["build"] = $('#buildFilter').val();
-			document.location = buildURL(currentParams);
-		});
-
-		$('#localeSelection').on('change', function(){
-			currentParams["locale"] = $('#localeSelection').val();
-			document.location = buildURL(currentParams);
-		});
-
-		$('#hotfixToggle').on('change', function(){
-			if(document.getElementById('hotfixToggle').checked){
-				currentParams["hotfixes"] = true;
-			}else{
-				currentParams["hotfixes"] = false;
-			}
-			document.location = buildURL(currentParams);
-		});
-
+	function loadTable(){
+		console.log("Loading table", currentParams);
 		if(!currentParams["dbc"] || !currentParams["build"]){
 			// Don't bother doing anything else if no DBC is selected
+			console.log("No DBC or build selected, skipping table load.");
 			return;
 		}
+		Settings.filtersCurrentlyEnabled = false;
 
 		build = currentParams["build"];
 
+		$("#dbtable").html("<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>");
 		document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
-
+		document.getElementById('downloadCSVButton').classList.remove("disabled");
 		$("#loadingMessage").html("Loading..");
 
 		let apiArgs = currentParams["dbc"] + "/?build=" + currentParams["build"];
@@ -510,7 +517,7 @@ $dbFound = false;
 							}
 
 							if(enumMap.has(columnWithTable)){
-								var enumVal = getEnum(vars["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
+								var enumVal = getEnum(currentParams["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
 								if(full[meta.col] == '0' && enumVal == "Unk"){
 									// returnVar += full[meta.col];
 								}else{
@@ -620,6 +627,85 @@ $dbFound = false;
 			},
 			"dataType": "json"
 		});
+	}
+
+	let build;
+	let currentParams = [];
+
+	(function() {
+		$('#fileFilter').select2();
+		let vars = {};
+		let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			if(value.includes('#')){
+				const splitString = value.split('#');
+				vars[key] = splitString[0];
+			}else{
+				vars[key] = value;
+			}
+		});
+
+		if(vars["dbc"] == null){
+			currentParams["dbc"] = "";
+		}else{
+			currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
+		}
+
+		if(vars["locale"] == null){
+			currentParams["locale"] = "";
+		}else{
+			currentParams["locale"] = vars["locale"];
+		}
+
+		if(vars["build"] == null){
+			currentParams["build"] = "";
+			if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
+				currentParams["build"] = $('#buildFilter').val();
+			}
+		}else{
+			currentParams["build"] = vars["build"];
+		}
+
+		currentParams["hotfixes"] = false;
+		if(vars["hotfixes"] == "true"){
+			currentParams["hotfixes"] = true;
+		}
+
+		refreshFiles();
+		refreshVersions();
+		loadTable();
+
+		$('#fileFilter').on( 'change', function () {
+			if($(this).val() != "" && $(this).val() != "Select a table"){
+				currentParams["dbc"] = $(this).val();
+				if(document.getElementById("buildFilter")){
+					refreshVersions();
+					loadTable();
+				}else{
+					document.location = buildURL(currentParams);
+				}
+			}
+		});
+
+		$('#buildFilter').on('change', function(){
+			currentParams["build"] = $('#buildFilter').val();
+			loadTable();
+		});
+
+		$('#localeSelection').on('change', function(){
+			currentParams["locale"] = $('#localeSelection').val();
+			loadTable();
+		});
+
+		$('#hotfixToggle').on('change', function(){
+			if(document.getElementById('hotfixToggle').checked){
+				currentParams["hotfixes"] = true;
+			}else{
+				currentParams["hotfixes"] = false;
+			}
+			loadTable();
+		});
+
+		window.onpopstate = history.onpushstate = function(e) { console.log(e); }
 	}());
 </script>
 <?php require_once(__DIR__ . "/../inc/footer.php"); ?>
