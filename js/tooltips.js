@@ -53,6 +53,8 @@
 			}else{
 				hideTooltip(el);
 			}
+		}else if(tooltipType == 'file'){
+			generateFileTooltip(tooltipTargetValue, tooltipDiv);
 		}else{
 			console.log("Unsupported tooltip type " + tooltipType);
 			return;
@@ -332,6 +334,8 @@ function generateFKTooltip(targetFK, value, tooltip)
 
 			if(key.startsWith("Flags") || flagMap.has(table + "." + key)){
 				tooltipTable += "0x" + dec2hex(val);
+			}else if(targetFK == "PlayerCondition::ID" && key.endsWith("Logic")){
+				tooltipTable += val + " (" + parseLogic(val) + ")";
 			}else{
 				tooltipTable += val;
 			}
@@ -356,6 +360,52 @@ function generateFKTooltip(targetFK, value, tooltip)
 		tooltipDesc.innerHTML = tooltipTable;
 
 		repositionTooltip(tooltip);
+	}).catch(function (error) {
+		console.log("An error occurred retrieving data to generate the tooltip: " + error);
+		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
+	});
+}
+
+function generateFileTooltip(id, tooltip)
+{
+	console.log("Generating file tooltip for " + id);
+
+	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+
+	Promise.all([
+		fetch("https://api.wow.tools/files/" + id),
+		])
+	.then(function (responses) {
+		return Promise.all(responses.map(function (response) {
+			if(tooltipIcon == undefined || tooltipDesc == undefined){
+				console.log("Tooltip closed before rendering finished, nevermind");
+				return;
+			}
+			return response.json();
+		})).catch(function (error) {
+			console.log("An error occurred retrieving data to generate the tooltip: " + error);
+			tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
+		});
+	}).then(function (data) {
+		if(tooltipIcon == undefined || tooltipDesc == undefined){
+			console.log("Tooltip closed before rendering finished, nevermind");
+			return;
+		}
+
+		console.log(data);
+
+		const calcData = data[0];
+
+		let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2 class='q2'>FileDataID " + calcData["fileDataID"] + "</h2></td></tr>";
+		if(calcData["filename"] != null){
+			tooltipTable += "<tr><td>Filename</td><td>" + calcData["filename"] + "</td></tr>";
+			tooltipTable += "<tr><td>Official filename</td><td>" + calcData["isOfficialFilename"] + "</td></tr>";
+		}else{
+			tooltipTable += "<tr><td>Filename</td><td>Unknown</td></tr>";
+		}
+
+		tooltipDesc.innerHTML = tooltipTable;
 	}).catch(function (error) {
 		console.log("An error occurred retrieving data to generate the tooltip: " + error);
 		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;

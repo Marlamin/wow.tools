@@ -204,3 +204,13 @@ function getEnumVal(targetEnum, value){
 		return "Unk";
 	}
 }
+
+function parseLogic(l) { var i=0;var r = ""
+	if (l & (1 << (16 + i))) r+='!'; r+='#'+i
+	for (++i; i < 4; ++i) {
+	  let op = (l >> (2*(i-1))) & 3
+	  if (op == 1) r += ' | '; else if (op == 2) r+=' & '; else if (op == 0) continue
+	  if (l & (1 << (16 + i))) r+='!'; r+='#'+i
+	}
+	return r;
+}

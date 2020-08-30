@@ -494,7 +494,7 @@ $locales = [
 
 							if(meta.col in fkCols){
 								if(fkCols[meta.col] == "FileData::ID"){
-									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
+									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' data-tooltip='file' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' data-id='" + full[meta.col] + "' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
 								}else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
 									returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\",\"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 								}else if(fkCols[meta.col] == "Item::ID" && full[meta.col] > 0){
@@ -514,6 +514,8 @@ $locales = [
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
 							}else if(columnWithTable == "spell.ID"){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
+							}else if(currentParams["dbc"].toLowerCase() == "playercondition" && json["headers"][meta.col].endsWith("Logic") && full[meta.col] != 0){
+								returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
 							}
 
 							if(enumMap.has(columnWithTable)){
