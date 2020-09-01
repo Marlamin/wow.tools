@@ -360,6 +360,9 @@ $("#skinSelect").change(function() {
 
     if(display.length == 3 || display.length == 4){
         // Creature
+        if(display.length == 3){
+            Module._resetReplaceParticleColor();
+        }
         setModelTexture(display, 11);
     }else{
         // Item
@@ -517,14 +520,19 @@ function setModelTexture(textures, offset){
         if(offset == 11 && i == 3){
             var particleColorID = textures[3];
             console.log("Particle Color should be set to " + particleColorID);
-            // fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
-            // .then(function (response) {
-            //     return response.json();
-            // }).then(function (particleColorEntry) {
-            //     console.log(particleColorEntry.values);
-            // }).catch(function (error) {
-            //     console.log("An error occured retrieving particle colors for ID " + particleColorID);
-            // });
+            fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
+            .then(function (response) {
+                return response.json();
+            }).then(function (particleColorEntry) {
+                const row = particleColorEntry.values;
+                Module._setReplaceParticleColors(
+                    row["Start[0]"], row["Start[1]"], row["Start[2]"],
+                    row["MID[0]"], row["MID[1]"], row["MID[2]"],
+                    row["End[0]"], row["End[1]"], row["End[2]"]
+                );
+            }).catch(function (error) {
+                console.log("An error occured retrieving particle colors for ID " + particleColorID);
+            });
         }else{
             typedArray[offset + i] = textures[i];
             const inputTarget = offset + i;
