@@ -37,7 +37,7 @@ function getDBC($name, $build){
 		return $rows;
 	}
 }
-$build = "9.0.1.35679";
+$build = "9.0.1.35755";
 
 // Manually defined ChrModelMap, saves lots of lookups/DB loading!
 $chrModelMap = [];
