@@ -112,7 +112,7 @@ require_once(__DIR__ . "/../inc/header.php");
 				if(full[4] == 1){
 					return "Valid";
 				}else{
-					return "Invalidated";
+					return "Invalidated (" + full[4] + ")";
 				}
 			}
 		},

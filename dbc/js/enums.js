@@ -2621,6 +2621,20 @@ const itemEffectTriggerType = {
 	7: 'When obtained',
 }
 
+
+const encounterJournalSectionFlags = {
+	0: 'Tank',
+	1: 'DPS',
+	2: 'Healer'
+}
+
+const uiMapSystem = {
+	0: 'World',
+	1: 'Taxi',
+	2: 'Adventure',
+	3: 'Minimap'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2656,6 +2670,8 @@ enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
 enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
 enumMap.set("item.InventoryType", inventoryTypeEnum);
 enumMap.set("item.ClassID", itemClassEnum);
+enumMap.set("journalencountersection.Flags", encounterJournalSectionFlags);
+enumMap.set("uimap.System", uiMapSystem);
 
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);

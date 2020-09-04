@@ -485,6 +485,24 @@ const inventoryTypeMask = {
 	0x10000000: 'Relic'
 }
 
+const uiMapFlags = {
+	0x1: 'NoHighlight',
+	0x2: 'ShowOverlays',
+	0x4: 'ShowTaxiNodes',
+	0x8: 'GarrisonMap',
+	0x10: 'FallbackToParentMap',
+	0x20: 'NoHighlightTexture',
+	0x40: 'ShowTaskObjectives',
+	0x80: 'NoWorldPositions',
+	0x100: 'HideArchaeologyDigs',
+	0x200: 'Deprecated',
+	0x400: 'HideIcons',
+	0x800: 'HideVignettes',
+	0x1000: 'ForceAllOverlayExplored',
+	0x2000: 'FlightMapShowZoomOut',
+	0x4000: 'FlightMapAutoZoom'
+}
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -495,6 +513,7 @@ flagMap.set("itemsparse.Flags[2]", itemSparseFlags2);
 flagMap.set("itemsparse.Flags[3]", itemSparseFlags3);
 
 flagMap.set("playercondition.ClassMask", classMask);
+flagMap.set("itemsparse.AllowableClass", classMask);
 
 flagMap.set("charsections.Flags", charSectionFlags);
 
@@ -528,6 +547,7 @@ flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
 
 flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
+flagMap.set("uimap.Flags", uiMapFlags);
 // Conditional flags
 let conditionalFlags = new Map();
 conditionalFlags.set("chrcustomizationreq.ReqValue",
