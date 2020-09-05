@@ -8,3 +8,5 @@ fi
 cd /var/www/wow.tools/dbc/scripts/
 php updateHotfixes.php
 php updateCaches.php
+cd /home/wow/tactkeys/
+php update.php
