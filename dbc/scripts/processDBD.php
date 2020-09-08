@@ -17,6 +17,12 @@ foreach($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions WHERE
 	$versionTableCache[$tv['versionid']][] = $tv['tableid'];
 }
 
+$extractionDir = "/home/wow/dbcs/";
+$extractedVersions = [];
+foreach(glob($extractionDir . "*", GLOB_ONLYDIR) as $dir){
+	$extractedVersions[] = str_replace($extractionDir, "", $dir);
+}
+
 echo "[DBD processing] Parsing DBDs.";
 $dbdCache = [];
 foreach(glob("/home/wow/dbd/WoWDBDefs/definitions/*.dbd") as $dbd){
@@ -32,10 +38,24 @@ foreach($versionTableCache as $versionID => $versions){
 
 	foreach($versions as $tableID){
 		$versionCompat = false;
+		$layouthash = "";
 
 		$table = $tableCacheByID[$tableID];
 		if(!array_key_exists(strtolower($table), $dbdCache)){
 			continue;
+		}
+
+		if(!$versionCompat && in_array($version, $extractedVersions)){
+			// Read table on disk and find layouthash
+			$db2 = $extractionDir . $version . "/dbfilesclient/" . $tableCacheByID[$tableID] . ".db2";
+			if(file_exists($db2) && $build->build > 28048){
+				$file = fopen($db2, "r");
+				fseek($file, 20);
+				$header = fread($file, 8);
+				$val = unpack("VTableHash/VLayoutHash", $header);
+				$layouthash = strtoupper(str_pad(dechex($val['LayoutHash']), 8, '0', STR_PAD_LEFT));
+				fclose($file);
+			}
 		}
 
 		foreach($dbdCache[strtolower($table)]['versionDefinitions'] as $versionDef){
@@ -48,6 +68,15 @@ foreach($versionTableCache as $versionID => $versions){
 					$versionCompat = true;
 				}
 			}
+
+			if(!empty($layouthash) && in_array($layouthash, $versionDef['layoutHashes'])){
+				echo "[DBD processing] Table " . $tableCacheByID[$tableID] . " for build " . $version . " has compatible layouthash: " . $layouthash."\n";
+				$versionCompat = true;
+			}
+		}
+
+		if(!empty($layouthash) && !$versionCompat){
+			// echo "No compatible definition found for " . $tableCacheByID[$tableID] . " for build " . $version . ", layouthash: " . $layouthash."\n";
 		}
 
 		if($versionCompat){
