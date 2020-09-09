@@ -31,9 +31,10 @@ php dumpDBC.php
 php ../../dbc/scripts/buildMap.php
 php ../../dbc/scripts/processDBD.php
 php updateGameData.php
-php ../../files/scripts/addMDINames.php
 php encrypted.php
 php fixBranches.php
 php ../../files/scripts/updateSizes.php
 cd /home/wow/autodbd/
 php update.php
+cd /var/www/wow.tools/files/scripts/
+php addMDINames.php
