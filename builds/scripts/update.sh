@@ -6,7 +6,7 @@ else
         exit
 fi
 
-cd /home/wow/buildbackup/
+cd /home/wow/buildbackup2/
 /usr/bin/dotnet BuildBackup.dll partialdl
 cd /var/www/wow.tools/builds/scripts/
 echo "Processing buildconfigs.."
