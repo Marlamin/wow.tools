@@ -363,7 +363,22 @@ const criteriaAdditionalCondition = {
 	282: 'HAS_ENTITLEMENT',
 	283: 'HAS_QUEST_SESSION',
 	284: 'UNK_284',
-	285: 'UNK_285'
+	285: 'UNK_285',
+	286: 'UNK_286',
+	287: 'UNK_287',
+	288: 'UNK_288',
+	289: 'UNK_289',
+	290: 'UNK_290',
+	291: 'UNK_291',
+	298: 'UNK_298',
+	299: 'UNK_299',
+	300: 'UNK_300',
+	301: 'UNK_301',
+	302: 'UNK_302',
+	303: 'UNK_303',
+	305: 'UNK_305',
+	307: 'UNK_307',
+	308: 'UNK_308'
 };
 
 const itemStatType = {
@@ -1009,11 +1024,13 @@ const criteriaType = {
     213: 'REACH_ACCOUNT_HONOR_LEVEL',
     214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED',
     215: 'HEART_OF_AZEROTH_LEVEL_REACHED',
-    // 216: '216',
-    // 217: '217',
-    // 218: '218',
-    // 219: '219',
-    // 220: '220',
+    216: 'MYTHIC_KEYSTONE_RELATED',
+    219: 'BOUGHT_ITEM_FROM_VENDOR',
+    220: 'SOLD_ITEM_TO_VENDOR',
+    225: 'TRAVELED_TO_AREA',
+    228: 'CONDUIT_RELATED',
+    229: 'ANIMA_DEPOSITED',
+
 }
 
 const componentSection = {

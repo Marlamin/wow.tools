@@ -452,6 +452,7 @@ const spellAttributes12 = {
 
 const spellAttributes13 = {
     0x00040000: 'ACTIVATES_REQUIRED_SHAPESHIFT', // 18
+    0x00400000: 'IS_ALWAYS_SHOWN'
 };
 
 const inventoryTypeMask = {
