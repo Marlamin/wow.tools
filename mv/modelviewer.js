@@ -348,6 +348,10 @@ window.addEventListener('keypress', function(event){
     if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
+
+    if(event.key == "Z" && event.shiftKey){
+        toggleUI();
+    }
 }, true);
 
 $("#animationSelect").change(function () {
@@ -369,6 +373,12 @@ $("#skinSelect").change(function() {
         setModelTexture(display, 2);
     }
 });
+
+function toggleUI(){
+    $(".navbar").toggle();
+    $("#js-sidebar-button").toggle();
+    $("#js-controls").toggle();
+}
 
 function loadModel(type, filedataid, buildconfig, cdnconfig){
     Current.buildConfig = buildconfig;
