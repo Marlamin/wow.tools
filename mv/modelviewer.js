@@ -21,9 +21,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "9905771dc8b4163f0e4c5ca18caa55d9",
-    cdnConfig: "cc664480ac1c4ace35efd2d51ead4de5",
-    buildName: "9.0.1.35755",
+    buildConfig: "81345e9f0c12583dd8c6e45e31d6a0c2",
+    cdnConfig: "351b01520795ba0a074cf9823143809d",
+    buildName: "9.0.2.35854",
     fileDataID: 397940,
     type: "m2",
     embedded: false
@@ -216,16 +216,19 @@ window.createscene = function () {
 
     Module["animationArrayCallback"] = function(array) {
         $("#animationSelect").empty();
-        $("#js-controls").removeClass("closed");
-        $("#animationSelect").show();
 
-        array.forEach(function(a) {
-            if(a in animationNames){
-                $('#animationSelect').append('<option value="' + a + '">' + animationNames[a] + ' (' + a + ')</option>');
-            }else{
-                $('#animationSelect').append('<option value="' + a + '">Animation ' + a + '</option>');
-            }
-        })
+        if(array.length > 1){
+            $("#animationSelect").show();
+            $("#js-controls").removeClass("closed");
+
+            array.forEach(function(a) {
+                if(a in animationNames){
+                    $('#animationSelect').append('<option value="' + a + '">' + animationNames[a] + ' (' + a + ')</option>');
+                }else{
+                    $('#animationSelect').append('<option value="' + a + '">Animation ' + a + '</option>');
+                }
+            })
+        }
 
     };
 
