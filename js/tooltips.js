@@ -40,7 +40,7 @@
 		el.appendChild(tooltipDiv);
 
 		if(tooltipType == 'spell'){
-			generateSpellTooltip(tooltipTargetValue, tooltipDiv);
+			generateSpellTooltip(tooltipTargetValue, tooltipDiv, localBuild);
 		}else if(tooltipType == 'item'){
 			generateItemTooltip(tooltipTargetValue, tooltipDiv, localBuild);
 		}else if(tooltipType == 'creature'){
@@ -243,7 +243,7 @@ function generateItemTooltip(id, tooltip, build){
 	});
 }
 
-function generateSpellTooltip(id, tooltip)
+function generateSpellTooltip(id, tooltip, build)
 {
 	console.log("Generating spell tooltip for " + id);
 
