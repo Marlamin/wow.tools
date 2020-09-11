@@ -103,7 +103,12 @@ require_once(__DIR__ . "/../inc/header.php");
 		{
 			"targets": 2,
 			"render": function ( data, type, full, meta ) {
-				return "<a href='#' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[2] + ", \"" + full[1].toLowerCase() + "::ID" + "\", \"" + full[3] + "\")'>" + full[2] + "</a>";
+				if(full[1].toLowerCase() == "spellname"){
+					var build = full[3];
+					return "<a href='#' data-tooltip='spell' data-build='" + full[3] + "' data-id='" + full[2] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[2] + ", \"" + full[1].toLowerCase() + "::ID" + "\", \"" + full[3] + "\")'>" + full[2] + "</a>";
+				}else{
+					return "<a href='#' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[2] + ", \"" + full[1].toLowerCase() + "::ID" + "\", \"" + full[3] + "\")'>" + full[2] + "</a>";
+				}
 			}
 		},
 		{
