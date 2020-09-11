@@ -59,6 +59,9 @@
 						$encrypted = "";
 					}
 
+					if($highestBuildName == "<i>Unknown</i>" && $buildTime == "<i>Unknown</i>")
+						continue;
+
 					echo "<tr><td>".str_replace("WoW ", "", str_replace(" Versions", "", $row['name'])) . $encrypted . "</td><td>" . $highestBuildName."</td><td>".$buildTime."</td></tr>";
 				}
 				?>
@@ -79,7 +82,7 @@
 			<table class='table table-condensed table-striped table-hover' style='width: 100%'>
 			<thead><tr><th>Amount</th><th>User</th><th>Date</th><th>Status</th></tr></thead>
 			<?php
-			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,7")->fetchAll();
+			$suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
 			$i = 0;
 			foreach($suggestions as $row){
 				if($i > 5)
