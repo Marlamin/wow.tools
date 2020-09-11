@@ -34,7 +34,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 		<div class='col-md-11'>
 			<div class="btn-group" role="group">
 				<button style='margin-left: 48px;' class='btn btn-mv btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
-				<a class='btn btn-mv btn-sm' href='#' data-toggle='modal' data-target='#changelogModal'><i class='fa fa-bug'></i> Changelog</a>
+				<!-- <a class='btn btn-mv btn-sm' href='#' data-toggle='modal' data-target='#changelogModal'><i class='fa fa-bug'></i> Changelog</a> -->
 				<button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#helpModal'><i class='fa fa-info-circle'></i> Help/About</button>
 				<button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#textureModal'>Tex debug</button>
 			</div>
@@ -184,7 +184,9 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 				</p>
 				<h5>Controls</h5>
 				<p>
-					For ADTs and WMOs, the model viewer uses a free-roam camera. It can be controlled via dragging the mouse and <tt>WASD</tt> keys. Holding <tt>SHIFT</tt> increases camera speed.<br><br>
+					<kbd>SHIFT-Z</kbd> hides the UI.<br><br>
+					<kbd>Spacebar</kbd> pauses the current model.<br><br>
+					For ADTs and WMOs, the model viewer uses a free-roam camera. It can be controlled via dragging the mouse and <kbd>WASD</kbd> keys. Holding <kbd>SHIFT</kbd> increases camera speed.<br><br>
 					For M2s, the model viewer uses a rotational camera. You can rotate the model by dragging the mouse and zoom out with the scroll wheel. If skins/animations are available, a menu will pop up with options for these.
 				</p>
 				<h5>Issues</h5>
