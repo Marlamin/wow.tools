@@ -21,7 +21,7 @@ echo "Processing buildconfigs (long)"
 php process.php buildconfiglong
 php updateRoot.php
 php updateRootFileMap.php
-cd /home/wow/buildbackup/
+cd /home/wow/buildbackup2/
 /usr/bin/dotnet BuildBackup.dll
 cd /var/www/wow.tools/builds/scripts/
 php status.php
