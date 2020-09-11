@@ -63,6 +63,18 @@ if(strlen($argv[1]) == 32){
 
 $unkCheckQ = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE id = ?");
 
+$screeneffect = getDBC("screeneffect", $buildName);
+$screenEffectMap = [];
+foreach($screeneffect as $se){
+	if($se['Effect'] != 6)
+		continue;
+
+	$screenEffectMap[$se['Param[0]']][] = $se['Name'];
+}
+
+ksort($screenEffectMap);
+print_r($screenEffectMap);
+
 $light = getDBC("light", $buildName);
 $lightParams = getDBC("lightparams", $buildName);
 $lightData = getDBC("lightdata", $buildName);
