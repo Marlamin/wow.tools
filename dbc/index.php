@@ -197,6 +197,8 @@ $locales = [
 		changedVersionsOnly: false
 	}
 
+	let clearState = false;
+
 	function saveSettings(){
 		if(document.getElementById("tooltipToggle").checked){
 			localStorage.setItem('settings[tooltipToggle]', '1');
@@ -264,10 +266,19 @@ $locales = [
 
 	function toggleFilters(){
 		if(!Settings.filtersCurrentlyEnabled){
+			$("#filterToggle").text("Disable filters");
+			$("#filterToggle").addClass("btn-outline-danger");
+			$("#filterToggle").removeClass("btn-outline-success");
+			$("#filterToggle").removeClass("btn-outline-primary");
 			$("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
 			$("#tableContainer thead tr:eq(1) th").each( function (i) {
 				var title = $(this).text();
+
 				$(this).html( '<input type="text"/>' );
+
+				if($('#dbtable').DataTable().column(i).search() != ""){
+					$( 'input', this).val(decodeURIComponent($('#dbtable').DataTable().column(i).search()));
+				}
 
 				$( 'input', this ).on( 'keyup change', function () {
 					if ( $('#dbtable').DataTable().column(i).search() !== this.value ) {
@@ -279,11 +290,24 @@ $locales = [
 					e.stopPropagation();
 				});
 			} );
+
 			Settings.filtersCurrentlyEnabled = true;
 		}else{
+			$("#filterToggle").text("Enable filters");
+			$("#filterToggle").addClass("btn-outline-success");
+			$("#filterToggle").removeClass("btn-outline-danger");
+			$("#filterToggle").removeClass("btn-outline-primary");
+
+			$("#tableContainer thead tr:eq(1) th").each( function (i) {
+				$('#dbtable').DataTable().column(i).search("");
+			});
+
 			$("#tableContainer thead tr:eq(1)").remove();
+
 			Settings.filtersCurrentlyEnabled = false;
 		}
+
+		$('#dbtable').DataTable().draw('page');
 	}
 
 	function buildURL(currentParams){
@@ -455,12 +479,32 @@ $locales = [
 					searchString = decodeURIComponent(searchString);
 				}
 
-				const page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
+				let page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
 				let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
 				$.fn.dataTable.ext.errMode = 'none';
 				$('#dbtable').on( 'error.dt', function ( e, settings, techNote, message ) {
 					console.log( 'An error occurred: ', message );
 				});
+
+				var colSearchSet = false;
+				var colSearches = [];
+
+				if(!clearState){
+					for(let i = 0; i < json['headers'].length; i++){
+						var colSearch = searchHash.substr(searchHash.indexOf('colFilter[' + i + ']=')).split('&')[0].split('=')[1];
+						if(colSearch != undefined && colSearch != ""){
+							colSearches.push({search: decodeURIComponent(colSearch)});
+							colSearchSet = true;
+						}else{
+							colSearches.push(null);
+						}
+					}
+				}else{
+					console.log("Clearing state");
+					page = 0;
+					clearState = false;
+				}
+
 				var table = $('#dbtable').DataTable({
 					"processing": true,
 					"serverSide": true,
@@ -483,8 +527,9 @@ $locales = [
 					"orderMulti": false,
 					"ordering": true,
 					"order": [], // Sets default order to nothing (as returned by backend)
-					"language": { "search": "<a class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
+					"language": { "search": "<a id='filterToggle' class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
 					"search": { "search": searchString },
+					"searchCols": colSearches,
 					"columnDefs": [
 					{
 						"targets": allCols,
@@ -606,6 +651,9 @@ $locales = [
 
 				$('#dbtable').on ('init.dt', function () {
 					if(Settings.filtersAlwaysEnabled){ toggleFilters(); };
+					if(colSearchSet && !Settings.filtersAlwaysEnabled && !Settings.filtersCurrentlyEnabled){
+						toggleFilters();
+					}
 				});
 
 				$('#dbtable').on( 'draw.dt', function () {
@@ -617,6 +665,16 @@ $locales = [
 					const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
 					if(currentSearch != ""){
 						hashPart += "&search=" + currentSearch;
+					}
+
+					const columnSearches = $('#dbtable').DataTable().columns().search();
+					for(let i = 0; i < columnSearches.length; i++){
+						var colSearch = columnSearches[i];
+
+						if(colSearch == "")
+							continue;
+
+						hashPart += "&colFilter[" + i + "]=" + encodeURIComponent(colSearch);
 					}
 
 					window.location.hash = hashPart;
@@ -680,6 +738,8 @@ $locales = [
 			if($(this).val() != "" && $(this).val() != "Select a table"){
 				currentParams["dbc"] = $(this).val();
 				if(document.getElementById("buildFilter")){
+					// TODO: Clear table specific state (page, filters)
+					clearState = true;
 					refreshVersions();
 					loadTable();
 				}else{
