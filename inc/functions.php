@@ -190,6 +190,10 @@ function prettyBranch($branch, $realPretty = true){
 		$color = "secondary";
 		$branch = "Event 3";
 		break;
+		case "wowlivetest":
+		$color = "secondary";
+		$branch = "Live Test";
+		break;
 		default:
 		$color = "danger";
 		$branch = "unknown (".$branch.")";
