@@ -25,7 +25,7 @@
 		let tooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=bf24b9d67a4a9c7cc0ce59d63df459a8&cdnconfig=2b5b60cdbcd07c5f88c23385069ead40&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
 		if(el.children.length == 0){
 		// Replace with generated
-		let tooltipDiv = document.createElement("div");
+		const tooltipDiv = document.createElement("div");
 		tooltipDiv.innerHTML = tooltipHTML;
 		tooltipDiv.style.position = "absolute";
 		tooltipDiv.style.zIndex = 5;
@@ -55,6 +55,8 @@
 			}
 		}else if(tooltipType == 'file'){
 			generateFileTooltip(tooltipTargetValue, tooltipDiv);
+		}else if(tooltipType == 'criteria'){
+			generateCriteriaTooltip(tooltipTargetValue, tooltipDiv, localBuild);
 		}else{
 			console.log("Unsupported tooltip type " + tooltipType);
 			return;
@@ -66,8 +68,8 @@ function generateQuestTooltip(id, tooltip)
 {
 	console.log("Generating quest tooltip for " + id);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	fetch("/db/quest_api.php?id=" + id, {cache: "force-cache"})
 	.then(function (response) {
@@ -92,12 +94,51 @@ function generateQuestTooltip(id, tooltip)
 	});
 }
 
+function generateCriteriaTooltip(id, tooltip, build)
+{
+	console.log("Generating criteria tooltip for " + id);
+
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
+
+	fetch("/dbc/experiments/criteriaExplorer.php?api=1&id=" + id, {cache: "force-cache"})
+	.then(function (response) {
+		return response.json();
+	}).then(function (criteriaEntry) {
+		if(tooltipIcon == undefined || tooltipDesc == undefined){
+			console.log("Tooltip closed before rendering finished, nevermind");
+			return;
+		}
+
+		console.log(criteriaEntry);
+		if(criteriaEntry["error"] !== undefined){
+			tooltipDesc.innerHTML = "An error occured: " + criteriaEntry["error"];
+			return;
+		}
+
+		let description = criteriaEntry["Description_lang"];
+		if(description == ""){
+			description = "CriteriaTree ID " + criteriaEntry["ID"];
+		}
+		tooltipDesc.innerHTML = "<h2>" + criteriaEntry["Description_lang"] + "</h2>";
+		tooltipDesc.innerHTML += "<p class='yellow'>" + criteriaTreeOperatorFriendly[criteriaEntry["Operator"]] + "</p>";
+
+		criteriaEntry["Children"].forEach(function(child){
+			tooltipDesc.innerHTML += child["Description_lang"] + "<br>";
+		})
+
+	}).catch(function (error) {
+		console.log("An error occurred retrieving data to generate the tooltip: " + error);
+		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
+	});
+}
+
 function generateCreatureTooltip(id, tooltip)
 {
 	console.log("Generating creature tooltip for " + id);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	fetch("/db/creature_api.php?id=" + id, {cache: "force-cache"})
 	.then(function (response) {
@@ -140,8 +181,8 @@ function generateCreatureTooltip(id, tooltip)
 function generateItemTooltip(id, tooltip, build){
 	console.log("Generating item tooltip for " + id);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	Promise.all([
 		fetch("/dbc/api/tooltip/item/" + id + "?build=" + build),
@@ -247,8 +288,8 @@ function generateSpellTooltip(id, tooltip, build)
 {
 	console.log("Generating spell tooltip for " + id);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	Promise.all([
 		fetch("/dbc/api/tooltip/spell/" + id + "?build=" + build),
@@ -289,8 +330,8 @@ function generateFKTooltip(targetFK, value, tooltip)
 {
 	console.log("Generating foreign key tooltip for " + value);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	const explodedTargetFK = targetFK.split("::");
 	const table = explodedTargetFK[0].toLowerCase();
@@ -370,8 +411,8 @@ function generateFileTooltip(id, tooltip)
 {
 	console.log("Generating file tooltip for " + id);
 
-	let tooltipIcon = tooltip.querySelector(".tooltip-icon img");
-	let tooltipDesc = tooltip.querySelector(".tooltip-desc");
+	const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+	const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
 	Promise.all([
 		fetch("https://api.wow.tools/files/" + id),
