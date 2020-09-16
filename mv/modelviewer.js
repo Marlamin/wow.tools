@@ -229,7 +229,6 @@ window.createscene = function () {
                 }
             })
         }
-
     };
 
     var renderfunc = function(now){
