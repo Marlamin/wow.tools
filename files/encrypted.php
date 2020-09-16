@@ -72,7 +72,7 @@ $cmfq = $pdo->prepare("SELECT * FROM wowdata.componentmodelfiledata WHERE ID IN 
 $csdq = $pdo->prepare("SELECT * FROM wowdata.creaturesounddata WHERE ID = ?");
 $contenthashMatchQ = $pdo->prepare("SELECT filedataid, contenthash FROM wow_rootfiles_chashes WHERE contenthash IN (SELECT contenthash FROM wow_rootfiles_chashes WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname = ?)) AND filedataid NOT IN (SELECT filedataid FROM wow_encrypted)
 ");
-foreach($pdo->query("SELECT * FROM wow_tactkey WHERE id > 232 ORDER BY id DESC") as $tactkey){
+foreach($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC") as $tactkey){
 
 	$encryptedfileq->execute([$tactkey['keyname']]);
 	$filesforkey = $encryptedfileq->fetchAll(PDO::FETCH_ASSOC);
