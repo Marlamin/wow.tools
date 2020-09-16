@@ -524,6 +524,7 @@ $locales = [
 					"displayStart": page * 25,
 					"autoWidth": true,
 					"pagingType": "input",
+					"lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
 					"orderMulti": false,
 					"ordering": true,
 					"order": [], // Sets default order to nothing (as returned by backend)
@@ -585,7 +586,7 @@ $locales = [
 									// Col target found?
 									if(colTarget > -1){
 										if(full[colTarget] == conditionValue){
-											returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + resultTarget + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
+											returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + resultTarget + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + resultTarget + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
 										}
 									}
 								});

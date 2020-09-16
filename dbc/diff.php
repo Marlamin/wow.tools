@@ -128,6 +128,7 @@ $(function() {
 	    			"pageLength": 25,
 	    			"ordering": false,
 	    			"bFilter": false,
+	    			"lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
 	    			"pagingType": "input",
 	    			"columnDefs": [{
 	    				"targets": "_all",
