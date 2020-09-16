@@ -15,12 +15,12 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 ?>
 <div class="container-fluid" style='margin-top: 15px;'>
 	<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
-		<input type="checkbox" autocomplete="off" id="idLessToggle" CHECKED> Show keys without ID
+		<input type="checkbox" autocomplete="off" id="idLessToggle"> Show keys without ID
 	</label>
 	<? if(!empty($_GET['build'])){
 		$build = $_GET['build'];
 	}else{
-		$build = "9.0.1.35755";
+		$build = "9.0.2.35854";
 	}
 	?>
 	<div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>
@@ -30,7 +30,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 		var tactkeys = <?=json_encode($tactkeys)?>;
 		var encrypted = <?=json_encode($encrypted)?>;
 		var build = "<?=$build?>";
-		var showIDLess = true;
+		var showIDLess = false;
 
 		function loadBuild(build, showIDLess){
 			var output = new Array();
