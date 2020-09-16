@@ -1,6 +1,7 @@
 <?php
 require_once("../inc/header.php");
 
+die("Realm status has been disabled for months with a giant red alert why are you still here");
 // https://stackoverflow.com/questions/1416697/converting-timestamp-to-time-ago-in-php-e-g-1-day-ago-2-days-ago
 function time_elapsed_string($datetime, $full = false) {
 	$now = new DateTime;
@@ -173,6 +174,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
 	</ul>
 	<div class="tab-content" style='margin-top: 5px'>
 		<?php
+		die();
 		$firstTab = true;
 		foreach($groupedRealms as $region => $categories){
 			$firstNav = true;
