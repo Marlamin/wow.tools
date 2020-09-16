@@ -69,13 +69,23 @@ const criteriaTreeOperator = {
     9: 'SUM_CHILDREN_WEIGHT'
 }
 
+const criteriaTreeOperatorFriendly = {
+    0: 'Requires just one of:',
+    1: 'SINGLE_NOT_COMPLETED',
+    4: 'Requires all of:',
+    5: 'Sum of:',
+    6: 'MAX_CHILD',
+    7: 'COUNT_DIRECT_CHILDREN',
+    8: 'Requires any of:',
+    9: 'SUM_CHILDREN_WEIGHT'
+}
+
 const modifierTreeOperator = {
     2: 'SingleTrue',
     3: 'SingleFalse',
     4: 'All',
     8: 'Some'
 };
-
 
 const criteriaAdditionalCondition = {
 	0: 'NONE',
@@ -375,7 +385,7 @@ const criteriaAdditionalCondition = {
 	300: 'UNK_300',
 	301: 'UNK_301',
 	302: 'UNK_302',
-	303: 'UNK_303',
+	303: 'RUNEFORGED_LEGENDARY_ABILITY',
 	305: 'UNK_305',
 	307: 'UNK_307',
 	308: 'UNK_308'
@@ -717,6 +727,7 @@ const spellEffectName = {
     198: 'PLAY_SCENE',
     200: 'HEAL_BATTLEPET_PCT',
     201: 'ENABLE_BATTLE_PETS',
+    202: 'APPLY_AURA_ON_?',
     204: 'CHANGE_BATTLEPET_QUALITY',
     205: 'LAUNCH_QUEST_CHOICE',
     206: 'ALTER_ITEM',
@@ -1029,8 +1040,7 @@ const criteriaType = {
     220: 'SOLD_ITEM_TO_VENDOR',
     225: 'TRAVELED_TO_AREA',
     228: 'CONDUIT_RELATED',
-    229: 'ANIMA_DEPOSITED',
-
+    229: 'ANIMA_DEPOSITED'
 }
 
 const componentSection = {
@@ -2638,18 +2648,68 @@ const itemEffectTriggerType = {
 	7: 'When obtained',
 }
 
-
-const encounterJournalSectionFlags = {
-	0: 'Tank',
-	1: 'DPS',
-	2: 'Healer'
-}
-
 const uiMapSystem = {
 	0: 'World',
 	1: 'Taxi',
 	2: 'Adventure',
 	3: 'Minimap'
+}
+
+const garrAbilityAction = {
+    0: 'COUNTER_MECHANIC',
+    1: 'SOLO_MISSION',
+    2: 'MOD_SUCCESS_CHANCE',
+    3: 'MOD_TRAVEL_TIME',
+    4: 'MOD_XP',
+    5: 'FRIENDLY_RACE',
+    6: 'LONG_MISSION',
+    7: 'SHORT_MISSION',
+    8: 'MOD_CURRENCY',
+    9: 'LONG_TRAVEL',
+    10: 'SHORT_TRAVEL',
+    11: 'MOD_BIAS',
+    12: 'PROFESSION',
+    13: 'MOD_BRONZE_LOOT_CHANCE',
+    14: 'MOD_SILVER_LOOT_CHANCE',
+    15: 'MOD_GOLD_LOOT_CHANCE',
+    16: 'MOD_ALL_LOOT_CHANCE',
+    17: 'MOD_MISSION_TIME',
+    18: 'MENTORING',
+    19: 'MOD_GOLD',
+    20: 'PREVENT_DEATH',
+    21: 'TREASURE_ON_MISSION_SUCCESS',
+    22: 'FRIENDLY_CLASS',
+    23: 'ADVANTAGE_MECHANIC',
+    24: 'MOD_SUCCESS_PER_DURABILITY',
+    25: 'MOD_SUCCESS_DURABILITY_IN_RANGE',
+    26: 'FRIENDLY_FOLLOWER',
+    27: 'KILL_TROOPS',
+    28: 'MOD_DURABILITY_COST',
+    29: 'MOD_BONUS_LOOT_CHANCE',
+    30: 'MOD_XP_FLAT',
+    31: 'MOD_ITEMLEVEL',
+    32: 'MOD_STARTING_DURABILITY',
+    33: 'UNIQUE_TROOPS',
+    34: 'MOD_CLASSSPEC_LIMIT',
+    35: 'TROOP_RESURRECTION',
+    36: 'MOD_COST_BY_RACE',
+    37: 'REWARD_ON_WORLD_QUEST_COMPLETE',
+    38: 'MOD_SUCCESS_BY_MISSIONS_IN_PROGRESS',
+    39: 'MOD_MISSION_COST'
+}
+
+const garrAbilityTargetType = {
+	0: 'None',
+	1: 'Self',
+	2: 'Party',
+	3: 'Race',
+	4: 'Class',
+	5: 'Gender',
+	6: 'Profession',
+	7: 'NotSelf',
+	8: 'NotRace',
+	9: 'NotClass',
+	10: 'NotProfession'
 }
 
 // Regular enums
@@ -2687,8 +2747,9 @@ enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
 enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
 enumMap.set("item.InventoryType", inventoryTypeEnum);
 enumMap.set("item.ClassID", itemClassEnum);
-enumMap.set("journalencountersection.Flags", encounterJournalSectionFlags);
 enumMap.set("uimap.System", uiMapSystem);
+enumMap.set("garrabilityeffect.AbilityAction", garrAbilityAction);
+enumMap.set("garrabilityeffect.AbilityTargetType", garrAbilityTargetType);
 
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
@@ -2788,6 +2849,7 @@ conditionalFKs.set("criteria.Asset",
 		['criteria.Type=27','questv2::ID'],
 		['criteria.Type=29','spell::ID'],
 		['criteria.Type=36','item::ID'],
+		['criteria.Type=165','dungeonencounter::ID'],
 	]
 );
 

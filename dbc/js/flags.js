@@ -504,6 +504,34 @@ const uiMapFlags = {
 	0x4000: 'FlightMapAutoZoom'
 }
 
+const garrAbilityFlags =
+{
+    0x1: 'IS_TRAIT',
+    0x2: 'NO_RANDOM_SELECTION',
+    0x4: 'HORDE_ONLY',
+    0x8: 'ALLIANCE_ONLY',
+    0x10: 'NO_REROLL',
+    0x20: 'FIRST_SLOT_ONLY',
+    0x40: 'SINGLE_MISSION_DURATION',
+    0x80: 'ACTIVE_ONLY_ON_ZONE_SUPPORT',
+    0x100: 'APPLY_TO_FIRST_MISSION',
+    0x200: 'IS_SPECIALIZATION',
+    0x400: 'IS_EMPTY_SLOT'
+}
+
+const garrAbilityEffectFlags =
+{
+	0x1: 'NOT_BENEFICIAL'
+}
+
+const garrMissionFlags = {
+	0x1: 'IsRare',
+	0x2: 'IsElite',
+	0x4: 'AppliesFatique',
+	0x8: 'AlwaysFail',
+	0x10: 'IsZoneSupport'
+}
+
 window.flagMap = new Map();
 
 flagMap.set("achievement.Flags", achievementFlags);
@@ -549,6 +577,10 @@ flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
 
 flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
 flagMap.set("uimap.Flags", uiMapFlags);
+flagMap.set("garrability.Flags", garrAbilityFlags);
+flagMap.set("garrabilityeffect.Flags", garrAbilityEffectFlags);
+flagMap.set("garrmision.Flags", garrMissionFlags);
+
 // Conditional flags
 let conditionalFlags = new Map();
 conditionalFlags.set("chrcustomizationreq.ReqValue",
