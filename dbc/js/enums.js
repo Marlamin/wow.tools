@@ -909,6 +909,7 @@ const criteriaType = {
     55: 'HEALING_DONE',
     56: 'GET_KILLING_BLOWS',
     57: 'EQUIP_ITEM',
+    58: 'QUEST_SORT',
     59: 'MONEY_FROM_VENDORS',
     60: 'GOLD_SPENT_FOR_TALENTS',
     61: 'NUMBER_OF_TALENT_RESETS',
@@ -2849,6 +2850,7 @@ conditionalFKs.set("criteria.Asset",
 		['criteria.Type=27','questv2::ID'],
 		['criteria.Type=29','spell::ID'],
 		['criteria.Type=36','item::ID'],
+		['criteria.Type=58','questsort::ID'],
 		['criteria.Type=165','dungeonencounter::ID'],
 	]
 );
