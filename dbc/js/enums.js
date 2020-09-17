@@ -853,195 +853,199 @@ const uiMapType = {
 }
 
 const criteriaType = {
-    0: 'KILL_CREATURE',
-    1: 'WIN_BG',
-    3: 'COMPLETE_ARCHAEOLOGY_PROJECTS',
-    4: 'SURVEY_GAMEOBJECT',
-    5: 'REACH_LEVEL',
-    6: 'CLEAR_DIGSITE',
-    7: 'REACH_SKILL_LEVEL',
-    8: 'COMPLETE_ACHIEVEMENT',
-    9: 'COMPLETE_QUEST_COUNT',
-    10: 'COMPLETE_DAILY_QUEST_DAILY',
-    11: 'COMPLETE_QUESTS_IN_ZONE',
-    12: 'CURRENCY',
-    13: 'DAMAGE_DONE',
-    14: 'COMPLETE_DAILY_QUEST',
-    15: 'COMPLETE_BATTLEGROUND',
-    16: 'DEATH_AT_MAP',
-    17: 'DEATH',
-    18: 'DEATH_IN_DUNGEON',
-    19: 'COMPLETE_RAID',
-    20: 'KILLED_BY_CREATURE',
-    21: 'MANUAL_COMPLETE_CRITERIA',
-    22: 'COMPLETE_CHALLENGE_MODE_GUILD',
-    23: 'KILLED_BY_PLAYER',
-    24: 'FALL_WITHOUT_DYING',
-    26: 'DEATHS_FROM',
-    27: 'COMPLETE_QUEST',
-    28: 'BE_SPELL_TARGET',
-    29: 'CAST_SPELL',
-    30: 'BG_OBJECTIVE_CAPTURE',
-    31: 'HONORABLE_KILL_AT_AREA',
-    32: 'WIN_ARENA',
-    33: 'PLAY_ARENA',
-    34: 'LEARN_SPELL',
-    35: 'HONORABLE_KILL',
-    36: 'OWN_ITEM',
-    37: 'WIN_RATED_ARENA',
-    38: 'HIGHEST_TEAM_RATING',
-    39: 'HIGHEST_PERSONAL_RATING',
-    40: 'LEARN_SKILL_LEVEL',
-    41: 'USE_ITEM',
-    42: 'LOOT_ITEM',
-    43: 'EXPLORE_AREA',
-    44: 'OWN_RANK',
-    45: 'BUY_BANK_SLOT',
-    46: 'GAIN_REPUTATION',
-    47: 'GAIN_EXALTED_REPUTATION',
-    48: 'VISIT_BARBER_SHOP',
-    49: 'EQUIP_EPIC_ITEM',
-    50: 'ROLL_NEED_ON_LOOT',
-    51: 'ROLL_GREED_ON_LOOT',
-    52: 'HK_CLASS',
-    53: 'HK_RACE',
-    54: 'DO_EMOTE',
-    55: 'HEALING_DONE',
-    56: 'GET_KILLING_BLOWS',
-    57: 'EQUIP_ITEM',
-    58: 'QUEST_SORT',
-    59: 'MONEY_FROM_VENDORS',
-    60: 'GOLD_SPENT_FOR_TALENTS',
-    61: 'NUMBER_OF_TALENT_RESETS',
-    62: 'MONEY_FROM_QUEST_REWARD',
-    63: 'GOLD_SPENT_FOR_TRAVELLING',
-    64: 'DEFEAT_CREATURE_GROUP',
-    65: 'GOLD_SPENT_AT_BARBER',
-    66: 'GOLD_SPENT_FOR_MAIL',
-    67: 'LOOT_MONEY',
-    68: 'USE_GAMEOBJECT',
-    69: 'BE_SPELL_TARGET2',
-    70: 'SPECIAL_PVP_KILL',
-    71: 'COMPLETE_CHALLENGE_MODE',
-    72: 'FISH_IN_GAMEOBJECT',
-    73: 'SEND_EVENT',
-    74: 'ON_LOGIN',
-    75: 'LEARN_SKILLLINE_SPELLS',
-    76: 'WIN_DUEL',
-    77: 'LOSE_DUEL',
-    78: 'KILL_CREATURE_TYPE',
-    79: 'COOK_RECIPES_GUILD',
-    80: 'GOLD_EARNED_BY_AUCTIONS',
-    81: 'EARN_PET_BATTLE_ACHIEVEMENT_POINTS',
-    82: 'CREATE_AUCTION',
-    83: 'HIGHEST_AUCTION_BID',
-    84: 'WON_AUCTIONS',
-    85: 'HIGHEST_AUCTION_SOLD',
-    86: 'HIGHEST_GOLD_VALUE_OWNED',
-    87: 'GAIN_REVERED_REPUTATION',
-    88: 'GAIN_HONORED_REPUTATION',
-    89: 'KNOWN_FACTIONS',
-    90: 'LOOT_EPIC_ITEM',
-    91: 'RECEIVE_EPIC_ITEM',
-    92: 'SEND_EVENT_SCENARIO',
-    93: 'ROLL_NEED',
-    94: 'ROLL_GREED',
-    95: 'RELEASE_SPIRIT',
-    96: 'OWN_PET',
-    97: 'GARRISON_COMPLETE_DUNGEON_ENCOUNTER',
-    101: 'HIGHEST_HIT_DEALT',
-    102: 'HIGHEST_HIT_RECEIVED',
-    103: 'TOTAL_DAMAGE_RECEIVED',
-    104: 'HIGHEST_HEAL_CAST',
-    105: 'TOTAL_HEALING_RECEIVED',
-    106: 'HIGHEST_HEALING_RECEIVED',
-    107: 'QUEST_ABANDONED',
-    108: 'FLIGHT_PATHS_TAKEN',
-    109: 'LOOT_TYPE',
-    110: 'CAST_SPELL2',
-    112: 'LEARN_SKILL_LINE',
-    113: 'EARN_HONORABLE_KILL',
-    114: 'ACCEPTED_SUMMONINGS',
-    115: 'EARN_ACHIEVEMENT_POINTS',
-    118: 'COMPLETE_LFG_DUNGEON',
-    119: 'USE_LFD_TO_GROUP_WITH_PLAYERS',
-    120: 'LFG_VOTE_KICKS_INITIATED_BY_PLAYER',
-    121: 'LFG_VOTE_KICKS_NOT_INIT_BY_PLAYER',
-    122: 'BE_KICKED_FROM_LFG',
-    123: 'LFG_LEAVES',
-    124: 'SPENT_GOLD_GUILD_REPAIRS',
-    125: 'REACH_GUILD_LEVEL',
-    126: 'CRAFT_ITEMS_GUILD',
-    127: 'CATCH_FROM_POOL',
-    128: 'BUY_GUILD_BANK_SLOTS',
-    129: 'EARN_GUILD_ACHIEVEMENT_POINTS',
-    130: 'WIN_RATED_BATTLEGROUND',
-    132: 'REACH_BG_RATING',
-    133: 'BUY_GUILD_TABARD',
-    134: 'COMPLETE_QUESTS_GUILD',
-    135: 'HONORABLE_KILLS_GUILD',
-    136: 'KILL_CREATURE_TYPE_GUILD',
-    137: 'COUNT_OF_LFG_QUEUE_BOOSTS_BY_TANK',
-    138: 'COMPLETE_GUILD_CHALLENGE_TYPE',
-    139: 'COMPLETE_GUILD_CHALLENGE',
-    145: 'LFR_DUNGEONS_COMPLETED',
-    146: 'LFR_LEAVES',
-    147: 'LFR_VOTE_KICKS_INITIATED_BY_PLAYER',
-    148: 'LFR_VOTE_KICKS_NOT_INIT_BY_PLAYER',
-    149: 'BE_KICKED_FROM_LFR',
-    150: 'COUNT_OF_LFR_QUEUE_BOOSTS_BY_TANK',
-    151: 'COMPLETE_SCENARIO_COUNT',
-    152: 'COMPLETE_SCENARIO',
-    153: 'REACH_AREATRIGGER_WITH_ACTIONSET',
-    155: 'OWN_BATTLE_PET',
-    156: 'OWN_BATTLE_PET_COUNT',
-    157: 'CAPTURE_BATTLE_PET',
-    158: 'WIN_PET_BATTLE',
-    160: 'LEVEL_BATTLE_PET',
-    161: 'CAPTURE_BATTLE_PET_CREDIT',
-    162: 'LEVEL_BATTLE_PET_CREDIT',
-    163: 'ENTER_AREA',
-    164: 'LEAVE_AREA',
-    165: 'COMPLETE_DUNGEON_ENCOUNTER',
-    167: 'PLACE_GARRISON_BUILDING',
-    168: 'UPGRADE_GARRISON_BUILDING',
-    169: 'CONSTRUCT_GARRISON_BUILDING',
-    170: 'UPGRADE_GARRISON',
-    171: 'START_GARRISON_MISSION',
-    172: 'START_ORDER_HALL_MISSION',
-    173: 'COMPLETE_GARRISON_MISSION_COUNT',
-    174: 'COMPLETE_GARRISON_MISSION',
-    175: 'RECRUIT_GARRISON_FOLLOWER_COUNT',
-    176: 'RECRUIT_GARRISON_FOLLOWER',
-    178: 'LEARN_GARRISON_BLUEPRINT_COUNT',
-    182: 'COMPLETE_GARRISON_SHIPMENT',
-    183: 'RAISE_GARRISON_FOLLOWER_ITEM_LEVEL',
-    184: 'RAISE_GARRISON_FOLLOWER_LEVEL',
-    185: 'OWN_TOY',
-    186: 'OWN_TOY_COUNT',
-    187: 'RECRUIT_GARRISON_FOLLOWER_WITH_QUALITY',
-    189: 'OWN_HEIRLOOMS',
-    190: 'ARTIFACT_POWER_EARNED',
-    191: 'ARTIFACT_TRAITS_UNLOCKED',
-    194: 'HONOR_LEVEL_REACHED',
-    195: 'PRESTIGE_REACHED',
-    198: 'ORDER_HALL_TALENT_LEARNED',
-    199: 'APPEARANCE_UNLOCKED_BY_SLOT',
-    200: 'ORDER_HALL_RECRUIT_TROOP',
-    203: 'COMPLETE_WORLD_QUEST',
-    205: 'TRANSMOG_SET_UNLOCKED',
-    206: 'GAIN_PARAGON_REPUTATION',
-    207: 'EARN_HONOR_XP',
-    211: 'RELIC_TALENT_UNLOCKED',
-    213: 'REACH_ACCOUNT_HONOR_LEVEL',
-    214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED',
-    215: 'HEART_OF_AZEROTH_LEVEL_REACHED',
-    216: 'MYTHIC_KEYSTONE_RELATED',
-    219: 'BOUGHT_ITEM_FROM_VENDOR',
-    220: 'SOLD_ITEM_TO_VENDOR',
-    225: 'TRAVELED_TO_AREA',
-    228: 'CONDUIT_RELATED',
-    229: 'ANIMA_DEPOSITED'
+	0: 'KILL_CREATURE',								// creature::ID
+	2: 'UNK_2',										// researchproject::ID
+	1: 'WIN_BG',									// map::ID
+	3: 'COMPLETE_ARCHAEOLOGY_PROJECTS',				// No FK
+	4: 'SURVEY_GAMEOBJECT',							// gameobjects::ID
+	5: 'REACH_LEVEL',								// No FK
+	6: 'CLEAR_DIGSITE',								// No FK
+	7: 'REACH_SKILL_LEVEL',							// skillline::ID
+	8: 'COMPLETE_ACHIEVEMENT',						// achievement::ID
+	9: 'COMPLETE_QUEST_COUNT',						// No FK
+	10: 'COMPLETE_DAILY_QUEST_DAILY',				// No FK
+	11: 'COMPLETE_QUESTS_IN_ZONE',					// areatable::ID
+	12: 'CURRENCY',									// currencytypes::ID
+	13: 'DAMAGE_DONE',								// No FK
+	14: 'COMPLETE_DAILY_QUEST',						// No FK
+	15: 'COMPLETE_BATTLEGROUND',					// map::ID
+	16: 'DEATH_AT_MAP',								// map::ID
+	17: 'DEATH',									// No FK
+	18: 'DEATH_IN_DUNGEON',							// ????
+	19: 'COMPLETE_RAID',							// ????
+	20: 'KILLED_BY_CREATURE',						// creature::ID
+	21: 'MANUAL_COMPLETE_CRITERIA',					// criteria::ID
+	22: 'COMPLETE_CHALLENGE_MODE_GUILD',			// No FK
+	23: 'KILLED_BY_PLAYER',							// No FK
+	24: 'FALL_WITHOUT_DYING',						// No FK
+	26: 'DEATHS_FROM',								// ????
+	27: 'COMPLETE_QUEST',							// questv2:ID
+	28: 'BE_SPELL_TARGET',							// spell::ID
+	29: 'CAST_SPELL',								// spell::ID
+	30: 'BG_OBJECTIVE_CAPTURE',						// pvpstat::ID
+	31: 'HONORABLE_KILL_AT_AREA',					// areatable::ID
+	32: 'WIN_ARENA',								// map::ID
+	33: 'PLAY_ARENA',								// map::ID
+	34: 'LEARN_SPELL',								// spell::ID
+	35: 'HONORABLE_KILL',							// No FK
+	36: 'OWN_ITEM',									// item::ID
+	37: 'WIN_RATED_ARENA',							// No FK
+	38: 'HIGHEST_TEAM_RATING',						// No FK
+	39: 'HIGHEST_PERSONAL_RATING',					// No FK
+	40: 'LEARN_SKILL_LEVEL',						// skilline::ID
+	41: 'USE_ITEM',									// item::ID
+	42: 'LOOT_ITEM',								// item::ID
+	43: 'EXPLORE_AREA',								// areatable::ID
+	44: 'OWN_RANK',									// No FK
+	45: 'BUY_BANK_SLOT',							// No FK
+	46: 'GAIN_REPUTATION',							// faction::ID
+	47: 'GAIN_EXALTED_REPUTATION',					// No FK
+	48: 'VISIT_BARBER_SHOP',						// No FK
+	49: 'EQUIP_EPIC_ITEM',							// No FK
+	50: 'ROLL_NEED_ON_LOOT',						// No FK
+	51: 'ROLL_GREED_ON_LOOT',						// No FK
+	52: 'HK_CLASS',									// chrclasses::ID
+	53: 'HK_RACE',									// chrraces::ID
+	54: 'DO_EMOTE',									// emotes::ID
+	55: 'HEALING_DONE',								// No FK
+	56: 'GET_KILLING_BLOWS',						// No FK
+	57: 'EQUIP_ITEM',								// item::ID
+	59: 'MONEY_FROM_VENDORS',						// No FK
+	60: 'GOLD_SPENT_FOR_TALENTS',					// No FK
+	61: 'NUMBER_OF_TALENT_RESETS',					// No FK
+	62: 'MONEY_FROM_QUEST_REWARD',					// No FK
+	63: 'GOLD_SPENT_FOR_TRAVELLING',				// No FK
+	64: 'DEFEAT_CREATURE_GROUP',					// ????
+	65: 'GOLD_SPENT_AT_BARBER',						// No FK
+	66: 'GOLD_SPENT_FOR_MAIL',						// No FK
+	67: 'LOOT_MONEY',								// No FK
+	68: 'USE_GAMEOBJECT',							// gameobjects::ID
+    69: 'BE_SPELL_TARGET2',							// spell::ID
+	70: 'SPECIAL_PVP_KILL',							// No FK
+	71: 'COMPLETE_CHALLENGE_MODE',					// map::ID
+	72: 'FISH_IN_GAMEOBJECT',						// gameobjects::ID
+	73: 'SEND_EVENT',								// ????
+	74: 'ON_LOGIN',									// No FK
+	75: 'LEARN_SKILLLINE_SPELLS',					// skillline::ID
+	76: 'WIN_DUEL',									// No FK
+	77: 'LOSE_DUEL',								// No FK
+	78: 'KILL_CREATURE_TYPE',						// No FK
+	79: 'COOK_RECIPES_GUILD',						// No FK
+	80: 'GOLD_EARNED_BY_AUCTIONS',					// No FK
+	81: 'EARN_PET_BATTLE_ACHIEVEMENT_POINTS',		// No FK
+	82: 'CREATE_AUCTION',							// No FK
+	83: 'HIGHEST_AUCTION_BID',						// No FK
+	84: 'WON_AUCTIONS',								// No FK
+	85: 'HIGHEST_AUCTION_SOLD',						// No FK
+	86: 'HIGHEST_GOLD_VALUE_OWNED',					// No FK
+	87: 'GAIN_REVERED_REPUTATION',					// No FK
+	88: 'GAIN_HONORED_REPUTATION',					// No FK
+	89: 'KNOWN_FACTIONS',							// No FK
+	90: 'LOOT_EPIC_ITEM',							// No FK
+	91: 'RECEIVE_EPIC_ITEM',						// No FK
+	92: 'SEND_EVENT_SCENARIO',						// ????
+	93: 'ROLL_NEED',								// No FK
+	94: 'ROLL_GREED',								// No FK
+	95: 'RELEASE_SPIRIT',							// No FK
+	96: 'OWN_PET',									// creature::ID
+	97: 'GARRISON_COMPLETE_DUNGEON_ENCOUNTER',		// dungeonencounter::ID
+	101: 'HIGHEST_HIT_DEALT',						// No FK
+	102: 'HIGHEST_HIT_RECEIVED',					// No FK
+	103: 'TOTAL_DAMAGE_RECEIVED',					// No FK
+	104: 'HIGHEST_HEAL_CAST',						// No FK
+	105: 'TOTAL_HEALING_RECEIVED',					// No FK
+	106: 'HIGHEST_HEALING_RECEIVED',				// No FK
+	107: 'QUEST_ABANDONED',							// No FK
+	108: 'FLIGHT_PATHS_TAKEN',						// No FK
+	109: 'LOOT_TYPE',								// No FK
+	110: 'CAST_SPELL2',								// spell::ID
+	112: 'LEARN_SKILL_LINE',						// skillline::ID
+	113: 'EARN_HONORABLE_KILL',						// No FK
+	114: 'ACCEPTED_SUMMONINGS',						// No FK
+	115: 'EARN_ACHIEVEMENT_POINTS',					// No FK
+	118: 'COMPLETE_LFG_DUNGEON',					// No FK
+	119: 'USE_LFD_TO_GROUP_WITH_PLAYERS',			// No FK
+	120: 'LFG_VOTE_KICKS_INITIATED_BY_PLAYER',		// No FK
+	121: 'LFG_VOTE_KICKS_NOT_INIT_BY_PLAYER',		// No FK
+	122: 'BE_KICKED_FROM_LFG',						// No FK
+	123: 'LFG_LEAVES',								// No FK
+	124: 'SPENT_GOLD_GUILD_REPAIRS',				// No FK
+	125: 'REACH_GUILD_LEVEL',						// No FK
+	126: 'CRAFT_ITEMS_GUILD',						// No FK
+	127: 'CATCH_FROM_POOL',							// No FK
+	128: 'BUY_GUILD_BANK_SLOTS',					// No FK
+	129: 'EARN_GUILD_ACHIEVEMENT_POINTS',			// No FK
+	130: 'WIN_RATED_BATTLEGROUND',					// No FK
+	132: 'REACH_BG_RATING',							// No FK
+	133: 'BUY_GUILD_TABARD',						// No FK
+	134: 'COMPLETE_QUESTS_GUILD',					// No FK
+	135: 'HONORABLE_KILLS_GUILD',					// No FK
+	136: 'KILL_CREATURE_TYPE_GUILD',				// No FK
+	137: 'COUNT_OF_LFG_QUEUE_BOOSTS_BY_TANK',		// No FK
+	138: 'COMPLETE_GUILD_CHALLENGE_TYPE',			// ????
+	139: 'COMPLETE_GUILD_CHALLENGE',				// No FK
+	145: 'LFR_DUNGEONS_COMPLETED',					// No FK
+	146: 'LFR_LEAVES',								// No FK
+	147: 'LFR_VOTE_KICKS_INITIATED_BY_PLAYER',		// No FK
+	148: 'LFR_VOTE_KICKS_NOT_INIT_BY_PLAYER',		// No FK
+	149: 'BE_KICKED_FROM_LFR',						// No FK
+	150: 'COUNT_OF_LFR_QUEUE_BOOSTS_BY_TANK',		// No FK
+	151: 'COMPLETE_SCENARIO_COUNT',					// No FK
+	152: 'COMPLETE_SCENARIO',						// scenario::ID
+	153: 'REACH_AREATRIGGER_WITH_ACTIONSET',		// ????
+	155: 'OWN_BATTLE_PET',							// No FK
+	156: 'OWN_BATTLE_PET_COUNT',					// No FK
+	157: 'CAPTURE_BATTLE_PET',						// No FK
+	158: 'WIN_PET_BATTLE',							// No FK
+	160: 'LEVEL_BATTLE_PET',						// No FK
+	161: 'CAPTURE_BATTLE_PET_CREDIT',				// No FK
+	162: 'LEVEL_BATTLE_PET_CREDIT',					// No FK
+	163: 'ENTER_AREA',								// areatable::ID
+	164: 'LEAVE_AREA',								// areatable::ID
+	165: 'COMPLETE_DUNGEON_ENCOUNTER',				// dungeonencounter::ID
+	167: 'PLACE_GARRISON_BUILDING',					// garrbuilding::ID
+	168: 'UPGRADE_GARRISON_BUILDING',				// No FK
+	169: 'CONSTRUCT_GARRISON_BUILDING',				// garrbuilding::ID
+	170: 'UPGRADE_GARRISON',						// No FK (GarrLevel)
+	171: 'START_GARRISON_MISSION',					// No FK
+	172: 'START_ORDER_HALL_MISSION',				// garrmission::ID
+	173: 'COMPLETE_GARRISON_MISSION_COUNT',			// No FK
+	174: 'COMPLETE_GARRISON_MISSION',				// garrmission::ID
+	175: 'RECRUIT_GARRISON_FOLLOWER_COUNT',			// No FK
+	176: 'RECRUIT_GARRISON_FOLLOWER',				// garrfollower::ID
+	178: 'LEARN_GARRISON_BLUEPRINT_COUNT',			// No FK
+	182: 'COMPLETE_GARRISON_SHIPMENT',				// No FK
+	183: 'RAISE_GARRISON_FOLLOWER_ITEM_LEVEL',		// No FK
+	184: 'RAISE_GARRISON_FOLLOWER_LEVEL',			// No FK
+	185: 'OWN_TOY',									// ????
+	186: 'OWN_TOY_COUNT',							// ????
+	187: 'RECRUIT_GARRISON_FOLLOWER_WITH_QUALITY',	// No FK
+	189: 'OWN_HEIRLOOMS',							// No FK
+	190: 'ARTIFACT_POWER_EARNED',					// No FK
+	191: 'ARTIFACT_TRAITS_UNLOCKED',				// No FK
+	194: 'HONOR_LEVEL_REACHED',						// No FK
+	195: 'PRESTIGE_REACHED',						// No FK
+	196: 'HERITAGE_AT_LEVEL',						// No FK (Level Reached, points to Heritage achievements)
+	197: 'COVENANT_SANCTUM_RANK_REACHED',			// No FK
+	198: 'ORDER_HALL_TALENT_LEARNED',				// No FK
+	199: 'APPEARANCE_UNLOCKED_BY_SLOT',				// No FK (Slot)
+	200: 'ORDER_HALL_RECRUIT_TROOP',				// No FK
+	203: 'COMPLETE_WORLD_QUEST',					// No FK
+	204: 'TRANSMOG_SET_RELATED',					// transmogset::ID
+	205: 'TRANSMOG_SET_UNLOCKED',					// transmogset::ID (?)
+	206: 'GAIN_PARAGON_REPUTATION',					// No FK
+	207: 'EARN_HONOR_XP',							// No FK
+	211: 'RELIC_TALENT_UNLOCKED',					// artifactpower::ID (?)
+	213: 'REACH_ACCOUNT_HONOR_LEVEL',				// No FK (Honor Level Reached)
+	214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED',	// No FK
+	215: 'HEART_OF_AZEROTH_LEVEL_REACHED',			// No FK (Neck Level Reached)
+	216: 'MYTHIC_KEYSTONE_COMPLETED',				// No FK
+	218: 'QUEST_COUNT_RELATED',						// No FK
+	219: 'BOUGHT_ITEM_FROM_VENDOR',					// No FK
+	220: 'SOLD_ITEM_TO_VENDOR',						// No FK
+	225: 'TRAVELED_TO_AREA',						// areatable::ID
+	228: 'CONDUIT_RELATED',							// No FK
+	229: 'ANIMA_DEPOSITED'							// No FK
 }
 
 const componentSection = {
@@ -2844,14 +2848,59 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
 
 conditionalFKs.set("criteria.Asset",
 	[
-		['criteria.Type=0','creature::ID'],
-		['criteria.Type=8','achievement::ID'],
-		['criteria.Type=12','currencytypes::ID'],
-		['criteria.Type=27','questv2::ID'],
-		['criteria.Type=29','spell::ID'],
-		['criteria.Type=36','item::ID'],
-		['criteria.Type=58','questsort::ID'],
-		['criteria.Type=165','dungeonencounter::ID'],
+		['criteria.Type=0', 'creature::ID'],
+		['criteria.Type=2', 'researchproject::ID'],
+		['criteria.Type=1', 'map::ID'],
+		['criteria.Type=4', 'gameobjects::ID'],
+		['criteria.Type=7', 'skillline::ID'],
+		['criteria.Type=8', 'achievement::ID'],
+		['criteria.Type=11', 'areatable::ID'],
+		['criteria.Type=12', 'currencytypes::ID'],
+		['criteria.Type=15', 'map::ID'],
+		['criteria.Type=16', 'map::ID'],
+		['criteria.Type=20', 'creature::ID'],
+		['criteria.Type=21', 'criteria::ID'],
+		['criteria.Type=27', 'questv2::ID'],
+		['criteria.Type=28', 'spell::ID'],
+		['criteria.Type=29', 'spell::ID'],
+		['criteria.Type=30', 'pvpstat::ID'],
+		['criteria.Type=31', 'areatable::ID'],
+		['criteria.Type=32', 'map::ID'],
+		['criteria.Type=33', 'map::ID'],
+		['criteria.Type=34', 'spell::ID'],
+		['criteria.Type=36', 'item::ID'],
+		['criteria.Type=40', 'skilline::ID'],
+		['criteria.Type=41', 'item::ID'],
+		['criteria.Type=42', 'item::ID'],
+		['criteria.Type=43', 'areatable::ID'],
+		['criteria.Type=46', 'faction::ID'],
+		['criteria.Type=52', 'chrclasses::ID'],
+		['criteria.Type=53', 'chrraces::ID'],
+		['criteria.Type=54', 'emotes::ID'],
+		['criteria.Type=57', 'item::ID'],
+		['criteria.Type=58', 'questsort::ID'],
+		['criteria.Type=68', 'gameobjects::ID'],
+		['criteria.Type=69', 'spell::ID'],
+		['criteria.Type=71', 'map::ID'],
+		['criteria.Type=72', 'gameobjects::ID'],
+		['criteria.Type=75', 'skillline::ID'],
+		['criteria.Type=96', 'creature::ID'],
+		['criteria.Type=97', 'dungeonencounter::ID'],
+		['criteria.Type=110', 'spell::ID'],
+		['criteria.Type=112', 'skillline::ID'],
+		['criteria.Type=152', 'scenario::ID'],
+		['criteria.Type=163', 'areatable::ID'],
+		['criteria.Type=164', 'areatable::ID'],
+		['criteria.Type=165', 'dungeonencounter::ID'],
+		['criteria.Type=167', 'garrbuilding::ID'],
+		['criteria.Type=169', 'garrbuilding::ID'],
+		['criteria.Type=172', 'garrmission::ID'],
+		['criteria.Type=174', 'garrmission::ID'],
+		['criteria.Type=176', 'garrfollower::ID'],
+		['criteria.Type=204', 'transmogset::ID'],
+		['criteria.Type=205', 'transmogset::ID'],
+		['criteria.Type=211', 'artifactpower::ID'],
+		['criteria.Type=225', 'areatable::ID'],
 	]
 );
 
