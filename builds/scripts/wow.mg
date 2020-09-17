@@ -162,6 +162,8 @@
 !:mime wow/wdl
 
 # mp3
+0 string ID3\4\0 .mp3
+!:mime audio/mpeg
 0 string ID3\3\0 .mp3
 !:mime audio/mpeg
 0 string ID3\2\0 .mp3
