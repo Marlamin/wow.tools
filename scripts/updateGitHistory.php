@@ -10,6 +10,7 @@ if(!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcach
 		["name" => "Database service", "url" => "marlamin/dbcdumphost"],
 		["name" => "Database definitions", "url" => "wowdev/wowdbdefs"],
 		["name" => "Minimap tools", "url" => "marlamin/wowtools.minimaps"],
+		["name" => "Cache/Hotfix tools", "url" => "marlamin/wowtools.hotfixes"],
 		["name" => "API", "url" => "marlamin/wow.tools.api"]
 	];
 
