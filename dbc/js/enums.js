@@ -2717,6 +2717,13 @@ const garrAbilityTargetType = {
 	10: 'NotProfession'
 }
 
+const mawPowerRarity = {
+    1: 'Common',
+    2: 'Uncommon',
+    3: 'Rare',
+    4: 'Epic'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2788,6 +2795,7 @@ enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
 enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
+enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
 
 for(let i = 0; i < 8; i++){
 	enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
