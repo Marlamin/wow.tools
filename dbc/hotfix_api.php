@@ -77,8 +77,18 @@ $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsTotal'] = $pdo->query("SELECT count(*) FROM wow_hotfixes")->fetchColumn();
 
 if(empty($_GET['search']['value'])){
-	$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
-	$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes");
+	if(empty($_GET['since'])) {
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
+		$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes");
+	}else{
+		$since = (int)filter_input( INPUT_GET, 'since', FILTER_SANITIZE_NUMBER_INT );
+
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since) ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
+		$dataq->bindValue(":since", $since);
+		
+		$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since)");
+		$countq->bindValue(":since", $since);
+	}
 }else{
 	if(substr($_GET['search']['value'], 0, 7) == "pushid:"){
 		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
