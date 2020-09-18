@@ -83,10 +83,10 @@ if(empty($_GET['search']['value'])){
 	}else{
 		$since = (int)filter_input( INPUT_GET, 'since', FILTER_SANITIZE_NUMBER_INT );
 
-		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > :since ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
+		$dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since) ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start .", " . $length);
 		$dataq->bindValue(":since", $since);
 		
-		$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE firstdetected > :since");
+		$countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since)");
 		$countq->bindValue(":since", $since);
 	}
 }else{
