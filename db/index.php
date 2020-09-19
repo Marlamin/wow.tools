@@ -1,4 +1,7 @@
-<?php require_once("../inc/header.php"); ?>
+<?php
+
+require_once("../inc/header.php");
+?>
 <div class='container-fluid'>
 <h2>WDB cache info dumps</h2>
 <p>

@@ -1,37 +1,41 @@
 <?php
-if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
+
+if (php_sapi_name() != "cli") {
+    die("This script cannot be run outside of CLI.");
+}
 
 include(__DIR__ . "/../../inc/config.php");
-
 $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wow_beta' AND ID > 1575 ORDER BY description DESC LIMIT 1");
 $row = $q->fetch();
-
 $rawdesc = str_replace("WOW-", "", $row['description']);
 $build = substr($rawdesc, 0, 5);
 $rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
 $descexpl = explode("_", $rawdesc);
-$outdir = $descexpl[0].".".$build;
+$outdir = $descexpl[0] . "." . $build;
 
-function importDB2($name, $outdir, $fields){
-	global $pdo;
-	$db2 = "http://127.0.0.1:5000/api/export/?name=".$name."&build=".$outdir."&t=".strtotime("now");
-	$csv = "/tmp/".$name.".csv";
-	if(file_exists($csv)){ unlink($csv); }
-	$outputdump = shell_exec("/usr/bin/curl ".escapeshellarg($db2)." -o ".escapeshellarg($csv)." 2>&1");
-	if(!file_exists($csv)){
-		echo "An error occured during ".$name." import: ".$outputdump;
-	}else{
-		echo "[DB2 import] Writing ".$name." (".$outdir.")..";
-		$pdo->exec("
-			LOAD DATA LOCAL INFILE '".$csv."'
-			INTO TABLE `wowdata`.".$name."
-			FIELDS TERMINATED BY ',' ESCAPED BY '\b'
-			LINES TERMINATED BY '\n'
-			IGNORE 1 LINES
-			".$fields."
-		");
-		echo "..done!\n";
-	}
+function importDB2($name, $outdir, $fields)
+{
+    global $pdo;
+    $db2 = "http://127.0.0.1:5000/api/export/?name=" . $name . "&build=" . $outdir . "&t=" . strtotime("now");
+    $csv = "/tmp/" . $name . ".csv";
+    if (file_exists($csv)) {
+        unlink($csv);
+    }
+    $outputdump = shell_exec("/usr/bin/curl " . escapeshellarg($db2) . " -o " . escapeshellarg($csv) . " 2>&1");
+    if (!file_exists($csv)) {
+        echo "An error occured during " . $name . " import: " . $outputdump;
+    } else {
+        echo "[DB2 import] Writing " . $name . " (" . $outdir . ")..";
+        $pdo->exec("
+            LOAD DATA LOCAL INFILE '" . $csv . "'
+            INTO TABLE `wowdata`." . $name . "
+            FIELDS TERMINATED BY ',' ESCAPED BY '\b'
+            LINES TERMINATED BY '\n'
+            IGNORE 1 LINES
+            " . $fields . "
+        ");
+        echo "..done!\n";
+    }
 }
 
 importDB2("modelfiledata", $outdir, "(@FileDataID, @Flags, @LodCount, @ModelResourcesID) SET FileDataID = @FileDataID, ModelResourcesID = @ModelResourcesID");

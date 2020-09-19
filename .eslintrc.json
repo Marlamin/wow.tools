@@ -1,0 +1,32 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "globals":{
+        "window": true,
+        "$": true,
+        "BigInt": true
+    },
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "rules": {
+        /* Overrides from recommended ruleset */
+        "no-unused-vars": "off",
+		"no-case-declarations": "off",
+        "no-prototype-builtins": "off",
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": "error",
+
+        /* Custom */
+        "keyword-spacing": "error"
+    },
+    "extends": [
+        "eslint:recommended"
+    ]
+}
