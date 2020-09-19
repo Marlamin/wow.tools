@@ -28,6 +28,8 @@ function showTooltip(el){
         const tooltipDiv = document.createElement("div");
         tooltipDiv.innerHTML = tooltipHTML;
         tooltipDiv.style.position = "absolute";
+        // tooltipDiv.style.position.top = el.getBoundingClientRect().top + el.ownerDocument.defaultView.pageYOffset;
+        // tooltipDiv.style.position.left = el.getBoundingClientRect().left + el.ownerDocument.defaultView.pageXOffset;
         tooltipDiv.style.zIndex = 5;
         tooltipDiv.style.display = "block";
         tooltipDiv.style.marginLeft = tooltipMarginLeft + "px";
@@ -49,7 +51,7 @@ function showTooltip(el){
             generateQuestTooltip(tooltipTargetValue, tooltipDiv);
         } else if (tooltipType == 'fk'){
             if ((el.dataset.fk == "Map::ID" || tooltipTargetValue != 0) && tooltipTargetValue != -1){
-                generateFKTooltip(el.dataset.fk, tooltipTargetValue, tooltipDiv);
+                generateFKTooltip(el.dataset.fk, tooltipTargetValue, tooltipDiv, localBuild);
             } else {
                 hideTooltip(el);
             }
@@ -313,9 +315,12 @@ function generateSpellTooltip(id, tooltip, build)
                 return;
             }
 
-            console.log(data);
-
             const calcData = data[0];
+
+            if (calcData["name"] == null){
+                calcData["name"] = "Unknown spell";
+                calcData["description"] = "It is possible this spell was added through hotfixes or is entirely unavailable in the client.";
+            }
 
             tooltipDesc.innerHTML = "<h2>" + calcData["name"] + "</h2>";
             if (calcData["description"] != null){
@@ -328,7 +333,7 @@ function generateSpellTooltip(id, tooltip, build)
         });
 }
 
-function generateFKTooltip(targetFK, value, tooltip)
+function generateFKTooltip(targetFK, value, tooltip, build)
 {
     console.log("Generating foreign key tooltip for " + value);
 

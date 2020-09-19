@@ -353,7 +353,8 @@ footer p{
 
 /* Tooltips */
 .wt-tooltip{
-	display: none;
+    display: none;
+    z-index: 5;
 }
 .tooltip-icon{
 	clear: both;
@@ -380,7 +381,8 @@ footer p{
 	background: rgba(17, 17, 34, 0.90);
 	color: white;
 	margin-left: 4px;
-	font: normal 12px/1.5 Verdana,sans-serif;
+    font: normal 12px/1.5 Verdana,sans-serif;
+    z-index: 10;
 }
 
 .tooltip-desc h2{

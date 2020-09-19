@@ -477,7 +477,7 @@ function loadTable(){
     let idHeader = 0;
     
     $.ajax({
-        "url": "/dbc/api/header/" + apiArgs,
+        "url": "/dbc/api/header/" + currentParams["dbc"] + "/?build=" + currentParams["build"],
         "success": function(json) {
             if(json['error'] != null){
                 if(json['error'] == "No valid definition found for this layouthash or build!"){

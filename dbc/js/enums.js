@@ -394,16 +394,16 @@ const criteriaAdditionalCondition = {
 const itemStatType = {
     0: 'MANA',
     1: 'HEALTH',
-    // 2: 'UNUSED',
+    2: 'ENDURANCE',
     3: 'AGILITY',
     4: 'STRENGTH',
     5: 'INTELLECT',
-    6: 'SPIRIT',	// Removed in 7.3.0
+    6: 'SPIRIT_UNUSED',	// Removed in 7.3.0
     7: 'STAMINA',
-    // 8: 'UNUSED',
-    // 9: 'UNUSED',
-    // 10: 'UNUSED',
-    // 11: 'UNUSED',
+    8: 'ENERGY',
+    9: 'RAGE',
+    10: 'FOCUS',
+    11: 'WEAPON_SKILL_RATING_OBSOLETE',
     12: 'DEFENSE_SKILL_RATING',
     13: 'DODGE_RATING',
     14: 'PARRY_RATING',

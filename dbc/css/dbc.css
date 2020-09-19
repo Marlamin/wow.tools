@@ -124,3 +124,7 @@ thead input { width: 100% }
 	overflow-x: hidden;
 	min-width: 700px;
 }
+
+.diffTable tr td{
+    padding: 2px;
+}

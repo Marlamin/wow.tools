@@ -20,13 +20,13 @@ if (!empty($argv[1])) {
 $filesToProcess = [];
 
 foreach ($files as $file) {
-    if (empty($argv[1]) && filemtime($file) < strtotime("-1 hour")) {
+    if (empty($argv[1]) && filemtime($file) < strtotime("-2 hours")) {
         continue;
     }
 
     $md5 = md5_file($file);
     if (in_array($md5, $processedMD5s)) {
-        // echo "[Hotfix updater] [".date("Y-m-d H:i:s")."] Skipping already processed DBCache ". $file . " (" . $md5 . ")\n";
+        // echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Skipping already processed DBCache " . $file . " (" . $md5 . ")\n";
         continue;
     }
 
@@ -126,6 +126,8 @@ foreach ($filesToProcess as $file) {
         echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reloaded TACT keys\n";
     }
 
-    $insertMD5->execute([$md5]);
-    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted " . $md5 . " as processed cache\n";
+    if (!in_array($md5, $processedMD5s)) {
+        $insertMD5->execute([$md5]);
+        echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted " . $md5 . " as processed cache\n";
+    }
 }

@@ -116,9 +116,9 @@ require_once(__DIR__ . "/../inc/header.php");
             "targets": 4,
             "render": function ( data, type, full, meta ) {
                 if(full[4] == 1){
-                    return "Valid";
+                    return "<i class='fa fa-check'></i> Valid";
                 }else{
-                    return "Invalidated (" + full[4] + ")";
+                    return "<i class='fa fa-trash'></i> Invalidated (" + full[4] + ")";
                 }
             }
         },
@@ -150,48 +150,80 @@ require_once(__DIR__ . "/../inc/header.php");
         return addendum;
     }
 
+    function richValue(dbc, col, val, build, fk){
+        let returnedValue = "";
+        let displayValue = val;
+
+        if(flagMap.has(dbc.toLowerCase() + "." + col)){
+            displayValue = "0x" + Number(val).toString(16);
+        }
+
+        if (fk == "FileData::ID"){
+            returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
+        } else if (fk == "SoundEntries::ID" && parseInt(build[0]) > 6){
+            returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a>";
+        } else if (fk == "Item::ID" && val > 0){
+            returnedValue = "<a data-build='" + build + "' data-tooltip='item' data-id='" + val + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+        } else if (fk == "Spell::ID" || fk == "SpellName::ID" && val > 0){
+            returnedValue = "<a data-build='" + build + "' data-tooltip='spell' data-id='" + val + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+        } else if (fk == "Creature::ID" && val > 0){
+            returnedValue = "<a data-build='" + build + "' data-tooltip='creature' data-id='" + val + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+        } else if (fk == "QuestV2::ID" && val > 0){
+            returnedValue = "<a data-build='" + build + "' data-tooltip='quest' data-id='" + val + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+        } else if (fk !== undefined && val > 0){
+            returnedValue = "<a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + fk + "'  ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+        } else{
+             returnedValue = displayValue;
+        }
+
+        if(enumMap.has(dbc.toLowerCase() + "." + col)){
+            if(val in enumMap.get(dbc.toLowerCase() + "." + col)){
+                returnedValue += " (" + enumMap.get(dbc.toLowerCase() + "." + col)[val] + ")";
+            }else{
+                returnedValue += " (unknown)";
+            }
+        }
+
+        if(flagMap.has(dbc.toLowerCase() + "." + col)){
+            let usedFlags = getFlagDescriptions(dbc.toLowerCase(), col, val);
+            usedFlags.forEach(function (flag) {
+                returnedValue += " (" + flag[0] + ": " + flag[1] + ")";
+            });
+        }
+
+        return returnedValue;
+    }
+
     function showRowDiff(dbc, build, recordID){
+        var headerReq = fetch("/dbc/api/header/" + dbc.toLowerCase() + "?build=" + build).then(data => data.json());
         var beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
         var afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
 
-        Promise.all([beforeReq, afterReq])
+        Promise.all([headerReq, beforeReq, afterReq])
         .then(json => {
-            const before = json[0].values;
-            const after = json[1].values;
+            const header = json[0];
+            const before = json[1].values;
+            const after = json[2].values;
 
-            let changes = "<table>";
+            let changes = "<table class='diffTable'>";
 
             if(Object.keys(before).length == 0){
                 Object.keys(after).forEach(function (key) {
-                    let addendum = getAddendum(dbc, key, after[key]);
-                    let displayedValue = after[key];
-                    if(flagMap.has(dbc.toLowerCase() + "." + key)){
-                        displayedValue = "0x" + Number(after[key]).toString(16);
-                    }
-                    changes += "<tr><td>"+ key + "</td><td><ins class='diff-added'>"+ displayedValue + addendum + "</ins></td></tr>";
+                    const displayedValue = richValue(dbc, key, after[key], build, header.fks[key]);
+                    changes += "<tr><td><i style='color: green;' class='fa fa-plus-circle'></i> <b>" + key + "</b></td><td>" + displayedValue + "</td></tr>";
                 });
             } else if(Object.keys(after).length == 0){
                 Object.keys(before).forEach(function (key) {
-                    let addendum = getAddendum(dbc, key, before[key]);
-                    let displayedValue = before[key];
-                    if(flagMap.has(dbc.toLowerCase() + "." + key)){
-                        displayedValue = "0x" + Number(before[key]).toString(16);
-                    }
-                    changes += "<tr><td>"+ key + "</td><td><del class='diff-removed'>"+ displayedValue + addendum + "</del></td></tr>";
+                    const displayedValue = richValue(dbc, key, before[key], build, header.fks[key]);
+                    changes += "<tr><td><i style='color: red;' class='fa fa-minus-circle'></i> <b>" + key + "</b></td><td>" + displayedValue + "</td></tr>";
                 });
             }else{
                 Object.keys(before).forEach(function (key) {
                     if(before[key] != after[key]){
                         if (!isNaN(before[key]) && !isNaN(after[key])) {
-                            let addendumBefore = getAddendum(dbc, key, before[key]);
-                            let addendumAfter = getAddendum(dbc, key, after[key]);
-                            let displayedValBefore = before[key];
-                            let displayedValAfter = after[key];
-                            if(flagMap.has(dbc.toLowerCase() + "." + key)){
-                                displayedValBefore = "0x" + Number(before[key]).toString(16);
-                                displayedValAfter = "0x" + Number(after[key]).toString(16);
-                            }
-                            changes += "<tr><td>" + key + "</td><td><del class='diff-removed'>" + displayedValBefore + addendumBefore + "</del> &rarr; <ins class='diff-added'>" + displayedValAfter + addendumAfter + "</ins></td></tr>";
+                            let displayedValBefore = richValue(dbc, key, before[key], build, header.fks[key]);
+                            let displayedValAfter = richValue(dbc, key, after[key], build, header.fks[key]);
+                            changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>" + displayedValBefore  + " &rarr; " + displayedValAfter  + "</td></tr>";
                         } else {
                             var dmp = new diff_match_patch();
                             var dmp_diff = dmp.diff_main(before[key], after[key]);
@@ -205,8 +237,8 @@ require_once(__DIR__ . "/../inc/header.php");
 
             changes += "</table>";
 
-            if(changes == "<table></table>"){
-                changes = "No changes detected (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
+            if(changes == "<table class='diffTable'></table>"){
+                changes = "No changes found (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
             }
 
             var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID);
