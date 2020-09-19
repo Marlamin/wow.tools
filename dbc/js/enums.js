@@ -780,7 +780,10 @@ const spellEffectName = {
     271: 'APPLY_AREA_AURA_PARTY_NONRANDOM',
     // 272: '',
     // 273: '',
-    // 276: '',
+    276: 'ITEM_SPELL_SOMETHING',
+    279: 'COVENANT_GARR_TALENT',
+    // 281: '',
+    // 283: '',
 };
 
 const soundkitSoundType = {
@@ -2850,7 +2853,8 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
 		['spelleffect.Effect=90','creature::ID'],
 		['spelleffect.Effect=131','soundkit::ID'],
 		['spelleffect.Effect=132','soundkit::ID'],
-		['spelleffect.Effect=134','creature::ID'],
+        ['spelleffect.Effect=134','creature::ID'],
+        ['spelleffect.Effect=279','garrtalent::ID'],
 	]
 );
 
