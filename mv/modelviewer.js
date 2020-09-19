@@ -47,12 +47,12 @@ var stats = new Stats();
 function loadSettings(applyNow = false){
     /* Show/hide FPS counter */
     var storedShowFPS = localStorage.getItem('settings[showFPS]');
-    if(storedShowFPS){
-        if(storedShowFPS== "1"){
+    if (storedShowFPS){
+        if (storedShowFPS== "1"){
             Settings.showFPS = true;
             stats.showPanel(1);
             Elements.Counter.appendChild(stats.dom);
-        }else{
+        } else {
             Settings.showFPS = false;
             Elements.Counter.innerHTML = "";
         }
@@ -62,10 +62,10 @@ function loadSettings(applyNow = false){
 
     /* Enable/disable retail-only */
     var storedRetailOnly = localStorage.getItem('settings[retailOnly]');
-    if(storedRetailOnly){
-        if(storedRetailOnly== "1"){
+    if (storedRetailOnly){
+        if (storedRetailOnly== "1"){
             Settings.retailOnly = true;
-        }else{
+        } else {
             Settings.retailOnly = false;
         }
     }
@@ -74,9 +74,9 @@ function loadSettings(applyNow = false){
 
     /* Clear color */
     var storedCustomClearColor = localStorage.getItem('settings[customClearColor]');
-    if(storedCustomClearColor){
+    if (storedCustomClearColor){
         document.getElementById("customClearColor").value = storedCustomClearColor;
-    }else{
+    } else {
         document.getElementById("customClearColor").value = '#1e3564';
     }
 
@@ -88,24 +88,24 @@ function loadSettings(applyNow = false){
 
     /* Far clip */
     var storedFarClip = localStorage.getItem('settings[farClip]');
-    if(storedFarClip){
+    if (storedFarClip){
         Settings.farClip = storedFarClip;
         document.getElementById('farClip').value = storedFarClip;
-    }else{
+    } else {
         document.getElementById('farClip').value = Settings.farClip;
     }
 
     /* Far clip (model culling) */
     var storedFarClipCull = localStorage.getItem('settings[farClipCull]');
-    if(storedFarClipCull){
+    if (storedFarClipCull){
         Settings.farClipCull = storedFarClipCull;
         document.getElementById('farClipCull').value = storedFarClipCull;
-    }else{
+    } else {
         document.getElementById('farClipCull').value = Settings.farClipCull;
     }
 
     /* If settings should be applied now (don't do this on page load!) */
-    if(applyNow){
+    if (applyNow){
         Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
         Module._setFarPlane(Settings.farClip);
         Module._setFarPlaneForCulling(Settings.farClipCull);
@@ -113,15 +113,15 @@ function loadSettings(applyNow = false){
 }
 
 function saveSettings(){
-    if(document.getElementById("showFPS").checked){
+    if (document.getElementById("showFPS").checked){
         localStorage.setItem('settings[showFPS]', '1');
-    }else{
+    } else {
         localStorage.setItem('settings[showFPS]', '0');
     }
 
-    if(document.getElementById("retailOnly").checked){
+    if (document.getElementById("retailOnly").checked){
         localStorage.setItem('settings[retailOnly]', '1');
-    }else{
+    } else {
         localStorage.setItem('settings[retailOnly]', '0');
     }
 
@@ -132,7 +132,7 @@ function saveSettings(){
 }
 
 // Sidebar button, might not exist in embedded mode
-if(document.getElementById( 'js-sidebar-button' )){
+if (document.getElementById( 'js-sidebar-button' )){
     document.getElementById( 'js-sidebar-button' ).addEventListener( 'click', function( )
     {
         Elements.Sidebar.classList.toggle( 'closed' );
@@ -144,34 +144,34 @@ try {
         const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
         if (module instanceof WebAssembly.Module)
             var testModule = new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
-        if(!testModule) showError("WebAssembly support is required but not supported by your browser.");
+        if (!testModule) showError("WebAssembly support is required but not supported by your browser.");
     }
 } catch (e) {
     showError("WebAssembly support is required but not supported by your browser.");
 }
 
 var urlBuildConfig = new URL(window.location).searchParams.get("buildconfig");
-if(urlBuildConfig){
+if (urlBuildConfig){
     Current.buildConfig = urlBuildConfig;
 }
 
 var urlCDNConfig = new URL(window.location).searchParams.get("cdnconfig");
-if(urlCDNConfig){
+if (urlCDNConfig){
     Current.cdnConfig = urlCDNConfig;
 }
 
 var urlFileDataID = new URL(window.location).searchParams.get("filedataid");
-if(urlFileDataID){
+if (urlFileDataID){
     Current.fileDataID = urlFileDataID;
 }
 
 var urlType = new URL(window.location).searchParams.get("type");
-if(urlType){
+if (urlType){
     Current.type = urlType;
 }
 
 var urlEmbed = new URL(window.location).searchParams.get("embed");
-if(urlEmbed){
+if (urlEmbed){
     Current.embedded = true;
     $("#js-sidebar-button").hide();
     $("#fpsLabel").hide();
@@ -179,7 +179,7 @@ if(urlEmbed){
 }
 
 var urlClearColor = new URL(window.location).searchParams.get("clearColor");
-if(urlClearColor){
+if (urlClearColor){
     var r = parseInt('0x' + urlClearColor.substring(0, 2)) / 255;
     var g = parseInt('0x' + urlClearColor.substring(2, 4)) / 255;
     var b = parseInt('0x' + urlClearColor.substring(4, 6)) / 255;
@@ -192,9 +192,9 @@ window.createscene = function () {
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
     let urlFileId;
 
-    if(Settings.retailOnly){
+    if (Settings.retailOnly){
         urlFileId = "https://wow.tools/casc/extract/";
-    }else{
+    } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
 
@@ -217,14 +217,14 @@ window.createscene = function () {
     Module["animationArrayCallback"] = function(array) {
         $("#animationSelect").empty();
 
-        if(array.length > 1){
+        if (array.length > 1){
             $("#animationSelect").show();
             $("#js-controls").removeClass("closed");
 
             array.forEach(function(a) {
-                if(a in animationNames){
+                if (a in animationNames){
                     $('#animationSelect').append('<option value="' + a + '">' + animationNames[a] + ' (' + a + ')</option>');
-                }else{
+                } else {
                     $('#animationSelect').append('<option value="' + a + '">Animation ' + a + '</option>');
                 }
             })
@@ -244,7 +244,7 @@ window.createscene = function () {
 
         Module._gameloop(timeDelta / Settings.speed);
 
-        if(screenshot){
+        if (screenshot){
             screenshot = false;
 
             let canvasImage = Module["canvas"].toDataURL('image/png');
@@ -273,10 +273,10 @@ window.createscene = function () {
 
 window.addEventListener('resize', () => {
     var canvas = document.getElementById("wowcanvas");
-    if(canvas){
+    if (canvas){
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;
-        if(Module && Module._setSceneSize){
+        if (Module && Module._setSceneSize){
             window.Module._setSceneSize(document.body.clientWidth, document.body.clientHeight);
         }
     }
@@ -286,7 +286,7 @@ $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
     var data = Elements.table.row($(this).parent()).data();
     var mostRecentVersion = data[3][0];
 
-    if(mostRecentVersion['buildconfig'] == Current.buildConfig && data[0] == Current.fileDataID){
+    if (mostRecentVersion['buildconfig'] == Current.buildConfig && data[0] == Current.fileDataID){
         console.log("Clicked model already open in viewer, ignoring.");
         return;
     }
@@ -297,41 +297,41 @@ $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
 });
 
 $('#js-sidebar').on('input', '.paginate_input', function(){
-    if($(".paginate_input")[0].value != ''){
+    if ($(".paginate_input")[0].value != ''){
         $("#mvfiles").DataTable().page($(".paginate_input")[0].value - 1).ajax.reload(null, false)
     }
 });
 
 window.addEventListener('keydown', function(event){
-    if(document.activeElement.tagName == "SELECT"){
+    if (document.activeElement.tagName == "SELECT"){
         return;
     }
 
-    if($(".selected").length == 1){
-        if(event.key == "ArrowDown"){
-            if($(".selected")[0].rowIndex == 20) return;
+    if ($(".selected").length == 1){
+        if (event.key == "ArrowDown"){
+            if ($(".selected")[0].rowIndex == 20) return;
             $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
-        }else if(event.key == "ArrowUp"){
-            if($(".selected")[0].rowIndex == 1) return;
+        } else if (event.key == "ArrowUp"){
+            if ($(".selected")[0].rowIndex == 1) return;
             $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex - 1].firstChild).trigger("click");
         }
     }
 
-    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
+    if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
-    }else{
-        if(event.key == " "){
-            if(Settings.paused){
+    } else {
+        if (event.key == " "){
+            if (Settings.paused){
                 Settings.paused = false;
                 Elements.EventLabel.textContent = "";
-            }else{
+            } else {
                 Settings.paused = true;
                 Elements.EventLabel.innerHTML = "<i class='fa fa-pause'></i> Paused";
             }
 
-            if(Settings.paused){
+            if (Settings.paused){
                 Settings.speed = 1000000000000.0;
-            }else{
+            } else {
                 Settings.speed = 1000.0;
             }
 
@@ -340,18 +340,18 @@ window.addEventListener('keydown', function(event){
 }, true);
 
 window.addEventListener('keyup', function(event){
-    if(event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) screenshot = true;
-    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
+    if (event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) screenshot = true;
+    if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
 }, true);
 
 window.addEventListener('keypress', function(event){
-    if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
+    if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
 
-    if(event.key == "Z" && event.shiftKey){
+    if (event.key == "Z" && event.shiftKey){
         toggleUI();
     }
 }, true);
@@ -364,13 +364,13 @@ $("#animationSelect").change(function () {
 $("#skinSelect").change(function() {
     var display = $("#skinSelect option:selected").attr("value").split(',');
 
-    if(display.length == 3 || display.length == 4){
+    if (display.length == 3 || display.length == 4){
         // Creature
-        if(display.length == 3){
+        if (display.length == 3){
             Module._resetReplaceParticleColor();
         }
         setModelTexture(display, 11);
-    }else{
+    } else {
         // Item
         setModelTexture(display, 2);
     }
@@ -395,55 +395,55 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     $.ajax({
         url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
     })
-    .done(function( filename ) {
-        Current.filename = filename;
+        .done(function( filename ) {
+            Current.filename = filename;
 
-        updateURLs();
+            updateURLs();
 
-        if(!embeddedMode){
-            history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
-        }
-
-        $("#js-controls").addClass("closed");
-        $("#animationSelect").hide();
-        $("#skinSelect").hide();
-
-        var alwaysLoadByFDID = false;
-        if(noNameBuilds.includes(buildconfig)){
-            alwaysLoadByFDID = true;
-        }
-
-        if(Current.type == "adt"){
-            alwaysLoadByFDID = false;
-        }
-
-        if (Current.filename != "" && !alwaysLoadByFDID) {
-            console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
-            var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
-            if (Current.type == "adt") {
-                Module._setScene(2, ptrName, -1);
-            }else if (Current.type == "wmo") {
-                Module._setScene(1, ptrName, -1);
-            } else if (Current.type == "m2") {
-                Module._setScene(0, ptrName, -1);
-                loadModelTextures();
-            } else {
-                console.log("Unsupported type: " + Current.type);
+            if (!embeddedMode){
+                history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
             }
-        } else {
-            console.log("Loading " + Current.fileDataID + " (" + Current.type + ")");
-            if (Current.type == "adt") {
-                Module._setSceneFileDataId(2, Current.fileDataID, -1);
-            }else if (Current.type == "wmo") {
-                Module._setSceneFileDataId(1, Current.fileDataID, -1);
-            } else if (Current.type == "m2") {
-                Module._setSceneFileDataId(0, Current.fileDataID, -1);
-                loadModelTextures();
-            } else {
-                console.log("Unsupported type: " + Current.type);
+
+            $("#js-controls").addClass("closed");
+            $("#animationSelect").hide();
+            $("#skinSelect").hide();
+
+            var alwaysLoadByFDID = false;
+            if (noNameBuilds.includes(buildconfig)){
+                alwaysLoadByFDID = true;
             }
-        }
-    });
+
+            if (Current.type == "adt"){
+                alwaysLoadByFDID = false;
+            }
+
+            if (Current.filename != "" && !alwaysLoadByFDID) {
+                console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
+                var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
+                if (Current.type == "adt") {
+                    Module._setScene(2, ptrName, -1);
+                } else if (Current.type == "wmo") {
+                    Module._setScene(1, ptrName, -1);
+                } else if (Current.type == "m2") {
+                    Module._setScene(0, ptrName, -1);
+                    loadModelTextures();
+                } else {
+                    console.log("Unsupported type: " + Current.type);
+                }
+            } else {
+                console.log("Loading " + Current.fileDataID + " (" + Current.type + ")");
+                if (Current.type == "adt") {
+                    Module._setSceneFileDataId(2, Current.fileDataID, -1);
+                } else if (Current.type == "wmo") {
+                    Module._setSceneFileDataId(1, Current.fileDataID, -1);
+                } else if (Current.type == "m2") {
+                    Module._setSceneFileDataId(0, Current.fileDataID, -1);
+                    loadModelTextures();
+                } else {
+                    console.log("Unsupported type: " + Current.type);
+                }
+            }
+        });
 }
 
 function loadModelTextures() {
@@ -452,7 +452,7 @@ function loadModelTextures() {
     var currentFDID = Current.fileDataID;
     $.ajax({url: "https://wow.tools/dbc/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
         var forFDID = this.url.replace("https://wow.tools/dbc/api/texture/", "").replace("?build=" + Current.buildName, "");
-        if(Current.fileDataID != forFDID){
+        if (Current.fileDataID != forFDID){
             console.log("This request is not for this filedataid, discarding..");
             return;
         }
@@ -461,7 +461,7 @@ function loadModelTextures() {
         for (let displayId in data) {
             if (!data.hasOwnProperty(displayId)) continue;
 
-            if(data[displayId][0] == 0)
+            if (data[displayId][0] == 0)
                 continue;
 
             var intArray = data[displayId];
@@ -470,7 +470,7 @@ function loadModelTextures() {
             $("#js-controls").removeClass("closed");
             $("#skinSelect").show();
 
-            if(loadedTextures.includes(intArray.join(',')))
+            if (loadedTextures.includes(intArray.join(',')))
                 continue;
 
             loadedTextures.push(intArray.join(','));
@@ -483,42 +483,42 @@ function loadModelTextures() {
                     filedataid : intArray.join(",")
                 }
             })
-            .done(function( filename ) {
-                var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
-                var textureFileDataID = textureFileDataIDs[0];
+                .done(function( filename ) {
+                    var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
+                    var textureFileDataID = textureFileDataIDs[0];
 
-                var optionHTML = '<option value="' + textureFileDataIDs + '"';
+                    var optionHTML = '<option value="' + textureFileDataIDs + '"';
 
-                if($('#skinSelect option').length == 0){
-                    optionHTML += " SELECTED>";
-                    if(textureFileDataIDs.length == 3 || textureFileDataIDs.length == 4){
+                    if ($('#skinSelect option').length == 0){
+                        optionHTML += " SELECTED>";
+                        if (textureFileDataIDs.length == 3 || textureFileDataIDs.length == 4){
                         // Creature
-                        setModelTexture(textureFileDataIDs, 11);
-                    }else{
+                            setModelTexture(textureFileDataIDs, 11);
+                        } else {
                         // Item
-                        setModelTexture(textureFileDataIDs, 2);
+                            setModelTexture(textureFileDataIDs, 2);
+                        }
+                    } else {
+                        optionHTML += ">";
                     }
-                }else{
-                    optionHTML += ">";
-                }
 
-                if(filename != ""){
-                    var nopathname = filename.replace(/^.*[\\\/]/, '');
-                    optionHTML += "(" + textureFileDataID + ") " + nopathname + "</option>";
-                }else{
-                    optionHTML += textureFileDataID + "</option>";
-                }
+                    if (filename != ""){
+                        var nopathname = filename.replace(/^.*[\\\/]/, '');
+                        optionHTML += "(" + textureFileDataID + ") " + nopathname + "</option>";
+                    } else {
+                        optionHTML += textureFileDataID + "</option>";
+                    }
 
-                $("#skinSelect").append(optionHTML);
-            });
+                    $("#skinSelect").append(optionHTML);
+                });
         }
     });
 }
 
 function updateTextures(){
     const textureArray = new Int32Array(18);
-    for(let i = 0; i < 18; i++){
-        if(document.getElementById('tex' + i)){
+    for (let i = 0; i < 18; i++){
+        if (document.getElementById('tex' + i)){
             textureArray[i] = document.getElementById('tex' + i).value;
         }
     }
@@ -528,27 +528,27 @@ function setModelTexture(textures, offset){
     //Create real texture replace array
     const typedArray = new Int32Array(18);
 
-    for(i = 0; i < textures.length; i++){
-        if(offset == 11 && i == 3){
+    for (i = 0; i < textures.length; i++){
+        if (offset == 11 && i == 3){
             var particleColorID = textures[3];
             console.log("Particle Color should be set to " + particleColorID);
             fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
-            .then(function (response) {
-                return response.json();
-            }).then(function (particleColorEntry) {
-                const row = particleColorEntry.values;
-                Module._setReplaceParticleColors(
-                    row["Start[0]"], row["Start[1]"], row["Start[2]"],
-                    row["MID[0]"], row["MID[1]"], row["MID[2]"],
-                    row["End[0]"], row["End[1]"], row["End[2]"]
-                );
-            }).catch(function (error) {
-                console.log("An error occured retrieving particle colors for ID " + particleColorID);
-            });
-        }else{
+                .then(function (response) {
+                    return response.json();
+                }).then(function (particleColorEntry) {
+                    const row = particleColorEntry.values;
+                    Module._setReplaceParticleColors(
+                        row["Start[0]"], row["Start[1]"], row["Start[2]"],
+                        row["MID[0]"], row["MID[1]"], row["MID[2]"],
+                        row["End[0]"], row["End[1]"], row["End[2]"]
+                    );
+                }).catch(function (error) {
+                    console.log("An error occured retrieving particle colors for ID " + particleColorID);
+                });
+        } else {
             typedArray[offset + i] = textures[i];
             const inputTarget = offset + i;
-            if(document.getElementById('tex' + inputTarget)){
+            if (document.getElementById('tex' + inputTarget)){
                 document.getElementById('tex' + inputTarget).value = textures[i];
             }
         }
@@ -569,9 +569,9 @@ function updateURLs(){
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
 
     let urlFileId;
-    if(Settings.retailOnly){
+    if (Settings.retailOnly){
         urlFileId = "https://wow.tools/casc/extract/";
-    }else{
+    } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
 
@@ -590,7 +590,7 @@ function updateURLs(){
     });
 
     // Skip further initialization in embedded mode
-    if(embeddedMode){
+    if (embeddedMode){
         return;
     }
 
@@ -620,64 +620,64 @@ function updateURLs(){
         "dom": 'fprt',
         "columnDefs":
         [
-        {
-            "targets": 0,
-            "orderable": false,
-            "visible": false
-        },
-        {
-            "targets": 1,
-            "orderable": false,
-            "createdCell": function (td, cellData, rowData, row, col) {
-                if (!cellData && !rowData[7]) {
-                    $(td).css('background-color', '#ff5858');
-                    $(td).css('color', 'white');
+            {
+                "targets": 0,
+                "orderable": false,
+                "visible": false
+            },
+            {
+                "targets": 1,
+                "orderable": false,
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    if (!cellData && !rowData[7]) {
+                        $(td).css('background-color', '#ff5858');
+                        $(td).css('color', 'white');
+                    }
+                },
+                "render": function ( data, type, full, meta ) {
+                    if (full[1]) {
+                        var test = full[1].replace(/^.*[\\\/]/, '');
+                    } else {
+                        if (!full[4]){
+                            full[4] = "unk";
+                        }
+                        if (full[7]){
+                            var test = full[7].replace(/^.*[\\\/]/, '');
+                        } else {
+                            var test = "Unknown filename (Type: " + full[4] + ", ID " + full[0] + ")";
+                        }
+                    }
+
+                    return test;
                 }
             },
-            "render": function ( data, type, full, meta ) {
-                if(full[1]) {
-                    var test = full[1].replace(/^.*[\\\/]/, '');
-                }else{
-                    if(!full[4]){
-                        full[4] = "unk";
+            {
+                "targets": 2,
+                "orderable": false,
+                "render": function ( data, type, full, meta ) {
+                    var test = "";
+                    if (full[3].length > 1){
+                        test = "<div class='btn-group'><button class='btn btn-sm dropdown-toggle historybutton' type='button' data-toggle='dropdown'><i class='fa fa-clock-o'></i></button>";
+                        test += "<div class='dropdown-menu'>";
+
+                        full[3].sort(function(a, b){
+                            if (a['description'] < b['description']) { return 1; }
+                            if (a['description'] > b['description']) { return -1; }
+                            return 0;
+                        })
+
+                        full[3].forEach(function (value) {
+                            test += "<a class='dropdown-item filedropdown' href='#' onClick='loadModel(\"" + full[4] + "\", " + full[0] + ", \"" + value['buildconfig'] + "\", \"" + value['cdnconfig'] + "\");'>" + value['description'] + "</a>";
+                        });
+
+                        test += "</div></div>";
+                    } else {
+                        test = "<div class='btn-group'><button class='btn btn-sm historybutton' type='button' disabled><i class='fa fa-clock-o'></i></button></div>";
                     }
-                    if(full[7]){
-                        var test = full[7].replace(/^.*[\\\/]/, '');;
-                    }else{
-                        var test = "Unknown filename (Type: " + full[4] + ", ID " + full[0] + ")";
-                    }
+
+                    return test;
                 }
-
-                return test;
             }
-        },
-        {
-            "targets": 2,
-            "orderable": false,
-            "render": function ( data, type, full, meta ) {
-                var test = "";
-                if(full[3].length > 1){
-                    test = "<div class='btn-group'><button class='btn btn-sm dropdown-toggle historybutton' type='button' data-toggle='dropdown'><i class='fa fa-clock-o'></i></button>";
-                    test += "<div class='dropdown-menu'>";
-
-                    full[3].sort(function(a, b){
-                        if(a['description'] < b['description']) { return 1; }
-                        if(a['description'] > b['description']) { return -1; }
-                        return 0;
-                    })
-
-                    full[3].forEach(function (value) {
-                        test += "<a class='dropdown-item filedropdown' href='#' onClick='loadModel(\"" + full[4] + "\", " + full[0] + ", \"" + value['buildconfig'] + "\", \"" + value['cdnconfig'] + "\");'>" + value['description'] + "</a>";
-                    });
-
-                    test += "</div></div>";
-                }else{
-                    test = "<div class='btn-group'><button class='btn btn-sm historybutton' type='button' disabled><i class='fa fa-clock-o'></i></button></div>";
-                }
-
-                return test;
-            }
-        }
         ],
         "language": {
             search: "",

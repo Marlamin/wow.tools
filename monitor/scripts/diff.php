@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/../../inc/config.php");
 
 function downloadFile($url, $out)
@@ -27,97 +28,98 @@ function getDiff($fromFile, $toFile)
     return $result;
 }
 
-function getParsedDiff($fromFile, $toFile){
+function getParsedDiff($fromFile, $toFile)
+{
     $fromFileContent = file_get_contents($fromFile);
     $toFileContent = file_get_contents($toFile);
 
-    switch(substr($fromFileContent, 0, 5)){
+    switch (substr($fromFileContent, 0, 5)) {
         case "# Bui":
         case "# CDN":
         case "# Pat":
             $from = parseConfig($fromFile);
-            if(!empty($from['archives'])){
+            if (!empty($from['archives'])) {
                 $from['archives'] = array_fill_keys(explode(" ", $from['archives']), '');
             }
 
-             if(!empty($from['patch-archives'])){
+            if (!empty($from['patch-archives'])) {
                 $from['patch-archives'] = array_fill_keys(explode(" ", $from['patch-archives']), '');
             }
 
-            if(!empty($from['archives-index-size'])){
+            if (!empty($from['archives-index-size'])) {
                 $from['archives-index-size'] = explode(" ", $from['archives-index-size']);
             }
 
-            if(!empty($from['patch-archives-index-size'])){
+            if (!empty($from['patch-archives-index-size'])) {
                 $from['patch-archives-index-size'] = explode(" ", $from['patch-archives-index-size']);
             }
 
             unset($from['original-filename']);
-        break;
+            break;
     }
 
-    switch(substr($toFileContent, 0, 5)){
+    switch (substr($toFileContent, 0, 5)) {
         case "# Bui":
         case "# CDN":
         case "# Pat":
             $to = parseConfig($toFile);
-            if(!empty($to['archives'])){
+            if (!empty($to['archives'])) {
                 $to['archives'] = array_fill_keys(explode(" ", $to['archives']), '');
             }
 
-             if(!empty($to['patch-archives'])){
+            if (!empty($to['patch-archives'])) {
                 $to['patch-archives'] = array_fill_keys(explode(" ", $to['patch-archives']), '');
             }
 
-            if(!empty($to['archives-index-size'])){
+            if (!empty($to['archives-index-size'])) {
                 $to['archives-index-size'] = explode(" ", $to['archives-index-size']);
             }
 
-            if(!empty($to['patch-archives-index-size'])){
+            if (!empty($to['patch-archives-index-size'])) {
                 $to['patch-archives-index-size'] = explode(" ", $to['patch-archives-index-size']);
             }
 
             unset($to['original-filename']);
-        break;
+            break;
     }
 
-    if(empty($from)){
+    if (empty($from)) {
         $from = json_decode($fromFileContent, true);
     }
 
-    if(empty($to)){
+    if (empty($to)) {
         $to = json_decode($toFileContent, true);
     }
 
-    if(!$from || !$to){
+    if (!$from || !$to) {
         $diffs = "Unsupported";
-    }else{
+    } else {
         $diffs = CompareArrays::Diff($from, $to);
-        if(!empty($diffs)){
+        if (!empty($diffs)) {
             $diffs = CompareArrays::Flatten($diffs);
         }
     }
 
     return $diffs;
-
 }
 
-if(empty($_GET['from']) || empty($_GET['to']))
+if (empty($_GET['from']) || empty($_GET['to'])) {
     die("Not enough information to diff");
+}
 
-if(substr($_GET['from'], 0, 3) != "tpr" || !ctype_xdigit(substr($_GET['from'], -32))){
+if (substr($_GET['from'], 0, 3) != "tpr" || !ctype_xdigit(substr($_GET['from'], -32))) {
     die("Invalid from URL");
 }
 
-if(substr($_GET['to'], 0, 3) != "tpr" || !ctype_xdigit(substr($_GET['to'], -32))){
+if (substr($_GET['to'], 0, 3) != "tpr" || !ctype_xdigit(substr($_GET['to'], -32))) {
     die("Invalid to URL");
 }
 
 $fromFile = tempnam('/tmp/', 'MONDIFF');
 $toFile = tempnam('/tmp/', 'MONDIFF');
 
-downloadFile("http://blzddist1-a.akamaihd.net/".$_GET['from'], $fromFile);
-downloadFile("http://blzddist1-a.akamaihd.net/".$_GET['to'], $toFile);
+downloadFile("http://blzddist1-a.akamaihd.net/" . $_GET['from'], $fromFile);
+downloadFile("http://blzddist1-a.akamaihd.net/" . $_GET['to'], $toFile);
 
 $diff = getDiff($fromFile, $toFile);
 $parsedDiffs = getParsedDiff($fromFile, $toFile);
@@ -161,27 +163,27 @@ unlink($toFile);
                 <table class='table table-sm table-striped'>
                     <thead><tr><th>&nbsp;</th><th>Key</th><th>Before</th><th>After</th></tr></thead>
                     <?php
-                    if($parsedDiffs == "Unsupported"){
+                    if ($parsedDiffs == "Unsupported") {
                         echo $parsedDiffs;
-                    }else{
+                    } else {
                         $difftext = "";
                         $color = "";
-                        foreach($parsedDiffs as $name => $parsedDiff){
-                            switch($parsedDiff->Type){
+                        foreach ($parsedDiffs as $name => $parsedDiff) {
+                            switch ($parsedDiff->Type) {
                                 case "added":
                                     $icon = 'plus';
                                     $color = 'success';
-                                break;
+                                    break;
                                 case "modified":
                                     $icon = 'pencil';
                                     $color = 'warning';
-                                break;
+                                    break;
                                 case "removed":
                                     $icon = 'times';
                                     $color = 'danger';
-                                break;
+                                    break;
                             }
-                            echo "<tr><td class='text-" . $color . "'><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$parsedDiff->OldValue."</td><td>".$parsedDiff->NewValue."</td><td></td></tr>";
+                            echo "<tr><td class='text-" . $color . "'><i class='fa fa-" . $icon . "'></i></td><td>" . $name . "</td><td>" . $parsedDiff->OldValue . "</td><td>" . $parsedDiff->NewValue . "</td><td></td></tr>";
                         }
                     }
                     ?>

@@ -12,9 +12,9 @@ All requests are logged to monitor for (and prevent) abuse. Logged information i
 <h5>Accounts</h5>
 If you create an account on the site, the following information is stored:
 <ul>
-	<li>Username</li>
-	<li>A salted hash of your password (generated with bcrypt)</li>
-	<li>E-mail (for account recovery)</li>
+    <li>Username</li>
+    <li>A salted hash of your password (generated with bcrypt)</li>
+    <li>E-mail (for account recovery)</li>
 </ul>
 <h5>Submitted information</h5>
 <p>If you submit filenames to be added to the database while logged in, your username is stored and will be mentioned on the frontpage as a way of saying thanks. If you don't want this, log out when submitting filenames.</p>
@@ -32,8 +32,8 @@ The site and the tools powering the site are open source.
 </ul>
 <h4>Third party</h4>
 <ul>
-	<li><a href='https://github.com/Kruithne/node-bufo' target='_BLANK'>Bufo</a> and <a href='https://github.com/Kruithne/js-blp/' target='_BLANK'>js-blp</a> by Kruithne for client-side BLP conversion</li>
-	<li>Expansion icons by Wowpedia & schlumpf</li>
+    <li><a href='https://github.com/Kruithne/node-bufo' target='_BLANK'>Bufo</a> and <a href='https://github.com/Kruithne/js-blp/' target='_BLANK'>js-blp</a> by Kruithne for client-side BLP conversion</li>
+    <li>Expansion icons by Wowpedia & schlumpf</li>
 </ul>
 <h3>Legal stuff</h3>
 <p>WoW and as such all content from WoW is copyrighted and owned by Blizzard. This site is neither endorsed or affiliated with Blizzard or any of its partners.</p>
