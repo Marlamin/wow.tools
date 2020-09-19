@@ -1,4 +1,5 @@
 <?php
+
 require_once("../../inc/config.php");
 
 if (empty($_GET['from']) || empty($_GET['to']) || empty($_GET['filedataid'])) {
@@ -54,24 +55,24 @@ function getDiff($fromBuild, $toBuild, $fileDataID, $raw)
     downloadFile($fromFile, $fromBuild, $fileDataID);
     downloadFile($toFile, $toBuild, $fileDataID);
 
-    if($raw){
+    if ($raw) {
         $rawFromFile = tempnam('/tmp/', 'PREVIEW');
         $rawToFile = tempnam('/tmp/', 'PREVIEW');
 
-        shell_exec("/usr/bin/hd -n62144 ".escapeshellarg($fromFile)." > " . escapeshellarg($rawFromFile));
-        shell_exec("/usr/bin/hd -n62144 ".escapeshellarg($toFile)." > " . escapeshellarg($rawToFile));
+        shell_exec("/usr/bin/hd -n62144 " . escapeshellarg($fromFile) . " > " . escapeshellarg($rawFromFile));
+        shell_exec("/usr/bin/hd -n62144 " . escapeshellarg($toFile) . " > " . escapeshellarg($rawToFile));
 
         $cmd = "diff -u " . escapeshellarg($rawFromFile) . " " . escapeshellarg($rawToFile);
         $result = shell_exec($cmd);
 
-        if(empty($result)){
-            shell_exec("/usr/bin/hd ".escapeshellarg($fromFile)." > " . escapeshellarg($rawFromFile));
-            shell_exec("/usr/bin/hd ".escapeshellarg($toFile)." > " . escapeshellarg($rawToFile));
+        if (empty($result)) {
+            shell_exec("/usr/bin/hd " . escapeshellarg($fromFile) . " > " . escapeshellarg($rawFromFile));
+            shell_exec("/usr/bin/hd " . escapeshellarg($toFile) . " > " . escapeshellarg($rawToFile));
 
             $cmd = "diff -u " . escapeshellarg($rawFromFile) . " " . escapeshellarg($rawToFile);
             $result = shell_exec($cmd);
         }
-    }else{
+    } else {
         $cmd = "diff -u " . escapeshellarg($fromFile) . " " . escapeshellarg($toFile);
         $result = shell_exec($cmd);
     }

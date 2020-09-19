@@ -1,44 +1,50 @@
 <?php
+
 $disableBugsnag = true;
 include("../../inc/config.php");
+if (php_sapi_name() != "cli") {
+    die("This script cannot be run outside of CLI.");
+}
 
-if(php_sapi_name() != "cli") die("This script cannot be run outside of CLI.");
+function getDBC($name, $build)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/export/?name=" . urlencode($name) . "&build=" . urlencode($build) . "&useHotfixes=true&newLinesInStrings=false");
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $data = curl_exec($ch);
+    if (!$data) {
+        echo "cURL fail: " . print_r(curl_error($ch)) . "\n";
+    }
+    curl_close($ch);
+    if ($data == "") {
+        return false;
+    } else {
+        $rows = [];
+        $expl = explode("\n", $data);
+        for (
+            $i = 0; $i < count($expl);
+            $i++
+        ) {
+            $parsed = str_getcsv($expl[$i]);
+            if ($i == 0) {
+                $headers = $parsed;
+                continue;
+            }
 
-function getDBC($name, $build){
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/export/?name=".urlencode($name)."&build=".urlencode($build)."&useHotfixes=true&newLinesInStrings=false");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	$data = curl_exec($ch);
-	if(!$data){
-		echo "cURL fail: " . print_r(curl_error($ch))."\n";
-	}
-	curl_close($ch);
-	if($data == ""){
-		return false;
-	}else{
-		$rows = [];
-		$expl = explode("\n", $data);
-		for($i = 0; $i < count($expl); $i++){
-			$parsed = str_getcsv($expl[$i]);
-			if($i == 0){
-				$headers = $parsed;
-				continue;
-			}
-
-			foreach($parsed as $key => $value){
-				if(empty($value))
-					continue;
-				if(array_key_exists($key, $headers)){
-					$rows[$i - 1][$headers[$key]] = $value;
-				}
-			}
-		}
-		return $rows;
-	}
+            foreach ($parsed as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                if (array_key_exists($key, $headers)) {
+                    $rows[$i - 1][$headers[$key]] = $value;
+                }
+            }
+        }
+        return $rows;
+    }
 }
 $build = "9.0.2.35854";
-
 // Manually defined ChrModelMap, saves lots of lookups/DB loading!
 $chrModelMap = [];
 $chrModelMap[1] = 'character/human/male/humanmale_hd';
@@ -85,8 +91,10 @@ $chrModelMap[22] = 'character/draenei/female/draeneifemale_hd';
 // $chrModelMap[42] = 'Ice Troll (Fe)male';
 $chrModelMap[43] = 'character/worgen/male/worgenmale';
 $chrModelMap[44] = 'character/worgen/female/worgenfemale';
-$chrModelMap[45] = 'character/human/male/humanmale_hd'; // Gilnean
-$chrModelMap[46] = 'character/human/female/humanfemale_hd'; // Gilnean
+$chrModelMap[45] = 'character/human/male/humanmale_hd';
+// Gilnean
+$chrModelMap[46] = 'character/human/female/humanfemale_hd';
+// Gilnean
 $chrModelMap[47] = 'character/pandaren/male/pandarenmale';
 $chrModelMap[48] = 'character/pandaren/female/pandarenfemale';
 $chrModelMap[53] = 'character/nightborne/male/nightbornemale';
@@ -111,74 +119,74 @@ $chrModelMap[71] = 'character/orc/male/orcmale_hd';
 $chrModelMap[72] = 'character/orc/female/orcfemale_hd';
 $chrModelMap[73] = 'character/mechagnome/male/mechagnomemale';
 $chrModelMap[74] = 'character/mechagnome/female/mechagnomefemale';
-
 $unnamedBLPs = $pdo->query("SELECT id FROM wow_rootfiles WHERE type = 'blp' AND filename IS NULL")->fetchAll(PDO::FETCH_COLUMN);
-
 $textureFileDataDB = getDBC("TextureFileData", $build);
 $textureFileDataMap = [];
-foreach($textureFileDataDB as $textureFileDataEntry){
-	$textureFileDataMap[$textureFileDataEntry['MaterialResourcesID']] = $textureFileDataEntry['FileDataID'];
+foreach ($textureFileDataDB as $textureFileDataEntry) {
+    $textureFileDataMap[$textureFileDataEntry['MaterialResourcesID']] = $textureFileDataEntry['FileDataID'];
 }
 
 $chrCustomizationMaterialDB = getDBC("ChrCustomizationMaterial", $build);
 $chrCustomizationMaterialFDIDMap = [];
-foreach($chrCustomizationMaterialDB as $ChrCustomizationMaterialEntry){
-	if(!array_key_exists($ChrCustomizationMaterialEntry['MaterialResourcesID'], $textureFileDataMap))
-		continue;
+foreach ($chrCustomizationMaterialDB as $ChrCustomizationMaterialEntry) {
+    if (!array_key_exists($ChrCustomizationMaterialEntry['MaterialResourcesID'], $textureFileDataMap)) {
+        continue;
+    }
 
-	$chrCustomizationMaterialFDIDMap[$ChrCustomizationMaterialEntry['ID']] = $textureFileDataMap[$ChrCustomizationMaterialEntry['MaterialResourcesID']];
+    $chrCustomizationMaterialFDIDMap[$ChrCustomizationMaterialEntry['ID']] = $textureFileDataMap[$ChrCustomizationMaterialEntry['MaterialResourcesID']];
 }
 
 $chrCustomizationOptionDB = getDBC("ChrCustomizationOption", $build);
 $chrCustomizationOptionMap = [];
-foreach($chrCustomizationOptionDB as $chrCustomizationOptionEntry){
-	$chrCustomizationOptionMap[$chrCustomizationOptionEntry['ID']] = $chrCustomizationOptionEntry;
+foreach ($chrCustomizationOptionDB as $chrCustomizationOptionEntry) {
+    $chrCustomizationOptionMap[$chrCustomizationOptionEntry['ID']] = $chrCustomizationOptionEntry;
 }
 
 $chrCustomizationChoiceDB = getDBC("ChrCustomizationChoice", $build);
 $chrCustomizationChoiceMap = [];
-foreach($chrCustomizationChoiceDB as $chrCustomizationChoiceEntry){
-	$chrCustomizationChoiceMap[$chrCustomizationChoiceEntry['ID']] = $chrCustomizationChoiceEntry;
+foreach ($chrCustomizationChoiceDB as $chrCustomizationChoiceEntry) {
+    $chrCustomizationChoiceMap[$chrCustomizationChoiceEntry['ID']] = $chrCustomizationChoiceEntry;
 }
 
 $chrCustomizationCategoryDB = getDBC("ChrCustomizationCategory", $build);
 $chrCustomizationCategoryMap = [];
-foreach($chrCustomizationCategoryDB as $chrCustomizationCategoryEntry){
-	$chrCustomizationCategoryMap[$chrCustomizationCategoryEntry['ID']] = $chrCustomizationCategoryEntry;
+foreach ($chrCustomizationCategoryDB as $chrCustomizationCategoryEntry) {
+    $chrCustomizationCategoryMap[$chrCustomizationCategoryEntry['ID']] = $chrCustomizationCategoryEntry;
 }
 
 
 $chrCustomizationElementDB = getDBC("ChrCustomizationElement", $build);
-
 $doneFdids = [];
-foreach($chrCustomizationElementDB as $chrCustElementEntry){
-	if(empty($chrCustElementEntry['ChrCustomizationMaterialID']))
-		continue;
+foreach ($chrCustomizationElementDB as $chrCustElementEntry) {
+    if (empty($chrCustElementEntry['ChrCustomizationMaterialID'])) {
+        continue;
+    }
 
-	if(!in_array($chrCustomizationMaterialFDIDMap[$chrCustElementEntry['ChrCustomizationMaterialID']], $unnamedBLPs))
-		continue;
+    if (!in_array($chrCustomizationMaterialFDIDMap[$chrCustElementEntry['ChrCustomizationMaterialID']], $unnamedBLPs)) {
+        continue;
+    }
 
-	if(!array_key_exists($chrCustElementEntry['ChrCustomizationChoiceID'], $chrCustomizationChoiceMap))
-		continue;
+    if (!array_key_exists($chrCustElementEntry['ChrCustomizationChoiceID'], $chrCustomizationChoiceMap)) {
+        continue;
+    }
 
-	$choice = $chrCustomizationChoiceMap[$chrCustElementEntry['ChrCustomizationChoiceID']];
+    $choice = $chrCustomizationChoiceMap[$chrCustElementEntry['ChrCustomizationChoiceID']];
+    if (!array_key_exists($choice['ChrCustomizationOptionID'], $chrCustomizationOptionMap)) {
+        continue;
+    }
 
-	if(!array_key_exists($choice['ChrCustomizationOptionID'], $chrCustomizationOptionMap))
-		continue;
+    $option = $chrCustomizationOptionMap[$choice['ChrCustomizationOptionID']];
+    if (!array_key_exists($option['ChrModelID'], $chrModelMap)) {
+        continue;
+    }
 
-	$option = $chrCustomizationOptionMap[$choice['ChrCustomizationOptionID']];
-	if(!array_key_exists($option['ChrModelID'], $chrModelMap))
-		continue;
+    $modelPrefix = $chrModelMap[$option['ChrModelID']];
+    $category = $chrCustomizationCategoryMap[$option['ChrCustomizationCategoryID']];
+    $fdid = $chrCustomizationMaterialFDIDMap[$chrCustElementEntry['ChrCustomizationMaterialID']];
+    if (in_array($fdid, $doneFdids)) {
+        continue;
+    }
 
-	$modelPrefix = $chrModelMap[$option['ChrModelID']];
-	$category = $chrCustomizationCategoryMap[$option['ChrCustomizationCategoryID']];
-	$fdid = $chrCustomizationMaterialFDIDMap[$chrCustElementEntry['ChrCustomizationMaterialID']];
-
-	if(in_array($fdid, $doneFdids))
-		continue;
-
-	$doneFdids[] = $fdid;
-
-	echo $fdid . ";" . $modelPrefix . "_" . str_replace(" ", "_", strtolower($option['Name_lang'])) . "_" . $fdid . ".blp\n";
+    $doneFdids[] = $fdid;
+    echo $fdid . ";" . $modelPrefix . "_" . str_replace(" ", "_", strtolower($option['Name_lang'])) . "_" . $fdid . ".blp\n";
 }
-?>

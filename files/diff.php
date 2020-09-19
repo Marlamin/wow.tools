@@ -1,7 +1,9 @@
 <?php
+
 require_once("../inc/config.php");
 
-function downloadFile($params, $outfile){
+function downloadFile($params, $outfile)
+{
     $fp = fopen($outfile, 'w+');
     $url = 'http://localhost:5005/casc/file' . $params;
     $ch = curl_init($url);
@@ -11,9 +13,9 @@ function downloadFile($params, $outfile){
     curl_close($ch);
     fclose($fp);
 
-    if($exec){
+    if ($exec) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -25,7 +27,7 @@ if (empty($_GET['from']) || empty($_GET['to']) || empty($_GET['filedataid'])) {
 $fq = $pdo->prepare("SELECT type FROM wow_rootfiles WHERE id = ?");
 $fq->execute([$_GET['filedataid']]);
 $row = $fq->fetch();
-if(empty($row)){
+if (empty($row)) {
     die("File not found in database or type is unknown!");
 }
 
@@ -33,9 +35,9 @@ $type = $row['type'];
 $frombuild = getVersionByBuildConfigHash($_GET['from'], "wow");
 $tobuild = getVersionByBuildConfigHash($_GET['to'], "wow");
 
-if($type == "blp"){
-    $fromparams = "/fdid?buildconfig=".$frombuild['buildconfig']['hash']."&cdnconfig=".$frombuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
-    $toparams = "/fdid?buildconfig=".$tobuild['buildconfig']['hash']."&cdnconfig=".$tobuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
+if ($type == "blp") {
+    $fromparams = "/fdid?buildconfig=" . $frombuild['buildconfig']['hash'] . "&cdnconfig=" . $frombuild['cdnconfig']['hash'] . "&filename=" . $_GET['filedataid'] . ".blp&filedataid=" . $_GET['filedataid'];
+    $toparams = "/fdid?buildconfig=" . $tobuild['buildconfig']['hash'] . "&cdnconfig=" . $tobuild['cdnconfig']['hash'] . "&filename=" . $_GET['filedataid'] . ".blp&filedataid=" . $_GET['filedataid'];
 
     ?>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -114,8 +116,8 @@ if($type == "blp"){
         module = {}
     });
 </script>
-<?php
-}else{
+    <?php
+} else {
     $diff_api_url = "/files/scripts/diff_api.php?from=" . $_GET['from'] . "&to=" . $_GET['to'] . "&filedataid=" . $_GET['filedataid'] . "&raw=" . $_GET['raw'];
     ?>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
@@ -141,19 +143,19 @@ if($type == "blp"){
     </script>
     <?php
 }
-if($type == "m2" || $type == "wmo"){
-    $fromparams = "/fdid?buildconfig=".$frombuild['buildconfig']['hash']."&cdnconfig=".$frombuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
-    $toparams = "/fdid?buildconfig=".$tobuild['buildconfig']['hash']."&cdnconfig=".$tobuild['cdnconfig']['hash']."&filename=".$_GET['filedataid'].".blp&filedataid=".$_GET['filedataid'];
+if ($type == "m2" || $type == "wmo") {
+    $fromparams = "/fdid?buildconfig=" . $frombuild['buildconfig']['hash'] . "&cdnconfig=" . $frombuild['cdnconfig']['hash'] . "&filename=" . $_GET['filedataid'] . ".blp&filedataid=" . $_GET['filedataid'];
+    $toparams = "/fdid?buildconfig=" . $tobuild['buildconfig']['hash'] . "&cdnconfig=" . $tobuild['cdnconfig']['hash'] . "&filename=" . $_GET['filedataid'] . ".blp&filedataid=" . $_GET['filedataid'];
 
     $fromfile = tempnam('/tmp/', 'DIFF');
     $tofile = tempnam('/tmp/', 'DIFF');
     downloadFile($fromparams, $fromfile);
     downloadFile($toparams, $tofile);
-    $fromOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($fromfile)." 2>&1"), true);
-    $toOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll ".$type." ".escapeshellarg($tofile)." 2>&1"), true);
-    if(!empty($fromOutput) && !empty($toOutput)){
+    $fromOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($fromfile) . " 2>&1"), true);
+    $toOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tofile) . " 2>&1"), true);
+    if (!empty($fromOutput) && !empty($toOutput)) {
         $diffs = CompareArrays::Diff($fromOutput, $toOutput);
-        if(!empty($diffs)){
+        if (!empty($diffs)) {
             $diffs = CompareArrays::Flatten($diffs);
         }
     }
@@ -163,7 +165,7 @@ if($type == "m2" || $type == "wmo"){
     <li class="nav-item">
         <a class="nav-link active" id="rawdiff-tab" data-toggle="tab" href="#rawdiff" role="tab" aria-controls="model" aria-selected="true">Raw diff</a>
     </li>
-    <?php if(!empty($diffs)){ ?>
+    <?php if (!empty($diffs)) { ?>
         <li class="nav-item">
             <a class="nav-link" id="jsondiff-tab" data-toggle="tab" href="#jsondiff" role="tab" aria-controls="model" aria-selected="true">Parsed diff</a>
         </li>
@@ -179,7 +181,7 @@ if($type == "m2" || $type == "wmo"){
     <div class="tab-pane show active" id="rawdiff" role="tabpanel" aria-labelledby="rawdiff-tab">
         <div id="diff">Generating raw diff..</div>
     </div>
-    <?php if(!empty($diffs)){ ?>
+    <?php if (!empty($diffs)) { ?>
         <div class="tab-pane show" id="jsondiff" role="tabpanel" aria-labelledby="jsondiff-tab">
             Not all changes will be shown in these diffs. Only some chunks of M2/WMO files are supported.
             <div id="jsondiff">
@@ -187,23 +189,23 @@ if($type == "m2" || $type == "wmo"){
                     <?php
                     $difftext = "";
                     $color = "";
-                    foreach($diffs as $name => $diff){
-                        switch($diff->Type){
+                    foreach ($diffs as $name => $diff) {
+                        switch ($diff->Type) {
                             case "added":
-                            $icon = 'plus';
-                            $color = 'success';
-                            break;
+                                $icon = 'plus';
+                                $color = 'success';
+                                break;
                             case "modified":
-                            $icon = 'pencil';
-                            $color = 'warning';
-                            break;
+                                $icon = 'pencil';
+                                $color = 'warning';
+                                break;
                             case "removed":
-                            $icon = 'times';
-                            $color = 'danger';
-                            break;
+                                $icon = 'times';
+                                $color = 'danger';
+                                break;
                         }
 
-                        echo "<tr><td class='text-" . $color . "'><i class='fa fa-".$icon."'></i></td><td>".$name."</td><td>".$diff->OldValue."</td><td>".$diff->NewValue."</td><td></td></tr>";
+                        echo "<tr><td class='text-" . $color . "'><i class='fa fa-" . $icon . "'></i></td><td>" . $name . "</td><td>" . $diff->OldValue . "</td><td>" . $diff->NewValue . "</td><td></td></tr>";
                     }
                     ?>
                 </table>
@@ -215,6 +217,5 @@ if($type == "m2" || $type == "wmo"){
         <div class="tab-pane show" id="tojson" role="tabpanel" aria-labelledby="tojson-tab">
            <pre><?=print_r($toOutput)?></pre>
        </div>
-   <? } ?>
-</div>
+    <?php } ?>
 </div>
