@@ -278,6 +278,8 @@ function generateItemTooltip(id, tooltip, build){
 		if(calcData["iconFileDataID"] != 0){
 			tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
 		}
+
+		repositionTooltip(tooltip);
 	}).catch(function (error) {
 		console.log("An error occurred retrieving data to generate the tooltip: " + error);
 		tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;

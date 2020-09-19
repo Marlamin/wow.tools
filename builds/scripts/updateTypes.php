@@ -72,12 +72,12 @@ while(true){
 			$uq->execute();
 		}
 
-		if(in_array($file['id'], $skitManifest)){
-			echo "File " . $file['id'] . " is an ogg!\n";
-			$uq->bindValue(":type", "ogg");
-			$uq->bindParam(":id", $file['id']);
-			$uq->execute();
-		}
+		// if(in_array($file['id'], $skitManifest)){
+		// 	echo "File " . $file['id'] . " is an ogg!\n";
+		// 	$uq->bindValue(":type", "ogg");
+		// 	$uq->bindParam(":id", $file['id']);
+		// 	$uq->execute();
+		// }
 	}
 	// /* Unknown but decrypted */
 
@@ -127,7 +127,8 @@ while(true){
 		echo("Extracting " . $toextract . " unknown files (".$extracted ." already extracted) for buildconfig ".$buildconfig."\n");
 		// echo "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
 		if($toextract > 0){
-			exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt");
+			$cmd = "cd /home/wow/buildbackup2; /usr/bin/dotnet /home/wow/buildbackup2/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
+			exec($cmd, $output);
 		}
 
 		foreach(glob("/tmp/casc/".$buildconfig."/*.unk") as $extractedfile){

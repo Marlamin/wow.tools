@@ -1,6 +1,22 @@
 <?php
 require_once("../inc/config.php");
 
+if(!empty($_GET['type']) && $_GET['type'] == "bycdi" && !empty($_GET['id'])){
+	$q = $pdo->prepare('SELECT id, name, json FROM wowdata.creatures WHERE json LIKE ?');
+	$q->execute(["%CreatureDisplayInfoID[_]\":\"".$_GET['id']."%"]);
+
+	header("Content-Type: application/json");
+
+	$res = [];
+	while($row = $q->fetch(PDO::FETCH_ASSOC)){
+		$res[] = array("id" => $row['id'], "name" => $row['name'], json_decode($row['json'], true));
+	}
+
+	echo json_encode($res);
+
+	die();
+}
+
 if(!empty($_GET['id'])){
 	$q = $pdo->prepare("SELECT json FROM wowdata.creatures WHERE id = ?");
 	$q->execute([$_GET['id']]);
