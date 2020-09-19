@@ -1,8 +1,10 @@
 <?php
+
 die();
-if(!empty($_GET['embed'])){
+
+if (!empty($_GET['embed'])) {
     require_once(__DIR__ . "/../inc/config.php");
-}else{
+} else {
     require_once(__DIR__ . "/../inc/header.php");
 }
 
