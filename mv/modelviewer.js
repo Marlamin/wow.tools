@@ -330,7 +330,7 @@ window.addEventListener('keydown', function(event){
             }
 
             if(Settings.paused){
-                Settings.speed = 100000000.0;
+                Settings.speed = 1000000000000.0;
             }else{
                 Settings.speed = 1000.0;
             }
