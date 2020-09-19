@@ -59,7 +59,8 @@ $locales = [
 			<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
 				<input type="checkbox" autocomplete="off" id="hotfixToggle" <?php if(!empty($_GET['hotfixes'])){?>CHECKED<?php } ?>> Use hotfixes?
 			</label>
-			<a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'>Settings</a>
+			<a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
+			<a id='dbdButton' style='vertical-align: top; display: none;' class='btn btn-secondary btn-sm disabled' href='' target='_BLANK'><i class='fa fa-external-link'></i> DBD</a>
 		</form><br>
 		<div id='tableContainer'><br>
 			<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
@@ -84,6 +85,7 @@ $locales = [
 				<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> <label for='tooltipToggle'>Enable tooltips?</label><br>
 				<input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
 				<input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
+				<input type="checkbox" autocomplete="off" id="showDBDButton"> <label for='showDBDButton'>Show DBD button?</label><br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -194,10 +196,29 @@ $locales = [
 		filtersAlwaysEnabled: false,
 		filtersCurrentlyEnabled: false,
 		enableTooltips: true,
-		changedVersionsOnly: false
+		changedVersionsOnly: false,
+		showDBDButton: false
 	}
 
 	let clearState = false;
+
+	function updateDBDButton(){
+		console.log("updating button");
+		const dbdButton = document.getElementById("dbdButton");
+		if(dbdButton){
+			if(Settings.showDBDButton){
+				document.getElementById("dbdButton").style.display = 'inline-block';
+			}else{
+				document.getElementById("dbdButton").style.display = 'none';
+			}
+
+			const fileFilter = document.getElementById("fileFilter");
+			if(fileFilter.selectedIndex != -1){
+				dbdButton.href = "https://github.com/wowdev/WoWDBDefs/blob/master/definitions/" + fileFilter.options[fileFilter.selectedIndex].text + ".dbd";
+				dbdButton.classList.remove("disabled");
+			}
+		}
+	}
 
 	function saveSettings(){
 		if(document.getElementById("tooltipToggle").checked){
@@ -216,6 +237,14 @@ $locales = [
 			localStorage.setItem('settings[changedVersionsOnly]', '1');
 		}else{
 			localStorage.setItem('settings[changedVersionsOnly]', '0');
+		}
+
+		if(document.getElementById("showDBDButton").checked){
+			localStorage.setItem('settings[showDBDButton]', '1');
+			document.getElementById("dbdButton").style.display = 'inline-block';
+		}else{
+			localStorage.setItem('settings[showDBDButton]', '0');
+			document.getElementById("dbdButton").style.display = 'none';
 		}
 
 		if(Settings.changedVersionsOnly != document.getElementById("changedVersionsOnly").checked){
@@ -260,6 +289,20 @@ $locales = [
 		}
 
 		document.getElementById("changedVersionsOnly").checked = Settings.changedVersionsOnly;
+
+		/* Show DBD button? */
+		var showDBDButton = localStorage.getItem('settings[showDBDButton]');
+		if(showDBDButton){
+			if(showDBDButton== "1"){
+				Settings.showDBDButton = true;
+				document.getElementById("dbdButton").style.display = 'inline-block';
+			}else{
+				Settings.showDBDButton = false;
+				document.getElementById("dbdButton").style.display = 'none';
+			}
+		}
+
+		document.getElementById("showDBDButton").checked = Settings.showDBDButton;
 	}
 
 	loadSettings();
@@ -354,6 +397,8 @@ $locales = [
 				}
 				fileFilter.appendChild(option);
 			});
+
+			updateDBDButton();
 		}).catch(function (error) {
 			console.log("An error occurred retrieving files: " + error);
 		});
@@ -558,7 +603,7 @@ $locales = [
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
 							}else if(columnWithTable == "item.ID"){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
-							}else if(columnWithTable == "spell.ID"){
+							}else if(columnWithTable == "spell.ID" || columnWithTable == "spellname.ID"){
 								returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' ontouchstart='showTooltip(this)' ontouchend='hideTooltip(this)' onmouseover='showTooltip(this)' onmouseout='hideTooltip(this)'>" + full[meta.col] + "</span>";
 							}else if(currentParams["dbc"].toLowerCase() == "playercondition" && json["headers"][meta.col].endsWith("Logic") && full[meta.col] != 0){
 								returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
@@ -739,10 +784,10 @@ $locales = [
 			if($(this).val() != "" && $(this).val() != "Select a table"){
 				currentParams["dbc"] = $(this).val();
 				if(document.getElementById("buildFilter")){
-					// TODO: Clear table specific state (page, filters)
 					clearState = true;
 					refreshVersions();
 					loadTable();
+					updateDBDButton();
 				}else{
 					document.location = buildURL(currentParams);
 				}
