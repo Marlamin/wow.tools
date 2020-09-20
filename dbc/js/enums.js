@@ -2727,6 +2727,20 @@ const mawPowerRarity = {
     4: 'Epic'
 }
 
+const spellVisualEffectNames = {
+    0: "FileDataID",            // Use value from SpellVisualEffectName::ModelFileDataID
+    1: "Item",                  // Item::ID
+    2: "CreatureDisplayInfo",   // CreatureDisplayInfo::ID
+    // 3: "",
+    // 4: "",
+    // 5: "",
+    // 6: "",
+    // 7: "",
+    // 8: "",
+    // 9: "",
+    // 10: ""
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2765,13 +2779,15 @@ enumMap.set("item.ClassID", itemClassEnum);
 enumMap.set("uimap.System", uiMapSystem);
 enumMap.set("garrabilityeffect.AbilityAction", garrAbilityAction);
 enumMap.set("garrabilityeffect.AbilityTargetType", garrAbilityTargetType);
-
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
 enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
 enumMap.set("chrmodeltexturelayer.TextureType", textureType);
 enumMap.set("chrmodelmaterial.TextureType", textureType);
 enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
+enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
+enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
+enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -2797,8 +2813,6 @@ enumMap.set("creaturedisplayinfoextra.DisplayRaceID", tempChrRaceIDEnum);
 enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
-enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
-enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
 
 for (let i = 0; i < 8; i++){
     enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
@@ -2942,6 +2956,13 @@ conditionalFKs.set("spellvisualkiteffect.Effect",
 conditionalFKs.set("modifiertree.Asset",
     [
         ['modifiertree.Type=107','spelllabel::LabelID'],
+    ]
+);
+
+conditionalFKs.set("spellvisualeffectname.GenericID",
+    [
+        ['spellvisualeffectname.Type=1', 'item::ID'],
+        ['spellvisualeffectname.Type=2', 'creaturedisplayinfo::ID']
     ]
 );
 
