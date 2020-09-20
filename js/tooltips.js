@@ -99,7 +99,7 @@ function tooltip2(el, event){
         tooltipDiv.style.position = "absolute";
         tooltipDiv.style.top = event.pageY + "px";
         tooltipDiv.style.left = event.pageX + "px";
-        tooltipDiv.style.zIndex = 5;
+        tooltipDiv.style.zIndex = 1100;
         tooltipDiv.style.display = "block";
         tooltipDiv.id = "wtTooltip";
         tooltipDiv.classList.add('wt-tooltip');
