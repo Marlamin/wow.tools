@@ -156,7 +156,7 @@ function BGRA2RGBA(color){
 function getFlagDescriptions(db, field, value, targetFlags = 0){
     let usedFlags = Array();
     if (targetFlags == 0){
-        targetFlags = window.flagMap.get(db + '.' + field);
+        targetFlags = flagMap.get(db + '.' + field);
     }
 
     if (BigInt === undefined){
@@ -195,7 +195,7 @@ function fancyFlagTable(flagArrs){
 }
 
 function getEnum(db, field, value){
-    const targetEnum = window.enumMap.get(db + '.' + field);
+    const targetEnum = enumMap.get(db + '.' + field);
     return getEnumVal(targetEnum, value);
 }
 

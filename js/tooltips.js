@@ -1,4 +1,5 @@
 function showTooltip(el){
+    return;
     if (document.getElementById("tooltipToggle")){
         if (!document.getElementById("tooltipToggle").checked){
             return;
@@ -63,6 +64,110 @@ function showTooltip(el){
             console.log("Unsupported tooltip type " + tooltipType);
             return;
         }
+    }
+}
+
+document.addEventListener('mousemove', (e) => {
+    if (!e.target.matches('a[data-tooltip]')) {
+        return;
+    }
+
+    tooltip2.call(this, e.target, e);
+});
+
+function tooltip2(el, event){
+    if (document.getElementById("tooltipToggle")){
+        if (!document.getElementById("tooltipToggle").checked){
+            return;
+        }
+    }
+
+    el.addEventListener("mouseout", hideTooltip2, el);
+
+    const tooltipType = el.dataset.tooltip;
+    const tooltipTargetValue = el.dataset.id;
+    let tooltipDiv = document.getElementById("wtTooltip");
+    let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=bf24b9d67a4a9c7cc0ce59d63df459a8&cdnconfig=2b5b60cdbcd07c5f88c23385069ead40&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
+    let needsRefresh = false;
+
+    if (!tooltipDiv) {
+        // Tooltip div does not exist yet, create!
+        tooltipDiv = document.createElement("div");
+        tooltipDiv.dataset.type = tooltipType;
+        tooltipDiv.dataset.id = tooltipTargetValue;
+        tooltipDiv.innerHTML = defaultTooltipHTML;
+        tooltipDiv.style.position = "absolute";
+        tooltipDiv.style.top = event.pageY + "px";
+        tooltipDiv.style.left = event.pageX + "px";
+        tooltipDiv.style.zIndex = 5;
+        tooltipDiv.style.display = "block";
+        tooltipDiv.id = "wtTooltip";
+        tooltipDiv.classList.add('wt-tooltip');
+
+        if (tooltipType == "spell" || tooltipType == "item"){
+            tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
+        }
+        needsRefresh = true;
+        document.body.appendChild(tooltipDiv);
+    } else {
+        tooltipDiv.style.display = "block";
+        tooltipDiv.style.top = (event.pageY + 5) + "px";
+        tooltipDiv.style.left = (event.pageX + 5)+ "px";
+
+        if (tooltipTargetValue != tooltipDiv.dataset.id || tooltipType != tooltipDiv.dataset.type){
+            tooltipDiv.innerHTML = defaultTooltipHTML;
+            tooltipDiv.dataset.type = tooltipType;
+            tooltipDiv.dataset.id = tooltipTargetValue;
+
+            if (tooltipType == "spell" || tooltipType == "item"){
+                tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
+            }
+
+            needsRefresh = true;
+        }
+    }
+
+    if (needsRefresh){
+        let localBuild = "";
+
+        if ('build' in el.dataset){
+            localBuild = el.dataset.build;
+        } else if (build != undefined) {
+            localBuild = build;
+        } else {
+            // TODO: Global site fallback build?
+        }
+
+        if (tooltipType == 'spell'){
+            generateSpellTooltip(tooltipTargetValue, tooltipDiv, localBuild);
+        } else if (tooltipType == 'item'){
+            generateItemTooltip(tooltipTargetValue, tooltipDiv, localBuild);
+        } else if (tooltipType == 'creature'){
+            generateCreatureTooltip(tooltipTargetValue, tooltipDiv);
+        } else if (tooltipType == 'quest'){
+            generateQuestTooltip(tooltipTargetValue, tooltipDiv);
+        } else if (tooltipType == 'fk'){
+            generateFKTooltip(el.dataset.fk, tooltipTargetValue, tooltipDiv, localBuild);
+        } else if (tooltipType == 'file'){
+            generateFileTooltip(tooltipTargetValue, tooltipDiv);
+        } else if (tooltipType == 'criteria'){
+            generateCriteriaTooltip(tooltipTargetValue, tooltipDiv, localBuild);
+        } else {
+            console.log("Unsupported tooltip type " + tooltipType);
+            return;
+        }
+    }
+}
+
+function hideTooltip2(){
+    if (document.getElementById("keepTooltips")){
+        if (document.getElementById("keepTooltips").checked){
+            return;
+        }
+    }
+
+    if (document.getElementById("wtTooltip")){
+        document.getElementById("wtTooltip").style.display = "none";
     }
 }
 
@@ -499,6 +604,7 @@ function repositionTooltip(tooltip){
 }
 
 function hideTooltip(el){
+    return;
     if (document.getElementById("keepTooltips")){
         if (document.getElementById("keepTooltips").checked){
             return;

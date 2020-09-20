@@ -354,7 +354,6 @@ footer p{
 /* Tooltips */
 .wt-tooltip{
     display: none;
-    z-index: 5;
 }
 .tooltip-icon{
 	clear: both;
