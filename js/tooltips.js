@@ -68,7 +68,7 @@ function showTooltip(el){
 }
 
 document.addEventListener('mousemove', (e) => {
-    if (!e.target.matches('a[data-tooltip]')) {
+    if (!e.target.matches('[data-tooltip]')) {
         return;
     }
 
