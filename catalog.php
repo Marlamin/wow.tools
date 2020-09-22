@@ -83,11 +83,15 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
         }
     }
 
-    $newjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $newbuild['root_cdn'][0] . $newbuild['root_cdn'][1] . "/" . $newbuild['root_cdn'][2] . $newbuild['root_cdn'][3] . "/" . $newbuild['root_cdn']));
-    foreach ($newjson->fragments as $fragment) {
-        if (doesFileExist("data", $fragment->hash, "catalogs")) {
-            $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment->hash[0] . $fragment->hash[1] . "/" . $fragment->hash[2] . $fragment->hash[3] . "/" . $fragment->hash));
-            $fragment->content = $fragmentjson;
+    if (doesFileExist("data", $newbuild['root_cdn'], "catalogs")) {
+        $newjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $newbuild['root_cdn'][0] . $newbuild['root_cdn'][1] . "/" . $newbuild['root_cdn'][2] . $newbuild['root_cdn'][3] . "/" . $newbuild['root_cdn']));
+        if (!empty($newjson->fragments)) {
+            foreach ($newjson->fragments as $fragment) {
+                if (doesFileExist("data", $fragment->hash, "catalogs")) {
+                    $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment->hash[0] . $fragment->hash[1] . "/" . $fragment->hash[2] . $fragment->hash[3] . "/" . $fragment->hash));
+                    $fragment->content = $fragmentjson;
+                }
+            }
         }
     }
 
