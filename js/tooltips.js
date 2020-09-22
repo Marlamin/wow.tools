@@ -98,6 +98,7 @@ function tooltip2(el, event){
         tooltipDiv.innerHTML = defaultTooltipHTML;
         tooltipDiv.style.position = "absolute";
         tooltipDiv.style.top = event.pageY + "px";
+
         tooltipDiv.style.left = event.pageX + "px";
         tooltipDiv.style.zIndex = 1100;
         tooltipDiv.style.display = "block";
@@ -112,7 +113,7 @@ function tooltip2(el, event){
     } else {
         tooltipDiv.style.display = "block";
         tooltipDiv.style.top = (event.pageY + 5) + "px";
-        tooltipDiv.style.left = (event.pageX + 5)+ "px";
+        tooltipDiv.style.left = (event.pageX + 5) + "px";
 
         if (tooltipTargetValue != tooltipDiv.dataset.id || tooltipType != tooltipDiv.dataset.type){
             tooltipDiv.innerHTML = defaultTooltipHTML;
@@ -125,6 +126,12 @@ function tooltip2(el, event){
 
             needsRefresh = true;
         }
+
+        repositionTooltip(tooltipDiv);
+    }
+
+    if ((event.pageX + 400) > window.innerWidth) {
+        tooltipDiv.style.left = ((event.pageX + 5) - 400) + "px";
     }
 
     if (needsRefresh){
@@ -566,41 +573,11 @@ function generateFileTooltip(id, tooltip)
 }
 
 function repositionTooltip(tooltip){
-    const bodyRect = document.body.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    if (tooltipRect.bottom > window.innerHeight){
+        tooltip.style.top =  (window.innerHeight - (tooltipRect.bottom - tooltipRect.top) - 5) + "px";
 
-    if (tooltip.parentElement == null)
-        return;
-
-    const parentRect = tooltip.parentElement.getBoundingClientRect();
-    const elementRect = tooltip.getBoundingClientRect();
-
-    let leftCutOff = false;
-    let bottomCutOff = false;
-
-    let tooltipMarginLeft = tooltip.parentElement.offsetWidth;
-    if ((parentRect.x + parentRect.width + 400) > bodyRect.width){
-        tooltipMarginLeft = bodyRect.width - (parentRect.x + parentRect.width + 400);
-
-        leftCutOff = true;
     }
-
-    let tooltipMarginTop = 10;
-    if (elementRect.bottom > bodyRect.bottom || elementRect.bottom > window.innerHeight){
-        if (bodyRect.bottom > window.innerHeight){
-            tooltipMarginTop = bodyRect.bottom - elementRect.bottom - (bodyRect.bottom - window.innerHeight + 25);
-        } else {
-            tooltipMarginTop = bodyRect.bottom - elementRect.bottom - 5;
-        }
-
-        bottomCutOff = true;
-    }
-
-    if (leftCutOff && bottomCutOff){
-        tooltipMarginLeft = -425;
-    }
-
-    tooltip.style.marginLeft = tooltipMarginLeft + "px";
-    tooltip.style.marginTop = tooltipMarginTop + "px";
 }
 
 function hideTooltip(el){
