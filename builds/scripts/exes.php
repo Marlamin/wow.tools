@@ -16,7 +16,6 @@ $res = $pdo->query(
     wow_buildconfig.builton
     FROM wow_versions
     LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash
-    WHERE wow_buildconfig.id > 1700 AND wow_buildconfig.builton = NULL
     ORDER BY wow_buildconfig.description
     "
 );
@@ -61,6 +60,7 @@ while ($row = $res->fetch()) {
     }
     
     if (empty($target)) {
+        echo "Unable to find target " . $target . "\n";
         die();
     }
     
@@ -68,6 +68,8 @@ while ($row = $res->fetch()) {
     
     // Only extract file if it does not exist
     if (!file_exists($filename)) {
+        echo "[EXE dump] File " . $filename . " does not exist or is empty.\n";
+
         // Remove if you magically get 18179 archives complete again
         if ($row['buildconfig'] == "cc7af6d878238d1c78d828db5146d343") {
             continue;
