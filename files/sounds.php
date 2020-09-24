@@ -27,7 +27,7 @@ if (!empty($_GET['embed']) && !empty($_GET['skitid'])) {
 
 <script type='text/javascript'>
     (function() {
-        var apiUrl = "scripts/api.php";
+        var apiUrl = "/files/scripts/api.php";
 
         var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 

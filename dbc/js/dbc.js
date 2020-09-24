@@ -119,6 +119,11 @@ function openFKModal(value, location, build){
     }).fail(function() {
         $("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
     });
+
+    if (db == "soundkit" && col == "ID"){
+        $("#fkModalContent").append("<div id='soundkitList'></div>");
+        $( "#soundkitList" ).load( "/files/sounds.php?embed=1&skitid=" + value );
+    }
 }
 
 function dec2hex(str, big = false){
