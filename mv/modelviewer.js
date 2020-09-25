@@ -461,9 +461,6 @@ function loadModelTextures() {
         for (let displayId in data) {
             if (!data.hasOwnProperty(displayId)) continue;
 
-            if (data[displayId][0] == 0)
-                continue;
-
             var intArray = data[displayId];
 
             // Open controls overlay

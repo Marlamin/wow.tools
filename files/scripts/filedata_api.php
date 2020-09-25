@@ -15,11 +15,14 @@ if (!empty($_GET['filedataid'])) {
                 echo $row['filename'];
             }
         } else {
-            $q->bindParam(":id", $exploded[0], PDO::PARAM_INT);
-            $q->execute();
-            $row = $q->fetch();
-            if (!empty($row['filename'])) {
-                echo $row['filename'];
+            for ($i = 0; $i < count($exploded); $i++) {
+                $q->bindParam(":id", $exploded[$i], PDO::PARAM_INT);
+                $q->execute();
+                $row = $q->fetch();
+                if (!empty($row['filename'])) {
+                    echo $row['filename'];
+                    die();
+                }
             }
         }
         die();
