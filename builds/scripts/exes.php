@@ -24,6 +24,7 @@ while ($row = $res->fetch()) {
     if ($row['bdid'] > 1315) {
         switch ($row['product']) {
             case "wow":
+            case "wowlivetest":
                 $target = "Wow.exe";
                 break;
             case "wow_classic":
@@ -33,7 +34,6 @@ while ($row = $res->fetch()) {
                 $target = "WowClassicT.exe";
                 break;
             case "wowt":
-            case "wowlivetest":
                 $target = "WowT.exe";
                 break;
             case "wow_beta":
@@ -77,7 +77,6 @@ while ($row = $res->fetch()) {
 
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $row['install_cdn']);
         foreach (explode("\n", $output) as $line) {
-            echo $line . "\n";
             if (substr($line, 0, strlen($target)) == $target) {
                 if (empty(trim($line))) {
                     continue;
