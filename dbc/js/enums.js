@@ -356,11 +356,11 @@ const criteriaAdditionalCondition = {
     265: 'UNK_265',
     266: 'SELECTED_AZERITE_ESSENCE_RANK_LOWER',
     267: 'SELECTED_AZERITE_ESSENCE_RANK_GREATER',
-    268: 'UNK_268',
+    268: 'CONTENT_TUNING',
     269: 'UNK_269',
     270: 'UNK_270',
     271: 'UNK_271',
-    272: 'UNK_272',
+    272: 'CONTENT_TUNING_2',
     273: 'UNK_273',
     274: 'UNK_274',
     275: 'UNK_275',
@@ -387,6 +387,7 @@ const criteriaAdditionalCondition = {
     302: 'UNK_302',
     303: 'RUNEFORGED_LEGENDARY_ABILITY',
     305: 'UNK_305',
+    306: 'ACHIEVEMENT_UNK',
     307: 'UNK_307',
     308: 'UNK_308'
 };
@@ -2741,6 +2742,18 @@ const spellVisualEffectNames = {
     // 10: ""
 }
 
+const itemQuality = {
+    0: 'Poor',
+    1: 'Common',
+    2: 'Uncommon',
+    3: 'Rare',
+    4: 'Epic',
+    5: 'Legendary',
+    6: 'Artifact',
+    7: 'Heirloom',
+    8: 'WoW Token'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2851,6 +2864,13 @@ conditionalEnums.set("item.SubclassID",
     ]
 );
 
+conditionalEnums.set("modifiertree.Asset",
+    [
+        ['modifiertree.Type=14', itemQuality],
+        ['modifiertree.Type=15', itemQuality]
+    ]
+);
+
 // Conditional FKs (move to sep file?)
 let conditionalFKs = new Map();
 conditionalFKs.set("itembonus.Value[0]",
@@ -2955,7 +2975,35 @@ conditionalFKs.set("spellvisualkiteffect.Effect",
 
 conditionalFKs.set("modifiertree.Asset",
     [
+        ['modifiertree.Type=2','playercondition::ID'],
+        ['modifiertree.Type=4','creature::ID'],
+        ['modifiertree.Type=8','spell::ID'],
+        ['modifiertree.Type=10','spell::ID'],
+        ['modifiertree.Type=17','areatable::ID'],
+        ['modifiertree.Type=18','areatable::ID'],
+        ['modifiertree.Type=25','chrraces::ID'],
+        ['modifiertree.Type=26','chrclasses::ID'],
+        ['modifiertree.Type=27','chrraces::ID'],
+        ['modifiertree.Type=28','chrclasses::ID'],
+        ['modifiertree.Type=30','creaturetype::ID'],
+        ['modifiertree.Type=31','creaturefamily::ID'],
+        ['modifiertree.Type=32','map::ID'],
+        ['modifiertree.Type=40','areatable::ID'],
+        ['modifiertree.Type=41','areatable::ID'],
+        ['modifiertree.Type=55','playercondition::ID'],
+        ['modifiertree.Type=67','worldstateexpression::ID'],
+        ['modifiertree.Type=68','mapdifficulty::ID'],
+        ['modifiertree.Type=73','modifiertree::ID'],
+        ['modifiertree.Type=74','scenario::ID'],
+        ['modifiertree.Type=81','creature::ID'],
+        ['modifiertree.Type=84','questv2::ID'],
+        ['modifiertree.Type=85','faction::ID'],
         ['modifiertree.Type=107','spelllabel::LabelID'],
+        ['modifiertree.Type=268','contenttuning::ID'],
+        ['modifiertree.Type=272','contenttuning::ID'],
+        ['modifiertree.Type=280','map::ID'],
+        ['modifiertree.Type=303','runeforgelegendaryability::ID'],
+        ['modifiertree.Type=306','achievement::ID'],
     ]
 );
 
