@@ -6,23 +6,33 @@ WoW.tools is a collection of several tools that interact with/display data from 
     </p>
     <div class='row'>
     <div class='col-md-4'>
-    <?php $updatedago = strtotime("now") - $memcached->get("github.commits.lastupdated"); ?>
     <h4>Recent updates</h4>
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
+<?php
+$updatedago = strtotime("now") - $memcached->get("github.commits.lastupdated");
+if ($updatedago == strtotime("now")) {
+    $updatedago = "?";
+}
+?>
     <thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th><th>&nbsp;</th></tr></thead>
     <?php
-    if (!$memcached->get("github.commits.json")) {
-        require_once("scripts/updateGitHistory.php");
+    if (empty($github['username'])) {
+        echo "<tr><td colspan='2'>Repo history is disabled when GitHub info in config is not set.</td></tr>";
+    } else {
+        if (!$memcached->get("github.commits.json")) {
+            require_once("scripts/updateGitHistory.php");
+        }
+        
+        $commits = json_decode($memcached->get("github.commits.json"));
+        foreach ($commits as $commit) {
+            echo "
+            <tr>
+            <td>[" . $commit->repo . "] <a target='_BLANK' href='" . $commit->url . "'>" . $commit->message . "</a></td>
+            <td style='min-width: 100px'><span class='text-muted'><b>" . date("Y-m-d H:i:s", $commit->timestamp) . "</b></span></td>
+            </tr>";
+        }
     }
-    
-    $commits = json_decode($memcached->get("github.commits.json"));
-    foreach ($commits as $commit) {
-        echo "
-        <tr>
-        <td>[" . $commit->repo . "] <a target='_BLANK' href='" . $commit->url . "'>" . $commit->message . "</a></td>
-        <td style='min-width: 100px'><span class='text-muted'><b>" . date("Y-m-d H:i:s", $commit->timestamp) . "</b></span></td>
-        </tr>";
-    }
+
     ?>
     </table>
     </div>
