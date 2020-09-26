@@ -87,7 +87,7 @@ function tooltip2(el, event){
     const tooltipType = el.dataset.tooltip;
     const tooltipTargetValue = el.dataset.id;
     let tooltipDiv = document.getElementById("wtTooltip");
-    let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=bf24b9d67a4a9c7cc0ce59d63df459a8&cdnconfig=2b5b60cdbcd07c5f88c23385069ead40&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
+    let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
     let needsRefresh = false;
 
     if (!tooltipDiv) {
@@ -390,7 +390,7 @@ function generateItemTooltip(id, tooltip, build){
             tooltipDesc.innerHTML = tooltipTable;
 
             if (calcData["iconFileDataID"] != 0){
-                tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
+                tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
             }
 
             repositionTooltip(tooltip);
@@ -438,7 +438,7 @@ function generateSpellTooltip(id, tooltip, build)
             if (calcData["description"] != null){
                 tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"].replace("\n", "<br><br>");
             }
-            tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=e4ec55573724aa18e5908a157526d3ca&cdnconfig=efce24b3df56fbc182d3e97249cadf76&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
+            tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
         }).catch(function (error) {
             console.log("An error occurred retrieving data to generate the tooltip: " + error);
             tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
