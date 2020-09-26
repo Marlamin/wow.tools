@@ -128,3 +128,7 @@ thead input { width: 100% }
 .diffTable tr td{
     padding: 2px;
 }
+
+.form-control:disabled{
+    opacity: 0.4;
+}

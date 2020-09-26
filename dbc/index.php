@@ -92,6 +92,15 @@ if (!empty($_GET['hotfixes'])) {
 <input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
 <input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
 <input type="checkbox" autocomplete="off" id="showDBDButton"> <label for='showDBDButton'>Show DBD button?</label><br>
+<label for="lockedBuild">Lock build to: </label>
+<select id='lockedBuild' style='width: 100%'>
+    <option value='none'>None</option>
+<?php foreach ($pdo->query("SELECT description, root_cdn FROM wow_buildconfig ORDER BY wow_buildconfig.description DESC") as $build) {
+        $prettyBuild = prettyBuild($build['description']);
+    ?>
+    <option value='<?=explode(" ", $prettyBuild)[0]?>'><?=$prettyBuild?></option>
+<?php } ?>
+</select>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -203,7 +212,8 @@ var Settings =
     filtersCurrentlyEnabled: false,
     enableTooltips: true,
     changedVersionsOnly: false,
-    showDBDButton: false
+    showDBDButton: false,
+    lockedBuild: null
 }
 
 let clearState = false;
@@ -252,10 +262,23 @@ function saveSettings(){
         localStorage.setItem('settings[showDBDButton]', '0');
         document.getElementById("dbdButton").style.display = 'none';
     }
+
+    if(document.getElementById("lockedBuild").value == null || document.getElementById("lockedBuild").value == "none"){
+        localStorage.removeItem('settings[lockedBuild]');
+    }else{
+        localStorage.setItem('settings[lockedBuild]', document.getElementById("lockedBuild").value);
+    }
     
     if(Settings.changedVersionsOnly != document.getElementById("changedVersionsOnly").checked){
         loadSettings();
         refreshVersions();
+    }
+
+    if(Settings.lockedBuild != localStorage.getItem('settings[lockedBuild]')){
+        loadSettings();
+        refreshFiles();
+        refreshVersions();
+        loadTable();
     }
 }
 
@@ -309,6 +332,13 @@ function loadSettings(){
     }
     
     document.getElementById("showDBDButton").checked = Settings.showDBDButton;
+
+    var lockedBuild = localStorage.getItem("settings[lockedBuild]");
+    Settings.lockedBuild = lockedBuild;
+    
+    if(lockedBuild && lockedBuild != "none"){
+        document.getElementById("lockedBuild").value = lockedBuild;
+    }
 }
 
 loadSettings();
@@ -360,7 +390,7 @@ function toggleFilters(){
 }
 
 function buildURL(currentParams){
-    let url = "https://wow.tools/dbc/";
+    let url = window.location.protocol + "//" + window.location.hostname + "/dbc/";
     
     if(currentParams["dbc"]){
         url += "?dbc=" + currentParams["dbc"];
@@ -383,7 +413,14 @@ function buildURL(currentParams){
 
 function refreshFiles(){
     console.log("Refreshing files");
-    fetch("https://api.wow.tools/databases")
+
+    let apiURL = "https://api.wow.tools/databases/";
+
+    if(Settings.lockedBuild && Settings.lockedBuild != "none"){
+        apiURL += Settings.lockedBuild;
+    }
+
+    fetch(apiURL)
     .then(function (fileResponse) {
         return fileResponse.json();
     }).then(function (data) {
@@ -425,22 +462,49 @@ function refreshVersions(){
     }).then(function (data) {
         var buildFilter = document.getElementById('buildFilter');
         buildFilter.innerHTML = "";
-        
+
+        var preselected = false;
+        if(Settings.lockedBuild != null && Settings.lockedBuild != "none" && (!data.includes(Settings.lockedBuild))){
+            console.log("Locked build is not in dropdown");
+
+            var option = document.createElement("option");
+            option.value = Settings.lockedBuild;
+            option.text = Settings.lockedBuild;
+            option.selected = true;
+            preselected = true;
+            buildFilter.appendChild(option);
+        }
+
         data.forEach((version) => {
             var option = document.createElement("option");
             option.value = version;
             option.text = version;
-            if(option.value == currentParams["build"]){
+            if(!preselected && (option.value == currentParams["build"] || option.value == Settings.lockedBuild)){
                 option.selected = true;
             }
+            
             buildFilter.appendChild(option);
         });
-        
+
         if(currentParams["build"] == "" || !data.includes(currentParams["build"])){
             // No build was selected, load table with the latest build
-            currentParams["build"] = data[0];
+            if(Settings.lockedBuild !== null){
+                currentParams["build"] = Settings.lockedBuild;
+            }else{
+                currentParams["build"] = data[0];
+            }
             loadTable();
         }
+
+         if(Settings.lockedBuild != null && Settings.lockedBuild != "none"){
+             buildFilter.disabled = true;
+             buildFilter.classList.add("disabled");
+             buildFilter.title = "Build locked in settings";
+         }else{
+             buildFilter.disabled = false;
+             buildFilter.classList.remove("disabled");
+             buildFilter.title = "";
+         }
     }).catch(function (error) {
         console.log("An error occurred retrieving versions: " + error);
     });
@@ -746,6 +810,7 @@ function loadTable(){
         
         (function() {
             $('#fileFilter').select2();
+            $('#lockedBuild').select2();
             let vars = {};
             let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
                 if(value.includes('#')){
