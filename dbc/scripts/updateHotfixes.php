@@ -128,6 +128,7 @@ foreach ($filesToProcess as $file) {
 
     if (!in_array($md5, $processedMD5s)) {
         $insertMD5->execute([$md5]);
+        $processedMD5s[] = $md5;
         echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted " . $md5 . " as processed cache\n";
     }
 }

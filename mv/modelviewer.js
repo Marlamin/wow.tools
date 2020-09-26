@@ -462,6 +462,9 @@ function loadModelTextures() {
             if (!data.hasOwnProperty(displayId)) continue;
 
             var intArray = data[displayId];
+            if (intArray.every(fdid => fdid === 0)){
+                continue;
+            }
 
             // Open controls overlay
             $("#js-controls").removeClass("closed");
@@ -482,6 +485,7 @@ function loadModelTextures() {
             })
                 .done(function( filename ) {
                     var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
+          
                     var textureFileDataID = textureFileDataIDs[0];
 
                     var optionHTML = '<option value="' + textureFileDataIDs + '"';
