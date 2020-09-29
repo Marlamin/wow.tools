@@ -186,6 +186,9 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                             });
 
                         column.data().unique().sort().each(function(d, j) {
+                            if(d === "") {
+                                continue;
+                            }
                             select.append('<option value="' + d + '">' + d + '</option>')
                         });
                     } else if (element.hasClass("searchable")) {
