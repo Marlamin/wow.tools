@@ -1,0 +1,12 @@
+UIMap 946 - Cosmic https://wow.tools/dbc/?dbc=uimap&build=9.0.2.36086#page=1&colFilter[0]=Cosmic
+
+UiTextureAtlasElement
+worldmap-highlight-cosmic-azeroth	7620
+worldmap-highlight-cosmic-outland	7621
+worldmap-highlight-cosmic-draenor	7622
+worldmap-highlight-cosmic-Shadowlands	16353
+
+UiTextureAtlas 1310
+	FDID 2180811 
+    https://wow.tools/casc/preview/fdid?buildconfig=7eb3d46b1a46d64593280509d05b5e63&cdnconfig=f81649916b62baffe80e0553aa7ad8be&filename=interface%2Fworldmap%2Fworldmaphighlightcosmic.blp&filedataid=2180811
+

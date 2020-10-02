@@ -1,4 +1,4 @@
-<?if(!empty($_GET['versionCheck'])){ echo "1.2.1.0"; die();}?>
+<?if(!empty($_GET['versionCheck'])){ echo "1.2.2.0"; die();}?>
 <?php
 
 require_once("../inc/header.php"); ?>
@@ -29,11 +29,11 @@ if (empty($_SESSION['loggedin'])) {
 
 <h4>How to install/run the uploader:</h4>
 <ol>
-    <li>Download <a href='/pub/WoWTools.Uploader.v1.2.1.0.zip'>this zip</a> (version 1.2.1.0)</li>
+    <li>Download <a href='/pub/WoWTools.Uploader.v1.2.2.0.zip'>this zip</a> (version 1.2.2.0)</li>
     <li>Extract it in a place it can safely stay (no installer... yet)</li>
     <li>Run WoWTools.Uploader.exe once to configure it</li>
-    <li>The API token is already filled in with a standard one for now, but if you want your own token to be be used, use this one: <span class='badge badge-secondary hash'><?=$token?></span></li>
-    <!-- <li>Enter your personal API token: <span class='badge badge-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed/private server hotfixes. This is hopefully a temporary measure and only I can map user IDs to users.</small></i></li> -->
+    <!-- <li>The API token is already filled in with a standard one for now, but if you want your own token to be be used, use this one: <span class='badge badge-secondary hash'><?=$token?></span></li> -->
+    <li>Enter your personal API token: <span class='badge badge-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded hotfix file to identify users sending in malformed/private server hotfixes. This is hopefully a temporary measure and only I can map user IDs to users.</small></i></li>
     <li>Enter your WoW directory if it's not already filled in</li>
     <li>Press check to check if the directory is correct</li>
     <li>Press Save, the app will restart and move to tray</li>

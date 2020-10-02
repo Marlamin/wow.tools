@@ -93,3 +93,15 @@ function renderBLPToCanvasElement(url, elementID, canvasX, canvasY) {
             let image = blp.getPixels(0, canvas, canvasX, canvasY);
         });
 }
+
+function renderBLPToCanvas(url, canvas, canvasX, canvasY) {
+    return fetch(url)
+        .then(function(response) {
+            return response.arrayBuffer();
+        })
+        .then(function(arrayBuffer) {
+            let data = new Bufo(arrayBuffer);
+            let blp = new BLPFile(data);
+            let image = blp.getPixels(0, canvas, canvasX, canvasY);
+        });
+}

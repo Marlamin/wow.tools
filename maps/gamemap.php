@@ -1,9 +1,9 @@
 <?php
 
 require_once("../inc/header.php");
-$build = "9.0.1.34199";
-$buildconfig = "3122f021ed54960df43a84a6239c3827";
-$cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
+$build = "9.0.2.36086";
+$buildconfig = "c981cf9ca7a2c7dc501a325539f169e4";
+$cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
 ?>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js?v=<?=filemtime(__DIR__ . "/../js/js-blp.js")?>"></script>
@@ -27,7 +27,7 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         position: absolute;
         top: 0px;
         left: 0px;
-        width: 100%;
+        /* width: 100%; */
         height: 100%;
         max-width: 100%;
         z-index: 0;
@@ -51,7 +51,6 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         height: 100%;
     }
 
-
     #debug{
         position: absolute;
         left: 0px;
@@ -74,7 +73,7 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
     var build = "<?=$build?>";
 
     /* Required DBs */
-    const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer"];
+    const dbsToLoad = ["uimap", "uimapxmapart", "uimaparttile", "worldmapoverlay", "worldmapoverlaytile", "uimapart", "uimapartstylelayer", "uitextureatlasmember", "uitextureatlas", "uimaplink"];
     const dbPromises = dbsToLoad.map(db => loadDatabase(db, build));
     Promise.all(dbPromises).then(loadedDBs => databasesAreLoadedNow(loadedDBs));
 
@@ -85,6 +84,9 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
     var worldMapOverlayTile = {};
     var uiMapArt = {};
     var uiMapArtStyleLayer = {};
+    var uiTextureAtlasMember = {};
+    var uiTextureAtlas = {};
+    var uiMapLink = {};
 
     var azerothOverlay = false;
     var outlandOveray = false;
@@ -93,6 +95,7 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
     var originalCosmicImg;
     var isCosmicOriginal = false;
 
+    var highlightAreas = [];
     /* Secondary DBs */
     // const secondaryDBsToLoad = ["questpoiblob", "questpoipoint"];
     // const secondaryDBPromises = secondaryDBsToLoad.map(db => loadDatabase(db, build));
@@ -109,6 +112,9 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         worldMapOverlayTile = loadedDBs[4];
         uiMapArt = loadedDBs[5];
         uiMapArtStyleLayer = loadedDBs[6];
+        uiTextureAtlasMember = loadedDBs[7];
+        uiTextureAtlas = loadedDBs[8];
+        uiMapLink = loadedDBs[9];
 
         loadedDBs[0].forEach(function (data){
             $("#mapSelect").append("<option value='" + data.ID + "'>" + data.ID + " - " + data.Name_lang);
@@ -222,12 +228,107 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         const unexploredPromises = uiMapArtTile
         .filter(row => row.UiMapArtID == uiMapArtID)
         .map(row => {
-            const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
-            const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
+            const imagePosX = row.RowIndex * artStyle.TileWidth;
+            const imagePosY = row.ColIndex * artStyle.TileHeight;
             const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
 
             return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
         });
+
+
+         fetch("/dbc/api/find/uimaplink?build=<?=$build?>&col=ParentUiMapID&val=" + uiMapID)
+        .then(function (response) {
+            return response.json();
+        }).then(function (uiMapChildren) {
+            uiMapChildren.forEach(function(uiMapChild){
+                const childUIMapXMapArtRow = uiMapXMapArt.find(row => row && row.UiMapID == uiMapChild.ChildUiMapID);
+                const childUIMapArtID = childUIMapXMapArtRow.UiMapArtID;
+
+                const uiTextureAtlasMemberForMap = uiTextureAtlasMember[uiMapArt[childUIMapArtID].HighlightAtlasID];
+                console.log(uiMapChild, uiTextureAtlasMemberForMap);
+
+                var topLeft = normalizeCoord(uiMapID, uiMapChild["UiMin[0]"], uiMapChild["UiMin[1]"]);
+                var bottomRight = normalizeCoord(uiMapID, uiMapChild["UiMax[0]"], uiMapChild["UiMax[1]"]);
+
+                // Debug
+                var ctx = canvas.getContext("2d");
+                ctx.beginPath();
+                console.log(topLeft);
+                console.log(bottomRight);
+                ctx.rect(topLeft[0], topLeft[1], (bottomRight[0] - topLeft[0]), (bottomRight[1] - topLeft[1]));
+                ctx.strokeStyle = 'red';
+                ctx.stroke();
+
+                const uiTextureAtlasRow = uiTextureAtlas[uiTextureAtlasMemberForMap.UiTextureAtlasID];
+                // console.log(uiTextureAtlasRow);
+                const tempCanvas = document.createElement("canvas");
+                tempCanvas.width = uiTextureAtlasRow.AtlasWidth;
+                tempCanvas.height = uiTextureAtlasRow.AtlasHeight;
+                const highlightURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maphighlight&filedataid=${uiTextureAtlasRow.FileDataID}`;
+                 fetch(highlightURL)
+                .then(function(response) {
+                    return response.arrayBuffer();
+                })
+                .then(function(arrayBuffer) {
+                    let data = new Bufo(arrayBuffer);
+                    let blp = new BLPFile(data);
+                    let image = blp.getPixels(0, tempCanvas, 0, 0);
+
+                    let scrollChildX = Number(uiMapChild["UiMin[0]"]);
+                    let scrollChildY = Number(uiMapChild["UiMin[1]"]);
+
+                    let textureX = uiMapChild["UiMax[0]"] - uiMapChild["UiMin[0]"];
+                    let textureY = uiMapChild["UiMax[0]"] - uiMapChild["UiMin[1]"];
+
+                    console.log("normalized scrollChildX", scrollChildX);
+                    console.log("normalized scrollChildY", scrollChildY);
+                    console.log("normalized textureX", textureX);
+                    console.log("normalized textureY", textureY);
+
+                    var centerPosX = ((scrollChildX + 0.5 * textureX) - 0.5) * artStyle.LayerWidth;
+                    var centerPosY = ((scrollChildY + 0.5 * textureY) - 0.5) * artStyle.LayerHeight;
+                   
+                    var boxSizeX = (uiTextureAtlasMemberForMap.CommittedRight - uiTextureAtlasMemberForMap.CommittedLeft);
+                    var boxSizeY = (uiTextureAtlasMemberForMap.CommittedBottom - uiTextureAtlasMemberForMap.CommittedTop);
+                    
+                    console.log("px", centerPosX, centerPosY);
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'blue';
+                    ctx.rect(scrollChildX * artStyle.LayerWidth, scrollChildY * artStyle.LayerHeight, (uiTextureAtlasMemberForMap.CommittedRight - uiTextureAtlasMemberForMap.CommittedLeft),uiTextureAtlasMemberForMap.CommittedBottom - uiTextureAtlasMemberForMap.CommittedTop);
+                    ctx.stroke();
+
+                    // ctx.drawImage(
+                    //     tempCanvas, 
+                    //     uiTextureAtlasMemberForMap.CommittedLeft, 
+                    //     uiTextureAtlasMemberForMap.CommittedTop,
+                    //     (uiTextureAtlasMemberForMap.CommittedRight - uiTextureAtlasMemberForMap.CommittedLeft),
+                    //     (uiTextureAtlasMemberForMap.CommittedBottom - uiTextureAtlasMemberForMap.CommittedTop),
+                    //     (scrollChildX * artStyle.LayerWidth),
+                    //     (scrollChildY * artStyle.LayerHeight),
+                    //     (uiTextureAtlasMemberForMap.CommittedRight - uiTextureAtlasMemberForMap.CommittedLeft), 
+                    //     (uiTextureAtlasMemberForMap.CommittedBottom - uiTextureAtlasMemberForMap.CommittedTop)
+                    // );
+
+
+                    // ctx.drawImage(
+                    //     tempCanvas, 
+                    //     uiTextureAtlasMemberForMap.CommittedLeft, 
+                    //     uiTextureAtlasMemberForMap.CommittedTop, 
+                    //     (uiTextureAtlasMemberForMap.CommittedRight - uiTextureAtlasMemberForMap.CommittedLeft), 
+                    //     (uiTextureAtlasMemberForMap.CommittedBottom - uiTextureAtlasMemberForMap.CommittedTop),
+                    //     -50,
+                    //     -30, 
+                    //     461, 
+                    //     391
+                    // );
+                });
+            });
+        });
+        
+        // Do UICanvas highlight stuff
+        const uiMapArtRow = uiMapArt[uiMapArtID];
+        console.log(uiMapArtRow);
 
         Promise.all(unexploredPromises).then(_ => {
             if (showExplored) {
@@ -238,6 +339,15 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         })
 
         updateURL();
+    }
+
+    function normalizeCoord(uiMapID, coordX, coordY){
+        const artStyleLayer = getArtStyleByUIMapID(uiMapID);
+        
+        const normalizedCoordX = artStyleLayer.LayerWidth * coordX;
+        const normalizedCoordY = artStyleLayer.LayerHeight * coordY;
+
+        return {x: normalizedCoordX, y: normalizedCoordY};
     }
 
     function getArtStyleByUIMapID(uiMapID){
@@ -323,67 +433,67 @@ $cdnconfig = "5187cdfd6fee12b4a0d53003e8249635";
         }
     });
 
-    $("#mapCanvas").on("contextmenu", function (){
-        var currentMap = $("#mapSelect").val();
-        let parent = getParentMapByUIMapID(currentMap);
-        console.log(parent);
-        if(parent && parent.ParentUiMapID > 0){
-            renderMap(parent.ParentUiMapID);
-        }
+    // $("#mapCanvas").on("contextmenu", function (){
+    //     var currentMap = $("#mapSelect").val();
+    //     let parent = getParentMapByUIMapID(currentMap);
+    //     console.log(parent);
+    //     if(parent && parent.ParentUiMapID > 0){
+    //         renderMap(parent.ParentUiMapID);
+    //     }
 
-        return false;
-    });
+    //     return false;
+    // });
 
     $("#mapCanvas").on("mousemove", function (e){
-        var canvas = document.getElementById("mapCanvas");
-        var context = canvas.getContext("2d");
+        // var canvas = document.getElementById("mapCanvas");
+        // var context = canvas.getContext("2d");
 
-        var pos = getMousePos(canvas, e);
-        $("#debug").html(Math.floor(pos.x) + " " + Math.floor(pos.y));
+        // var pos = getMousePos(canvas, e);
+        // $("#debug").html(Math.floor(pos.x) + " " + Math.floor(pos.y));
 
-        if(!originalCosmicImg){
-            originalCosmicImg = context.getImageData(0, 0, canvas.width, canvas.height);
-        }
+        // if(!originalCosmicImg){
+        //     originalCosmicImg = context.getImageData(0, 0, canvas.width, canvas.height);
+        // }
 
-        if(pos.x > 577 && pos.y > 282){
-            if(!azerothOverlay){
-                var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=137125";
-                context.putImageData(originalCosmicImg, 0, 0);
-                renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 156);
-                azerothOverlay = true;
-                isCosmicOriginal = false;
-            }
-        }else{
-            azerothOverlay = false;
-        }
+        // if(pos.x > 577 && pos.y > 282){
+        //     if(!azerothOverlay){
+        //         var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=137125";
+        //         context.putImageData(originalCosmicImg, 0, 0);
+        //         renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 156);
+        //         azerothOverlay = true;
+        //         isCosmicOriginal = false;
+        //     }
+        // }else{
+        //     azerothOverlay = false;
+        // }
 
-        if(pos.x > 110 && pos.x < 415 && pos.y > 330){
-            if(!outlandOveray){
-                var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=137126";
-                context.putImageData(originalCosmicImg, 0, 0);
-                renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 156);
-                outlandOveray = true;
-                isCosmicOriginal = false;
-            }
-        }else{
-            outlandOveray = false;
-        }
+        // if(pos.x > 110 && pos.x < 415 && pos.y > 330){
+        //     if(!outlandOveray){
+        //         var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=137126";
+        //         context.putImageData(originalCosmicImg, 0, 0);
+        //         renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 156);
+        //         outlandOveray = true;
+        //         isCosmicOriginal = false;
+        //     }
+        // }else{
+        //     outlandOveray = false;
+        // }
 
-        if(pos.x > 300 && pos.x < 630 && pos.y < 400){
-            if(!draenorOverlay){
-                var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=1064798";
-                context.putImageData(originalCosmicImg, 0, 0);
-                renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 0);
-                draenorOverlay = true;
-                isCosmicOriginal = false;
-            }
-        }else{
-            draenorOverlay = false;
-        }
+        // if(pos.x > 300 && pos.x < 630 && pos.y < 400){
+        //     if(!draenorOverlay){
+        //         var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=1064798";
+        //         context.putImageData(originalCosmicImg, 0, 0);
+        //         renderBLPToCanvasElement(bgURL, "mapCanvas", 0, 0);
+        //         draenorOverlay = true;
+        //         isCosmicOriginal = false;
+        //     }
+        // }else{
+        //     draenorOverlay = false;
+        // }
 
-        if(!azerothOverlay && !draenorOverlay && !outlandOveray){
-            context.putImageData(originalCosmicImg, 0, 0);
-        }
+        // if(!azerothOverlay && !draenorOverlay && !outlandOveray){
+        //     context.putImageData(originalCosmicImg, 0, 0);
+        // }
     });
 
     function getMousePos(canvas, evt) {

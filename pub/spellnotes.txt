@@ -1,0 +1,180 @@
+https://www.askmrrobot.com/wow/theory/mechanic/function/autoattackdamage?spec=WarriorArms&version=live
+
+1464 Slam                                       $s1
+    120 Paladin     "Slams an opponent, causing 10,374 Physical damage." 
+    120 Warrior     "Slams an opponent, causing 11,624 Physical damage." Strength 10332 => (360 + 20644) =>  (maybe) 11365 AP / 3247 DPS
+    
+    SE 462
+        Effect 2 (SCHOOL_DAMAGE) => CreatureSpellDamage
+            ExpectedStat 120/262 => 76940.51
+
+        BonusCoefficientFromAP 	0.636
+
+120 SpellScaling GT
+Level	Rogue	Druid	Hunter	Mage	Paladin	Priest	Shaman	Warlock	Warrior	Death Knight	Monk	Demon Hunter	Item	Consumable	Gem1	Gem2	Gem3	Health	DamageReplaceStat	DamageSecondary
+120	    0	    0	    0	    0	    0	    0	    0	    0	    0	    0	            0	    0	            95	    25000	12.00000003	16.00000004	20.00000005	23316.22963	24.17057892	24.17057892
+
+B F A 
+
+307240 Slurry Outburst
+    SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage 
+    ExpectedStat for lvl 120 = CreatureSpellDamage = 76940.51
+    Ny'alotha => Map::ID 2217
+    MapDifficulty filter on above Map::ID
+    Take all results for specified mod column and multiple them together
+    Multiply CreatureSpellDamage with the result of above calculation
+    Multiply that by EffectBasePointsF / 100.0
+    Voila
+
+    SE $s1 - LFR (17) - EffectBasePointsF 74.99301 ends up at 139396
+        ContentTuning 784
+            ExpectedStatMod 167 => CreatureSpellDamageMod 1.15
+            ExpectedStatMod 143 => CreatureSpellDamageMod 3.014
+            ExpectedStatMod 15  => CreatureSpellDamageMod 0.697
+
+            (76940.51 * (1.15 * 3.014 * 0.697)) * 74.993 / 100.0 = 139395.789031
+
+    SE $s1 - Normal (14) - EffectBasePointsF 74.99301 ends up at 188412
+        ContentTuning 785
+            ExpectedStatMod 167 => CreatureSpellDamageMod 1.15
+            ExpectedStatMod 151 => CreatureSpellDamageMod 3.484
+            ExpectedStatMod 16  => CreatureSpellDamageMod 0.815
+            
+            (76940.51 * (1.15 * 3.484 * 0.815)) * 74.99301 / 100.0 = 188412.382532
+
+    SE $s1 - Heroic (15) - EffectBasePointsF 74.99301 ends up at 267809
+        ContentTuning 786
+            ExpectedStatMod 167 => CreatureSpellDamageMod 1.15
+            ExpectedStatMod 152 => CreatureSpellDamageMod 4.036
+            ExpectedStatMod 17  => CreatureSpellDamageMod 1
+
+            (76940.51 * (1.15 * 4.036 * 1)) * 74.99301 / 100.0 = 267808.800229
+    
+    SE $s1 - Mythic (16) - EffectBasePointsF 75 ends up at 368108
+        ContentTuning 787
+            ExpectedStatMod 167 => CreatureSpellDamageMod 1.15
+            ExpectedStatMod 158 => CreatureSpellDamageMod 4.685
+            ExpectedStatMod 18  => CreatureSpellDamageMod 1.184
+
+            (76940.51 * (1.15 * 4.685 * 1.184)) * 75 / 100.0 = 368108.174684
+
+
+
+S H A D O W L A N D S
+
+OK (All):
+    - De Other Side 
+    - Sanguine Depths
+    - Spires of Ascension
+
+Not OK (Normal):
+    - Halls of Attonement
+    - Necrotic Wake
+    - Mists of Tirna Scithe
+    - Plaguefall
+    - Theater of Pain
+
+260701 Bramble Bolt
+    SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage 
+    ExpectedStat for lvl 50 exp 8 = CreatureSpellDamage = 8115.393
+    Waycrest Manor => Map::ID 1862
+
+    SE $s1 - Normal (1) EffectBasePointsF 5.481 ends up at 401
+        ContentTuning 1222
+            ExpectedStatMod 12 => 0.885
+            ExpectedStatMod 5  => 1.019
+
+            (8115.393 * (0.885 * 1.019)) * 5.481 / 100.0 = 401.13154181 <-- Correct
+
+    SE $s1 - Heroic (2) EffectBasePointsF 5.481 ends up at 596
+        ContentTuning 1244
+            [X] ExpectedStatMod 13 => 1
+            [ ] ExpectedStatMod 157 (MPlus 17) => 1.1
+            [ ] ExpectedStatMod 11 (MPlus 56) => 1.339
+            [X] ExpectedStatMod 11 (MPlus 57) => 1.339
+
+            (8115.393 * (1 * 1.339)) * 5.481 / 100.0 = 595.593480352 <-- Correct
+
+    SE $s1 - Mythic (2) EffectBasePointsF 5.481 ends up at 880
+        ContentTuning 1263
+            [X] ExpectedStatMod 14 => 1.217
+            [ ] ExpectedStatMod 11 (MPlus 17) => 1.339
+            [ ] ExpectedStatMod 171 (MPlus 56) => 1.626
+            [X] ExpectedStatMod 171 (MPlus 57) => 1.626
+          
+            (8115.393 * (1.217 * 1.626)) * 5.481 / 100.0 = 880.198203022 <-- Correct
+
+319713 Juggernaut Rain
+    SpellEffect.Effect OF 319715 = SCHOOL_DAMAGE (2) => CreatureSpellDamage 
+    Sanguine Depths => 2284
+
+333602 Frostbolt 
+    SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage 
+    ExpectedStat for lvl 60 exp 8 = CreatureSpellDamage = 22025.363
+    Necrotic Wake => Map::ID 2286
+
+    SE $s1 - Normal (1) - EffectBasePointsF 12.5 ends up at 1404
+        ContentTuning 1709 <-- EJ_GetContentTuningID() matches
+            ConditionalContentTuning 295
+                Mask 2 <-- ?, ReplacementTuning 747
+                    ContentTuning 747
+                        ExpectedStatMod 174 => CreatureSpellDamageMod 0.932
+                        ExpectedStatMod 12  => CreatureSpellDamageMod 0.885
+
+                        (22025.363 * (0.932 * 0.885)) * 12.5 / 100.0 = 2270.86998871 <-- WRONG
+
+    SE $s1 - Heroic (2) - EffectBasePointsF 12.5 ends up at 2918
+        ContentTuning 748
+            ExpectedStatMod 175 => CreatureSpellDamageMod 1
+            ExpectedStatMod 13  => CreatureSpellDamageMod 1
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+
+            (22025.363 * (1 * 1 * 1.06)) * 12.5 / 100.0 = 2918.3605975 <-- Correct
+
+    SE $s1 - Mythic (23) - EffectBasePointsF 12.5 ends up at 2929
+        ContentTuning 749
+            ExpectedStatMod 176 => CreatureSpellDamageMod 1.031
+            ExpectedStatMod 14  => CreatureSpellDamageMod 1.217
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+
+            (22025.363 * (1.031 * 1.217 * 1.06)) * 12.5 / 100.0 = 3661.74583742 <-- WRONG
+
+    SE $s1 - Mythic Keystone (8) - EffectBasePointsF 12.5 ends up at ???
+        ContentTuning 1279
+            ExpectedStatMod 176 => CreatureSpellDamageMod 1.031
+            ExpectedStatMod 14  => CreatureSpellDamageMod 1.217
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+
+    
+321247 Final Harvest 
+    SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage
+    ExpectedStat for lvl 60 exp 8 = CreatureSpellDamage = 22025.363
+
+    SE $321258s1 - Normal (1) - EffectBasePointsF 40 ends up at 4492
+        ContentTuning 1709 <-- EJ_GetContentTuningID() matches
+            ConditionalContentTuning 295
+                Mask 2 <-- ?, ReplacementTuning 747
+                    ContentTuning 747
+                        ExpectedStatMod 174 => CreatureSpellDamageMod 0.932
+                        ExpectedStatMod 12  => CreatureSpellDamageMod 0.885
+                        
+                        (22025.363 * (0.932 * 0.885)) * 40 / 100.0 = 7266.78396386 <-- WRONG
+                        (22025.363 * (0.932 * 0.885 * 0.6181 - 0.6182)) * 40 / 100.0 = 4491.59916806 - 4492.32584646 <-- CORRECT-ISH but mod 0.6182 from nowhere
+                        (13614-13616 * (0.932 * 0.885)) * 40 / 100.0 = 4491.639792 - 4492.299648 <-- CORRECT-ISH but creaturespelltype from nowhere
+                        
+    SE $321258s1 - Heroic (2) - EffectBasePointsF 40 ends up at 9339
+        ContentTuning 748
+            ExpectedStatMod 175 => CreatureSpellDamageMod 1
+            ExpectedStatMod 13  => CreatureSpellDamageMod 1
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+
+            (22025.363 * (1 * 1 * 1.06)) * 40 / 100.0 = 9338.753912 <-- Correct
+
+    SE $321258s1 - Mythic (23) - EffectBasePointsF 40 ends up at 11718
+        ContentTuning 749
+            ExpectedStatMod 176 => CreatureSpellDamageMod 1.031
+            ExpectedStatMod 14  => CreatureSpellDamageMod 1.217
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+
+            (22025.363 * (1.031 * 1.217 * 1.06)) * 40 / 100.0 = 11717.5866797 <-- Correct
+

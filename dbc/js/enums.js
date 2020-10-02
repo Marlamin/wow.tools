@@ -386,7 +386,7 @@ const criteriaAdditionalCondition = {
     301: 'UNK_301',
     302: 'UNK_302',
     303: 'RUNEFORGED_LEGENDARY_ABILITY',
-    305: 'UNK_305',
+    305: 'UNK_305', // Related to magic mask in ConditionalContentTuning
     306: 'ACHIEVEMENT_UNK',
     307: 'UNK_307',
     308: 'UNK_308'
