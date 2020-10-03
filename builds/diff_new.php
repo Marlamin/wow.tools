@@ -187,7 +187,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
 
                         column.data().unique().sort().each(function(d, j) {
                             if(d === "") {
-                                continue;
+                                return;
                             }
                             select.append('<option value="' + d + '">' + d + '</option>')
                         });
