@@ -858,8 +858,8 @@ const uiMapType = {
 
 const criteriaType = {
     0: 'KILL_CREATURE',								// creature::ID
-    2: 'UNK_2',										// researchproject::ID
     1: 'WIN_BG',									// map::ID
+    2: 'UNK_2',										// researchproject::ID
     3: 'COMPLETE_ARCHAEOLOGY_PROJECTS',				// No FK
     4: 'SURVEY_GAMEOBJECT',							// gameobjects::ID
     5: 'REACH_LEVEL',								// No FK
@@ -1034,6 +1034,7 @@ const criteriaType = {
     198: 'ORDER_HALL_TALENT_LEARNED',				// No FK
     199: 'APPEARANCE_UNLOCKED_BY_SLOT',				// No FK (Slot)
     200: 'ORDER_HALL_RECRUIT_TROOP',				// No FK
+    202: 'RESEARCHED_GARRISON_TALENT',              // garrtalent::ID
     203: 'COMPLETE_WORLD_QUEST',					// No FK
     204: 'TRANSMOG_SET_RELATED',					// transmogset::ID
     205: 'TRANSMOG_SET_UNLOCKED',					// transmogset::ID (?)
@@ -2156,7 +2157,38 @@ const spellLabelName = {
     966: 'Necrolord (Warlock)',
     967: 'Necrolord (Warlock 2)',
     968: 'Night Fae (Warlock)',
-    969: 'Shadowcore Oil',
+    969: '9.0 crafting related',
+    970: 'Venthyr (Warlock)',
+    971: '9.0 cooking',
+    972: '9.0 crafting related (2)',
+    973: 'Hold your ground 9.0',
+    974: '9.0 enchanting',
+    975: '9.0 inscription',
+    976: '9.0 covenant',
+    977: 'Wasteland Propriety soulbind',
+    978: 'Kyrian Shaman',
+    979: 'Denathrius abilities',
+    980: 'Necrolord Shaman',
+    981: 'Night Fae Shaman',
+    982: 'Pelagos abilities',
+    983: 'Chain Harvest (Venthyr)',
+    984: 'Ancient Aftershock (Kyrian)',
+    // 991: '',
+    // 992: '',
+    993: 'Path of Wisdom gifts',
+    // 999: '',
+    1003: 'Warrior (unk 9.0)',
+    1025: 'Maw 9.0',
+    1027: 'Necrolord Hunter',
+    1032: 'Necrolord Hunter 2',
+    1033: 'Night Fae Hunter',
+    1034: 'Night Fae Hunter 2',
+    1035: 'Venthyr Hunter',
+    1036: 'Kleia skills',
+    1038: 'Windfury Totem',
+    1043: 'Blizzard',
+    1044: '"Pick up item x" spells',
+
 }
 
 const unitConditionVariable = {
@@ -2943,6 +2975,7 @@ conditionalFKs.set("criteria.Asset",
         ['criteria.Type=172', 'garrmission::ID'],
         ['criteria.Type=174', 'garrmission::ID'],
         ['criteria.Type=176', 'garrfollower::ID'],
+        ['criteria.Type=202', 'garrtalent::ID'],
         ['criteria.Type=204', 'transmogset::ID'],
         ['criteria.Type=205', 'transmogset::ID'],
         ['criteria.Type=211', 'artifactpower::ID'],

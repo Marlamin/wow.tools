@@ -850,6 +850,10 @@ function loadTable(){
                                     returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
                                 }
                                 
+                                if(json["headers"][meta.col] in json["relationsToColumns"]){
+                                    returnVar = " <a data-toggle='modal' href='' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
+                                }
+                                
                                 if(enumMap.has(columnWithTable)){
                                     var enumVal = getEnum(currentParams["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
                                     if(full[meta.col] == '0' && enumVal == "Unk"){
@@ -923,10 +927,6 @@ function loadTable(){
                                 
                                 if(colorFields.includes(columnWithTable)){
                                     returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
-                                }
-
-                                if(json["headers"][meta.col] in json["relationsToColumns"]){
-                                    returnVar = " <a data-toggle='modal' href='' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
                                 }
                                 
                                 return returnVar;
