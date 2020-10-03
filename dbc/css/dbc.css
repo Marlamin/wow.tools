@@ -132,3 +132,7 @@ thead input { width: 100% }
 .form-control:disabled{
     opacity: 0.4;
 }
+
+#fkSearchDB{
+    width: 250px;
+}

@@ -67,6 +67,7 @@ if (!empty($_GET['hotfixes'])) {
 </label>
 <a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
 <a id='dbdButton' style='vertical-align: top; display: none;' class='btn btn-secondary btn-sm disabled' href='' target='_BLANK'><i class='fa fa-external-link'></i> DBD</a>
+<a style='vertical-align: top; display: none' id='fkSearchButton' class='btn btn-danger btn-sm' data-toggle='modal' href='' data-target='#foreignKeySearchModal'><i class='fa fa-search'></i> FK Search</a>
 </form><br>
 <div id='tableContainer'><br>
 <table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
@@ -92,6 +93,7 @@ if (!empty($_GET['hotfixes'])) {
 <input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
 <input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
 <input type="checkbox" autocomplete="off" id="showDBDButton"> <label for='showDBDButton'>Show DBD button?</label><br>
+<input type="checkbox" autocomplete="off" id="showFKButton"> <label for='showFKButton'>Show FK search button?</label><br>
 <label for="lockedBuild">Lock build to: </label>
 <select id='lockedBuild' style='width: 100%'>
     <option value='none'>None</option>
@@ -181,17 +183,35 @@ if (!empty($_GET['hotfixes'])) {
 </div>
 </div>
 </div>
-<div class="modal" id="flagModal" tabindex="-1" role="dialog" aria-labelledby="flagModalLabel" aria-hidden="true">
+<div class="modal" id="foreignKeySearchModal" tabindex="-1" role="dialog" aria-labelledby="foreignKeySearchLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
 <div class="modal-content">
 <div class="modal-header">
-<h5 class="modal-title" id="flagModalLabel">Flag viewer</h5>
+<h5 class="modal-title" id="foreignKeySearchLabel">Foreign key search</h5>
 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 <span aria-hidden="true">&times;</span>
 </button>
 </div>
-<div class="modal-body" id="flagModalContent">
-<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+<div class="modal-body" id="foreignKeySearchContent">
+<form class='form-inline' id='foreignKeySearchForm' onsubmit="fkDBSearchSubmit()">
+    <div class="form-row">
+        <div class="col">
+            <select class='form-control' onchange="fkDBSearchChange()" id="fkSearchDB"><option>DB Name</option></select>
+        </div>
+        <div class="col">
+            <select class='form-control' id='fkSearchField' disabled><option>Field</option></select>
+        </div>
+        <div class="col">
+            <input class='form-control' style='height: 26px;' type='text' placeholder='Value' id='fkSearchValue'>
+        </div>
+        <div class="col">
+            <input class='form-control' type='submit' value='Search'>
+        </div>
+    </div><br>
+</form>
+<div id='fkSearchResultHolder'>
+
+</div>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -213,6 +233,7 @@ var Settings =
     enableTooltips: true,
     changedVersionsOnly: false,
     showDBDButton: false,
+    showFKButton: false,
     lockedBuild: null
 }
 
@@ -262,6 +283,15 @@ function saveSettings(){
         localStorage.setItem('settings[showDBDButton]', '0');
         document.getElementById("dbdButton").style.display = 'none';
     }
+
+    if(document.getElementById("showFKButton").checked){
+        localStorage.setItem('settings[showFKButton]', '1');
+        document.getElementById("fkSearchButton").style.display = 'inline-block';
+    }else{
+        localStorage.setItem('settings[showFKButton]', '0');
+        document.getElementById("fkSearchButton").style.display = 'none';
+    }
+
 
     if(document.getElementById("lockedBuild").value == null || document.getElementById("lockedBuild").value == "none"){
         localStorage.removeItem('settings[lockedBuild]');
@@ -332,6 +362,20 @@ function loadSettings(){
     }
     
     document.getElementById("showDBDButton").checked = Settings.showDBDButton;
+
+    /* Show FK button? */
+    var showFKButton = localStorage.getItem('settings[showFKButton]');
+    if(showFKButton){
+        if(showFKButton== "1"){
+            Settings.showFKButton = true;
+            document.getElementById("fkSearchButton").style.display = 'inline-block';
+        }else{
+            Settings.showFKButton = false;
+            document.getElementById("fkSearchButton").style.display = 'none';
+        }
+    }
+    
+    document.getElementById("showFKButton").checked = Settings.showFKButton;
 
     var lockedBuild = localStorage.getItem("settings[lockedBuild]");
     Settings.lockedBuild = lockedBuild;
@@ -508,6 +552,134 @@ function refreshVersions(){
     }).catch(function (error) {
         console.log("An error occurred retrieving versions: " + error);
     });
+}
+
+function fkDBSearchChange(){
+    // Load headers and fill columns options
+    const currentDBC = document.getElementById("fkSearchDB").value;
+
+    fetch("/dbc/api/header/" + currentDBC + "/?build=" + currentParams["build"]).then(function (headerResponse) {
+        return headerResponse.json();
+    }).then(function (json) {
+        var fkSearchField = document.getElementById('fkSearchField');
+        fkSearchField.disabled = false;
+        fkSearchField.innerHTML = "";
+        
+        json.headers.forEach((header) => {
+            if(header in json.relationsToColumns){
+                var option = document.createElement("option");
+                option.value = header;
+                option.text = header;
+                console.log(header);
+                fkSearchField.appendChild(option);
+            }
+        });
+
+        $('#fkSearchField').select2();
+    });
+}
+
+function fkDBSearchSubmit(){
+    event.preventDefault();
+
+    const currentDBC = document.getElementById("fkSearchDB").value;
+    const currentField = document.getElementById("fkSearchField").value;
+    const searchValue = document.getElementById("fkSearchValue").value;
+
+    fkDBSearch(currentDBC, currentField, searchValue, false);
+}
+
+async function fkDBSearch(db, col, val, isInline = false){
+    if(!isInline){
+        document.getElementById("foreignKeySearchForm").style.display = "none";
+    }else{
+        document.getElementById("foreignKeySearchForm").style.display = "flex";
+    }
+
+    document.getElementById("fkSearchResultHolder").innerHTML = "<ul class='nav nav-tabs' id='fkresultTabList' role='tablist'></ul><div class='tab-content' id='fkresultTabs'></div><div id='noResultHolder'></div>";
+
+    const dbsToSearch = [];
+    const headerResult = await fetch("/dbc/api/header/" + db + "/?build=" + currentParams["build"]);
+    const headerJSON = await headerResult.json();
+    
+    headerJSON.relationsToColumns[col].forEach((foreignKey) => {
+        const splitFK = foreignKey.split("::");
+        dbsToSearch.push( async() => {
+            try{
+            const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" + currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
+                const json = await result.json();
+                fkDBResults(splitFK, json, val);
+            }catch (e){
+                console.log(e);
+            }
+        });
+    });
+
+    dbsToSearch.forEach(anonPromise => anonPromise());
+
+    await Promise.all(dbsToSearch);
+}
+
+function fkDBResults(splitFK, results, searchVal){
+    console.log("Search results for " + splitFK, results);
+    
+    const tabHolder = document.getElementById("fkresultTabList");
+    const resultHolder = document.getElementById("fkresultTabs");
+    const fkNoResultHolder = document.getElementById("fkresultTabs");
+    
+    if(results.length){
+        if(tabHolder.children.length == 0){
+            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link active' data-toggle='tab' href='#tab" + splitFK[0] + splitFK[1] +"'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
+        }else{
+            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link' data-toggle='tab' href='#tab" + splitFK[0] + splitFK[1] +"'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
+        }
+
+        let resultsHTML = "";
+        if(resultHolder.children.length == 0){
+            resultsHTML += "<div class='tab-pane show active' id='tab" + splitFK[0] + splitFK[1] +"'>";
+        }else{
+            resultsHTML += "<div class='tab-pane' id='tab" + splitFK[0] + splitFK[1] +"'>";
+        }
+        resultsHTML += "<br><table id='FKResults" + splitFK[0] + splitFK[1] + "' class='table table-sm'>";
+        resultsHTML += "<thead><tr>";
+        let targetCol = 0;
+        Object.keys(results[0]).forEach((key) => {
+            if(key == splitFK[1]){
+                targetCol = Object.keys(results[0]).indexOf(key);
+                resultsHTML += "<th class='text-success'>" + key + "</th>";
+            }else{
+                resultsHTML += "<th>" + key + "</th>";
+            }
+        });
+
+        resultsHTML += "</tr></thead><tbody></tbody>";
+        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=9.0.2.36086#page=1&colFilter[" + targetCol + "]=exact:" + encodeURIComponent(searchVal);
+        resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL + "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
+
+        resultHolder.insertAdjacentHTML('beforeend', resultsHTML);
+        
+        const dt = $("#FKResults" + splitFK[0] + splitFK[1]).DataTable(
+            {
+                "pagingType": "input", 
+                "searching": false,
+                "pageLength": 10,
+                "displayStart": 0,
+                "autoWidth": true
+            }
+        );
+
+        results.forEach((result) => {
+            dt.rows.add([Object.values(result)]);
+        });
+
+        dt.draw();
+    }else{
+        if(document.getElementById("noResultHolder").innerHTML == ""){
+            document.getElementById("noResultHolder").innerHTML = "<b>No results for:</b>";
+        }
+        
+        document.getElementById("noResultHolder").innerHTML += splitFK[0] + "::" + splitFK[1] + ", ";
+    }
 }
 
 function loadTable(){
@@ -753,6 +925,10 @@ function loadTable(){
                                 if(colorFields.includes(columnWithTable)){
                                     returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
                                 }
+
+                                if(json["headers"][meta.col] in json["relationsToColumns"]){
+                                    returnVar = " <a data-toggle='modal' href='' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
+                                }
                                 
                                 return returnVar;
                             }
@@ -869,7 +1045,7 @@ function loadTable(){
                 currentParams["build"] = $('#buildFilter').val();
                 loadTable();
             });
-            
+
             $('#localeSelection').on('change', function(){
                 currentParams["locale"] = $('#localeSelection').val();
                 loadTable();
@@ -884,7 +1060,46 @@ function loadTable(){
                 loadTable();
             });
             
-            window.onpopstate = history.onpushstate = function(e) { console.log(e); }
+            // window.onpopstate = history.onpushstate = function(e) { console.log(e); }
+
+            console.log("Refreshing files");
+
+            /* FK search */
+            var fkSearchDB = document.getElementById('fkSearchDB');
+            fetch("https://wow.tools/dbc/api/relations/")
+            .then(function (fileResponse) {
+                return fileResponse.json();
+            }).then(function (data) {
+                const dbsWithRelations = [];
+
+                Object.keys(data).sort().forEach((fk) => {
+                    const splitFK = fk.split("::");
+                    if(!dbsWithRelations.includes(splitFK[0])){
+                        dbsWithRelations.push(splitFK[0]);
+                    }
+                });
+
+                fkSearchDB.innerHTML = "";
+                
+                var option = document.createElement("option");
+                option.text = "Select a table";
+                fkSearchDB.appendChild(option);
+                
+                dbsWithRelations.forEach((file) => {
+                    var option = document.createElement("option");
+                    option.value = file.toLowerCase();
+                    option.text = file;
+                    fkSearchDB.appendChild(option);
+                });
+
+                $('#fkSearchDB').select2();
+            }).catch(function (error) {
+                console.log("An error occurred retrieving files: " + error);
+            });
+            $('#foreignKeySearchModal').on('hidden.bs.modal', function () {
+                document.getElementById("foreignKeySearchForm").style.display = 'flex';
+                document.getElementById("fkSearchResultHolder").innerHTML = "";
+            })
         }());
         </script>
         <?php require_once(__DIR__ . "/../inc/footer.php"); ?>
