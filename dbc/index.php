@@ -851,7 +851,7 @@ function loadTable(){
                                 }
                                 
                                 if(json["headers"][meta.col] in json["relationsToColumns"]){
-                                    returnVar = " <a data-toggle='modal' href='' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
+                                    returnVar = " <a data-toggle='modal' href='' style='cursor: help; border-bottom: 1px solid;' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
                                 }
                                 
                                 if(enumMap.has(columnWithTable)){
