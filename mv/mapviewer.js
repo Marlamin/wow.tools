@@ -231,6 +231,8 @@
         console.log("Setting map to " + Current.wdtFileDataID);
         var zPos = $("#mapZPos").val();
         window.Module._setMap(0, Current.wdtFileDataID, Math.floor(ingame.x), Math.floor(ingame.y), zPos);
+
+        history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?wdt=' + Current.wdtFileDataID + '&pos=' + Math.floor(ingame.x) + ',' + Math.floor(ingame.y));
     }
 
     function PointToWoW( point, offset, build ){

@@ -35,8 +35,8 @@ var Settings =
     paused: false,
     retailOnly: false,
     clearColor: [0.117, 0.207, 0.392],
-    farClip: 1500,
-    farClipCull: 1500,
+    farClip: 500,
+    farClipCull: 500,
     speed: 1000.0
 
 }
