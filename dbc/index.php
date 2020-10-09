@@ -605,7 +605,7 @@ async function fkDBSearch(db, col, val, isInline = false){
         const splitFK = foreignKey.split("::");
         dbsToSearch.push( async() => {
             try{
-            const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" + currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
+                const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" + currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
                 const json = await result.json();
                 fkDBResults(splitFK, json, val);
             }catch (e){
@@ -850,7 +850,7 @@ function loadTable(){
                                     returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
                                 }
                                 
-                                if(json["headers"][meta.col] in json["relationsToColumns"]){
+                                if(json["headers"][meta.col] in json["relationsToColumns"] && columnWithTable != "spell.ID"){
                                     returnVar = " <a data-toggle='modal' href='' style='cursor: help; border-bottom: 1px solid;' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
                                 }
                                 
