@@ -2786,6 +2786,17 @@ const itemQuality = {
     8: 'WoW Token'
 }
 
+const spellItemEnchantmentEffect = {
+    1: 'Proc',
+    2: 'Damage',
+    3: 'Buff',
+    4: 'Armor',
+    5: 'Stat',
+    6: 'Totem',
+    7: 'Use Spell',
+    8: 'Prismatic socket'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2833,6 +2844,9 @@ enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
 enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
 enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
 enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
+enumMap.set("spellitemenchantment.Effect[0]", spellItemEnchantmentEffect);
+enumMap.set("spellitemenchantment.Effect[1]", spellItemEnchantmentEffect);
+enumMap.set("spellitemenchantment.Effect[2]", spellItemEnchantmentEffect);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -2902,6 +2916,15 @@ conditionalEnums.set("modifiertree.Asset",
         ['modifiertree.Type=15', itemQuality]
     ]
 );
+
+for (let i = 0; i < 3; i++){
+    conditionalEnums.set("spellitemenchantment.EffectArg[" + i + "]",
+        [
+            ['spellitemenchantment.Effect[' + i + ']=5', itemStatType]
+        ]
+    );
+}
+
 
 // Conditional FKs (move to sep file?)
 let conditionalFKs = new Map();
