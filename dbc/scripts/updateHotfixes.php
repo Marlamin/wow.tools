@@ -38,6 +38,11 @@ if (count($filesToProcess) > 0) {
 }
 
 foreach ($filesToProcess as $file) {
+    $md5 = md5_file($file);
+    if (in_array($md5, $processedMD5s)) {
+        continue;
+    }
+
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
     $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
     $json = json_decode($output, true);
