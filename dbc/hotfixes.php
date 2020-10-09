@@ -69,6 +69,8 @@ require_once(__DIR__ . "/../inc/header.php");
 
     let currentParams = [];
 
+    let cachedDBCHeaders = [];
+
     if(vars["search"] == null){
         currentParams["search"] = "";
     }else{
@@ -195,15 +197,28 @@ require_once(__DIR__ . "/../inc/header.php");
     }
 
     function showRowDiff(dbc, build, recordID){
-        var headerReq = fetch("/dbc/api/header/" + dbc.toLowerCase() + "?build=" + build).then(data => data.json());
-        var beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
-        var afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
+        let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
+        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
+        
+        const cachedHeaderName = dbc + "-" + build;
+        let headerPromise;
+        if(cachedHeaderName in cachedDBCHeaders){
+            headerPromise = new Promise(function(resolve, reject) {
+                resolve(cachedDBCHeaders[cachedHeaderName]);
+            });
+        }else{
+            headerPromise = fetch("/dbc/api/header/" + dbc.toLowerCase() + "?build=" + build).then(data => data.json());
+        }
 
-        Promise.all([headerReq, beforeReq, afterReq])
+        Promise.all([headerPromise, beforeReq, afterReq])
         .then(json => {
             const header = json[0];
             const before = json[1].values;
             const after = json[2].values;
+
+            if(!(cachedHeaderName in cachedDBCHeaders)){
+                cachedDBCHeaders[cachedHeaderName] = header;
+            }
 
             let changes = "<table class='diffTable'>";
 
