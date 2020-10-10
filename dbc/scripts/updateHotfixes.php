@@ -10,6 +10,8 @@ $insertMD5 = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes_parsed (md5) VALUES 
 $knownPushIDs = $pdo->query("SELECT DISTINCT pushID FROM wow_hotfixes")->fetchAll(PDO::FETCH_COLUMN);
 $knownKeys = $pdo->query("SELECT keyname FROM wow_tactkey")->fetchAll(PDO::FETCH_COLUMN);
 $keyInsert = $pdo->prepare("INSERT IGNORE INTO wow_tactkey (keyname, keybytes) VALUES (?, ?)");
+$buildLookup = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
+
 $files = glob('/home/wow/dbcdumphost/caches/*.bin');
 
 if (!empty($argv[1])) {
@@ -33,6 +35,10 @@ foreach ($files as $file) {
     $filesToProcess[] = $file;
 }
 
+$pushIDIcon[0] = "🗑️";
+$pushIDIcon[1] = "✏️";
+$pushIDIcon[2] = "🗑️";
+$pushIDIcon[3] = "❌";
 if (count($filesToProcess) > 0) {
     $knownCachedEntries = $pdo->query("SELECT CONCAT(tableName, \".\", recordID, \".\", md5) FROM wow_cachedentries")->fetchAll(PDO::FETCH_COLUMN);
 }
@@ -71,10 +77,10 @@ foreach ($filesToProcess as $file) {
                 echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted new hotfix: Push ID " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . "\n";
 
                 if (!array_key_exists($entry['pushID'], $messages)) {
-                    $messages[$entry['pushID']] = "Push ID " . $entry['pushID'] . " for build " . $json['build'] . "\nhttps://wow.tools/dbc/hotfixes.php?search=pushid:" . $entry['pushID'] . "\n";
+                    $messages[$entry['pushID']] = "Push ID **[" . $entry['pushID'] . "](https://wow.tools/dbc/hotfixes.php?search=pushid:" . $entry['pushID'] . ")** for build " . $json['build'] . "\n";
                 }
 
-                $messages[$entry['pushID']] .= $entry['tableName'] . " " . $entry['recordID'] . " (" . $entry['isValid'] . ")\n";
+                $messages[$entry['pushID']] .= $pushIDIcon[$entry['isValid']] . " " . $entry['tableName'] . " " . $entry['recordID'] . "\n";
             }
         } else {
             // Without Push ID
@@ -88,10 +94,22 @@ foreach ($filesToProcess as $file) {
                     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted new cached entry, Table " . $entry['tableName'] . " " . $entry['recordID'] . " from build " . $json['build'] . " with MD5 " . $entry['dataMD5'] . " \n";
 
                     if (!array_key_exists(filemtime($file), $messages)) {
-                        $messages[filemtime($file)] = "Discovered new DBCache entries for build " . $json['build'] . "\n";
+                        $messages[filemtime($file)] = "Discovered new cache entries for build " . $json['build'] . "\n";
                     }
 
-                    $messages[filemtime($file)] .= $entry['tableName'] . " " . $entry['recordID'] . "\n";
+                    if ($entry['tableName'] == "BroadcastText") {
+                        $colIndex = 2;
+                    } else {
+                        $colIndex = 0;
+                    }
+                    
+                    if (array_key_exists($json['build'], $buildLookup)) {
+                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&build=" . $buildLookup[$json['build']] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=" . $entry['recordID'];
+                    } else {
+                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=" . $entry['recordID'];
+                    }
+
+                    $messages[filemtime($file)] .= $entry['tableName'] . " [" . $entry['recordID'] . "](" . $link . ")\n";
                 }
             }
         }

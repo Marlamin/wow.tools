@@ -490,7 +490,7 @@ function telegramSendMessage($text)
 {
     global $telegram;
 
-    return telegramRequest("sendMessage", array ( "chat_id" => $telegram["chat_id"], "text" => $text, "disable_web_page_preview" => true));
+    return telegramRequest("sendMessage", array ( "chat_id" => $telegram["chat_id"], "text" => $text, "parse_mode" => "MarkdownV2", "disable_web_page_preview" => true));
 }
 
 function discordSendMessage($message, $channel, $username = "WoW.tools")

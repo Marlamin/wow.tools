@@ -105,6 +105,7 @@ if (!empty($_GET['embed'])) {
                 <?php if (empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")) { ?>
                     <a href='/user.php?p=login' class='btn btn-sm align-middle btn-outline-success'>Login</a>
                 <?php } else { ?>
+                    <a href='/account/' class='btn btn-sm align-middle btn-outline-primary'><i class='fa fa-gear'></i></a>&nbsp;
                     <a href='/user.php?p=logout' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
                 <?php } ?>
             </form>
