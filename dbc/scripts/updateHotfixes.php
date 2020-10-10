@@ -74,7 +74,7 @@ foreach ($filesToProcess as $file) {
                     $messages[$entry['pushID']] = "Push ID " . $entry['pushID'] . " for build " . $json['build'] . "\nhttps://wow.tools/dbc/hotfixes.php?search=pushid:" . $entry['pushID'] . "\n";
                 }
 
-                $messages[$entry['pushID']] .= $entry['tableName'] . " ID " . $entry['recordID'] . " (" . $entry['isValid'] . ")\n";
+                $messages[$entry['pushID']] .= $entry['tableName'] . " " . $entry['recordID'] . " (" . $entry['isValid'] . ")\n";
             }
         } else {
             // Without Push ID
@@ -85,13 +85,13 @@ foreach ($filesToProcess as $file) {
 
                 $insertCachedEntryQ->execute([$entry['recordID'], $entry['tableName'], $entry['dataMD5'], $json['build'], basename($file)]);
                 if ($insertCachedEntryQ->rowCount() == 1) {
-                    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted new cached entry, Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . " with MD5 " . $entry['dataMD5'] . " \n";
+                    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted new cached entry, Table " . $entry['tableName'] . " " . $entry['recordID'] . " from build " . $json['build'] . " with MD5 " . $entry['dataMD5'] . " \n";
 
                     if (!array_key_exists(filemtime($file), $messages)) {
                         $messages[filemtime($file)] = "Discovered new DBCache entries for build " . $json['build'] . "\n";
                     }
 
-                    $messages[filemtime($file)] .= $entry['tableName'] . " ID " . $entry['recordID'] . "\n";
+                    $messages[filemtime($file)] .= $entry['tableName'] . " " . $entry['recordID'] . "\n";
                 }
             }
         }
@@ -99,6 +99,10 @@ foreach ($filesToProcess as $file) {
 
     foreach ($messages as $message) {
         telegramSendMessage($message);
+
+        foreach ($discordHotfixes as $discordHotfix) {
+            discordSendMessage($message, $discordHotfix);
+        }
     }
 
     $foundNewKeys = false;

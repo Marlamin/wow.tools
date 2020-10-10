@@ -529,7 +529,7 @@ function setModelTexture(textures, offset){
     //Create real texture replace array
     const typedArray = new Int32Array(18);
 
-    for (i = 0; i < textures.length; i++){
+    for (let i = 0; i < textures.length; i++){
         if (offset == 11 && i == 3){
             var particleColorID = textures[3];
             console.log("Particle Color should be set to " + particleColorID);
@@ -556,7 +556,7 @@ function setModelTexture(textures, offset){
     }
 
     // Allocate some space in the heap for the data (making sure to use the appropriate memory size of the elements)
-    buffer = Module._malloc(typedArray.length * typedArray.BYTES_PER_ELEMENT);
+    let buffer = Module._malloc(typedArray.length * typedArray.BYTES_PER_ELEMENT);
 
     // Assign the data to the heap - Keep in mind bytes per element
     Module.HEAP32.set(typedArray, buffer >> 2);
@@ -615,7 +615,6 @@ function updateURLs(){
         "autoWidth": false,
         "pagingType": "input",
         "orderMulti": false,
-        "dom":"<'row'<'col-sm-12 col-md-12'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-12'p>>",
         "ordering": true,
         "order": [[0, 'asc']],
         "dom": 'fprt',

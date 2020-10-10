@@ -492,3 +492,16 @@ function telegramSendMessage($text)
 
     return telegramRequest("sendMessage", array ( "chat_id" => $telegram["chat_id"], "text" => $text, "disable_web_page_preview" => true));
 }
+
+function discordSendMessage($message, $channel, $username = "WoW.tools")
+{
+    $json = json_encode([ "username" => $username, "content" => $message]);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $channel);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+    curl_setopt($ch, CURLOPT_USERAGENT, "Blizzard Monitor Discord Integration");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Length: " . strlen($json), "Content-Type: application/json"]);
+    curl_exec($ch);
+    curl_close($ch);
+}
