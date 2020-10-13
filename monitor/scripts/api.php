@@ -50,11 +50,12 @@ if (!isset($_GET['draw']) || !isset($_GET['order'][0]['column'])) {
 
 $query = "FROM ngdp_history INNER JOIN ngdp_urls on ngdp_urls.id=ngdp_history.url_id";
 
-if (!empty($_GET['columns'][1]['search']['value'])) {
+if (!empty($_GET['columns'][1]['search']['value']) && strpos($_GET['columns'][1]['search']['value'], "wow") !== false) {
+    
     $query .= " WHERE event = 'valuechange' AND ngdp_urls.url LIKE :prodSearch";
     $prodSearch = "%" . $_GET['columns'][1]['search']['value'] . "%";
 } else {
-    $query .= " WHERE event = 'valuechange'";
+    $query .= " WHERE event = 'valuechange' AND ngdp_urls.url LIKE '%wow%'";
 }
 
 if (!empty($_GET['search']['value'])) {
