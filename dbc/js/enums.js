@@ -419,15 +419,15 @@ const itemStatType = {
     23: 'CORRUPTION_RESISTANCE',
     24: 'MODIFIED_CRAFTING_STAT_1',
     25: 'MODIFIED_CRAFTING_STAT_2',
-    26: 'CRIT_TAKEN_RANGED_RATING',
-    27: 'CRIT_TAKEN_SPELL_RATING',
+    26: 'CRIT_TAKEN_RANGED_RATING', // Removed
+    27: 'CRIT_TAKEN_SPELL_RATING', // Removed
     28: 'HASTE_MELEE_RATING',	// Removed
     29: 'HASTE_RANGED_RATING',	// Removed
     30: 'HASTE_SPELL_RATING',	// Removed
     31: 'HIT_RATING',
     32: 'CRIT_RATING',
-    33: 'HIT_TAKEN_RATING',
-    34: 'CRIT_TAKEN_RATING',
+    33: 'HIT_TAKEN_RATING', // Removed
+    34: 'CRIT_TAKEN_RATING', // Removed
     35: 'RESILIENCE_RATING',
     36: 'HASTE_RATING',
     37: 'EXPERTISE_RATING',
@@ -436,12 +436,12 @@ const itemStatType = {
     40: 'VERSATILITY',
     41: 'SPELL_HEALING_DONE',
     42: 'SPELL_DAMAGE_DONE',
-    43: 'MANA_REGENERATION',
-    44: 'ARMOR_PENETRATION_RATING',
+    43: 'MANA_REGENERATION', // Removed
+    44: 'ARMOR_PENETRATION_RATING', // Removed
     45: 'SPELL_POWER',
     46: 'HEALTH_REGEN',
     47: 'SPELL_PENETRATION',
-    48: 'BLOCK_VALUE',
+    48: 'BLOCK_VALUE', // Removed
     49: 'MASTERY_RATING',
     50: 'EXTRA_ARMOR',
     51: 'FIRE_RESISTANCE',
@@ -2736,7 +2736,9 @@ const garrAbilityAction = {
     36: 'MOD_COST_BY_RACE',
     37: 'REWARD_ON_WORLD_QUEST_COMPLETE',
     38: 'MOD_SUCCESS_BY_MISSIONS_IN_PROGRESS',
-    39: 'MOD_MISSION_COST'
+    39: 'MOD_MISSION_COST',
+    40: 'MOD_SUCCESS_IF_RARE_MISSION',
+    41: 'SOLO_CHAMPION',
 }
 
 const garrAbilityTargetType = {
@@ -2797,6 +2799,282 @@ const spellItemEnchantmentEffect = {
     8: 'Prismatic socket'
 }
 
+const itemContext = {
+    1: "Normal Dungeon",
+    2: "Heroic Dungeon",
+    3: "Normal Raid",
+    4: "LFR",
+    5: "Heroic Raid",
+    6: "Mythic Raid",
+    7: "PvP",
+    // 8: "",
+    9: "Normal Scenario",
+    10: "Heroic Scenario",
+    // 11: "",
+    // 12: "",
+    // 13: "",
+    // 14: "",
+    16: "Mythic Keystone",
+    // 17: "",
+    // 18: "",
+    // 19: "",
+    // 20: "",
+    // 21: "",
+    22: "Timewalking",
+    23: "Mythic Dungeon",
+    // 25: "",
+    // 26: "",
+    // 27: "",
+    // 28: "",
+    // 29: "",
+    // 30: "",
+    // 33: "",
+    // 34: "",
+    // 35: "",
+    // 36: "",
+    // 37: "",
+    // 38: "",
+    // 39: "",
+    // 40: "",
+    // 41: "",
+    // 42: "",
+    // 43: "",
+    // 44: "",
+    // 45: "",
+    // 46: "",
+    // 47: "",
+    // 48: "",
+    // 49: "",
+    // 50: "",
+    // 51: "",
+    // 52: "",
+    // 53: "",
+    // 54: "",
+    // 55: "",
+    // 56: "",
+    // 57: "",
+    // 58: "",
+    // 61: "",
+    // 62: "",
+    // 63: "",
+    // 64: "",
+    // 65: "",
+    // 66: "",
+    // 74: "",
+    // 77: "",
+    // 78: "",
+    // 81: "",
+    // 82: "",
+    // 83: "",
+    // 84: "",
+    // 85: "",
+}
+
+const environmentalDamageType = {
+    0: 'FATIGUE',
+    1: 'DROWNING',
+    2: 'FALLING',
+    3: 'LAVA',
+    4: 'SLIME',
+    5: 'FIRE',
+}
+
+const garrAutoCombatantRole = {
+    0: 'NONE',
+    1: 'MELEE',
+    2: 'RANGED_PHYSICAL',
+    3: 'RANGED_MAGIC',
+    4: 'HEAL_SUPPORT',
+    5: 'TANK',
+}
+
+const garrAutoSpellEffectType = {
+    0: 'NONE',
+    1: 'DAMAGE',
+    2: 'HEAL',
+    3: 'DAMAGE_PCT',
+    4: 'HEAL_PCT',
+    5: 'DOT',
+    6: 'HOT',
+    7: 'DOT_PCT',
+    8: 'HOT_PCT',
+    9: 'TAUNT',
+    10: 'DETAUNT',
+    11: 'MOD_DAMAGE_DONE',
+    12: 'MOD_DAMAGE_DONE_PCT',
+    13: 'MOD_DAMAGE_TAKEN',
+    14: 'MOD_DAMAGE_TAKEN_PCT',
+    15: 'DEAL_DAMAGE_TO_ATTACKER',
+    16: 'DEAL_DAMAGE_TO_ATTACKER_PCT',
+    17: 'INCREASE_MAX_HEALTH',
+    18: 'INCREASE_MAX_HEALTH_PCT',
+    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT',
+    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',
+}
+
+const garrAutoSpellTarget = {
+    0: 'NONE',
+    1: 'SELF',
+    2: 'ADJACENT_FRIENDLY',
+    3: 'ADJACENT_HOSTILE',
+    4: 'RANGED_FRIENDLY',
+    5: 'RANGED_HOSTILE',
+    6: 'ALL_FRIENDLIES',
+    7: 'ALL_HOSTILES',
+    8: 'ALL_ADJACENT_FRIENDLIES',
+    9: 'ALL_ADJACENT_HOSTILES',
+    10: 'CONE_FRIENDLIES',
+    11: 'CONE_HOSTILES',
+    12: 'LINE_FRIENDLIES',
+    13: 'LINE_HOSTILES',
+    14: 'ALL_FRONT_ROW_FRIENDLIES',
+    15: 'ALL_FRONT_ROW_HOSTILES',
+    16: 'ALL_BACK_ROW_FRIENDLIES',
+    17: 'ALL_BACK_ROW_HOSTILES',
+    18: 'ALL_TARGETS',
+    19: 'RANDOM_TARGET',
+    20: 'RANDOM_ALLY',
+    21: 'RANDOM_ENEMY',
+    22: 'ALL_FRIENDLIES_BUT_SELF',
+}
+
+const garrBuildingType = {
+    0: 'NONE',
+    1: 'MINE',
+    2: 'FARM',
+    3: 'BARN',
+    4: 'LUMBER_MILL',
+    5: 'INN',
+    6: 'TRADING_POST',
+    7: 'PET_MENAGERIE',
+    8: 'BARRACKS',
+    9: 'SHIPYARD',
+    10: 'ARMORY',
+    11: 'STABLE',
+    12: 'ACADEMY',
+    13: 'MAGE_TOWER',
+    14: 'SALAVAGE_YARD',
+    15: 'STOREHOUSE',
+    16: 'ALCHEMY',
+    17: 'BLACKSMITH',
+    18: 'ENCHANTING',
+    19: 'ENGINEERING',
+    20: 'INSCRIPTION',
+    21: 'JEWELCRAFTING',
+    22: 'LEATHERWORKING',
+    23: 'TAILORING',
+    24: 'FISHING',
+    25: 'SPARRING_ARENA',
+    26: 'WORKSHOP',
+}
+
+const garrFollowerItemSlot = {
+    0: 'MAINHAND',
+    1: 'OFFHAND',
+    2: 'ARMOR'
+}
+
+const garrFollowerQuality = {
+    1: 'COMMON',
+    2: 'UNCOMMON',
+    3: 'RARE',
+    4: 'EPIC',
+    5: 'LEGENDARY',
+    6: 'TITLE',
+}
+
+const garrMechanicCategory = {
+    0: 'ENVIRONMENT',
+    1: 'ENEMY_RACE',
+    2: 'ENCOUNTER'
+}
+
+const garrSpecType = {
+    0: 'REDUCE_TRAVEL_TIME',
+    1: 'STABLE_EXTRA_MOUNTS',
+    2: 'RECALL_FOLLOWERS',
+    3: 'GENERATE_ITEM_RECURRING',
+    4: 'RECOVER_FOLLOWER',
+    5: 'INCREASED_HEALTH',
+    6: 'FOLLOWER_DISCOVERY_CHANCE_INCREASE',
+    7: 'INCREASE_GATHERING_RATE',
+    8: 'MENAGERIE_EXTRA_PETS',
+    9: 'COST_MULTIPLIER',
+}
+
+const garrTalentCostType = {
+    0: 'INITIAL',
+    1: 'RESPEC',
+    2: 'MAKE_PERMANENT',
+    3: 'TREE_RESET',
+}
+
+const itemSlot = {
+    0: 'HEAD',
+    1: 'SHOULDER',
+    2: 'SHIRT',
+    3: 'ARMOR',
+    4: 'WAIST',
+    5: 'LEGS',
+    6: 'FEET',
+    7: 'WRIST',
+    8: 'HAND',
+    9: 'TABARD',
+    10: 'CAPE',
+    11: 'QUIVER'
+}
+
+const uiWidgetScale = {
+    0: '100',
+    1: '90',
+    2: '80',
+    3: '70',
+    4: '60',
+    5: '50'
+}
+
+const questTagType = {
+    0: 'TAG',
+    1: 'PROFESSION',
+    2: 'NORMAL',
+    3: 'PVP',
+    4: 'PET_BATTLE',
+    5: 'BOUNTY',
+    6: 'DUNGEON',
+    7: 'INVASION',
+    8: 'RAID',
+    9: 'CONTRIBUTION',
+    10: 'RATED_REWARD',
+    11: 'INVASION_WRAPPER',
+    12: 'FACTION_ASSAULT',
+    13: 'ISLANDS',
+    14: 'THREAT',
+    15: 'COVENANT_CALLING'
+}
+
+const questObjectiveType = {
+    0: 'KILL',
+    1: 'COLLECT',
+    2: 'INTERACT_DOODAD',
+    3: 'INTERACT_UNIT',
+    4: 'GET_CURRENCY',
+    5: 'LEARN_SPELL',
+    6: 'FACTION_MIN',
+    7: 'FACTION_MAX',
+    8: 'PAY_MONEY',
+    9: 'KILL_PLAYERS',
+    10: 'AREA_TRIGGER_DEPRECATED',
+    11: 'DEFEAT_BATTLEPET_NPC',
+    12: 'DEFEAT_BATTLEPET',
+    13: 'DEFEAT_BATTLEPET_PVP',
+    14: 'CRITERIA_TREE',
+    15: 'PROGRESS_BAR',
+    16: 'REACH_CURRENCY',
+    17: 'INCREASE_CURRENCY',
+    18: 'AREA_TRIGGER_ENTER',
+    19: 'AREA_TRIGGER_EXIT'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -2847,6 +3125,22 @@ enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
 enumMap.set("spellitemenchantment.Effect[0]", spellItemEnchantmentEffect);
 enumMap.set("spellitemenchantment.Effect[1]", spellItemEnchantmentEffect);
 enumMap.set("spellitemenchantment.Effect[2]", spellItemEnchantmentEffect);
+enumMap.set("itembonustreenode.ItemContext", itemContext);
+enumMap.set("environmentaldamage.EnumID", environmentalDamageType);
+enumMap.set("garrautocombatant.Role", garrAutoCombatantRole);
+enumMap.set("garrautospelleffect.EffectType", garrAutoSpellEffectType);
+enumMap.set("garrautospelleffect.Targets", garrAutoSpellTarget);
+enumMap.set("garrbuilding.BuildingType", garrBuildingType);
+enumMap.set("garrfollitemsetmember.ItemSlot", garrFollowerItemSlot);
+enumMap.set("garrfollowerquality.Quality", garrFollowerQuality);
+enumMap.set("garrmechanictype.Category", garrMechanicCategory);
+enumMap.set("garrspecialization.BuildingType", garrBuildingType);
+enumMap.set("garrspecialization.SpecType", garrSpecType);
+enumMap.set("garrtalentcost.CostType", garrTalentCostType);
+enumMap.set("npcmodelitemslotdisplayinfo.ItemSlot", itemSlot);
+enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
+enumMap.set("questinfo.Type", questTagType);
+enumMap.set("questobjective.Type", questObjectiveType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);

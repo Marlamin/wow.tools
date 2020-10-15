@@ -115,9 +115,13 @@ const itemSparseFlags3 = {
     0x80 : 'DISPLAY_ONLY_ON_DEFINED_RACES',
     0x100 : 'REGULATED_COMMODITY',
     0x200 : 'CREATE_LOOT_IMMEDIATELY',
-    0x400 : 'GENERATE_LOOT_SPEC_ITEM'
+    0x400 : 'GENERATE_LOOT_SPEC_ITEM',
+    0x800: 'HIDDEN_IN_REWARD_SUMMARIES',
+    0x1000: 'DISALLOW_WHILE_LEVEL_LINKED',
+    0x2000: 'DISALLOW_ENCHANT',
+    0x4000: 'SQUISH_USING_ITEM_LEVEL_AS_PLAYER_LEVEL',
+    0x8000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP'
 }
-
 
 const classMask = {
     0x1 : 'WARRIOR',
@@ -525,11 +529,193 @@ const garrAbilityEffectFlags =
 }
 
 const garrMissionFlags = {
-    0x1: 'IsRare',
-    0x2: 'IsElite',
-    0x4: 'AppliesFatique',
-    0x8: 'AlwaysFail',
-    0x10: 'IsZoneSupport'
+    0x1: 'RARE_MISSION',
+    0x2: 'ELITE_MISSION',
+    0x4: 'APPLIES_FATIGUE',
+    0x8: 'ALWAYS_FAIL',
+    0x10: 'IS_ZONE_SUPPORT',
+    0x20: 'REQUIRE_100_TO_START',
+    0x40: 'DOES_NOT_REPEAT',
+    0x80: 'ALWAYS_SUCCEED',
+    0x100: 'DO_NOT_UPDATE_PHASESHIFT_ON_START',
+    0x200: 'DO_NOT_UPDATE_PHASESHIFT_ON_COMPLETE',
+    0x400: 'DONT_CLEAN_UP_WHILE_OFFERED',
+}
+
+const charShipmentFlags = {
+    0x1: 'MOBILE_START_ALLOWED',
+    0x2: 'IS_ARTIFACT_KNOWLEDGE'
+}
+
+const currencyFlags = {
+    0x1: 'CURRENCY_TRADABLE',
+    0x2: 'CURRENCY_APPEARS_IN_LOOT_WINDOW',
+    0x4: 'CURRENCY_COMPUTED_WEEKLY_MAXIMUM',
+    0x8: 'CURRENCY_100_SCALER',
+    0x10: 'CURRENCY_NO_LOW_LEVEL_DROP',
+    0x20: 'CURRENCY_IGNORE_MAX_QTY_ON_LOAD',
+    0x40: 'CURRENCY_LOG_ON_WORLD_CHANGE',
+    0x80: 'CURRENCY_TRACK_QUANTITY',
+    0x100: 'CURRENCY_RESET_TRACKED_QUANTITY',
+    0x200: 'CURRENCY_UPDATE_VERSION_IGNORE_MAX',
+    0x400: 'CURRENCY_SUPPRESS_CHAT_MESSAGE_ON_VERSION_CHANGE',
+    0x800: 'CURRENCY_SINGLE_DROP_IN_LOOT',
+    0x1000: 'CURRENCY_HAS_WEEKLY_CATCHUP',
+    0x2000: 'CURRENCY_DO_NOT_COMPRESS_CHAT',
+    0x4000: 'CURRENCY_DO_NOT_LOG_ACQUISITION_TO_BI',
+    0x8000: 'CURRENCY_NO_RAID_DROP',
+    0x10000: 'CURRENCY_NOT_PERSISTENT',
+    0x20000: 'CURRENCY_DEPRECATED',
+    0x40000: 'CURRENCY_DYNAMIC_MAXIMUM',
+    0x80000: 'CURRENCY_SUPPRESS_CHAT_MESSAGES',
+    0x100000: 'CURRENCY_DO_NOT_TOAST',
+    0x200000: 'CURRENCY_DESTROY_EXTRA_ON_LOOT',
+    0x400000: 'CURRENCY_DONT_SHOW_TOTAL_IN_TOOLTIP',
+    0x800000: 'CURRENCY_DONT_COALESCE_IN_LOOT_WINDOW',
+    0x1000000: 'CURRENCY_ACCOUNT_WIDE',
+    0x2000000: 'CURRENCY_ALLOW_OVERFLOW_MAILER',
+    0x4000000: 'CURRENCY_HIDE_AS_REWARD',
+    0x8000000: 'CURRENCY_HAS_WARMODE_BONUS',
+    0x10000000: 'CURRENCY_IS_ALLIANCE_ONLY',
+    0x20000000: 'CURRENCY_IS_HORDE_ONLY',
+    0x40000000: 'CURRENCY_LIMIT_WARMODE_BONUS_ONCE_PER_TOOLTIP',
+    0x80000000: 'deprecated_currency_flag',
+}
+
+const currencyFlagsB = {
+    0x1: 'CURRENCY_B_USE_TOTAL_EARNED_FOR_MAX_QTY',
+    0x2: 'CURRENCY_B_SHOW_QUEST_XP_GAIN_IN_TOOLTIP'
+}
+
+const garrAutoSpellEffectFlags = {
+    0x1: 'USE_ATTACK_FOR_POINTS',
+    0x2: 'EXTRA_INITIAL_PERIOD'
+}
+
+const garrAutoSpellFlags = {
+    0x1: 'NO_INITIAL_CAST'
+}
+
+const garrBuildingFlags = {
+    0x1: 'REQUIRES_BLUEPRINT',
+    0x2: 'IGNORE_STOREHOUSE'
+}
+
+const garrClassSpecFlags = {
+    0x1: 'IS_LIMITED_USE_FOLLOWER',
+    0x2: 'NO_XP_GAIN',
+    0x4: 'INCREASE_QUALITY_ON_MISSION_SUCCESS',
+    0x8: 'AUTO_TROOP',
+}
+
+const garrEncounterFlags = {
+    0x1: 'CUSTOM_PORTRAIT',
+    0x2: 'ELITE'
+}
+
+const garrFollowerFlags = {
+    0x1: 'UNIQUE_FOLLOWER',
+    0x2: 'NO_AUTOMATIC_SPAWNING',
+    0x4: 'INTERNAL_ONLY',
+    0x8: 'KILLED_BY_ALWAYS_FAIL_MISSION',
+    0x10: 'HIDDEN_UNLESS_COLLECTED',
+}
+
+const garrFollowerTypeFlags = {
+    0x1: 'ALLOW_FOLLOWER_RENAME',
+    0x2: 'ALLOW_MISSION_START_ABOVE_SOFT_CAP',
+    0x4: 'ALLOW_MISSION_SALVAGE',
+    0x8: 'ALLOW_FOLLOWER_DELETE',
+    0x10: 'ILEVEL_INCREASE_REQUIRES_EPIC',
+}
+
+const garrPlotFlags = {
+    0x1: 'REQUIRED_FOR_GARRISON_UPGRADE'
+}
+
+const holidayFlags = {
+    0x1: 'IS_REGION_WIDE',
+    0x2: 'DONT_SHOW_IN_CALENDAR',
+    0x4: 'DONT_DISPLAY_END',
+    0x8: 'DONT_DISPLAY_BANNER',
+    0x10: 'NOT_AVAILABLE_CLIENT_SIDE'   
+}
+
+const lfgFlags = {
+    0x1: 'XREALM',
+    0x2: 'GLOBAL',
+    0x4: 'HOLIDAY',
+    0x8: 'SPECIFIC_REWARD',
+    0x10: 'WEEKLY',
+    0x20: 'IGNORE_RAID_LOCK',
+    0x40: 'SCALING_DUNGEON',
+    0x80: 'AUTO_SPEC_FOR_ROLE',
+    0x100: 'LEVEL_UP_TOAST',
+    0x200: 'DELIVER_RANDOM_WHEN_QUEUED',
+    0x400: 'ONLY_SERVER_INITIATED_QUEUE',
+    0x800: 'NO_USER_TELEPORT',
+    0x1000: 'REQUIRES_PREMADE_GROUP',
+    0x2000: 'FORCE_THIS_REWARD',
+    0x4000: 'LOOT_METHOD_PERSONAL',
+    0x8000: 'HIDE_IF_REQ_UNMET',
+    0x10000: 'MULTIFACTION',
+    0x20000: 'ALLOW_EMPTY_TEAMS',
+    0x40000: 'SKIP_PROPOSAL',
+    0x80000: 'FACTION_BALANCE',
+    0x100000: 'AUTO_SUMMON_PARTY',
+    0x200000: 'ALLOW_SAME_FACTION',
+    0x400000: 'SERVER_CONTROLLED_BACKFILL',
+    0x800000: 'SEAMLESS_ENTRANCE_QUEUE',
+    0x1000000: 'NO_IGNORES',
+    0x2000000: 'BACKFILL_LARGE_FIRST',
+    0x4000000: 'LEAVE_RIDE_TICKET_ON_TRANSFER',
+    0x8000000: 'ALLOW_DESERTERS',
+    0x10000000: 'LEAVE_RIDE_TICKET_ON_LOGOUT',
+    0x20000000: 'DISABLE_BACKFILL',
+    0x40000000: 'DISABLE_SOCIAL_QUEUING',
+    0x80000000: 'NO_ROLES'
+}
+
+const lfgFlagsB = {
+    0x1: 'HIDE_NAME_FROM_UI',
+    0x2: 'BAILING_ACCEPTABLE',
+    0x4: 'DISABLE_TELEPORT_TO_LEADER',
+    0x8: 'KICK_ON_AFK',
+    0x10: 'ROLE_CHANGE_ON_ENTER',
+    0x20: 'SOLO_LFR_RULES',
+    0x40: 'NO_PARTY_INVITES',
+    0x80: 'EXTENDED_INSTANCE_SHUTDOWN',
+    0x100: 'AVAILABLE_IN_NPE',
+    0x200: 'CHROMIE_TIME_RANDOM_DUNGEON',
+    0x400: 'CHROMIE_TIME_DUNGEON_POOL',
+    0x800: 'DISABLE_CALENDAR_EVENT',
+    0x1000: 'INSTANT_SHUTDOWN'
+}
+
+const questTagModifierFlags = {
+    0x1: 'RARE',
+    0x2: 'ELITE',
+    0x4: 'EPIC',
+    0x8: 'NO_SPELL_COMPLETE_EFFECTS',
+    0x10: 'HIDDEN_IN_QUEST_LOG',
+    0x20: 'ALLOW_DISPLAY_PAST_CRITICAL',
+    0x40: 'SUPPRESS_EXPIRATION_WARNING',
+    0x80: 'SHOW_AS_WORLD_QUEST'
+}
+
+const questObjectiveFlags = {
+    0x1: 'TRACK_ON_MINIMAP',
+    0x2: 'SEQUENCED',
+    0x4: 'OPTIONAL',
+    0x8: 'HIDDEN',
+    0x10: 'HIDE_CREDIT_MSG',
+    0x20: 'PRESERVE_QUEST_ITEMS',
+    0x40: 'PROGRESS_BAR_SUB_TASK',
+    0x80: 'KILL_PLAYERS_SAME_FACTION'
+}
+
+const campaignFlags = {
+    0x1: 'DONT_USE_JOURNEY_QUEST_BANG'
 }
 
 window.flagMap = new Map();
@@ -568,6 +754,23 @@ window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
 window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
 window.flagMap.set("uimap.Flags", uiMapFlags);
+window.flagMap.set("charshipment.Flags", charShipmentFlags);
+window.flagMap.set("currencytypes.Flags[0]", currencyFlags);
+window.flagMap.set("currencytypes.Flags[1]", currencyFlagsB);
+window.flagMap.set("garrautospelleffect.Flags", garrAutoSpellEffectFlags);
+window.flagMap.set("garrautospell.Flags", garrAutoSpellFlags);
+window.flagMap.set("garrbuilding.Flags", garrBuildingFlags);
+window.flagMap.set("garrclassspec.Flags", garrClassSpecFlags);
+window.flagMap.set("garrencounter.Flags", garrEncounterFlags);
+window.flagMap.set("garrfollower.Flags", garrFollowerFlags);
+window.flagMap.set("garrfollowertype.Flags", garrFollowerFlags);
+window.flagMap.set("garrplot.Flags", garrPlotFlags);
+window.flagMap.set("holidays.Flags", holidayFlags);
+window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
+window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
+window.flagMap.set("questinfo.Modifiers", questTagModifierFlags);
+window.flagMap.set("questobjective.Flags", questObjectiveFlags);
+window.flagMap.set("campaign.Flags", campaignFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
