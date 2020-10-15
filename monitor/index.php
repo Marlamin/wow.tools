@@ -2,7 +2,11 @@
 
 require_once("../inc/header.php");
 
-$productq = $pdo->query("SELECT * FROM ngdp_products WHERE program LIKE 'wow%' ORDER BY name DESC");
+if (empty($_SESSION['rank'])) {
+    $productq = $pdo->query("SELECT * FROM ngdp_products WHERE program LIKE 'wow%' ORDER BY name DESC");
+} else {
+    $productq = $pdo->query("SELECT * FROM ngdp_products ORDER BY name DESC");
+}
 $products = [];
 while ($row = $productq->fetch()) {
     $products[] = array("name" => $row['name'], "product" => $row['program']);
@@ -10,7 +14,7 @@ while ($row = $productq->fetch()) {
 ?>
 <div class='container-fluid'>
 <div class='alert alert-info'>
-Due to incompetent reporting by some "press" I've decided to limit the monitor to only showing World of Warcraft products, possibly permanently. If you were using the monitor for non-WoW products, please find another source.
+Due to rampant speculation by some "press" based on some of the info on this page I've decided to limit the monitor to only showing World of Warcraft products, possibly permanently. If you were using the monitor for non-WoW products, please find another source.
 </div>
 <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; table-layout: fixed;' width="100%">
 <thead>

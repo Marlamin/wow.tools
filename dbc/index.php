@@ -399,7 +399,7 @@ function toggleFilters(){
             $(this).html( '<input type="text"/>' );
             
             if($('#dbtable').DataTable().column(i).search() != ""){
-                $( 'input', this).val(decodeURIComponent($('#dbtable').DataTable().column(i).search()));
+                $( 'input', this).val($('#dbtable').DataTable().column(i).search());
             }
             
             $( 'input', this ).on( 'keyup change', function () {

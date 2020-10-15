@@ -193,7 +193,7 @@ foreach ($pdo->query("SELECT * FROM ngdp_urls WHERE enabled = 1") as $row) {
                     $msg = diffNGDParrays(parseNGDPcontentToArray($history['lastcontent']), parseNGDPcontentToArray($content));
                     $product = explode("/", str_replace("http://us.patch.battle.net:1119/", "", $row['url']));
                     MessageDiscord($product[0], $msg);
-                    telegramSendMessage(str_replace("http://us.patch.battle.net:1119/", "", $row['url']) . "\n" . $msg . "\n https://wow.tools/monitor/");
+                    telegramSendMessage(str_replace("http://us.patch.battle.net:1119/", "", $row['url']) . "\n```\n" . $msg . "```\n https://wow.tools/monitor/");
                 } else {
                     telegramSendMessage("Change detected: " . $row['url'] . "\nhttps://wow.tools/monitor/");
                 }

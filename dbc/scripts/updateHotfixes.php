@@ -116,10 +116,20 @@ foreach ($filesToProcess as $file) {
     }
 
     foreach ($messages as $message) {
-        telegramSendMessage($message);
+        if (strlen($message) > 4000) {
+            $splitLines = explode("\n", $message);
+            telegramSendMessage($splitLines[0] . "\nMessage was too long, see hotfixes page for full details.");
+        } else {
+            telegramSendMessage($message);
+        }
 
         foreach ($discordHotfixes as $discordHotfix) {
-            discordSendMessage($message, $discordHotfix);
+            if (strlen($message) > 2000) {
+                $splitLines = explode("\n", $message);
+                discordSendMessage($splitLines[0] . "\nMessage was too long, see hotfixes page for full details.", $discordHotfix);
+            } else {
+                discordSendMessage($message, $discordHotfix);
+            }
         }
     }
 
