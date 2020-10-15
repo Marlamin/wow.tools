@@ -3075,6 +3075,19 @@ const questObjectiveType = {
     19: 'AREA_TRIGGER_EXIT'
 }
 
+const transmogSourceTypeEnum = {
+    0: 'NONE',
+    1: 'JOURNAL_ENCOUNTER',
+    2: 'QUEST',
+    3: 'VENDOR',
+    4: 'WORLD_DROP',
+    5: 'HIDDEN_UNTIL_COLLECTED',
+    6: 'CANT_COLLECT',
+    7: 'ACHIEVEMENT',
+    8: 'PROFESSION',
+    9: 'NOT_VALID_FOR_TRANSMOG'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -3166,6 +3179,7 @@ enumMap.set("creaturedisplayinfoextra.DisplayRaceID", tempChrRaceIDEnum);
 enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
+enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
 
 for (let i = 0; i < 8; i++){
     enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
@@ -3361,6 +3375,22 @@ conditionalFKs.set("spellvisualeffectname.GenericID",
     [
         ['spellvisualeffectname.Type=1', 'item::ID'],
         ['spellvisualeffectname.Type=2', 'creaturedisplayinfo::ID']
+    ]
+);
+
+conditionalFKs.set("questobjective.ObjectID",
+    [
+        ['questobjective.Type=0', 'creature::ID'],
+        ['questobjective.Type=1', 'item::ID'],
+        ['questobjective.Type=2', 'gameobjects::ID'],
+        ['questobjective.Type=3', 'creature::ID'],
+        ['questobjective.Type=4', 'gameobjects::ID'],
+        ['questobjective.Type=11', 'creature::ID'],
+        ['questobjective.Type=12', 'battlepetspecies::ID'],
+        ['questobjective.Type=14', 'criteriatree::ID'],
+        ['questobjective.Type=17', 'currencytypes::ID'],
+        ['questobjective.Type=19', 'areatrigger::ID'],
+        ['questobjective.Type=20', 'areatrigger::ID'],
     ]
 );
 
