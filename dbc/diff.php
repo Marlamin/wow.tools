@@ -139,6 +139,7 @@ $(function() {
                     "bFilter": false,
                     "lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
                     "pagingType": "input",
+                    "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" + "<'row'<'col-sm-12 dbtableholder'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     "columnDefs": [{
                         "targets": "_all",
                         "render":

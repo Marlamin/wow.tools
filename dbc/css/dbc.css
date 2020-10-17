@@ -70,10 +70,6 @@ thead input { width: 100% }
 		text-align: left; /* float pagination sizes left */
 	}
 
-	#dbtable_wrapper {
-		display: inline-block; /* auto align allowing db table stacking */
-	}
-
 	#dbcform {
 		margin-bottom: .5em;
 	}
@@ -135,4 +131,9 @@ thead input { width: 100% }
 
 #fkSearchDB{
     width: 250px;
+}
+
+.dbtableholder{
+    max-width: 100%;
+    overflow-x: auto;
 }

@@ -811,6 +811,7 @@ function loadTable(){
                     "autoWidth": true,
                     "pagingType": "input",
                     "lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
+                    "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" + "<'row'<'col-sm-12 dbtableholder'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     "orderMulti": false,
                     "ordering": true,
                     "order": [], // Sets default order to nothing (as returned by backend)
