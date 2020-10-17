@@ -1,5 +1,5 @@
 // Flags are currently retrieved from TrinityCore repo, in a best case scenario these would come from DBD.
-const itemSparseFlags0 = {
+const itemStaticFlags0 = {
     0x1 : 'NO_PICKUP',
     0x2 : 'CONJURED', // Conjured item
     0x3 : 'HAS_LOOT', // Item can be right clicked to open for loot
@@ -34,7 +34,7 @@ const itemSparseFlags0 = {
     0x80000000 : 'NO_PROGRESSIVE_LOOT'
 }
 
-const itemSparseFlags1 = {
+const itemStaticFlags1 = {
     0x1 : 'FACTION_HORDE',
     0x2 : 'FACTION_ALLIANCE',
     0x4 : 'DONT_IGNORE_BUY_PRICE', // when item uses extended cost, gold is also required
@@ -69,7 +69,7 @@ const itemSparseFlags1 = {
     0x80000000 : 'USED_IN_A_TRADESKILL'
 }
 
-const itemSparseFlags2 = {
+const itemStaticFlags2 = {
     0x1 : 'DONT_DESTROY_ON_QUEST_ACCEPT',
     0x2 : 'ITEM_CAN_BE_UPGRADED',
     0x4 : 'UPGRADE_FROM_ITEM_OVERRIDES_DROP_UPGRADE',
@@ -104,7 +104,7 @@ const itemSparseFlags2 = {
     0x80000000 : 'NO_VOID_STORAGE'
 }
 
-const itemSparseFlags3 = {
+const itemStaticFlags3 = {
     0x1 : 'HANDLE_ON_USE_EFFECT_IMMEDIATELY',
     0x2 : 'ALWAYS_SHOW_ITEM_LEVEL_IN_TOOLTIP',
     0x4 : 'SHOWS_GENERATION_WITH_RANDOM_STATS',
@@ -730,10 +730,14 @@ window.flagMap.set("garrabilityeffect.Flags", garrAbilityEffectFlags);
 window.flagMap.set("garrmision.Flags", garrMissionFlags);
 window.flagMap.set("globalstrings.Flags", globalstringsFlags);
 window.flagMap.set("itemsparse.AllowableClass", classMask);
-window.flagMap.set("itemsparse.Flags[0]", itemSparseFlags0);
-window.flagMap.set("itemsparse.Flags[1]", itemSparseFlags1);
-window.flagMap.set("itemsparse.Flags[2]", itemSparseFlags2);
-window.flagMap.set("itemsparse.Flags[3]", itemSparseFlags3);
+window.flagMap.set("itemsparse.Flags[0]", itemStaticFlags0);
+window.flagMap.set("itemsparse.Flags[1]", itemStaticFlags1);
+window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
+window.flagMap.set("itemsparse.Flags[3]", itemStaticFlags3);
+window.flagMap.set("itemsearchname.Flags[0]", itemStaticFlags0);
+window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
+window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
+window.flagMap.set("itemsearchname.Flags[3]", itemStaticFlags3);
 window.flagMap.set("map.Flags[0]", mapFlags);
 window.flagMap.set("playercondition.ClassMask", classMask);
 window.flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
