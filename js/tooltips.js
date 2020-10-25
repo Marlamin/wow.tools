@@ -480,7 +480,11 @@ function generateFKTooltip(targetFK, value, tooltip, build)
             let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2 class='q2'>" + targetFK + " value " + value +"</h2></td></tr>";
 
             if (!json || Object.keys(json.values).length == 0){
-                tooltipTable += "<tr><td colspan='2'>Row not available in client</td><td>";
+                if (table == "creature" && col == "ID"){
+                    generateCreatureTooltip(value, tooltip);
+                }
+
+                tooltipTable += "<tr><td colspan='2'>Row not available in client DB</td><td>";
             }
 
             Object.keys(json.values).forEach(function (key) {
