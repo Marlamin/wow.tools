@@ -52,10 +52,10 @@ const itemBonusTypes = {
     17: 'RelicType',
     18: 'OverrideRequiredLevel',
     19: 'AzeriteTierUnlockSetID',
-    20: 'Unk',
     21: 'CanDisenchant',
     22: 'CanScrap',
     23: 'ItemEffectID',
+    31: 'LegendaryName'
 }
 
 const criteriaTreeOperator = {
@@ -3231,7 +3231,7 @@ for (let i = 0; i < 8; i++){
 let conditionalEnums = new Map();
 conditionalEnums.set("itembonus.Value[0]",
     [
-        ['itembonus.Type=2', itemStatType],
+        ['itembonus.Type=2', itemStatType]
     ]
 );
 
@@ -3279,14 +3279,17 @@ for (let i = 0; i < 3; i++){
 let conditionalFKs = new Map();
 conditionalFKs.set("itembonus.Value[0]",
     [
+        ['itembonus.Type=5','itemnamedescription::ID'],
         ['itembonus.Type=19','azeritetierunlockset::ID'],
-        ['itembonus.Type=23','itemeffect::ID']
+        ['itembonus.Type=23','itemeffect::ID'],
+        ['itembonus.Type=31','itemnamedescription::ID']
     ]
 );
 
 conditionalFKs.set("spelleffect.EffectMiscValue[0]",
     [
         ['spelleffect.EffectAura=56','creature::ID'],
+        ['spelleffect.EffectAura=78','creature::ID'],
         ['spelleffect.Effect=28','creature::ID'],
         ['spelleffect.Effect=90','creature::ID'],
         ['spelleffect.Effect=131','soundkit::ID'],
