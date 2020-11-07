@@ -638,7 +638,7 @@ const holidayFlags = {
     0x2: 'DONT_SHOW_IN_CALENDAR',
     0x4: 'DONT_DISPLAY_END',
     0x8: 'DONT_DISPLAY_BANNER',
-    0x10: 'NOT_AVAILABLE_CLIENT_SIDE'   
+    0x10: 'NOT_AVAILABLE_CLIENT_SIDE'
 }
 
 const lfgFlags = {
@@ -718,6 +718,67 @@ const campaignFlags = {
     0x1: 'DONT_USE_JOURNEY_QUEST_BANG'
 }
 
+// CreatureType.db2
+const targetCreatureType = {
+    0x1: 'Beast',
+    0x2: 'Dragonkin',
+    0x4: 'Demon',
+    0x8: 'Elemental',
+    0x10: 'Giant',
+    0x20: 'Undead',
+    0x40: 'Humanoid',
+    0x80: 'Critter',
+    0x100: 'Mechanical',
+    0x200: 'Not specified',
+    0x400: 'Totem',
+    0x800: 'Non-combat pet',
+    0x1000: 'Gas Cloud',
+    0x2000: 'Wild Pet',
+    0x4000: 'Aberration'
+}
+
+// SpellCastTargetFlags from TrinityCore
+const targetFlags = {
+    0x1: 'TARGET_FLAG_UNUSED_1',
+    0x2: 'TARGET_FLAG_UNIT',
+    0x4: 'TARGET_FLAG_UNIT_RAID',
+    0x8: 'TARGET_FLAG_UNIT_PARTY',
+    0x10: 'TARGET_FLAG_ITEM',
+    0x20: 'TARGET_FLAG_SOURCE_LOCATION',
+    0x40: 'TARGET_FLAG_DEST_LOCATION',
+    0x80: 'TARGET_FLAG_UNIT_ENEMY',
+    0x100: 'TARGET_FLAG_UNIT_ALLY',
+    0x200: 'TARGET_FLAG_CORPSE_ENEMY',
+    0x400: 'TARGET_FLAG_UNIT_DEAD',
+    0x800: 'TARGET_FLAG_GAMEOBJECT',
+    0x1000: 'TARGET_FLAG_TRADE_ITEM',
+    0x2000: 'TARGET_FLAG_STRING',
+    0x4000: 'TARGET_FLAG_GAMEOBJECT_ITEM',
+    0x8000: 'TARGET_FLAG_CORPSE_ALLY',
+    0x10000: 'TARGET_FLAG_UNIT_MINIPET',
+    0x20000: 'TARGET_FLAG_GLYPH_SLOT',
+    0x40000: 'TARGET_FLAG_DEST_TARGET',
+    0x80000: 'TARGET_FLAG_EXTRA_TARGETS',
+    0x100000: 'TARGET_FLAG_UNIT_PASSENGER',
+    // 0x200000: 'TARGET_FLAG_UNK200000',
+    // 0X400000: 'TARGET_FLAG_UNK400000',
+    // 0X800000: 'TARGET_FLAG_UNK800000',
+    // 0X1000000: 'TARGET_FLAG_UNK1000000',
+    // 0X2000000: 'TARGET_FLAG_UNK2000000',
+    // 0X4000000: 'TARGET_FLAG_UNK4000000',
+    // 0X8000000: 'TARGET_FLAG_UNK8000000',
+    // 0X10000000: 'TARGET_FLAG_UNK10000000',
+    // 0X20000000: 'TARGET_FLAG_UNK20000000',
+    // 0X40000000: 'TARGET_FLAG_UNK40000000'
+}
+
+const facingCasterFlags = {
+    0x1: 'Facing',
+    // 0x2: '',
+    // 0x4: '',
+    0x8: 'Behind',
+};
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -775,6 +836,9 @@ window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
 window.flagMap.set("questinfo.Modifiers", questTagModifierFlags);
 window.flagMap.set("questobjective.Flags", questObjectiveFlags);
 window.flagMap.set("campaign.Flags", campaignFlags);
+window.flagMap.set("spelltargetrestrictions.TargetCreatureType", targetCreatureType);
+window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
+window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

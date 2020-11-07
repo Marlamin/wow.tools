@@ -64,7 +64,7 @@
                     </ul>
                 </div>
                 <div class='col-4'>
-                    <h4>Future features</h4>
+                    <h4>Planned features</h4>
                     <ul>
                         <li>Character model support.</li>
                         <li>Shadowlands character customization.</li>

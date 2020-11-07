@@ -36,7 +36,7 @@ $locales = [
     ["name" => "Russian", "value" => "ruRU"],
     ["name" => "Brazilian Portugese", "value" => "ptBR"],
     ["name" => "Italian", "value" => "itIT"],
-    ["name" => "Portugese", "value" => "ptPT"],
+    ["name" => "Portuguese", "value" => "ptPT"],
 ];
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">

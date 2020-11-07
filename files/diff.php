@@ -67,7 +67,7 @@ if ($type == "blp") {
             <span id='diffContents'></span>
         </div>
     </div>
-    <script src="https://unpkg.com/pixelmatch"></script>
+    <script src="https://bundle.run/pixelmatch"></script>
     <script type='text/javascript'>
      $(document).ready(function() {
         $("#toggle-content").html($("#from-diff").html());
