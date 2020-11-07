@@ -929,6 +929,12 @@ function loadTable(){
                                 if(colorFields.includes(columnWithTable)){
                                     returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
                                 }
+
+                                if(dateFields.includes(columnWithTable)){
+                                    let parsedDate = parseDate(full[meta.col]);
+                                    if(parsedDate && parsedDate != "")
+                                        returnVar = parsedDate + "<small> (" + full[meta.col] + ")</small>";
+                                }
                                 
                                 return returnVar;
                             }

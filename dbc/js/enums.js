@@ -3473,3 +3473,10 @@ colorFields.push("highlightcolor.MidColor");
 colorFields.push("highlightcolor.EndColor");
 colorFields.push("lightning.FlashColor");
 colorFields.push("lightning.BoltColor");
+
+/* Dates */
+let dateFields = new Array();
+
+for (let i = 0; i < 26; i++){
+    dateFields.push("holidays.Date[" + i + "]");
+}

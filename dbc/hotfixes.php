@@ -193,6 +193,10 @@ require_once(__DIR__ . "/../inc/header.php");
             });
         }
 
+        if(dateFields.includes(dbc.toLowerCase() + "." + col)){
+            returnedValue += " (" + parseDate(val) + ")";
+        }
+
         return returnedValue;
     }
 

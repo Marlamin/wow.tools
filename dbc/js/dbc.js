@@ -221,3 +221,66 @@ function parseLogic(l) { var i=0;var r = ""
     }
     return r;
 }
+
+function parseDate(date){
+    if (date == 0)
+        return "";
+
+    console.log("parsing " + date);
+
+    let minute = date & 0x3F;
+    if (minute == 63)
+        minute = -1;
+
+    console.log("minute", minute);
+    
+    let hour = (date >> 6) & 0x1F;
+    if (hour == 31)
+        hour = -1;
+
+    console.log("hour", hour);
+
+    let dotw = (date >> 11) & 0x7;
+    if (dotw == 7)
+        dotw = -1;
+    
+    console.log("day of the week", dotw);
+
+    let dotm = (date >> 14) & 0x3F;
+    if (dotm == 63){
+        dotm -1;
+    } else {
+        dotm += 1;
+    }
+    
+    console.log("day of the month", dotm);
+
+    let month = (date >> 20) & 0xF;
+    if (month == 15){
+        month = -1;
+    } else { 
+        month += 1;
+    }
+
+    console.log("month", month);
+
+    let year = (date >> 24) & 0x1F;
+    if (year == 31){
+        year = -1;
+    } else {
+        year += 2000;
+    }
+
+    console.log("year", year);
+
+    let tz = (date >> 29) & 0x3;
+    if (tz == 3)
+        tz = -1;
+
+    console.log("timezone", tz);
+
+    if (dotm > 0 && month > 0 && year > 0){
+        const utcDate = new Date(Date.UTC(year, month - 1, dotm, hour, minute, 0));
+        return utcDate.toUTCString();
+    }
+}
