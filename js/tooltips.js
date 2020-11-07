@@ -83,6 +83,7 @@ function tooltip2(el, event){
     }
 
     el.addEventListener("mouseout", hideTooltip2, el);
+    el.addEventListener("click", hideTooltip2, el);
 
     const tooltipType = el.dataset.tooltip;
     const tooltipTargetValue = el.dataset.id;
