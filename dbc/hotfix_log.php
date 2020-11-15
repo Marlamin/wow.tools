@@ -16,6 +16,7 @@ if (isset($_GET['showAll']) && $_GET['showAll'] === "true") {
 ?>
 </p>
 <?php
+$fullbuilds = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 
 function getStatusColor($status)
 {
@@ -49,7 +50,7 @@ foreach ($hotfixes as $hotfix) {
 
     $tableDesc = "";
     foreach ($tableCounts as $tableName => $rowCount) {
-        $tableDesc .= $tableName . ": <i>" . $rowCount . " record" . ($rowCount > 1 ? "s" : "") . "</i>";
+        $tableDesc .= "<b>".$tableName."</b>" . ": <i>" . $rowCount . " record" . ($rowCount > 1 ? "s" : "") . "</i>";
         if ($tableName != array_key_last($tableCounts)) {
             $tableDesc .= "<br>";
         }
@@ -66,7 +67,7 @@ foreach ($hotfixes as $hotfix) {
     } else {
         echo "<td>" . $hotfix['name'] . " (push " . $hotfix['pushID'] . ")</td>";
     }
-    echo "<td>" . $hotfix['build'] . "</td>";
+    echo "<td>" . $fullbuilds[$hotfix['build']] . "</td>";
     echo "<td>" . $hotfix['firstdetected'] . " CE(S)T</td>";
 
     echo "<td>";

@@ -128,7 +128,7 @@ require_once(__DIR__ . "/../inc/header.php");
             "targets": 6,
             "render": function ( data, type, full, meta ) {
                 if(full[6]){
-                    showRowDiff(full[1], full[3], full[2]);
+                    showRowDiff(full[1], full[3], full[2], full[0]);
                     return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] +"'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i></div>";
                 }else{
                     return "<i class='fa fa-ban'></i> Not available in client";
@@ -200,9 +200,9 @@ require_once(__DIR__ . "/../inc/header.php");
         return returnedValue;
     }
 
-    function showRowDiff(dbc, build, recordID){
+    function showRowDiff(dbc, build, recordID, pushID){
         let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
-        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false").then(data => data.json());
+        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false&pushID=" + pushID).then(data => data.json());
         
         const cachedHeaderName = dbc + "-" + build;
         let headerPromise;

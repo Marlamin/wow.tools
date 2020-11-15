@@ -3,10 +3,14 @@
 require_once(__DIR__ . "/../inc/config.php");
 header('Content-Type: application/json');
 
-function peekDBCRow($name, $build, $col, $val, $useHotfix)
+function peekDBCRow($name, $build, $col, $val, $useHotfix, $pushID = 0)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix . "&calcOffset=false");
+    if (empty($pushID)) {
+        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix . "&calcOffset=false");
+    } else {
+        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix . "&calcOffset=false&pushIDs=" . $pushID);
+    }
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($ch);
@@ -22,10 +26,18 @@ if (!empty($_GET['cacheproxy']) && $_GET['cacheproxy'] == 1) {
         die("Not enough parameters");
     }
 
-    $cacheName = "hotfix.cache." . $_GET['dbc'] . "." . $_GET['build'] . "." . $_GET['col'] . "." . $_GET['val'] . "." . $_GET['useHotfixes'];
+    if (empty($_GET['pushID'])) {
+        $_GET['pushID'] = 0;
+    }
+
+    $cacheName = "hotfix.cache." . $_GET['dbc'] . "." . $_GET['build'] . "." . $_GET['col'] . "." . $_GET['val'] . "." . $_GET['useHotfixes'] . "." . $_GET['pushID'];
     if (!($entry = $memcached->get($cacheName))) {
         $cacheHit = false;
-        $entry = peekDBCRow($_GET['dbc'], $_GET['build'], $_GET['col'], $_GET['val'], $_GET['useHotfixes']);
+        if (!empty($_GET['pushID'])) {
+            $entry = peekDBCRow($_GET['dbc'], $_GET['build'], $_GET['col'], $_GET['val'], $_GET['useHotfixes'], $_GET['pushID']);
+        } else {
+            $entry = peekDBCRow($_GET['dbc'], $_GET['build'], $_GET['col'], $_GET['val'], $_GET['useHotfixes']);
+        }
         if (!$memcached->set($cacheName, $entry)) {
             die("Failed to set memcache entry: " . $memcached->getResultMessage());
         }
