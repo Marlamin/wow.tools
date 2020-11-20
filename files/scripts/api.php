@@ -98,7 +98,7 @@ if (!empty($_GET['search']['value'])) {
         } elseif ($c == "unshipped") {
             array_push($clauses, " wow_rootfiles.id NOT IN (SELECT filedataid FROM wow_rootfiles_chashes) ");
         } elseif ($c == "encrypted") {
-            array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted) ");
+            array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE active = 1) ");
         } elseif (substr($c, 0, 10) == "encrypted:") {
             array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid AND keyname = ? ");
             $joinparams[] = str_replace("encrypted:", "", $c);
@@ -284,7 +284,7 @@ if (!($returndata['recordsTotal'] = $memcached->get("files.total"))) {
 
 $returndata['data'] = array();
 
-$encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ?");
+$encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ? AND active = 1");
 $soundkitq = $pdo->prepare("SELECT soundkitentry.id as id, soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry LEFT JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = ?");
 $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedataid = ?");
 $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");

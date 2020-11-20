@@ -29,7 +29,7 @@ $descexpl = explode("_", $rawdesc);
 $fullbuild = $descexpl[0] . "." . $build;
 
 $encryptedfiles = array();
-
+$encryptedEntryCount = 0;
 echo "[Encrypted file list] Parsing " . $fullbuild . "\n";
 
 $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']);
@@ -44,17 +44,21 @@ foreach (explode("\n", $output) as $line) {
     foreach (explode(",", $line[1]) as $key) {
         $lookup = reverseLookup($key);
         $encryptedfiles[$filedataid][] = $lookup;
+        $encryptedEntryCount++;
     }
 }
 
-echo "[Encrypted file list] Currently have " . count($encryptedfiles) . " encrypted filedataids!\n";
+echo "[Encrypted file list] Found " . $encryptedEntryCount . " encrypted files!\n";
 ksort($encryptedfiles);
-// print_r($encryptedfiles);
+
 $current = array();
-$q = $pdo->query("SELECT * FROM wow_encrypted");
+
+$q = $pdo->query("SELECT * FROM wow_encrypted WHERE active = 1");
 foreach ($q->fetchAll() as $enc) {
     $current[] = $enc['filedataid'] . "." . $enc['keyname'];
 }
+
+echo "[Encrypted file list] Currently have " . count($current) . " actively encrypted filedataids in DB.\n";
 
 $inserted = 0;
 
@@ -67,11 +71,31 @@ foreach ($encryptedfiles as $filedataid => $keysarr) {
             $q->bindParam(":key", $key);
             $q->execute();
             $inserted++;
+        } else {
+            if (($key = array_search($filedataid . "." . $key, $current)) !== false) {
+                unset($current[$key]);
+            }
         }
     }
 }
 
-echo "[Encrypted file list] Inserted " . $inserted . " new encrypted filedataids!\n";
+
+if ($inserted > 0) {
+    echo "[Encrypted file list] Inserted " . $inserted . " new encrypted filedataids!\n";
+}
+
+if (count($current) > 0){
+    echo "[Encrypted file list] " . count($current) . " FDIDs are no longer encrypted.\n";
+
+    $deactivateq = $pdo->prepare("UPDATE wow_encrypted SET active = 0 WHERE filedataid = :filedataid AND keyname = :key");
+    foreach ($current as $inactive) {
+        $inactiveexpl = explode(".", $inactive);
+        $deactivateq->bindParam(":filedataid", $inactiveexpl[0]);
+        $deactivateq->bindParam(":key", $inactiveexpl[1]);
+        $deactivateq->execute();
+    }
+}
+
 echo "[TACT key list] Dumping current TACT keys for " . $fullbuild . "..\n";
 
 $inserted = 0;

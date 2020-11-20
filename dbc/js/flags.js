@@ -120,7 +120,8 @@ const itemStaticFlags3 = {
     0x1000: 'DISALLOW_WHILE_LEVEL_LINKED',
     0x2000: 'DISALLOW_ENCHANT',
     0x4000: 'SQUISH_USING_ITEM_LEVEL_AS_PLAYER_LEVEL',
-    0x8000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP'
+    0x8000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP',
+    0x10000: 'COSMETIC_ITEM'
 }
 
 const classMask = {
@@ -779,6 +780,42 @@ const facingCasterFlags = {
     0x8: 'Behind',
 };
 
+const spellEffectAttributes = {};
+
+const areaTableFlags = {
+    0x00000001: 'HasBreathParticles',
+    0x00000002: 'BreathParticlesOverrideParent',
+    0x00000004: 'OnMapDungeon',
+    0x00000008: 'TradeChannel',
+    0x00000010: 'EnemiesPvpEnabled',
+    0x00000020: 'AllowResting',
+    0x00000040: 'AllowDuels',
+    0x00000080: 'PvpFreeForAll',
+    0x00000100: 'CAPITAL',
+    0x00000200: 'LINKED_CHAT_AREA',
+    0x00000400: 'AllowFlyingMounts',
+    0x00000800: 'Sanctuary',
+    0x00001000: 'NoGhostOnRelease',
+    0x00002000: 'apply_ambient_multiplier_to_player',
+    0x00004000: 'EnableLightBounds',
+    0x00008000: 'IsSubZonePVPPOI',
+    0x00010000: 'ARENA_INSTANCE',
+    0x00020000: 'UNUSED',
+    0x00040000: 'Contested',
+    0x00080000: 'NoSummoning',
+    0x00100000: 'NoDuelOnTournamentRealm',
+    0x00200000: 'PlayersCallGuards',
+    0x00400000: 'RestingHorde',
+    0x00800000: 'RestingAlliance',
+    0x01000000: 'use_combat_world_state',
+    0x02000000: 'Inside',
+    0x04000000: 'Outside',
+    0x08000000: 'CanHearthAndResurrectFromArea',
+    0x10000000: 'NoLocalDefenseChannel',
+    0x20000000: 'NoFlying',
+    0x40000000: 'use_parent_for_world_defense_visibility_check'
+};
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -839,6 +876,8 @@ window.flagMap.set("campaign.Flags", campaignFlags);
 window.flagMap.set("spelltargetrestrictions.TargetCreatureType", targetCreatureType);
 window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
 window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
+window.flagMap.set("spelleffect.EffectAttributes", spellEffectAttributes);
+window.flagMap.set("areatable.Flags[0]", areaTableFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
