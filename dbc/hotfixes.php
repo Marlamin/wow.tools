@@ -129,7 +129,7 @@ require_once(__DIR__ . "/../inc/header.php");
             "render": function ( data, type, full, meta ) {
                 if(full[6]){
                     showRowDiff(full[1], full[3], full[2], full[0]);
-                    return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] +"'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i></div>";
+                    return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] +"'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i> Diffing..</div>";
                 }else{
                     return "<i class='fa fa-ban'></i> Not available in client";
                 }
