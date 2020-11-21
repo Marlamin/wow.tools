@@ -84,7 +84,7 @@ if ($inserted > 0) {
     echo "[Encrypted file list] Inserted " . $inserted . " new encrypted filedataids!\n";
 }
 
-if (count($current) > 0){
+if (count($current) > 0) {
     echo "[Encrypted file list] " . count($current) . " FDIDs are no longer encrypted.\n";
 
     $deactivateq = $pdo->prepare("UPDATE wow_encrypted SET active = 0 WHERE filedataid = :filedataid AND keyname = :key");
@@ -128,28 +128,30 @@ $updated = 0;
 
 $db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkey/?build=" . $fullbuild . "&draw=1&start=0&length=1000&useHotfixes=true");
 $tactkeys = json_decode($db2, true)['data'];
-echo "[TACT key list] Have " . count($tactkeys) . " TACT keys from tactkey.db2..\n";
+if (!empty($tactkeys)) {
+    echo "[TACT key list] Have " . count($tactkeys) . " TACT keys from tactkey.db2..\n";
 
-$q = $pdo->prepare("UPDATE wow_tactkey SET keybytes = ? WHERE id = ? AND keybytes IS NULL");
-foreach ($tactkeys as $tactkey) {
-    $id = $tactkey[0];
+    $q = $pdo->prepare("UPDATE wow_tactkey SET keybytes = ? WHERE id = ? AND keybytes IS NULL");
+    foreach ($tactkeys as $tactkey) {
+        $id = $tactkey[0];
 
-    $keybytes = "";
-    for ($i = 16; $i > 0; $i--) {
-        $keybytes = str_pad(dechex((int)$tactkey[$i]), 2, '0', STR_PAD_LEFT) . $keybytes;
+        $keybytes = "";
+        for ($i = 16; $i > 0; $i--) {
+            $keybytes = str_pad(dechex((int)$tactkey[$i]), 2, '0', STR_PAD_LEFT) . $keybytes;
+        }
+        $keybytes = strtoupper($keybytes);
+
+        $q->execute([$keybytes, $id]);
+
+        if ($q->rowCount() > 0) {
+            echo "[TACT key list] Added TACT key " . $id . " " . $keybytes . "\n";
+            $updated++;
+        }
     }
-    $keybytes = strtoupper($keybytes);
 
-    $q->execute([$keybytes, $id]);
-
-    if ($q->rowCount() > 0) {
-        echo "[TACT key list] Added TACT key " . $id . " " . $keybytes . "\n";
-        $updated++;
+    if ($updated > 1) {
+        // Refresh backend keys
+        file_get_contents("http://127.0.0.1:5005/casc/reloadkeys");
     }
+    echo "[TACT key list] Done, added " . $updated . " new TACT keys!\n";
 }
-
-if ($updated > 1) {
-    // Refresh backend keys
-    file_get_contents("http://127.0.0.1:5005/casc/reloadkeys");
-}
-echo "[TACT key list] Done, added " . $updated . " new TACT keys!\n";
