@@ -491,7 +491,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
             Object.keys(json.values).forEach(function (key) {
                 const val = json.values[key];
 
-                if (targetFK == "PlayerCondition::ID" && (val == 0 || val == -1)){
+                if ((targetFK == "PlayerCondition::ID" || targetFK == "Holidays::ID") && (val == 0 || val == -1)){
                     return;
                 }
 
@@ -518,7 +518,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
 
             tooltipTable += "</table>";
 
-            if (targetFK == "PlayerCondition::ID"){
+            if (targetFK == "PlayerCondition::ID" || targetFK == "Holidays::ID"){
                 tooltipTable += "<p class='yellow'>(Empty values hidden for this table)</p>";
             }
 
