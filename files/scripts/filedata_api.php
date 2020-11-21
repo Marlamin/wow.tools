@@ -86,7 +86,7 @@ if (!empty($_GET['filedataid'])) {
         }
     }
 
-    $eq = $pdo->prepare("SELECT wow_tactkey.id, wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
+    $eq = $pdo->prepare("SELECT wow_tactkey.id, wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes, wow_encrypted.active FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
     $eq->bindParam(":id", $returndata['filedataid']);
     $eq->execute();
     foreach ($eq->fetchAll(PDO::FETCH_ASSOC) as $er) {
@@ -95,7 +95,13 @@ if (!empty($_GET['filedataid'])) {
         } else {
             $keyAvailable = "<span style='color: red;'>unknown</span>";
         }
-        echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'>" . $er['keyname'] . " (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
+
+
+        if ($er['active'] == 1) {
+            echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'>" . $er['keyname'] . " (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
+        } else {
+            echo "<tr><td>Used to be encrypted with " . $keyAvailable . " key <span class='hash'>" . $er['keyname'] . " (" . $er['id'] . ")</span></td><td>" . $er['description'] . "</td></tr>";
+        }
     }
     echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
     echo "<tr><td colspan='2'>
