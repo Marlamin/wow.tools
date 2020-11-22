@@ -779,7 +779,7 @@ function loadTable(){
                     for(let i = 0; i < json['headers'].length; i++){
                         var colSearch = searchHash.substr(searchHash.indexOf('colFilter[' + i + ']=')).split('&')[0].split('=')[1];
                         if(colSearch != undefined && colSearch != ""){
-                            colSearches.push({search: decodeURIComponent(colSearch)});
+                            colSearches.push({search: decodeURIComponent(colSearch.trim())});
                             colSearchSet = true;
                         }else{
                             colSearches.push(null);
@@ -803,6 +803,9 @@ function loadTable(){
                             }
                         },
                         "data": function( result ) {
+                            for(const col in result.columns){
+                                result.columns[col].search.value = result.columns[col].search.value.trim();
+                            }
                             return result;
                         }
                     },
@@ -970,7 +973,7 @@ function loadTable(){
                             var colSearch = columnSearches[i];
                             
                             if(colSearch == "")
-                            continue;
+                                continue;
                             
                             hashPart += "&colFilter[" + i + "]=" + encodeURIComponent(colSearch);
                         }
