@@ -3446,6 +3446,14 @@ for (let i = 0; i < 8; i++){
     );
 }
 
+conditionalFKs.set("spellproceduraleffect.Value[0]",
+    [
+        ['spellproceduraleffect.Type=9', 'spellvisualkitareamodel::ID'],
+        ['spellproceduraleffect.Type=26', 'spellchaineffects::ID'],
+        ['spellproceduraleffect.Type=30', 'spellvisualcoloreffect::ID'],
+    ]
+);  
+
 /* Colors */
 let colorFields = new Array();
 colorFields.push("chrcustomizationchoice.Color");
