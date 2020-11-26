@@ -292,6 +292,7 @@ $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?"
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
 $tfdq = $pdo->prepare("SELECT MaterialResourcesID FROM `wowdata`.texturefiledata WHERE FileDataID = ?");
 $mfdq = $pdo->prepare("SELECT ModelResourcesID FROM `wowdata`.modelfiledata WHERE FileDataID = ?");
+$bctxtq = $pdo->prepare("SELECT `Text`,Text1 FROM `wowdata`.broadcasttext WHERE SoundKit0 = ? OR SoundKit1 = ?");
 while ($row = $dataq->fetch()) {
     $contenthashes = array();
     $cfname = "";
@@ -342,8 +343,19 @@ while ($row = $dataq->fetch()) {
                 if (!empty($soundkitrow['name'])) {
                     $kitDesc .= " (" . htmlentities($soundkitrow['name'], ENT_QUOTES) . ")";
                 }
+
+                $bctxtq->execute([$soundkitrow['entry'], $soundkitrow['entry']]);
+                $bctxts = $bctxtq->fetchAll();
+                if (count($bctxts) > 0) {
+                    if (!empty($bctxts[0]['Text'])) {
+                        $kitDesc .= ": " . htmlentities($bctxts[0]['Text'], ENT_QUOTES);
+                    } else if (!empty($bctxts[0]['Text1'])) {
+                        $kitDesc .= ": " . htmlentities($bctxts[0]['Text1'], ENT_QUOTES);
+                    }
+                }
                 $usedKits[] = $kitDesc;
             }
+            
             $xrefs['soundkit'] = "<b>Part of SoundKit(s):</b> " . implode(", ", $usedKits);
         }
 

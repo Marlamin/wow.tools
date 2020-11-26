@@ -5,7 +5,7 @@ if (php_sapi_name() != "cli") {
 }
 
 include(__DIR__ . "/../../inc/config.php");
-$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wow_beta' AND ID > 1575 ORDER BY description DESC LIMIT 1");
+$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wow' AND ID > 1575 ORDER BY description DESC LIMIT 1");
 $row = $q->fetch();
 $rawdesc = str_replace("WOW-", "", $row['description']);
 $build = substr($rawdesc, 0, 5);
@@ -42,7 +42,6 @@ importDB2("modelfiledata", $outdir, "(@FileDataID, @Flags, @LodCount, @ModelReso
 importDB2("texturefiledata", $outdir, "(@FileDataID, @UsageType, @MaterialResourcesID)  SET FileDataID = @FileDataID, MaterialResourcesID = @MaterialResourcesID");
 importDB2("moviefiledata", $outdir, "(ID)");
 importDB2("manifestmp3", $outdir, "(ID)");
-// importDB2("soundkitname", $outdir, "(id, name)");
 importDB2("soundkitentry", $outdir, "(@id, @soundkitid, @filedataid) SET id=@filedataid, entry=@soundkitid");
 importDB2("manifestinterfacedata", $outdir, "(filedataid, path, name)");
 importDB2("creaturemodeldata", $outdir, "(@id, @geobox1, @geobox2, @geobox3, @geobox4, @geobox5, @geobox6, @flags, @filedataid, @bloodid, @footprinttextureid, @footprinttexturelength, @footprinttexturewidth, @footprintparticlescale, @foleymaterialid, @footstepcameraeffectid, @deaththudcameraeffectid, @soundid) SET id=@id, filedataid=@filedataid, soundid=@soundid");

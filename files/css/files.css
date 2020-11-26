@@ -74,7 +74,7 @@
 .treeEntry.selected{
 	background-color: #8bc34aa1 !important;
 }
-
+    
 /* Mobile Devices */
 @media screen and (max-width: 767px) {
 	#files_length{
@@ -134,5 +134,6 @@
 
 	#files tr th:nth-child(3), #files tr td:nth-child(3), #files tr th:nth-child(4), #files tr td:nth-child(4) {
 		display: none;
-	}
+    }
+
 }
