@@ -65,7 +65,7 @@ function fdidModal($fdid)
     return "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;'' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" . $fdid . ")'>" . $fdid . "</a>";
 }
 
-$encryptedfileq = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id IN (SELECT filedataid FROM wow_encrypted WHERE keyname = ?)");
+$encryptedfileq = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id IN (SELECT filedataid FROM wow_encrypted WHERE keyname = ? AND active = 1)");
 
 $raceMap = $pdo->query("SELECT ID, ClientFileString FROM wowdata.chrraces")->fetchAll(PDO::FETCH_KEY_PAIR);
 $cmdq = $pdo->prepare("SELECT * FROM wowdata.creaturemodeldata WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE keyname = ?)");

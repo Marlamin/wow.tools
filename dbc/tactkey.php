@@ -34,6 +34,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
 
         function loadBuild(build, showIDLess){
             var output = new Array();
+            var outputByID = new Array();
             $("#output").html("Loading...");
             console.log("Loading " + build);
 
@@ -94,6 +95,10 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
                                 }
                             }
 
+                            if(tactkeys[lookup]['id'] !== null){
+                                outputByID[tactkeys[lookup]['id']] =  " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
+                            }
+
                             output[lookup] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + tactkeys[lookup]['keybytes'] + "  salsa20   " + entry[0].padEnd(3, ' ') + " " + tactkeys[lookup]['added'].padEnd(24, ' ') + "  " + tactkeys[lookup]['description'];
                         }else{
                             var keybytes = "????????????????????????????????";
@@ -110,6 +115,11 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
                             }else{
                                 var desc = "";
                             }
+
+                            if(entry[0] !== null){
+                                outputByID[entry[0]] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
+                            }
+
                             output[lookup] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + lookup + "'>" + lookup + "</a>  " + keybytes + "  salsa20   " + entry[0].padEnd(3, ' ') + "                           " + desc;
                         }
                     });
@@ -150,23 +160,32 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
                                     var desc = "";
                                 }
                             }else{
-                                var desc = "";
+                                var desc = values.description;
                             }
 
+                            if(values.id != undefined){
+                                outputByID[values.id] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + paddedID + " " + values.added.padEnd(24, ' ') + "  " + desc;
+                            }
 
                             output[values.keyname] = " <a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" + values.keyname +"'>" + values.keyname + "</a>  " + values.keybytes + "  salsa20   " + paddedID + " " + values.added.padEnd(24, ' ') + "  " + desc;
                         }
                     }
 
                     console.log(output);
+                    console.log(outputByID);
                     $("#output").html("");
-                    Object.keys(output).forEach(function(key){
-                        $("#output").append(output[key] + "\n");
-                    });
+
+                    if(showIDLess){
+                        Object.keys(output).forEach(function(key){
+                            $("#output").append(output[key] + "\n");
+                        });
+                    }else{
+                        Object.keys(outputByID).forEach(function(key){
+                            $("#output").append(outputByID[key] + "\n");
+                        });
+                    }
                 });
             });
-
-
         }
 
         loadBuild("<?=$build?>", showIDLess);
