@@ -33,7 +33,7 @@ if ($profiling) {
 }
 
 if (!isset($_SESSION)) {
-    session_start();
+    // session_start();
 }
 
 if (!empty($_GET['src']) && $_GET['src'] == "mv") {
@@ -66,7 +66,9 @@ if (isset($_GET['switchbuild'])) {
         $selectBuildFilterQ->execute([$_GET['switchbuild']]);
         $filteredBuildID = $selectBuildFilterQ->fetchColumn();
         if (!empty($filteredBuildID)) {
+            session_start();
             $_SESSION['buildfilterid'] = $filteredBuildID;
+            session_write_close();
         }
     }
     die();

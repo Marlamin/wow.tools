@@ -30,10 +30,12 @@ if ($_GET['p'] == "login") {
                     $message['type'] = "success";
                     $message['text'] = "You were succesfully logged in.";
 
+                    session_start();
                     $_SESSION['loggedin'] = true;
                     $_SESSION['userid'] = $r['id'];
                     $_SESSION['user'] = $r['username'];
                     $_SESSION['rank'] = $r['rank'];
+                    session_write_close();
 
                     header("Location: index.php");
                 } else {
@@ -162,7 +164,9 @@ if ($_GET['p'] == "login") {
     }
 } else if ($_GET['p'] == 'logout') {
     header("Location: index.php");
+    session_start();
     session_destroy();
+    session_write_close();
     die();
 }
 
