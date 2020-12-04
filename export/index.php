@@ -114,5 +114,20 @@
             </p>
         </div>
     </div>
+    <div class='row'>
+        <div class='col-8 offset-2'>
+            <h4>FAQ/Troubleshooting</h4>
+            <b>When I import models into Blender many textures are not invisible</b><br>
+            Set the Alpha to "None" on the material node to ignore the alpha channel on the texture <a href='https://marlamin.com/u/blender_DlC6CZ2sbR.png'>(image)</a>.
+            <br><br>
+            <b>WoW.export gives a "Unable to initialize CASC" error</b><br>
+            This can have several causes, including, but not limited to:<br>
+            - <i>(Local installation)</i> Broken/outdated WoW installations, try running a repair in Battle.net.<br>
+            - <i>(CDN/online mode)</i> Network/CDN issues, if available, use a local installation instead. If not, try selecting a different region.<br>
+            - If you are behind the not-so-great firewall of China, go to Settings and change the URL in "Data Table Definition Repository" to <kbd>https://wow.tools/dbd/%s.dbd</kbd> <a href='https://marlamin.com/u/wow.export_izgDo2vA7y.png'>(image)</a>.<br>
+            <br>
+            Other issue? Tell us on <a href='https://discord.gg/52mHpxC'>Discord</a>. Please share your runtime.log, you can find it by clicking <a href='https://marlamin.com/u/wow.export_AM3IlwOzTx.png'>here in WoW.export</a> or in <kbd>C:\Users\<i><u>[USER]</u></i>\AppData\Local\wow.export\User Data\Default\</kbd>.
+        </div>
+    </div>
 </div>
 <?php require_once("../inc/footer.php"); ?>
