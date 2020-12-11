@@ -3212,6 +3212,7 @@ enumMap.set("npcmodelitemslotdisplayinfo.ItemSlot", itemSlot);
 enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
 enumMap.set("questinfo.Type", questTagType);
 enumMap.set("questobjective.Type", questObjectiveType);
+enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -3237,7 +3238,6 @@ enumMap.set("creaturedisplayinfoextra.DisplayRaceID", tempChrRaceIDEnum);
 enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
-enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
 
 for (let i = 0; i < 8; i++){
     enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
@@ -3423,7 +3423,10 @@ conditionalFKs.set("modifiertree.Asset",
         ['modifiertree.Type=81','creature::ID'],
         ['modifiertree.Type=84','questv2::ID'],
         ['modifiertree.Type=85','faction::ID'],
+        ['modifiertree.Type=87','achievement::ID'],
+        ['modifiertree.Type=105','item::ID'],
         ['modifiertree.Type=107','spelllabel::LabelID'],
+        ['modifiertree.Type=110','questv2::ID'],
         ['modifiertree.Type=268','contenttuning::ID'],
         ['modifiertree.Type=272','contenttuning::ID'],
         ['modifiertree.Type=280','map::ID'],

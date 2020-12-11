@@ -213,7 +213,9 @@ const emoteFlags = {
 const mapFlags = {
     0x100: 'CAN_TOGGLE_DIFFICULTY',
     0x8000: 'FLEX_LOCKING',
-    0x4000000: 'GARRISON'
+    0x1000000: 'UNK',
+    0x4000000: 'GARRISON',
+    
 }
 
 const soundkitFlags = {
@@ -816,6 +818,48 @@ const areaTableFlags = {
     0x40000000: 'use_parent_for_world_defense_visibility_check'
 };
 
+const criteriaTreeFlags = {
+    0x1: 'ShowProgressBar',
+    0x2: 'OverrideParentAmount',
+    0x4: 'ProgressIsDate',
+    0x8: 'ShowCurrencyIcon',
+    0x10: 'DisplayToast',
+    // 0x20: '',
+    0x40: 'IsFactionSpecific',
+    0x80: 'TrackChildCriteria',
+    // 0x100: '',
+    0x200: 'AllianceOnly',
+    0x400: 'HordeOnly',
+    0x800: 'ShowRequiredCount',
+    // 0x1000: '',
+    // 0x2000: '',
+    // 0x4000: '',
+    // 0x8000: '',
+}
+
+const areaPOIFlags = {
+    0x1: 'DirectionalPointerOnMinimap',
+    0x2: 'ShowMinimapIcon',
+    0x4: 'ShowOnWorldMap',
+    0x8: 'ShowOnWorldMapAtContinentZoom',
+    0x10: 'ShowOnWorldMapAtWorldZoom',
+    // 0x20: '',
+    // 0x40: '',
+    // 0x80: '',
+    // 0x100: '',
+    // 0x200: '',
+    // 0x400: '',
+    // 0x800: '',
+    0x1000: 'ShowRegardlessIfUnexplored',
+    // 0x2000: '',
+    // 0x4000: '',
+    // 0x8000: '',
+    // 0x10000: '',
+    // 0x20000: '',
+    // 0x40000: '',
+    0x80000: 'Assault',
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -878,6 +922,9 @@ window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
 window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
 window.flagMap.set("spelleffect.EffectAttributes", spellEffectAttributes);
 window.flagMap.set("areatable.Flags[0]", areaTableFlags);
+window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
+window.flagMap.set("areapoi.Flags", areaPOIFlags);
+
 
 // Conditional flags
 let conditionalFlags = new Map();
