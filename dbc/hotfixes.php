@@ -152,30 +152,51 @@ require_once(__DIR__ . "/../inc/header.php");
         return addendum;
     }
 
-    function richValue(dbc, col, val, build, fk){
+    function richValue(dbc, col, row, build, fk){
         let returnedValue = "";
+        let val = row[col];
         let displayValue = val;
 
         if(flagMap.has(dbc.toLowerCase() + "." + col)){
             displayValue = "0x" + Number(val).toString(16);
         }
 
-        if (fk == "FileData::ID"){
-            returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
-        } else if (fk == "SoundEntries::ID" && parseInt(build[0]) > 6){
-            returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a>";
-        } else if (fk == "Item::ID" && val > 0){
-            returnedValue = "<a data-build='" + build + "' data-tooltip='item' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-        } else if (fk == "Spell::ID" || fk == "SpellName::ID" && val > 0){
-            returnedValue = "<a data-build='" + build + "' data-tooltip='spell' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-        } else if (fk == "Creature::ID" && val > 0){
-            returnedValue = "<a data-build='" + build + "' data-tooltip='creature' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-        } else if (fk == "QuestV2::ID" && val > 0){
-            returnedValue = "<a data-build='" + build + "' data-tooltip='quest' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-        } else if (fk !== undefined && val > 0){
-            returnedValue = "<a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + fk + "'  style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-        } else{
-             returnedValue = displayValue;
+        if(conditionalFKs.has(dbc.toLowerCase() + "." + col)){
+            let conditionalFK = conditionalFKs.get(dbc.toLowerCase() + "." + col);
+            conditionalFK.forEach(function(conditionalFKEntry){
+                let condition = conditionalFKEntry[0].split('=');
+                let conditionTarget = condition[0].split('.');
+                let conditionValue = condition[1];
+                let resultTarget = conditionalFKEntry[1];
+                let colTarget = Object.keys(row).indexOf(conditionTarget[1]);
+
+                // Col target found?
+                if(colTarget > -1){
+                    if(row[conditionTarget[1]] == conditionValue){
+                        fk = resultTarget.toLowerCase();
+                    }
+                }
+            });
+        }
+
+        if(fk === undefined){
+            returnedValue = displayValue;
+        }else{
+            if (fk.toLowerCase() == "filedata::id"){
+                returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
+            } else if (fk.toLowerCase() == "soundentries::id" && parseInt(build[0]) > 6){
+                returnedValue = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a>";
+            } else if (fk.toLowerCase() == "item::id" && val > 0){
+                returnedValue = "<a data-build='" + build + "' data-tooltip='item' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+            } else if (fk.toLowerCase() == "spell::id" || fk == "spellname::id" && val > 0){
+                returnedValue = "<a data-build='" + build + "' data-tooltip='spell' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+            } else if (fk.toLowerCase() == "creature::id" && val > 0){
+                returnedValue = "<a data-build='" + build + "' data-tooltip='creature' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+            } else if (fk.toLowerCase() == "questv2::id" && val > 0){
+                returnedValue = "<a data-build='" + build + "' data-tooltip='quest' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+            } else if (val > 0){
+                returnedValue = "<a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + fk + "'  style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
+            }
         }
 
         if(enumMap.has(dbc.toLowerCase() + "." + col)){
@@ -228,20 +249,20 @@ require_once(__DIR__ . "/../inc/header.php");
 
             if(Object.keys(before).length == 0){
                 Object.keys(after).forEach(function (key) {
-                    const displayedValue = richValue(dbc, key, after[key], build, header.fks[key]);
+                    const displayedValue = richValue(dbc, key, after, build, header.fks[key]);
                     changes += "<tr><td><i style='color: green;' class='fa fa-plus-circle'></i> <b>" + key + "</b></td><td>" + displayedValue + "</td></tr>";
                 });
             } else if(Object.keys(after).length == 0){
                 Object.keys(before).forEach(function (key) {
-                    const displayedValue = richValue(dbc, key, before[key], build, header.fks[key]);
+                    const displayedValue = richValue(dbc, key, before, build, header.fks[key]);
                     changes += "<tr><td><i style='color: red;' class='fa fa-minus-circle'></i> <b>" + key + "</b></td><td>" + displayedValue + "</td></tr>";
                 });
             }else{
                 Object.keys(before).forEach(function (key) {
                     if(before[key] != after[key]){
                         if (!isNaN(before[key]) && !isNaN(after[key])) {
-                            let displayedValBefore = richValue(dbc, key, before[key], build, header.fks[key]);
-                            let displayedValAfter = richValue(dbc, key, after[key], build, header.fks[key]);
+                            let displayedValBefore = richValue(dbc, key, before, build, header.fks[key]);
+                            let displayedValAfter = richValue(dbc, key, after, build, header.fks[key]);
                             changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>" + displayedValBefore  + " &rarr; " + displayedValAfter  + "</td></tr>";
                         } else {
                             var dmp = new diff_match_patch();

@@ -450,12 +450,17 @@ function generateFKTooltip(targetFK, value, tooltip, build)
 {
     console.log("Generating foreign key tooltip for " + value);
 
+    const collapsedFKs = ["playercondition::id", "holidays::id", "spellchaineffects::id", "spellvisual::id"];
+
     const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     const explodedTargetFK = targetFK.split("::");
     const table = explodedTargetFK[0].toLowerCase();
-    const col = explodedTargetFK[1];
+    let col = explodedTargetFK[1];
+
+    if (col == "id")
+        col = "ID";
 
     Promise.all([
         fetch("/dbc/api/peek/" + table + "?build=" + build + "&col=" + col + "&val=" + value),
@@ -491,7 +496,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
             Object.keys(json.values).forEach(function (key) {
                 const val = json.values[key];
 
-                if ((targetFK.toLowerCase() == "playercondition::id" || targetFK.toLowerCase() == "holidays::id" || targetFK.toLowerCase() == "spellchaineffects::id") && (val == 0 || val == -1)){
+                if (collapsedFKs.includes(targetFK.toLowerCase()) && (val == 0 || val == -1)){
                     return;
                 }
 
@@ -513,12 +518,12 @@ function generateFKTooltip(targetFK, value, tooltip, build)
                     }
                 }
 
-			 tooltipTable += "</td></tr>"
+                tooltipTable += "</td></tr>"
             });
 
             tooltipTable += "</table>";
 
-            if (targetFK.toLowerCase() == "playercondition::id" || targetFK.toLowerCase() == "holidays::id" || targetFK.toLowerCase() == "spellchaineffects::id"){
+            if (collapsedFKs.includes(targetFK.toLowerCase())) {
                 tooltipTable += "<p class='yellow'>(Empty values hidden for this table)</p>";
             }
 
