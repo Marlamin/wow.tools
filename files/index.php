@@ -126,7 +126,8 @@ foreach ($lfproducts as $lfproduct) {
                 <kbd>encrypted:KEY</kbd> for encrypted by key<br>
                 <kbd>skit:soundkitid</kbd> for searching by SoundKitID<br>
                 <kbd>range:start-end</kbd> search within a specific set of FileDataIDs<br>
-                <p>It is also possible to combine some of these options by separating them by a <kbd>,</kbd>. <br>Examples: <kbd>unnamed,type:wmo</kbd> <kbd>encrypted,creature,type:m2</kbd></p>
+                <kbd>vo:searchterm</kbd> show sound files in which this dialogue appears<br>
+                <p>It is also possible to combine some of these options (but not others, it will complain) by separating them by a <kbd>,</kbd>. <br>Examples: <kbd>unnamed,type:wmo</kbd> <kbd>encrypted,creature,type:m2</kbd></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
