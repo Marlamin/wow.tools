@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../inc/header.php");
 <div class='container-fluid'>
     <table class='table' id='hotfixTable'>
         <thead>
-            <tr><th>Push ID</th><th>Table name</th><th>Record ID</th><th>Build</th><th>Valid?</th><th>First seen at</th><th>&nbsp;</th></tr>
+            <tr><th>Push ID</th><th>Table name</th><th>Record ID</th><th>Build</th><th>Valid?</th><th>First seen at <small>(CE<i>(S)</i>T)</small></th><th>&nbsp;</th></tr>
         </thead>
         <tbody>
 
