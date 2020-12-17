@@ -3316,6 +3316,12 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
     ]
 );
 
+conditionalFKs.set("spelleffect.EffectMiscValue[1]",
+    [
+        ['spelleffect.Effect=28','summonproperties::ID'],
+    ]
+);
+
 conditionalFKs.set("criteria.Asset",
     [
         ['criteria.Type=0', 'creature::ID'],
@@ -3427,6 +3433,7 @@ conditionalFKs.set("modifiertree.Asset",
         ['modifiertree.Type=105','item::ID'],
         ['modifiertree.Type=107','spelllabel::LabelID'],
         ['modifiertree.Type=110','questv2::ID'],
+        ['modifiertree.Type=202','garrtalent::ID'],
         ['modifiertree.Type=268','contenttuning::ID'],
         ['modifiertree.Type=272','contenttuning::ID'],
         ['modifiertree.Type=280','map::ID'],

@@ -860,6 +860,34 @@ const areaPOIFlags = {
     0x80000: 'Assault',
 }
 
+const summonPropertiesFlags = {
+    // 0x1: '',
+    // 0x2: '',
+    // 0x4: '',
+    // 0x8: '',
+    0x10: 'OnlyVisibleToSummoner',
+    // 0x20: '',
+    // 0x40: '',
+    // 0x80: '',
+    // 0x100: '',
+    // 0x200: '',
+    // 0x400: '',
+    // 0x800: '',
+    // 0x1000: '',
+    // 0x2000: '',
+    // 0x4000: '',
+    // 0x8000: '',
+    // 0x10000: '',
+    // 0x20000: '',
+    // 0x40000: '',
+    // 0x80000: '',
+    // 0x100000: '',
+    0x200000: 'Companion',
+    // 0x400000: '',
+    // 0x800000: '',
+
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -898,6 +926,10 @@ window.flagMap.set("spellmisc.Attributes[10]", spellAttributes10);
 window.flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
 window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
+// window.flagMap.set("spelleffect.EffectSpellClassMask[0]", classMask);
+// window.flagMap.set("spelleffect.EffectSpellClassMask[1]", classMask);
+// window.flagMap.set("spelleffect.EffectSpellClassMask[2]", classMask);
+// window.flagMap.set("spelleffect.EffectSpellClassMask[3]", classMask);
 window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
 window.flagMap.set("uimap.Flags", uiMapFlags);
 window.flagMap.set("charshipment.Flags", charShipmentFlags);
@@ -924,6 +956,7 @@ window.flagMap.set("spelleffect.EffectAttributes", spellEffectAttributes);
 window.flagMap.set("areatable.Flags[0]", areaTableFlags);
 window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
 window.flagMap.set("areapoi.Flags", areaPOIFlags);
+window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
 
 
 // Conditional flags
