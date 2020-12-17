@@ -3509,6 +3509,7 @@ colorFields.push("highlightcolor.EndColor");
 colorFields.push("lightning.FlashColor");
 colorFields.push("lightning.BoltColor");
 colorFields.push("liquidtype.MinimapStaticCol");
+colorFields.push("itemnamedescription.Color");
 
 /* Dates */
 let dateFields = new Array();

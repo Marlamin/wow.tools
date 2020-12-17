@@ -194,7 +194,7 @@ require_once(__DIR__ . "/../inc/header.php");
                 returnedValue = "<a data-build='" + build + "' data-tooltip='creature' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
             } else if (fk.toLowerCase() == "questv2::id" && val > 0){
                 returnedValue = "<a data-build='" + build + "' data-tooltip='quest' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
-            } else if (val > 0){
+            } else {
                 returnedValue = "<a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + fk + "'  style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + fk + "\", \"" + build + "\")'>" + val + "</a>";
             }
         }
