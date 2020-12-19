@@ -827,22 +827,43 @@ function loadTable(){
                             "render": function ( data, type, full, meta ) {
                                 let returnVar = full[meta.col];
                                 const columnWithTable = currentParams["dbc"] + '.' + json["headers"][meta.col];
-                                
+                                let fk = "";
                                 if(meta.col in fkCols){
-                                    if(fkCols[meta.col] == "FileData::ID"){
+                                    fk = fkCols[meta.col];
+                                }else if(conditionalFKs.has(columnWithTable)){
+                                    let conditionalFK = conditionalFKs.get(columnWithTable);
+                                    conditionalFK.forEach(function(conditionalFKEntry){
+                                        let condition = conditionalFKEntry[0].split('=');
+                                        let conditionTarget = condition[0].split('.');
+                                        let conditionValue = condition[1];
+                                        let resultTarget = conditionalFKEntry[1];
+                                        
+                                        let colTarget = json["headers"].indexOf(conditionTarget[1]);
+                                        
+                                        // Col target found?
+                                        if(colTarget > -1){
+                                            if(full[colTarget] == conditionValue){
+                                                fk = resultTarget;
+                                            }
+                                        }
+                                    });
+                                }
+                                
+                                if(fk != ""){
+                                    if(fk == "FileData::ID"){
                                         returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' data-tooltip='file' data-id='" + full[meta.col] + "' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
-                                    }else if(fkCols[meta.col] == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
+                                    }else if(fk == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
                                         returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\",\"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fkCols[meta.col] == "Item::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fkCols[meta.col] == "QuestV2::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='quest' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fkCols[meta.col] == "Creature::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='creature' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fkCols[meta.col] == "Spell::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
+                                    }else if(fk == "Item::ID" && full[meta.col] > 0){
+                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
+                                    }else if(fk.toLowerCase() == "questv2::id" && full[meta.col] > 0){
+                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='quest' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
+                                    }else if(fk == "Creature::ID" && full[meta.col] > 0){
+                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='creature' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
+                                    }else if(fk.toLowerCase() == "spell::id" && full[meta.col] > 0){
+                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
                                     }else{
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + fkCols[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
+                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + fk + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fkCols[meta.col] + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
                                     }
                                 }else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(columnWithTable)){
                                     returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
@@ -865,25 +886,6 @@ function loadTable(){
                                     }else{
                                         returnVar += " <i>(" + enumVal + ")</i>";
                                     }
-                                }
-                                
-                                if(conditionalFKs.has(columnWithTable)){
-                                    let conditionalFK = conditionalFKs.get(columnWithTable);
-                                    conditionalFK.forEach(function(conditionalFKEntry){
-                                        let condition = conditionalFKEntry[0].split('=');
-                                        let conditionTarget = condition[0].split('.');
-                                        let conditionValue = condition[1];
-                                        let resultTarget = conditionalFKEntry[1];
-                                        
-                                        let colTarget = json["headers"].indexOf(conditionTarget[1]);
-                                        
-                                        // Col target found?
-                                        if(colTarget > -1){
-                                            if(full[colTarget] == conditionValue){
-                                                returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + resultTarget + "' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + resultTarget + "\", \"" + $("#buildFilter").val() + "\")'>" + full[meta.col] + "</a>";
-                                            }
-                                        }
-                                    });
                                 }
                                 
                                 if(conditionalEnums.has(columnWithTable)){

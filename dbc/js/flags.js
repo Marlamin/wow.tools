@@ -462,6 +462,9 @@ const spellAttributes13 = {
     0x00400000: 'IS_ALWAYS_SHOWN'
 };
 
+const spellAttributes14 = {
+
+}
 const inventoryTypeMask = {
     0x2: 'Head',
     0x4: 'Neck',
@@ -1015,6 +1018,7 @@ window.flagMap.set("spellmisc.Attributes[10]", spellAttributes10);
 window.flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
 window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
+window.flagMap.set("spellmisc.Attributes[14]", spellAttributes14);
 // window.flagMap.set("spelleffect.EffectSpellClassMask[0]", classMask);
 // window.flagMap.set("spelleffect.EffectSpellClassMask[1]", classMask);
 // window.flagMap.set("spelleffect.EffectSpellClassMask[2]", classMask);
