@@ -94,6 +94,7 @@ if (!empty($_GET['embed'])) {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navDropdown">
                         <a class="dropdown-item" href="/dbc/hotfixes.php">Hotfix diffs</a>
+                        <a class="dropdown-item" href="/dbc/hotfix_log.php?showAll=true">Hotfix log</a>
                         <a class="dropdown-item" href="/maps/worldmap.php">World map viewer</a>
                     </div>
                 </li>

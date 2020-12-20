@@ -15,6 +15,7 @@ function peekDBCRow($name, $build, $col, $val, $useHotfix, $pushID = 0)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($ch);
     if (!$data) {
+        header('HTTP/1.1 500 Internal Server Error');
         die("cURL fail: " . print_r(curl_error($ch)) . "\n");
     }
     curl_close($ch);
