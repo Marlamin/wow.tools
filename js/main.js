@@ -35,7 +35,7 @@ function toggleTheme(){
 function updateCSSVars(theme){
     if (theme == 'dark'){
         document.documentElement.style.setProperty('--background-color', '#343a40');
-        document.documentElement.style.setProperty('--text-color', 'rgba(255,255,255,.8)');
+        document.documentElement.style.setProperty('--text-color', '#fff');
         document.documentElement.style.setProperty('--hover-color', '#fff');
         document.documentElement.style.setProperty('--diff-added-color', '#368a23');
         document.documentElement.style.setProperty('--diff-removed-color', '#9b0d0d');

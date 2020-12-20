@@ -1,7 +1,7 @@
 /* Variables */
 :root{
 	--background-color: #343a40;
-	--text-color: rgba(255,255,255,.8);
+	--text-color: rgba(255, 255, 255, 1);
 	--border-color: rgb(108, 117, 125);
 	--hover-color: white;
 	--navbar-height: 57px;
@@ -100,6 +100,10 @@ pre{
 
 .nav-tabs{
 	border: 0px;
+}
+
+#themeToggle{
+    color: var(--text-color);
 }
 
 #logo{
