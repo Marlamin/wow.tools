@@ -3146,6 +3146,10 @@ const itemModification = {
     37: 'SOULBIND_CONDUIT_RANK'
 }
 
+const scenarioEventTriggerType = {
+    2: 'CriteriaTree'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -3213,6 +3217,7 @@ enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
 enumMap.set("questinfo.Type", questTagType);
 enumMap.set("questobjective.Type", questObjectiveType);
 enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
+enumMap.set("scenarioevententry.TriggerType", scenarioEventTriggerType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -3307,6 +3312,7 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
     [
         ['spelleffect.EffectAura=56','creature::ID'],
         ['spelleffect.EffectAura=78','creature::ID'],
+        ['spelleffect.Effect=16','questv2::ID'],
         ['spelleffect.Effect=28','creature::ID'],
         ['spelleffect.Effect=90','creature::ID'],
         ['spelleffect.Effect=131','soundkit::ID'],
@@ -3482,6 +3488,12 @@ conditionalFKs.set("spellproceduraleffect.Value[0]",
         ['spellproceduraleffect.Type=30', 'spellvisualcoloreffect::ID'],
     ]
 );  
+
+conditionalFKs.set("scenarioevententry.TriggerAsset",
+    [
+        ['scenarioevententry.TriggerType=2', 'criteriatree::ID'],
+    ]
+);
 
 /* Colors */
 let colorFields = new Array();

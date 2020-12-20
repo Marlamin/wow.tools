@@ -980,6 +980,36 @@ const questFlags2 = {
     0x8000: 'ENFORCE_MAXIMUM_QUEST_LEVEL',
 }
 
+const auraInterruptFlags1 = {
+    0x0000001: 'HITBYSPELL',	
+    0x0000002: 'TAKE_DAMAGE',	
+    0x0000004: 'CAST',	
+    0x0000008: 'MOVE',	
+    0x0000010: 'TURNING',	
+    0x0000020: 'JUMP',	
+    0x0000040: 'NOT_MOUNTED',	
+    0x0000080: 'NOT_ABOVEWATER',	
+    0x0000100: 'NOT_UNDERWATER',	
+    0x0000200: 'NOT_SHEATHED',	
+    0x0000400: 'TALK',	
+    0x0000800: 'USE',	
+    0x0001000: 'MEELEE_ATTACK',	
+    0x0002000: 'SPELL_ATTACK',	
+    // 0x0004000: 'UNK14',	
+    0x0008000: 'TRANSFORM',	
+    // 0x0010000: 'UNK16',	
+    0x0020000: 'MOUNT',	
+    0x0040000: 'NOT_SEATED',	
+    0x0080000: 'CHANGE_MAP',	
+    0x0100000: 'IMMUNE_OR_LOST_SELECTION',	
+    // 0x0200000: 'UNK21',	
+    0x0400000: 'TELEPORTED',	
+    0x0800000: 'ENTER_PVP_COMBAT',	
+    0x1000000: 'DIRECT_DAMAGE',	
+    0x2000000: 'LANDING',
+}
+const cdiFlags = {};
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -1053,6 +1083,8 @@ window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
 window.flagMap.set("questv2clitask.Flags[0]", questFlags0);
 window.flagMap.set("questv2clitask.Flags[1]", questFlags1);
 window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
+window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
+window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1);
 
 // Conditional flags
 let conditionalFlags = new Map();
