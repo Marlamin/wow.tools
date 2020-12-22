@@ -135,7 +135,7 @@ function dec2hex(str, big = false){
 }
 
 function BGRA2RGBA(color){
-    var hex = dec2hex(color);
+    var hex = dec2hex(color).padStart(6, '0');
 
     for (var bytes = [], c = 0; c < hex.length; c += 2)
     {
