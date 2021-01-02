@@ -55,6 +55,9 @@ const itemBonusTypes = {
     21: 'CanDisenchant',
     22: 'CanScrap',
     23: 'ItemEffectID',
+    25: 'ModifiedCraftingStat',
+    27: 'RequiredLevelCurve',
+    30: 'ItemDescription',
     31: 'LegendaryName'
 }
 
@@ -356,16 +359,16 @@ const criteriaAdditionalCondition = {
     265: 'UNK_265',
     266: 'SELECTED_AZERITE_ESSENCE_RANK_LOWER',
     267: 'SELECTED_AZERITE_ESSENCE_RANK_GREATER',
-    268: 'CONTENT_TUNING',
-    269: 'UNK_269',
+    268: 'SOURCE_LEVEL_IN_RANGE_CT',
+    269: 'TARGET_LEVEL_IN_RANGE_CT',
     270: 'UNK_270',
     271: 'UNK_271',
-    272: 'CONTENT_TUNING_2',
-    273: 'UNK_273',
+    272: 'SOURCE_LEVEL_GREATER_CT',
+    273: 'TARGET_LEVEL_GREATER_CT',
     274: 'UNK_274',
     275: 'UNK_275',
     276: 'UNK_276',
-    277: 'UNK_277',
+    277: 'RAF_RECRUIT_IN_PARTY',
     278: 'UNK_278',
     279: 'UNK_279',
     280: 'MAP_OR_COSMETIC_MAP',
@@ -376,20 +379,24 @@ const criteriaAdditionalCondition = {
     285: 'UNK_285',
     286: 'UNK_286',
     287: 'UNK_287',
-    288: 'UNK_288',
+    288: 'COVENANT',
     289: 'UNK_289',
-    290: 'UNK_290',
+    290: 'PERMANENT_ANIMA_DIVERSION_TALENT',
     291: 'UNK_291',
+    293: 'SOURCE_AREA_OR_ZONE_IN_GROUP',
     298: 'UNK_298',
     299: 'UNK_299',
-    300: 'UNK_300',
-    301: 'UNK_301',
+    300: 'SOURCE_IN_SPECIFIC_CHROMIE_TIME',
+    301: 'SOURCE_IN_ANY_CHROMIE_TIME',
     302: 'UNK_302',
-    303: 'RUNEFORGED_LEGENDARY_ABILITY',
+    303: 'RUNEFORGED_LEGENDARY_KNOWN',
     305: 'UNK_305', // Related to magic mask in ConditionalContentTuning
     306: 'ACHIEVEMENT_UNK',
-    307: 'UNK_307',
-    308: 'UNK_308'
+    307: 'SOULBIND_CONDUIT_RANK',
+    308: 'SHAPESHIFT_FORM_CUSTOMIZATION_DISPLAY',
+    309: 'SOULBIND_MIN_CONDUITS_AT_RANK',
+    310: 'IS_RESTRICTED_ACCOUNT',
+    311: 'SOURCE_FLYING',
 };
 
 const itemStatType = {
@@ -1049,7 +1056,7 @@ const criteriaType = {
     219: 'BOUGHT_ITEM_FROM_VENDOR',					// No FK
     220: 'SOLD_ITEM_TO_VENDOR',						// No FK
     225: 'TRAVELED_TO_AREA',						// areatable::ID
-    228: 'CONDUIT_RELATED',							// No FK
+    228: 'APPLIED_CONDUIT',							// No FK
     229: 'ANIMA_DEPOSITED'							// No FK
 }
 
@@ -3150,6 +3157,20 @@ const scenarioEventTriggerType = {
     2: 'CriteriaTree'
 }
 
+const globalCurveType = {
+    0: 'CR Bonus for CRIT_MELEE, CRIT_RANGED, CRIT_SPELL',
+    1: 'CR Bonus for MASTERY',
+    2: 'CR Bonus for HASTE_SPELL',
+    3: 'CR Bonus for SPEED',
+    4: 'CR Bonus for AVOIDANCE',
+    5: 'CR Bonus for UNKNOWN (30), VERSATILITY_DAMAGE_DONE',
+    6: 'CR Bonus for LIFESTEAL',
+    7: 'CR Bonus for DODGE',
+    8: 'CR Bonus for BLOCK',
+    9: 'CR Bonus for PARRY',
+    11: 'CR Bonus for VERSATILITY_DAMAGE_TAKEN'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -3218,6 +3239,7 @@ enumMap.set("questinfo.Type", questTagType);
 enumMap.set("questobjective.Type", questObjectiveType);
 enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
 enumMap.set("scenarioevententry.TriggerType", scenarioEventTriggerType);
+enumMap.set("globalcurve.Type", globalCurveType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -3304,7 +3326,14 @@ conditionalFKs.set("itembonus.Value[0]",
         ['itembonus.Type=5','itemnamedescription::ID'],
         ['itembonus.Type=19','azeritetierunlockset::ID'],
         ['itembonus.Type=23','itemeffect::ID'],
+        ['itembonus.Type=30','itemnamedescription::ID'],
         ['itembonus.Type=31','itemnamedescription::ID']
+    ]
+);
+
+conditionalFKs.set("itembonus.Value[3]",
+    [
+        ['itembonus.Type=13','curve::ID']
     ]
 );
 
@@ -3440,6 +3469,7 @@ conditionalFKs.set("modifiertree.Asset",
         ['modifiertree.Type=107','spelllabel::LabelID'],
         ['modifiertree.Type=110','questv2::ID'],
         ['modifiertree.Type=111','questv2::ID'],
+        ['modifiertree.Type=112','questobjective::ID'],
         ['modifiertree.Type=174','questv2::ID'],
         ['modifiertree.Type=202','garrtalent::ID'],
         ['modifiertree.Type=268','contenttuning::ID'],

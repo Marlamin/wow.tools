@@ -511,7 +511,8 @@ const uiMapFlags = {
     0x800: 'HideVignettes',
     0x1000: 'ForceAllOverlayExplored',
     0x2000: 'FlightMapShowZoomOut',
-    0x4000: 'FlightMapAutoZoom'
+    0x4000: 'FlightMapAutoZoom',
+    0x8000: 'ForceOnNavbar'
 }
 
 const garrAbilityFlags =
@@ -1008,7 +1009,14 @@ const auraInterruptFlags1 = {
     0x1000000: 'DIRECT_DAMAGE',	
     0x2000000: 'LANDING',
 }
+
 const cdiFlags = {};
+
+const contentTuningFlags = {
+    0x4: 'DisabledForItem',
+    0x8: 'Horde',
+    0x10: 'Alliance'
+}
 
 window.flagMap = new Map();
 
@@ -1085,6 +1093,7 @@ window.flagMap.set("questv2clitask.Flags[1]", questFlags1);
 window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
 window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1);
+window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
