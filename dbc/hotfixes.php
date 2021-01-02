@@ -129,7 +129,7 @@ require_once(__DIR__ . "/../inc/header.php");
             "render": function ( data, type, full, meta ) {
                 if(full[6]){
                     showRowDiff(full[1], full[3], full[2], full[0]);
-                    return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] +"'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i> Diffing..</div>";
+                    return "<div class='resultHolder' id='resultHolder-" + full[1] + "-" + full[3] + "-" + full[2] + "-" + full[0] + "'><i class='fa fa-refresh fa-spin' style='font-size: 12px'></i> Diffing..</div>";
                 }else{
                     return "<i class='fa fa-ban'></i> Not available in client";
                 }
@@ -281,7 +281,7 @@ require_once(__DIR__ . "/../inc/header.php");
                 changes = "No changes found (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
             }
 
-            var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID);
+            var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID + "-" + pushID);
             if(resultHolder){
                 resultHolder.innerHTML = changes;
             }
