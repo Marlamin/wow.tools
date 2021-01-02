@@ -8,6 +8,9 @@ if (!empty($_GET['limit'])) {
     $limit = 200;
 }
 ?>
+<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
+<script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
+<script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <div class='container-fluid'>
 <p>
 This page is an experiment to see if we can figure out enough information about a hotfix push to find out what exactly is being hotfixed. Sometimes they're pretty straightforward but other times not so much. <a href='https://wow.tools/uploader/' target='_BLANK'>Hotfix detecting depends on data uploaded to the site.</a><br><br>
