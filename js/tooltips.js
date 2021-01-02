@@ -569,10 +569,17 @@ function generateFileTooltip(id, tooltip)
 
             let tooltipTable = "<table class='tooltip-table'><tr><td colspan='2'><h2 class='q2'>FileDataID " + calcData["fileDataID"] + "</h2></td></tr>";
             if (calcData["filename"] != null){
-                tooltipTable += "<tr><td>Filename</td><td>" + calcData["filename"] + "</td></tr>";
-                tooltipTable += "<tr><td>Official filename</td><td>" + calcData["isOfficialFilename"] + "</td></tr>";
+                tooltipTable += "<tr><td>Filename</td><td>" + calcData["filename"];
+                if (calcData["isOfficialFilename"] == true){
+                    tooltipTable += " <img src='/img/blizz.png'>";
+                }
+                tooltipTable += "</td></tr>";
             } else {
                 tooltipTable += "<tr><td>Filename</td><td>Unknown</td></tr>";
+            }
+
+            if (calcData["type"] != null && calcData["type"] == "blp"){
+                tooltipTable += "<tr><td colspan='2'><img class='tooltip-preview' src='https://wow.tools/casc/preview/fdid?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=inlinepreview.blp&filedataid=" + calcData["fileDataID"] + "'></td></tr>";
             }
 
             tooltipDesc.innerHTML = tooltipTable;
