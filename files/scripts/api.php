@@ -100,7 +100,12 @@ if (!empty($_GET['search']['value'])) {
         } elseif ($c == "unshipped") {
             array_push($clauses, " wow_rootfiles.id NOT IN (SELECT filedataid FROM wow_rootfiles_chashes) ");
         } elseif ($c == "encrypted") {
-            array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE active = 1) ");
+            if (in_array("unkkey", $criteria)) {
+                array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname NOT IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL) AND active = 1) ");
+                unset($criteria[array_search("unkkey", $criteria)]);
+            } else {
+                array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE active = 1) ");
+            }
         } elseif (substr($c, 0, 10) == "encrypted:") {
             array_push($joins, " INNER JOIN wow_encrypted ON wow_rootfiles.id = wow_encrypted.filedataid AND keyname = ? ");
             $joinparams[] = str_replace("encrypted:", "", $c);
@@ -273,7 +278,8 @@ try {
 
 
 if (empty($_GET['draw'])) {
-    $_GET['draw'] = 0;
+    http_response_code(400);
+    die();
 }
 
 $returndata['draw'] = (int)$_GET['draw'];
