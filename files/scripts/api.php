@@ -121,7 +121,8 @@ if (!empty($_GET['search']['value'])) {
                 $clauseparams[] = $explRange[1];
             }
         } else if (substr($c, 0, 3) == "vo:") {
-            array_push($joins, " INNER JOIN `wowdata`.soundkitentry ON `wowdata`.soundkitentry.id=wow_rootfiles.id AND `wowdata`.soundkitentry.entry IN (SELECT COALESCE(SoundKit0, SoundKit1) AS value FROM `wowdata`.broadcasttext WHERE Text LIKE ?)");
+            array_push($joins, " INNER JOIN `wowdata`.soundkitentry ON `wowdata`.soundkitentry.id=wow_rootfiles.id AND `wowdata`.soundkitentry.entry IN (SELECT COALESCE(NULLIF(SoundKit0, 0), NULLIF(SoundKit1, 0)) AS value FROM `wowdata`.broadcasttext WHERE Text LIKE ? OR Text1 LIKE ?)");
+            $joinparams[] = "%" . str_replace("vo:", "", $c) . "%";
             $joinparams[] = "%" . str_replace("vo:", "", $c) . "%";
         } else {
             // Point slashes the correct way :)
