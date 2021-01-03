@@ -36,9 +36,9 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
         <div class='col-md-11'>
             <div class="btn-group" role="group">
                 <button style='margin-left: 48px;' class='btn btn-mv btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
-                <!-- <a class='btn btn-mv btn-sm' href='#' data-toggle='modal' data-target='#changelogModal'><i class='fa fa-bug'></i> Changelog</a> -->
                 <button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#helpModal'><i class='fa fa-info-circle'></i> Help/About</button>
                 <button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#textureModal'>Tex debug</button>
+                <button class='btn btn-mv btn-sm' onclick='exportScene()' id='exportButton' data-toggle="tooltip" data-placement="left" title="Exports the current model/animation to glTF"><i class='fa fa-download' disabled></i> Export glTF</a>
             </div>
         </div>
     </div>

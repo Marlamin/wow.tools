@@ -417,6 +417,12 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 alwaysLoadByFDID = false;
             }
 
+            if (Current.type == "m2"){
+                $("#exportButton").prop('disabled', false);
+            } else {
+                $("#exportButton").prop('disabled', true);
+            }
+            
             if (Current.filename != "" && !alwaysLoadByFDID) {
                 console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
                 var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
@@ -583,6 +589,12 @@ function updateURLs(){
 
     _free(ptrUrl);
     _free(ptrUrlFileDataId);
+}
+
+function exportScene(){
+    if (Current.type == "m2"){
+        Module._startExport();
+    }
 }
 
 (function() {
