@@ -701,21 +701,22 @@ void main()
 
 struct meshWideBlockVS
 {
-    float uWidth;
-    float uHeight;
-    float uX;
-    float uY;
+    vec4 uWidth_uHeight_uX_uY;
 };
 
-uniform meshWideBlockVS _36;
+uniform meshWideBlockVS _12;
 
 varying vec2 texCoord;
 attribute vec2 position;
 
 void main()
 {
+    float uWidth = _12.uWidth_uHeight_uX_uY.x;
+    float uHeight = _12.uWidth_uHeight_uX_uY.y;
+    float uX = _12.uWidth_uHeight_uX_uY.z;
+    float uY = _12.uWidth_uHeight_uX_uY.w;
     texCoord = (position * 0.5) + vec2(0.5);
-    gl_Position = vec4((((((position.x + 1.0) / 2.0) * _36.uWidth) + _36.uX) * 2.0) - 1.0, (((((position.y + 1.0) / 2.0) * _36.uHeight) + _36.uY) * 2.0) - 1.0, 0.5, 1.0);
+    gl_Position = vec4((((((position.x + 1.0) / 2.0) * uWidth) + uX) * 2.0) - 1.0, (((((position.y + 1.0) / 2.0) * uHeight) + uY) * 2.0) - 1.0, 0.5, 1.0);
 }
 
 
@@ -857,7 +858,7 @@ struct sceneWideBlockVSPS
     PSFog fogData;
 };
 
-uniform sceneWideBlockVSPS _431;
+uniform sceneWideBlockVSPS _474;
 
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
@@ -983,31 +984,40 @@ void main()
                     bool _414 = uNonOptPixelShader == 4;
                     if (_414)
                     {
+                        float t0_973 = tex.x;
+                        float t1_978 = tex2.y;
+                        float t2_983 = tex3.z;
+                        float textureMod_986 = ((t0_973 * t1_978) * t2_983) * 4.0;
+                        float depthScale_991 = 1.0 - clamp(vPosition.z * 0.00999999977648258209228515625, 0.0, 1.0);
+                        float textureMod_992 = textureMod_986 * depthScale_991;
+                        float height_995 = textureMod_992 * vColor.x;
+                        float alpha_997 = textureMod_992 * vColor.w;
+                        finalColor = vec4(height_995, 0.0, 0.0, alpha_997);
                     }
                 }
             }
         }
     }
-    bool _420 = finalColor.w < uAlphaTest;
-    if (_420)
+    bool _463 = finalColor.w < uAlphaTest;
+    if (_463)
     {
         discard;
     }
-    vec3 sunDir = _431.scene.extLight.uExteriorDirectColorDir.xyz;
+    vec3 sunDir = _474.scene.extLight.uExteriorDirectColorDir.xyz;
     PSFog arg;
-    arg.densityParams = _431.fogData.densityParams;
-    arg.heightPlane = _431.fogData.heightPlane;
-    arg.color_and_heightRate = _431.fogData.color_and_heightRate;
-    arg.heightDensity_and_endColor = _431.fogData.heightDensity_and_endColor;
-    arg.sunAngle_and_sunColor = _431.fogData.sunAngle_and_sunColor;
-    arg.heightColor_and_endFogDistance = _431.fogData.heightColor_and_endFogDistance;
-    arg.sunPercentage = _431.fogData.sunPercentage;
+    arg.densityParams = _474.fogData.densityParams;
+    arg.heightPlane = _474.fogData.heightPlane;
+    arg.color_and_heightRate = _474.fogData.color_and_heightRate;
+    arg.heightDensity_and_endColor = _474.fogData.heightDensity_and_endColor;
+    arg.sunAngle_and_sunColor = _474.fogData.sunAngle_and_sunColor;
+    arg.heightColor_and_endFogDistance = _474.fogData.heightColor_and_endFogDistance;
+    arg.sunPercentage = _474.fogData.sunPercentage;
     vec3 param = finalColor.xyz;
     vec3 param_1 = vPosition;
     vec3 param_2 = sunDir;
     int param_3 = _266.uPixelShaderv.y;
-    vec3 _469 = makeFog(arg, param, param_1, param_2, param_3);
-    finalColor = vec4(_469.x, _469.y, _469.z, finalColor.w);
+    vec3 _510 = makeFog(arg, param, param_1, param_2, param_3);
+    finalColor = vec4(_510.x, _510.y, _510.z, finalColor.w);
     gl_FragData[0] = finalColor;
 }
 
@@ -1357,153 +1367,152 @@ void main()
     #if (FRAGMENTSHADER == 2)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = tex2.w * vDiffuseColor.w;
-    opacity = tex2.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _693 = uPixelShader == 3;
+    bool _688 = uPixelShader == 3;
     #if (FRAGMENTSHADER == 3)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = (tex2.w * 2.0) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _718 = uPixelShader == 4;
+    bool _713 = uPixelShader == 4;
     #if (FRAGMENTSHADER == 4)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _739 = uPixelShader == 5;
+    bool _734 = uPixelShader == 5;
     #if (FRAGMENTSHADER == 5)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _759 = uPixelShader == 6;
+    bool _754 = uPixelShader == 6;
     #if (FRAGMENTSHADER == 6)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = (tex.w * tex2.w) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _786 = uPixelShader == 7;
+    bool _781 = uPixelShader == 7;
     #if (FRAGMENTSHADER == 7)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = ((tex.w * tex2.w) * 2.0) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _815 = uPixelShader == 8;
+    bool _810 = uPixelShader == 8;
     #if (FRAGMENTSHADER == 8)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + tex2.w) * vDiffuseColor.w;
     specular = tex2.xyz;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _841 = uPixelShader == 9;
+    bool _836 = uPixelShader == 9;
     #if (FRAGMENTSHADER == 9)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _866 = uPixelShader == 10;
+    bool _861 = uPixelShader == 10;
     #if (FRAGMENTSHADER == 10)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = tex2.xyz;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _889 = uPixelShader == 11;
+    bool _884 = uPixelShader == 11;
     #if (FRAGMENTSHADER == 11)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _913 = uPixelShader == 12;
+    bool _908 = uPixelShader == 12;
     #if (FRAGMENTSHADER == 12)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _940 = uPixelShader == 13;
+    bool _935 = uPixelShader == 13;
     #if (FRAGMENTSHADER == 13)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = tex2.xyz * tex2.w;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _963 = uPixelShader == 14;
+    bool _958 = uPixelShader == 14;
     #if (FRAGMENTSHADER == 14)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = (tex2.xyz * tex2.w) * (1.0 - tex.w);
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _990 = uPixelShader == 15;
+    bool _985 = uPixelShader == 15;
     #if (FRAGMENTSHADER == 15)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w));
     specular = (tex3.xyz * tex3.w) * _461.uTexSampleAlpha.z;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1026 = uPixelShader == 16;
+    bool _1021 = uPixelShader == 16;
     #if (FRAGMENTSHADER == 16)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = tex2.xyz * tex2.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1052 = uPixelShader == 17;
+    bool _1047 = uPixelShader == 17;
     #if (FRAGMENTSHADER == 17)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + (tex2.w * (((0.300000011920928955078125 * tex2.x) + (0.589999973773956298828125 * tex2.y)) + (0.10999999940395355224609375 * tex2.z)))) * vDiffuseColor.w;
     specular = (tex2.xyz * tex2.w) * (1.0 - tex.w);
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1100 = uPixelShader == 18;
+    bool _1095 = uPixelShader == 18;
     #if (FRAGMENTSHADER == 18)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex.xyz, tex2.xyz, vec3(tex2.w)), tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1130 = uPixelShader == 19;
+    bool _1125 = uPixelShader == 19;
     #if (FRAGMENTSHADER == 19)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex3.xyz, vec3(tex3.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1158 = uPixelShader == 20;
+    bool _1153 = uPixelShader == 20;
     #if (FRAGMENTSHADER == 20)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = (tex2.xyz * tex2.w) * _461.uTexSampleAlpha.y;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1184 = uPixelShader == 21;
+    bool _1179 = uPixelShader == 21;
     #if (FRAGMENTSHADER == 21)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + tex2.w) * vDiffuseColor.w;
     specular = tex2.xyz * (1.0 - tex.w);
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1214 = uPixelShader == 22;
+    bool _1209 = uPixelShader == 22;
     #if (FRAGMENTSHADER == 22)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * tex2.xyz, tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1241 = uPixelShader == 23;
+    bool _1236 = uPixelShader == 23;
     #if (FRAGMENTSHADER == 23)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = (tex2.xyz * tex2.w) * _461.uTexSampleAlpha.y;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1270 = uPixelShader == 24;
+    bool _1265 = uPixelShader == 24;
     #if (FRAGMENTSHADER == 24)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz, tex2.xyz, vec3(tex2.w));
     specular = (tex.xyz * tex.w) * _461.uTexSampleAlpha.x;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1302 = uPixelShader == 25;
+    bool _1297 = uPixelShader == 25;
     #if (FRAGMENTSHADER == 25)
     float glowOpacity = clamp(tex3.w * _461.uTexSampleAlpha.z, 0.0, 1.0);
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w))) * (1.0 - glowOpacity);
@@ -1511,66 +1520,66 @@ void main()
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1344 = uPixelShader == 26;
+    bool _1339 = uPixelShader == 26;
     #if (FRAGMENTSHADER == 26)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).xyz;
     opacity = mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1389 = uPixelShader == 27;
+    bool _1384 = uPixelShader == 27;
     #if (FRAGMENTSHADER == 27)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix((tex.xyz * tex2.xyz) * 2.0, tex3.xyz, vec3(tex3.w)), tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1423 = uPixelShader == 28;
+    bool _1418 = uPixelShader == 28;
     #if (FRAGMENTSHADER == 28)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).xyz;
     opacity = (mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).w * tex4WithTextCoord2.w) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1471 = uPixelShader == 29;
+    bool _1466 = uPixelShader == 29;
     #if (FRAGMENTSHADER == 29)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz, tex2.xyz, vec3(tex2.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1495 = uPixelShader == 30;
+    bool _1490 = uPixelShader == 30;
     #if (FRAGMENTSHADER == 30)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w)), tex3.xyz * genericParams[2].xyz, vec3(tex3.w));
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1540 = uPixelShader == 31;
+    bool _1535 = uPixelShader == 31;
     #if (FRAGMENTSHADER == 31)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w));
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1575 = uPixelShader == 32;
+    bool _1570 = uPixelShader == 32;
     #if (FRAGMENTSHADER == 32)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w)), tex3.xyz * genericParams[2].xyz, vec3(tex3.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1617 = uPixelShader == 33;
+    bool _1612 = uPixelShader == 33;
     #if (FRAGMENTSHADER == 33)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w * vDiffuseColor.w) * visParams.x;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1641 = uPixelShader == 34;
+    bool _1636 = uPixelShader == 34;
     #if (FRAGMENTSHADER == 34)
     finalColor = vec4(1.0);
     #endif
-    bool _1647 = uPixelShader == 35;
+    bool _1642 = uPixelShader == 35;
     #if (FRAGMENTSHADER == 35)
     vec4 pc_channelScaler = vec4(1.0);
     matDiffuse = (vDiffuseColor.xyz * 2.0) * (((tex * tex2) * tex3) * pc_channelScaler).xyz;
     opacity = (((tex * tex2) * tex3) * pc_channelScaler).w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1681 = uPixelShader == 36;
+    bool _1676 = uPixelShader == 36;
     #if (FRAGMENTSHADER == 36)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = (tex.w * tex2.w) * vDiffuseColor.w;
@@ -1595,14 +1604,14 @@ void main()
     param_5.uInteriorDirectColorAndApplyExteriorLight = _484.intLight.uInteriorDirectColorAndApplyExteriorLight;
     vec3 param_6 = accumLight;
     finalColor = vec4(calcLight(param, param_1, param_2, param_3, param_4, param_5, param_6, vec3(0.0), specular), finalOpacity);
-    bool _1763 = finalColor.w < _461.uFogColorAndAlphaTest.w;
-    if (_1763)
+    bool _1758 = finalColor.w < _461.uFogColorAndAlphaTest.w;
+    if (_1758)
     {
         discard;
     }
     int uUnFogged = _461.PixelShader_UnFogged_IsAffectedByLight_blendMode.y;
-    bool _1771 = uUnFogged == 0;
-    if (_1771)
+    bool _1766 = uUnFogged == 0;
+    if (_1766)
     {
         vec3 sunDir = mix(_523.scene.uInteriorSunDir, _523.scene.extLight.uExteriorDirectColorDir, vec4(_484.interiorExteriorBlend.x)).xyz;
         PSFog arg;
@@ -1617,8 +1626,8 @@ void main()
         vec3 param_8 = vPosition;
         vec3 param_9 = sunDir;
         int param_10 = _461.PixelShader_UnFogged_IsAffectedByLight_blendMode.w;
-        vec3 _1816 = makeFog(arg, param_7, param_8, param_9, param_10);
-        finalColor = vec4(_1816.x, _1816.y, _1816.z, finalColor.w);
+        vec3 _1811 = makeFog(arg, param_7, param_8, param_9, param_10);
+        finalColor = vec4(_1811.x, _1811.y, _1811.z, finalColor.w);
     }
     gl_FragData[0] = finalColor;
 }
@@ -2440,7 +2449,7 @@ varying vec4 vColor;
 
 void main()
 {
-    gl_FragData[0] = vec4(vColor.xyz, 1.0);
+    gl_FragData[0] = vec4(vColor.xyz, vColor.w);
 }
 
 
@@ -2481,14 +2490,14 @@ struct sceneWideBlockVSPS
     PSFog fogData;
 };
 
-uniform sceneWideBlockVSPS _51;
+uniform sceneWideBlockVSPS _26;
 
 struct meshWideBlockVS
 {
     vec4 skyColor[6];
 };
 
-uniform meshWideBlockVS _83;
+uniform meshWideBlockVS _67;
 
 attribute vec4 aPosition;
 varying vec4 vColor;
@@ -2496,25 +2505,14 @@ varying vec4 vColor;
 void main()
 {
     vec3 inputPos = aPosition.xyz;
-    vec2 _20 = inputPos.xy / vec2(0.6875);
-    inputPos = vec3(_20.x, _20.y, inputPos.z);
-    bool _30 = inputPos.z > 0.0;
-    float _31;
-    if (_30)
-    {
-        _31 = inputPos.z / 0.292800009250640869140625;
-    }
-    else
-    {
-        _31 = inputPos.z;
-    }
-    inputPos.z = _31;
-    vec4 cameraPos = _51.scene.uLookAtMat * vec4(inputPos, 1.0);
-    vec3 _71 = cameraPos.xyz - _51.scene.uLookAtMat[3].xyz;
-    cameraPos = vec4(_71.x, _71.y, _71.z, cameraPos.w);
+    inputPos *= 33.33300018310546875;
+    vec4 cameraPos = _26.scene.uLookAtMat * vec4(inputPos, 1.0);
+    vec3 _46 = cameraPos.xyz - _26.scene.uLookAtMat[3].xyz;
+    cameraPos = vec4(_46.x, _46.y, _46.z, cameraPos.w);
     cameraPos.z = cameraPos.z;
-    vColor = vec4(_83.skyColor[int(aPosition.w)].xyz, 1.0);
-    gl_Position = _51.scene.uPMatrix * cameraPos;
+    vec4 vertPosInNDC = _26.scene.uPMatrix * cameraPos;
+    vColor = _67.skyColor[int(aPosition.w)];
+    gl_Position = _26.scene.uPMatrix * cameraPos;
 }
 
 
@@ -3910,19 +3908,20 @@ void main()
 
 layout(std140) uniform meshWideBlockVS
 {
-    float uWidth;
-    float uHeight;
-    float uX;
-    float uY;
-} _36;
+    vec4 uWidth_uHeight_uX_uY;
+} _12;
 
 out vec2 texCoord;
 layout(location = 0) in vec2 position;
 
 void main()
 {
+    float uWidth = _12.uWidth_uHeight_uX_uY.x;
+    float uHeight = _12.uWidth_uHeight_uX_uY.y;
+    float uX = _12.uWidth_uHeight_uX_uY.z;
+    float uY = _12.uWidth_uHeight_uX_uY.w;
     texCoord = (position * 0.5) + vec2(0.5);
-    gl_Position = vec4((((((position.x + 1.0) / 2.0) * _36.uWidth) + _36.uX) * 2.0) - 1.0, (((((position.y + 1.0) / 2.0) * _36.uHeight) + _36.uY) * 2.0) - 1.0, 0.5, 1.0);
+    gl_Position = vec4((((((position.x + 1.0) / 2.0) * uWidth) + uX) * 2.0) - 1.0, (((((position.y + 1.0) / 2.0) * uHeight) + uY) * 2.0) - 1.0, 0.5, 1.0);
 }
 
 
@@ -4057,7 +4056,7 @@ layout(std140) uniform sceneWideBlockVSPS
 {
     SceneWideParams scene;
     PSFog fogData;
-} _431;
+} _474;
 
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
@@ -4184,31 +4183,40 @@ void main()
                     bool _414 = uNonOptPixelShader == 4;
                     if (_414)
                     {
+                        float t0_973 = tex.x;
+                        float t1_978 = tex2.y;
+                        float t2_983 = tex3.z;
+                        float textureMod_986 = ((t0_973 * t1_978) * t2_983) * 4.0;
+                        float depthScale_991 = 1.0 - clamp(vPosition.z * 0.00999999977648258209228515625, 0.0, 1.0);
+                        float textureMod_992 = textureMod_986 * depthScale_991;
+                        float height_995 = textureMod_992 * vColor.x;
+                        float alpha_997 = textureMod_992 * vColor.w;
+                        finalColor = vec4(height_995, 0.0, 0.0, alpha_997);
                     }
                 }
             }
         }
     }
-    bool _420 = finalColor.w < uAlphaTest;
-    if (_420)
+    bool _463 = finalColor.w < uAlphaTest;
+    if (_463)
     {
         discard;
     }
-    vec3 sunDir = _431.scene.extLight.uExteriorDirectColorDir.xyz;
+    vec3 sunDir = _474.scene.extLight.uExteriorDirectColorDir.xyz;
     PSFog arg;
-    arg.densityParams = _431.fogData.densityParams;
-    arg.heightPlane = _431.fogData.heightPlane;
-    arg.color_and_heightRate = _431.fogData.color_and_heightRate;
-    arg.heightDensity_and_endColor = _431.fogData.heightDensity_and_endColor;
-    arg.sunAngle_and_sunColor = _431.fogData.sunAngle_and_sunColor;
-    arg.heightColor_and_endFogDistance = _431.fogData.heightColor_and_endFogDistance;
-    arg.sunPercentage = _431.fogData.sunPercentage;
+    arg.densityParams = _474.fogData.densityParams;
+    arg.heightPlane = _474.fogData.heightPlane;
+    arg.color_and_heightRate = _474.fogData.color_and_heightRate;
+    arg.heightDensity_and_endColor = _474.fogData.heightDensity_and_endColor;
+    arg.sunAngle_and_sunColor = _474.fogData.sunAngle_and_sunColor;
+    arg.heightColor_and_endFogDistance = _474.fogData.heightColor_and_endFogDistance;
+    arg.sunPercentage = _474.fogData.sunPercentage;
     vec3 param = finalColor.xyz;
     vec3 param_1 = vPosition;
     vec3 param_2 = sunDir;
     int param_3 = _266.uPixelShaderv.y;
-    vec3 _469 = makeFog(arg, param, param_1, param_2, param_3);
-    finalColor = vec4(_469.x, _469.y, _469.z, finalColor.w);
+    vec3 _510 = makeFog(arg, param, param_1, param_2, param_3);
+    finalColor = vec4(_510.x, _510.y, _510.z, finalColor.w);
     outputColor = finalColor;
 }
 
@@ -4549,153 +4557,152 @@ void main()
     #if (FRAGMENTSHADER == 2)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = tex2.w * vDiffuseColor.w;
-    opacity = tex2.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _693 = uPixelShader == 3;
+    bool _688 = uPixelShader == 3;
     #if (FRAGMENTSHADER == 3)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = (tex2.w * 2.0) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _718 = uPixelShader == 4;
+    bool _713 = uPixelShader == 4;
     #if (FRAGMENTSHADER == 4)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _739 = uPixelShader == 5;
+    bool _734 = uPixelShader == 5;
     #if (FRAGMENTSHADER == 5)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _759 = uPixelShader == 6;
+    bool _754 = uPixelShader == 6;
     #if (FRAGMENTSHADER == 6)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = (tex.w * tex2.w) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _786 = uPixelShader == 7;
+    bool _781 = uPixelShader == 7;
     #if (FRAGMENTSHADER == 7)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = ((tex.w * tex2.w) * 2.0) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _815 = uPixelShader == 8;
+    bool _810 = uPixelShader == 8;
     #if (FRAGMENTSHADER == 8)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + tex2.w) * vDiffuseColor.w;
     specular = tex2.xyz;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _841 = uPixelShader == 9;
+    bool _836 = uPixelShader == 9;
     #if (FRAGMENTSHADER == 9)
     matDiffuse = (((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz) * 2.0;
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _866 = uPixelShader == 10;
+    bool _861 = uPixelShader == 10;
     #if (FRAGMENTSHADER == 10)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = tex2.xyz;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _889 = uPixelShader == 11;
+    bool _884 = uPixelShader == 11;
     #if (FRAGMENTSHADER == 11)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _913 = uPixelShader == 12;
+    bool _908 = uPixelShader == 12;
     #if (FRAGMENTSHADER == 12)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _940 = uPixelShader == 13;
+    bool _935 = uPixelShader == 13;
     #if (FRAGMENTSHADER == 13)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = tex2.xyz * tex2.w;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _963 = uPixelShader == 14;
+    bool _958 = uPixelShader == 14;
     #if (FRAGMENTSHADER == 14)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = (tex2.xyz * tex2.w) * (1.0 - tex.w);
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _990 = uPixelShader == 15;
+    bool _985 = uPixelShader == 15;
     #if (FRAGMENTSHADER == 15)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w));
     specular = (tex3.xyz * tex3.w) * _461.uTexSampleAlpha.z;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1026 = uPixelShader == 16;
+    bool _1021 = uPixelShader == 16;
     #if (FRAGMENTSHADER == 16)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = tex2.xyz * tex2.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1052 = uPixelShader == 17;
+    bool _1047 = uPixelShader == 17;
     #if (FRAGMENTSHADER == 17)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + (tex2.w * (((0.300000011920928955078125 * tex2.x) + (0.589999973773956298828125 * tex2.y)) + (0.10999999940395355224609375 * tex2.z)))) * vDiffuseColor.w;
     specular = (tex2.xyz * tex2.w) * (1.0 - tex.w);
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1100 = uPixelShader == 18;
+    bool _1095 = uPixelShader == 18;
     #if (FRAGMENTSHADER == 18)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex.xyz, tex2.xyz, vec3(tex2.w)), tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1130 = uPixelShader == 19;
+    bool _1125 = uPixelShader == 19;
     #if (FRAGMENTSHADER == 19)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex3.xyz, vec3(tex3.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1158 = uPixelShader == 20;
+    bool _1153 = uPixelShader == 20;
     #if (FRAGMENTSHADER == 20)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     specular = (tex2.xyz * tex2.w) * _461.uTexSampleAlpha.y;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1184 = uPixelShader == 21;
+    bool _1179 = uPixelShader == 21;
     #if (FRAGMENTSHADER == 21)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w + tex2.w) * vDiffuseColor.w;
     specular = tex2.xyz * (1.0 - tex.w);
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1214 = uPixelShader == 22;
+    bool _1209 = uPixelShader == 22;
     #if (FRAGMENTSHADER == 22)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * tex2.xyz, tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1241 = uPixelShader == 23;
+    bool _1236 = uPixelShader == 23;
     #if (FRAGMENTSHADER == 23)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = tex.w * vDiffuseColor.w;
     specular = (tex2.xyz * tex2.w) * _461.uTexSampleAlpha.y;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1270 = uPixelShader == 24;
+    bool _1265 = uPixelShader == 24;
     #if (FRAGMENTSHADER == 24)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz, tex2.xyz, vec3(tex2.w));
     specular = (tex.xyz * tex.w) * _461.uTexSampleAlpha.x;
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1302 = uPixelShader == 25;
+    bool _1297 = uPixelShader == 25;
     #if (FRAGMENTSHADER == 25)
     float glowOpacity = clamp(tex3.w * _461.uTexSampleAlpha.z, 0.0, 1.0);
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * mix((tex.xyz * tex2.xyz) * 2.0, tex.xyz, vec3(tex.w))) * (1.0 - glowOpacity);
@@ -4703,66 +4710,66 @@ void main()
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1344 = uPixelShader == 26;
+    bool _1339 = uPixelShader == 26;
     #if (FRAGMENTSHADER == 26)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).xyz;
     opacity = mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1389 = uPixelShader == 27;
+    bool _1384 = uPixelShader == 27;
     #if (FRAGMENTSHADER == 27)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix((tex.xyz * tex2.xyz) * 2.0, tex3.xyz, vec3(tex3.w)), tex.xyz, vec3(tex.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1423 = uPixelShader == 28;
+    bool _1418 = uPixelShader == 28;
     #if (FRAGMENTSHADER == 28)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).xyz;
     opacity = (mix(mix(tex, tex2WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.y, 0.0, 1.0))), tex3WithTextCoord1, vec4(clamp(_461.uTexSampleAlpha.z, 0.0, 1.0))).w * tex4WithTextCoord2.w) * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1471 = uPixelShader == 29;
+    bool _1466 = uPixelShader == 29;
     #if (FRAGMENTSHADER == 29)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz, tex2.xyz, vec3(tex2.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1495 = uPixelShader == 30;
+    bool _1490 = uPixelShader == 30;
     #if (FRAGMENTSHADER == 30)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w)), tex3.xyz * genericParams[2].xyz, vec3(tex3.w));
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1540 = uPixelShader == 31;
+    bool _1535 = uPixelShader == 31;
     #if (FRAGMENTSHADER == 31)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w));
     opacity = tex.w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1575 = uPixelShader == 32;
+    bool _1570 = uPixelShader == 32;
     #if (FRAGMENTSHADER == 32)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * mix(tex.xyz * mix(genericParams[0].xyz, tex2.xyz * genericParams[1].xyz, vec3(tex2.w)), tex3.xyz * genericParams[2].xyz, vec3(tex3.w));
     opacity = vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1617 = uPixelShader == 33;
+    bool _1612 = uPixelShader == 33;
     #if (FRAGMENTSHADER == 33)
     matDiffuse = (vDiffuseColor.xyz * 2.0) * tex.xyz;
     opacity = (tex.w * vDiffuseColor.w) * visParams.x;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1641 = uPixelShader == 34;
+    bool _1636 = uPixelShader == 34;
     #if (FRAGMENTSHADER == 34)
     finalColor = vec4(1.0);
     #endif
-    bool _1647 = uPixelShader == 35;
+    bool _1642 = uPixelShader == 35;
     #if (FRAGMENTSHADER == 35)
     vec4 pc_channelScaler = vec4(1.0);
     matDiffuse = (vDiffuseColor.xyz * 2.0) * (((tex * tex2) * tex3) * pc_channelScaler).xyz;
     opacity = (((tex * tex2) * tex3) * pc_channelScaler).w * vDiffuseColor.w;
     finalOpacity = opacity * visParams.x;
     #endif
-    bool _1681 = uPixelShader == 36;
+    bool _1676 = uPixelShader == 36;
     #if (FRAGMENTSHADER == 36)
     matDiffuse = ((vDiffuseColor.xyz * 2.0) * tex.xyz) * tex2.xyz;
     opacity = (tex.w * tex2.w) * vDiffuseColor.w;
@@ -4787,14 +4794,14 @@ void main()
     param_5.uInteriorDirectColorAndApplyExteriorLight = _484.intLight.uInteriorDirectColorAndApplyExteriorLight;
     vec3 param_6 = accumLight;
     finalColor = vec4(calcLight(param, param_1, param_2, param_3, param_4, param_5, param_6, vec3(0.0), specular), finalOpacity);
-    bool _1763 = finalColor.w < _461.uFogColorAndAlphaTest.w;
-    if (_1763)
+    bool _1758 = finalColor.w < _461.uFogColorAndAlphaTest.w;
+    if (_1758)
     {
         discard;
     }
     int uUnFogged = _461.PixelShader_UnFogged_IsAffectedByLight_blendMode.y;
-    bool _1771 = uUnFogged == 0;
-    if (_1771)
+    bool _1766 = uUnFogged == 0;
+    if (_1766)
     {
         vec3 sunDir = mix(_523.scene.uInteriorSunDir, _523.scene.extLight.uExteriorDirectColorDir, vec4(_484.interiorExteriorBlend.x)).xyz;
         PSFog arg;
@@ -4809,8 +4816,8 @@ void main()
         vec3 param_8 = vPosition;
         vec3 param_9 = sunDir;
         int param_10 = _461.PixelShader_UnFogged_IsAffectedByLight_blendMode.w;
-        vec3 _1816 = makeFog(arg, param_7, param_8, param_9, param_10);
-        finalColor = vec4(_1816.x, _1816.y, _1816.z, finalColor.w);
+        vec3 _1811 = makeFog(arg, param_7, param_8, param_9, param_10);
+        finalColor = vec4(_1811.x, _1811.y, _1811.z, finalColor.w);
     }
     outputColor = finalColor;
 }
@@ -5614,7 +5621,7 @@ in vec4 vColor;
 
 void main()
 {
-    outputColor = vec4(vColor.xyz, 1.0);
+    outputColor = vec4(vColor.xyz, vColor.w);
 }
 
 
@@ -5653,12 +5660,12 @@ layout(std140) uniform sceneWideBlockVSPS
 {
     SceneWideParams scene;
     PSFog fogData;
-} _51;
+} _26;
 
 layout(std140) uniform meshWideBlockVS
 {
     vec4 skyColor[6];
-} _83;
+} _67;
 
 layout(location = 0) in vec4 aPosition;
 out vec4 vColor;
@@ -5666,25 +5673,14 @@ out vec4 vColor;
 void main()
 {
     vec3 inputPos = aPosition.xyz;
-    vec2 _20 = inputPos.xy / vec2(0.6875);
-    inputPos = vec3(_20.x, _20.y, inputPos.z);
-    bool _30 = inputPos.z > 0.0;
-    float _31;
-    if (_30)
-    {
-        _31 = inputPos.z / 0.292800009250640869140625;
-    }
-    else
-    {
-        _31 = inputPos.z;
-    }
-    inputPos.z = _31;
-    vec4 cameraPos = _51.scene.uLookAtMat * vec4(inputPos, 1.0);
-    vec3 _71 = cameraPos.xyz - _51.scene.uLookAtMat[3].xyz;
-    cameraPos = vec4(_71.x, _71.y, _71.z, cameraPos.w);
+    inputPos *= 33.33300018310546875;
+    vec4 cameraPos = _26.scene.uLookAtMat * vec4(inputPos, 1.0);
+    vec3 _46 = cameraPos.xyz - _26.scene.uLookAtMat[3].xyz;
+    cameraPos = vec4(_46.x, _46.y, _46.z, cameraPos.w);
     cameraPos.z = cameraPos.z;
-    vColor = vec4(_83.skyColor[int(aPosition.w)].xyz, 1.0);
-    gl_Position = _51.scene.uPMatrix * cameraPos;
+    vec4 vertPosInNDC = _26.scene.uPMatrix * cameraPos;
+    vColor = _67.skyColor[int(aPosition.w)];
+    gl_Position = _26.scene.uPMatrix * cameraPos;
 }
 
 
