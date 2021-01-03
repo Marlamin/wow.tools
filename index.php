@@ -105,13 +105,9 @@ if ($updatedago == strtotime("now")) {
     <table class='table table-condensed table-striped table-hover' style='width: 100%'>
     <thead><tr><th>Amount</th><th>User</th><th>Date</th><th>Status</th></tr></thead>
     <?php
-    $suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
+    $suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%Y %M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
     $i = 0;
     foreach ($suggestions as $row) {
-        if ($i > 5) {
-            continue;
-        }
-        
         echo "<tr>
         <td>" . $row['count'] . " files</td>
         <td>" . getUsernameByUserID($row['userid']) . "</td>
