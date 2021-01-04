@@ -1,5 +1,4 @@
 <?php
-
 require_once(__DIR__ . "/../inc/header.php");
 // Map old URL to new url for backwards compatibility
 if (!empty($_GET['bc'])) {
@@ -19,205 +18,195 @@ if (!empty($_GET['bc'])) {
     die();
 }
 
-$tables = [];
-foreach ($pdo->query("SELECT * FROM wow_dbc_tables ORDER BY name ASC") as $dbc) {
-    $tables[$dbc['id']] = $dbc;
-}
-
-$locales = [
-    ["name" => "Korean", "value" => "koKR"],
-    ["name" => "French", "value" => "frFR"],
-    ["name" => "German", "value" => "deDE"],
-    ["name" => "Simplified Chinese", "value" => "zhCN"],
-    ["name" => "Spanish", "value" => "esES"],
-    ["name" => "Taiwanese Mandarin", "value" => "zhTW"],
-    ["name" => "English", "value" => "enGB"],
-    ["name" => "Mexican Spanish", "value" => "esMX"],
-    ["name" => "Russian", "value" => "ruRU"],
-    ["name" => "Brazilian Portugese", "value" => "ptBR"],
-    ["name" => "Italian", "value" => "itIT"],
-    ["name" => "Portuguese", "value" => "ptPT"],
-];
 ?>
 <link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
-<form id='dbcform' action='/dbc/' method='GET'>
-<select id='fileFilter' class='form-control form-control-sm'></select>
-<select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'></select>
+    <form id='dbcform' action='/dbc/' method='GET'>
+        <select id='fileFilter' class='form-control form-control-sm'></select>
+        <select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'></select>
 
-<select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
-<option value='' <? if(empty($_GET['locale']) || $_GET['locale'] == ""){ echo " SELECTED"; }?>>enUS (Default)</option>
-<?php foreach ($locales as $locale) {
-    ?>
-    <option value='<?=$locale['value']?>' <? if(!empty($_GET['locale']) && $_GET['locale'] == $locale['value']){ echo " SELECTED"; }?>><?=$locale['name']?></option>
-    <?php
-} ?>
-</select>
+        <select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
+            <option value=''>enUS (Default)</option>
+        </select>
 
-<a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i class='fa fa-download'></i> CSV</a>
+        <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i
+                class='fa fa-download'></i> CSV</a>
 
-<label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
-<input type="checkbox" autocomplete="off" id="hotfixToggle" 
-<?php
-if (!empty($_GET['hotfixes'])) {
-     echo "CHECKED";
-}
-?>
-> Use hotfixes?
-</label>
-<a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href='' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
-<a id='dbdButton' style='vertical-align: top; display: none;' class='btn btn-secondary btn-sm disabled' href='' target='_BLANK'><i class='fa fa-external-link'></i> DBD</a>
-<a style='vertical-align: top; display: none' id='fkSearchButton' class='btn btn-danger btn-sm' data-toggle='modal' href='' data-target='#foreignKeySearchModal'><i class='fa fa-search'></i> FK Search</a>
-</form><br>
-<div id='tableContainer'><br>
-<table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
-<thead>
-</thead>
-<tbody>
-<tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr>
-</tbody>
-</table>
+        <label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
+            <input type="checkbox" autocomplete="off" id="hotfixToggle"> Use hotfixes?
+        </label>
+        <a style='vertical-align: top;' class='btn btn-secondary btn-sm' data-toggle='modal' href=''
+            data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
+        <a id='dbdButton' style='vertical-align: top; display: none;' class='btn btn-secondary btn-sm disabled' href=''
+            target='_BLANK'><i class='fa fa-external-link'></i> DBD</a>
+        <a style='vertical-align: top; display: none' id='fkSearchButton' class='btn btn-danger btn-sm'
+            data-toggle='modal' href='' data-target='#foreignKeySearchModal'><i class='fa fa-search'></i> FK Search</a>
+    </form><br>
+    <div id='tableContainer'><br>
+        <table id='dbtable' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
-<div class="modal" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="settingsModalContent">
-<input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> <label for='tooltipToggle'>Enable tooltips?</label><br>
-<input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label for='alwaysEnableFilters'>Always show filters?</label><br>
-<input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
-<input type="checkbox" autocomplete="off" id="showDBDButton"> <label for='showDBDButton'>Show DBD button?</label><br>
-<input type="checkbox" autocomplete="off" id="showFKButton"> <label for='showFKButton'>Show FK search button?</label><br>
-<label for="lockedBuild">Lock build to: </label>
-<select id='lockedBuild' style='width: 100%'>
-    <option value='none'>None</option>
-<?php foreach ($pdo->query("SELECT description, root_cdn FROM wow_buildconfig ORDER BY wow_buildconfig.description DESC") as $build) {
-        $prettyBuild = prettyBuild($build['description']);
-    ?>
-    <option value='<?=explode(" ", $prettyBuild)[0]?>'><?=$prettyBuild?></option>
-<?php } ?>
-</select>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-<button type="button" class="btn btn-primary" onclick="saveSettings();" data-dismiss="modal">Save</button>
-</div>
-</div>
-</div>
+<div class="modal" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="settingsModalContent">
+                <input type="checkbox" autocomplete="off" id="tooltipToggle" CHECKED> <label for='tooltipToggle'>Enable
+                    tooltips?</label><br>
+                <input type="checkbox" autocomplete="off" id="alwaysEnableFilters" CHECKED> <label
+                    for='alwaysEnableFilters'>Always show filters?</label><br>
+                <input type="checkbox" autocomplete="off" id="changedVersionsOnly"> <label
+                    for='changedVersionsOnly'>Only show changed versions (experimental)?</label><br>
+                <input type="checkbox" autocomplete="off" id="showDBDButton"> <label for='showDBDButton'>Show DBD
+                    button?</label><br>
+                <input type="checkbox" autocomplete="off" id="showFKButton"> <label for='showFKButton'>Show FK search
+                    button?</label><br>
+                <label for="lockedBuild">Lock build to: </label>
+                <select id='lockedBuild' style='width: 100%'>
+                    <option value='none'>None</option>
+                    <?php foreach ($pdo->query("SELECT description, root_cdn FROM wow_buildconfig ORDER BY wow_buildconfig.description DESC") as $build) {
+                        $prettyBuild = prettyBuild($build['description']);
+                    ?>
+                    <option value='<?=explode(" ", $prettyBuild)[0]?>'><?=$prettyBuild?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveSettings();"
+                    data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="fkModal" tabindex="-1" role="dialog" aria-labelledby="fkModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="fkModalLabel">Foreign key lookup</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fkModalLabel">Foreign key lookup</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="fkModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="modal-body" id="fkModalContent">
-<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="moreInfoModalContent">
-<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
+<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="moreInfoModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="previewModalLabel">Preview</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="previewModalContent">
-<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="previewModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="chashModal" tabindex="-1" role="dialog" aria-labelledby="chashModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="chashModalLabel">Content hash lookup</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="chashModalContent">
-<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<div class="modal" id="foreignKeySearchModal" tabindex="-1" role="dialog" aria-labelledby="foreignKeySearchLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="foreignKeySearchLabel">Foreign key search</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="foreignKeySearchContent">
-<form class='form-inline' id='foreignKeySearchForm' onsubmit="fkDBSearchSubmit()">
-    <div class="form-row">
-        <div class="col">
-            <select class='form-control' onchange="fkDBSearchChange()" id="fkSearchDB"><option>DB Name</option></select>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chashModalLabel">Content hash lookup</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="chashModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="col">
-            <select class='form-control' id='fkSearchField' disabled><option>Field</option></select>
-        </div>
-        <div class="col">
-            <input class='form-control' style='height: 26px;' type='text' placeholder='Value' id='fkSearchValue'>
-        </div>
-        <div class="col">
-            <input class='form-control' type='submit' value='Search'>
-        </div>
-    </div><br>
-</form>
-<div id='fkSearchResultHolder'>
+    </div>
+</div>
+<div class="modal" id="foreignKeySearchModal" tabindex="-1" role="dialog" aria-labelledby="foreignKeySearchLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="foreignKeySearchLabel">Foreign key search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="foreignKeySearchContent">
+                <form class='form-inline' id='foreignKeySearchForm' onsubmit="fkDBSearchSubmit()">
+                    <div class="form-row">
+                        <div class="col">
+                            <select class='form-control' onchange="fkDBSearchChange()" id="fkSearchDB">
+                                <option>DB Name</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class='form-control' id='fkSearchField' disabled>
+                                <option>Field</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input class='form-control' style='height: 26px;' type='text' placeholder='Value'
+                                id='fkSearchValue'>
+                        </div>
+                        <div class="col">
+                            <input class='form-control' type='submit' value='Search'>
+                        </div>
+                    </div><br>
+                </form>
+                <div id='fkSearchResultHolder'>
 
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
@@ -226,8 +215,7 @@ if (!empty($_GET['hotfixes'])) {
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
 <script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
-var Settings =
-{
+var Settings = {
     filtersAlwaysEnabled: false,
     filtersCurrentlyEnabled: false,
     enableTooltips: true,
@@ -237,73 +225,90 @@ var Settings =
     lockedBuild: null
 }
 
+var Locales = {
+    koKR: "Korean",
+    frFR: "French",
+    deDE: "German",
+    zhCN: "Simplified Chinese",
+    esES: "Spanish",
+    zhTW: "Taiwanese Mandarin",
+    enGB: "Also English",
+    esMX: "Mexican Spanish",
+    ruRU: "Russian",
+    ptBR: "Brazilian Portugese",
+    itIT: "Italian",
+    ptPT: "Portugese"
+}
+
 let clearState = false;
 
-function updateDBDButton(){
+function updateDBDButton() {
     console.log("updating button");
     const dbdButton = document.getElementById("dbdButton");
-    if(dbdButton){
-        if(Settings.showDBDButton){
+    if (dbdButton) {
+        if (Settings.showDBDButton) {
             document.getElementById("dbdButton").style.display = 'inline-block';
-        }else{
+        } else {
             document.getElementById("dbdButton").style.display = 'none';
         }
-        
+
         const fileFilter = document.getElementById("fileFilter");
-        if(fileFilter.selectedIndex != -1){
-            dbdButton.href = "https://github.com/wowdev/WoWDBDefs/blob/master/definitions/" + fileFilter.options[fileFilter.selectedIndex].text + ".dbd";
+        if (fileFilter.selectedIndex != -1) {
+            dbdButton.href = "https://github.com/wowdev/WoWDBDefs/blob/master/definitions/" + fileFilter.options[
+                fileFilter.selectedIndex].text + ".dbd";
             dbdButton.classList.remove("disabled");
         }
     }
 }
 
-function saveSettings(){
-    if(document.getElementById("tooltipToggle").checked){
+function saveSettings() {
+    if (document.getElementById("tooltipToggle").checked) {
         localStorage.setItem('settings[tooltipToggle]', '1');
-    }else{
+    } else {
         localStorage.setItem('settings[tooltipToggle]', '0');
     }
-    
-    if(document.getElementById("alwaysEnableFilters").checked){
+
+    if (document.getElementById("alwaysEnableFilters").checked) {
         localStorage.setItem('settings[alwaysEnableFilters]', '1');
-    }else{
+    } else {
         localStorage.setItem('settings[alwaysEnableFilters]', '0');
     }
-    
-    if(document.getElementById("changedVersionsOnly").checked){
+
+    if (document.getElementById("changedVersionsOnly").checked) {
         localStorage.setItem('settings[changedVersionsOnly]', '1');
-    }else{
+    } else {
         localStorage.setItem('settings[changedVersionsOnly]', '0');
     }
-    
-    if(document.getElementById("showDBDButton").checked){
+
+    if (document.getElementById("showDBDButton").checked) {
         localStorage.setItem('settings[showDBDButton]', '1');
         document.getElementById("dbdButton").style.display = 'inline-block';
-    }else{
+    } else {
         localStorage.setItem('settings[showDBDButton]', '0');
         document.getElementById("dbdButton").style.display = 'none';
     }
 
-    if(document.getElementById("showFKButton").checked){
+    if (document.getElementById("showFKButton").checked) {
         localStorage.setItem('settings[showFKButton]', '1');
         document.getElementById("fkSearchButton").style.display = 'inline-block';
-    }else{
+    } else {
         localStorage.setItem('settings[showFKButton]', '0');
         document.getElementById("fkSearchButton").style.display = 'none';
     }
 
-    if(document.getElementById("lockedBuild").value == null || document.getElementById("lockedBuild").value == "none"){
+    if (document.getElementById("lockedBuild").value == null || document.getElementById("lockedBuild").value ==
+        "none") {
         localStorage.removeItem('settings[lockedBuild]');
-    }else{
+    } else {
         localStorage.setItem('settings[lockedBuild]', document.getElementById("lockedBuild").value);
     }
-    
-    if(Settings.changedVersionsOnly != document.getElementById("changedVersionsOnly").checked){
+
+    if (Settings.changedVersionsOnly != document.getElementById("changedVersionsOnly").checked) {
         loadSettings();
         refreshVersions();
     }
 
-    if(Settings.lockedBuild != localStorage.getItem('settings[lockedBuild]')){
+    if (Settings.lockedBuild != localStorage.getItem('settings[lockedBuild]')) {
         loadSettings();
         refreshFiles();
         refreshVersions();
@@ -311,261 +316,263 @@ function saveSettings(){
     }
 }
 
-function loadSettings(){
+function loadSettings() {
     /* Enable tooltips? */
     var tooltipToggle = localStorage.getItem('settings[tooltipToggle]');
-    if(tooltipToggle){
-        if(tooltipToggle== "1"){
+    if (tooltipToggle) {
+        if (tooltipToggle == "1") {
             Settings.enableTooltips = true;
-        }else{
+        } else {
             Settings.enableTooltips = false;
         }
     }
-    
+
     document.getElementById("tooltipToggle").checked = Settings.enableTooltips;
-    
+
     /* Filters always enabled? */
     var alwaysEnableFilters = localStorage.getItem('settings[alwaysEnableFilters]');
-    if(alwaysEnableFilters){
-        if(alwaysEnableFilters== "1"){
+    if (alwaysEnableFilters) {
+        if (alwaysEnableFilters == "1") {
             Settings.filtersAlwaysEnabled = true;
-        }else{
+        } else {
             Settings.filtersAlwaysEnabled = false;
         }
     }
-    
+
     document.getElementById("alwaysEnableFilters").checked = Settings.filtersAlwaysEnabled;
-    
+
     /* Changed versions only? */
     var changedVersionsOnly = localStorage.getItem('settings[changedVersionsOnly]');
-    if(changedVersionsOnly){
-        if(changedVersionsOnly== "1"){
+    if (changedVersionsOnly) {
+        if (changedVersionsOnly == "1") {
             Settings.changedVersionsOnly = true;
-        }else{
+        } else {
             Settings.changedVersionsOnly = false;
         }
     }
-    
+
     document.getElementById("changedVersionsOnly").checked = Settings.changedVersionsOnly;
-    
+
     /* Show DBD button? */
     var showDBDButton = localStorage.getItem('settings[showDBDButton]');
-    if(showDBDButton){
-        if(showDBDButton== "1"){
+    if (showDBDButton) {
+        if (showDBDButton == "1") {
             Settings.showDBDButton = true;
             document.getElementById("dbdButton").style.display = 'inline-block';
-        }else{
+        } else {
             Settings.showDBDButton = false;
             document.getElementById("dbdButton").style.display = 'none';
         }
     }
-    
+
     document.getElementById("showDBDButton").checked = Settings.showDBDButton;
 
     /* Show FK button? */
     var showFKButton = localStorage.getItem('settings[showFKButton]');
-    if(showFKButton){
-        if(showFKButton== "1"){
+    if (showFKButton) {
+        if (showFKButton == "1") {
             Settings.showFKButton = true;
             document.getElementById("fkSearchButton").style.display = 'inline-block';
-        }else{
+        } else {
             Settings.showFKButton = false;
             document.getElementById("fkSearchButton").style.display = 'none';
         }
     }
-    
+
     document.getElementById("showFKButton").checked = Settings.showFKButton;
 
     var lockedBuild = localStorage.getItem("settings[lockedBuild]");
     Settings.lockedBuild = lockedBuild;
-    
-    if(lockedBuild && lockedBuild != "none"){
+
+    if (lockedBuild && lockedBuild != "none") {
         document.getElementById("lockedBuild").value = lockedBuild;
     }
 }
 
 loadSettings();
 
-function toggleFilters(){
-    if(!Settings.filtersCurrentlyEnabled){
+function toggleFilters() {
+    if (!Settings.filtersCurrentlyEnabled) {
         $("#filterToggle").text("Disable filters");
         $("#filterToggle").addClass("btn-outline-danger");
         $("#filterToggle").removeClass("btn-outline-success");
         $("#filterToggle").removeClass("btn-outline-primary");
         $("#tableContainer thead tr").clone(true).appendTo("#tableContainer thead");
-        $("#tableContainer thead tr:eq(1) th").each( function (i) {
+        $("#tableContainer thead tr:eq(1) th").each(function(i) {
             var title = $(this).text();
-            
-            $(this).html( '<input type="text"/>' );
-            
-            if($('#dbtable').DataTable().column(i).search() != ""){
-                $( 'input', this).val($('#dbtable').DataTable().column(i).search());
+
+            $(this).html('<input type="text"/>');
+
+            if ($('#dbtable').DataTable().column(i).search() != "") {
+                $('input', this).val($('#dbtable').DataTable().column(i).search());
             }
-            
-            $( 'input', this ).on( 'keyup change', function () {
-                if ( $('#dbtable').DataTable().column(i).search() !== this.value ) {
+
+            $('input', this).on('keyup change', function() {
+                if ($('#dbtable').DataTable().column(i).search() !== this.value) {
                     $('#dbtable').DataTable().column(i).search(this.value).draw();
                 }
-            } );
-            
+            });
+
             $('input', this).on('click', function(e) {
                 e.stopPropagation();
             });
-        } );
-        
+        });
+
         Settings.filtersCurrentlyEnabled = true;
-    }else{
+    } else {
         $("#filterToggle").text("Enable filters");
         $("#filterToggle").addClass("btn-outline-success");
         $("#filterToggle").removeClass("btn-outline-danger");
         $("#filterToggle").removeClass("btn-outline-primary");
-        
-        $("#tableContainer thead tr:eq(1) th").each( function (i) {
+
+        $("#tableContainer thead tr:eq(1) th").each(function(i) {
             $('#dbtable').DataTable().column(i).search("");
         });
-        
+
         $("#tableContainer thead tr:eq(1)").remove();
-        
+
         Settings.filtersCurrentlyEnabled = false;
     }
-    
+
     $('#dbtable').DataTable().draw('page');
 }
 
-function buildURL(currentParams){
+function buildURL(currentParams) {
     let url = window.location.protocol + "//" + window.location.hostname + "/dbc/";
-    
-    if(currentParams["dbc"]){
+
+    if (currentParams["dbc"]) {
         url += "?dbc=" + currentParams["dbc"];
     }
-    
-    if(currentParams["build"]){
+
+    if (currentParams["build"]) {
         url += "&build=" + currentParams["build"];
     }
-    
-    if(currentParams["locale"]){
+
+    if (currentParams["locale"]) {
         url += "&locale=" + currentParams["locale"];
     }
-    
-    if(currentParams["hotfixes"]){
+
+    if (currentParams["hotfixes"]) {
         url += "&hotfixes=" + currentParams["hotfixes"];
     }
-    
+
     return url;
 }
 
-function refreshFiles(){
+function refreshFiles() {
     console.log("Refreshing files");
 
     let apiURL = "https://api.wow.tools/databases/";
 
-    if(Settings.lockedBuild && Settings.lockedBuild != "none"){
+    if (Settings.lockedBuild && Settings.lockedBuild != "none") {
         apiURL += Settings.lockedBuild;
     }
 
     fetch(apiURL)
-    .then(function (fileResponse) {
-        return fileResponse.json();
-    }).then(function (data) {
-        var fileFilter = document.getElementById('fileFilter');
-        fileFilter.innerHTML = "";
-        
-        var option = document.createElement("option");
-        option.text = "Select a table";
-        fileFilter.appendChild(option);
-        
-        data.forEach((file) => {
+        .then(function(fileResponse) {
+            return fileResponse.json();
+        }).then(function(data) {
+            var fileFilter = document.getElementById('fileFilter');
+            fileFilter.innerHTML = "";
+
             var option = document.createElement("option");
-            option.value = file.name;
-            option.text = file.displayName;
-            if(option.value == currentParams["dbc"]){
-                option.selected = true;
-            }
+            option.text = "Select a table";
             fileFilter.appendChild(option);
+
+            data.forEach((file) => {
+                var option = document.createElement("option");
+                option.value = file.name;
+                option.text = file.displayName;
+                if (option.value == currentParams["dbc"]) {
+                    option.selected = true;
+                }
+                fileFilter.appendChild(option);
+            });
+
+            updateDBDButton();
+        }).catch(function(error) {
+            console.log("An error occurred retrieving files: " + error);
         });
-        
-        updateDBDButton();
-    }).catch(function (error) {
-        console.log("An error occurred retrieving files: " + error);
-    });
 }
 
-function refreshVersions(){
-    if(currentParams["dbc"] == "")
-    return;
-    
+function refreshVersions() {
+    if (currentParams["dbc"] == "")
+        return;
+
     console.log("Refreshing versions");
     var versionAPIURL = "https://api.wow.tools/databases/" + currentParams["dbc"] + "/versions";
-    if(Settings.changedVersionsOnly)
-    versionAPIURL += "?uniqueOnly=true";
-    
+    if (Settings.changedVersionsOnly)
+        versionAPIURL += "?uniqueOnly=true";
+
     fetch(versionAPIURL)
-    .then(function (versionResponse) {
-        return versionResponse.json();
-    }).then(function (data) {
-        var buildFilter = document.getElementById('buildFilter');
-        buildFilter.innerHTML = "";
+        .then(function(versionResponse) {
+            return versionResponse.json();
+        }).then(function(data) {
+            var buildFilter = document.getElementById('buildFilter');
+            buildFilter.innerHTML = "";
 
-        var preselected = false;
-        if(Settings.lockedBuild != null && Settings.lockedBuild != "none" && (!data.includes(Settings.lockedBuild))){
-            console.log("Locked build is not in dropdown");
+            var preselected = false;
+            if (Settings.lockedBuild != null && Settings.lockedBuild != "none" && (!data.includes(Settings
+                    .lockedBuild))) {
+                console.log("Locked build is not in dropdown");
 
-            var option = document.createElement("option");
-            option.value = Settings.lockedBuild;
-            option.text = Settings.lockedBuild;
-            option.selected = true;
-            preselected = true;
-            buildFilter.appendChild(option);
-        }
-
-        data.forEach((version) => {
-            var option = document.createElement("option");
-            option.value = version;
-            option.text = version;
-            if(!preselected && (option.value == currentParams["build"] || option.value == Settings.lockedBuild)){
+                var option = document.createElement("option");
+                option.value = Settings.lockedBuild;
+                option.text = Settings.lockedBuild;
                 option.selected = true;
+                preselected = true;
+                buildFilter.appendChild(option);
             }
-            
-            buildFilter.appendChild(option);
+
+            data.forEach((version) => {
+                var option = document.createElement("option");
+                option.value = version;
+                option.text = version;
+                if (!preselected && (option.value == currentParams["build"] || option.value == Settings
+                        .lockedBuild)) {
+                    option.selected = true;
+                }
+
+                buildFilter.appendChild(option);
+            });
+
+            if (currentParams["build"] == "" || !data.includes(currentParams["build"])) {
+                // No build was selected, load table with the latest build
+                if (Settings.lockedBuild !== null) {
+                    currentParams["build"] = Settings.lockedBuild;
+                } else {
+                    currentParams["build"] = data[0];
+                }
+                loadTable();
+            }
+
+            if (Settings.lockedBuild != null && Settings.lockedBuild != "none") {
+                buildFilter.disabled = true;
+                buildFilter.classList.add("disabled");
+                buildFilter.title = "Build locked in settings";
+            } else {
+                buildFilter.disabled = false;
+                buildFilter.classList.remove("disabled");
+                buildFilter.title = "";
+            }
+        }).catch(function(error) {
+            console.log("An error occurred retrieving versions: " + error);
         });
-
-        if(currentParams["build"] == "" || !data.includes(currentParams["build"])){
-            // No build was selected, load table with the latest build
-            if(Settings.lockedBuild !== null){
-                currentParams["build"] = Settings.lockedBuild;
-            }else{
-                currentParams["build"] = data[0];
-            }
-            loadTable();
-        }
-
-         if(Settings.lockedBuild != null && Settings.lockedBuild != "none"){
-             buildFilter.disabled = true;
-             buildFilter.classList.add("disabled");
-             buildFilter.title = "Build locked in settings";
-         }else{
-             buildFilter.disabled = false;
-             buildFilter.classList.remove("disabled");
-             buildFilter.title = "";
-         }
-    }).catch(function (error) {
-        console.log("An error occurred retrieving versions: " + error);
-    });
 }
 
-function fkDBSearchChange(){
+function fkDBSearchChange() {
     // Load headers and fill columns options
     const currentDBC = document.getElementById("fkSearchDB").value;
 
-    fetch("/dbc/api/header/" + currentDBC + "/?build=" + currentParams["build"]).then(function (headerResponse) {
+    fetch("/dbc/api/header/" + currentDBC + "/?build=" + currentParams["build"]).then(function(headerResponse) {
         return headerResponse.json();
-    }).then(function (json) {
+    }).then(function(json) {
         var fkSearchField = document.getElementById('fkSearchField');
         fkSearchField.disabled = false;
         fkSearchField.innerHTML = "";
-        
+
         json.headers.forEach((header) => {
-            if(header in json.relationsToColumns){
+            if (header in json.relationsToColumns) {
                 var option = document.createElement("option");
                 option.value = header;
                 option.text = header;
@@ -578,7 +585,7 @@ function fkDBSearchChange(){
     });
 }
 
-function fkDBSearchSubmit(){
+function fkDBSearchSubmit() {
     event.preventDefault();
 
     const currentDBC = document.getElementById("fkSearchDB").value;
@@ -588,27 +595,29 @@ function fkDBSearchSubmit(){
     fkDBSearch(currentDBC, currentField, searchValue, false);
 }
 
-async function fkDBSearch(db, col, val, isInline = false){
-    if(!isInline){
+async function fkDBSearch(db, col, val, isInline = false) {
+    if (!isInline) {
         document.getElementById("foreignKeySearchForm").style.display = "none";
-    }else{
+    } else {
         document.getElementById("foreignKeySearchForm").style.display = "flex";
     }
 
-    document.getElementById("fkSearchResultHolder").innerHTML = "<ul class='nav nav-tabs' id='fkresultTabList' role='tablist'></ul><div class='tab-content' id='fkresultTabs'></div><div id='noResultHolder'></div>";
+    document.getElementById("fkSearchResultHolder").innerHTML =
+        "<ul class='nav nav-tabs' id='fkresultTabList' role='tablist'></ul><div class='tab-content' id='fkresultTabs'></div><div id='noResultHolder'></div>";
 
     const dbsToSearch = [];
     const headerResult = await fetch("/dbc/api/header/" + db + "/?build=" + currentParams["build"]);
     const headerJSON = await headerResult.json();
-    
+
     headerJSON.relationsToColumns[col].forEach((foreignKey) => {
         const splitFK = foreignKey.split("::");
-        dbsToSearch.push( async() => {
-            try{
-                const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" + currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
+        dbsToSearch.push(async () => {
+            try {
+                const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" +
+                    currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
                 const json = await result.json();
                 fkDBResults(splitFK, json, val);
-            }catch (e){
+            } catch (e) {
                 console.log(e);
             }
         });
@@ -619,499 +628,632 @@ async function fkDBSearch(db, col, val, isInline = false){
     await Promise.all(dbsToSearch);
 }
 
-function fkDBResults(splitFK, results, searchVal){
+function fkDBResults(splitFK, results, searchVal) {
     console.log("Search results for " + splitFK, results);
-    
+
     const tabHolder = document.getElementById("fkresultTabList");
     const resultHolder = document.getElementById("fkresultTabs");
     const fkNoResultHolder = document.getElementById("fkresultTabs");
-    
-    if(results.length){
-        if(tabHolder.children.length == 0){
-            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link active' data-toggle='tab' href='#tab" + splitFK[0] + splitFK[1] +"'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
-        }else{
-            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link' data-toggle='tab' href='#tab" + splitFK[0] + splitFK[1] +"'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
+
+    if (results.length) {
+        if (tabHolder.children.length == 0) {
+            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link active' data-toggle='tab' href='#tab" +
+                splitFK[0] + splitFK[1] + "'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
+        } else {
+            tabHolder.innerHTML += "<li class='nav-item'><a class='nav-link' data-toggle='tab' href='#tab" + splitFK[
+                0] + splitFK[1] + "'>" + splitFK[0] + "::" + splitFK[1] + "</a></li>";
         }
 
         let resultsHTML = "";
-        if(resultHolder.children.length == 0){
-            resultsHTML += "<div class='tab-pane show active' id='tab" + splitFK[0] + splitFK[1] +"'>";
-        }else{
-            resultsHTML += "<div class='tab-pane' id='tab" + splitFK[0] + splitFK[1] +"'>";
+        if (resultHolder.children.length == 0) {
+            resultsHTML += "<div class='tab-pane show active' id='tab" + splitFK[0] + splitFK[1] + "'>";
+        } else {
+            resultsHTML += "<div class='tab-pane' id='tab" + splitFK[0] + splitFK[1] + "'>";
         }
         resultsHTML += "<br><table id='FKResults" + splitFK[0] + splitFK[1] + "' class='table table-sm'>";
         resultsHTML += "<thead><tr>";
         let targetCol = 0;
         Object.keys(results[0]).forEach((key) => {
-            if(key == splitFK[1]){
+            if (key == splitFK[1]) {
                 targetCol = Object.keys(results[0]).indexOf(key);
                 resultsHTML += "<th class='text-success'>" + key + "</th>";
-            }else{
+            } else {
                 resultsHTML += "<th>" + key + "</th>";
             }
         });
 
         resultsHTML += "</tr></thead><tbody></tbody>";
-        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=9.0.2.36086#page=1&colFilter[" + targetCol + "]=exact:" + encodeURIComponent(searchVal);
-        resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL + "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
+        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=9.0.2.36086#page=1&colFilter[" +
+            targetCol + "]=exact:" + encodeURIComponent(searchVal);
+        resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL +
+            "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
 
         resultHolder.insertAdjacentHTML('beforeend', resultsHTML);
-        
-        const dt = $("#FKResults" + splitFK[0] + splitFK[1]).DataTable(
-            {
-                "pagingType": "input", 
-                "searching": false,
-                "pageLength": 10,
-                "displayStart": 0,
-                "autoWidth": true
-            }
-        );
+
+        const dt = $("#FKResults" + splitFK[0] + splitFK[1]).DataTable({
+            "pagingType": "input",
+            "searching": false,
+            "pageLength": 10,
+            "displayStart": 0,
+            "autoWidth": true
+        });
 
         results.forEach((result) => {
             dt.rows.add([Object.values(result)]);
         });
 
         dt.draw();
-    }else{
-        if(document.getElementById("noResultHolder").innerHTML == ""){
+    } else {
+        if (document.getElementById("noResultHolder").innerHTML == "") {
             document.getElementById("noResultHolder").innerHTML = "<b>No results for:</b>";
         }
-        
+
         document.getElementById("noResultHolder").innerHTML += splitFK[0] + "::" + splitFK[1] + ", ";
     }
 }
 
-function loadTable(){
+function loadTable() {
     console.log("Loading table", currentParams);
-    if(!currentParams["dbc"] || !currentParams["build"]){
+    if (!currentParams["dbc"] || !currentParams["build"]) {
         // Don't bother doing anything else if no DBC is selected
         console.log("No DBC or build selected, skipping table load.");
         return;
     }
     Settings.filtersCurrentlyEnabled = false;
-    
+
     build = currentParams["build"];
-    
-    $("#dbtable").html("<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>");
-    document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
+
+    $("#dbtable").html(
+        "<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>"
+        );
+    document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=",
+        "/dbc/api/export/?name=");
     document.getElementById('downloadCSVButton').classList.remove("disabled");
     $("#loadingMessage").html("Loading..");
-    
+
     let apiArgs = currentParams["dbc"] + "/?build=" + currentParams["build"];
-    
-    if(currentParams["locale"] != ""){
+
+    if (currentParams["locale"] != "") {
         apiArgs += "&locale=" + currentParams["locale"];
     }
-    
-    if(currentParams["hotfixes"]){
+
+    if (currentParams["hotfixes"]) {
         apiArgs += "&useHotfixes=true";
-        document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace("&hotfixes=", "&useHotfixes=");
+        document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace(
+            "&hotfixes=", "&useHotfixes=");
     }
-    
+
     let tableHeaders = "";
     let idHeader = 0;
-    
+
     $.ajax({
         "url": "/dbc/api/header/" + currentParams["dbc"] + "/?build=" + currentParams["build"],
         "success": function(json) {
-            if(json['error'] != null){
-                if(json['error'] == "No valid definition found for this layouthash or build!"){
-                    json['error'] += "\n\nPlease open an issue on the WoWDBDefs repository with the DBC name and selected version on GitHub to request a definition for this build.\n\nhttps://github.com/wowdev/WoWDBDefs";
-                    }
-                    $("#loadingMessage").html("<div class='alert '><b>Whoops, something exploded while loading this DBC</b><br>It is possible this is due to maintenance or an issue with reading the DBC file itself. Please try again later or report the below error (together with the table name and version) in Discord if it persists. Thanks!</p><p style='margin: 5px;'><kbd>" + json['error'] + "</kbd></p></div>");
-                    return;
+            if (json['error'] != null) {
+                if (json['error'] == "No valid definition found for this layouthash or build!") {
+                    json['error'] +=
+                        "\n\nPlease open an issue on the WoWDBDefs repository with the DBC name and selected version on GitHub to request a definition for this build.\n\nhttps://github.com/wowdev/WoWDBDefs";
                 }
-                let allCols = [];
-                $.each(json['headers'], function(i, val){
-                    tableHeaders += "<th style='white-space: nowrap' ";
-                    if(val in json['comments']){
-                        tableHeaders += "title='" + json['comments'][val] +"' class='colHasComment'>";
-                    }else{
-                        tableHeaders += ">";
-                    }
-                    
-                    if(val in json['relationsToColumns']){
-                        tableHeaders += " <i class='fa fa-reply' style='font-size: 10px' title='The following tables point to this column: " + json['relationsToColumns'][val].join(", ") + "'></i> ";
-                    }
-                    
-                    tableHeaders += val;
-                    
-                    if(val.startsWith("Field_")){
-                        tableHeaders += " <i class='fa fa-question' style='color: red; font-size: 12px' title='This column is not yet named'></i> ";
-                    }else if(json['unverifieds'].includes(val)){
-                        tableHeaders += " <i class='fa fa-question' style='font-size: 12px' title='This column name is not verified to be 100% accurate'></i> ";
-                    }
-                    
-                    if(val in json['fks']){
-                        tableHeaders += " <i class='fa fa-share' style='font-size: 10px' title='This column points to " + json['fks'][val] + "'></i> ";
-                    }
-                    
-                    tableHeaders += "</th>";
-                    
-                    if(val == "ID"){
-                        idHeader = i;
-                    }
-                    allCols.push(i);
-                });
-                
-                const fkCols = getFKCols(json['headers'], json['fks']);
-                $("#tableContainer").empty();
-                $("#tableContainer").append('<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-                
-                let searchHash = location.hash.substr(1),
+                $("#loadingMessage").html(
+                    "<div class='alert '><b>Whoops, something exploded while loading this DBC</b><br>It is possible this is due to maintenance or an issue with reading the DBC file itself. Please try again later or report the below error (together with the table name and version) in Discord if it persists. Thanks!</p><p style='margin: 5px;'><kbd>" +
+                    json['error'] + "</kbd></p></div>");
+                return;
+            }
+            let allCols = [];
+            $.each(json['headers'], function(i, val) {
+                tableHeaders += "<th style='white-space: nowrap' ";
+                if (val in json['comments']) {
+                    tableHeaders += "title='" + json['comments'][val] + "' class='colHasComment'>";
+                } else {
+                    tableHeaders += ">";
+                }
+
+                if (val in json['relationsToColumns']) {
+                    tableHeaders +=
+                        " <i class='fa fa-reply' style='font-size: 10px' title='The following tables point to this column: " +
+                        json['relationsToColumns'][val].join(", ") + "'></i> ";
+                }
+
+                tableHeaders += val;
+
+                if (val.startsWith("Field_")) {
+                    tableHeaders +=
+                        " <i class='fa fa-question' style='color: red; font-size: 12px' title='This column is not yet named'></i> ";
+                } else if (json['unverifieds'].includes(val)) {
+                    tableHeaders +=
+                        " <i class='fa fa-question' style='font-size: 12px' title='This column name is not verified to be 100% accurate'></i> ";
+                }
+
+                if (val in json['fks']) {
+                    tableHeaders +=
+                        " <i class='fa fa-share' style='font-size: 10px' title='This column points to " +
+                        json['fks'][val] + "'></i> ";
+                }
+
+                tableHeaders += "</th>";
+
+                if (val == "ID") {
+                    idHeader = i;
+                }
+                allCols.push(i);
+            });
+
+            const fkCols = getFKCols(json['headers'], json['fks']);
+            $("#tableContainer").empty();
+            $("#tableContainer").append(
+                '<table id="dbtable" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%"><thead><tr>' +
+                tableHeaders + '</tr></thead></table>');
+
+            let searchHash = location.hash.substr(1),
                 searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
-                
-                if(searchString != undefined && searchString.length > 0){
-                    searchString = decodeURIComponent(searchString);
-                }
-                
-                let page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
-                let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split('=')[1], 10) - 1;
-                $.fn.dataTable.ext.errMode = 'none';
-                $('#dbtable').on( 'error.dt', function ( e, settings, techNote, message ) {
-                    console.log( 'An error occurred: ', message );
-                });
-                
-                var colSearchSet = false;
-                var colSearches = [];
-                
-                if(!clearState){
-                    for(let i = 0; i < json['headers'].length; i++){
-                        var colSearch = searchHash.substr(searchHash.indexOf('colFilter[' + i + ']=')).split('&')[0].split('=')[1];
-                        if(colSearch != undefined && colSearch != ""){
-                            colSearches.push({search: decodeURIComponent(colSearch.trim())});
-                            colSearchSet = true;
-                        }else{
-                            colSearches.push(null);
-                        }
+
+            if (searchString != undefined && searchString.length > 0) {
+                searchString = decodeURIComponent(searchString);
+            }
+
+            let page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1],
+                10) || 1) - 1;
+            let highlightRow = parseInt(searchHash.substr(searchHash.indexOf('row=')).split('&')[0].split(
+                '=')[1], 10) - 1;
+            $.fn.dataTable.ext.errMode = 'none';
+            $('#dbtable').on('error.dt', function(e, settings, techNote, message) {
+                console.log('An error occurred: ', message);
+            });
+
+            var colSearchSet = false;
+            var colSearches = [];
+
+            if (!clearState) {
+                for (let i = 0; i < json['headers'].length; i++) {
+                    var colSearch = searchHash.substr(searchHash.indexOf('colFilter[' + i + ']=')).split(
+                        '&')[0].split('=')[1];
+                    if (colSearch != undefined && colSearch != "") {
+                        colSearches.push({
+                            search: decodeURIComponent(colSearch.trim())
+                        });
+                        colSearchSet = true;
+                    } else {
+                        colSearches.push(null);
                     }
-                }else{
-                    console.log("Clearing state");
-                    page = 0;
-                    clearState = false;
                 }
-                
-                var table = $('#dbtable').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "ajax": {
-                        url: "/dbc/api/data/" + apiArgs,
-                        type: "POST",
-                        beforeSend: function() {
-                            if (table && table.hasOwnProperty('settings')) {
-                                // table.settings()[0].jqXHR.abort();
-                            }
-                        },
-                        "data": function( result ) {
-                            for(const col in result.columns){
-                                result.columns[col].search.value = result.columns[col].search.value.trim();
-                            }
-                            return result;
+            } else {
+                console.log("Clearing state");
+                page = 0;
+                clearState = false;
+            }
+
+            var table = $('#dbtable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/dbc/api/data/" + apiArgs,
+                    type: "POST",
+                    beforeSend: function() {
+                        if (table && table.hasOwnProperty('settings')) {
+                            // table.settings()[0].jqXHR.abort();
                         }
                     },
-                    "pageLength": 25,
-                    "displayStart": page * 25,
-                    "autoWidth": true,
-                    "pagingType": "input",
-                    "lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
-                    "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" + "<'row'<'col-sm-12 dbtableholder'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    "orderMulti": false,
-                    "ordering": true,
-                    "order": [], // Sets default order to nothing (as returned by backend)
-                    "language": { "search": "<a id='filterToggle' class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ " },
-                    "search": { "search": searchString },
-                    "searchCols": colSearches,
-                    "columnDefs": [
-                        {
-                            "targets": allCols,
-                            "render": function ( data, type, full, meta ) {
-                                let returnVar = full[meta.col];
-                                const columnWithTable = currentParams["dbc"] + '.' + json["headers"][meta.col];
-                                let fk = "";
-                                if(meta.col in fkCols){
-                                    fk = fkCols[meta.col];
-                                }else if(conditionalFKs.has(columnWithTable)){
-                                    let conditionalFK = conditionalFKs.get(columnWithTable);
-                                    conditionalFK.forEach(function(conditionalFKEntry){
-                                        let condition = conditionalFKEntry[0].split('=');
-                                        let conditionTarget = condition[0].split('.');
-                                        let conditionValue = condition[1];
-                                        let resultTarget = conditionalFKEntry[1];
-                                        
-                                        let colTarget = json["headers"].indexOf(conditionTarget[1]);
-                                        
-                                        // Col target found?
-                                        if(colTarget > -1){
-                                            if(full[colTarget] == conditionValue){
-                                                fk = resultTarget;
-                                            }
-                                        }
-                                    });
-                                }
-                                
-                                if(fk != ""){
-                                    if(fk == "FileData::ID"){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' data-tooltip='file' data-id='" + full[meta.col] + "' onclick='fillModal(" + full[meta.col] + ")'>" + full[meta.col] + "</a>";
-                                    }else if(fk == "SoundEntries::ID" && parseInt(currentParams["build"][0]) > 6){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"SoundKit::ID\",\"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fk == "Item::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fk.toLowerCase() == "questv2::id" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='quest' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fk == "Creature::ID" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='creature' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else if(fk.toLowerCase() == "spell::id" && full[meta.col] > 0){
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }else{
-                                        returnVar = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='fk' data-id='" + full[meta.col] + "' data-fk='" + fk + "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + full[meta.col] + ", \"" + fk + "\", \"" + currentParams["build"] + "\")'>" + full[meta.col] + "</a>";
-                                    }
-                                }else if(json["headers"][meta.col].startsWith("Flags") || flagMap.has(columnWithTable)){
-                                    returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + fancyFlagTable(getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col])) + "'>0x" + dec2hex(full[meta.col]) + "</span>";
-                                }else if(columnWithTable == "item.ID"){
-                                    returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" + full[meta.col] + "'>" + full[meta.col] + "</span>";
-                                }else if(columnWithTable == "spell.ID" || columnWithTable == "spellname.ID"){
-                                    returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" + full[meta.col] + "'>" + full[meta.col] + "</span>";
-                                }else if(currentParams["dbc"].toLowerCase() == "playercondition" && json["headers"][meta.col].endsWith("Logic") && full[meta.col] != 0){
-                                    returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
-                                }
-                                
-                                if(json["headers"][meta.col] in json["relationsToColumns"] && columnWithTable != "spell.ID"){
-                                    returnVar = " <a data-toggle='modal' href='' style='cursor: help; border-bottom: 1px solid;' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" + currentParams["dbc"] + "\", \"" + json["headers"][meta.col] + "\", \"" + full[meta.col] + "\")'>" + full[meta.col] + "</a>";
-                                }
-                                
-                                if(enumMap.has(columnWithTable)){
-                                    var enumVal = getEnum(currentParams["dbc"].toLowerCase(), json["headers"][meta.col], full[meta.col]);
-                                    if(full[meta.col] == '0' && enumVal == "Unk"){
-                                        // returnVar += full[meta.col];
-                                    }else{
-                                        returnVar += " <i>(" + enumVal + ")</i>";
-                                    }
-                                }
-                                
-                                if(conditionalEnums.has(columnWithTable)){
-                                    let conditionalEnum = conditionalEnums.get(columnWithTable);
-                                    conditionalEnum.forEach(function(conditionalEnumEntry){
-                                        let condition = conditionalEnumEntry[0].split('=');
-                                        let conditionTarget = condition[0].split('.');
-                                        let conditionValue = condition[1];
-                                        let resultEnum = conditionalEnumEntry[1];
-                                        
-                                        let colTarget = json["headers"].indexOf(conditionTarget[1]);
-                                        
-                                        // Col target found?
-                                        if(colTarget > -1){
-                                            if(full[colTarget] == conditionValue){
-                                                var enumVal = getEnumVal(resultEnum, full[meta.col]);
-                                                if(full[meta.col] == '0' && enumVal == "Unk"){
-                                                    returnVar = full[meta.col];
-                                                }else{
-                                                    returnVar = full[meta.col] + " <i>(" + enumVal + ")</i>";
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-                                
-                                if(conditionalFlags.has(columnWithTable)){
-                                    let conditionalFlag = conditionalFlags.get(columnWithTable);
-                                    conditionalFlag.forEach(function(conditionalFlagEntry){
-                                        let condition = conditionalFlagEntry[0].split('=');
-                                        let conditionTarget = condition[0].split('.');
-                                        let conditionValue = condition[1];
-                                        let resultFlag = conditionalFlagEntry[1];
-                                        
-                                        let colTarget = json["headers"].indexOf(conditionTarget[1]);
-                                        
-                                        // Col target found?
-                                        if(colTarget > -1){
-                                            if(full[colTarget] == conditionValue){
-                                                returnVar = "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" + getFlagDescriptions(currentParams["dbc"], json["headers"][meta.col], full[meta.col], resultFlag).join(",<br> ") + "'>0x" + dec2hex(full[meta.col]) + "</span>";
-                                            }
-                                        }
-                                    });
-                                }
-                                
-                                if(colorFields.includes(columnWithTable)){
-                                    returnVar = "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " + BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[meta.col];
-                                }
-
-                                if(dateFields.includes(columnWithTable)){
-                                    let parsedDate = parseDate(full[meta.col]);
-                                    if(parsedDate && parsedDate != "")
-                                        returnVar = parsedDate + "<small> (" + full[meta.col] + ")</small>";
-                                }
-                                
-                                return returnVar;
-                            }
-                        }],
-                        "createdRow": function( row, data, dataIndex ) {
-                            if(dataIndex == highlightRow){
-                                $(row).addClass('highlight');
-                                highlightRow = -1;
-                            }
-                        },
-                    });
-                    
-                    $('#dbtable').on ('init.dt', function () {
-                        if(Settings.filtersAlwaysEnabled){ toggleFilters(); };
-                        if(colSearchSet && !Settings.filtersAlwaysEnabled && !Settings.filtersCurrentlyEnabled){
-                            toggleFilters();
+                    "data": function(result) {
+                        for (const col in result.columns) {
+                            result.columns[col].search.value = result.columns[col].search.value
+                                .trim();
                         }
-                    });
-                    
-                    $('#dbtable').on( 'draw.dt', function () {
-                        window.history.pushState('dbc', 'WoW.Tools | Database browser', buildURL(currentParams));
-                        
-                        let currentPage = $('#dbtable').DataTable().page() + 1;
-                        let hashPart = "page=" + currentPage;
-                        
-                        const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
-                        if(currentSearch != ""){
-                            hashPart += "&search=" + currentSearch;
-                        }
-                        
-                        const columnSearches = $('#dbtable').DataTable().columns().search();
-                        for(let i = 0; i < columnSearches.length; i++){
-                            var colSearch = columnSearches[i];
-                            
-                            if(colSearch == "")
-                                continue;
-                            
-                            hashPart += "&colFilter[" + i + "]=" + encodeURIComponent(colSearch);
-                        }
-                        
-                        window.location.hash = hashPart;
-                        
-                        $('.popover').remove();
-                        
-                        $("[data-toggle=popover]").popover({sanitize: false});
-                    });
-                    
+                        return result;
+                    }
                 },
-                "dataType": "json"
+                "pageLength": 25,
+                "displayStart": page * 25,
+                "autoWidth": true,
+                "pagingType": "input",
+                "lengthMenu": [
+                    [10, 25, 50, 100, 1000],
+                    [10, 25, 50, 100, 1000]
+                ],
+                "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                    "<'row'<'col-sm-12 dbtableholder'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "orderMulti": false,
+                "ordering": true,
+                "order": [], // Sets default order to nothing (as returned by backend)
+                "language": {
+                    "search": "<a id='filterToggle' class='btn btn-dark btn-sm btn-outline-primary' href='#' onClick='toggleFilters()' style='margin-right: 10px'>Toggle filters</a> Search: _INPUT_ "
+                },
+                "search": {
+                    "search": searchString
+                },
+                "searchCols": colSearches,
+                "columnDefs": [{
+                    "targets": allCols,
+                    "render": function(data, type, full, meta) {
+                        let returnVar = full[meta.col];
+                        const columnWithTable = currentParams["dbc"] + '.' + json[
+                            "headers"][meta.col];
+                        let fk = "";
+                        if (meta.col in fkCols) {
+                            fk = fkCols[meta.col];
+                        } else if (conditionalFKs.has(columnWithTable)) {
+                            let conditionalFK = conditionalFKs.get(columnWithTable);
+                            conditionalFK.forEach(function(conditionalFKEntry) {
+                                let condition = conditionalFKEntry[0].split(
+                                '=');
+                                let conditionTarget = condition[0].split('.');
+                                let conditionValue = condition[1];
+                                let resultTarget = conditionalFKEntry[1];
+
+                                let colTarget = json["headers"].indexOf(
+                                    conditionTarget[1]);
+
+                                // Col target found?
+                                if (colTarget > -1) {
+                                    if (full[colTarget] == conditionValue) {
+                                        fk = resultTarget;
+                                    }
+                                }
+                            });
+                        }
+
+                        if (fk != "") {
+                            if (fk == "FileData::ID") {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' data-tooltip='file' data-id='" +
+                                    full[meta.col] + "' onclick='fillModal(" + full[meta
+                                        .col] + ")'>" + full[meta.col] + "</a>";
+                            } else if (fk == "SoundEntries::ID" && parseInt(
+                                    currentParams["build"][0]) > 6) {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"SoundKit::ID\",\"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            } else if (fk == "Item::ID" && full[meta.col] > 0) {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='item' data-id='" +
+                                    full[meta.col] +
+                                    "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"" + fk + "\", \"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            } else if (fk.toLowerCase() == "questv2::id" && full[meta
+                                    .col] > 0) {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='quest' data-id='" +
+                                    full[meta.col] +
+                                    "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"" + fk + "\", \"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            } else if (fk == "Creature::ID" && full[meta.col] > 0) {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='creature' data-id='" +
+                                    full[meta.col] +
+                                    "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"" + fk + "\", \"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            } else if (fk.toLowerCase() == "spell::id" && full[meta
+                                .col] > 0) {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" +
+                                    full[meta.col] +
+                                    "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"" + fk + "\", \"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            } else {
+                                returnVar =
+                                    "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-tooltip='fk' data-id='" +
+                                    full[meta.col] + "' data-fk='" + fk +
+                                    "' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" +
+                                    full[meta.col] + ", \"" + fk + "\", \"" +
+                                    currentParams["build"] + "\")'>" + full[meta.col] +
+                                    "</a>";
+                            }
+                        } else if (json["headers"][meta.col].startsWith("Flags") ||
+                            flagMap.has(columnWithTable)) {
+                            returnVar =
+                                "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" +
+                                fancyFlagTable(getFlagDescriptions(currentParams["dbc"],
+                                    json["headers"][meta.col], full[meta.col])) +
+                                "'>0x" + dec2hex(full[meta.col]) + "</span>";
+                        } else if (columnWithTable == "item.ID") {
+                            returnVar =
+                                "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='item' data-id='" +
+                                full[meta.col] + "'>" + full[meta.col] + "</span>";
+                        } else if (columnWithTable == "spell.ID" || columnWithTable ==
+                            "spellname.ID") {
+                            returnVar =
+                                "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-tooltip='spell' data-id='" +
+                                full[meta.col] + "'>" + full[meta.col] + "</span>";
+                        } else if (currentParams["dbc"].toLowerCase() ==
+                            "playercondition" && json["headers"][meta.col].endsWith(
+                                "Logic") && full[meta.col] != 0) {
+                            returnVar += " <i>(" + parseLogic(full[meta.col]) + ")</i>";
+                        }
+
+                        if (json["headers"][meta.col] in json["relationsToColumns"] &&
+                            columnWithTable != "spell.ID") {
+                            returnVar =
+                                " <a data-toggle='modal' href='' style='cursor: help; border-bottom: 1px solid;' data-target='#foreignKeySearchModal' onClick='fkDBSearch(\"" +
+                                currentParams["dbc"] + "\", \"" + json["headers"][meta
+                                    .col
+                                ] + "\", \"" + full[meta.col] + "\")'>" + full[meta
+                                .col] + "</a>";
+                        }
+
+                        if (enumMap.has(columnWithTable)) {
+                            var enumVal = getEnum(currentParams["dbc"].toLowerCase(),
+                                json["headers"][meta.col], full[meta.col]);
+                            if (full[meta.col] == '0' && enumVal == "Unk") {
+                                // returnVar += full[meta.col];
+                            } else {
+                                returnVar += " <i>(" + enumVal + ")</i>";
+                            }
+                        }
+
+                        if (conditionalEnums.has(columnWithTable)) {
+                            let conditionalEnum = conditionalEnums.get(columnWithTable);
+                            conditionalEnum.forEach(function(conditionalEnumEntry) {
+                                let condition = conditionalEnumEntry[0].split(
+                                    '=');
+                                let conditionTarget = condition[0].split('.');
+                                let conditionValue = condition[1];
+                                let resultEnum = conditionalEnumEntry[1];
+
+                                let colTarget = json["headers"].indexOf(
+                                    conditionTarget[1]);
+
+                                // Col target found?
+                                if (colTarget > -1) {
+                                    if (full[colTarget] == conditionValue) {
+                                        var enumVal = getEnumVal(resultEnum,
+                                            full[meta.col]);
+                                        if (full[meta.col] == '0' && enumVal ==
+                                            "Unk") {
+                                            returnVar = full[meta.col];
+                                        } else {
+                                            returnVar = full[meta.col] +
+                                                " <i>(" + enumVal + ")</i>";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        if (conditionalFlags.has(columnWithTable)) {
+                            let conditionalFlag = conditionalFlags.get(columnWithTable);
+                            conditionalFlag.forEach(function(conditionalFlagEntry) {
+                                let condition = conditionalFlagEntry[0].split(
+                                    '=');
+                                let conditionTarget = condition[0].split('.');
+                                let conditionValue = condition[1];
+                                let resultFlag = conditionalFlagEntry[1];
+
+                                let colTarget = json["headers"].indexOf(
+                                    conditionTarget[1]);
+
+                                // Col target found?
+                                if (colTarget > -1) {
+                                    if (full[colTarget] == conditionValue) {
+                                        returnVar =
+                                            "<span style='padding-top: 0px; padding-bottom: 0px; cursor: help; border-bottom: 1px dotted;' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-content='" +
+                                            getFlagDescriptions(currentParams[
+                                                "dbc"], json["headers"][meta
+                                                .col
+                                            ], full[meta.col], resultFlag).join(
+                                                ",<br> ") + "'>0x" + dec2hex(
+                                                full[meta.col]) + "</span>";
+                                    }
+                                }
+                            });
+                        }
+
+                        if (colorFields.includes(columnWithTable)) {
+                            returnVar =
+                                "<div style='display: inline-block; border: 2px solid black; height: 19px; width: 19px; background-color: " +
+                                BGRA2RGBA(full[meta.col]) + "'>&nbsp;</div> " + full[
+                                    meta.col];
+                        }
+
+                        if (dateFields.includes(columnWithTable)) {
+                            let parsedDate = parseDate(full[meta.col]);
+                            if (parsedDate && parsedDate != "")
+                                returnVar = parsedDate + "<small> (" + full[meta.col] +
+                                ")</small>";
+                        }
+
+                        return returnVar;
+                    }
+                }],
+                "createdRow": function(row, data, dataIndex) {
+                    if (dataIndex == highlightRow) {
+                        $(row).addClass('highlight');
+                        highlightRow = -1;
+                    }
+                },
             });
+
+            $('#dbtable').on('init.dt', function() {
+                if (Settings.filtersAlwaysEnabled) {
+                    toggleFilters();
+                };
+                if (colSearchSet && !Settings.filtersAlwaysEnabled && !Settings
+                    .filtersCurrentlyEnabled) {
+                    toggleFilters();
+                }
+            });
+
+            $('#dbtable').on('draw.dt', function() {
+                window.history.pushState('dbc', 'WoW.Tools | Database browser', buildURL(
+                    currentParams));
+
+                let currentPage = $('#dbtable').DataTable().page() + 1;
+                let hashPart = "page=" + currentPage;
+
+                const currentSearch = encodeURIComponent($("#dbtable_filter label input").val());
+                if (currentSearch != "") {
+                    hashPart += "&search=" + currentSearch;
+                }
+
+                const columnSearches = $('#dbtable').DataTable().columns().search();
+                for (let i = 0; i < columnSearches.length; i++) {
+                    var colSearch = columnSearches[i];
+
+                    if (colSearch == "")
+                        continue;
+
+                    hashPart += "&colFilter[" + i + "]=" + encodeURIComponent(colSearch);
+                }
+
+                window.location.hash = hashPart;
+
+                $('.popover').remove();
+
+                $("[data-toggle=popover]").popover({
+                    sanitize: false
+                });
+            });
+
+        },
+        "dataType": "json"
+    });
+}
+
+let build;
+let currentParams = [];
+
+(function() {
+    $('#fileFilter').select2();
+    $('#lockedBuild').select2();
+    let vars = {};
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+        if (value.includes('#')) {
+            const splitString = value.split('#');
+            vars[key] = splitString[0];
+        } else {
+            vars[key] = value;
         }
-        
-        let build;
-        let currentParams = [];
-        
-        (function() {
-            $('#fileFilter').select2();
-            $('#lockedBuild').select2();
-            let vars = {};
-            let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                if(value.includes('#')){
-                    const splitString = value.split('#');
-                    vars[key] = splitString[0];
-                }else{
-                    vars[key] = value;
-                }
-            });
-            
-            if(vars["dbc"] == null){
-                currentParams["dbc"] = "";
-            }else{
-                currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
+    });
+
+    if (vars["dbc"] == null) {
+        currentParams["dbc"] = "";
+    } else {
+        currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
+    }
+    
+    if (vars["locale"] == null) {
+        currentParams["locale"] = "";
+    } else {
+        currentParams["locale"] = vars["locale"];
+    }
+
+    const localeSelection = document.getElementById("localeSelection");
+
+    for (let value of Object.entries(Locales)) {
+        var option = document.createElement("option");
+        option.val = value[1];
+        option.text = value[0];
+
+        if(currentParams["locale"] == value[0]){
+            option.selected = true;
+        }
+
+        localeSelection.appendChild(option);
+    }
+
+    if (vars["build"] == null) {
+        currentParams["build"] = "";
+        if ($('#buildFilter').val() != undefined && $('#buildFilter').val() != '') {
+            currentParams["build"] = $('#buildFilter').val();
+        }
+    } else {
+        currentParams["build"] = vars["build"];
+    }
+
+    currentParams["hotfixes"] = false;
+    if (vars["hotfixes"] == "true") {
+        currentParams["hotfixes"] = true;
+        document.getElementById('hotfixToggle').checked = true;
+    } else {
+        document.getElementById('hotfixToggle').checked = false;
+    }
+
+    refreshFiles();
+    refreshVersions();
+    loadTable();
+
+    $('#fileFilter').on('change', function() {
+        if ($(this).val() != "" && $(this).val() != "Select a table") {
+            currentParams["dbc"] = $(this).val();
+            if (document.getElementById("buildFilter")) {
+                clearState = true;
+                refreshVersions();
+                loadTable();
+                updateDBDButton();
+            } else {
+                document.location = buildURL(currentParams);
             }
-            
-            if(vars["locale"] == null){
-                currentParams["locale"] = "";
-            }else{
-                currentParams["locale"] = vars["locale"];
-            }
-            
-            if(vars["build"] == null){
-                currentParams["build"] = "";
-                if($('#buildFilter').val() != undefined && $('#buildFilter').val() != ''){
-                    currentParams["build"] = $('#buildFilter').val();
-                }
-            }else{
-                currentParams["build"] = vars["build"];
-            }
-            
+        }
+    });
+
+    $('#buildFilter').on('change', function() {
+        currentParams["build"] = $('#buildFilter').val();
+        loadTable();
+    });
+
+    $('#localeSelection').on('change', function() {
+        currentParams["locale"] = $('#localeSelection').val();
+        loadTable();
+    });
+
+    $('#hotfixToggle').on('change', function() {
+        if (document.getElementById('hotfixToggle').checked) {
+            currentParams["hotfixes"] = true;
+        } else {
             currentParams["hotfixes"] = false;
-            if(vars["hotfixes"] == "true"){
-                currentParams["hotfixes"] = true;
-            }
-            
-            refreshFiles();
-            refreshVersions();
-            loadTable();
-            
-            $('#fileFilter').on( 'change', function () {
-                if($(this).val() != "" && $(this).val() != "Select a table"){
-                    currentParams["dbc"] = $(this).val();
-                    if(document.getElementById("buildFilter")){
-                        clearState = true;
-                        refreshVersions();
-                        loadTable();
-                        updateDBDButton();
-                    }else{
-                        document.location = buildURL(currentParams);
-                    }
+        }
+        loadTable();
+    });
+
+    // window.onpopstate = history.onpushstate = function(e) { console.log(e); }
+
+    console.log("Refreshing files");
+
+    /* FK search */
+    var fkSearchDB = document.getElementById('fkSearchDB');
+    fetch("https://wow.tools/dbc/api/relations/")
+        .then(function(fileResponse) {
+            return fileResponse.json();
+        }).then(function(data) {
+            const dbsWithRelations = [];
+
+            Object.keys(data).sort().forEach((fk) => {
+                const splitFK = fk.split("::");
+                if (!dbsWithRelations.includes(splitFK[0])) {
+                    dbsWithRelations.push(splitFK[0]);
                 }
             });
-            
-            $('#buildFilter').on('change', function(){
-                currentParams["build"] = $('#buildFilter').val();
-                loadTable();
-            });
 
-            $('#localeSelection').on('change', function(){
-                currentParams["locale"] = $('#localeSelection').val();
-                loadTable();
-            });
-            
-            $('#hotfixToggle').on('change', function(){
-                if(document.getElementById('hotfixToggle').checked){
-                    currentParams["hotfixes"] = true;
-                }else{
-                    currentParams["hotfixes"] = false;
-                }
-                loadTable();
-            });
-            
-            // window.onpopstate = history.onpushstate = function(e) { console.log(e); }
+            fkSearchDB.innerHTML = "";
 
-            console.log("Refreshing files");
+            var option = document.createElement("option");
+            option.text = "Select a table";
+            fkSearchDB.appendChild(option);
 
-            /* FK search */
-            var fkSearchDB = document.getElementById('fkSearchDB');
-            fetch("https://wow.tools/dbc/api/relations/")
-            .then(function (fileResponse) {
-                return fileResponse.json();
-            }).then(function (data) {
-                const dbsWithRelations = [];
-
-                Object.keys(data).sort().forEach((fk) => {
-                    const splitFK = fk.split("::");
-                    if(!dbsWithRelations.includes(splitFK[0])){
-                        dbsWithRelations.push(splitFK[0]);
-                    }
-                });
-
-                fkSearchDB.innerHTML = "";
-                
+            dbsWithRelations.forEach((file) => {
                 var option = document.createElement("option");
-                option.text = "Select a table";
+                option.value = file.toLowerCase();
+                option.text = file;
                 fkSearchDB.appendChild(option);
-                
-                dbsWithRelations.forEach((file) => {
-                    var option = document.createElement("option");
-                    option.value = file.toLowerCase();
-                    option.text = file;
-                    fkSearchDB.appendChild(option);
-                });
-
-                $('#fkSearchDB').select2();
-            }).catch(function (error) {
-                console.log("An error occurred retrieving files: " + error);
             });
-            $('#foreignKeySearchModal').on('hidden.bs.modal', function () {
-                document.getElementById("foreignKeySearchForm").style.display = 'flex';
-                document.getElementById("fkSearchResultHolder").innerHTML = "";
-            })
-        }());
-        </script>
-        <?php require_once(__DIR__ . "/../inc/footer.php"); ?>
-        
+
+            $('#fkSearchDB').select2();
+        }).catch(function(error) {
+            console.log("An error occurred retrieving files: " + error);
+        });
+    $('#foreignKeySearchModal').on('hidden.bs.modal', function() {
+        document.getElementById("foreignKeySearchForm").style.display = 'flex';
+        document.getElementById("fkSearchResultHolder").innerHTML = "";
+    })
+}());
+</script>
+<?php require_once(__DIR__ . "/../inc/footer.php"); ?>
