@@ -8,7 +8,15 @@ function generateURL($type, $hash, $cdndir = "wow")
 function flushQueryCache()
 {
     global $memcached;
-    $memcached->flush();
+    $keys = $memcached->getAllKeys();
+    $prefix = "query";
+    foreach ($keys as $index => $key) {
+        if (strpos($key, $prefix) !== 0) {
+            unset($keys[$index]);
+        } else {
+            $memcached->delete($key);
+        }
+    }
 }
 
 function doesFileExist($type, $hash, $cdndir = "wow")
