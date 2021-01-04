@@ -103,6 +103,9 @@ if (!empty($_GET['search']['value'])) {
             if (in_array("unkkey", $criteria)) {
                 array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname NOT IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL) AND active = 1) ");
                 unset($criteria[array_search("unkkey", $criteria)]);
+            } else if (in_array("haskey", $criteria)){
+                array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL) AND active = 1) ");
+                unset($criteria[array_search("haskey", $criteria)]);
             } else {
                 array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE active = 1) ");
             }
