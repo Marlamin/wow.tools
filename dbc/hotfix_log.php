@@ -7,6 +7,12 @@ if (!empty($_GET['limit'])) {
 }else{
     $limit = 200;
 }
+
+if(!empty($_GET['server'])){
+    $showServer = true;
+}else{
+    $showServer = false;
+}
 ?>
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
@@ -45,7 +51,7 @@ function getStatusColor($status)
 }
 
 echo "<table class='table table-sm'>";
-echo "<thead><tr><th>Status</th><th style='width: 450px;'>Name</th><th>Build</th><th style='min-width: 190px'>First detected at</th><th style='width: 50%'>Description</th><th>&nbsp;</th></tr></thead>";
+echo "<thead><tr><th>Status</th><th>Push</th><th style='width: 350px;'>Name</th><th>Build</th><th style='min-width: 190px'>First detected at</th><th style='width: 50%'>Description</th><th>&nbsp;</th></tr></thead>";
 echo "<tbody>";
 foreach ($hotfixes as $hotfix) {
     $tableCounts = [];
@@ -58,8 +64,9 @@ foreach ($hotfixes as $hotfix) {
     }
 
     $tableDesc = "";
+    arsort($tableCounts);
     foreach ($tableCounts as $tableName => $rowCount) {
-        $tableDesc .= "<b>" . $tableName . "</b>" . ": <i>" . $rowCount . " record" . ($rowCount > 1 ? "s" : "") . "</i>";
+        $tableDesc .= "<b>" . $tableName . "</b>" . ": <i>" . $rowCount . "x</i>";
         if ($tableName != array_key_last($tableCounts)) {
             $tableDesc .= "<br>";
         }
@@ -71,19 +78,28 @@ foreach ($hotfixes as $hotfix) {
 
     echo "<tr>";
     echo "<td id='" . $hotfix['pushID'] . "'><span class='badge badge-" . getStatusColor($hotfix['status']) . "'>" . ucfirst($hotfix['status']) . "</span></td>";
+    echo "<td>" . $hotfix['pushID'] . "</td>";
     if (empty($hotfix['name'])) {
-        echo "<td>Hotfix push " . $hotfix['pushID'] . "</td>";
+        echo "<td></td>";
     } else {
-        echo "<td>" . $hotfix['name'] . " (push " . $hotfix['pushID'] . ")</td>";
+        echo "<td>" . $hotfix['name'] . "</td>";
     }
     echo "<td>" . $fullbuilds[$hotfix['build']] . "</td>";
     echo "<td>" . $hotfix['firstdetected'] . " CE(S)T</td>";
 
     echo "<td>";
-    echo "<p>";
-    echo $tableDesc . "<br>";
-    echo "</p>";
-    echo "<p>";
+    if ($showServer) {
+        echo "<div id='p" . $hotfix['pushID'] . "c' style='float: left; margin-bottom: 10px;'><h3>Client</h3>";
+        echo $tableDesc . "<br>";
+        echo "</div>";
+        echo "<div id='p" . $hotfix['pushID'] . "s' data-pushid='" . $hotfix['pushID'] . "' class='serverHotfix' style='margin-left: 10px; margin-bottom: 10px; float: left;'><h3>Server</h3>";
+        echo "</div>";
+    } else {
+        echo "<div id='p" . $hotfix['pushID'] . "c' style='margin-bottom: 10px;'>";
+        echo $tableDesc . "<br>";
+        echo "</div>";
+    }
+    echo "<p style='clear: both'>";
     if (!empty($hotfix['description'])) {
         if ($hotfix['contributedby'] != null) {
             echo "<b>Note added by " . getUsernameByUserID($hotfix['contributedby']) . ":</b><br>";
@@ -101,6 +117,70 @@ foreach ($hotfixes as $hotfix) {
 echo "</tbody></table>";
 ?>
 </div>
+<script type='text/javascript'>
+const showServer = <?=$showServer?>;
+if(showServer){
+    Promise.all([
+        fetch("/api.php?type=latestbuilds"),
+        fetch("https://api.wow.tools/databases/")
+    ])
+    .then(function (responses) {
+        return Promise.all(responses.map(function (response) {
+            return response.json();
+        })).catch(function (error) {
+            console.log("An error occurred retrieving data to generate the tooltip: " + error);
+        });
+    }).then(function (data) {
+        let latestbuilds = data[0];
+        let tables = data[1];
+        let tableNames = [];
+        for (const table of tables){
+            tableNames[table.name.toUpperCase()] = table.displayName;
+        }
+
+        let build = latestbuilds["wowt"];
+        let serverHotfixDivs = document.getElementsByClassName("serverHotfix");
+        for(let i = 0; i < serverHotfixDivs.length; i++){
+            let el = serverHotfixDivs[i];
+            const pushID = el.dataset.pushid;
+            fetch("/dbc/api/find/Hotfixes?col=PushID&val=" + pushID + "&build=" + build)
+            .then(function (response) {
+                return response.json();
+            }).then(function (hotfixesEntry) {
+                var hotfixes = [];
+                for(const hotfix of hotfixesEntry){
+                    if(hotfix.Tablename in hotfixes){
+                        hotfixes[hotfix.Tablename]++;
+                    }else{
+                        hotfixes[hotfix.Tablename] = 1;
+                    }
+
+                }
+                let sortedArr = Object.keys(hotfixes).sort(function(a,b){return hotfixes[b]-hotfixes[a]});
+                let tableDesc = "";
+
+                for(let tableName of sortedArr){
+                    if(tableName in tableNames){
+                        prettyName = tableNames[tableName];
+                    }else{
+                        prettyName = tableName;
+                    }
+
+                    tableDesc += "<b>" + prettyName + "</b>" + ": <i>" + hotfixes[tableName] + "x</i><br>";
+                }
+
+                el.innerHTML += tableDesc;
+            }).catch(function (error) {
+                console.log("An error occurred retrieving data: " + error);
+            });
+        }
+
+    }).catch(function (error) {
+        console.log("An error occurred retrieving data: " + error);
+    });
+
+}
+</script>
 <?php
 require_once(__DIR__ . "/../inc/footer.php");
 ?>
