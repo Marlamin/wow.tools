@@ -154,8 +154,8 @@ if(showServer){
                     }else{
                         hotfixes[hotfix.Tablename] = 1;
                     }
-
                 }
+
                 let sortedArr = Object.keys(hotfixes).sort(function(a,b){return hotfixes[b]-hotfixes[a]});
                 let tableDesc = "";
 
@@ -169,7 +169,11 @@ if(showServer){
                     tableDesc += "<b>" + prettyName + "</b>" + ": <i>" + hotfixes[tableName] + "x</i><br>";
                 }
 
-                el.innerHTML += tableDesc;
+                if(hotfixesEntry.length == 0){
+                    el.innerHTML += "N/A";
+                }else{
+                    el.innerHTML += tableDesc;
+                }
             }).catch(function (error) {
                 console.log("An error occurred retrieving data: " + error);
             });
