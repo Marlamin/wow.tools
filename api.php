@@ -73,3 +73,32 @@ if ($_GET['type'] == "latestbuilds") {
 
     echo json_encode($builds);
 }
+
+if ($_GET['type'] == "currentbc") {
+    $builds = [];
+    $urlq = $pdo->query("SELECT id, name, url FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
+    $histq = $pdo->prepare("SELECT newvalue, timestamp FROM ngdp_history WHERE url_id = ? AND event = 'valuechange' ORDER BY ID DESC LIMIT 1");
+    while ($row = $urlq->fetch(PDO::FETCH_ASSOC)) {
+        $histq->execute([$row['id']]);
+
+        $product = str_replace("/versions", "", substr($row['url'], strpos($row['url'], "wow")));
+        $highestBuild = 0;
+        $highestBuildName = "";
+        $histr = $histq->fetch(PDO::FETCH_ASSOC);
+        if (!empty($histr)) {
+            $bc = parseBPSV(explode("\n", $histr['newvalue']));
+            foreach ($bc as $bcregion) {
+                if ($bcregion['BuildId'] > $highestBuild) {
+                    $highestBuild = $bcregion['BuildId'];
+                    $highestBuildConfig = $bcregion['BuildConfig'];
+                }
+            }
+        }
+
+        if (!empty($highestBuildConfig)) {
+            $builds[$product] = $highestBuildConfig;
+        }
+    }
+
+    echo json_encode($builds);
+}
