@@ -187,6 +187,7 @@ const chrRacesFlags = {
     0x200 : 'CREATIONUNK',
     0x400 : 'SELECTIONUNK',
     0x10000 : 'SKINISHAIRUNK',
+    0x80000 : 'ALLIED_RACE',
     0x100000 : 'VOID_ELF_RACIAL',
 }
 
@@ -363,6 +364,7 @@ const spellAttributes5 = {
     0x00000400: 'HIDE_DURATION', // 10 do not send duration to client
     0x00000800: 'ALLOW_TARGET_OF_TARGET_AS_TARGET', // 11 (NYI) uses target's target as target if original target not valid (intervene for example)
     0x00002000: 'HASTE_AFFECT_DURATION', // 13 haste effects decrease duration of this
+    0x00004000: 'NOT_USABLE_DURING_MIND_CONTROL',
     0x00020000: 'USABLE_WHILE_FEARED', // 17 usable while feared
     0x00040000: 'USABLE_WHILE_CONFUSED', // 18 usable while confused
     0x00080000: 'DONT_TURN_DURING_CAST', // 19 Blocks caster's turning when casting (client does not automatically turn caster's model to face UNIT_FIELD_TARGET)
@@ -441,6 +443,7 @@ const spellAttributes10 = {
     0x00000080: 'TELEPORT_PLAYER', //  7 4 Teleport Player spells
     0x00000800: 'HERB_GATHERING_MINING', // 11 Only Herb Gathering and Mining
     0x00001000: 'USE_SPELL_BASE_LEVEL_FOR_SCALING', // 12
+    0x00002000: 'RESET_AFTER_ENCOUNTER_ENDS',
     0x20000000: 'MOUNT_IS_NOT_ACCOUNT_WIDE', // 29 This mount is stored per-character
 };
 
