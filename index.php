@@ -88,16 +88,22 @@ if ($updatedago == strtotime("now")) {
     <div class='col-md-4'>
     <h4>Recently detected hotfixes</h4>
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
-    <thead><tr><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Push ID</th><th>Detected on</th></tr></thead>
+    <thead><tr><th>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
     <?php
+    $hotfixLog = $pdo->prepare("SELECT name FROM wow_hotfixlogs WHERE pushID = ?");
     $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
     foreach ($hotfixes as $hotfix) {
         echo "<tr>
+        <td><a href='/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a></td>
         <td>" . implode('<br>', explode(',', $hotfix['tables'])) . "</td>
         <td>" . $hotfix['rowCount'] . "</td>
-        <td><a href='/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a></td>
         <td>" . $hotfix['firstdetected'] . "</td>
         </tr>";
+
+        $hotfixLog->execute([$hotfix['pushID']]);
+        if ($logRow = $hotfixLog->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr><td style='text-align: right'>&nbsp;</td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
+        }
     }
     ?>
     </table>
