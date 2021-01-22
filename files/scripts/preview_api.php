@@ -89,6 +89,9 @@ if ($type == "ogg") {
         <?php
     } elseif ($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc" || $type == "htm" || $type == "html" || $type == "sbt" || $type == "txt" || $type == "wtf") {
         echo "<pre style='max-height: 80vh'><code>" . htmlentities(file_get_contents($tempfile)) . "</pre></code>";
+    } else if ($type == "wwf") {
+        $output = shell_exec("/usr/bin/tail -c +9 " . escapeshellarg($tempfile) . "");
+        echo "<pre style='max-height: 80vh'><code id='jsonHolder'></code></pre><script type='text/javascript'>var jsonString = \"" . addslashes($output) . "\"; document.getElementById('jsonHolder').innerHTML = JSON.stringify(JSON.parse(jsonString),null,2);</script>";
     } else {
         // dump via hd
         echo "Not a supported file for previews, dumping hex output (until 1MB).";
