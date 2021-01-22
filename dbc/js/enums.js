@@ -3341,6 +3341,7 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
     [
         ['spelleffect.EffectAura=56','creature::ID'],
         ['spelleffect.EffectAura=78','creature::ID'],
+        ['spelleffect.EffectAura=260','screeneffect::ID'],
         ['spelleffect.Effect=16','questv2::ID'],
         ['spelleffect.Effect=28','creature::ID'],
         ['spelleffect.Effect=90','creature::ID'],
