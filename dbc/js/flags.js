@@ -179,16 +179,18 @@ const charSectionFlags = {
 
 const chrRacesFlags = {
     0x1 : 'NOT_PLAYABLE',
-    0x2 : 'BARE_FEET',
+    0x2 : 'DoNotComponentFeet',
     0x4 : 'CAN_MOUNT',
-    0x8 : 'PLAYABLE_MAYBE',
+    0x8 : 'HasBald',
     0x80 : 'DISALLOW_LOW_RES',
     0x100 : 'GOBLIN_RACIAL',
     0x200 : 'CREATIONUNK',
     0x400 : 'SELECTIONUNK',
-    0x10000 : 'SKINISHAIRUNK',
+    0x800 : 'UseLoincloth',
+    0x10000 : 'SkinVariationIsHairColor',
+    0x20000 : 'UsePandarenRingForComponentingTexture',
     0x80000 : 'ALLIED_RACE',
-    0x100000 : 'VOID_ELF_RACIAL',
+    0x100000 : 'VOID_ELF_RACIAL'
 }
 
 const taxiNodeFlags = {
