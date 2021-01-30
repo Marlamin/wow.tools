@@ -425,6 +425,7 @@ const spellAttributes8 = {
     0x04000000: 'RAID_MARKER', // 26 probably spell no need learn to cast
     0x10000000: 'NOT_IN_BG_OR_ARENA', // 28 not allow to cast or deactivate currently active effect, not sure about Fast Track
     0x20000000: 'MASTERY_SPECIALIZATION', // 29
+    0x40000000: 'HIGH_PRIORITY', // Show on raid frames
     0x80000000: 'ATTACK_IGNORE_IMMUNE_TO_PC_FLAG'  // 31 Do not check UNIT_FLAG_IMMUNE_TO_PC in IsValidAttackTarget
 };
 
