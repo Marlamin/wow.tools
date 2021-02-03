@@ -1,72 +1,3 @@
-function showTooltip(el){
-    return;
-    if (document.getElementById("tooltipToggle")){
-        if (!document.getElementById("tooltipToggle").checked){
-            return;
-        }
-    }
-
-    const bodyRect = document.body.getBoundingClientRect();
-    const elementRect = el.getBoundingClientRect();
-
-    let tooltipMarginLeft = el.offsetWidth;
-    if ((elementRect.x + elementRect.width + 400) > bodyRect.width){
-        tooltipMarginLeft = bodyRect.width - (elementRect.x + elementRect.width + 400);
-    }
-
-    let localBuild = "";
-
-    const tooltipType = el.dataset.tooltip;
-    const tooltipTargetValue = el.dataset.id;
-    if ('build' in el.dataset){
-        localBuild = el.dataset.build;
-    } else {
-        localBuild = build;
-    }
-    let tooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=bf24b9d67a4a9c7cc0ce59d63df459a8&cdnconfig=2b5b60cdbcd07c5f88c23385069ead40&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
-    if (el.children.length == 0){
-        // Replace with generated
-        const tooltipDiv = document.createElement("div");
-        tooltipDiv.innerHTML = tooltipHTML;
-        tooltipDiv.style.position = "absolute";
-        // tooltipDiv.style.position.top = el.getBoundingClientRect().top + el.ownerDocument.defaultView.pageYOffset;
-        // tooltipDiv.style.position.left = el.getBoundingClientRect().left + el.ownerDocument.defaultView.pageXOffset;
-        tooltipDiv.style.zIndex = 5;
-        tooltipDiv.style.display = "block";
-        tooltipDiv.style.marginLeft = tooltipMarginLeft + "px";
-        tooltipDiv.classList.add('wt-tooltip');
-
-        if (tooltipType == "spell" || tooltipType == "item"){
-            tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
-        }
-        // Append to HTML
-        el.appendChild(tooltipDiv);
-
-        if (tooltipType == 'spell'){
-            generateSpellTooltip(tooltipTargetValue, tooltipDiv, localBuild);
-        } else if (tooltipType == 'item'){
-            generateItemTooltip(tooltipTargetValue, tooltipDiv, localBuild);
-        } else if (tooltipType == 'creature'){
-            generateCreatureTooltip(tooltipTargetValue, tooltipDiv);
-        } else if (tooltipType == 'quest'){
-            generateQuestTooltip(tooltipTargetValue, tooltipDiv);
-        } else if (tooltipType == 'fk'){
-            if ((el.dataset.fk == "Map::ID" || tooltipTargetValue != 0) && tooltipTargetValue != -1){
-                generateFKTooltip(el.dataset.fk, tooltipTargetValue, tooltipDiv, localBuild);
-            } else {
-                hideTooltip(el);
-            }
-        } else if (tooltipType == 'file'){
-            generateFileTooltip(tooltipTargetValue, tooltipDiv);
-        } else if (tooltipType == 'criteria'){
-            generateCriteriaTooltip(tooltipTargetValue, tooltipDiv, localBuild);
-        } else {
-            console.log("Unsupported tooltip type " + tooltipType);
-            return;
-        }
-    }
-}
-
 document.addEventListener('mousemove', (e) => {
     if (!e.target.matches('[data-tooltip]')) {
         return;
@@ -450,7 +381,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
 {
     console.log("Generating foreign key tooltip for " + value);
 
-    const collapsedFKs = ["playercondition::id", "holidays::id", "spellchaineffects::id", "spellvisual::id"];
+    const collapsedFKs = ["playercondition::id", "holidays::id", "spellchaineffects::id", "spellvisual::id", "soundkitadvanced::id"];
 
     const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
@@ -524,7 +455,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
             tooltipTable += "</table>";
 
             if (collapsedFKs.includes(targetFK.toLowerCase())) {
-                tooltipTable += "<p class='yellow'>(Empty values hidden for this table)</p>";
+                tooltipTable += "<p class='yellow'>(Empty/0 values hidden for this table)</p>";
             }
 
             tooltipDesc.innerHTML = tooltipTable;

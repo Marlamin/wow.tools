@@ -455,6 +455,9 @@ footer p{
 	color: #00ccff !important;
 }
 
+#fktable tr td{
+    padding-top: 0px;
+}
 /* Mobile Devices */
 @media screen and (max-width: 992px) {
 	textarea[name='files'] {
