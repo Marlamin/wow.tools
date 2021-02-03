@@ -37,7 +37,8 @@ var Settings =
     clearColor: [0.117, 0.207, 0.392],
     farClip: 500,
     farClipCull: 500,
-    speed: 1000.0
+    speed: 1000.0,
+    portalCulling: true
 
 }
 
@@ -104,11 +105,24 @@ function loadSettings(applyNow = false){
         document.getElementById('farClipCull').value = Settings.farClipCull;
     }
 
+    /* Portal culling */
+    var storedPortalCulling = localStorage.getItem('settings[portalCulling]');
+    if (storedPortalCulling){
+        if (storedPortalCulling== "1"){
+            Settings.portalCulling = true;
+        } else {
+            Settings.portalCulling = false;
+        }
+    }
+
+    document.getElementById("portalCulling").checked = Settings.portalCulling;
+
     /* If settings should be applied now (don't do this on page load!) */
     if (applyNow){
         Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
         Module._setFarPlane(Settings.farClip);
         Module._setFarPlaneForCulling(Settings.farClipCull);
+        Module._enablePortalCulling(Settings.portalCulling);
     }
 }
 
@@ -128,6 +142,12 @@ function saveSettings(){
     localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
     localStorage.setItem('settings[farClip]', document.getElementById("farClip").value);
     localStorage.setItem('settings[farClipCull]', document.getElementById("farClipCull").value);
+
+    if (document.getElementById("portalCulling").checked){
+        localStorage.setItem('settings[portalCulling]', '1');
+    } else {
+        localStorage.setItem('settings[portalCulling]', '0');
+    }
     loadSettings(true);
 }
 
@@ -391,6 +411,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
     Module._setFarPlane(Settings.farClip);
     Module._setFarPlaneForCulling(Settings.farClipCull);
+    Module._enablePortalCulling(Settings.portalCulling);
 
     $.ajax({
         url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
