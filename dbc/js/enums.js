@@ -718,6 +718,7 @@ const spellEffectName = {
     168: 'ALLOW_CONTROL_PET',
     169: 'DESTROY_ITEM',
     170: 'UPDATE_ZONE_AURAS_AND_PHASES',
+    171: 'SUMMON_PERSONAL_GAMEOBJECT',
     172: 'RESURRECT_WITH_AURA',
     173: 'UNLOCK_GUILD_VAULT_TAB',
     174: 'APPLY_AURA_ON_PET',
@@ -786,12 +787,13 @@ const spellEffectName = {
     268: 'APPLY_MOUNT_EQUIPMENT',
     269: 'UPGRADE_ITEM',
     271: 'APPLY_AREA_AURA_PARTY_NONRANDOM',
-    // 272: '',
-    // 273: '',
-    276: 'ITEM_SPELL_SOMETHING',
-    279: 'COVENANT_GARR_TALENT',
-    // 281: '',
-    // 283: '',
+    272: 'SET_COVENANT',
+    273: 'CRAFT_RUNEFORGE_LEGENDARY',
+    276: 'LEARN_TRANSMOG_ILLUSION',
+    277: 'SET_CHROMIE_TIME',
+    279: 'LEARN_GARR_TALENT',
+    281: 'LEARN_SOULBIND_CONDUIT',
+    282: 'CONVERT_ITEMS_TO_CURRENCY',
 };
 
 const soundkitSoundType = {
@@ -1354,7 +1356,7 @@ const effectAuraType = {
     217: 'MOD_MELEE_HASTE_2',
     218: 'HASTE_RANGED',
     219: 'MOD_MANA_REGEN_FROM_STAT',
-    220: 'MOD_RATING_FROM_STAT',
+    220: 'MOD_ABILITY_SCHOOL_MASK',
     221: 'MOD_DETAUNT',
     // 222: '222',
     223: 'RAID_PROC_FROM_CHARGE',
@@ -1415,7 +1417,7 @@ const effectAuraType = {
     278: 'MOD_DISARM_RANGED',
     279: 'INITIALIZE_IMAGES',
     // 280: '280',
-    281: 'MOD_HONOR_GAIN_PCT',
+    281: 'PROVIDE_SPELL_FOCUS',
     282: 'MOD_BASE_HEALTH_PCT',
     283: 'MOD_HEALING_RECEIVED',
     284: 'LINKED',
@@ -1441,8 +1443,8 @@ const effectAuraType = {
     304: 'MOD_FAKE_INEBRIATE',
     305: 'MOD_MINIMUM_SPEED',
     // 306: '306',
-    307: 'HEAL_ABSORB_TEST',
-    308: 'MOD_CRIT_CHANCE_FOR_CASTER',
+    307: 'CAST_WHILE_WALKING_BY_SPELL_LABEL',
+    308: 'MOD_CRIT_CHANCE_FOR_CASTER_WITH_ABILITIES',
     309: 'MOD_RESILIENCE',
     310: 'MOD_CREATURE_AOE_DAMAGE_AVOIDANCE',
     // 311: '311',
@@ -1450,7 +1452,7 @@ const effectAuraType = {
     // 313: '313',
     314: 'PREVENT_RESURRECTION',
     315: 'UNDERWATER_WALKING',
-    316: 'PERIODIC_HASTE',
+    316: 'SCHOOL_ABSORB_OVERKILL',
     317: 'MOD_SPELL_POWER_PCT',
     318: 'MASTERY',
     319: 'MOD_MELEE_HASTE_3',
@@ -1458,10 +1460,10 @@ const effectAuraType = {
     321: 'MOD_NO_ACTIONS',
     322: 'INTERFERE_TARGETTING',
     // 323: '323',
-    // 324: '324',
+    324: 'OVERRIDE_UNLOCKED_AZERITE_ESSENCE_RANK',
     325: 'LEARN_PVP_TALENT',
     326: 'PHASE_GROUP',
-    // 327: '327',
+    327: 'PHASE_ALWAYS_VISIBLE',
     328: 'PROC_ON_POWER_AMOUNT',
     329: 'MOD_RUNE_REGEN_SPEED',
     330: 'CAST_WHILE_WALKING',
@@ -1473,7 +1475,7 @@ const effectAuraType = {
     336: 'MOD_FLYING_RESTRICTIONS',
     337: 'MOD_VENDOR_ITEMS_PRICES',
     338: 'MOD_DURABILITY_LOSS',
-    339: 'INCREASE_SKILL_GAIN_CHANCE',
+    339: 'MOD_CRIT_CHANCE_FOR_CASTER',
     340: 'MOD_RESURRECTED_HEALTH_BY_GUILD_MEMBER',
     341: 'MOD_SPELL_CATEGORY_COOLDOWN',
     342: 'MOD_MELEE_RANGED_HASTE_2',
@@ -1490,10 +1492,10 @@ const effectAuraType = {
     353: 'MOD_CAMOUFLAGE',
     // 354: '354',
     355: 'MOD_CASTING_SPEED',
-    // 356: '356',
+    356: 'PROVIDE_TOTEM_CATEGORY',
     357: 'ENABLE_BOSS1_UNIT_FRAME',
     358: 'WORGEN_ALTERED_FORM',
-    // 359: '359',
+    359: 'MOD_HEALING_DONE_VERSUS_AURASTATE',
     360: 'PROC_TRIGGER_SPELL_COPY',
     361: 'OVERRIDE_AUTOATTACK_WITH_MELEE_SPELL',
     // 362: '362',
@@ -1504,7 +1506,7 @@ const effectAuraType = {
     367: 'OVERRIDE_AUTOATTACK_WITH_RANGED_SPELL',
     // 368: '368',
     369: 'ENABLE_POWER_BAR_TIMER',
-    370: 'SET_FAIR_FAR_CLIP',
+    370: 'SPELL_OVERRIDE_NAME_GROUP',
     // 371: '371',
     // 372: '372',
     373: 'MOD_SPEED_NO_CONTROL',
@@ -1515,7 +1517,7 @@ const effectAuraType = {
     // 378: '378',
     379: 'MOD_MANA_REGEN_PCT',
     380: 'MOD_GLOBAL_COOLDOWN_BY_HASTE',
-    // 381: '381',
+    381: 'MOD_DAMAGE_TAKEN_FROM_CASTER_PET',
     382: 'MOD_PET_STAT_PCT',
     383: 'IGNORE_SPELL_COOLDOWN',
     // 384: '384',
@@ -1533,7 +1535,7 @@ const effectAuraType = {
     396: 'PROC_ON_POWER_AMOUNT_2',
     // 397: '397',
     // 398: '398',
-    // 399: '399',
+    399: 'MOD_TIME_RATE',
     400: 'MOD_SKILL_2',
     // 401: '401',
     402: 'MOD_POWER_DISPLAY',
@@ -1542,7 +1544,7 @@ const effectAuraType = {
     405: 'MOD_RATING_PCT',
     406: 'KEYBOUND_OVERRIDE',
     407: 'MOD_FEAR_2',
-    // 408: '408',
+    408: 'SET_ACTION_BUTTON_SPELL_COUNT',
     409: 'CAN_TURN_WHILE_FALLING',
     // 410: '410',
     411: 'MOD_MAX_CHARGES',
@@ -1555,15 +1557,15 @@ const effectAuraType = {
     418: 'MOD_MAX_POWER',
     419: 'MOD_BASE_MANA_PCT',
     420: 'MOD_BATTLE_PET_XP_PCT',
-    421: 'MOD_ABSORB_EFFECTS_AMOUNT_PCT',
-    // 422: '422',
+    421: 'SET_ACTION_BUTTON_SPELL_COUNT',
+    422: 'MOD_ABSORB_EFFECTS_TAKEN_PCT',
     // 423: '423',
-    // 424: '424',
+    424: 'CASTER_IGNORE_LOS',
     // 425: '425',
     // 426: '426',
     427: 'SCALE_PLAYER_LEVEL',
     428: 'LINKED_SUMMON',
-    // 429: '429',
+    429: 'MOD_SUMMON_DAMAGE',
     430: 'PLAY_SCENE',
     431: 'MOD_OVERRIDE_ZONE_PVP_TYPE',
     // 432: '432', // UNUSED IN 9.0.1.34199
@@ -1604,17 +1606,17 @@ const effectAuraType = {
     467: 'MOD_STAT_BONUS_PCT',
     468: 'TRIGGER_SPELL_ON_HEALTH_BELOW_PCT',
     469: 'SHOW_CONFIRMATION_PROMPT_WITH_DIFFICULTY',
-    // 470: '470', // Used in spell	209618 (Expedite), EffectBasePointsF of 100, EffectMiscValue[0] of 174 or 182
+    470: 'MOD_AURA_TIME_RATE_BY_SPELL_LABEL', // Used in spell	209618 (Expedite), EffectBasePointsF of 100, EffectMiscValue[0] of 174 or 182
     471: 'MOD_VERSATILITY',
     // 472: '472', // FIXATE?
     473: 'PREVENT_DURABILITY_LOSS_FROM_COMBAT',
-    // 474: '474', // "Upgrades", some of these removed in 8.3.0 => 9.0.1 for spell 170733? Needs ID mapping.
+    474: 'REPLACE_ITEM_BONUS_TREE', // "Upgrades", some of these removed in 8.3.0 => 9.0.1 for spell 170733? Needs ID mapping.
     475: 'ALLOW_USING_GAMEOBJECTS_WHILE_MOUNTED',
     476: 'MOD_CURRENCY_GAIN_LOOTED_PCT',
     // 477: '477', // Only set on scaling for "testing purposes" spells
     // 478: '478', // UNUSED IN 9.0.1.34199
     // 479: '479', // Set to nothing, 1 or 31
-    // 480: '480', // UNUSED IN 9.0.1.34199
+    480: 'MOD_ARTIFACT_ITEM_LEVEL', // UNUSED IN 9.0.1.34199
     481: 'CONVERT_CONSUMED_RUNE',
     // 482: '482', // Only used in S.E.L.F.I.E spells, always set to 120
     483: 'SUPPRESS_TRANSFORMS',
@@ -1623,11 +1625,21 @@ const effectAuraType = {
     // 486: '486', // OBSCURED?
     // 487: '487', // 12 spells, possibly SpellVisual* related?
     // 488: '488', // Frozen effect? Paused anim?? (195289 + movement spells)
-    // 489: '489', // DISABLE_LANGUAGE? Only used in mercenary spells
+    489: 'MOD_ALTERNATIVE_DEFAULT_LANGUAGE', // DISABLE_LANGUAGE? Only used in mercenary spells
     // 490: '490', // Only used in mercenary spells (193863/193864)
     // 491: '491', // SET_REPUTATION?
     // 492: '492', // UNUSED IN 9.0.1.34199
     // 493: '493', // SUMMON_ADDITIONAL_PET?
+    494: 'SET_POWER_POINT_CHARGE',
+    495: 'TRIGGER_SPELL_ON_EXPIRE',
+    496: 'ALLOW_CHANGING_EQUIPMENT_IN_TORGHAST',
+    497: 'MOD_ANIMA_GAIN',
+    498: 'CURRENCY_LOSS_PCT_ON_DEATH',
+    499: 'MOD_RESTED_XP_CONSUMPTION',
+    500: 'IGNORE_SPELL_CHARGE_COOLDOWN',
+    501: 'MOD_CRITICAL_DAMAGE_TAKEN_FROM_CASTER',
+    502: 'MOD_VERSATILITY_DAMAGE_DONE_BENEFIT',
+    503: 'MOD_VERSATILITY_HEALING_DONE_BENEFIT',
 }
 
 const spellVisualKitEffectType = {
