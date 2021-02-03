@@ -13,9 +13,9 @@ while ($row = $productq->fetch()) {
 }
 ?>
 <div class='container-fluid'>
-<div class='alert alert-info'>
+<!-- <div class='alert alert-info'>
 Due to rampant speculation by some "press" based on some of the info on this page I've decided to limit the monitor to only showing World of Warcraft products, possibly permanently. If you were using the monitor for non-WoW products, please find another source.
-</div>
+</div> -->
 <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; table-layout: fixed;' width="100%">
 <thead>
 <tr>
