@@ -25,9 +25,14 @@ if ($updatedago == strtotime("now")) {
         
         $commits = json_decode($memcached->get("github.commits.json"));
         foreach ($commits as $commit) {
+            $message = $commit->message;
+            if (strlen($message) > 55){
+                $message = substr($message, 0, 55)  . "(...)";
+            }
+
             echo "
             <tr>
-            <td>[" . $commit->repo . "] <a target='_BLANK' href='" . $commit->url . "'>" . $commit->message . "</a></td>
+            <td>[" . $commit->repo . "] <a target='_BLANK' href='" . $commit->url . "'>" . $message . "</a></td>
             <td style='min-width: 100px'><span class='text-muted'><b>" . date("Y-m-d H:i:s", $commit->timestamp) . "</b></span></td>
             </tr>";
         }
