@@ -126,7 +126,7 @@ function openFKModal(value, location, build){
 
             fkTable.insertAdjacentHTML("beforeend", fkTableHTML);
 
-            fkModal.insertAdjacentHTML("beforeend", " <a target=\"_BLANK\" href=\"/dbc/?dbc=" + db.replace(".db2", "") + "&build=" + build + "#page=1&colFilter[" + headerjson.headers.indexOf(col) + "]=" + value + "\" class=\"btn btn-primary\">Go to record</a>");
+            fkModal.insertAdjacentHTML("beforeend", " <a target=\"_BLANK\" href=\"/dbc/?dbc=" + db.replace(".db2", "") + "&build=" + build + "#page=1&colFilter[" + headerjson.headers.indexOf(col) + "]=exact:" + value + "\" class=\"btn btn-primary\">Go to record</a>");
         }).catch(function (error) {
             console.log(error);
             fkTable.insertAdjacentHTML("beforeend", "<tr><td colspan='2'>This row is not available in clients or an error occurred.</td></tr>");
