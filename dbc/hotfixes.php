@@ -231,8 +231,8 @@ require_once(__DIR__ . "/../inc/header.php");
     }
 
     function showRowDiff(dbc, build, recordID, pushID){
-        let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
-        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false&pushID=" + pushID).then(data => data.json()).catch(error => handleHotfixError(dbc, build, recordID, pushID, error));
+        let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false").then(data => data.json());
+        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&pushID=" + pushID).then(data => data.json()).catch(error => handleHotfixError(dbc, build, recordID, pushID, error));
         
         const cachedHeaderName = dbc + "-" + build;
         let headerPromise;
