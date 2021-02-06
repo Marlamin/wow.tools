@@ -805,7 +805,7 @@ function loadTable() {
 
             if (!clearState) {
                 for (let i = 0; i < json['headers'].length; i++) {
-                    var colSearch = searchHash.substr(searchHash.indexOf('colFilter[' + i + ']=')).split(
+                    var colSearch = searchHash.substr(searchHash.replace("%5B", "[").replace("%5D", "]").indexOf('colFilter[' + i + ']=')).split(
                         '&')[0].split('=')[1];
                     if (colSearch != undefined && colSearch != "") {
                         colSearches.push({
