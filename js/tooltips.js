@@ -108,6 +108,8 @@ function hideTooltip2(){
     if (document.getElementById("wtTooltip")){
         document.getElementById("wtTooltip").style.display = "none";
     }
+
+    return true;
 }
 
 function generateQuestTooltip(id, tooltip)
