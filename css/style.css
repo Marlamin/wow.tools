@@ -456,7 +456,8 @@ footer p{
 }
 
 #fktable tr td{
-    padding-top: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 /* Mobile Devices */
 @media screen and (max-width: 992px) {

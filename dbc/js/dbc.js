@@ -54,74 +54,87 @@ function openFKModal(value, location, build){
         fkModal.innerHTML += " <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
     }
 
-    fkModal.innerHTML += "<table id='fktable' class='table table-condensed table-striped'></table>";
+    fkModal.innerHTML += "<table id='fktable' class='table table-condensed table-striped'><thead><tr><th style='width: 300px'>Column</th><th>Value</th></tr></thead></table>";
 
+    const fkTable = document.getElementById("fktable");
     if (db == "spell" && col == "ID"){
-        // TODO: Replace with fetch
-        $.ajax({
-            "url": "/dbc/api/peek/spellname?build=" + build + "&col=ID&val=" + value,
-            "success": function(json) {
-                document.getElementById("fktable").innerHTML += "<tr><td>Name <small>(from SpellName)</small></td><td>" + json.values["Name_lang"] + "</td></tr>";
-            }
-        });
+        fetch("/dbc/api/peek/spellname?build=" + build + "&col=ID&val=" + value)
+            .then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                if (json.values["Name_lang"] !== undefined){
+                    fkTable.insertAdjacentHTML("beforeend", "<tr><td>Name <small>(from SpellName)</small></td><td>" + json.values["Name_lang"] + "</td></tr>");
+                }
+            });
     }
 
-    // TODO: Get rid of JQuery
-    // TODO: Replace with fetch
-    $.ajax({
-        "url": "/dbc/api/header/" + db + "?build=" + build,
-        "success": function(headerjson) {
-            // TODO: Replace with fetch
-            $.ajax({
-                "url": "/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value,
-                "success": function(json) {
-                    if (!json || Object.keys(json.values).length == 0){
-                        $("#fkModalContent").append("No row returned, this entry is not available in clients and/or is supplied by the server upon request.");
+    Promise.all([
+        fetch("/dbc/api/header/" + db + "?build=" + build),
+        fetch("/dbc/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value)
+    ])
+        .then(async function (responses) {
+            try {
+                return Promise.all(responses.map(function (response) {
+                    return response.json();
+                }));
+            } catch (error) {
+                console.log(error);
+                fkTable.insertAdjacentHTML("beforeend", "<tr><td colspan='2'>This row is not available in clients or an error occurred.</td></tr>");
+            }
+        }).then(function (data) {
+            const headerjson = data[0];
+            const json = data[1];
+
+            if (!json || Object.keys(json.values).length == 0){
+                fkTable.insertAdjacentHTML("beforeend", "<tr><td colspan='2'>This row is not available in clients, is a hotfix or is serverside-only.</td></tr>");
+                return;
+            }
+
+            let fkTableHTML = "";
+            Object.keys(json.values).forEach(function (key) {
+                const val = json.values[key];
+                if (key in headerjson.fks){
+                    fkTableHTML += "<tr><td style='width: 300px;'>" + key + "</td>";
+
+                    if (headerjson.fks[key] == "FileData::ID"){
+                        fkTableHTML += "<td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
+                    } else if (headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
+                        fkTableHTML += "<td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a>";
+                    } else if (headerjson.fks[key] == "Item::ID" && val > 0){
+                        fkTableHTML += "<td><a data-build='" + build + "' data-tooltip='item' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a>";
+                    } else if (headerjson.fks[key] == "Spell::ID" || headerjson.fks[key] == "SpellName::ID" && val > 0){
+                        fkTableHTML += "<td><a data-build='" + build + "' data-tooltip='spell' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a>";
                     } else {
-                        Object.keys(json.values).forEach(function (key) {
-                            const val = json.values[key];
-                            if (key in headerjson.fks){
-                                if (headerjson.fks[key] == "FileData::ID"){
-                                    $("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a></td></tr>");
-                                } else if (headerjson.fks[key] == "SoundEntries::ID" && parseInt(build[0]) > 6){
-                                    $("#fktable").append("<tr><td>" + key + "</td><td><a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a></td></tr>");
-                                } else if (headerjson.fks[key] == "Item::ID" && val > 0){
-                                    $("#fktable").append("<tr><td>" + key + "</td><td><a data-build='" + build + "' data-tooltip='item' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a></td></tr>");
-                                } else if (headerjson.fks[key] == "Spell::ID" || headerjson.fks[key] == "SpellName::ID" && val > 0){
-                                    $("#fktable").append("<tr><td>" + key + "</td><td><a data-build='" + build + "' data-tooltip='spell' data-id='" + val + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a></td></tr>");
-                                } else {
-                                    $("#fktable").append("<tr><td>" + key + "</td><td><a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + headerjson.fks[key] + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a></td></tr>");
-                                }
-
-                                var cleanDBname = headerjson.fks[key].split('::')[0].toLowerCase();
-
-                                if (wowDBMap.has(cleanDBname)){
-                                    $("#fktable:first tr:last-child td:last-child").append(" <a target='_BLANK' href='" + wowDBMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on WoWDB</a></td></tr>");
-                                }
-
-                                if (wowheadMap.has(cleanDBname)){
-                                    $("#fktable:first tr:last-child td:last-child").append(" <a target='_BLANK' href='" + wowheadMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on Wowhead</a></td></tr>");
-                                }
-                            } else {
-                                $("#fktable").append("<tr><td>" + key + "</td><td>" + val + "</td></tr>");
-                            }
-                        });
-
-                        const numRecordsIntoPage = json.offset - Math.floor((json.offset - 1) / 25) * 25;
-                        const page = Math.floor(((json.offset - 1) / 25) + 1);
-                        $("#fkModalContent").append(" <a target=\"_BLANK\" href=\"/dbc/?dbc=" + db.replace(".db2", "") + "&build=" + build + "#page=" + page + "&row=" + numRecordsIntoPage + "\" class=\"btn btn-primary\">Jump to record</a>");
+                        fkTableHTML += "<td><a data-build='" + build + "' data-tooltip='fk' data-id='" + val + "' data-fk='" + headerjson.fks[key] + "' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"" + headerjson.fks[key] + "\", \"" + build + "\")'>" + val + "</a>";
                     }
+
+                    var cleanDBname = headerjson.fks[key].split('::')[0].toLowerCase();
+
+                    if (wowDBMap.has(cleanDBname) && val != 0){
+                        fkTableHTML += " <a target='_BLANK' href='" + wowDBMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on WoWDB</a>";
+                    }
+
+                    if (wowheadMap.has(cleanDBname) && val != 0){
+                        fkTableHTML += " <a target='_BLANK' href='" + wowheadMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
+                    }
+
+                    fkTableHTML += "</td></tr>";
+                } else {
+                    fkTableHTML += "<tr><td style='width: 300px;'>" + key + "</td><td>" + val + "</td></tr>";
                 }
-            }).fail(function() {
-                $("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
             });
-        }
-    }).fail(function() {
-        $("#fkModalContent").append("Lookup failed. This table is not available in clients and/or an error occurred.");
-    });
+
+            fkTable.insertAdjacentHTML("beforeend", fkTableHTML);
+
+            fkModal.insertAdjacentHTML("beforeend", " <a target=\"_BLANK\" href=\"/dbc/?dbc=" + db.replace(".db2", "") + "&build=" + build + "#page=1&colFilter[" + headerjson.headers.indexOf(col) + "]=" + value + "\" class=\"btn btn-primary\">Go to record</a>");
+        }).catch(function (error) {
+            console.log(error);
+            fkTable.insertAdjacentHTML("beforeend", "<tr><td colspan='2'>This row is not available in clients or an error occurred.</td></tr>");
+        });
 
     if (db == "soundkit" && col == "ID"){
-        $("#fkModalContent").append("<div id='soundkitList'></div>");
+        fkModal.insertAdjacentHTML("beforeend", "<div id='soundkitList'></div>");
+        // TODO: Get rid of JQuery
         $( "#soundkitList" ).load( "/files/sounds.php?embed=1&skitid=" + value );
     }
 }
