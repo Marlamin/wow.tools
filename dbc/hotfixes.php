@@ -221,9 +221,18 @@ require_once(__DIR__ . "/../inc/header.php");
         return returnedValue;
     }
 
+    function handleHotfixError(dbc, build, recordID, pushID, error){
+        console.log("HandleError");
+        console.log(dbc, build, recordID, pushID, error);
+        var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID + "-" + pushID);
+        if(resultHolder){
+            resultHolder.innerHTML = "<i class='fa fa-exclamation-triangle' style='font-size: 12px'></i> Error generating diff, backend might be overloaded. Try again later!";
+        }
+    }
+
     function showRowDiff(dbc, build, recordID, pushID){
         let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false&calcOffset=false").then(data => data.json());
-        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false&pushID=" + pushID).then(data => data.json());
+        let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&calcOffset=false&pushID=" + pushID).then(data => data.json()).catch(error => handleHotfixError(dbc, build, recordID, pushID, error));
         
         const cachedHeaderName = dbc + "-" + build;
         let headerPromise;
