@@ -5,7 +5,7 @@ if (php_sapi_name() != "cli") {
 }
 
 include(__DIR__ . "/../../inc/config.php");
-$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wow' AND ID > 1575 ORDER BY description DESC LIMIT 1");
+$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
 $row = $q->fetch();
 $rawdesc = str_replace("WOW-", "", $row['description']);
 $build = substr($rawdesc, 0, 5);
