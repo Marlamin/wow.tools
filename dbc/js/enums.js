@@ -2891,7 +2891,7 @@ const itemContext = {
     70: "Legendary Crafting 8",
     71: "Legendary Crafting 9",
     72: "Weekly Rewards Additional",
-    73: "Weekly Rewards Cconcession",
+    73: "Weekly Rewards Concession",
     74: "World Quest Jackpot",
     75: "New Character",
     76: "War Mode",
