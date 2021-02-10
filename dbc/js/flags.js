@@ -518,7 +518,8 @@ const uiMapFlags = {
     0x1000: 'ForceAllOverlayExplored',
     0x2000: 'FlightMapShowZoomOut',
     0x4000: 'FlightMapAutoZoom',
-    0x8000: 'ForceOnNavbar'
+    0x8000: 'ForceOnNavbar',
+    0x10000: 'AlwaysAllowUserWaypoints'
 }
 
 const garrAbilityFlags =
@@ -868,6 +869,7 @@ const areaPOIFlags = {
     // 0x20000: '',
     // 0x40000: '',
     0x80000: 'Assault',
+    0x100000: 'ShouldGlow'
 }
 
 const summonPropertiesFlags = {
