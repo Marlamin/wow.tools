@@ -1026,6 +1026,16 @@ const contentTuningFlags = {
     0x10: 'Alliance'
 }
 
+const damageClass = {
+    0x1: 'Physical',
+    0x2: 'Holy',
+    0x4: 'Fire',
+    0x8: 'Nature',
+    0x10: 'Frost',
+    0x20: 'Shadow',
+    0x40: 'Arcane'
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -1102,6 +1112,7 @@ window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
 window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1);
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
+window.flagMap.set("spellmisc.SchoolMask", damageClass);
 
 // Conditional flags
 let conditionalFlags = new Map();
