@@ -48,8 +48,16 @@ if (!empty($_GET['id'])) {
 $query = "FROM wowdata.creatures ";
 
 if (!empty($_GET['search']['value'])) {
-    $query .= " WHERE id LIKE :search1 OR name LIKE :search2";
-    $search = "%" . $_GET['search']['value'] . "%";
+    if (substr($_GET['search']['value'], 0, 8) == "addedin:"){
+        $searchBuild = str_replace("addedin:", "", $_GET['search']['value']);
+        if(is_numeric($searchBuild)){
+            $query .= " WHERE firstseenbuild = " . $searchBuild;
+        }
+    } else {
+        $query .= " WHERE id LIKE :search1 OR name LIKE :search2";
+        $search = "%" . $_GET['search']['value'] . "%";
+    }
+
 }
 
 $orderby = '';

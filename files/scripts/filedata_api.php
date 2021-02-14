@@ -98,9 +98,9 @@ if (!empty($_GET['filedataid'])) {
 
 
         if ($er['active'] == 1) {
-            echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'>" . $er['keyname'] . " (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
+            echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
         } else {
-            echo "<tr><td>Used to be encrypted with " . $keyAvailable . " key <span class='hash'>" . $er['keyname'] . " (" . $er['id'] . ")</span></td><td>" . $er['description'] . "</td></tr>";
+            echo "<tr><td>Used to be encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span></td><td>" . $er['description'] . "</td></tr>";
         }
     }
     echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";

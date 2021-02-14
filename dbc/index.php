@@ -663,7 +663,7 @@ function fkDBResults(splitFK, results, searchVal) {
         });
 
         resultsHTML += "</tr></thead><tbody></tbody>";
-        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=9.0.2.36086#page=1&colFilter[" +
+        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=" + currentParams["build"] + "#page=1&colFilter[" +
             targetCol + "]=exact:" + encodeURIComponent(searchVal);
         resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL +
             "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";

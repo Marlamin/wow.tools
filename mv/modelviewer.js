@@ -422,7 +422,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
             updateURLs();
 
             if (!embeddedMode){
-                history.pushState({id: 'modelviewer'}, 'Model Viewer', 'https://wow.tools/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
+                history.pushState({id: 'modelviewer'}, 'Model Viewer', '/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
             }
 
             $("#js-controls").addClass("closed");
