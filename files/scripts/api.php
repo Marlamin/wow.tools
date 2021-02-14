@@ -304,14 +304,14 @@ $encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ? AN
 if (!$mv && !$dbc) {
     $soundkitq = $pdo->prepare("SELECT soundkitentry.id as id, soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry LEFT JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = ?");
     $cmdq = $pdo->prepare("SELECT id FROM `wowdata`.creaturemodeldata WHERE filedataid = ?");
+    $mfdq = $pdo->prepare("SELECT ModelResourcesID FROM `wowdata`.modelfiledata WHERE FileDataID = ?");
     $tfdq = $pdo->prepare("SELECT MaterialResourcesID FROM `wowdata`.texturefiledata WHERE FileDataID = ?");
     $commentq = $pdo->prepare("SELECT comment, lastedited, users.username as username FROM wow_rootfiles_comments INNER JOIN users ON wow_rootfiles_comments.lasteditedby=users.id WHERE filedataid = ?");
+    $bctxtq = $pdo->prepare("SELECT `Text`,Text1 FROM `wowdata`.broadcasttext WHERE SoundKit0 = ? OR SoundKit1 = ?");
 }
 
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
-$mfdq = $pdo->prepare("SELECT ModelResourcesID FROM `wowdata`.modelfiledata WHERE FileDataID = ?");
-$bctxtq = $pdo->prepare("SELECT `Text`,Text1 FROM `wowdata`.broadcasttext WHERE SoundKit0 = ? OR SoundKit1 = ?");
 while ($row = $dataq->fetch()) {
     $contenthashes = array();
     $cfname = "";
