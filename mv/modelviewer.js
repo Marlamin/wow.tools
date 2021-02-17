@@ -17,6 +17,7 @@ var Elements =
     Sidebar: document.getElementById('js-sidebar'),
     Counter: document.getElementById('fpsLabel'),
     EventLabel: document.getElementById('eventLabel'),
+    DownloadLabel: document.getElementById('downloadLabel'),
 };
 
 var Current =
@@ -41,6 +42,10 @@ var Settings =
     portalCulling: true
 
 }
+
+var DownloadQueue = [];
+var isDownloading = false;
+var numDownloading = 0;
 
 var screenshot = false;
 var stats = new Stats();
@@ -284,6 +289,10 @@ window.createscene = function () {
             xhr.send();
         }
 
+        if (numDownloading > 0){
+            Elements.DownloadLabel.innerText = "Downloading " + numDownloading + " files..";
+        }
+
         stats.end();
         window.requestAnimationFrame(renderfunc);
     };
@@ -354,7 +363,6 @@ window.addEventListener('keydown', function(event){
             } else {
                 Settings.speed = 1000.0;
             }
-
         }
     }
 }, true);
@@ -413,6 +421,9 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     Module._setFarPlaneForCulling(Settings.farClipCull);
     Module._enablePortalCulling(Settings.portalCulling);
 
+    DownloadQueue = [];
+    isDownloading = false;
+    numDownloading = 0;
     $.ajax({
         url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
     })
@@ -543,6 +554,37 @@ function loadModelTextures() {
     });
 }
 
+function queueDL(url){
+    DownloadQueue.push(url);
+    numDownloading++;
+
+    if (!isDownloading){
+        isDownloading = true;
+        $("#downloadLabel").show();
+    }
+}
+
+function unqueueDL(url){
+    DownloadQueue = DownloadQueue.filter(function(queuedURL){ 
+        return queuedURL != url; 
+    });
+
+    if (DownloadQueue.length == 0){
+        isDownloading = false;
+        $("#downloadLabel").hide();
+    }
+
+    numDownloading--;
+}
+
+function handleDownloadStarted(url){
+    queueDL(url);
+}
+
+function handleDownloadFinished(url){
+    unqueueDL(url);
+}
+
 function updateTextures(){
     const textureArray = new Int32Array(18);
     for (let i = 0; i < 18; i++){
@@ -552,6 +594,7 @@ function updateTextures(){
     }
     setModelTexture(textureArray, 0);
 }
+
 function setModelTexture(textures, offset){
     //Create real texture replace array
     const typedArray = new Int32Array(18);
