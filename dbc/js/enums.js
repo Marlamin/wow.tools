@@ -556,7 +556,7 @@ const spellEffectName = {
     2: 'SCHOOL_DAMAGE',
     3: 'DUMMY',
     4: 'PORTAL_TELEPORT',
-    5: 'TELEPORT_UNITS_OLD',
+    5: 'UNK_ITEM_MOD',
     6: 'APPLY_AURA',
     7: 'ENVIRONMENTAL_DAMAGE',
     8: 'POWER_DRAIN',
@@ -3363,6 +3363,7 @@ conditionalFKs.set("spelleffect.EffectMiscValue[0]",
         ['spelleffect.Effect=131','soundkit::ID'],
         ['spelleffect.Effect=132','soundkit::ID'],
         ['spelleffect.Effect=134','creature::ID'],
+        ['spelleffect.Effect=269','itembonuslistgroup::ID'],
         ['spelleffect.Effect=279','garrtalent::ID'],
     ]
 );
