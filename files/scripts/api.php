@@ -56,7 +56,9 @@ while ($tactrow = $tactq->fetch()) {
 
 if (isset($_GET['switchbuild'])) {
     if (empty($_GET['switchbuild'])) {
+        session_start();
         $_SESSION['buildfilterid'] = null;
+        session_write_close();
         return;
     } else {
         if (strlen($_GET['switchbuild']) != 32 || !ctype_xdigit($_GET['switchbuild'])) {
