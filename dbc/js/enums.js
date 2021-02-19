@@ -58,7 +58,8 @@ const itemBonusTypes = {
     25: 'ModifiedCraftingStat',
     27: 'RequiredLevelCurve',
     30: 'ItemDescription',
-    31: 'LegendaryName'
+    31: 'LegendaryName',
+    34: 'ItemBonusListGroupID'
 }
 
 const criteriaTreeOperator = {
@@ -3339,7 +3340,8 @@ conditionalFKs.set("itembonus.Value[0]",
         ['itembonus.Type=19','azeritetierunlockset::ID'],
         ['itembonus.Type=23','itemeffect::ID'],
         ['itembonus.Type=30','itemnamedescription::ID'],
-        ['itembonus.Type=31','itemnamedescription::ID']
+        ['itembonus.Type=31','itemnamedescription::ID'],
+        ['itembonus.Type=34','itembonuslistgroup::ID']
     ]
 );
 
