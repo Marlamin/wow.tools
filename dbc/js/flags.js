@@ -218,7 +218,7 @@ const mapFlags = {
     0x8000: 'FLEX_LOCKING',
     0x1000000: 'UNK',
     0x4000000: 'GARRISON',
-    
+
 }
 
 const soundkitFlags = {
@@ -990,31 +990,31 @@ const questFlags2 = {
 }
 
 const auraInterruptFlags1 = {
-    0x0000001: 'HITBYSPELL',	
-    0x0000002: 'TAKE_DAMAGE',	
-    0x0000004: 'CAST',	
-    0x0000008: 'MOVE',	
-    0x0000010: 'TURNING',	
-    0x0000020: 'JUMP',	
-    0x0000040: 'NOT_MOUNTED',	
-    0x0000080: 'NOT_ABOVEWATER',	
-    0x0000100: 'NOT_UNDERWATER',	
-    0x0000200: 'NOT_SHEATHED',	
-    0x0000400: 'TALK',	
-    0x0000800: 'USE',	
-    0x0001000: 'MEELEE_ATTACK',	
-    0x0002000: 'SPELL_ATTACK',	
-    // 0x0004000: 'UNK14',	
-    0x0008000: 'TRANSFORM',	
-    // 0x0010000: 'UNK16',	
-    0x0020000: 'MOUNT',	
-    0x0040000: 'NOT_SEATED',	
-    0x0080000: 'CHANGE_MAP',	
-    0x0100000: 'IMMUNE_OR_LOST_SELECTION',	
-    // 0x0200000: 'UNK21',	
-    0x0400000: 'TELEPORTED',	
-    0x0800000: 'ENTER_PVP_COMBAT',	
-    0x1000000: 'DIRECT_DAMAGE',	
+    0x0000001: 'HITBYSPELL',
+    0x0000002: 'TAKE_DAMAGE',
+    0x0000004: 'CAST',
+    0x0000008: 'MOVE',
+    0x0000010: 'TURNING',
+    0x0000020: 'JUMP',
+    0x0000040: 'NOT_MOUNTED',
+    0x0000080: 'NOT_ABOVEWATER',
+    0x0000100: 'NOT_UNDERWATER',
+    0x0000200: 'NOT_SHEATHED',
+    0x0000400: 'TALK',
+    0x0000800: 'USE',
+    0x0001000: 'MEELEE_ATTACK',
+    0x0002000: 'SPELL_ATTACK',
+    // 0x0004000: 'UNK14',
+    0x0008000: 'TRANSFORM',
+    // 0x0010000: 'UNK16',
+    0x0020000: 'MOUNT',
+    0x0040000: 'NOT_SEATED',
+    0x0080000: 'CHANGE_MAP',
+    0x0100000: 'IMMUNE_OR_LOST_SELECTION',
+    // 0x0200000: 'UNK21',
+    0x0400000: 'TELEPORTED',
+    0x0800000: 'ENTER_PVP_COMBAT',
+    0x1000000: 'DIRECT_DAMAGE',
     0x2000000: 'LANDING',
 }
 
@@ -1034,6 +1034,30 @@ const damageClass = {
     0x10: 'Frost',
     0x20: 'Shadow',
     0x40: 'Arcane'
+}
+
+const socketColors = {
+    0x00001: 'META',
+    0x00002: 'RED',
+    0x00004: 'YELLOW',
+    0x00008: 'BLUE',
+    0x00010: 'HYDRAULIC',
+    0x00020: 'COGWHEEL',
+    0x0000E: 'PRISMATIC',
+    0x00040: 'RELIC_IRON',
+    0x00080: 'RELIC_BLOOD',
+    0x00100: 'RELIC_SHADOW',
+    0x00200: 'RELIC_FEL',
+    0x00400: 'RELIC_ARCANE',
+    0x00800: 'RELIC_FROST',
+    0x01000: 'RELIC_FIRE',
+    0x02000: 'RELIC_WATER',
+    0x04000: 'RELIC_LIFE',
+    0x08000: 'RELIC_WIND',
+    0x10000: 'RELIC_HOLY',
+    0x20000: 'PUNCHCARD_RED',
+    0x40000: 'PUNCHCARD_YELLOW',
+    0x80000: 'PUNCHCARD_BLUE'
 }
 
 window.flagMap = new Map();
@@ -1113,6 +1137,7 @@ window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1);
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 window.flagMap.set("spellmisc.SchoolMask", damageClass);
+window.flagMap.set("gemproperties.Type", socketColors);
 
 // Conditional flags
 let conditionalFlags = new Map();

@@ -3184,6 +3184,30 @@ const globalCurveType = {
     11: 'CR Bonus for VERSATILITY_DAMAGE_TAKEN'
 }
 
+const socketColorEnum = {
+    1: 'META',
+    2: 'RED',
+    3: 'YELLOW',
+    4: 'BLUE',
+    5: 'HYDRAULIC',
+    6: 'COGWHEEL',
+    7: 'PRISMATIC',
+    8: 'RELIC_IRON',
+    9: 'RELIC_BLOOD',
+    10: 'RELIC_SHADOW',
+    11: 'RELIC_FEL',
+    12: 'RELIC_ARCANE',
+    13: 'RELIC_FROST',
+    14: 'RELIC_FIRE',
+    15: 'RELIC_WATER',
+    16: 'RELIC_LIFE',
+    17: 'RELIC_WIND',
+    18: 'RELIC_HOLY',
+    19: 'PUNCHCARD_RED',
+    20: 'PUNCHCARD_YELLOW',
+    21: 'PUNCHCARD_BLUE'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("map.ExpansionID", expansionLevels);
@@ -3289,6 +3313,12 @@ let conditionalEnums = new Map();
 conditionalEnums.set("itembonus.Value[0]",
     [
         ['itembonus.Type=2', itemStatType]
+    ]
+);
+
+conditionalEnums.set("itembonus.Value[1]",
+    [
+        ['itembonus.Type=6', socketColorEnum]
     ]
 );
 
