@@ -1,6 +1,7 @@
 <?php
 
 require_once("/var/www/wow.tools/inc/config.php");
+header("Access-Control-Allow-Origin: http://wow.tools.localhost");
 
 if (!empty($_GET['filedataid'])) {
     $q = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id = :id");
