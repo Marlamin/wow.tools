@@ -20,6 +20,10 @@ function buildURL($product, $type, $value)
     global $pdo;
 
     $cdn = "http://blzddist1-a.akamaihd.net/";
+
+    if($product == "d3t"){
+        $cdn = "http://level3.blizzard.com/";
+    }
     $q = $pdo->prepare("SELECT cdndir FROM ngdp_products WHERE program = ?");
     $q->execute([$product]);
     $cdndir = $q->fetch()['cdndir'];
@@ -50,7 +54,7 @@ if (!isset($_GET['draw']) || !isset($_GET['order'][0]['column'])) {
 
 $query = "FROM ngdp_history INNER JOIN ngdp_urls on ngdp_urls.id=ngdp_history.url_id";
 
-if (!empty($_SESSION['rank'])) {
+if (isset($_SESSION['rank'])) {
     if (!empty($_GET['columns'][1]['search']['value'])) {
         $query .= " WHERE event = 'valuechange' AND ngdp_urls.url LIKE :prodSearch";
         $prodSearch = "%" . $_GET['columns'][1]['search']['value'] . "%";
