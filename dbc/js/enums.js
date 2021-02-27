@@ -3277,6 +3277,11 @@ enumMap.set("questobjective.Type", questObjectiveType);
 enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
 enumMap.set("scenarioevententry.TriggerType", scenarioEventTriggerType);
 enumMap.set("globalcurve.Type", globalCurveType);
+enumMap.set("itemsparse.SocketType[0]", socketColorEnum);
+enumMap.set("itemsparse.SocketType[1]", socketColorEnum);
+enumMap.set("itemsparse.SocketType[2]", socketColorEnum);
+enumMap.set("itemsparse.InventoryType", inventoryTypeEnum);
+enumMap.set("itemsparse.OverallQualityID", itemQuality);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
