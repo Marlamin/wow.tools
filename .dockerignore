@@ -1,0 +1,33 @@
+.git
+.vscode
+
+# Data
+tpr/
+maps/data/
+maps/tiles/
+maps/png/
+
+# Exporter
+export/download
+export/update
+export/dev
+
+# Non-public files
+dbc/scripts/hook.php
+dbc/experiments/
+priv/
+
+# Editor files
+sftp-config.json
+.vscode/*
+
+# Bugsnag
+inc/bugsnag/*
+
+# Composer
+composer.json
+composer.lock
+vendor
+
+# Psalm
+psalm.xml
