@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 var SiteSettings =
 {
-    buildConfig: "4b057f1dc6298661bcdcb3dba6e3366c",
-    cdnConfig: "f15b8f417b2326b67b6af23669a7c25e",
-    buildName: "9.0.5.37503",
+    buildConfig: "2f78adbca3f3a0453667aacdd62ab4a3",
+    cdnConfig: "492caba0d6eb809081a16d2d99377bda",
+    buildName: "9.0.5.37864",
 }
 
 function toggleTheme(){
