@@ -14,7 +14,7 @@ if ($updatedago == strtotime("now")) {
     $updatedago = "?";
 }
 ?>
-    <thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th><th>&nbsp;</th></tr></thead>
+    <thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th><th style='width: 200px'>&nbsp;</th></tr></thead>
     <?php
     if (empty($github['username'])) {
         echo "<tr><td colspan='2'>Repo history is disabled when GitHub info in config is not set.</td></tr>";
@@ -33,7 +33,7 @@ if ($updatedago == strtotime("now")) {
             echo "
             <tr>
             <td>[" . $commit->repo . "] <a target='_BLANK' href='" . $commit->url . "'>" . $message . "</a></td>
-            <td style='min-width: 100px'><span class='text-muted'><b>" . date("Y-m-d H:i:s", $commit->timestamp) . "</b></span></td>
+            <td style='min-width: 100px'>" . date("Y-m-d H:i:s", $commit->timestamp) . "</td>
             </tr>";
         }
     }
@@ -116,8 +116,7 @@ if ($updatedago == strtotime("now")) {
     <table class='table table-condensed table-striped table-hover' style='width: 100%'>
     <thead><tr><th>Amount</th><th>User</th><th>Date</th><th>Status</th></tr></thead>
     <?php
-    $suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%Y %M %d\" ) ORDER BY submitted DESC LIMIT 0,5")->fetchAll();
-    $i = 0;
+    $suggestions = $pdo->query("SELECT userid, DATE_FORMAT( submitted, \"%M %d\" ) as submitday, status, COUNT(*) as count FROM wow_rootfiles_suggestions GROUP BY userid, status, DATE_FORMAT( submitted, \"%Y %M %d\" ) ORDER BY submitted DESC LIMIT 0,2")->fetchAll();
     foreach ($suggestions as $row) {
         echo "<tr>
         <td>" . $row['count'] . " files</td>
@@ -125,8 +124,6 @@ if ($updatedago == strtotime("now")) {
         <td>" . $row['submitday'] . "</td>
         <td>" . $row['status'] . "</td>
         </tr>";
-        
-        $i++;
     }
     ?>
     </table>
