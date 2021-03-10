@@ -2852,7 +2852,7 @@ const itemContext = {
     30: "World Quest 6",
     31: "Mission Reward 1",
     32: "Mission Reward 2",
-    33: "zzChallenge Mode 2",
+    33: "Mythic+ End of Run: Time Chest",
     34: "zzChallenge Mode 3",
     35: "Mythic+ Jackpot",
     36: "World Quest 7",
