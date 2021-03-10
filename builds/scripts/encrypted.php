@@ -62,7 +62,7 @@ echo "[Encrypted file list] Currently have " . count($current) . " actively encr
 
 $inserted = 0;
 
-$q = $pdo->prepare("INSERT INTO wow_encrypted (filedataid, keyname) VALUES (:filedataid, :key)");
+$q = $pdo->prepare("INSERT INTO wow_encrypted (filedataid, keyname) VALUES (:filedataid, :key) ON DUPLICATE KEY UPDATE active = 1");
 
 foreach ($encryptedfiles as $filedataid => $keysarr) {
     foreach ($keysarr as $key) {
