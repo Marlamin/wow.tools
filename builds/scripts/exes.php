@@ -38,9 +38,11 @@ while ($row = $res->fetch()) {
                 break;
             case "wow_beta":
             case "wowz":
-            case "wow_classic_beta":
             case "wowe1":
                 $target = "WowB.exe";
+                break;
+            case "wow_classic_beta":
+                $target = "WowClassicB.exe";
                 break;
         }
     } else {
