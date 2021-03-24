@@ -650,39 +650,49 @@ function fkDBResults(splitFK, results, searchVal) {
         } else {
             resultsHTML += "<div class='tab-pane' id='tab" + splitFK[0] + splitFK[1] + "'>";
         }
-        resultsHTML += "<br><table id='FKResults" + splitFK[0] + splitFK[1] + "' class='table table-sm'>";
-        resultsHTML += "<thead><tr>";
-        let targetCol = 0;
-        Object.keys(results[0]).forEach((key) => {
-            if (key == splitFK[1]) {
-                targetCol = Object.keys(results[0]).indexOf(key);
-                resultsHTML += "<th class='text-success'>" + key + "</th>";
-            } else {
-                resultsHTML += "<th>" + key + "</th>";
-            }
-        });
 
-        resultsHTML += "</tr></thead><tbody></tbody>";
-        var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=" + currentParams["build"] + "#page=1&colFilter[" +
-            targetCol + "]=exact:" + encodeURIComponent(searchVal);
-        resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL +
-            "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
+        if(results.length < 1000){
+            resultsHTML += "<br><table id='FKResults" + splitFK[0] + splitFK[1] + "' class='table table-sm'>";
+            resultsHTML += "<thead><tr>";
+            let targetCol = 0;
+            Object.keys(results[0]).forEach((key) => {
+                if (key == splitFK[1]) {
+                    targetCol = Object.keys(results[0]).indexOf(key);
+                    resultsHTML += "<th class='text-success'>" + key + "</th>";
+                } else {
+                    resultsHTML += "<th>" + key + "</th>";
+                }
+            });
 
-        resultHolder.insertAdjacentHTML('beforeend', resultsHTML);
+            resultsHTML += "</tr></thead><tbody></tbody>";
+            var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=" + currentParams["build"] + "#page=1&colFilter[" + targetCol + "]=exact:" + encodeURIComponent(searchVal);
+            resultsHTML += "</table><br><a class='btn btn-sm btn-primary' href='" + externalResultURL + "' target='_BLANK'>View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
+            resultHolder.insertAdjacentHTML('beforeend', resultsHTML);
+            const dt = $("#FKResults" + splitFK[0] + splitFK[1]).DataTable({
+                "pagingType": "input",
+                "searching": false,
+                "pageLength": 10,
+                "displayStart": 0,
+                "autoWidth": true
+            });
 
-        const dt = $("#FKResults" + splitFK[0] + splitFK[1]).DataTable({
-            "pagingType": "input",
-            "searching": false,
-            "pageLength": 10,
-            "displayStart": 0,
-            "autoWidth": true
-        });
+            results.forEach((result) => {
+                dt.rows.add([Object.values(result)]);
+            });
 
-        results.forEach((result) => {
-            dt.rows.add([Object.values(result)]);
-        });
-
-        dt.draw();
+            dt.draw();
+        }else{
+            let targetCol = 0;
+            Object.keys(results[0]).forEach((key) => {
+                if (key == splitFK[1]) {
+                    targetCol = Object.keys(results[0]).indexOf(key);
+                }
+            });
+            var externalResultURL = "/dbc/?dbc=" + splitFK[0].toLowerCase() + "&build=" + currentParams["build"] + "#page=1&colFilter[" + targetCol + "]=exact:" + encodeURIComponent(searchVal);
+            resultsHTML += "<a class='btn btn-sm btn-primary' href='" + externalResultURL + "' target='_BLANK'>Too many results! View " + splitFK[0] + "::" + splitFK[1] + " results in new tab</a></div>";
+        
+            resultHolder.insertAdjacentHTML('beforeend', resultsHTML);
+        }
     } else {
         if (document.getElementById("noResultHolder").innerHTML == "") {
             document.getElementById("noResultHolder").innerHTML = "<b>No results for:</b>";
