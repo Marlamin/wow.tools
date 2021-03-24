@@ -31,7 +31,7 @@ const itemStaticFlags0 = {
     0x10000000 : 'NO_REAGENT_COST', // Spell is cast ignoring reagents
     0x20000000 : 'IS_MILLABLE', // Item can be milled
     0x40000000 : 'REPORT_TO_GUILD_CHAT',
-    0x80000000 : 'NO_PROGRESSIVE_LOOT'
+    0x80000000 : 'NO_DYNAMIC_DROP_CHANCE'
 }
 
 const itemStaticFlags1 = {
@@ -178,35 +178,53 @@ const charSectionFlags = {
 }
 
 const chrRacesFlags = {
-    0x1 : 'NOT_PLAYABLE',
-    0x2 : 'DoNotComponentFeet',
-    0x4 : 'CAN_MOUNT',
-    0x8 : 'HasBald',
-    0x80 : 'DISALLOW_LOW_RES',
-    0x100 : 'GOBLIN_RACIAL',
-    0x200 : 'CREATIONUNK',
-    0x400 : 'SELECTIONUNK',
-    0x800 : 'UseLoincloth',
-    0x10000 : 'SkinVariationIsHairColor',
-    0x20000 : 'UsePandarenRingForComponentingTexture',
-    0x80000 : 'ALLIED_RACE',
-    0x100000 : 'VOID_ELF_RACIAL'
+    0x1: 'NPC Only',
+    0x2: 'Do Not Component Feet',
+    0x4: 'Can Mount',
+    0x8: 'Has Bald',
+    0x10: 'Bind to Starting Area',
+    0x20: 'Alternate Form',
+    0x40: 'Can Mount Self',
+    0x80: 'Force to HD model if available',
+    0x100: 'Exalted With All Vendors',
+    0x200: 'Not Selectable',
+    0x400: 'Reputation Bonu',
+    0x800: 'Use Loincloth',
+    0x1000: 'Rest Bonus',
+    0x2000: 'No Start Kits',
+    0x4000: 'No Starting Weapon',
+    0x8000: 'Dont redeem account licenses',
+    0x10000: 'Skin Variation Is Hair Color',
+    0x20000: 'Use Pandaren Ring for componenting texture',
+    0x40000: 'Ignore for asset manifest component info parsing',
+    0x80000: 'Is Allied Race',
+    0x100000: 'Void Vendor Discount (transmog/void storage)',
+    0x200000: 'DAMM Component - No Male Generation (Tools Only)',
+    0x400000: 'DAMM Component - No Female Generation (Tools Only)',
+    0x800000: 'No Associated Faction Reputation in Race Change',
+    0x1000000: 'Internal Only (in development)',
 }
 
 const taxiNodeFlags = {
-    0x1 : 'ALLIANCE',
-    0x2 : 'HORDE',
-    0x10 : 'USE_FAVORITE_MOUNT'
+    0x1 : 'Show on alliance map',
+    0x2 : 'Show on horde map',
+    0x4: 'Show on map border',
+    0x8: 'Show if client passes condition',
+    0x10 : 'Use player favorite mount',
+    0x20: 'End point only',
+    0x40: 'Ignore for find nearest',
+    0x80: 'Do not show in World Map UI'
 }
 
 const difficultyFlags = {
-    0x1: 'HEROIC',
-    0x2: 'DEFAULT',
-    0x4: 'CAN_SELECT',
-    0x8: 'CHALLENGE_MODE',
-    0x20: 'LEGACY',
-    0x40: 'DISPLAY_HEROIC',
-    0x80: 'DISPLAY_MYTHIC'
+    0x1: 'Heroic-style Lockouts',
+    0x2: 'Is Default for instance type',
+    0x4: 'Is User Selectable',
+    0x8: 'Deprecated',
+    0x10: 'LFG Only',
+    0x20: 'Legacy',
+    0x40: 'Display Heroic Banner in the UI',
+    0x80: 'Display Mythic Banner in the UI'
 }
 
 const emoteFlags = {
@@ -503,19 +521,19 @@ const inventoryTypeMask = {
 }
 
 const uiMapFlags = {
-    0x1: 'NoHighlight',
-    0x2: 'ShowOverlays',
-    0x4: 'ShowTaxiNodes',
-    0x8: 'GarrisonMap',
-    0x10: 'FallbackToParentMap',
-    0x20: 'NoHighlightTexture',
-    0x40: 'ShowTaskObjectives',
-    0x80: 'NoWorldPositions',
-    0x100: 'HideArchaeologyDigs',
-    0x200: 'Deprecated',
-    0x400: 'HideIcons',
-    0x800: 'HideVignettes',
-    0x1000: 'ForceAllOverlayExplored',
+    0x1: 'Dont display any highlight',
+    0x2: 'Show Overlays (puzzle pieces)',
+    0x4: 'Show Taxi Nodes',
+    0x8: 'Show Garrison Buildings',
+    0x10: 'Fallback to Parent Map (e.g. if we dont want a map for this terrain phase)',
+    0x20: 'Dont Display Highlight Texture',
+    0x40: 'Show Task Objective POIs on Map',
+    0x80: 'No World Positions',
+    0x100: 'Hide Archaeology Digs',
+    0x200: 'DEPRECATED (clear first)',
+    0x400: 'Hide Map Icons',
+    0x800: 'Hide Vignettes',
+    0x1000: 'Force all Overlays Explored (puzzle pieces)',
     0x2000: 'FlightMapShowZoomOut',
     0x4000: 'FlightMapAutoZoom',
     0x8000: 'ForceOnNavbar',
@@ -524,41 +542,41 @@ const uiMapFlags = {
 
 const garrAbilityFlags =
 {
-    0x1: 'IS_TRAIT',
-    0x2: 'NO_RANDOM_SELECTION',
-    0x4: 'HORDE_ONLY',
-    0x8: 'ALLIANCE_ONLY',
-    0x10: 'NO_REROLL',
-    0x20: 'FIRST_SLOT_ONLY',
-    0x40: 'SINGLE_MISSION_DURATION',
-    0x80: 'ACTIVE_ONLY_ON_ZONE_SUPPORT',
-    0x100: 'APPLY_TO_FIRST_MISSION',
-    0x200: 'IS_SPECIALIZATION',
-    0x400: 'IS_EMPTY_SLOT'
+    0x1: 'Is Trait',
+    0x2: 'No Random Selection',
+    0x4: 'Horde Only',
+    0x8: 'Alliance Only',
+    0x10: 'Not Re-Rollable',
+    0x20: 'First Slot Only',
+    0x40: 'Single Mission Duration',
+    0x80: 'Zone Supported Missions Only',
+    0x100: 'Apply Only to First Mission of the Day',
+    0x200: 'Is Specialization',
+    0x400: 'Treat As Equipment Empty Slot'
 }
 
 const garrAbilityEffectFlags =
 {
-    0x1: 'NOT_BENEFICIAL'
+    0x1: 'Not Beneficial'
 }
 
 const garrMissionFlags = {
-    0x1: 'RARE_MISSION',
-    0x2: 'ELITE_MISSION',
-    0x4: 'APPLIES_FATIGUE',
-    0x8: 'ALWAYS_FAIL',
-    0x10: 'IS_ZONE_SUPPORT',
-    0x20: 'REQUIRE_100_TO_START',
-    0x40: 'DOES_NOT_REPEAT',
-    0x80: 'ALWAYS_SUCCEED',
+    0x1: 'Is Rare Mission',
+    0x2: 'Is Elite Mission',
+    0x4: 'Applies Fatigue',
+    0x8: 'Always Fail',
+    0x10: 'Is Zone Support Mission',
+    0x20: 'Requires 100 % Success Chance to Start',
+    0x40: 'Do not re-offer',
+    0x80: 'Always Succeed',
     0x100: 'DO_NOT_UPDATE_PHASESHIFT_ON_START',
     0x200: 'DO_NOT_UPDATE_PHASESHIFT_ON_COMPLETE',
     0x400: 'DONT_CLEAN_UP_WHILE_OFFERED',
 }
 
 const charShipmentFlags = {
-    0x1: 'MOBILE_START_ALLOWED',
-    0x2: 'IS_ARTIFACT_KNOWLEDGE'
+    0x1: 'Can Be Started On Mobile App',
+    0x2: 'Is Artifact Knowledge'
 }
 
 const currencyFlags = {
@@ -796,78 +814,96 @@ const facingCasterFlags = {
 const spellEffectAttributes = {};
 
 const areaTableFlags = {
-    0x00000001: 'HasBreathParticles',
-    0x00000002: 'BreathParticlesOverrideParent',
-    0x00000004: 'OnMapDungeon',
-    0x00000008: 'TradeChannel',
-    0x00000010: 'EnemiesPvpEnabled',
-    0x00000020: 'AllowResting',
-    0x00000040: 'AllowDuels',
-    0x00000080: 'PvpFreeForAll',
-    0x00000100: 'CAPITAL',
-    0x00000200: 'LINKED_CHAT_AREA',
-    0x00000400: 'AllowFlyingMounts',
-    0x00000800: 'Sanctuary',
-    0x00001000: 'NoGhostOnRelease',
-    0x00002000: 'apply_ambient_multiplier_to_player',
-    0x00004000: 'EnableLightBounds',
-    0x00008000: 'IsSubZonePVPPOI',
-    0x00010000: 'ARENA_INSTANCE',
-    0x00020000: 'UNUSED',
+    0x00000001: 'Emit Breath Particles',
+    0x00000002: 'Breath Particles Override Parent',
+    0x00000004: 'On Map Dungeon',
+    0x00000008: 'Allow Trade Channel',
+    0x00000010: 'Enemies PvP Flagged',
+    0x00000020: 'Allow Resting',
+    0x00000040: 'Allow Dueling',
+    0x00000080: 'Free For All PvP',
+    0x00000100: 'Linked Chat (Set in cities)',
+    0x00000200: 'Linked Chat Special Area',
+    0x00000400: 'Force this area when on a Dynamic Transport',
+    0x00000800: 'No PvP',
+    0x00001000: 'No Ghost on Release',
+    0x00002000: 'Sub-zone Ambient Multiplier',
+    0x00004000: 'Enable Flight Bounds on Map',
+    0x00008000: 'PVP POI',
+    0x00010000: 'No chat channel',
+    0x00020000: 'Area not in use',
     0x00040000: 'Contested',
-    0x00080000: 'NoSummoning',
-    0x00100000: 'NoDuelOnTournamentRealm',
-    0x00200000: 'PlayersCallGuards',
-    0x00400000: 'RestingHorde',
-    0x00800000: 'RestingAlliance',
-    0x01000000: 'use_combat_world_state',
-    0x02000000: 'Inside',
-    0x04000000: 'Outside',
-    0x08000000: 'CanHearthAndResurrectFromArea',
-    0x10000000: 'NoLocalDefenseChannel',
-    0x20000000: 'NoFlying',
-    0x40000000: 'use_parent_for_world_defense_visibility_check'
+    0x00080000: 'No Player Summoning',
+    0x00100000: 'No Dueling if Tournament Realm',
+    0x00200000: 'Players Call Guards',
+    0x00400000: 'Horde Resting',
+    0x00800000: 'Alliance Restubg',
+    0x01000000: 'Combat Zone',
+    0x02000000: 'Force Indoors',
+    0x04000000: 'Force Outdoors',
+    0x08000000: 'Allow Hearth-and-Resurrect from Area',
+    0x10000000: 'No Local Defense Channel',
+    0x20000000: 'Only Evaluate Ghost Bind Once',
+    0x40000000: 'Is Subzone'
 };
 
+const areaTableFlags2 = {
+    0x1: 'Dont Evaluate Graveyard From Client',
+    0x2: 'Force Micro-Dungeon Art Map (ask Programmer)',
+    0x4: 'Use subzone player loot',
+    0x8: 'Allow Pet Battle Dueling even if no Dueling Allowed',
+    0x10: 'Use Map Transfer Locs for Cemeteries',
+    0x20: 'Is Garrison',
+    0x40: 'Use subzone for chat channel',
+    0x80: 'Dont realm-coalesce chat channel',
+    0x100: 'Not explorable (dont assign area bit)',
+    0x200: 'Dont use parent map cemeteries',
+    0x400: 'Dont show Sanctuary text',
+    0x800: 'Cross-faction zone chat',
+    0x1000: 'Force No Resting',
+    0x2000: 'Allow War Mode Toggle',
+    0x4000: 'Is New Player Experience' // Speculation
+}
+
 const criteriaTreeFlags = {
-    0x1: 'ShowProgressBar',
-    0x2: 'OverrideParentAmount',
-    0x4: 'ProgressIsDate',
-    0x8: 'ShowCurrencyIcon',
-    0x10: 'DisplayToast',
-    // 0x20: '',
-    0x40: 'IsFactionSpecific',
-    0x80: 'TrackChildCriteria',
-    // 0x100: '',
-    0x200: 'AllianceOnly',
-    0x400: 'HordeOnly',
-    0x800: 'ShowRequiredCount',
-    // 0x1000: '',
+    0x1: 'Progress Bar',
+    0x2: 'Do Not Display',
+    0x4: 'Is a Date',
+    0x8: 'Is Money',
+    0x10: 'Toast on Complete',
+    0x20: 'Use Objects Description',
+    0x40: 'Show faction specific child',
+    0x80: 'Display all children',
+    0x100: 'Award Bonus Rep (Hack!!)',
+    0x200: 'Treat this criteria or block as Alliance',
+    0x400: 'Treat this criteria or block as Horde',
+    0x800: 'Display as Fraction',
+    0x1000: 'Is For Quest',
     // 0x2000: '',
     // 0x4000: '',
     // 0x8000: '',
 }
 
 const areaPOIFlags = {
-    0x1: 'DirectionalPointerOnMinimap',
-    0x2: 'ShowMinimapIcon',
-    0x4: 'ShowOnWorldMap',
-    0x8: 'ShowOnWorldMapAtContinentZoom',
-    0x10: 'ShowOnWorldMapAtWorldZoom',
-    // 0x20: '',
-    // 0x40: '',
-    // 0x80: '',
-    // 0x100: '',
-    // 0x200: '',
-    // 0x400: '',
-    // 0x800: '',
-    0x1000: 'ShowRegardlessIfUnexplored',
-    // 0x2000: '',
-    // 0x4000: '',
-    // 0x8000: '',
-    // 0x10000: '',
-    // 0x20000: '',
-    // 0x40000: '',
+    0x1: 'Show On Minimap',
+    0x2: 'Show Minimap Icon',
+    0x4: 'Worldmap Zone Zoom',
+    0x8: 'Worldmap Continent Zoom',
+    0x10: 'Worldmap World Zoom',
+    0x20: 'Worldmap City Zoom',
+    0x40: 'Hidden (Quest/Gossip Only)',
+    0x80: 'Always Draw Icon (world map)',
+    0x100: 'Show When Indoors',
+    0x200: 'Show in BattleMap',
+    0x400: 'Only show in current area',
+    0x800: 'Cemetery can be selected',
+    0x1000: 'Show on Worldmap Zone in unexplored areas',
+    0x2000: 'Battle Pet Tamer',
+    0x4000: 'Only show in direct area ancestry',
+    0x8000: 'Hide Text',
+    0x10000: 'Display as Banner',
+    0x20000: 'Show on flightmap',
+    0x40000: 'Worldmap Micro-Dungeon Zoom',
     0x80000: 'Assault',
     0x100000: 'ShouldGlow'
 }
@@ -1060,6 +1096,14 @@ const socketColors = {
     0x80000: 'PUNCHCARD_BLUE'
 }
 
+const chrModelFlags = {
+    0x001: 'Do Not Component Feet',
+    0x002: 'Has Bald',
+    0x004: 'Use Loincloth',
+    0x008: 'Skin Variation is Hair Color',
+    0x010: 'Use Pandaren Ring for componenting texture',
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -1127,6 +1171,7 @@ window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
 window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
 window.flagMap.set("spelleffect.EffectAttributes", spellEffectAttributes);
 window.flagMap.set("areatable.Flags[0]", areaTableFlags);
+window.flagMap.set("areatable.Flags[1]", areaTableFlags2);
 window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
 window.flagMap.set("areapoi.Flags", areaPOIFlags);
 window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
@@ -1138,6 +1183,7 @@ window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1)
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 window.flagMap.set("spellmisc.SchoolMask", damageClass);
 window.flagMap.set("gemproperties.Type", socketColors);
+window.flagMap.set("chrmodel.Flags", chrModelFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
