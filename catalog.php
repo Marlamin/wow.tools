@@ -106,12 +106,12 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
     // Write JSON structs to file
     $tmpoldname = tempnam("/tmp", "diff");
     $handle = fopen($tmpoldname, "w");
-    fwrite($handle, json_encode($oldjson, JSON_PRETTY_PRINT));
+    fwrite($handle, json_encode($oldjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     fclose($handle);
 
     $tmpnewname = tempnam("/tmp", "diff");
     $handle = fopen($tmpnewname, "w");
-    fwrite($handle, json_encode($newjson, JSON_PRETTY_PRINT));
+    fwrite($handle, json_encode($newjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     fclose($handle);
 
     // Diff
