@@ -24,11 +24,11 @@ const expansionLevels = {
 }
 
 const mapTypes = {
-    0: 'Normal',
-    1: 'Instance',
-    2: 'Raid',
-    3: 'BG',
-    4: 'Arena',
+    0: 'Not Instanced',
+    1: 'Party Dungeon',
+    2: 'Raid Dungeon',
+    3: 'PVP Battlefield',
+    4: 'Arena Battlefield',
     5: 'Scenario',
 }
 
@@ -874,7 +874,7 @@ const uiMapType = {
     2: 'Continent',
     3: 'Zone',
     4: 'Dungeon',
-    5: 'Micro',
+    5: 'Micro-Dungeon',
     6: 'Orphan'
 }
 
@@ -2711,20 +2711,21 @@ itemSubClass[18] = {
 }
 
 const itemEffectTriggerType = {
-    0: 'Use',
+    0: 'On Use',
     1: 'On Equip',
-    2: 'Chance on Hit',
-    // 3: 'UNKNOWN', // Only on 23442
-    4: 'Soulstone',
-    5: 'While carrying',
-    6: 'Learn Spell',
-    7: 'When obtained',
+    2: 'On Proc',
+    3: 'Summoned By Spell', // Only on 23442
+    4: 'On Death',
+    5: 'On Pickup',
+    6: 'On Learn',
+    7: 'On Looted',
+    8: 'Teach Mount',
 }
 
 const uiMapSystem = {
     0: 'World',
-    1: 'Taxi',
-    2: 'Adventure',
+    1: '[DEPRECATED] Legacy Taxi',
+    2: 'Taxi and Adventure',
     3: 'Minimap'
 }
 
@@ -4222,99 +4223,197 @@ const SpellScript_Arguments = {
     48:  '(player, casterGUID, spellID)',
 };
 
+const weaponSwingType = {
+    0: 'Light',
+    1: 'Medium',
+    2: 'Heavy',
+    3: 'Agile',
+    4: 'Pierce',
+    5: 'Large Monster'
+}
+
 const enumNames = {
+    2: 'In-game browser',
     3: 'Locales',
+    // 5: 'OS-ish',
+    105: 'Mount::Flags',
     119: 'Classes',
     120: 'Races',
+    123: 'Region',
+    130: 'Math operators',
     134: 'SpellMisc:Attributes',
+    143: 'BattlePay Categories',
+    150: 'BattlePay Products',
     151: 'ItemStaticFlags',
+    155: 'Product/Branch',
     156: 'Expansions',
+    169: 'ItemDisplayInfo::Flags',
     170: 'GarrBuilding::BuildingType',
     174: 'Real world currencies',
-    // 178: 'SpellAuraInterruptFlags',
+    178: 'SpellAuraInterruptFlags',
+    // 180: 'Chat Message Type',
     188: 'AreaPOI::Flags', // updated
     // 190: 'UIMap',
-    // 192: 'MapRelated',
-    // 194: 'PhaseRelated',
+    192: 'Map::Flags', // added
+    194: 'Phase::Flags',
     196: 'CurrencyTypes::Flags',
-    // 197: 'SummonProperties?',
+    197: 'SummonProperties::Flags', // updated
     // 198: 'WMO Liquids',
-    // 199: 'Mount flags #123',
+    199: 'MountCapability::Flags', // added, needs double check as some dont make sense
     // 200: 'TaxiPath',
     // 201: 'Emote',
     // 205: 'SpellVisual',
-    // 220: 'ChatChannels',
+    220: 'ChatChannels::Flags',
     223: 'SpellShapeShift::Flags',
-    // 236: 'Creature/Model related',
+    236: 'CreatureModelData::Flags',
+    237: 'SummonProperties::Slot',
+    238: 'SummonProperties::Control',
+    // 244: 'Queue type',
     // 247: 'SpellVisualKit',
     251: 'BroadcastText::Flags',
+    // 252: 'Consumable item types',
+    258: 'ArtifactPower::Flags',
+    259: 'InventorySlotName',
     265: 'AnimationData::Flags',
-    // 266: 'AnimKit',
-    // 267: 'Garrison related',
+    // 266: 'AnimationData::Flags2?',
+    267: 'GarrFollowerType::Flags',
     // 268: 'DB col flags',
     // 269: 'DB col types',
+    271: 'Criteria::Flags',
     // 272: 'Sound types',
     277: 'CreatureDifficulty::Flags',
     // 282: 'Quest flags',
+    292: 'SpellInterrupts::InterruptFlags',
     // 299: 'CASC File flags?',
+    318: 'LFGDungeons::Flags',
+    327: 'PowerType::Flags',
+    328: 'PowerType::PowerTypeEnum',
+    // 330: 'visual swing type',
+    336: 'InventoryType',
+    338: 'Gender',
+    345: 'SpellCategories::PreventionType',
+    346: 'ChrClasses::Flags',
+    351: 'SpellItemEnchantment::Flags',
+    352: 'Scenario::Flags',
+    353: 'Scenario::Type',
     // 357: 'Creature/m2 sound',
     // 358: 'Creature/m2 sound',
+    360: 'ChrClasses::PrimaryStatPriority',
+    367: 'WeaponSwingSounds2::SwingType', // added
+    374: 'Sheating',
     // 377: 'Attachments',
+    379: 'PrestigeLevelInfo::Flags',
     // 383: 'Numbers',
+    384: 'GarrType::Flags',
+    387: 'BattlePetSpecies::SourceTypeEnum',
     // 385: 'Light',
+    392: 'GarrFollower::Quality',
     // 405: 'Letters',
     406: 'CharShipment::Flags',
+    407: 'SpellAuraOptions::ProcTypeMask',
     423: 'GarrMission::Flags', // updated but conflicts, needs check
-    // 424: 'GarrMissionRelated',
-    // 443: 'Dungeon Lockout',
+    424: 'GarrAbilityEffect.AbilityAction',
+    436: 'SpellCategory::Flags',
+    443: 'MapDifficulty::Flags',
     446: 'GarrAbility::Flags', // updated
-    // 458: 'String types',
+    455: 'ItemContext', // Partial
+    457: 'MapDifficulty::ResetInterval',
+    458: 'GlobalStrings::Flags',
     489: 'AreaTable::Flags', // updated
     497: 'ObjectEffectPackageElem::StateType', // copied
     // 522: 'Map/dungeon flags',
+    531: 'ItemSpec::Primary/SecondaryStat',
     // 538: 'Light data types',
+    558: 'Holidays::Flags',
+    564: 'GameObjects::TypeID',
+    565: 'TransmogSet::Flags',
+    567: 'ExpectedStat::ExpansionID',
     585: 'ItemBonus::Type',
-    // 586: 'Friendly table names?',
+    // 586: 'Friendly table names/categories?',
     // 590: 'Modifier tree conds',
+    592: 'Criteria::Start_event',
+    593: 'Criteria::Fail_event',
     594: 'Criteria::Type',
     // 597: 'Script related',
+    // 599: 'SpellEffect::MiscValue[0] for Effect 86',
     600: 'ModifierTree::Type', // copied, fks mapped
+    601: 'ItemSparse::Bonding',
+    603: 'DungeonEncounter::Flags',
     // 605: 'Some M2 events',
     614: 'AI Formation Type',
+    615: 'AI Formation Behavior',
+    638: 'CriteriaTree::Operator',
     639: 'CriteriaTree::Flags', // updated
+    651: 'RelicTalent::Type',
+    659: 'PlayerChoice::Flags',
     671: 'DriverBlacklist::Flags',
+    675: 'CharBaseSection::VariationEnum',
+    681: 'SpellEffect::EffectAttributes',
     // 673: 'Texture components',
     // 689: 'the answer to the minimap question',
+    692: 'Map::InstanceType', // updated
     693: 'ScenarioStep::Flags',
     706: 'Difficulty::Flags',
-    709: 'Level Boosts',
+    709: 'CharacterServiceInfo::BoostType',
+    712: 'AzeriteTier',
     713: 'unit classifications',
     714: 'unit age',
     715: 'unit standing',
     717: 'UiMap::Flags', // updated
+    718: 'UiMap::System', // updated
+    719: 'UiMap::Type', // updated
     721: 'SpellScript::Arguments', // copied
     // 724: 'ScalingTypes for combat log',
     738: 'ChrRaces::Flags', // updated
+    743: 'Weather::Type',
+    747: 'ChrRaces::PlayableRaceBit',
+    756: 'Campaign::Flags',
+    758: 'ChallengeModeItemBonusOverride::Type',
     759: 'TaxiNodes::Flags',
     863: 'UiWidgetVisualization::VisType', // copied and extended
     864: 'UiWidgetDataSource::SourceType', // copied
     865: 'UiWidgetVisTypeDataReq::ValueType', // copied
+    875: 'Vignette::VignetteType',
+    876: 'Garrison Building Status',
+    881: 'Item Reward Type',
+    890: 'LiquidTypeXTexture::Type',
+    891: 'GarrEncounter::Flags',
     // 901: 'SpellVisual categories',
     914: 'GeosetType',
     // 915: 'Waypoint1',
     // 916: 'Waypoint2',
     // 917: 'Waypoint3',
+    950: 'SceneFlags',
+    965: 'ItemEquipLoc',
     // 968: 'Account flags',
     // 969: 'MNAM',
+    972: 'GarrisonBuildingDoodadSet::Type',
+    973: 'GarrMissionSetFlags', // no fk?
+    982: 'GarrPlot::PlotType',
     983: 'PlayerCondition::Flags',
+    986: 'GarrPlot::Flags',
     // 989: 'Garrison talent effects',
     991: 'GarrAbilityEffect::Flags',
-    // 1007: 'AreaPoi',
+    // 992: 'Editor stuff',
+    993: 'GarrAbilityEffect::AbilityTargetType',
+    994: 'GarrBuilding::Flags',
+    995: 'GarrFollower::Flags',
+    996: 'GarrFollowerRerollType', // no fk?
+    999: 'GarrTalent::TalentType',
+    1003: 'GarrTalent::ResearchCostSource',
+    1004: 'ItemEffect::TriggerType', // updated
+    1007: 'GossipIcon',
     // 1009: 'AreaPoi',
     // 1034: 'Autobattler targets',
     1038: 'ChrModel::Flags', // copied
-    // 1078: 'M2 Texture component types',
+    // 1078: 'ChrCustomizationMaterial::ChrModelTextureTargetID',
+    1083: 'ChrModelTextureLayer::BlendMode',
     1085: 'UiWidgetVisualization::WidgetScale', // copied
+    1087: 'UiWidgetSet::LayoutDirection',
+    1094: 'ChrCustomizationReq::OverrideArchive',
+    1095: 'ChatChannels::Ruleset',
+    1096: 'GarrTalentSocketProperties::GarrTalentSocketType',
+    1097: 'SoulbindConduit::ConduitType',
 }
 
 // Regular enums
@@ -4398,6 +4497,7 @@ enumMap.set("uiwidgetvistypedatareq.VisType", UiWidgetVisualization_VisType);
 enumMap.set("uiwidgetvisualization.VisType", UiWidgetVisualization_VisType);
 enumMap.set("objecteffectpackageelem.StateType", ObjectEffectPackageElem_StateType);
 enumMap.set("spellscript.Arguments", SpellScript_Arguments);
+enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);

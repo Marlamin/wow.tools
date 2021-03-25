@@ -232,11 +232,62 @@ const emoteFlags = {
 }
 
 const mapFlags = {
-    0x100: 'CAN_TOGGLE_DIFFICULTY',
-    0x8000: 'FLEX_LOCKING',
-    0x1000000: 'UNK',
-    0x4000000: 'GARRISON',
+    0x1: 'Optimize',
+    0x2: 'Development Map',
+    0x4: 'Weighted Blend',
+    0x8: 'Vertex Coloring',
+    0x10: 'Sort Objects',
+    0x20: 'Limit to players from one realm',
+    0x40: 'Enable Lighting',
+    0x80: 'Inverted Terrain',
+    0x100: 'Dynamic Difficulty',
+    0x200: 'Object File',
+    0x400: 'Texture File',
+    0x800: 'Generate Normals',
+    0x1000: 'Fix Border Shadow Seams',
+    0x2000: 'Infinite Ocean',
+    0x4000: 'Underwater Map',
+    0x8000: 'Flexible Raid Locking',
+    0x10000: 'Limit Farclip',
+    0x20000: 'Use Parent Map Flight Bounds',
+    0x40000: 'No race change on this map',
+    0x80000: 'Disabled for non-GMs',
+    0x100000: 'Weight Normals 1',
+    0x200000: 'Disable low detail terrain',
+    0x400000: 'Enable Org Arena Blink Rule',
+    0x800000: 'Weighted Height Blend',
+    0x1000000: 'Coalescing Area Sharing',
+    0x2000000: 'Proving Grounds',
+    0x4000000: 'Garrison',
+    0x8000000: 'Enable AI Need System',
+    0x10000000: 'Single VServer', 
+    0x20000000: 'Use Instance Pool', 
+    0x40000000: 'Map uses Raid Graphics', 
+    0x80000000: 'Force custom UI Map', 
+}
 
+const mapFlags2 = {
+    0x1: 'Dont Activate/Show Map',
+    0x2: 'No Vote Kicks',
+    0x4: 'Dont Voxelize Path Data',
+    0x8: 'Terrain LOD',
+    0x10: 'Unclamped Point Lights',
+    0x20: 'PVP',
+    0x40: 'Ignore Instance Farm Limit',
+    0x80: 'Dont Inherit Area Lights From Parent',
+    0x100: 'Force Light Buffer On',
+    0x200: 'WMO Liquid Scale',
+    0x400: 'Spell Clutter On',
+    0x800: 'Spell Clutter Off',
+    0x1000: 'No Incoming Transfers',
+    0x2000: 'Reduced Path Map Height Validation',
+    0x4000: 'NEW_MINIMAP_GENERATION',
+    0x8000: 'AI_BOTS_DETECTED_LIKE_PLAYERS',
+    0x10000: 'LINEARLY_LIT_TERRAIN',
+    0x20000: 'FOG_OF_WAR',
+    0x40000: 'DISABLE_SHARED_WEATHER_SYSTEMS',
+    0x80000: 'HONOR_SPELL_ATTRIBUTE_EX_K_LOS_HITS_NOCAMCOLLIDE',
+    0x100000: 'BELONGS_TO_LAYER',
 }
 
 const soundkitFlags = {
@@ -629,8 +680,8 @@ const garrAutoSpellFlags = {
 }
 
 const garrBuildingFlags = {
-    0x1: 'REQUIRES_BLUEPRINT',
-    0x2: 'IGNORE_STOREHOUSE'
+    0x1: 'Requires Blueprint',
+    0x2: 'Ignore Storehouse'
 }
 
 const garrClassSpecFlags = {
@@ -646,11 +697,11 @@ const garrEncounterFlags = {
 }
 
 const garrFollowerFlags = {
-    0x1: 'UNIQUE_FOLLOWER',
-    0x2: 'NO_AUTOMATIC_SPAWNING',
-    0x4: 'INTERNAL_ONLY',
-    0x8: 'KILLED_BY_ALWAYS_FAIL_MISSION',
-    0x10: 'HIDDEN_UNLESS_COLLECTED',
+    0x1: 'Unique Follower',
+    0x2: 'No Automatic Spawning',
+    0x4: 'Internal Only',
+    0x8: 'Killed By Always Fail Missions',
+    0x10: 'Hidden Unless Collected',
 }
 
 const garrFollowerTypeFlags = {
@@ -662,7 +713,7 @@ const garrFollowerTypeFlags = {
 }
 
 const garrPlotFlags = {
-    0x1: 'REQUIRED_FOR_GARRISON_UPGRADE'
+    0x1: 'Required for Garrison Upgrade'
 }
 
 const holidayFlags = {
@@ -909,31 +960,38 @@ const areaPOIFlags = {
 }
 
 const summonPropertiesFlags = {
-    // 0x1: '',
-    // 0x2: '',
-    // 0x4: '',
-    // 0x8: '',
-    0x10: 'OnlyVisibleToSummoner',
-    // 0x20: '',
-    // 0x40: '',
-    // 0x80: '',
-    // 0x100: '',
-    // 0x200: '',
-    // 0x400: '',
-    // 0x800: '',
-    // 0x1000: '',
-    // 0x2000: '',
-    // 0x4000: '',
-    // 0x8000: '',
-    // 0x10000: '',
-    // 0x20000: '',
-    // 0x40000: '',
-    // 0x80000: '',
-    // 0x100000: '',
-    0x200000: 'Companion',
-    // 0x400000: '',
-    // 0x800000: '',
-
+    0x1: 'Attack Summoner',
+    0x2: 'Help when Summoned in combat',
+    0x4: 'Use Level Offset',
+    0x8: 'Despawn on Summoner Death',
+    0x10: 'Only Visible to Summoner',
+    0x20: 'Cannot Dismiss Pet',
+    0x40: 'Use Demon Timeout',
+    0x80: 'Unlimited Summons',
+    0x100: 'Use Creature Level',
+    0x200: 'Join Summoners Spawn Group',
+    0x400: 'Do Not Toggle',
+    0x800: 'Despawn When Expired',
+    0x1000: 'Use Summoner Faction',
+    0x2000: 'Do Not Follow Mounted Summoner',
+    0x4000: 'Save Pet Autocast',
+    0x8000: 'Ignore Summoners Phase (Wild Only)',
+    0x10000: 'Only Visible to Summoners Group',
+    0x20000: 'Despawn on Summoner Logout',
+    0x40000: 'Cast Ride Vehicle Spell on Summoner',
+    0x80000: 'Guardian Acts Like a Pet',
+    0x100000: 'Dont Snap Sessile To Ground',
+    0x200000: 'Summons from Battle Pet Journal',
+    0x400000: 'Unit Clutter',
+    0x800000: 'Default Name Color',
+    0x1000000: 'Use Own Invisibility Detection (Ignore Owners Invisibility Detection)',
+    0x2000000: 'Despawn When Replaced (Totem Slots Only)',
+    0x4000000: 'Despawn When Teleporting Out of Range',
+    0x8000000: 'Summoned at Group Formation Position',
+    0x10000000: 'Dont Despawn On Summoners Death',
+    0x20000000: 'Use Title As Creature Name',
+    0x40000000: 'Attackable By Summoner',
+    0x80000000: 'Dont dismiss when an encounter is aborted'
 }
 
 const questFlags0 = {
@@ -1104,6 +1162,15 @@ const chrModelFlags = {
     0x010: 'Use Pandaren Ring for componenting texture',
 }
 
+const mountCapabilityFlags = {
+    0x1: 'Is Ground Mount',
+    0x2: 'Is Flying Mount',
+    0x4: 'Is Surface Swimming Mount',
+    0x8: 'Is Underwater Swimming Mount',
+    0x10: 'Mount Can Jump',
+    0x20: 'Ignore All Area Restrictions'
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
@@ -1125,6 +1192,7 @@ window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsearchname.Flags[3]", itemStaticFlags3);
 window.flagMap.set("map.Flags[0]", mapFlags);
+window.flagMap.set("map.Flags[1]", mapFlags2);
 window.flagMap.set("playercondition.ClassMask", classMask);
 window.flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
 window.flagMap.set("soundkit.Flags", soundkitFlags);
@@ -1158,7 +1226,7 @@ window.flagMap.set("garrbuilding.Flags", garrBuildingFlags);
 window.flagMap.set("garrclassspec.Flags", garrClassSpecFlags);
 window.flagMap.set("garrencounter.Flags", garrEncounterFlags);
 window.flagMap.set("garrfollower.Flags", garrFollowerFlags);
-window.flagMap.set("garrfollowertype.Flags", garrFollowerFlags);
+window.flagMap.set("garrfollowertype.Flags", garrFollowerTypeFlags);
 window.flagMap.set("garrplot.Flags", garrPlotFlags);
 window.flagMap.set("holidays.Flags", holidayFlags);
 window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
@@ -1184,6 +1252,7 @@ window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 window.flagMap.set("spellmisc.SchoolMask", damageClass);
 window.flagMap.set("gemproperties.Type", socketColors);
 window.flagMap.set("chrmodel.Flags", chrModelFlags);
+window.flagMap.set("mountcapability.Flags", mountCapabilityFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
