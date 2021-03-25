@@ -4349,16 +4349,16 @@ const enumNames = {
     671: 'DriverBlacklist::Flags',
     675: 'CharBaseSection::VariationEnum',
     681: 'SpellEffect::EffectAttributes',
-    // 673: 'Texture components',
+    673: 'CharComponentTextureSections:SectionType',
     // 689: 'the answer to the minimap question',
     692: 'Map::InstanceType', // updated
     693: 'ScenarioStep::Flags',
     706: 'Difficulty::Flags',
     709: 'CharacterServiceInfo::BoostType',
     712: 'AzeriteTier',
-    713: 'unit classifications',
-    714: 'unit age',
-    715: 'unit standing',
+    713: 'CreatureClassifications',
+    714: 'CreatureAges',
+    715: 'CreatureRankings',
     717: 'UiMap::Flags', // updated
     718: 'UiMap::System', // updated
     719: 'UiMap::Type', // updated
@@ -4384,6 +4384,7 @@ const enumNames = {
     // 916: 'Waypoint2',
     // 917: 'Waypoint3',
     950: 'SceneFlags',
+    956: 'BonusStatIndex',
     965: 'ItemEquipLoc',
     // 968: 'Account flags',
     // 969: 'MNAM',
@@ -4391,8 +4392,9 @@ const enumNames = {
     973: 'GarrMissionSetFlags', // no fk?
     982: 'GarrPlot::PlotType',
     983: 'PlayerCondition::Flags',
+    985: 'GarrSite::Flags',
     986: 'GarrPlot::Flags',
-    // 989: 'Garrison talent effects',
+    989: 'GarrSpecialization::SpecType',
     991: 'GarrAbilityEffect::Flags',
     // 992: 'Editor stuff',
     993: 'GarrAbilityEffect::AbilityTargetType',
@@ -4403,9 +4405,18 @@ const enumNames = {
     1003: 'GarrTalent::ResearchCostSource',
     1004: 'ItemEffect::TriggerType', // updated
     1007: 'GossipIcon',
+    1021: 'QuestObjective::Flags',
     // 1009: 'AreaPoi',
-    // 1034: 'Autobattler targets',
+    1033: 'GarrAutoSpellEffect::Effect',
+    1034: 'GarrAutoSpellEffect::TargetType',
+    1035: 'GarrAutoSpell::Flags',
+    1036: 'VehiclePOIType::Flags',
+    1037: 'GarrAutoBoardIndexs', // no fk?
     1038: 'ChrModel::Flags', // copied
+    1041: 'BattlePetState::Flags',
+    1049: 'GlobalTable_PlayerCondition::What',
+    1063: 'GarrTalentTree::FeatureTypeIndex',
+    1064: 'GarrTalentTree::FeatureSubtypeIndex',
     // 1078: 'ChrCustomizationMaterial::ChrModelTextureTargetID',
     1083: 'ChrModelTextureLayer::BlendMode',
     1085: 'UiWidgetVisualization::WidgetScale', // copied
@@ -4414,6 +4425,7 @@ const enumNames = {
     1095: 'ChatChannels::Ruleset',
     1096: 'GarrTalentSocketProperties::GarrTalentSocketType',
     1097: 'SoulbindConduit::ConduitType',
+    1103: 'OptionalReagentItemFlag',
 }
 
 // Regular enums
