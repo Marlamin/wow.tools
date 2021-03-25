@@ -272,7 +272,7 @@ require_once(__DIR__ . "/../inc/header.php");
                         if (!isNaN(before[key]) && !isNaN(after[key])) {
                             if(flagMap.has(dbc.toLowerCase() + "." + key)){
                                 // flag specific diffing
-                                changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>";
+                                changes += "<tr><td style='min-width: 140px;'><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>";
                                 
                                 changes += "0x" + Number(before[key]).toString(16);
                                 
