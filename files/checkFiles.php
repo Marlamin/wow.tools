@@ -51,7 +51,7 @@ if (!empty($_POST['files'])) {
         $row = $qt->fetch();
 
         if (!empty($row)) {
-            if (empty($row['filename'])) {
+            if (empty($row['filename']) || $row['filename'] != $expl[0]) {
                 $addq->execute([$expl[0], $expl[1]]);
                 echo "Added " . $expl[0] . " (" . $expl[1] . ")<br>";
                 $numadded++;
