@@ -141,7 +141,12 @@ require_once(__DIR__ . "/../inc/header.php");
         let addendum = "";
         dbc = dbc.toLowerCase();
         if(enumMap.has(dbc + "." + col)){
-            addendum = " (" + enumMap.get(dbc + "." + col)[value] + ")";
+            var enumRes = enumMap.get(dbc + "." + col)[value];
+            if(Array.isArray(enumRes)){
+                addendum = " (" + enumRes[0] + ")";
+            }else{
+                addendum = " (" + enumRes + ")";
+            }
         }
 
         if(flagMap.has(dbc + "." + col)){
@@ -200,8 +205,13 @@ require_once(__DIR__ . "/../inc/header.php");
         }
 
         if(enumMap.has(dbc.toLowerCase() + "." + col)){
-            if(val in enumMap.get(dbc.toLowerCase() + "." + col)){
-                returnedValue += " (" + enumMap.get(dbc.toLowerCase() + "." + col)[val] + ")";
+            var enumRes = enumMap.get(dbc.toLowerCase() + "." + col);
+            if(val in enumRes){
+                if(Array.isArray(enumRes[val])){
+                    returnedValue += " (" + enumRes[val][1] + ")";
+                }else{
+                    returnedValue += " (" + enumRes[val] + ")";
+                }
             }else{
                 returnedValue += " (unknown)";
             }

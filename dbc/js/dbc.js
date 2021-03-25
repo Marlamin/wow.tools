@@ -219,7 +219,11 @@ function getEnum(db, field, value){
 
 function getEnumVal(targetEnum, value){
     if (targetEnum[value] !== undefined){
-        return targetEnum[value];
+        if (Array.isArray(targetEnum[value])){
+            return targetEnum[value][0];
+        } else {
+            return targetEnum[value];
+        }
     } else {
         return "Unk";
     }
