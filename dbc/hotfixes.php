@@ -270,10 +270,74 @@ require_once(__DIR__ . "/../inc/header.php");
                 Object.keys(before).forEach(function (key) {
                     if(before[key] != after[key]){
                         if (!isNaN(before[key]) && !isNaN(after[key])) {
-                            let displayedValBefore = richValue(dbc, key, before, build, header.fks[key]);
-                            let displayedValAfter = richValue(dbc, key, after, build, header.fks[key]);
-                            changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>" + displayedValBefore  + " &rarr; " + displayedValAfter  + "</td></tr>";
-                        } else {
+                            if(flagMap.has(dbc.toLowerCase() + "." + key)){
+                                // flag specific diffing
+                                changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>";
+                                
+                                changes += "0x" + Number(before[key]).toString(16);
+                                
+                                changes += " &rarr; ";
+                                
+                                changes += "0x" + Number(after[key]).toString(16) + " (";
+
+                                let usedFlagsBefore = getFlagDescriptions(dbc.toLowerCase(), key, before[key]);
+                                let usedFlagsAfter = getFlagDescriptions(dbc.toLowerCase(), key, after[key]);
+
+                                let allFlags = [];
+                                let usedFlagNumsBefore = [];
+                                usedFlagsBefore.forEach(function (beforeFlag) {
+                                    usedFlagNumsBefore.push(beforeFlag[0]);
+                                    allFlags.push(beforeFlag);
+                                });
+
+                                let usedFlagNumsAfter = [];
+                                usedFlagsAfter.forEach(function (afterFlag) {
+                                    usedFlagNumsAfter.push(afterFlag[0]);
+                                    allFlags.push(afterFlag);
+                                });
+
+                                let seenFlags = [];
+                                allFlags.forEach(function (flag) {
+                                    if(!usedFlagNumsAfter.includes(flag[0])){
+                                        if(!seenFlags.includes(flag[0])){
+                                            if(flag[1] != ""){
+                                                changes += "<span class='diff-removed'>" + flag[0] + ": " + flag[1] + "</span> "; 
+                                            }else{
+                                                changes += "<span class='diff-removed'>" + flag[0] + "</span> "; 
+                                            }
+
+                                            seenFlags.push(flag[0]);
+                                        }
+                                    } else if(!usedFlagNumsBefore.includes(flag[0])){
+                                        if(!seenFlags.includes(flag[0])){
+                                            if(flag[1] != ""){
+                                                changes += "<span class='diff-added'>" + flag[0] + ": " + flag[1] + "</span> "; 
+                                            }else{
+                                                changes += "<span class='diff-added'>" + flag[0] + "</span> "; 
+                                            } 
+
+                                            seenFlags.push(flag[0]);
+                                        }
+                                    }else{
+                                        if(!seenFlags.includes(flag[0])){
+                                            if(flag[1] != ""){
+                                                changes += "<span class=''>" + flag[0] + ": " + flag[1] + "</span> "; 
+                                            }else{
+                                                changes += "<span class=''>" + flag[0] + "</span> "; 
+                                            }
+
+                                            seenFlags.push(flag[0]);
+                                        }
+                                    }
+                                });
+
+                                changes += ")</td></tr>";
+                            }else{
+                                let displayedValBefore = richValue(dbc, key, before, build, header.fks[key]);
+                                let displayedValAfter = richValue(dbc, key, after, build, header.fks[key]);
+                                changes += "<tr><td><i style='color: orange' class='fa fa-pencil-square'></i> <b>" + key + "</b></td><td>" + displayedValBefore  + " &rarr; " + displayedValAfter  + "</td></tr>";
+                            }
+                       } else {
                             var dmp = new diff_match_patch();
                             var dmp_diff = dmp.diff_main(before[key], after[key]);
                             dmp.diff_cleanupSemantic(dmp_diff);
