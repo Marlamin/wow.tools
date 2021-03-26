@@ -205,7 +205,7 @@ function fancyFlagTable(flagArrs){
 
     let tableHtml = "<table class=\"table table-sm table-striped\">";
     flagArrs.forEach((flagArr) => {
-        tableHtml += "<tr><td>" + flagArr[0] + "</td><td>" + flagArr[1] + "</td></tr>";
+        tableHtml += "<tr><td>" + flagArr[0] + "</td><td>" + flagArr[1].replace("\"", "&quot;").replace("'", "&apos;") + "</td></tr>";
     });
     tableHtml += "</table>";
 
