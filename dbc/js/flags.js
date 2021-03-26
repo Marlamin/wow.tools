@@ -304,242 +304,499 @@ const globalstringsFlags ={
 };
 
 const spellAttributes0 = {
-    0x00000002: 'REQ_AMMO', //  1 on next ranged
-    0x00000004: 'ON_NEXT_SWING', //  2
-    0x00000008: 'IS_REPLENISHMENT', //  3 not set in 3.0.3
-    0x00000010: 'ABILITY', //  4 client puts 'ability' instead of 'spell' in game strings for these spells
-    0x00000020: 'TRADESPELL', //  5 trade spells (recipes), will be added by client to a sublist of profession spell
-    0x00000040: 'PASSIVE', //  6 Passive spell
-    0x00000080: 'HIDDEN_CLIENTSIDE', //  7 Spells with this attribute are not visible in spellbook or aura bar
-    0x00000100: 'HIDE_IN_COMBAT_LOG', //  8 This attribite controls whether spell appears in combat logs
-    0x00000200: 'TARGET_MAINHAND_ITEM', //  9 Client automatically selects item from mainhand slot as a cast target
-    0x00000400: 'ON_NEXT_SWING_2', // 10
-    0x00001000: 'DAYTIME_ONLY', // 12 only useable at daytime, not set in 2.4.2
-    0x00002000: 'NIGHT_ONLY', // 13 only useable at night, not set in 2.4.2
-    0x00004000: 'INDOORS_ONLY', // 14 only useable indoors, not set in 2.4.2
-    0x00008000: 'OUTDOORS_ONLY', // 15 Only useable outdoors.
-    0x00010000: 'NOT_SHAPESHIFT', // 16 Not while shapeshifted
-    0x00020000: 'ONLY_STEALTHED', // 17 Must be in stealth
-    0x00040000: 'DONT_AFFECT_SHEATH_STATE', // 18 client won't hide unit weapons in sheath on cast/channel
-    0x00080000: 'LEVEL_DAMAGE_CALCULATION', // 19 spelldamage depends on caster level
-    0x00100000: 'STOP_ATTACK_TARGET', // 20 Stop attack after use this spell (and not begin attack if use)
-    0x00200000: 'IMPOSSIBLE_DODGE_PARRY_BLOCK', // 21 Cannot be dodged/parried/blocked
-    0x00400000: 'CAST_TRACK_TARGET', // 22 Client automatically forces player to face target when casting
-    0x00800000: 'CASTABLE_WHILE_DEAD', // 23 castable while dead?
-    0x01000000: 'CASTABLE_WHILE_MOUNTED', // 24 castable while mounted
-    0x02000000: 'DISABLED_WHILE_ACTIVE', // 25 Activate and start cooldown after aura fade or remove summoned creature or go
-    0x04000000: 'NEGATIVE_1', // 26 Many negative spells have this attr
-    0x08000000: 'CASTABLE_WHILE_SITTING', // 27 castable while sitting
-    0x10000000: 'CANT_USED_IN_COMBAT', // 28 Cannot be used in combat
-    0x20000000: 'UNAFFECTED_BY_INVULNERABILITY', // 29 unaffected by invulnerability (hmm possible not...)
-    0x40000000: 'HEARTBEAT_RESIST_CHECK', // 30 random chance the effect will end TODO: implement core support
-    0x80000000: 'CANT_CANCEL'  // 31 positive aura can't be canceled
+    0x00000001: 'Proc Failure Burns Charge',
+    0x00000002: 'Uses Ranged Slot', // REQ_AMMO -- on next ranged
+    0x00000004: 'On Next Swing (No Damage)', // ON_NEXT_SWING
+    0x00000008: 'Do Not Log Immune Misses', // IS_REPLENISHMENT -- not set in 3.0.3
+    0x00000010: 'Is Ability', // ABILITY -- client puts 'ability' instead of 'spell' in game strings for these spells
+    0x00000020: 'Is Tradeskill', // TRADESPELL -- trade spells (recipes), will be added by client to a sublist of profession spell
+    0x00000040: 'Passive', // PASSIVE -- Passive spell
+    0x00000080: 'Do Not Display (Spellbook, Aura Icon, Combat Log)', // HIDDEN_CLIENTSIDE -- Spells with this attribute are not visible in spellbook or aura bar
+    0x00000100: 'Do Not Log', // HIDE_IN_COMBAT_LOG -- This attribite controls whether spell appears in combat logs
+    0x00000200: 'Held Item Only', // TARGET_MAINHAND_ITEM -- Client automatically selects item from mainhand slot as a cast target
+    0x00000400: 'On Next Swing', // ON_NEXT_SWING_2
+    0x00000800: 'Wearer Casts Proc Trigger',
+    0x00001000: 'Server Only', // DAYTIME_ONLY -- only useable at daytime, not set in 2.4.2
+    0x00002000: 'Allow Item Spell In PvP', // NIGHT_ONLY -- only useable at night, not set in 2.4.2
+    0x00004000: 'Only Indoors', // INDOORS_ONLY -- only useable indoors, not set in 2.4.2
+    0x00008000: 'Only Outdoors', // OUTDOORS_ONLY -- Only useable outdoors.
+    0x00010000: 'Not Shapeshifted', // NOT_SHAPESHIFT -- Not while shapeshifted
+    0x00020000: 'Only Stealthed', // ONLY_STEALTHED -- Must be in stealth
+    0x00040000: 'Do Not Sheath', // DONT_AFFECT_SHEATH_STATE -- client won't hide unit weapons in sheath on cast/channel
+    0x00080000: 'Scales w/ Creature Level', // LEVEL_DAMAGE_CALCULATION -- spelldamage depends on caster level
+    0x00100000: 'Cancels Auto Attack Combat', // STOP_ATTACK_TARGET -- Stop attack after use this spell (and not begin attack if use)
+    0x00200000: 'No Active Defense', // IMPOSSIBLE_DODGE_PARRY_BLOCK -- Cannot be dodged/parried/blocked
+    0x00400000: 'Track Target in Cast (Player Only)', // CAST_TRACK_TARGET -- Client automatically forces player to face target when casting
+    0x00800000: 'Allow Cast While Dead', // CASTABLE_WHILE_DEAD -- castable while dead?
+    0x01000000: 'Allow While Mounted', // CASTABLE_WHILE_MOUNTED -- castable while mounted
+    0x02000000: 'Cooldown On Event', // DISABLED_WHILE_ACTIVE -- Activate and start cooldown after aura fade or remove summoned creature or go
+    0x04000000: 'Aura Is Debuff', // NEGATIVE_1 -- Many negative spells have this attr
+    0x08000000: 'Allow While Sitting', // CASTABLE_WHILE_SITTING -- castable while sitting
+    0x10000000: 'Not In Combat (Only Peaceful)', // CANT_USED_IN_COMBAT -- Cannot be used in combat
+    0x20000000: 'No Immunities', // UNAFFECTED_BY_INVULNERABILITY -- unaffected by invulnerability (hmm possible not...)
+    0x40000000: 'Heartbeat Resist', // HEARTBEAT_RESIST_CHECK -- random chance the effect will end TODO: implement core support
+    0x80000000: 'No Aura Cancel', // CANT_CANCEL -- positive aura can't be canceled
 };
 
 const spellAttributes1 = {
-    0x00000001: 'DISMISS_PET', //  0 for spells without this flag client doesn't allow to summon pet if caster has a pet
-    0x00000002: 'DRAIN_ALL_POWER', //  1 use all power (Only paladin Lay of Hands and Bunyanize)
-    0x00000004: 'CHANNELED_1', //  2 clientside checked? cancelable?
-    0x00000008: 'CANT_BE_REDIRECTED', //  3
-    0x00000020: 'NOT_BREAK_STEALTH', //  5 Not break stealth
-    0x00000040: 'CHANNELED_2', //  6
-    0x00000080: 'CANT_BE_REFLECTED', //  7
-    0x00000100: 'CANT_TARGET_IN_COMBAT', //  8 can target only out of combat units
-    0x00000200: 'MELEE_COMBAT_START', //  9 player starts melee combat after this spell is cast
-    0x00000400: 'NO_THREAT', // 10 no generates threat on cast 100% (old NO_INITIAL_AGGRO)
-    0x00001000: 'IS_PICKPOCKET', // 12 Pickpocket
-    0x00002000: 'FARSIGHT', // 13 Client removes farsight on aura loss
-    0x00004000: 'CHANNEL_TRACK_TARGET', // 14 Client automatically forces player to face target when channeling
-    0x00008000: 'DISPEL_AURAS_ON_IMMUNITY', // 15 remove auras on immunity
-    0x00010000: 'UNAFFECTED_BY_SCHOOL_IMMUNE', // 16 on immuniy
-    0x00020000: 'UNAUTOCASTABLE_BY_PET', // 17
-    0x00080000: 'CANT_TARGET_SELF', // 19
-    0x00100000: 'REQ_COMBO_POINTS1', // 20 Req combo points on target
-    0x00400000: 'REQ_COMBO_POINTS2', // 22 Req combo points on target
-    0x01000000: 'IS_FISHING', // 24 only fishing spells
-    0x10000000: 'DONT_DISPLAY_IN_AURA_BAR', // 28 client doesn't display these spells in aura bar
-    0x20000000: 'CHANNEL_DISPLAY_SPELL_NAME', // 29 spell name is displayed in cast bar instead of 'channeling' text
-    0x40000000: 'ENABLE_AT_DODGE', // 30 Overpower
+    0x00000001: 'Dismiss Pet First', // DISMISS_PET -- for spells without this flag client doesn't allow to summon pet if caster has a pet
+    0x00000002: 'Use All Mana', // DRAIN_ALL_POWER -- use all power (Only paladin Lay of Hands and Bunyanize)
+    0x00000004: 'Is Channelled', // CHANNELED_1 -- clientside checked? cancelable?
+    0x00000008: 'No Redirection', // CANT_BE_REDIRECTED
+    0x00000010: 'No Skill Increase',
+    0x00000020: 'Allow While Stealthed', // NOT_BREAK_STEALTH -- Not break stealth
+    0x00000040: 'Is Self Channelled', // CHANNELED_2
+    0x00000080: 'No Reflection', // CANT_BE_REFLECTED
+    0x00000100: 'Only Peaceful Targets', // CANT_TARGET_IN_COMBAT -- can target only out of combat units
+    0x00000200: 'Initiates Combat (Enables Auto-Attack)', // MELEE_COMBAT_START -- player starts melee combat after this spell is cast
+    0x00000400: 'No Threat', // NO_THREAT -- no generates threat on cast 100% (old NO_INITIAL_AGGRO)
+    0x00000800: 'Aura Unique',
+    0x00001000: 'Failure Breaks Stealth', // IS_PICKPOCKET -- Pickpocket
+    0x00002000: 'Toggle Far Sight', // FARSIGHT -- Client removes farsight on aura loss
+    0x00004000: 'Track Target in Channel', // CHANNEL_TRACK_TARGET -- Client automatically forces player to face target when channeling
+    0x00008000: 'Immunity Purges Effect', // DISPEL_AURAS_ON_IMMUNITY -- remove auras on immunity
+    0x00010000: 'Immunity to Hostile & Friendly Effects', // UNAFFECTED_BY_SCHOOL_IMMUNE -- on immuniy
+    0x00020000: 'No AutoCast (AI)', // UNAUTOCASTABLE_BY_PET
+    0x00040000: 'Prevents Anim',
+    0x00080000: 'Exclude Caster', // CANT_TARGET_SELF
+    0x00100000: 'Finishing Move - Damage', // REQ_COMBO_POINTS1 -- Req combo points on target
+    0x00200000: 'Threat only on Miss',
+    0x00400000: 'Finishing Move - Duration', // REQ_COMBO_POINTS2 -- Req combo points on target
+    0x00800000: 'Ignore Owner\'s Death',
+    0x01000000: 'Special Skillup', // IS_FISHING -- only fishing spells
+    0x02000000: 'Aura Stays After Combat',
+    0x04000000: 'Require All Targets',
+    0x08000000: 'Discount Power On Miss',
+    0x10000000: 'No Aura Icon', // DONT_DISPLAY_IN_AURA_BAR -- client doesn't display these spells in aura bar
+    0x20000000: 'Name in Channel Bar', // CHANNEL_DISPLAY_SPELL_NAME -- spell name is displayed in cast bar instead of 'channeling' text
+    0x40000000: 'Combo on Block (Mainline: Dispel All Stacks)', // ENABLE_AT_DODGE -- Overpower
+    0x80000000: 'Cast When Learned',
 };
 
 const spellAttributes2 = {
-    0x00000001: 'CAN_TARGET_DEAD', //  0 can target dead unit or corpse
-    0x00000004: 'CAN_TARGET_NOT_IN_LOS', //  2 26368 4.0.1 dbc change
-    0x00000010: 'DISPLAY_IN_STANCE_BAR', //  4 client displays icon in stance bar when learned, even if not shapeshift
-    0x00000020: 'AUTOREPEAT_FLAG', //  5
-    0x00000040: 'CANT_TARGET_TAPPED', //  6 target must be tapped by caster
-    0x00000800: 'HEALTH_FUNNEL', // 11
-    0x00002000: 'PRESERVE_ENCHANT_IN_ARENA', // 13 Items enchanted by spells with this flag preserve the enchant to arenas
-    0x00010000: 'TAME_BEAST', // 16
-    0x00020000: 'NOT_RESET_AUTO_ACTIONS', // 17 don't reset timers for melee autoattacks (swings) or ranged autoattacks (autoshoots)
-    0x00040000: 'REQ_DEAD_PET', // 18 Only Revive pet and Heart of the Pheonix
-    0x00080000: 'NOT_NEED_SHAPESHIFT', // 19 does not necessarly need shapeshift
-    0x00200000: 'DAMAGE_REDUCED_SHIELD', // 21 for ice blocks, pala immunity buffs, priest absorb shields, but used also for other spells -> not sure!
-    0x00800000: 'IS_ARCANE_CONCENTRATION', // 23 Only mage Arcane Concentration have this flag
-    0x04000000: 'UNAFFECTED_BY_AURA_SCHOOL_IMMUNE', // 26 unaffected by school immunity
-    0x10000000: 'IGNORE_ITEM_CHECK', // 28 Spell is cast without checking item requirements (charges/reagents/totem)
-    0x20000000: 'CANT_CRIT', // 29 Spell can't crit
-    0x40000000: 'TRIGGERED_CAN_TRIGGER_PROC', // 30 spell can trigger even if triggered
-    0x80000000: 'FOOD_BUFF'  // 31 Food or Drink Buff (like Well Fed)
+    0x00000001: 'Allow Dead Target', // CAN_TARGET_DEAD -- can target dead unit or corpse
+    0x00000002: 'No shapeshift UI',
+    0x00000004: 'Ignore Line of Sight', // CAN_TARGET_NOT_IN_LOS -- 26368 4.0.1 dbc change
+    0x00000008: 'Allow Low Level Buff',
+    0x00000010: 'Use Shapeshift Bar', // DISPLAY_IN_STANCE_BAR -- client displays icon in stance bar when learned, even if not shapeshift
+    0x00000020: 'Auto Repeat', // AUTOREPEAT_FLAG
+    0x00000040: 'Cannot cast on tapped', // CANT_TARGET_TAPPED -- target must be tapped by caster
+    0x00000080: 'Do Not Report Spell Failure',
+    0x00000100: 'Include In Advanced Combat Log',
+    0x00000200: 'Always Cast As Unit',
+    0x00000400: 'Special Taming Flag',
+    0x00000800: 'No Target Per-Second Costs', // HEALTH_FUNNEL
+    0x00001000: 'Chain From Caster',
+    0x00002000: 'Enchant own item only', // PRESERVE_ENCHANT_IN_ARENA -- Items enchanted by spells with this flag preserve the enchant to arenas
+    0x00004000: 'Allow While Invisible',
+    0x00008000: 'Do Not Consume if Gained During Cast',
+    0x00010000: 'No Active Pets', // TAME_BEAST
+    0x00020000: 'Do Not Reset Combat Timers', // NOT_RESET_AUTO_ACTIONS -- don't reset timers for melee autoattacks (swings) or ranged autoattacks (autoshoots)
+    0x00040000: 'No Jump While Cast Pending', // REQ_DEAD_PET -- Only Revive pet and Heart of the Pheonix
+    0x00080000: 'Allow While Not Shapeshifted (caster form)', // NOT_NEED_SHAPESHIFT -- does not necessarly need shapeshift
+    0x00100000: 'Initiate Combat Post-Cast (Enables Auto-Attack)',
+    0x00200000: 'Fail on all targets immune', // DAMAGE_REDUCED_SHIELD -- for ice blocks, pala immunity buffs, priest absorb shields, but used also for other spells -> not sure!
+    0x00400000: 'No Initial Threat',
+    0x00800000: 'Proc Cooldown On Failure', // IS_ARCANE_CONCENTRATION -- Only mage Arcane Concentration have this flag
+    0x01000000: 'Item Cast With Owner Skill',
+    0x02000000: 'Don\'t Block Mana Regen',
+    0x04000000: 'No School Immunities', // UNAFFECTED_BY_AURA_SCHOOL_IMMUNE -- unaffected by school immunity
+    0x08000000: 'Ignore Weaponskill',
+    0x10000000: 'Not an Action', // IGNORE_ITEM_CHECK -- Spell is cast without checking item requirements (charges/reagents/totem)
+    0x20000000: 'Can\'t Crit', // CANT_CRIT -- Spell can't crit
+    0x40000000: 'Active Threat', // TRIGGERED_CAN_TRIGGER_PROC -- spell can trigger even if triggered
+    0x80000000: 'Retain Item Cast', // FOOD_BUFF -- Food or Drink Buff (like Well Fed)
 };
 
 const spellAttributes3 = {
-    0x00000008: 'BLOCKABLE_SPELL', //  3 Only dmg class melee in 3.1.3
-    0x00000010: 'IGNORE_RESURRECTION_TIMER', //  4 you don't have to wait to be resurrected with these spells
-    0x00000080: 'STACK_FOR_DIFF_CASTERS', //  7 separate stack for every caster
-    0x00000100: 'ONLY_TARGET_PLAYERS', //  8 can only target players
-    0x00000200: 'TRIGGERED_CAN_TRIGGER_PROC_2', //  9 triggered from effect?
-    0x00000400: 'MAIN_HAND', // 10 Main hand weapon required
-    0x00000800: 'BATTLEGROUND', // 11 Can only be cast in battleground
-    0x00001000: 'ONLY_TARGET_GHOSTS', // 12
-    0x00002000: 'DONT_DISPLAY_CHANNEL_BAR', // 13 Clientside attribute - will not display channeling bar
-    0x00004000: 'IS_HONORLESS_TARGET', // 14 "Honorless Target" only this spells have this flag
-    0x00010000: 'CANT_TRIGGER_PROC', // 16 confirmed with many patchnotes
-    0x00020000: 'NO_INITIAL_AGGRO', // 17 Soothe Animal, 39758, Mind Soothe
-    0x00040000: 'IGNORE_HIT_RESULT', // 18 Spell should always hit its target
-    0x00080000: 'DISABLE_PROC', // 19 during aura proc no spells can trigger (20178, 20375)
-    0x00100000: 'DEATH_PERSISTENT', // 20 Death persistent spells
-    0x00400000: 'REQ_WAND', // 22 Req wand
-    0x01000000: 'REQ_OFFHAND', // 24 Req offhand weapon
-    0x02000000: 'TREAT_AS_PERIODIC', // 25 Makes the spell appear as periodic in client combat logs - used by spells that trigger another spell on each tick
-    0x04000000: 'CAN_PROC_WITH_TRIGGERED', // 26 auras with this attribute can proc from triggered spell casts with SPELL_ATTR3_TRIGGERED_CAN_TRIGGER_PROC_2 (67736 + 52999)
-    0x08000000: 'DRAIN_SOUL', // 27 only drain soul has this flag
-    0x20000000: 'NO_DONE_BONUS', // 29 Ignore caster spellpower and done damage mods?  client doesn't apply spellmods for those spells
-    0x40000000: 'DONT_DISPLAY_RANGE', // 30 client doesn't display range in tooltip for those spells
+    0x00000001: 'PvP Enabling',
+    0x00000002: 'No Proc Equip Requirement',
+    0x00000004: 'No Casting Bar Text',
+    0x00000008: 'Completely Blocked', // BLOCKABLE_SPELL -- Only dmg class melee in 3.1.3
+    0x00000010: 'No Res Timer', // IGNORE_RESURRECTION_TIMER -- you don't have to wait to be resurrected with these spells
+    0x00000020: 'No Durability Loss',
+    0x00000040: 'No Avoidance',
+    0x00000080: 'DoT Stacking Rule', // STACK_FOR_DIFF_CASTERS -- separate stack for every caster
+    0x00000100: 'Only On Player', // ONLY_TARGET_PLAYERS -- can only target players
+    0x00000200: 'Not a Proc', // TRIGGERED_CAN_TRIGGER_PROC_2 -- triggered from effect?
+    0x00000400: 'Requires Main-Hand Weapon', // MAIN_HAND -- Main hand weapon required
+    0x00000800: 'Only Battlegrounds', // BATTLEGROUND -- Can only be cast in battleground
+    0x00001000: 'Only On Ghosts', // ONLY_TARGET_GHOSTS
+    0x00002000: 'Hide Channel Bar', // DONT_DISPLAY_CHANNEL_BAR -- Clientside attribute - will not display channeling bar
+    0x00004000: 'Hide In Raid Filter', // IS_HONORLESS_TARGET -- "Honorless Target" only this spells have this flag
+    0x00008000: 'Normal Ranged Attack',
+    0x00010000: 'Suppress Caster Procs', // CANT_TRIGGER_PROC -- confirmed with many patchnotes
+    0x00020000: 'Suppress Target Procs', // NO_INITIAL_AGGRO -- Soothe Animal, 39758, Mind Soothe
+    0x00040000: 'Always Hit', // IGNORE_HIT_RESULT -- Spell should always hit its target
+    0x00080000: 'Instant Target Procs', // DISABLE_PROC -- during aura proc no spells can trigger (20178, 20375)
+    0x00100000: 'Allow Aura While Dead', // DEATH_PERSISTENT -- Death persistent spells
+    0x00200000: 'Only Proc Outdoors',
+    0x00400000: 'Casting Cancels Autorepeat (Mainline: Do Not Trigger Target Stand)', // REQ_WAND -- Req wand
+    0x00800000: 'No Damage History',
+    0x01000000: 'Requires Off-Hand Weapon', // REQ_OFFHAND -- Req offhand weapon
+    0x02000000: 'Treat As Periodic', // TREAT_AS_PERIODIC -- Makes the spell appear as periodic in client combat logs - used by spells that trigger another spell on each tick
+    0x04000000: 'Can Proc From Procs', // CAN_PROC_WITH_TRIGGERED -- auras with this attribute can proc from triggered spell casts with SPELL_ATTR3_TRIGGERED_CAN_TRIGGER_PROC_2 (67736 + 52999)
+    0x08000000: 'Only Proc on Caster', // DRAIN_SOUL -- only drain soul has this flag
+    0x10000000: 'Ignore Caster & Target Restrictions',
+    0x20000000: 'Ignore Caster Modifiers', // NO_DONE_BONUS -- Ignore caster spellpower and done damage mods?  client doesn't apply spellmods for those spells
+    0x40000000: 'Do Not Display Range', // DONT_DISPLAY_RANGE -- client doesn't display range in tooltip for those spells
+    0x80000000: 'Not On AOE Immune',
 };
 
 const spellAttributes4 = {
-    0x00000001: 'IGNORE_RESISTANCES', //  0 spells with this attribute will completely ignore the target's resistance (these spells can't be resisted)
-    0x00000002: 'PROC_ONLY_ON_CASTER', //  1 proc only on effects with TARGET_UNIT_CASTER?
-    0x00000040: 'NOT_STEALABLE', //  6 although such auras might be dispellable, they cannot be stolen
-    0x00000080: 'CAN_CAST_WHILE_CASTING', //  7 Can be cast while another cast is in progress - see CanCastWhileCasting(SpellRec const*,CGUnit_C *,int &)
-    0x00000100: 'FIXED_DAMAGE', //  8 Ignores resilience and any (except mechanic related) damage or % damage taken auras on target.
-    0x00000200: 'TRIGGER_ACTIVATE', //  9 initially disabled / trigger activate from event (Execute, Riposte, Deep Freeze end other)
-    0x00000400: 'SPELL_VS_EXTEND_COST', // 10 Rogue Shiv have this flag
-    0x00002000: 'COMBAT_LOG_NO_CASTER', // 13 No caster object is sent to client combat log
-    0x00004000: 'DAMAGE_DOESNT_BREAK_AURAS', // 14 doesn't break auras by damage from these spells
-    0x00010000: 'NOT_USABLE_IN_ARENA_OR_RATED_BG', // 16 Cannot be used in both Arenas or Rated Battlegrounds
-    0x00020000: 'USABLE_IN_ARENA', // 17
-    0x00040000: 'AREA_TARGET_CHAIN', // 18 (NYI)hits area targets one after another instead of all at once
-    0x00100000: 'NOT_CHECK_SELFCAST_POWER', // 20 supersedes message "More powerful spell applied" for self casts.
-    0x02000000: 'IS_PET_SCALING', // 25 pet scaling auras
-    0x04000000: 'CAST_ONLY_IN_OUTLAND', // 26 Can only be used in Outland.
+    0x00000001: 'No Cast Log', // IGNORE_RESISTANCES -- spells with this attribute will completely ignore the target's resistance (these spells can't be resisted)
+    0x00000002: 'Class Trigger Only On Target', // PROC_ONLY_ON_CASTER -- proc only on effects with TARGET_UNIT_CASTER?
+    0x00000004: 'Aura Expires Offline',
+    0x00000008: 'No Helpful Threat',
+    0x00000010: 'No Harmful Threat',
+    0x00000020: 'Allow Client Targeting',
+    0x00000040: 'Cannot Be Stolen', // NOT_STEALABLE -- although such auras might be dispellable, they cannot be stolen
+    0x00000080: 'Allow Cast While Casting', // CAN_CAST_WHILE_CASTING -- Can be cast while another cast is in progress - see CanCastWhileCasting(SpellRec const*,CGUnit_C *,int &)
+    0x00000100: 'Ignore Damage Taken Modifiers', // FIXED_DAMAGE -- Ignores resilience and any (except mechanic related) damage or % damage taken auras on target.
+    0x00000200: 'Combat Feedback When Usable', // TRIGGER_ACTIVATE -- initially disabled / trigger activate from event (Execute, Riposte, Deep Freeze end other)
+    0x00000400: 'Weapon Speed Cost Scaling', // SPELL_VS_EXTEND_COST -- Rogue Shiv have this flag
+    0x00000800: 'No Partial Immunity',
+    0x00001000: 'Aura Is Buff',
+    0x00002000: 'Do Not Log Caster', // COMBAT_LOG_NO_CASTER -- No caster object is sent to client combat log
+    0x00004000: 'Reactive Damage Proc', // DAMAGE_DOESNT_BREAK_AURAS -- doesn't break auras by damage from these spells
+    0x00008000: 'Not In Spellbook',
+    0x00010000: 'Not In Arena or Rated Battleground', // NOT_USABLE_IN_ARENA_OR_RATED_BG -- Cannot be used in both Arenas or Rated Battlegrounds
+    0x00020000: 'Ignore Default Arena Restrictions', // USABLE_IN_ARENA
+    0x00040000: 'Bouncy Chain Missiles', // AREA_TARGET_CHAIN -- (NYI)hits area targets one after another instead of all at once
+    0x00080000: 'Allow Proc While Sitting',
+    0x00100000: 'Aura Never Bounces', // NOT_CHECK_SELFCAST_POWER -- supersedes message "More powerful spell applied" for self casts.
+    0x00200000: 'Allow Entering Arena',
+    0x00400000: 'Proc Suppress Swing Anim',
+    0x00800000: 'Suppress Weapon Procs',
+    0x01000000: 'Auto Ranged Combat',
+    0x02000000: 'Owner Power Scaling', // IS_PET_SCALING -- pet scaling auras
+    0x04000000: 'Only Flying Areas', // CAST_ONLY_IN_OUTLAND -- Can only be used in Outland.
+    0x08000000: 'Force Display Castbar',
+    0x10000000: 'Ignore Combat Timer',
+    0x20000000: 'Aura Bounce Fails Spell',
+    0x40000000: 'Obsolete',
+    0x80000000: 'Use Facing From Spell',
 };
 
 const spellAttributes5 = {
-    0x00000001: 'CAN_CHANNEL_WHEN_MOVING', //  0 available casting channel spell when moving
-    0x00000002: 'NO_REAGENT_WHILE_PREP', //  1 not need reagents if UNIT_FLAG_PREPARATION
-    0x00000008: 'USABLE_WHILE_STUNNED', //  3 usable while stunned
-    0x00000020: 'SINGLE_TARGET_SPELL', //  5 Only one target can be apply at a time
-    0x00000200: 'START_PERIODIC_AT_APPLY', //  9 begin periodic tick at aura apply
-    0x00000400: 'HIDE_DURATION', // 10 do not send duration to client
-    0x00000800: 'ALLOW_TARGET_OF_TARGET_AS_TARGET', // 11 (NYI) uses target's target as target if original target not valid (intervene for example)
-    0x00002000: 'HASTE_AFFECT_DURATION', // 13 haste effects decrease duration of this
-    0x00004000: 'NOT_USABLE_DURING_MIND_CONTROL',
-    0x00020000: 'USABLE_WHILE_FEARED', // 17 usable while feared
-    0x00040000: 'USABLE_WHILE_CONFUSED', // 18 usable while confused
-    0x00080000: 'DONT_TURN_DURING_CAST', // 19 Blocks caster's turning when casting (client does not automatically turn caster's model to face UNIT_FIELD_TARGET)
-    0x08000000: 'DONT_SHOW_AURA_IF_SELF_CAST', // 27 Auras with this attribute are not visible on units that are the caster
-    0x10000000: 'DONT_SHOW_AURA_IF_NOT_SELF_CAST', // 28 Auras with this attribute are not visible on units that are not the caster
+    0x00000001: 'Allow Actions During Channel', // CAN_CHANNEL_WHEN_MOVING -- available casting channel spell when moving
+    0x00000002: 'No Reagent Cost With Aura', // NO_REAGENT_WHILE_PREP -- not need reagents if UNIT_FLAG_PREPARATION
+    0x00000004: 'Remove Entering Arena',
+    0x00000008: 'Allow While Stunned', // USABLE_WHILE_STUNNED -- usable while stunned
+    0x00000010: 'Triggers Channeling',
+    0x00000020: 'Limit N', // SINGLE_TARGET_SPELL -- Only one target can be apply at a time
+    0x00000040: 'Ignore Area Effect PvP Check',
+    0x00000080: 'Not On Player',
+    0x00000100: 'Not On Player Controlled NPC',
+    0x00000200: 'Extra Initial Period', // START_PERIODIC_AT_APPLY -- begin periodic tick at aura apply
+    0x00000400: 'Do Not Display Duration', // HIDE_DURATION -- do not send duration to client
+    0x00000800: 'Implied Targeting', // ALLOW_TARGET_OF_TARGET_AS_TARGET -- uses target's target as target if original target not valid (intervene for example)
+    0x00001000: 'Melee Chain Targeting',
+    0x00002000: 'Spell Haste Affects Periodic', // HASTE_AFFECT_DURATION -- haste effects decrease duration of this
+    0x00004000: 'Not Available While Charmed', // NOT_USABLE_DURING_MIND_CONTROL
+    0x00008000: 'Treat as Area Effect',
+    0x00010000: 'Aura Affects Not Just Req. Equipped Item',
+    0x00020000: 'Allow While Fleeing', // USABLE_WHILE_FEARED -- usable while feared
+    0x00040000: 'Allow While Confused', // USABLE_WHILE_CONFUSED -- usable while confused
+    0x00080000: 'AI Doesn\'t Face Target', // DONT_TURN_DURING_CAST -- Blocks caster's turning when casting (client does not automatically turn caster's model to face UNIT_FIELD_TARGET)
+    0x00100000: 'Do Not Attempt a Pet Resummon When Dismounting',
+    0x00200000: 'Ignore Target Requirements',
+    0x00400000: 'Not On Trivial',
+    0x00800000: 'No Partial Resists',
+    0x01000000: 'Ignore Caster Requirements',
+    0x02000000: 'Always Line of Sight',
+    0x04000000: 'Always AOE Line of Sight',
+    0x08000000: 'No Caster Aura Icon', // DONT_SHOW_AURA_IF_SELF_CAST -- Auras with this attribute are not visible on units that are the caster
+    0x10000000: 'No Target Aura Icon', // DONT_SHOW_AURA_IF_NOT_SELF_CAST -- Auras with this attribute are not visible on units that are not the caster
+    0x20000000: 'Aura Unique Per Caster',
+    0x40000000: 'Always Show Ground Texture',
+    0x80000000: 'Add Melee Hit Rating',
 };
 
 const spellAttributes6 = {
-    0x00000001: 'DONT_DISPLAY_COOLDOWN', //  0 client doesn't display cooldown in tooltip for these spells
-    0x00000002: 'ONLY_IN_ARENA', //  1 only usable in arena
-    0x00000004: 'IGNORE_CASTER_AURAS', //  2
-    0x00000008: 'ASSIST_IGNORE_IMMUNE_FLAG', //  3 skips checking UNIT_FLAG_IMMUNE_TO_PC and UNIT_FLAG_IMMUNE_TO_NPC flags on assist
-    0x00000040: 'USE_SPELL_CAST_EVENT', //  6 Auras with this attribute trigger SPELL_CAST combat log event instead of SPELL_AURA_START (clientside attribute)
-    0x00000100: 'CANT_TARGET_CROWD_CONTROLLED', //  8
-    0x00000400: 'CAN_TARGET_POSSESSED_FRIENDS', // 10 NYI!
-    0x00000800: 'NOT_IN_RAID_INSTANCE', // 11 not usable in raid instance
-    0x00001000: 'CASTABLE_WHILE_ON_VEHICLE', // 12 castable while caster is on vehicle
-    0x00002000: 'CAN_TARGET_INVISIBLE', // 13 ignore visibility requirement for spell target (phases, invisibility, etc.)
-    0x00040000: 'CAST_BY_CHARMER', // 18 client won't allow to cast these spells when unit is not possessed && charmer of caster will be original caster
-    0x00100000: 'ONLY_VISIBLE_TO_CASTER', // 20 Auras with this attribute are only visible to their caster (or pet's owner)
-    0x00200000: 'CLIENT_UI_TARGET_EFFECTS', // 21 it's only client-side attribute
-    0x01000000: 'CAN_TARGET_UNTARGETABLE', // 24
-    0x02000000: 'NOT_RESET_SWING_IF_INSTANT', // 25 Exorcism, Flash of Light
-    0x20000000: 'NO_DONE_PCT_DAMAGE_MODS', // 29 ignores done percent damage mods?
-    0x80000000: 'IGNORE_CATEGORY_COOLDOWN_MODS'  // 31 Spells with this attribute skip applying modifiers to category cooldowns
+    0x00000001: 'No Cooldown On Tooltip', // DONT_DISPLAY_COOLDOWN -- client doesn't display cooldown in tooltip for these spells
+    0x00000002: 'Do Not Reset Cooldown In Arena', // ONLY_IN_ARENA -- only usable in arena
+    0x00000004: 'Not an Attack', // IGNORE_CASTER_AURAS
+    0x00000008: 'Can Assist Immune PC', // ASSIST_IGNORE_IMMUNE_FLAG -- skips checking UNIT_FLAG_IMMUNE_TO_PC and UNIT_FLAG_IMMUNE_TO_NPC flags on assist
+    0x00000010: 'Ignore For Mod Time Rate',
+    0x00000020: 'Do Not Consume Resources',
+    0x00000040: 'Floating Combat Text On Cast', // USE_SPELL_CAST_EVENT -- Auras with this attribute trigger SPELL_CAST combat log event instead of SPELL_AURA_START (clientside attribute)
+    0x00000080: 'Aura Is Weapon Proc',
+    0x00000100: 'Do Not Chain To Crowd-Controlled Targets', // CANT_TARGET_CROWD_CONTROLLED
+    0x00000200: 'Allow On Charmed Targets',
+    0x00000400: 'No Aura Log', // CAN_TARGET_POSSESSED_FRIENDS
+    0x00000800: 'Not In Raid Instances', // NOT_IN_RAID_INSTANCE -- not usable in raid instance
+    0x00001000: 'Allow While Riding Vehicle', // CASTABLE_WHILE_ON_VEHICLE -- castable while caster is on vehicle
+    0x00002000: 'Ignore Phase Shift', // CAN_TARGET_INVISIBLE -- ignore visibility requirement for spell target (phases, invisibility, etc.)
+    0x00004000: 'AI Primary Ranged Attack',
+    0x00008000: 'No Pushback',
+    0x00010000: 'No Jump Pathing',
+    0x00020000: 'Allow Equip While Casting',
+    0x00040000: 'Originate From Controller', // CAST_BY_CHARMER -- client won't allow to cast these spells when unit is not possessed && charmer of caster will be original caster
+    0x00080000: 'Delay Combat Timer During Cast',
+    0x00100000: 'Aura Icon Only For Caster (Limit 10)', // ONLY_VISIBLE_TO_CASTER -- Auras with this attribute are only visible to their caster (or pet's owner)
+    0x00200000: 'Show Mechanic as Combat Text', // CLIENT_UI_TARGET_EFFECTS -- it's only client-side attribute
+    0x00400000: 'Absorb Cannot Be Ignore',
+    0x00800000: 'Taps immediately',
+    0x01000000: 'Can Target Untargetable', // CAN_TARGET_UNTARGETABLE
+    0x02000000: 'Doesn\'t Reset Swing Timer if Instant', // NOT_RESET_SWING_IF_INSTANT -- Exorcism, Flash of Light
+    0x04000000: 'Vehicle Immunity Category',
+    0x08000000: 'Ignore Healing Modifiers',
+    0x10000000: 'Do Not Auto Select Target with Initiates Combat',
+    0x20000000: 'Ignore Caster Damage Modifiers', // NO_DONE_PCT_DAMAGE_MODS -- ignores done percent damage mods?
+    0x40000000: 'Disable Tied Effect Points',
+    0x80000000: 'No Category Cooldown Mods', // IGNORE_CATEGORY_COOLDOWN_MODS -- Spells with this attribute skip applying modifiers to category cooldowns
 };
 
 const spellAttributes7 = {
-    0x00000002: 'IGNORE_DURATION_MODS', //  1 Duration is not affected by duration modifiers
-    0x00000004: 'REACTIVATE_AT_RESURRECT', //  2 Paladin's auras and 65607 only.
-    0x00000008: 'IS_CHEAT_SPELL', //  3 Cannot cast if caster doesn't have UnitFlag2 & UNIT_FLAG2_ALLOW_CHEAT_SPELLS
-    0x00000020: 'SUMMON_TOTEM', //  5 Only Shaman totems.
-    0x00000040: 'NO_PUSHBACK_ON_DAMAGE', //  6 Does not cause spell pushback on damage
-    0x00000100: 'HORDE_ONLY', //  8 Teleports, mounts and other spells.
-    0x00000200: 'ALLIANCE_ONLY', //  9 Teleports, mounts and other spells.
-    0x00000400: 'DISPEL_CHARGES', // 10 Dispel and Spellsteal individual charges instead of whole aura.
-    0x00000800: 'INTERRUPT_ONLY_NONPLAYER', // 11 Only non-player casts interrupt, though Feral Charge - Bear has it.
-    0x00001000: 'SILENCE_ONLY_NONPLAYER', // 12 Not set in 3.2.2a.
-    0x00010000: 'CAN_RESTORE_SECONDARY_POWER', // 16 These spells can replenish a powertype, which is not the current powertype.
-    0x00040000: 'HAS_CHARGE_EFFECT', // 18 Only spells that have Charge among effects.
-    0x00080000: 'ZONE_TELEPORT', // 19 Teleports to specific zones.
-    0x10000000: 'CONSOLIDATED_RAID_BUFF', // 28 May be collapsed in raid buff frame (clientside attribute)
-    0x80000000: 'CLIENT_INDICATOR'
+    0x00000001: 'Allow Spell Reflection',
+    0x00000002: 'No Target Duration Mod', // IGNORE_DURATION_MODS -- Duration is not affected by duration modifiers
+    0x00000004: 'Disable Aura While Dead', // REACTIVATE_AT_RESURRECT -- Paladin's auras and 65607 only.
+    0x00000008: 'Debug Spell', // IS_CHEAT_SPELL -- Cannot cast if caster doesn't have UnitFlag2 & UNIT_FLAG2_ALLOW_CHEAT_SPELLS
+    0x00000010: 'Treat as Raid Buff',
+    0x00000020: 'Can Be Multi Cast', // SUMMON_TOTEM -- Only Shaman totems.
+    0x00000040: 'Don\'t Cause Spell Pushback', // NO_PUSHBACK_ON_DAMAGE -- Does not cause spell pushback on damage
+    0x00000080: 'Prepare for Vehicle Control End',
+    0x00000100: 'Horde Specific Spell', // HORDE_ONLY -- Teleports, mounts and other spells.
+    0x00000200: 'Alliance Specific Spell', // ALLIANCE_ONLY -- Teleports, mounts and other spells.
+    0x00000400: 'Dispel Removes Charges', // DISPEL_CHARGES -- Dispel and Spellsteal individual charges instead of whole aura.
+    0x00000800: 'Can Cause Interrupt', // INTERRUPT_ONLY_NONPLAYER -- Only non-player casts interrupt, though Feral Charge - Bear has it.
+    0x00001000: 'Can Cause Silence', // SILENCE_ONLY_NONPLAYER -- Not set in 3.2.2a.
+    0x00002000: 'No UI Not Interruptible',
+    0x00004000: 'Recast On Resummon',
+    0x00008000: 'Reset Swing Timer at spell start',
+    0x00010000: 'Only In Spellbook Until Learned', // CAN_RESTORE_SECONDARY_POWER -- These spells can replenish a powertype, which is not the current powertype.
+    0x00020000: 'Do Not Log PvP Kill',
+    0x00040000: 'Attack on Charge to Unit', // HAS_CHARGE_EFFECT -- Only spells that have Charge among effects.
+    0x00080000: 'Report Spell failure to unit target', // ZONE_TELEPORT -- Teleports to specific zones.
+    0x00100000: 'No Client Fail While Stunned, Fleeing, Confused',
+    0x00200000: 'Retain Cooldown Through Load',
+    0x00400000: 'Ignores Cold Weather Flying Requirement',
+    0x00800000: 'No Attack Dodge',
+    0x01000000: 'No Attack Parry',
+    0x02000000: 'No Attack Miss',
+    0x04000000: 'Treat as NPC AoE',
+    0x08000000: 'Bypass No Resurrect Aura',
+    0x10000000: 'Do Not Count For PvP Scoreboard', // CONSOLIDATED_RAID_BUFF -- May be collapsed in raid buff frame (clientside attribute)
+    0x20000000: 'Reflection Only Defends',
+    0x40000000: 'Can Proc From Suppressed Target Procs',
+    0x80000000: 'Always Cast Log', // CLIENT_INDICATOR
 };
 
 const spellAttributes8 = {
-    0x00000001: 'CANT_MISS', //  0
-    0x00000100: 'AFFECT_PARTY_AND_RAID', //  8 Nearly all spells have "all party and raid" in description
-    0x00000200: 'DONT_RESET_PERIODIC_TIMER', //  9 Periodic auras with this flag keep old periodic timer when refreshing at close to one tick remaining (kind of anti DoT clipping)
-    0x00000400: 'NAME_CHANGED_DURING_TRANSFORM', // 10 according to wowhead comments, name changes, title remains
-    0x00001000: 'AURA_SEND_AMOUNT', // 12 Aura must have flag AFLAG_ANY_EFFECT_AMOUNT_SENT to send amount
-    0x00008000: 'WATER_MOUNT', // 15 only one River Boat used in Thousand Needles
-    0x00040000: 'REMEMBER_SPELLS', // 18 at some point in time, these auras remember spells and allow to cast them later
-    0x00080000: 'USE_COMBO_POINTS_ON_ANY_TARGET', // 19 allows to consume combo points from dead targets
-    0x00100000: 'ARMOR_SPECIALIZATION', // 20
-    0x00800000: 'BATTLE_RESURRECTION', // 23 Used to limit the Amount of Resurrections in Boss Encounters
-    0x01000000: 'HEALING_SPELL', // 24
-    0x04000000: 'RAID_MARKER', // 26 probably spell no need learn to cast
-    0x10000000: 'NOT_IN_BG_OR_ARENA', // 28 not allow to cast or deactivate currently active effect, not sure about Fast Track
-    0x20000000: 'MASTERY_SPECIALIZATION', // 29
-    0x40000000: 'HIGH_PRIORITY', // Show on raid frames
-    0x80000000: 'ATTACK_IGNORE_IMMUNE_TO_PC_FLAG'  // 31 Do not check UNIT_FLAG_IMMUNE_TO_PC in IsValidAttackTarget
+    0x00000001: 'No Attack Block', // CANT_MISS
+    0x00000002: 'Ignore Dynamic Object Caster',
+    0x00000004: 'Remove Outside Dungeons and Raids',
+    0x00000008: 'Only Target If Same Creator',
+    0x00000010: 'Can Hit AOE Untargetable',
+    0x00000020: 'Allow While Charmed',
+    0x00000040: 'Aura Required by Client',
+    0x00000080: 'Ignore Sanctuary',
+    0x00000100: 'Use Target\'s Level for Spell Scaling', // AFFECT_PARTY_AND_RAID -- Nearly all spells have "all party and raid" in description
+    0x00000200: 'Periodic Can Crit', // DONT_RESET_PERIODIC_TIMER -- Periodic auras with this flag keep old periodic timer when refreshing at close to one tick remaining (kind of anti DoT clipping)
+    0x00000400: 'Mirror creature name', // NAME_CHANGED_DURING_TRANSFORM -- according to wowhead comments, name changes, title remains
+    0x00000800: 'Only Players Can Cast This Spell',
+    0x00001000: 'Aura Points On Client', // AURA_SEND_AMOUNT -- Aura must have flag AFLAG_ANY_EFFECT_AMOUNT_SENT to send amount
+    0x00002000: 'Not In Spellbook Until Learned',
+    0x00004000: 'Target Procs On Caster',
+    0x00008000: 'Requires location to be on liquid surface', // WATER_MOUNT -- only one River Boat used in Thousand Needles
+    0x00010000: 'Only Target Own Summons',
+    0x00020000: 'Haste Affects Duration',
+    0x00040000: 'Ignore Spellcast Override Cost', // REMEMBER_SPELLS -- at some point in time, these auras remember spells and allow to cast them later
+    0x00080000: 'Allow Targets Hidden by Spawn Tracking', // USE_COMBO_POINTS_ON_ANY_TARGET -- allows to consume combo points from dead targets
+    0x00100000: 'Requires Equipped Inv Types', // ARMOR_SPECIALIZATION
+    0x00200000: 'No \'Summon + Dest from Client\' Targeting Pathing Requirement',
+    0x00400000: 'Melee Haste Affects Periodic',
+    0x00800000: 'Enforce In Combat Ressurection Limit', // BATTLE_RESURRECTION -- Used to limit the Amount of Resurrections in Boss Encounters
+    0x01000000: 'Heal Prediction', // HEALING_SPELL
+    0x02000000: 'No Level Up Toast',
+    0x04000000: 'Skip Is Known Check', // RAID_MARKER -- probably spell no need learn to cast
+    0x08000000: 'AI Face Target',
+    0x10000000: 'Not in Battleground', // NOT_IN_BG_OR_ARENA -- not allow to cast or deactivate currently active effect, not sure about Fast Track
+    0x20000000: 'Mastery Affects Points', // MASTERY_SPECIALIZATION
+    0x40000000: 'Display Large Aura Icon On Unit Frames (Boss Aura)', // HIGH_PRIORITY -- Show on raid frames
+    0x80000000: 'Can Attack ImmunePC', // ATTACK_IGNORE_IMMUNE_TO_PC_FLAG -- Do not check UNIT_FLAG_IMMUNE_TO_PC in IsValidAttackTarget
 };
 
 const spellAttributes9 = {
-    0x00000004: 'RESTRICTED_FLIGHT_AREA', //  2 Dalaran and Wintergrasp flight area auras have it
-    0x00000010: 'SPECIAL_DELAY_CALCULATION', //  4
-    0x00000020: 'SUMMON_PLAYER_TOTEM', //  5
-    0x00000100: 'AIMED_SHOT', //  8
-    0x00000200: 'NOT_USABLE_IN_ARENA', //  9 Cannot be used in arenas
-    0x00002000: 'SLAM', // 13
-    0x00004000: 'USABLE_IN_RATED_BATTLEGROUNDS', // 14 Can be used in Rated Battlegrounds
+    0x00000001: 'Force Dest Location',
+    0x00000002: 'Mod Invis Includes Party',
+    0x00000004: 'Only When Illegally Mounted', // RESTRICTED_FLIGHT_AREA -- Dalaran and Wintergrasp flight area auras have it
+    0x00000008: 'Do Not Log Aura Refresh',
+    0x00000010: 'Missile Speed is Delay (in sec)', // SPECIAL_DELAY_CALCULATION
+    0x00000020: 'Ignore Totem Requirements for Casting', // SUMMON_PLAYER_TOTEM
+    0x00000040: 'Item Cast Grants Skill Gain',
+    0x00000080: 'Do Not Add to Unlearn List',
+    0x00000100: 'Cooldown Ignores Ranged Weapon', // AIMED_SHOT
+    0x00000200: 'Not In Arena', // NOT_USABLE_IN_ARENA -- Cannot be used in arenas
+    0x00000400: 'Target Must Be Grounded',
+    0x00000800: 'Allow While Banished Aura State',
+    0x00001000: 'Face unit target upon completion of jump charge',
+    0x00002000: 'Haste Affects Melee Ability Casttime', // SLAM
+    0x00004000: 'Ignore Default Rated Battleground Restrictions', // USABLE_IN_RATED_BATTLEGROUNDS -- Can be used in Rated Battlegrounds
+    0x00008000: 'Do Not Display Power Cost',
+    0x00010000: 'Next modal spell requires same unit target',
+    0x00020000: 'AutoCast Off By Default',
+    0x00040000: 'Ignore School Lockout',
+    0x00080000: 'Allow Dark Simulacrum',
+    0x00100000: 'Allow Cast While Channeling',
+    0x00200000: 'Suppress Visual Kit Errors',
+    0x00400000: 'Spellcast Override In Spellbook',
+    0x00800000: 'JumpCharge - no facing control',
+    0x01000000: 'Ignore Caster Healing Modifiers',
+    0x02000000: '(Programmer Only) Don\'t consume charge if item deleted',
+    0x04000000: 'Item Passive On Client',
+    0x08000000: 'Force Corpse Target',
+    0x10000000: 'Cannot Kill Target',
+    0x20000000: 'Log Passive',
+    0x40000000: 'No Movement Radius Bonus',
+    0x80000000: 'Channel Persists on Pet Follow',
 };
 
 const spellAttributes10 = {
-    0x00000010: 'WATER_SPOUT', //  4
-    0x00000080: 'TELEPORT_PLAYER', //  7 4 Teleport Player spells
-    0x00000800: 'HERB_GATHERING_MINING', // 11 Only Herb Gathering and Mining
-    0x00001000: 'USE_SPELL_BASE_LEVEL_FOR_SCALING', // 12
-    0x00002000: 'RESET_AFTER_ENCOUNTER_ENDS',
-    0x20000000: 'MOUNT_IS_NOT_ACCOUNT_WIDE', // 29 This mount is stored per-character
+    0x00000001: 'Bypass Visibility Check',
+    0x00000002: 'Ignore Positive Damage Taken Modifiers',
+    0x00000004: 'Uses Ranged Slot (Cosmetic Only)',
+    0x00000008: 'Do Not Log Full Overheal',
+    0x00000010: 'NPC Knockback - ignore doors', // WATER_SPOUT
+    0x00000020: 'Force Non-Binary Resistance',
+    0x00000040: 'No Summon Log',
+    0x00000080: 'Ignore instance lock and farm limit on teleport', // TELEPORT_PLAYER -- 4 Teleport Player spells
+    0x00000100: 'Area Effects Use Target Radius',
+    0x00000200: 'Charge/JumpCharge - Use Absolute Speed',
+    0x00000400: 'Proc cooldown on a per target basis',
+    0x00000800: 'Lock chest at precast', // HERB_GATHERING_MINING -- Only Herb Gathering and Mining
+    0x00001000: 'Use Spell Base Level For Scaling', // USE_SPELL_BASE_LEVEL_FOR_SCALING
+    0x00002000: 'Reset cooldown upon ending an encounter', // 'RESET_AFTER_ENCOUNTER_ENDS', -- 'RESET_AFTER_ENCOUNTER_ENDS',
+    0x00004000: 'Rolling Periodic',
+    0x00008000: 'Spellbook Hidden Until Overridden',
+    0x00010000: 'Defend Against Friendly Cast',
+    0x00020000: 'Allow Defense While Casting',
+    0x00040000: 'Allow Defense While Channeling',
+    0x00080000: 'Allow Fatal Duel Damage',
+    0x00100000: 'Multi-Click Ground Targeting',
+    0x00200000: 'AoE Can Hit Summoned Invis',
+    0x00400000: 'Allow While Stunned By Horror Mechanic',
+    0x00800000: 'Visible only to caster (conversations only)',
+    0x01000000: 'Update Passives on Apply/Remove',
+    0x02000000: 'Normal Melee Attack',
+    0x04000000: 'Ignore Feign Death',
+    0x08000000: 'Caster Death Cancels Persistent Area Auras',
+    0x10000000: 'Do Not Log Absorb',
+    0x20000000: 'This Mount is NOT at the account level', // MOUNT_IS_NOT_ACCOUNT_WIDE -- This mount is stored per-character
+    0x40000000: 'Prevent Client Cast Cancel',
+    0x80000000: 'Enforce Facing on Primary Target Only',
 };
 
 const spellAttributes11 = {
-    0x00000004: 'SCALES_WITH_ITEM_LEVEL', //  2
-    0x00000020: 'SPELL_ATTR11_ABSORB_ENVIRONMENTAL_DAMAGE', //  5
-    0x00000080: 'SPELL_ATTR11_RANK_IGNORES_CASTER_LEVEL', //  7 Spell_C_GetSpellRank returns SpellLevels->MaxLevel * 5 instead of std::min(SpellLevels->MaxLevel, caster->Level) * 5
-    0x00010000: 'NOT_USABLE_IN_CHALLENGE_MODE', // 16
-
+    0x00000001: 'Lock Caster Movement and Facing While Casting',
+    0x00000002: 'Don\'t Cancel When All Effects are Disabled',
+    0x00000004: 'Scales with Casting Item\'s Level', // SCALES_WITH_ITEM_LEVEL
+    0x00000008: 'Do Not Log on Learn',
+    0x00000010: 'Hide Shapeshift Requirements',
+    0x00000020: 'Absorb Falling Damage', // SPELL_ATTR11_ABSORB_ENVIRONMENTAL_DAMAGE
+    0x00000040: 'Unbreakable Channel',
+    0x00000080: 'Ignore Caster\'s spell level', // SPELL_ATTR11_RANK_IGNORES_CASTER_LEVEL -- Spell_C_GetSpellRank returns SpellLevels->MaxLevel * 5 instead of std::min(SpellLevels->MaxLevel, caster->Level) * 5
+    0x00000100: 'Transfer Mount Spell',
+    0x00000200: 'Ignore Spellcast Override Shapeshift Requirements',
+    0x00000400: 'Newest Exclusive Complete',
+    0x00000800: 'Not in Instances',
+    0x00001000: 'Obsolete',
+    0x00002000: 'Ignore PvP Power',
+    0x00004000: 'Can Assist Uninteractible',
+    0x00008000: 'Cast When Initial Logging In',
+    0x00010000: 'Not in Mythic+ Mode (Challenge Mode)', // NOT_USABLE_IN_CHALLENGE_MODE
+    0x00020000: 'Cheaper NPC Knockback',
+    0x00040000: 'Ignore Caster Absorb Modifiers',
+    0x00080000: 'Ignore Target Absorb Modifiers',
+    0x00100000: 'Hide Loss of Control UI',
+    0x00200000: 'Allow Harmful on Friendly',
+    0x00400000: 'Cheap Missile AOI',
+    0x00800000: 'Expensive Missile AOI',
+    0x01000000: 'No Client Fail on No Pet',
+    0x02000000: 'AI Attempt Cast on Immune Player',
+    0x04000000: 'Allow While Stunned by Stun Mechanic',
+    0x08000000: 'Don\'t close loot window',
+    0x10000000: 'Hide Damage Absorb UI',
+    0x20000000: 'Do Not Treat As Area Effect',
+    0x40000000: 'Check Required Target Aura By Caster',
+    0x80000000: 'Apply Zone Aura Spell To Pets',
 };
 
 const spellAttributes12 = {
-    0x01000000: 'IS_GARRISON_BUFF', // 24
-    0x08000000: 'IS_READINESS_SPELL', // 27
+    0x00000001: 'Enable Procs from Suppressed Caster Procs',
+    0x00000002: 'Can Proc from Suppressed Caster Procs',
+    0x00000004: 'Show Cooldown As Charge Up',
+    0x00000008: 'No PvP Battle Fatigue',
+    0x00000010: 'Treat Self Cast As Reflect',
+    0x00000020: 'Do Not Cancel Area Aura on Spec Switch',
+    0x00000040: 'Cooldown on Aura Cancel Until Combat Ends',
+    0x00000080: 'Do Not Re-apply Area Aura if it Persists Through Update',
+    0x00000100: 'Display Toast Message',
+    0x00000200: 'Active Passive',
+    0x00000400: 'Ignore Damage Cancels Aura Interrupt',
+    0x00000800: 'Face Destination',
+    0x00001000: 'Immunity Purges Spell',
+    0x00002000: 'Do Not Log Spell Miss',
+    0x00004000: 'Ignore Distance Check On Charge/Jump Charge Done Trigger Spell',
+    0x00008000: 'Disable known spells while charmed',
+    0x00010000: 'Ignore Damage Absorb',
+    0x00020000: 'Not In Proving Grounds',
+    0x00040000: 'Override Default SpellClick Range',
+    0x00080000: 'Is In-Game Store Effect',
+    0x00100000: 'Allow during spell override',
+    0x00200000: 'Use float values for scaling amounts',
+    0x00400000: 'Suppress toasts on item push',
+    0x00800000: 'Trigger Cooldown On Spell Start',
+    0x01000000: 'Never Learn', // IS_GARRISON_BUFF
+    0x02000000: 'No Deflect',
+    0x04000000: '(Deprecated) Use Start-of-Cast Location for Spell Dest',
+    0x08000000: 'Recompute Aura on Mercenary Mode', // IS_READINESS_SPELL
+    0x10000000: 'Use Weighted Random For Flex Max Targets',
+    0x20000000: 'Ignore Resilience',
+    0x40000000: 'Apply Resilience To Self Damage',
+    0x80000000: 'Only Proc From Class Abilities',
 };
 
 const spellAttributes13 = {
-    0x00040000: 'ACTIVATES_REQUIRED_SHAPESHIFT', // 18
-    0x00400000: 'IS_ALWAYS_SHOWN'
+    0x00000001: 'Allow Class Ability Procs',
+    0x00000002: 'Allow While Feared By Fear Mechanic',
+    0x00000004: 'Cooldown Shared With AI Group',
+    0x00000008: 'Interrupts Current Cast',
+    0x00000010: 'Periodic Script Runs Late',
+    0x00000020: 'Recipe Hidden Until Known',
+    0x00000040: 'Can Proc From Lifesteal',
+    0x00000080: 'Nameplate Personal Buffs/Debuffs',
+    0x00000100: 'Cannot Lifesteal/Leech',
+    0x00000200: 'Global Aura',
+    0x00000400: 'Nameplate Enemy Debuffs',
+    0x00000800: 'Always Allow PvP Flagged Target',
+    0x00001000: 'Do Not Consume Aura Stack On Proc',
+    0x00002000: 'Do Not PvP Flag Caster',
+    0x00004000: 'Always Require PvP Target Match',
+    0x00008000: 'Do Not Fail if No Target',
+    0x00010000: 'Displayed Outside Of Spellbook',
+    0x00020000: 'Check Phase on String ID Results',
+    0x00040000: 'Do Not Enforce Shapeshift Requirements', // ACTIVATES_REQUIRED_SHAPESHIFT
+    0x00080000: 'Aura Persists Through Tame Pet',
+    0x00100000: 'Periodic Refresh Extends Duration',
+    0x00200000: 'Use Skill Rank As Spell Level',
+    0x00400000: 'Aura Always Shown', // IS_ALWAYS_SHOWN
+    0x00800000: 'Use Spell Level For Item Squish Compensation',
+    0x01000000: 'Chain by Most Hit',
+    0x02000000: 'Do Not Display Cast Time',
+    0x04000000: 'Always Allow Negative Healing Percent Modifiers',
+    0x08000000: 'Do Not Allow "Disable Movement Interrupt"',
+    0x10000000: 'Allow Aura On Level Scale',
+    0x20000000: 'Remove Aura On Level Scale',
+    0x40000000: 'Recompute Aura On Level Scale',
+    0x80000000: 'Update Fall Speed After Aura Removal',
 };
 
 const spellAttributes14 = {
+    0x00000001: 'Prevent Jumping During Precast',
+};
 
-}
 const inventoryTypeMask = {
     0x2: 'Head',
     0x4: 'Neck',
