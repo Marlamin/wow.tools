@@ -1340,34 +1340,60 @@ const questFlags2 = {
     0x8000: 'ENFORCE_MAXIMUM_QUEST_LEVEL',
 }
 
+const auraInterruptFlags0 = {
+    0x00000001: 'Hostile Action Received Cancels', // HITBYSPELL
+    0x00000002: 'Damage Cancels', // TAKE_DAMAGE
+    0x00000004: 'Action Cancels', // CAST
+    0x00000008: 'Moving Cancels', // MOVE
+    0x00000010: 'Turning Cancels', // TURNING
+    0x00000020: 'Anim Cancels', // JUMP
+    0x00000040: 'Dismount Cancels', // NOT_MOUNTED
+    0x00000080: 'Under Water Cancels', // NOT_ABOVEWATER
+    0x00000100: 'Above Water Cancels', // NOT_UNDERWATER
+    0x00000200: 'Sheathing Cancels', // NOT_SHEATHED
+    0x00000400: 'Interacting Cancels', // TALK
+    0x00000800: 'Looting Cancels', // USE
+    0x00001000: 'Attacking Cancels', // MEELEE_ATTACK
+    0x00002000: 'Item Use Cancels', // SPELL_ATTACK
+    0x00004000: 'Damage Channel Duration',
+    0x00008000: 'Shapeshifting Cancels', // TRANSFORM
+    0x00010000: 'Action Cancels - Late',
+    0x00020000: 'Mount Cancels', // MOUNT
+    0x00040000: 'Standing Cancels', // NOT_SEATED
+    0x00080000: 'Leave World Cancels', // CHANGE_MAP
+    0x00100000: 'Stealth/Invis Cancels', // IMMUNE_OR_LOST_SELECTION
+    0x00200000: 'Invulnerability Buff Cancels',
+    0x00400000: 'Enter World Cancels', // TELEPORTED
+    0x00800000: 'PvP Active Cancels', // ENTER_PVP_COMBAT
+    0x01000000: 'Non-Periodic Damage Cancels', // DIRECT_DAMAGE
+    0x02000000: 'Landing Cancels', // LANDING
+    0x04000000: 'Release Cancels',
+    0x08000000: 'Damage Cancels Script',
+    0x10000000: 'Entering Combat Cancels',
+    0x20000000: 'Login Cancels',
+    0x40000000: 'Summon Cancels',
+    0x80000000: 'Leaving Combat Cancels',
+};
+
 const auraInterruptFlags1 = {
-    0x0000001: 'HITBYSPELL',
-    0x0000002: 'TAKE_DAMAGE',
-    0x0000004: 'CAST',
-    0x0000008: 'MOVE',
-    0x0000010: 'TURNING',
-    0x0000020: 'JUMP',
-    0x0000040: 'NOT_MOUNTED',
-    0x0000080: 'NOT_ABOVEWATER',
-    0x0000100: 'NOT_UNDERWATER',
-    0x0000200: 'NOT_SHEATHED',
-    0x0000400: 'TALK',
-    0x0000800: 'USE',
-    0x0001000: 'MEELEE_ATTACK',
-    0x0002000: 'SPELL_ATTACK',
-    // 0x0004000: 'UNK14',
-    0x0008000: 'TRANSFORM',
-    // 0x0010000: 'UNK16',
-    0x0020000: 'MOUNT',
-    0x0040000: 'NOT_SEATED',
-    0x0080000: 'CHANGE_MAP',
-    0x0100000: 'IMMUNE_OR_LOST_SELECTION',
-    // 0x0200000: 'UNK21',
-    0x0400000: 'TELEPORTED',
-    0x0800000: 'ENTER_PVP_COMBAT',
-    0x1000000: 'DIRECT_DAMAGE',
-    0x2000000: 'LANDING',
-}
+    0x00000001: 'Falling Cancels',
+    0x00000002: 'Swimming Cancels',
+    0x00000004: 'Not Moving Cancels',
+    0x00000008: 'Ground Cancels',
+    0x00000010: 'Transform Cancels',
+    0x00000020: 'Jumping Cancels',
+    0x00000040: 'Change Spec Cancels',
+    0x00000080: 'Abandon Vehicle Cancels',
+    0x00000100: 'Start of Encounter Cancels',
+    0x00000200: 'End of Encounter Cancels',
+    0x00000400: 'Disconnect Cancels',
+    0x00000800: 'Entering Instance Cancels',
+    0x00001000: 'Duel Ends Cancels',
+    0x00002000: 'Leave Arena or Battleground Cancels',
+    0x00004000: 'Change Talent Cancels',
+    0x00008000: 'Change Glyph Cancels',
+    0x00010000: 'Seamless Transfer Cancels',
+};
 
 const cdiFlags = {};
 
@@ -1504,7 +1530,8 @@ window.flagMap.set("questv2clitask.Flags[0]", questFlags0);
 window.flagMap.set("questv2clitask.Flags[1]", questFlags1);
 window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
 window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
-window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags1);
+window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags0);
+window.flagMap.set("spellinterrupts.AuraInterruptFlags[1]", auraInterruptFlags1);
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 window.flagMap.set("spellmisc.SchoolMask", damageClass);
 window.flagMap.set("gemproperties.Type", socketColors);
