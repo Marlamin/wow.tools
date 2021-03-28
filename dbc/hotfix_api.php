@@ -95,23 +95,16 @@ $returndata['recordsTotal'] = $pdo->query("SELECT count(*) FROM wow_hotfixes")->
 if (empty($_GET['search']['value'])) {
     if (empty($_GET['since'])) {
         $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
-        $countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes");
     } else {
         $since = (int)filter_input(INPUT_GET, 'since', FILTER_SANITIZE_NUMBER_INT);
 
         $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since) ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
         $dataq->bindValue(":since", $since);
-
-        $countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since)");
-        $countq->bindValue(":since", $since);
     }
 } else {
     if (substr($_GET['search']['value'], 0, 7) == "pushid:") {
         $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
         $dataq->bindValue(":pushID", str_replace("pushid:", "", $_GET['search']['value']));
-
-        $countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE pushID = :pushID");
-        $countq->bindValue(":pushID", str_replace("pushid:", "", $_GET['search']['value']));
     } else {
         $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
         $dataq->bindValue(":pushID", "%" . $_GET['search']['value'] . "%");
@@ -119,24 +112,16 @@ if (empty($_GET['search']['value'])) {
         $dataq->bindValue(":tableName", "%" . $_GET['search']['value'] . "%");
         $dataq->bindValue(":build", "%" . $_GET['search']['value'] . "%");
         $dataq->bindValue(":firstDetected", "%" . $_GET['search']['value'] . "%");
-
-        $countq = $pdo->prepare("SELECT COUNT(*) FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected");
-        $countq->bindValue(":pushID", "%" . $_GET['search']['value'] . "%");
-        $countq->bindValue(":recordID", "%" . $_GET['search']['value'] . "%");
-        $countq->bindValue(":tableName", "%" . $_GET['search']['value'] . "%");
-        $countq->bindValue(":build", "%" . $_GET['search']['value'] . "%");
-        $countq->bindValue(":firstDetected", "%" . $_GET['search']['value'] . "%");
     }
 }
 
 $dataq->execute();
-$countq->execute();
 
-$returndata['recordsFiltered'] = $countq->fetchColumn();
 
 $returndata['data'] = array();
 while ($row = $dataq->fetch()) {
     $returndata['data'][] = array($row['pushID'], $row['tableName'], $row['recordID'], $fullbuilds[$row['build']], $row['isValid'], $row['firstdetected'], isTableAvailableForBuild($row['tableName'], $row['build']), in_array($row['pushID'], $loggedFixes));
 }
+$returndata['recordsFiltered'] = count($returndata['data']);
 
 echo json_encode($returndata);
