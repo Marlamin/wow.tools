@@ -94,19 +94,19 @@ $returndata['recordsTotal'] = $pdo->query("SELECT count(*) FROM wow_hotfixes")->
 
 if (empty($_GET['search']['value'])) {
     if (empty($_GET['since'])) {
-        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
+        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT :start, :length");
     } else {
         $since = (int)filter_input(INPUT_GET, 'since', FILTER_SANITIZE_NUMBER_INT);
 
-        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since) ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
+        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE firstdetected > FROM_UNIXTIME(:since) ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT :start, :length");
         $dataq->bindValue(":since", $since);
     }
 } else {
     if (substr($_GET['search']['value'], 0, 7) == "pushid:") {
-        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
+        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID = :pushID ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT :start, :length");
         $dataq->bindValue(":pushID", str_replace("pushid:", "", $_GET['search']['value']));
     } else {
-        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT " . $start . ", " . $length);
+        $dataq = $pdo->prepare("SELECT * FROM wow_hotfixes WHERE pushID LIKE :pushID OR recordID LIKE :recordID OR tableName LIKE :tableName or build LIKE :build or firstdetected LIKE :firstDetected ORDER BY firstdetected DESC, pushID DESC, tableName DESC, recordID DESC LIMIT  :start, :length");
         $dataq->bindValue(":pushID", "%" . $_GET['search']['value'] . "%");
         $dataq->bindValue(":recordID", "%" . $_GET['search']['value'] . "%");
         $dataq->bindValue(":tableName", "%" . $_GET['search']['value'] . "%");
@@ -115,8 +115,10 @@ if (empty($_GET['search']['value'])) {
     }
 }
 
-$dataq->execute();
+$dataq->bindValue(":start", $start, PDO::PARAM_INT);
+$dataq->bindValue(":length", $length, PDO::PARAM_INT);
 
+$dataq->execute();
 
 $returndata['data'] = array();
 while ($row = $dataq->fetch()) {
