@@ -177,34 +177,6 @@ const charSectionFlags = {
     0x400 : 'HAS_CONDITION?'
 }
 
-const chrRacesFlags = {
-    0x1: 'NPC Only',
-    0x2: 'Do Not Component Feet',
-    0x4: 'Can Mount',
-    0x8: 'Has Bald',
-    0x10: 'Bind to Starting Area',
-    0x20: 'Alternate Form',
-    0x40: 'Can Mount Self',
-    0x80: 'Force to HD model if available',
-    0x100: 'Exalted With All Vendors',
-    0x200: 'Not Selectable',
-    0x400: 'Reputation Bonu',
-    0x800: 'Use Loincloth',
-    0x1000: 'Rest Bonus',
-    0x2000: 'No Start Kits',
-    0x4000: 'No Starting Weapon',
-    0x8000: 'Dont redeem account licenses',
-    0x10000: 'Skin Variation Is Hair Color',
-    0x20000: 'Use Pandaren Ring for componenting texture',
-    0x40000: 'Ignore for asset manifest component info parsing',
-    0x80000: 'Is Allied Race',
-    0x100000: 'Void Vendor Discount (transmog/void storage)',
-    0x200000: 'DAMM Component - No Male Generation (Tools Only)',
-    0x400000: 'DAMM Component - No Female Generation (Tools Only)',
-    0x800000: 'No Associated Faction Reputation in Race Change',
-    0x1000000: 'Internal Only (in development)',
-}
-
 const taxiNodeFlags = {
     0x1 : 'Show on alliance map',
     0x2 : 'Show on horde map',
@@ -225,10 +197,6 @@ const difficultyFlags = {
     0x20: 'Legacy',
     0x40: 'Display Heroic Banner in the UI',
     0x80: 'Display Mythic Banner in the UI'
-}
-
-const emoteFlags = {
-
 }
 
 const mapFlags = {
@@ -863,11 +831,6 @@ const garrAbilityFlags =
     0x400: 'Treat As Equipment Empty Slot'
 }
 
-const garrAbilityEffectFlags =
-{
-    0x1: 'Not Beneficial'
-}
-
 const garrMissionFlags = {
     0x1: 'Is Rare Mission',
     0x2: 'Is Elite Mission',
@@ -887,29 +850,30 @@ const charShipmentFlags = {
     0x2: 'Is Artifact Knowledge'
 }
 
+// 196
 const currencyFlags = {
-    0x1: 'CURRENCY_TRADABLE',
-    0x2: 'CURRENCY_APPEARS_IN_LOOT_WINDOW',
-    0x4: 'CURRENCY_COMPUTED_WEEKLY_MAXIMUM',
-    0x8: 'CURRENCY_100_SCALER',
-    0x10: 'CURRENCY_NO_LOW_LEVEL_DROP',
-    0x20: 'CURRENCY_IGNORE_MAX_QTY_ON_LOAD',
-    0x40: 'CURRENCY_LOG_ON_WORLD_CHANGE',
-    0x80: 'CURRENCY_TRACK_QUANTITY',
-    0x100: 'CURRENCY_RESET_TRACKED_QUANTITY',
-    0x200: 'CURRENCY_UPDATE_VERSION_IGNORE_MAX',
-    0x400: 'CURRENCY_SUPPRESS_CHAT_MESSAGE_ON_VERSION_CHANGE',
-    0x800: 'CURRENCY_SINGLE_DROP_IN_LOOT',
-    0x1000: 'CURRENCY_HAS_WEEKLY_CATCHUP',
-    0x2000: 'CURRENCY_DO_NOT_COMPRESS_CHAT',
-    0x4000: 'CURRENCY_DO_NOT_LOG_ACQUISITION_TO_BI',
-    0x8000: 'CURRENCY_NO_RAID_DROP',
-    0x10000: 'CURRENCY_NOT_PERSISTENT',
-    0x20000: 'CURRENCY_DEPRECATED',
-    0x40000: 'CURRENCY_DYNAMIC_MAXIMUM',
-    0x80000: 'CURRENCY_SUPPRESS_CHAT_MESSAGES',
-    0x100000: 'CURRENCY_DO_NOT_TOAST',
-    0x200000: 'CURRENCY_DESTROY_EXTRA_ON_LOOT',
+    0x1: 'Tradable', // CURRENCY_TRADABLE
+    0x2: 'Appears in loot window', // CURRENCY_APPEARS_IN_LOOT_WINDOW
+    0x4: 'Computed weekly maximum', // CURRENCY_COMPUTED_WEEKLY_MAXIMUM
+    0x8: 'Uses 1/100 scaler for display', // CURRENCY_100_SCALER
+    0x10: 'No Low Level Loot', // CURRENCY_NO_LOW_LEVEL_DROP
+    0x20: 'Ignore max quantity on load', // CURRENCY_IGNORE_MAX_QTY_ON_LOAD
+    0x40: 'Log quantity when changing worlds', // CURRENCY_LOG_ON_WORLD_CHANGE
+    0x80: 'Track quantity', // CURRENCY_TRACK_QUANTITY
+    0x100: 'Reset tracked quantity when updating version', // CURRENCY_RESET_TRACKED_QUANTITY
+    0x200: 'Gains from updating version ignores maximum quantity', // CURRENCY_UPDATE_VERSION_IGNORE_MAX
+    0x400: 'Suppress gain message when updating version', // CURRENCY_SUPPRESS_CHAT_MESSAGE_ON_VERSION_CHANGE
+    0x800: 'Single Drop from loot', // CURRENCY_SINGLE_DROP_IN_LOOT
+    0x1000: 'Has Weekly CatchUp', // CURRENCY_HAS_WEEKLY_CATCHUP
+    0x2000: 'Do not compress chat messages', // CURRENCY_DO_NOT_COMPRESS_CHAT
+    0x4000: 'Do not log acquisitions to BI (default is now to log)', // CURRENCY_DO_NOT_LOG_ACQUISITION_TO_BI
+    0x8000: 'No Raid Drop', // CURRENCY_NO_RAID_DROP
+    0x10000: 'Not saved', // CURRENCY_NOT_PERSISTENT
+    0x20000: 'Deprecated', // CURRENCY_DEPRECATED
+    0x40000: 'Dynamic Maximum', // CURRENCY_DYNAMIC_MAXIMUM
+    0x80000: 'Supress all chat messages', // CURRENCY_SUPPRESS_CHAT_MESSAGES
+    0x100000: 'Do Not Toast', // CURRENCY_DO_NOT_TOAST
+    0x200000: 'Destroy extra when looting while at cap', // CURRENCY_DESTROY_EXTRA_ON_LOOT
     0x400000: 'CURRENCY_DONT_SHOW_TOTAL_IN_TOOLTIP',
     0x800000: 'CURRENCY_DONT_COALESCE_IN_LOOT_WINDOW',
     0x1000000: 'CURRENCY_ACCOUNT_WIDE',
@@ -932,15 +896,6 @@ const garrAutoSpellEffectFlags = {
     0x2: 'EXTRA_INITIAL_PERIOD'
 }
 
-const garrAutoSpellFlags = {
-    0x1: 'NO_INITIAL_CAST'
-}
-
-const garrBuildingFlags = {
-    0x1: 'Requires Blueprint',
-    0x2: 'Ignore Storehouse'
-}
-
 const garrClassSpecFlags = {
     0x1: 'IS_LIMITED_USE_FOLLOWER',
     0x2: 'NO_XP_GAIN',
@@ -953,24 +908,12 @@ const garrEncounterFlags = {
     0x2: 'ELITE'
 }
 
-const garrFollowerFlags = {
-    0x1: 'Unique Follower',
-    0x2: 'No Automatic Spawning',
-    0x4: 'Internal Only',
-    0x8: 'Killed By Always Fail Missions',
-    0x10: 'Hidden Unless Collected',
-}
-
 const garrFollowerTypeFlags = {
     0x1: 'ALLOW_FOLLOWER_RENAME',
     0x2: 'ALLOW_MISSION_START_ABOVE_SOFT_CAP',
     0x4: 'ALLOW_MISSION_SALVAGE',
     0x8: 'ALLOW_FOLLOWER_DELETE',
     0x10: 'ILEVEL_INCREASE_REQUIRES_EPIC',
-}
-
-const garrPlotFlags = {
-    0x1: 'Required for Garrison Upgrade'
 }
 
 const holidayFlags = {
@@ -1043,17 +986,6 @@ const questTagModifierFlags = {
     0x80: 'SHOW_AS_WORLD_QUEST'
 }
 
-const questObjectiveFlags = {
-    0x1: 'TRACK_ON_MINIMAP',
-    0x2: 'SEQUENCED',
-    0x4: 'OPTIONAL',
-    0x8: 'HIDDEN',
-    0x10: 'HIDE_CREDIT_MSG',
-    0x20: 'PRESERVE_QUEST_ITEMS',
-    0x40: 'PROGRESS_BAR_SUB_TASK',
-    0x80: 'KILL_PLAYERS_SAME_FACTION'
-}
-
 const campaignFlags = {
     0x1: 'DONT_USE_JOURNEY_QUEST_BANG'
 }
@@ -1118,8 +1050,6 @@ const facingCasterFlags = {
     // 0x4: '',
     0x8: 'Behind',
 };
-
-const spellEffectAttributes = {};
 
 const areaTableFlags = {
     0x00000001: 'Emit Breath Particles',
@@ -1437,14 +1367,7 @@ const socketColors = {
     0x80000: 'PUNCHCARD_BLUE'
 }
 
-const chrModelFlags = {
-    0x001: 'Do Not Component Feet',
-    0x002: 'Has Bald',
-    0x004: 'Use Loincloth',
-    0x008: 'Skin Variation is Hair Color',
-    0x010: 'Use Pandaren Ring for componenting texture',
-}
-
+// 119
 const mountCapabilityFlags = {
     0x1: 'Is Ground Mount',
     0x2: 'Is Flying Mount',
@@ -1454,31 +1377,585 @@ const mountCapabilityFlags = {
     0x20: 'Ignore All Area Restrictions'
 }
 
+// 190
+const worldMapAreaFlags = {
+    0x00000001: 'Is Placeholder',
+    0x00000002: 'Is a Phased World Map',
+    0x00000004: 'Default Dungeon Floor is Terrain',
+    0x00000008: 'Virtual Continent Map',
+    0x00000010: 'Child of a Virtual Continent Map',
+    0x00000020: 'Don\'t Display ANY Highlight',
+    0x00000040: 'Force Map Overlays to be used',
+    0x00000080: 'Don\'t Display Taxi Nodes',
+    0x00000100: 'Don\'t Use Default Dungeon Floor (typically Floor 1)',
+    0x00000200: 'Default Dungeon Floor is Micro Dungeon',
+    0x00000400: 'Orphan Map',
+    0x00000800: 'Show Garrison Buildings',
+    0x00001000: 'Fallback to Parent Map (e.g. if we don\'t want a map for this terrain phase)',
+    0x00002000: 'Don\'t Display Highlight Texture',
+    0x00004000: 'Show Task Objective POIs on Map',
+    0x00008000: 'HACK: micro dungeon map use parent WorldMapArea for filepath',
+    0x00010000: 'No World Positions',
+};
+
+// 194
+const phaseFlags = {
+    0x00000001: 'Read Only',
+    0x00000002: 'Internal Phase',
+    0x00000004: 'Uses Player Conditions',
+    0x00000008: 'Normal',
+    0x00000010: 'Cosmetic',
+    0x00000020: 'Personal',
+    0x00000040: 'Expensive',
+    0x00000080: 'Events are Observable',
+    0x00000100: 'Uses Preload Conditions',
+    0x00000200: 'Unshareable Personal',
+    0x00000400: 'Objects are Visible',
+};
+
+// 195
+const skillLineFlags = {
+    0x00000001: 'Always shown in UI',
+    0x00000002: 'Never shown in UI',
+    0x00000004: 'First tier is self taught',
+    0x00000008: 'Granted incrementally by character upgrade',
+    0x00000010: 'Automatic rank',
+    0x00000020: 'RESERVED for use in 8.0.1',
+    0x00000040: '(DEPRECATED) Shows in spell tooltip (even if not in UI)',
+    0x00000080: '(DEPRECATED) Appears in Misc Tab of Spellbook',
+    0x00000100: '(UNUSED)',
+    0x00000200: 'Ignore Category Mods',
+    0x00000400: 'Displays as proficiency',
+    0x00000800: 'Pets Only',
+    0x00001000: 'Unique bitfield (Professions only)',
+    0x00002000: 'Racial for the purpose of Paid Race/Faction change',
+    0x00004000: 'Progressive skill up',
+    0x00008000: 'Racial for the purpose of temporary race change',
+};
+
+// 198
+const liquidTypeFlags = {
+    0x00000001: 'Ripple',
+    0x00000002: 'Splash',
+    0x00000004: 'Water Walking',
+    0x00000008: 'Particles',
+    0x00000010: 'Particle Fog',
+    0x00000020: 'WMO Fog Control',
+    0x00000040: 'No Interior Fog Blend',
+    0x00000080: 'Outdoor Ambience Only',
+    0x00000100: 'WMO Fog Control (SLIME)',
+    0x00000200: 'Force Exterior Lighting',
+};
+
+// 201
+const emotesFlags = {
+    0x00000001: 'Only while standing',
+    0x00000002: 'Emote applies to mount',
+    0x00000004: 'Not while channeling',
+    0x00000008: 'Talk anim talk',
+    0x00000010: 'Talk anim question',
+    0x00000020: 'Talk anim exclamation',
+    0x00000040: 'Talk anim shout',
+    0x00000080: 'Not while swimming',
+    0x00000100: 'Talk anim laugh',
+    0x00000200: 'Ok while sleeping or dead',
+    0x00000400: 'Disallow from client',
+    0x00000800: 'Not while casting',
+    0x00001000: 'Movement ends',
+    0x00002000: 'Interrupt on interact',
+    0x00004000: 'Only while still',
+    0x00008000: 'Not while flying',
+    0x00010000: 'Not while mounted',
+    0x00020000: 'Animation suppressed by movement',
+    0x00040000: 'Combat ends (initiating an attack)',
+    0x00080000: 'Don\'t allow animation to fallback',
+    0x00100000: 'Don\'t log chat on server',
+    0x00200000: 'Not while in vehicle',
+    0x00400000: 'Not while in combat (has threat)',
+    0x00800000: 'Do not throttle player emote frequency',
+    0x01000000: 'Suppress all animation sounds',
+};
+
+// 220
+const chatChannelsFlags = {
+    0x00000001: 'Auto-Join',
+    0x00000002: 'Zone-Based',
+    0x00000004: 'Read-Only',
+    0x00000008: 'Allow Item Links',
+    0x00000010: 'Only in Cities',
+    0x00000020: 'Linked Channel',
+    0x00010000: 'Zone Attack Alerts',
+    0x00020000: 'Guild Recruitment',
+    0x00040000: 'Looking for Group',
+    0x00080000: 'Global for Tournament',
+    0x00100000: 'Disable Raid Icons',
+    // incomplete
+};
+
+// 223
+const spellShapeshiftFormFlags = {
+    0x00000001: 'Stance',
+    0x00000002: 'Not Toggleable',
+    0x00000004: 'Persist On Death',
+    0x00000008: 'Can Interact NPC',
+    0x00000010: 'Don\'t Use Weapon',
+    0x00000020: 'Agility Attack Bonus',
+    0x00000040: 'Can Use Equipped Items',
+    0x00000080: 'Can Use Items',
+    0x00000100: 'Don\'t Auto-Unshift',
+    0x00000200: 'Considered Dead',
+    0x00000400: 'Can Only Cast Shapeshift Spells',
+    0x00000800: 'Stance Cancels At Flightmaster',
+    0x00001000: 'No Emote Sounds',
+    0x00002000: 'No Trigger Teleport',
+    0x00004000: 'Cannot change equipped items',
+    0x00008000: 'Resummon Pets on Unshift',
+    0x00010000: 'Cannot Use Game Objects',
+};
+
+// 236
+const creatureModelDataFlags = {
+    0x00000001: 'No Footprint Particles',
+    0x00000002: 'No Breath Particles',
+    0x00000004: 'Is Player Model',
+    0x00000010: 'No Attached Weapons',
+    0x00000020: 'No Footprint Trail Textures',
+    0x00000040: 'Disable Highlight',
+    0x00000080: 'Can Mount while Transformed as this',
+    0x00000100: 'Disable Scale Interpolation',
+    0x00000200: 'Force Projected Tex. (EXPENSIVE)',
+    0x00000400: 'Can Jump In Place As Mount',
+    0x00000800: 'AI cannot use walk backwards anim',
+    0x00001000: 'Ignore SpineLow for SplitBody',
+    0x00002000: 'Ignore Head for SplitBody',
+    0x00004000: 'Ignore SpineLow for SplitBody when Flying',
+    0x00008000: 'Ignore Head for SplitBody when Flying',
+    0x00010000: 'Use \'wheel\' animation on unit wheel bones',
+    0x00020000: 'Is HD Model',
+    0x00040000: 'Suppress Emitters on Low Settings',
+};
+
+// 251
+const broadcastTextFlags = {
+    0x00000001: 'Enable Boss Emote Warning Sound',
+    0x00000002: 'Display as Subtitle in Letterbox',
+    0x00000004: 'Available to Client-side Actors',
+    0x00000008: 'Hide Sender in Letterbox Subtitle',
+    0x00000010: 'Hide from Chat Log',
+    // incomplete
+};
+
+// 256
+const battlemasterListFlags = {
+    0x00000001: 'Internal Only',
+    0x00000002: 'Rated Only',
+    0x00000004: 'OBSOLETE - Do Not List',
+    0x00000008: 'Show in War-Games',
+    0x00000010: 'Show in PvP Battleground List',
+    0x00000020: 'Is Brawl',
+    // incomplete
+};
+
+// 258
+const artifactPowerFlags = {
+    0x00000001: 'Is Gold Medal',
+    0x00000002: 'Is Start Power',
+    0x00000004: 'Is Endgame Power',
+    0x00000008: 'Is Meta Power',
+    0x00000010: 'One Free Rank',
+    0x00000020: 'Max Rank Variable',
+    0x00000040: 'Single Rank Tooltip',
+};
+
+// 265
+const animationDataFlags0 = {
+    0x00000001: 'Animation used for Emotes',
+    0x00000002: 'Animation used for Spells',
+    0x00000008: 'Hide Weapons',
+    0x00000010: 'Fallback Plays Backwards',
+    0x00000020: 'Fallback Holds Last Frame',
+    0x00000040: 'Load Only on Demand',
+    0x00000080: 'Fallback to Variation Zero',
+    0x00000100: 'Never allow spine/head twist',
+    0x00000200: 'Force pitch and roll to track ground surface',
+    0x00000400: 'Animation is Unapproved - See Gameplay Programmer',
+    0x00000800: 'Move Weapons to Sheath',
+    0x00001000: 'Move Melee Weapons to Hand',
+    0x00002000: 'Scale to Ground',
+    0x00004000: 'Scale to Ground Rev',
+    0x00008000: 'Scale to Ground Always',
+    0x00010000: 'Is Split Body Behavior',
+    0x00020000: 'Is Bow Weapon Behavior',
+    0x00040000: 'Is Rifle Weapon Behavior',
+    0x00080000: 'Is Thrown Weapon Behavior',
+    0x00100000: 'Is Death Behavior',
+    0x00200000: 'Is Melee Combat Behavior',
+    0x00400000: 'Is Special Combat Behavior',
+    0x00800000: 'Is Wound Behavior',
+    0x01000000: 'Is Unarmed Behavior',
+    0x02000000: 'Use mounted name plate position',
+    0x04000000: 'Flip Spear Weapons 180 degrees',
+    0x08000000: 'Animation is required for a PetBattle pet',
+    0x10000000: 'Animation is optional for a PetBattle pet',
+    0x00000004: 'Is Pierce Anim',
+    0x20000000: 'Spell Combat Behavior',
+    0x40000000: 'Brewmaster Sheathe',
+    0x80000000: 'Meta Animation',
+};
+
+// 291
+const lightSkyboxFlags = {
+    0x00000001: 'Full day Skybox',
+    0x00000002: 'Combine Procedural And Skybox',
+    0x00000004: 'Procedural Fog Color Blend',
+    0x00000008: 'Force Sun-shafts',
+    0x00000010: 'Disable use Sun Fog Color',
+};
+
+// 327
+const powerTypeFlags = {
+    0x00000001: 'Stop Regen While Casting',
+    0x00000002: 'Use Regen Interrupt',
+    0x00000004: 'Clear Fractional Power on Leave Combat',
+    0x00000008: 'Fill Fractional Power on Energize',
+    0x00000010: 'No Client Prediction',
+    0x00000020: 'Units Use Default Power on Init',
+    0x00000040: 'Not Set to Default on Resurrect',
+    0x00000080: 'Is Used by NPCs',
+    0x00000100: 'Cost Hidden on Tooltip',
+    0x00000200: 'Continue Regen While Fatigued',
+    0x00000400: 'Regen Affected by Haste',
+    0x00000800: 'Set to Default After Regen Interrupt',
+    0x00001000: 'Set to Max on level up',
+    0x00002000: 'Set to Max on initial login',
+    0x00004000: 'Allow Cost Mods For Players',
+};
+
+// 331
+const itemSubClassFlags = {
+    0x00000001: 'Weapon Can Parry',
+    0x00000002: 'Weapon Set Finger Sequence (unused)',
+    0x00000004: 'Weapon Is Unarmed (unused)',
+    0x00000008: 'Weapon Is Rifle (unused)',
+    0x00000010: 'Weapon Is Thrown (unused)',
+    0x00000020: 'Weapon Is Right Hand Ranged (unused)',
+    0x00000040: 'Quiver Not Required (unused)',
+    0x00000080: 'Ranged (unused)',
+    0x00000100: 'Ranged No Attack Power (unused)',
+    0x00000200: 'Uses Inv Type',
+};
+
+// 346
+const chrClassesFlags = {
+    0x00000001: 'Use Loincloth',
+    0x00000002: 'Player Class',
+    0x00000004: 'Display Pet',
+    0x00000010: 'Can Wear Scaling-Stat Mail',
+    0x00000020: 'Can Wear Scaling-Stat Plate',
+    0x00000040: 'Bind Starting Area',
+    0x00000080: 'Pet Bar Initially Hidden',
+    0x00000100: 'Send Stable at Login',
+    0x00000200: 'Monk-Style Unarmed',
+    0x00000400: 'Requires Stance',
+    0x00000800: 'Disallow Boost',
+    0x00001000: 'Creature Class',
+};
+
+// 351
+const spellItemEnchantmentFlags = {
+    0x00000001: 'Soulbound',
+    0x00000002: 'Do not log',
+    0x00000004: 'Mainhand Only',
+    0x00000008: 'Allow Entering Arena',
+    0x00000010: 'Do Not Save To DB',
+    0x00000020: 'Scale As A Gem',
+    0x00000040: 'Disable In Challenge Modes',
+    0x00000080: 'Disable in Proving Grounds',
+    0x00000100: 'Allow Transmog',
+    0x00000200: 'Hide Until Collected',
+};
+
+// 352
+const scenarioFlags = {
+    0x00000001: 'Use Challenge Mode Display (deprecated)',
+    0x00000002: 'Suppress Scenario Stage Number Text',
+    0x00000004: 'Use Proving Grounds Display (deprecated)',
+    0x00000008: 'Use Dungeon Display (deprecated)',
+    0x00000010: 'Grants Guild Dungeon Credit',
+};
+
+// 603
+const dungeonEncounterFlags = {
+    0x00000001: 'Sticky News',
+    0x00000002: 'Guild News',
+    0x00000004: 'Lock players to raid upon successful completion',
+    0x00000008: 'Auto end encounter on leave combat (in failure)',
+    0x00000010: 'Cosmetic only',
+    0x00000020: 'Debug Log',
+    0x00000040: 'Hide until completed',
+    0x00000080: 'Encounter must be manually started',
+};
+
+// 681
+const spellEffectEffectAttributes = {
+    0x00000001: 'No Immunity',
+    0x00000002: 'Position is facing relative',
+    0x00000004: 'Jump Charge Unit Melee Range',
+    0x00000008: 'Jump Charge Unit Strict Path Check',
+    0x00000010: 'Exclude Own Party',
+    0x00000020: 'Always AOE Line of Sight',
+    0x00000040: 'Suppress Points Stacking',
+    0x00000080: 'Chain from Initial Target',
+    0x00000100: 'Uncontrolled No Backwards',
+    0x00000200: 'Aura Points Stack',
+    0x00000400: 'No Copy Damage Interrupts or Procs',
+    0x00000800: 'Add Target (Dest) Combat Reach to AOE',
+    0x00001000: 'Is Harmful',
+    0x00002000: 'Force Scale to Override Camera Min Height',
+    0x00004000: 'Players Only',
+    0x00008000: 'Compute Points Only At Cast Time',
+    0x00010000: 'Enforce Line Of Sight To Chain Targets',
+    0x00020000: 'Area Effects Use Target Radius',
+    0x00040000: 'Teleport With Vehicle (during map transfer)',
+    0x00080000: 'Scale Points By Challenge Mode Damage Scaler',
+    0x00100000: 'Don\'t Fail Spell On Targeting Failure',
+    // incomplete
+};
+
+// 693
+const scenarioStepFlags = {
+    0x00000001: 'Bonus Objective',
+    0x00000002: 'Heroic Bonus Objective only',
+    0x00000004: 'Criteria triggers only affect this step',
+};
+
+// 738
+const chrRacesFlags = {
+    0x1: 'NPC Only',
+    0x2: 'Do Not Component Feet',
+    0x4: 'Can Mount',
+    0x8: 'Has Bald',
+    0x10: 'Bind to Starting Area',
+    0x20: 'Alternate Form',
+    0x40: 'Can Mount Self',
+    0x80: 'Force to HD model if available',
+    0x100: 'Exalted With All Vendors',
+    0x200: 'Not Selectable',
+    0x400: 'Reputation Bonus',
+    0x800: 'Use Loincloth',
+    0x1000: 'Rest Bonus',
+    0x2000: 'No Start Kits',
+    0x4000: 'No Starting Weapon',
+    0x8000: 'Dont redeem account licenses',
+    0x10000: 'Skin Variation Is Hair Color',
+    0x20000: 'Use Pandaren Ring for componenting texture',
+    0x40000: 'Ignore for asset manifest component info parsing',
+    0x80000: 'Is Allied Race',
+    0x100000: 'Void Vendor Discount (transmog/void storage)',
+    0x200000: 'DAMM Component - No Male Generation (Tools Only)',
+    0x400000: 'DAMM Component - No Female Generation (Tools Only)',
+    0x800000: 'No Associated Faction Reputation in Race Change',
+    0x1000000: 'Internal Only (in development)',
+}
+
+// 916
+const waypointNodeFlags = {
+    0x00000001: 'Inactive Node',
+    0x00000002: 'No Autoconnect',
+    0x00000004: 'No Cost Autoconnect',
+    0x00000008: 'Player Location',
+    0x00000010: 'Route on Same Continent',
+};
+
+// 917
+const waypointEdgeFlags = {
+    0x00000001: 'Inactive Edge',
+    0x00000002: 'Bidirectional',
+};
+
+// 983
+const playerConditionFlags = {
+    0x00000001: 'Client executable',
+    0x00000002: 'Check achievements on all chars',
+    0x00000004: 'Compare power to max',
+    0x00000008: 'Invert',
+    0x00000010: 'Is at max expansion level',
+    0x00000020: 'Within or above record',
+    0x00000040: 'Use effective level',
+    0x00000080: 'Invert Content Tuning',
+    0x00000100: 'Disabled',
+    0x00000200: 'Invert Modifier Tree',
+    0x00000400: 'Not Recently Transferred',
+}
+
+// 985
+const garrSiteFlags = {
+    0: 'Top Level Only Site',
+}
+
+// 986
+const garrPlotFlags = {
+    0x1: 'Required for Garrison Upgrade'
+}
+
+// 991
+const garrAbilityEffectFlags =
+{
+    0x1: 'Not Beneficial'
+}
+
+// 994
+const garrBuildingFlags = {
+    0x1: 'Requires Blueprint',
+    0x2: 'Ignore Storehouse'
+}
+
+// 995
+const garrFollowerFlags = {
+    0x1: 'Unique Follower',
+    0x2: 'No Automatic Spawning',
+    0x4: 'Internal Only',
+    0x8: 'Killed By Always Fail Missions',
+    0x10: 'Hidden Unless Collected',
+}
+
+// 1021
+const questObjectiveFlags = {
+    0x1: 'Track on Minimap', // TRACK_ON_MINIMAP
+    0x2: 'Sequenced', // SEQUENCED
+    0x4: 'Optional', // OPTIONAL
+    0x8: 'Hidden', // HIDDEN
+    0x10: 'Hide Credit Msg', // HIDE_CREDIT_MSG
+    0x20: 'Preserve Quest Items', // PRESERVE_QUEST_ITEMS
+    0x40: 'Progress Bar Objective', // PROGRESS_BAR_SUB_TASK
+    0x80: 'Kill Players (Same Faction)', // KILL_PLAYERS_SAME_FACTION
+}
+
+// 1035
+const garrAutoSpellFlags = {
+    0x1: 'No Initial Cast',
+}
+
+// 1036
+const vehiclePOITypeFlags = {
+    0x1: 'Minimap Icon Draws Below Player Blips',
+}
+
+// 1038
+const chrModelFlags = {
+    0x001: 'Do Not Component Feet',
+    0x002: 'Has Bald',
+    0x004: 'Use Loincloth',
+    0x008: 'Skin Variation is Hair Color',
+    0x010: 'Use Pandaren Ring for componenting texture',
+}
+
+// 1041
+const battlePetStateFlags = {
+    0x00000001: 'Swap Out Lock',
+    0x00000002: 'Turn Lock',
+    0x00000004: 'Speed Bonus',
+    0x00000008: 'Client',
+    0x00000010: 'Max Health Bonus',
+    0x00000020: 'Stamina',
+    0x00000040: 'Quality does not effect',
+    0x00000080: 'Dynamic Scaling(Level and BreedQuality)',
+    0x00000100: 'Power',
+    0x00000200: 'Pct Speed Multiplier',
+    0x00000400: 'Swap In Lock',
+    0x00000800: 'Server Only',
+}
+
+// 1067
+const chrCustomizationCategoryFlag = {
+    0x1: 'Undress Model',
+}
+
+// 1103
+const optionalReagentItemFlag = {
+    0x1: 'TooltipShowsAsStatModifications'
+}
+
 window.flagMap = new Map();
 
 window.flagMap.set("achievement.Flags", achievementFlags);
+window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
+window.flagMap.set("areapoi.Flags", areaPOIFlags);
+window.flagMap.set("areatable.Flags[0]", areaTableFlags);
+window.flagMap.set("areatable.Flags[1]", areaTableFlags2);
+window.flagMap.set("artifactpower.Flags", artifactPowerFlags);
+window.flagMap.set("battlepetstate.Flags", battlePetStateFlags);
+window.flagMap.set("battlemasterlist.Flags", battlemasterListFlags);
+window.flagMap.set("broadcasttext.Flags", broadcastTextFlags);
+window.flagMap.set("campaign.Flags", campaignFlags);
 window.flagMap.set("charsections.Flags", charSectionFlags);
+window.flagMap.set("charshipment.Flags", charShipmentFlags);
+window.flagMap.set("chatchannels.Flags", chatChannelsFlags);
+window.flagMap.set("chrcustomizationcategory.Flags", chrCustomizationCategoryFlag);
+window.flagMap.set("chrclasses.Flags", chrClassesFlags);
+window.flagMap.set("chrmodel.Flags", chrModelFlags);
 window.flagMap.set("chrraces.Flags", chrRacesFlags);
+window.flagMap.set("contenttuning.Flags", contentTuningFlags);
+window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
+window.flagMap.set("creaturemodeldata.Flags", creatureModelDataFlags);
+window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
+window.flagMap.set("currencytypes.Flags[0]", currencyFlags);
+window.flagMap.set("currencytypes.Flags[1]", currencyFlagsB);
 window.flagMap.set("difficulty.Flags", difficultyFlags);
-window.flagMap.set("emotes.EmoteFlags", emoteFlags);
+window.flagMap.set("dungeonencounter.Flags", dungeonEncounterFlags);
+window.flagMap.set("emotes.EmoteFlags", emotesFlags);
 window.flagMap.set("garrability.Flags", garrAbilityFlags);
 window.flagMap.set("garrabilityeffect.Flags", garrAbilityEffectFlags);
+window.flagMap.set("garrautospell.Flags", garrAutoSpellFlags);
+window.flagMap.set("garrautospelleffect.Flags", garrAutoSpellEffectFlags);
+window.flagMap.set("garrbuilding.Flags", garrBuildingFlags);
+window.flagMap.set("garrclassspec.Flags", garrClassSpecFlags);
+window.flagMap.set("garrencounter.Flags", garrEncounterFlags);
+window.flagMap.set("garrfollower.Flags", garrFollowerFlags);
+window.flagMap.set("garrfollowertype.Flags", garrFollowerTypeFlags);
 window.flagMap.set("garrmision.Flags", garrMissionFlags);
+window.flagMap.set("garrplot.Flags", garrPlotFlags);
+window.flagMap.set("garrsite.Flags", garrSiteFlags);
+window.flagMap.set("gemproperties.Type", socketColors);
 window.flagMap.set("globalstrings.Flags", globalstringsFlags);
+window.flagMap.set("holidays.Flags", holidayFlags);
+window.flagMap.set("itemsearchname.Flags[0]", itemStaticFlags0);
+window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
+window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
+window.flagMap.set("itemsearchname.Flags[3]", itemStaticFlags3);
 window.flagMap.set("itemsparse.AllowableClass", classMask);
 window.flagMap.set("itemsparse.Flags[0]", itemStaticFlags0);
 window.flagMap.set("itemsparse.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsparse.Flags[3]", itemStaticFlags3);
-window.flagMap.set("itemsearchname.Flags[0]", itemStaticFlags0);
-window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
-window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
-window.flagMap.set("itemsearchname.Flags[3]", itemStaticFlags3);
+window.flagMap.set("itemsubclass.Flags", itemSubClassFlags);
+window.flagMap.set("lightskybox.Flags", lightSkyboxFlags);
+window.flagMap.set("liquidtype.Flags", liquidTypeFlags);
+window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
+window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
 window.flagMap.set("map.Flags[0]", mapFlags);
 window.flagMap.set("map.Flags[1]", mapFlags2);
+window.flagMap.set("modifiedcraftingreagentitem.Flags", optionalReagentItemFlag);
+window.flagMap.set("mountcapability.Flags", mountCapabilityFlags);
+window.flagMap.set("phase.Flags", phaseFlags);
+window.flagMap.set("powertype.Flags", powerTypeFlags);
 window.flagMap.set("playercondition.ClassMask", classMask);
+window.flagMap.set("playercondition.Flags", playerConditionFlags);
+window.flagMap.set("questinfo.Modifiers", questTagModifierFlags);
+window.flagMap.set("questobjective.Flags", questObjectiveFlags);
+window.flagMap.set("questv2clitask.Flags[0]", questFlags0);
+window.flagMap.set("questv2clitask.Flags[1]", questFlags1);
+window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
 window.flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
+window.flagMap.set("scenario.Flags", scenarioFlags);
+window.flagMap.set("scenariostep.Flags", scenarioStepFlags);
+window.flagMap.set("skillline.Flags", skillLineFlags);
 window.flagMap.set("soundkit.Flags", soundkitFlags);
+window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
+window.flagMap.set("spelleffect.EffectAttributes", spellEffectEffectAttributes);
+window.flagMap.set("spellitemenchantment.Flags", spellItemEnchantmentFlags);
+window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags0);
+window.flagMap.set("spellinterrupts.AuraInterruptFlags[1]", auraInterruptFlags1);
 window.flagMap.set("spellmisc.Attributes[0]", spellAttributes0);
 window.flagMap.set("spellmisc.Attributes[1]", spellAttributes1);
 window.flagMap.set("spellmisc.Attributes[2]", spellAttributes2);
@@ -1494,49 +1971,17 @@ window.flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
 window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
 window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
 window.flagMap.set("spellmisc.Attributes[14]", spellAttributes14);
-// window.flagMap.set("spelleffect.EffectSpellClassMask[0]", classMask);
-// window.flagMap.set("spelleffect.EffectSpellClassMask[1]", classMask);
-// window.flagMap.set("spelleffect.EffectSpellClassMask[2]", classMask);
-// window.flagMap.set("spelleffect.EffectSpellClassMask[3]", classMask);
-window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
-window.flagMap.set("uimap.Flags", uiMapFlags);
-window.flagMap.set("charshipment.Flags", charShipmentFlags);
-window.flagMap.set("currencytypes.Flags[0]", currencyFlags);
-window.flagMap.set("currencytypes.Flags[1]", currencyFlagsB);
-window.flagMap.set("garrautospelleffect.Flags", garrAutoSpellEffectFlags);
-window.flagMap.set("garrautospell.Flags", garrAutoSpellFlags);
-window.flagMap.set("garrbuilding.Flags", garrBuildingFlags);
-window.flagMap.set("garrclassspec.Flags", garrClassSpecFlags);
-window.flagMap.set("garrencounter.Flags", garrEncounterFlags);
-window.flagMap.set("garrfollower.Flags", garrFollowerFlags);
-window.flagMap.set("garrfollowertype.Flags", garrFollowerTypeFlags);
-window.flagMap.set("garrplot.Flags", garrPlotFlags);
-window.flagMap.set("holidays.Flags", holidayFlags);
-window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
-window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
-window.flagMap.set("questinfo.Modifiers", questTagModifierFlags);
-window.flagMap.set("questobjective.Flags", questObjectiveFlags);
-window.flagMap.set("campaign.Flags", campaignFlags);
+window.flagMap.set("spellmisc.SchoolMask", damageClass);
 window.flagMap.set("spelltargetrestrictions.TargetCreatureType", targetCreatureType);
 window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
-window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
-window.flagMap.set("spelleffect.EffectAttributes", spellEffectAttributes);
-window.flagMap.set("areatable.Flags[0]", areaTableFlags);
-window.flagMap.set("areatable.Flags[1]", areaTableFlags2);
-window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
-window.flagMap.set("areapoi.Flags", areaPOIFlags);
+window.flagMap.set("spellshapeshiftform.Flags", spellShapeshiftFormFlags);
 window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
-window.flagMap.set("questv2clitask.Flags[0]", questFlags0);
-window.flagMap.set("questv2clitask.Flags[1]", questFlags1);
-window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
-window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
-window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags0);
-window.flagMap.set("spellinterrupts.AuraInterruptFlags[1]", auraInterruptFlags1);
-window.flagMap.set("contenttuning.Flags", contentTuningFlags);
-window.flagMap.set("spellmisc.SchoolMask", damageClass);
-window.flagMap.set("gemproperties.Type", socketColors);
-window.flagMap.set("chrmodel.Flags", chrModelFlags);
-window.flagMap.set("mountcapability.Flags", mountCapabilityFlags);
+window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
+window.flagMap.set("uimap.Flags", uiMapFlags);
+window.flagMap.set("vehiclepoitype.Flags", vehiclePOITypeFlags);
+window.flagMap.set("waypointedge.Flags", waypointEdgeFlags);
+window.flagMap.set("waypointnode.Flags", waypointNodeFlags);
+window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

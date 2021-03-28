@@ -809,41 +809,6 @@ const spellEffectName = {
     282: 'CONVERT_ITEMS_TO_CURRENCY',
 };
 
-const soundkitSoundType = {
-    0: 'Unused/Miscellaneous',
-    1: 'Spells',
-    2: 'UI',
-    3: 'Footsteps',
-    4: 'Weapons/Impact',
-    6: 'Weapons/Miss',
-    7: 'Greetings',
-    8: 'Casting',
-    9: 'Pick Up/Put Down',
-    10: 'NPC Combat',
-    12: 'Errors',
-    13: 'Ambient FX',
-    14: 'Objects',
-    16: 'Death',
-    17: 'NPC Greetings',
-    18: 'Test/Temporary',
-    19: 'Armor/Foley',
-    20: 'Footsteps',
-    21: 'Water/Character',
-    22: 'Water/Liquid',
-    23: 'Tradeskills',
-    24: 'Misc. FX',
-    25: 'Doodads',
-    26: 'Spell Fizzle',
-    27: 'NPC Loops',
-    28: 'Zone Music',
-    29: 'Emotes',
-    30: 'Narration Music',
-    31: 'Narration',
-    50: 'Zone Ambience',
-    52: 'Zone Emitters',
-    53: 'Vehicle'
-};
-
 const charSectionType = {
     0: 'Skin',
     1: 'Face',
@@ -876,203 +841,6 @@ const uiMapType = {
     4: 'Dungeon',
     5: 'Micro-Dungeon',
     6: 'Orphan'
-}
-
-const criteriaType = {
-    0: 'KILL_CREATURE',                                                                // creature::ID
-    1: 'WIN_BG',                                                                        // map::ID
-    2: 'UNK_2',                                                                                // researchproject::ID
-    3: 'COMPLETE_ARCHAEOLOGY_PROJECTS',                                // No FK
-    4: 'SURVEY_GAMEOBJECT',                                                        // gameobjects::ID
-    5: 'REACH_LEVEL',                                                                // No FK
-    6: 'CLEAR_DIGSITE',                                                                // No FK
-    7: 'REACH_SKILL_LEVEL',                                                        // skillline::ID
-    8: 'COMPLETE_ACHIEVEMENT',                                                // achievement::ID
-    9: 'COMPLETE_QUEST_COUNT',                                                // No FK
-    10: 'COMPLETE_DAILY_QUEST_DAILY',                                // No FK
-    11: 'COMPLETE_QUESTS_IN_ZONE',                                        // areatable::ID
-    12: 'CURRENCY',                                                                        // currencytypes::ID
-    13: 'DAMAGE_DONE',                                                                // No FK
-    14: 'COMPLETE_DAILY_QUEST',                                                // No FK
-    15: 'COMPLETE_BATTLEGROUND',                                        // map::ID
-    16: 'DEATH_AT_MAP',                                                                // map::ID
-    17: 'DEATH',                                                                        // No FK
-    18: 'DEATH_IN_DUNGEON',                                                        // ????
-    19: 'COMPLETE_RAID',                                                        // ????
-    20: 'KILLED_BY_CREATURE',                                                // creature::ID
-    21: 'MANUAL_COMPLETE_CRITERIA',                                        // criteria::ID
-    22: 'COMPLETE_CHALLENGE_MODE_GUILD',                        // No FK
-    23: 'KILLED_BY_PLAYER',                                                        // No FK
-    24: 'FALL_WITHOUT_DYING',                                                // No FK
-    26: 'DEATHS_FROM',                                                                // ????
-    27: 'COMPLETE_QUEST',                                                        // questv2:ID
-    28: 'BE_SPELL_TARGET',                                                        // spell::ID
-    29: 'CAST_SPELL',                                                                // spell::ID
-    30: 'BG_OBJECTIVE_CAPTURE',                                                // pvpstat::ID
-    31: 'HONORABLE_KILL_AT_AREA',                                        // areatable::ID
-    32: 'WIN_ARENA',                                                                // map::ID
-    33: 'PLAY_ARENA',                                                                // map::ID
-    34: 'LEARN_SPELL',                                                                // spell::ID
-    35: 'HONORABLE_KILL',                                                        // No FK
-    36: 'OWN_ITEM',                                                                        // item::ID
-    37: 'WIN_RATED_ARENA',                                                        // No FK
-    38: 'HIGHEST_TEAM_RATING',                                                // No FK
-    39: 'HIGHEST_PERSONAL_RATING',                                        // No FK
-    40: 'LEARN_SKILL_LEVEL',                                                // skilline::ID
-    41: 'USE_ITEM',                                                                        // item::ID
-    42: 'LOOT_ITEM',                                                                // item::ID
-    43: 'EXPLORE_AREA',                                                                // areatable::ID
-    44: 'OWN_RANK',                                                                        // No FK
-    45: 'BUY_BANK_SLOT',                                                        // No FK
-    46: 'GAIN_REPUTATION',                                                        // faction::ID
-    47: 'GAIN_EXALTED_REPUTATION',                                        // No FK
-    48: 'VISIT_BARBER_SHOP',                                                // No FK
-    49: 'EQUIP_EPIC_ITEM',                                                        // No FK
-    50: 'ROLL_NEED_ON_LOOT',                                                // No FK
-    51: 'ROLL_GREED_ON_LOOT',                                                // No FK
-    52: 'HK_CLASS',                                                                        // chrclasses::ID
-    53: 'HK_RACE',                                                                        // chrraces::ID
-    54: 'DO_EMOTE',                                                                        // emotes::ID
-    55: 'HEALING_DONE',                                                                // No FK
-    56: 'GET_KILLING_BLOWS',                                                // No FK
-    57: 'EQUIP_ITEM',                                                                // item::ID
-    59: 'MONEY_FROM_VENDORS',                                                // No FK
-    60: 'GOLD_SPENT_FOR_TALENTS',                                        // No FK
-    61: 'NUMBER_OF_TALENT_RESETS',                                        // No FK
-    62: 'MONEY_FROM_QUEST_REWARD',                                        // No FK
-    63: 'GOLD_SPENT_FOR_TRAVELLING',                                // No FK
-    64: 'DEFEAT_CREATURE_GROUP',                                        // ????
-    65: 'GOLD_SPENT_AT_BARBER',                                                // No FK
-    66: 'GOLD_SPENT_FOR_MAIL',                                                // No FK
-    67: 'LOOT_MONEY',                                                                // No FK
-    68: 'USE_GAMEOBJECT',                                                        // gameobjects::ID
-    69: 'BE_SPELL_TARGET2',                                                        // spell::ID
-    70: 'SPECIAL_PVP_KILL',                                                        // No FK
-    71: 'COMPLETE_CHALLENGE_MODE',                                        // map::ID
-    72: 'FISH_IN_GAMEOBJECT',                                                // gameobjects::ID
-    73: 'SEND_EVENT',                                                                // ????
-    74: 'ON_LOGIN',                                                                        // No FK
-    75: 'LEARN_SKILLLINE_SPELLS',                                        // skillline::ID
-    76: 'WIN_DUEL',                                                                        // No FK
-    77: 'LOSE_DUEL',                                                                // No FK
-    78: 'KILL_CREATURE_TYPE',                                                // No FK
-    79: 'COOK_RECIPES_GUILD',                                                // No FK
-    80: 'GOLD_EARNED_BY_AUCTIONS',                                        // No FK
-    81: 'EARN_PET_BATTLE_ACHIEVEMENT_POINTS',                // No FK
-    82: 'CREATE_AUCTION',                                                        // No FK
-    83: 'HIGHEST_AUCTION_BID',                                                // No FK
-    84: 'WON_AUCTIONS',                                                                // No FK
-    85: 'HIGHEST_AUCTION_SOLD',                                                // No FK
-    86: 'HIGHEST_GOLD_VALUE_OWNED',                                        // No FK
-    87: 'GAIN_REVERED_REPUTATION',                                        // No FK
-    88: 'GAIN_HONORED_REPUTATION',                                        // No FK
-    89: 'KNOWN_FACTIONS',                                                        // No FK
-    90: 'LOOT_EPIC_ITEM',                                                        // No FK
-    91: 'RECEIVE_EPIC_ITEM',                                                // No FK
-    92: 'SEND_EVENT_SCENARIO',                                                // ????
-    93: 'ROLL_NEED',                                                                // No FK
-    94: 'ROLL_GREED',                                                                // No FK
-    95: 'RELEASE_SPIRIT',                                                        // No FK
-    96: 'OWN_PET',                                                                        // creature::ID
-    97: 'GARRISON_COMPLETE_DUNGEON_ENCOUNTER',                // dungeonencounter::ID
-    101: 'HIGHEST_HIT_DEALT',                                                // No FK
-    102: 'HIGHEST_HIT_RECEIVED',                                        // No FK
-    103: 'TOTAL_DAMAGE_RECEIVED',                                        // No FK
-    104: 'HIGHEST_HEAL_CAST',                                                // No FK
-    105: 'TOTAL_HEALING_RECEIVED',                                        // No FK
-    106: 'HIGHEST_HEALING_RECEIVED',                                // No FK
-    107: 'QUEST_ABANDONED',                                                        // No FK
-    108: 'FLIGHT_PATHS_TAKEN',                                                // No FK
-    109: 'LOOT_TYPE',                                                                // No FK
-    110: 'CAST_SPELL2',                                                                // spell::ID
-    112: 'LEARN_SKILL_LINE',                                                // skillline::ID
-    113: 'EARN_HONORABLE_KILL',                                                // No FK
-    114: 'ACCEPTED_SUMMONINGS',                                                // No FK
-    115: 'EARN_ACHIEVEMENT_POINTS',                                        // No FK
-    118: 'COMPLETE_LFG_DUNGEON',                                        // No FK
-    119: 'USE_LFD_TO_GROUP_WITH_PLAYERS',                        // No FK
-    120: 'LFG_VOTE_KICKS_INITIATED_BY_PLAYER',                // No FK
-    121: 'LFG_VOTE_KICKS_NOT_INIT_BY_PLAYER',                // No FK
-    122: 'BE_KICKED_FROM_LFG',                                                // No FK
-    123: 'LFG_LEAVES',                                                                // No FK
-    124: 'SPENT_GOLD_GUILD_REPAIRS',                                // No FK
-    125: 'REACH_GUILD_LEVEL',                                                // No FK
-    126: 'CRAFT_ITEMS_GUILD',                                                // No FK
-    127: 'CATCH_FROM_POOL',                                                        // No FK
-    128: 'BUY_GUILD_BANK_SLOTS',                                        // No FK
-    129: 'EARN_GUILD_ACHIEVEMENT_POINTS',                        // No FK
-    130: 'WIN_RATED_BATTLEGROUND',                                        // No FK
-    132: 'REACH_BG_RATING',                                                        // No FK
-    133: 'BUY_GUILD_TABARD',                                                // No FK
-    134: 'COMPLETE_QUESTS_GUILD',                                        // No FK
-    135: 'HONORABLE_KILLS_GUILD',                                        // No FK
-    136: 'KILL_CREATURE_TYPE_GUILD',                                // No FK
-    137: 'COUNT_OF_LFG_QUEUE_BOOSTS_BY_TANK',                // No FK
-    138: 'COMPLETE_GUILD_CHALLENGE_TYPE',                        // ????
-    139: 'COMPLETE_GUILD_CHALLENGE',                                // No FK
-    145: 'LFR_DUNGEONS_COMPLETED',                                        // No FK
-    146: 'LFR_LEAVES',                                                                // No FK
-    147: 'LFR_VOTE_KICKS_INITIATED_BY_PLAYER',                // No FK
-    148: 'LFR_VOTE_KICKS_NOT_INIT_BY_PLAYER',                // No FK
-    149: 'BE_KICKED_FROM_LFR',                                                // No FK
-    150: 'COUNT_OF_LFR_QUEUE_BOOSTS_BY_TANK',                // No FK
-    151: 'COMPLETE_SCENARIO_COUNT',                                        // No FK
-    152: 'COMPLETE_SCENARIO',                                                // scenario::ID
-    153: 'REACH_AREATRIGGER_WITH_ACTIONSET',                // ????
-    155: 'OWN_BATTLE_PET',                                                        // No FK
-    156: 'OWN_BATTLE_PET_COUNT',                                        // No FK
-    157: 'CAPTURE_BATTLE_PET',                                                // No FK
-    158: 'WIN_PET_BATTLE',                                                        // No FK
-    160: 'LEVEL_BATTLE_PET',                                                // No FK
-    161: 'CAPTURE_BATTLE_PET_CREDIT',                                // No FK
-    162: 'LEVEL_BATTLE_PET_CREDIT',                                        // No FK
-    163: 'ENTER_AREA',                                                                // areatable::ID
-    164: 'LEAVE_AREA',                                                                // areatable::ID
-    165: 'COMPLETE_DUNGEON_ENCOUNTER',                                // dungeonencounter::ID
-    167: 'PLACE_GARRISON_BUILDING',                                        // garrbuilding::ID
-    168: 'UPGRADE_GARRISON_BUILDING',                                // No FK
-    169: 'CONSTRUCT_GARRISON_BUILDING',                                // garrbuilding::ID
-    170: 'UPGRADE_GARRISON',                                                // No FK (GarrLevel)
-    171: 'START_GARRISON_MISSION',                                        // No FK
-    172: 'START_ORDER_HALL_MISSION',                                // garrmission::ID
-    173: 'COMPLETE_GARRISON_MISSION_COUNT',                        // No FK
-    174: 'COMPLETE_GARRISON_MISSION',                                // garrmission::ID
-    175: 'RECRUIT_GARRISON_FOLLOWER_COUNT',                        // No FK
-    176: 'RECRUIT_GARRISON_FOLLOWER',                                // garrfollower::ID
-    178: 'LEARN_GARRISON_BLUEPRINT_COUNT',                        // No FK
-    182: 'COMPLETE_GARRISON_SHIPMENT',                                // No FK
-    183: 'RAISE_GARRISON_FOLLOWER_ITEM_LEVEL',                // No FK
-    184: 'RAISE_GARRISON_FOLLOWER_LEVEL',                        // No FK
-    185: 'OWN_TOY',                                                                        // ????
-    186: 'OWN_TOY_COUNT',                                                        // ????
-    187: 'RECRUIT_GARRISON_FOLLOWER_WITH_QUALITY',        // No FK
-    189: 'OWN_HEIRLOOMS',                                                        // No FK
-    190: 'ARTIFACT_POWER_EARNED',                                        // No FK
-    191: 'ARTIFACT_TRAITS_UNLOCKED',                                // No FK
-    194: 'HONOR_LEVEL_REACHED',                                                // No FK
-    195: 'PRESTIGE_REACHED',                                                // No FK
-    196: 'HERITAGE_AT_LEVEL',                                                // No FK (Level Reached, points to Heritage achievements)
-    197: 'COVENANT_SANCTUM_RANK_REACHED',                        // No FK
-    198: 'ORDER_HALL_TALENT_LEARNED',                                // No FK
-    199: 'APPEARANCE_UNLOCKED_BY_SLOT',                                // No FK (Slot)
-    200: 'ORDER_HALL_RECRUIT_TROOP',                                // No FK
-    202: 'RESEARCHED_GARRISON_TALENT',              // garrtalent::ID
-    203: 'COMPLETE_WORLD_QUEST',                                        // No FK
-    204: 'TRANSMOG_SET_RELATED',                                        // transmogset::ID
-    205: 'TRANSMOG_SET_UNLOCKED',                                        // transmogset::ID (?)
-    206: 'GAIN_PARAGON_REPUTATION',                                        // No FK
-    207: 'EARN_HONOR_XP',                                                        // No FK
-    211: 'RELIC_TALENT_UNLOCKED',                                        // artifactpower::ID (?)
-    213: 'REACH_ACCOUNT_HONOR_LEVEL',                                // No FK (Honor Level Reached)
-    214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED',        // No FK
-    215: 'HEART_OF_AZEROTH_LEVEL_REACHED',                        // No FK (Neck Level Reached)
-    216: 'MYTHIC_KEYSTONE_COMPLETED',                                // No FK
-    218: 'QUEST_COUNT_RELATED',                                                // No FK
-    219: 'BOUGHT_ITEM_FROM_VENDOR',                                        // No FK
-    220: 'SOLD_ITEM_TO_VENDOR',                                                // No FK
-    225: 'TRAVELED_TO_AREA',                                                // areatable::ID
-    228: 'APPLIED_CONDUIT',                                                        // No FK
-    229: 'ANIMA_DEPOSITED'                                                        // No FK
 }
 
 const componentSection = {
@@ -2223,55 +1991,6 @@ const spellLabelName = {
 
 }
 
-const unitConditionVariable = {
-    8: 'CAN_ASSIST',
-    9: 'CAN_ATTACK',
-    16: 'COMBO_POINTS',
-    24: 'DAMAGE_SCHOOL0_PERCENT',
-    25: 'DAMAGE_SCHOOL1_PERCENT',
-    26: 'DAMAGE_SCHOOL2_PERCENT',
-    27: 'DAMAGE_SCHOOL3_PERCENT',
-    28: 'DAMAGE_SCHOOL4_PERCENT',
-    29: 'DAMAGE_SCHOOL5_PERCENT',
-    30: 'DAMAGE_SCHOOL6_PERCENT',
-    37: 'NPC_NUM_MELEE_ATTACKERS',
-    40: 'IS_IN_MELEE_RANGE',
-    41: 'PURSUIT_TIME',
-    42: 'HARMFUL_AURA_CANCELLED_BY_DAMAGE',
-    45: 'NUM_FRIENDS',
-    46: 'THREAT_SCHOOL0_PERCENT',
-    47: 'THREAT_SCHOOL1_PERCENT',
-    48: 'THREAT_SCHOOL2_PERCENT',
-    49: 'THREAT_SCHOOL3_PERCENT',
-    50: 'THREAT_SCHOOL4_PERCENT',
-    51: 'THREAT_SCHOOL5_PERCENT',
-    52: 'THREAT_SCHOOL6_PERCENT',
-    53: 'IS_INTERRUPTIBLE',
-    55: 'NPC_NUM_RANGED_ATTACKERS',
-    56: 'CREATURE_TYPE',
-    57: 'IN_MELEE_RANGE',
-    60: 'SPELL_KNOWN',
-    62: 'IS_AREA_IMMUNE',
-    64: 'DAMAGE_MAGIC_PERCENT',
-    65: 'DAMAGE_PERCENT',
-    66: 'THREAT_MAGIC_PERCENT',
-    67: 'THREAT_PERCENT',
-    69: 'HAS_TOTEM1',
-    70: 'HAS_TOTEM2',
-    71: 'HAS_TOTEM3',
-    72: 'HAS_TOTEM4',
-    73: 'HAS_TOTEM5',
-    75: 'HAS_STRING_ID',
-    76: 'HAS_AURA',
-    77: 'REACTION_HOSTILE',
-    78: 'CHAR_SPECIALIZATION_???',
-    79: 'ROLE_IS_TANK',
-    80: 'CHAR_SPECIALIZATION_???',
-    81: 'ROLE_IS_HEALER',
-    84: 'PATH_FAIL_COUNT',
-    86: 'HAS_LABEL'
-}
-
 const unitConditionOperator = {
     1: 'EQUAL TO',
     2: 'NOT EQUAL TO',
@@ -2710,18 +2429,6 @@ itemSubClass[18] = {
     0: 'WoW Token'
 }
 
-const itemEffectTriggerType = {
-    0: 'On Use',
-    1: 'On Equip',
-    2: 'On Proc',
-    3: 'Summoned By Spell', // Only on 23442
-    4: 'On Death',
-    5: 'On Pickup',
-    6: 'On Learn',
-    7: 'On Looted',
-    8: 'Teach Mount',
-}
-
 const uiMapSystem = {
     0: 'World',
     1: '[DEPRECATED] Legacy Taxi',
@@ -2774,20 +2481,6 @@ const garrAbilityAction = {
     41: 'SOLO_CHAMPION',
 }
 
-const garrAbilityTargetType = {
-    0: 'None',
-    1: 'Self',
-    2: 'Party',
-    3: 'Race',
-    4: 'Class',
-    5: 'Gender',
-    6: 'Profession',
-    7: 'NotSelf',
-    8: 'NotRace',
-    9: 'NotClass',
-    10: 'NotProfession'
-}
-
 const mawPowerRarity = {
     1: 'Common',
     2: 'Uncommon',
@@ -2809,6 +2502,7 @@ const spellVisualEffectNames = {
     // 10: ""
 }
 
+// 488
 const itemQuality = {
     0: 'Poor',
     1: 'Common',
@@ -2832,94 +2526,6 @@ const spellItemEnchantmentEffect = {
     8: 'Prismatic socket'
 }
 
-const itemContext = {
-    1: "Dungeon: Normal",
-    2: "Dungeon: Heroic",
-    3: "Raid: Normal",
-    4: "Raid: Raid Finder",
-    5: "Raid: Heroic",
-    6: "Raid: Mythic",
-    7: "PVP: Unranked 1",
-    8: "PVP: Ranked 1 (Unrated)",
-    9: "Scenario: Normal",
-    10: "Scenario: Heroic",
-    11: "Quest Reward",
-    12: "In-Game Store",
-    13: "Trade Skill",
-    14: "Vendor",
-    15: "Black Market",
-    16: "Mythic+ End of Run",
-    17: "Dungeon: Lvl-Up 1",
-    18: "Dungeon: Lvl-Up 2",
-    19: "Dungeon: Lvl-Up 3",
-    20: "Dungeon: Lvl-Up 4",
-    21: "Force to NONE",
-    22: "Timewalking",
-    23: "Dungeon: Mythic",
-    24: "Pvp Honor Reward",
-    25: "World Quest 1",
-    26: "World Quest 2",
-    27: "World Quest 3",
-    28: "World Quest 4",
-    29: "World Quest 5",
-    30: "World Quest 6",
-    31: "Mission Reward 1",
-    32: "Mission Reward 2",
-    33: "Mythic+ End of Run: Time Chest",
-    34: "zzChallenge Mode 3",
-    35: "Mythic+ Jackpot",
-    36: "World Quest 7",
-    37: "World Quest 8",
-    38: "PVP: Ranked 2 (Combatant)",
-    39: "PVP: Ranked 3 (Challenger)",
-    40: "PVP: Ranked 4 (Rival)",
-    41: "PVP: Unranked 2",
-    42: "World Quest 9",
-    43: "World Quest 10",
-    44: "PVP: Ranked 5 (Duelist)",
-    45: "PVP: Ranked 6 (Elite)",
-    46: "PVP: Ranked 7",
-    47: "PVP: Unranked 3",
-    48: "PVP: Unranked 4",
-    49: "PVP: Unranked 5",
-    50: "PVP: Unranked 6",
-    51: "PVP: Unranked 7",
-    52: "PVP: Ranked 8",
-    53: "World Quest 11",
-    54: "World Quest 12",
-    55: "World Quest 13",
-    56: "PVP: Ranked Jackpot",
-    57: "Tournament Realm",
-    58: "Relinquished",
-    59: "Legendary Forge",
-    60: "Quest Bonus Loot",
-    61: "Character Boost BFA",
-    62: "Character Boost Shadowlands",
-    63: "Legendary Crafting 1",
-    64: "Legendary Crafting 2",
-    65: "Legendary Crafting 3",
-    66: "Legendary Crafting 4",
-    67: "Legendary Crafting 5",
-    68: "Legendary Crafting 6",
-    69: "Legendary Crafting 7",
-    70: "Legendary Crafting 8",
-    71: "Legendary Crafting 9",
-    72: "Weekly Rewards Additional",
-    73: "Weekly Rewards Concession",
-    74: "World Quest Jackpot",
-    75: "New Character",
-    76: "War Mode",
-    77: "PvP Brawl 1",
-    78: "PvP Brawl 2",
-    79: "Torghast",
-    80: "Corpse Recovery",
-    81: "World Boss",
-    82: "Raid: Normal (Extended)",
-    83: "Raid: Raid Finder (Extended)",
-    84: "Raid: Heroic (Extended)",
-    85: "Raid: Mythic (Extended)",
-}
-
 const environmentalDamageType = {
     0: 'FATIGUE',
     1: 'DROWNING',
@@ -2927,65 +2533,6 @@ const environmentalDamageType = {
     3: 'LAVA',
     4: 'SLIME',
     5: 'FIRE',
-}
-
-const garrAutoCombatantRole = {
-    0: 'NONE',
-    1: 'MELEE',
-    2: 'RANGED_PHYSICAL',
-    3: 'RANGED_MAGIC',
-    4: 'HEAL_SUPPORT',
-    5: 'TANK',
-}
-
-const garrAutoSpellEffectType = {
-    0: 'NONE',
-    1: 'DAMAGE',
-    2: 'HEAL',
-    3: 'DAMAGE_PCT',
-    4: 'HEAL_PCT',
-    5: 'DOT',
-    6: 'HOT',
-    7: 'DOT_PCT',
-    8: 'HOT_PCT',
-    9: 'TAUNT',
-    10: 'DETAUNT',
-    11: 'MOD_DAMAGE_DONE',
-    12: 'MOD_DAMAGE_DONE_PCT',
-    13: 'MOD_DAMAGE_TAKEN',
-    14: 'MOD_DAMAGE_TAKEN_PCT',
-    15: 'DEAL_DAMAGE_TO_ATTACKER',
-    16: 'DEAL_DAMAGE_TO_ATTACKER_PCT',
-    17: 'INCREASE_MAX_HEALTH',
-    18: 'INCREASE_MAX_HEALTH_PCT',
-    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT',
-    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',
-}
-
-const garrAutoSpellTarget = {
-    0: 'NONE',
-    1: 'SELF',
-    2: 'ADJACENT_FRIENDLY',
-    3: 'ADJACENT_HOSTILE',
-    4: 'RANGED_FRIENDLY',
-    5: 'RANGED_HOSTILE',
-    6: 'ALL_FRIENDLIES',
-    7: 'ALL_HOSTILES',
-    8: 'ALL_ADJACENT_FRIENDLIES',
-    9: 'ALL_ADJACENT_HOSTILES',
-    10: 'CONE_FRIENDLIES',
-    11: 'CONE_HOSTILES',
-    12: 'LINE_FRIENDLIES',
-    13: 'LINE_HOSTILES',
-    14: 'ALL_FRONT_ROW_FRIENDLIES',
-    15: 'ALL_FRONT_ROW_HOSTILES',
-    16: 'ALL_BACK_ROW_FRIENDLIES',
-    17: 'ALL_BACK_ROW_HOSTILES',
-    18: 'ALL_TARGETS',
-    19: 'RANDOM_TARGET',
-    20: 'RANDOM_ALLY',
-    21: 'RANDOM_ENEMY',
-    22: 'ALL_FRIENDLIES_BUT_SELF',
 }
 
 const garrBuildingType = {
@@ -3039,18 +2586,6 @@ const garrMechanicCategory = {
     2: 'ENCOUNTER'
 }
 
-const garrSpecType = {
-    0: 'REDUCE_TRAVEL_TIME',
-    1: 'STABLE_EXTRA_MOUNTS',
-    2: 'RECALL_FOLLOWERS',
-    3: 'GENERATE_ITEM_RECURRING',
-    4: 'RECOVER_FOLLOWER',
-    5: 'INCREASED_HEALTH',
-    6: 'FOLLOWER_DISCOVERY_CHANCE_INCREASE',
-    7: 'INCREASE_GATHERING_RATE',
-    8: 'MENAGERIE_EXTRA_PETS',
-    9: 'COST_MULTIPLIER',
-}
 
 const garrTalentCostType = {
     0: 'INITIAL',
@@ -3074,6 +2609,7 @@ const itemSlot = {
     11: 'QUIVER'
 }
 
+// 1085
 const uiWidgetScale = {
     0: '100',
     1: '90',
@@ -3177,10 +2713,6 @@ const itemModification = {
     35: 'TRANSMOGRIFY_SECONDARY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_3',
     36: 'TRANSMOGRIFY_SECONDARY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_4',
     37: 'SOULBIND_CONDUIT_RANK'
-}
-
-const scenarioEventTriggerType = {
-    2: 'CriteriaTree'
 }
 
 const globalCurveType = {
@@ -4232,6 +3764,845 @@ const weaponSwingType = {
     5: 'Large Monster'
 }
 
+// 237
+const summonPropertiesSlot = {
+    0: '- NONE -',
+    1: 'Totem 1',
+    2: 'Totem 2',
+    3: 'Totem 3',
+    4: 'Totem 4',
+    5: 'Critter',
+    6: 'Quest (Players Only)',
+    // -1: 'Any Available Totem',
+};
+
+// 238
+const summonPropertiesControl = {
+    0: '- NONE -',
+    1: 'Guardian',
+    2: 'Pet',
+    3: 'Possessed',
+    4: 'Possessed Vehicle',
+    5: 'Vehicle (Wild, but Ride Spell will be cast)',
+};
+
+// 272
+const soundkitSoundType = {
+    0: 'Unused/Miscellaneous',
+    1: 'Spells',
+    2: 'UI',
+    3: 'Footsteps',
+    4: 'Combat Impacts',
+    6: 'Combat Swings',
+    9: 'Item Use Sounds',
+    10: 'Monster Sounds',
+    12: 'VocalUISounds',
+    13: 'Point Sound Emitters',
+    14: 'Doodad Sounds',
+    16: 'Death Thud Sounds',
+    17: 'NPC Sounds',
+    19: 'Foley Sounds (NOT EDITABLE)',
+    20: 'Footsteps(Splashes)',
+    21: 'CharacterSplashSounds',
+    22: 'WaterVolume Sounds',
+    23: 'Tradeskill Sounds',
+    24: 'Terrain Emitter Sounds',
+    25: 'Game Object Sounds',
+    26: 'SpellFizzles',
+    27: 'CreatureLoops',
+    28: 'Zone Music Files',
+    29: 'Character Macro Lines',
+    30: 'Cinematic Music',
+    31: 'Cinematic Voice',
+    50: 'Zone Ambience',
+    52: 'Sound Emitters',
+    53: 'Vehicle States',
+};
+
+// 328
+const powerTypePowerTypeEnum = {
+    0: 'Mana',
+    1: 'Rage',
+    2: 'Focus',
+    3: 'Energy',
+    4: 'Happiness',
+    5: 'Runes',
+    6: 'Runic Power',
+    7: 'Soul Shards',
+    8: 'Lunar Power',
+    9: 'Holy Power',
+    10: 'Alternate',
+    11: 'Maelstrom',
+    12: 'Chi',
+    13: 'Insanity',
+    14: 'Combo Points',
+    16: 'Arcane Charges',
+    17: 'Fury',
+    18: 'Pain',
+};
+
+// 353
+const scenarioType = {
+    0: 'Default',
+    1: 'Challenge Mode',
+    2: 'Proving Grounds',
+    3: 'Dungeon Display',
+    4: 'Legion Invasion',
+    5: 'Boost Tutorial',
+    // incomplete
+    // 6: 'Warfront',
+};
+
+// 455
+const itemContext = {
+    1: "Dungeon: Normal",
+    2: "Dungeon: Heroic",
+    3: "Raid: Normal",
+    4: "Raid: Raid Finder",
+    5: "Raid: Heroic",
+    6: "Raid: Mythic",
+    7: "PVP: Unranked 1",
+    8: "PVP: Ranked 1 (Unrated)",
+    9: "Scenario: Normal",
+    10: "Scenario: Heroic",
+    11: "Quest Reward",
+    12: "In-Game Store",
+    13: "Trade Skill",
+    14: "Vendor",
+    15: "Black Market",
+    16: "Mythic+ End of Run",
+    17: "Dungeon: Lvl-Up 1",
+    18: "Dungeon: Lvl-Up 2",
+    19: "Dungeon: Lvl-Up 3",
+    20: "Dungeon: Lvl-Up 4",
+    21: "Force to NONE",
+    22: "Timewalking",
+    23: "Dungeon: Mythic",
+    24: "Pvp Honor Reward",
+    25: "World Quest 1",
+    26: "World Quest 2",
+    27: "World Quest 3",
+    28: "World Quest 4",
+    29: "World Quest 5",
+    30: "World Quest 6",
+    31: "Mission Reward 1",
+    32: "Mission Reward 2",
+    33: "Mythic+ End of Run: Time Chest",
+    34: "zzChallenge Mode 3",
+    35: "Mythic+ Jackpot",
+    36: "World Quest 7",
+    37: "World Quest 8",
+    38: "PVP: Ranked 2 (Combatant)",
+    39: "PVP: Ranked 3 (Challenger)",
+    40: "PVP: Ranked 4 (Rival)",
+    41: "PVP: Unranked 2",
+    42: "World Quest 9",
+    43: "World Quest 10",
+    44: "PVP: Ranked 5 (Duelist)",
+    45: "PVP: Ranked 6 (Elite)",
+    46: "PVP: Ranked 7",
+    47: "PVP: Unranked 3",
+    48: "PVP: Unranked 4",
+    49: "PVP: Unranked 5",
+    50: "PVP: Unranked 6",
+    51: "PVP: Unranked 7",
+    52: "PVP: Ranked 8",
+    53: "World Quest 11",
+    54: "World Quest 12",
+    55: "World Quest 13",
+    56: "PVP: Ranked Jackpot",
+    57: "Tournament Realm",
+    58: "Relinquished",
+    59: "Legendary Forge",
+    60: "Quest Bonus Loot",
+    61: "Character Boost BFA",
+    62: "Character Boost Shadowlands",
+    63: "Legendary Crafting 1",
+    64: "Legendary Crafting 2",
+    65: "Legendary Crafting 3",
+    66: "Legendary Crafting 4",
+    67: "Legendary Crafting 5",
+    68: "Legendary Crafting 6",
+    69: "Legendary Crafting 7",
+    70: "Legendary Crafting 8",
+    71: "Legendary Crafting 9",
+    72: "Weekly Rewards Additional",
+    73: "Weekly Rewards Concession",
+    74: "World Quest Jackpot",
+    75: "New Character",
+    76: "War Mode",
+    77: "PvP Brawl 1",
+    78: "PvP Brawl 2",
+    79: "Torghast",
+    80: "Corpse Recovery",
+    81: "World Boss",
+    82: "Raid: Normal (Extended)",
+    83: "Raid: Raid Finder (Extended)",
+    84: "Raid: Heroic (Extended)",
+    85: "Raid: Mythic (Extended)",
+}
+
+// 588
+const scenarioEventEntryTriggerType = {
+    0: 'When the step starts',
+    1: 'When the step is completed',
+    2: 'When criteria tree "{CriteriaTree}" is true',
+    3: 'Every {#Seconds} seconds',
+    4: 'After {#Seconds} seconds',
+    5: 'When completion criteria is {#Percent Complete:1,100}% complete',
+};
+
+// 590
+const unitConditionVariable = {
+    0: '- NONE -',
+    1: 'Race {$Is/Is Not} "{ChrRaces}"',
+    2: 'Class {$Is/Is Not} "{ChrClasses}"',
+    3: 'Level {$Relative Op} "{#Level}"',
+    4: 'Is self? {$Yes/No}{=1}',
+    5: 'Is my pet? {$Yes/No}{=1}',
+    6: 'Is master? {$Yes/No}{=1}',
+    7: 'Is target? {$Yes/No}{=1}',
+    8: 'Can assist? {$Yes/No}{=1}', // 'CAN_ASSIST'
+    9: 'Can attack? {$Yes/No}{=1}', // 'CAN_ATTACK'
+    10: 'Has pet? {$Yes/No}{=1}',
+    11: 'Has weapon? {$Yes/No}{=1}',
+    12: 'Health {$Relative Op} {#Health %}%',
+    13: 'Mana {$Relative Op} {#Mana %}%',
+    14: 'Rage {$Relative Op} {#Rage %}%',
+    15: 'Energy {$Relative Op} {#Energy %}%',
+    16: 'Combo Points {$Relative Op} {#Points}', // 'COMBO_POINTS'
+    17: 'Has helpful aura spell? {$Yes/No} "{Spell}"',
+    18: 'Has helpful aura dispel type? {$Yes/No} "{SpellDispelType}"',
+    19: 'Has helpful aura mechanic? {$Yes/No} "{SpellMechanic}"',
+    20: 'Has harmful aura spell? {$Yes/No} "{Spell}"',
+    21: 'Has harmful aura dispel type? {$Yes/No} "{SpellDispelType}"',
+    22: 'Has harmful aura mechanic? {$Yes/No} "{SpellMechanic}"',
+    23: 'Has harmful aura school? {$Yes/No} "{Resistances}"',
+    24: 'Damage (Physical) {$Relative Op} {#Physical Damage %}%', // 'DAMAGE_SCHOOL0_PERCENT'
+    25: 'Damage (Holy) {$Relative Op} {#Holy Damage %}%', // 'DAMAGE_SCHOOL1_PERCENT'
+    26: 'Damage (Fire) {$Relative Op} {#Fire Damage %}%', // 'DAMAGE_SCHOOL2_PERCENT'
+    27: 'Damage (Nature) {$Relative Op} {#Nature Damage %}%', // 'DAMAGE_SCHOOL3_PERCENT'
+    28: 'Damage (Frost) {$Relative Op} {#Frost Damage %}%', // 'DAMAGE_SCHOOL4_PERCENT'
+    29: 'Damage (Shadow) {$Relative Op} {#Shadow Damage %}%', // 'DAMAGE_SCHOOL5_PERCENT'
+    30: 'Damage (Arcane) {$Relative Op} {#Arcane Damage %}%', // 'DAMAGE_SCHOOL6_PERCENT'
+    31: 'In combat? {$Yes/No}{=1}',
+    32: 'Is moving? {$Yes/No}{=1}',
+    33: 'Is casting? {$Yes/No}{=1}',
+    34: 'Is casting spell? {$Yes/No}{=1}',
+    35: 'Is channeling? {$Yes/No}{=1}',
+    36: 'Is channeling spell? {$Yes/No}{=1}',
+    37: 'Number of melee attackers {$Relative Op} {#Attackers}', // 'NPC_NUM_MELEE_ATTACKERS'
+    38: 'Is attacking me? {$Yes/No}{=1}',
+    39: 'Range {$Relative Op} {#Yards}',
+    40: 'In melee range? {$Yes/No}{=1}', // 'IS_IN_MELEE_RANGE'
+    41: 'Pursuit time {$Relative Op} {#Seconds}', // 'PURSUIT_TIME'
+    42: 'Has harmful aura canceled by damage? {$Yes/No}{=1}', // 'HARMFUL_AURA_CANCELLED_BY_DAMAGE'
+    43: 'Has harmful aura with periodic damage? {$Yes/No}{=1}',
+    44: 'Number of enemies {$Relative Op} {#Enemies}',
+    45: 'Number of friends {$Relative Op} {#Friends}', // 'NUM_FRIENDS'
+    46: 'Threat (Physical) {$Relative Op} {#Physical Threat %}%', // 'THREAT_SCHOOL0_PERCENT'
+    47: 'Threat (Holy) {$Relative Op} {#Holy Threat %}%', // 'THREAT_SCHOOL1_PERCENT'
+    48: 'Threat (Fire) {$Relative Op} {#Fire Threat %}%', // 'THREAT_SCHOOL2_PERCENT'
+    49: 'Threat (Nature) {$Relative Op} {#Nature Threat %}%', // 'THREAT_SCHOOL3_PERCENT'
+    50: 'Threat (Frost) {$Relative Op} {#Frost Threat %}%', // 'THREAT_SCHOOL4_PERCENT'
+    51: 'Threat (Shadow) {$Relative Op} {#Shadow Threat %}%', // 'THREAT_SCHOOL5_PERCENT'
+    52: 'Threat (Arcane) {$Relative Op} {#Arcane Threat %}%', // 'THREAT_SCHOOL6_PERCENT'
+    53: 'Is interruptible? {$Yes/No}{=1}', // 'IS_INTERRUPTIBLE'
+    54: 'Number of attackers {$Relative Op} {#Attackers}',
+    55: 'Number of ranged attackers {$Relative Op} {#Ranged Attackers}', // 'NPC_NUM_RANGED_ATTACKERS'
+    56: 'Creature type {$Is/Is Not} "{CreatureType}"', // 'CREATURE_TYPE'
+    57: 'Is melee-attacking? {$Yes/No}{=1}', // 'IN_MELEE_RANGE'
+    58: 'Is ranged-attacking? {$Yes/No}{=1}',
+    59: 'Health {$Relative Op} {#HP} HP',
+    60: 'Spell known? {$Yes/No} "{Spell}"', // 'SPELL_KNOWN'
+    61: 'Has harmful aura effect? {$Yes/No} "{#Spell Aura}"',
+    62: 'Is immune to area-of-effect? {$Yes/No}{=1}', // 'IS_AREA_IMMUNE'
+    63: 'Is player? {$Yes/No}{=1}',
+    64: 'Damage (Magic) {$Relative Op} {#Magic Damage %}%', // 'DAMAGE_MAGIC_PERCENT'
+    65: 'Damage (Total) {$Relative Op} {#Damage %}%', // 'DAMAGE_PERCENT'
+    66: 'Threat (Magic) {$Relative Op} {#Magic Threat %}%', // 'THREAT_MAGIC_PERCENT'
+    67: 'Threat (Total) {$Relative Op} {#Threat %}%', // 'THREAT_PERCENT'
+    68: 'Has critter? {$Yes/No}{=1}',
+    69: 'Has totem in slot 1? {$Yes/No}{=1}', // 'HAS_TOTEM1'
+    70: 'Has totem in slot 2? {$Yes/No}{=1}', // 'HAS_TOTEM2'
+    71: 'Has totem in slot 3? {$Yes/No}{=1}', // 'HAS_TOTEM3'
+    72: 'Has totem in slot 4? {$Yes/No}{=1}', // 'HAS_TOTEM4'
+    73: 'Has totem in slot 5? {$Yes/No}{=1}', // 'HAS_TOTEM5'
+    74: 'Creature {$Is/Is Not} "{Creature}"',
+    75: 'String ID {$Is/Is Not} "{StringID}"', // 'HAS_STRING_ID'
+    76: 'Has aura? {$Yes/No} {Spell}', // 'HAS_AURA'
+    77: 'Is enemy? {$Yes/No}{=1}', // 'REACTION_HOSTILE'
+    78: 'Is spec - melee? {$Yes/No}{=1}', // 'CHAR_SPECIALIZATION_???'
+    79: 'Is spec - tank? {$Yes/No}{=1}', // 'ROLE_IS_TANK'
+    80: 'Is spec - ranged? {$Yes/No}{=1}', // 'CHAR_SPECIALIZATION_???'
+    81: 'Is spec - healer? {$Yes/No}{=1}', // 'ROLE_IS_HEALER'
+    82: 'Is player controlled NPC? {$Yes/No}{=1}',
+    83: 'Is dying? {$Yes/No}{=1}',
+    84: 'Path fail count {$Relative Op} {#Path Fail Count}', // 'PATH_FAIL_COUNT'
+    86: 'Label {$Is/Is Not} "{Label}"', // 'HAS_LABEL
+};
+
+// 592
+const criteriaStartEvent = {
+    0: '- NONE -',
+    1: 'Reach level {#Level}',
+    2: 'Complete daily quest "{QuestV2}"',
+    3: 'Start battleground "{Map}"',
+    4: 'Win a ranked arena match with team size {#Team Size}',
+    5: 'Gain aura "{Spell}"',
+    6: 'Gain aura effect "{SpellAuraNames.EnumID}"',
+    7: 'Cast spell "{Spell}"',
+    8: 'Have spell "{Spell}" cast on you',
+    9: 'Accept quest "{QuestV2}"',
+    10: 'Kill NPC "{Creature}"',
+    11: 'Kill player',
+    12: 'Use item "{Item}"',
+    13: 'Send event "{GameEvents}" (player-sent/instance only)',
+    14: 'Begin scenario step "{#Step}" (for use with "Player on Scenario" modifier only)',
+};
+
+// 593
+const criteriaFailEvent = {
+    0: '- NONE -',
+    1: 'Death',
+    2: '24 hours without completing a daily quest',
+    3: 'Leave a battleground',
+    4: 'Lose a ranked arena match with team size {#Team Size}',
+    5: 'Lose aura "{Spell}"',
+    6: 'Gain aura "{Spell}"',
+    7: 'Gain aura effect "{SpellAuraNames.EnumID}"',
+    8: 'Cast spell "{Spell}"',
+    9: 'Have spell "{Spell}" cast on you',
+    10: 'Modify your party status',
+    11: 'Lose a pet battle',
+    12: 'Battle pet dies',
+    13: 'Daily quests cleared',
+    14: 'Send event "{GameEvents}" (player-sent/instance only)',
+};
+
+// 594
+const criteriaType = {
+    0: 'Kill NPC "{Creature}"', // KILL_CREATURE -- creature::ID
+    1: 'Win battleground "{Map}"', // WIN_BG -- map::ID
+    2: 'Complete research project "{ResearchProject}"', // -- researchproject::ID
+    3: 'Complete any research project', // COMPLETE_ARCHAEOLOGY_PROJECTS -- No FK
+    4: 'Find research object "{GameObjects}"', // SURVEY_GAMEOBJECT -- gameobjects::ID
+    5: 'Reach level', // REACH_LEVEL -- No FK
+    6: 'Exhaust any research site', // CLEAR_DIGSITE -- No FK
+    7: 'Skill "{SkillLine}" raised', // REACH_SKILL_LEVEL -- skillline::ID
+    8: 'Earn achievement "{Achievement}"', // COMPLETE_ACHIEVEMENT -- achievement::ID
+    9: 'Count of complete quests (quest count)', // COMPLETE_QUEST_COUNT -- No FK
+    10: 'Complete any daily quest (per day)', // COMPLETE_DAILY_QUEST_DAILY -- No FK
+    11: 'Complete quests in "{AreaTable}"', // COMPLETE_QUESTS_IN_ZONE -- areatable::ID
+    12: 'Currency "{CurrencyTypes}" gained', // CURRENCY -- currencytypes::ID
+    13: 'Damage dealt', // DAMAGE_DONE -- No FK
+    14: 'Complete daily quest', // COMPLETE_DAILY_QUEST -- No FK
+    15: 'Participate in battleground "{Map}"', // COMPLETE_BATTLEGROUND -- map::ID
+    16: 'Die on map "{Map}"', // DEATH_AT_MAP -- map::ID
+    17: 'Die anywhere', // DEATH -- No FK
+    18: 'Die in an instance which handles at most {#Max Players} players', // DEATH_IN_DUNGEON
+    19: 'Run an instance which handles at most {#Max Players} players', // COMPLETE_RAID
+    20: 'Get killed by "{Creature}"', // KILLED_BY_CREATURE -- creature::ID
+    21: 'Designer Value{`Uses Record ID}', // MANUAL_COMPLETE_CRITERIA -- criteria::ID
+    22: 'Complete any challenge mode', // COMPLETE_CHALLENGE_MODE_GUILD -- No FK
+    23: 'Die to a player', // KILLED_BY_PLAYER -- No FK
+    24: 'Maximum distance fallen without dying', // FALL_WITHOUT_DYING -- No FK
+    25: 'Earn a challenge mode medal of "{#Challenge Mode Medal (OBSOLETE)}" (OBSOLETE)',
+    26: 'Die to "{$Env Damage}" environmental damage', // DEATHS_FROM
+    27: 'Complete quest "{QuestV2}"', // COMPLETE_QUEST -- questv2:ID
+    28: 'Have the spell "{Spell}" cast on you', // BE_SPELL_TARGET -- spell::ID
+    29: 'Cast the spell "{Spell}"', // CAST_SPELL -- spell::ID
+    30: 'Tracked WorldStateUI value "{WorldStateUI}" is modified', // BG_OBJECTIVE_CAPTURE -- pvpstat::ID
+    31: 'Kill someone in PVP in "{AreaTable}"', // HONORABLE_KILL_AT_AREA -- areatable::ID
+    32: 'Win arena "{Map}"', // WIN_ARENA -- map::ID
+    33: 'Participate in arena "{Map}"', // PLAY_ARENA -- map::ID
+    34: 'Learn or Know spell "{Spell}"', // LEARN_SPELL -- spell::ID
+    35: 'Earn an honorable kill', // HONORABLE_KILL -- No FK
+    36: 'Acquire item "{Item}"', // OWN_ITEM -- item::ID
+    37: 'Win a ranked arena match (any arena)', // WIN_RATED_ARENA -- No FK
+    38: 'Earn a team arena rating of {#Arena Rating}', // HIGHEST_TEAM_RATING -- No FK
+    39: 'Earn a personal arena rating of {#Arena Rating}', // HIGHEST_PERSONAL_RATING -- No FK
+    40: 'Achieve a skill step in "{SkillLine}"', // LEARN_SKILL_LEVEL -- skilline::ID
+    41: 'Use item "{Item}"', // USE_ITEM -- item::ID
+    42: 'Loot "{Item}" via corpse, pickpocket, fishing, disenchanting, etc.', // LOOT_ITEM -- item::ID
+    43: 'Reveal world map overlay "{WorldMapOverlay}"', // EXPLORE_AREA -- areatable::ID
+    44: 'Deprecated PVP Titles', // OWN_RANK -- No FK
+    45: 'Bank slots purchased', // BUY_BANK_SLOT -- No FK
+    46: 'Reputation gained with faction "{Faction}"', // GAIN_REPUTATION -- faction::ID
+    47: 'Total exalted factions', // GAIN_EXALTED_REPUTATION -- No FK
+    48: 'Got a haircut', // VISIT_BARBER_SHOP -- No FK
+    49: 'Equip item in slot "{$Equip Slot}"', // EQUIP_EPIC_ITEM -- No FK
+    50: 'Roll need and get {#Need Roll}', // ROLL_NEED_ON_LOOT -- No FK
+    51: 'Roll greed and get {#Greed Roll}', // ROLL_GREED_ON_LOOT -- No FK
+    52: 'Deliver a killing blow to a {ChrClasses}', // HK_CLASS -- chrclasses::ID
+    53: 'Deliver a killing blow to a {ChrRaces}', // HK_RACE -- chrraces::ID
+    54: 'Do a "{EmotesText}" emote', // DO_EMOTE -- emotes::ID
+    55: 'Healing done', // HEALING_DONE -- No FK
+    56: 'Delivered a killing blow', // GET_KILLING_BLOWS -- No FK
+    57: 'Equip item "{Item}"', // EQUIP_ITEM -- item::ID
+    58: 'Complete quests in "{QuestSort}"',
+    59: 'Sell items to vendors', // MONEY_FROM_VENDORS -- No FK
+    60: 'Money spent on respecs', // GOLD_SPENT_FOR_TALENTS -- No FK
+    61: 'Total respecs', // NUMBER_OF_TALENT_RESETS -- No FK
+    62: 'Money earned from questing', // MONEY_FROM_QUEST_REWARD -- No FK
+    63: 'Money spent on taxis', // GOLD_SPENT_FOR_TRAVELLING -- No FK
+    64: 'Killed all units in spawn region "{SpawnRegion}"', // DEFEAT_CREATURE_GROUP
+    65: 'Money spent at the barber shop', // GOLD_SPENT_AT_BARBER -- No FK
+    66: 'Money spent on postage', // GOLD_SPENT_FOR_MAIL -- No FK
+    67: 'Money looted from creatures', // LOOT_MONEY -- No FK
+    68: 'Use Game Object "{GameObjects}"', // USE_GAMEOBJECT -- gameobjects::ID
+    69: 'Gain aura "{Spell}"', // BE_SPELL_TARGET2 -- spell::ID
+    70: 'Kill a player (no honor check)', // SPECIAL_PVP_KILL -- No FK
+    71: 'Complete a challenge mode on map "{Map}"', // COMPLETE_CHALLENGE_MODE -- map::ID
+    72: 'Catch fish in the "{GameObjects}" fishing hole', // FISH_IN_GAMEOBJECT -- gameobjects::ID
+    73: 'Player will Trigger game event "{GameEvents}"', // SEND_EVENT
+    74: 'Login (USE SPARINGLY!)', // ON_LOGIN -- No FK
+    75: 'Learn spell from the "{SkillLine}" skill line', // LEARN_SKILLLINE_SPELLS -- skillline::ID
+    76: 'Win a duel', // WIN_DUEL -- No FK
+    77: 'Lose a duel', // LOSE_DUEL -- No FK
+    78: 'Kill any NPC', // KILL_CREATURE_TYPE -- No FK
+    79: 'Created items by casting a spell (limit 1 per create...)', // COOK_RECIPES_GUILD -- No FK
+    80: 'Money earned from auctions', // GOLD_EARNED_BY_AUCTIONS -- No FK
+    81: 'Battle pet achievement points earned', // EARN_PET_BATTLE_ACHIEVEMENT_POINTS -- No FK
+    82: 'Number of items posted at auction', // CREATE_AUCTION -- No FK
+    83: 'Highest auction bid', // HIGHEST_AUCTION_BID -- No FK
+    84: 'Auctions won', // WON_AUCTIONS -- No FK
+    85: 'Highest coin value of item sold', // HIGHEST_AUCTION_SOLD -- No FK
+    86: 'Most money owned', // HIGHEST_GOLD_VALUE_OWNED -- No FK
+    87: 'Total revered factions', // GAIN_REVERED_REPUTATION -- No FK
+    88: 'Total honored factions', // GAIN_HONORED_REPUTATION -- No FK
+    89: 'Total factions encountered', // KNOWN_FACTIONS -- No FK
+    90: 'Loot any item', // LOOT_EPIC_ITEM -- No FK
+    91: 'Obtain any item', // RECEIVE_EPIC_ITEM -- No FK
+    92: 'Anyone will Trigger game event "{GameEvents}" (Scenario Only)', // SEND_EVENT_SCENARIO
+    93: 'Roll any number on need', // ROLL_NEED -- No FK
+    94: 'Roll any number on greed', // ROLL_GREED -- No FK
+    95: 'Released Spirit', // RELEASE_SPIRIT -- No FK
+    96: 'Account knows pet "{Creature}" (Backtracked)', // OWN_PET -- creature::ID
+    97: 'Defeat Encounter "{DungeonEncounter}" While Eligible For Loot', // GARRISON_COMPLETE_DUNGEON_ENCOUNTER -- dungeonencounter::ID
+    98: 'UNUSED 18{}',
+    99: 'UNUSED 19{}',
+    100: 'UNUSED 20{}',
+    101: 'Highest damage done in 1 single ability', // HIGHEST_HIT_DEALT -- No FK
+    102: 'Most damage taken in 1 single hit', // HIGHEST_HIT_RECEIVED -- No FK
+    103: 'Total damage taken', // TOTAL_DAMAGE_RECEIVED -- No FK
+    104: 'Largest heal cast', // HIGHEST_HEAL_CAST -- No FK
+    105: 'Total healing received', // TOTAL_HEALING_RECEIVED -- No FK
+    106: 'Largest heal received', // HIGHEST_HEALING_RECEIVED -- No FK
+    107: 'Abandon any quest', // QUEST_ABANDONED -- No FK
+    108: 'Buy a taxi', // FLIGHT_PATHS_TAKEN -- No FK
+    109: 'Get loot via "{$Loot Acquisition}"', // LOOT_TYPE -- No FK
+    110: 'Land targeted spell "{Spell}" on a target', // CAST_SPELL2 -- spell::ID
+    111: 'UNUSED 21{}',
+    112: 'Learn tradeskill skill line "{SkillLine}"', // LEARN_SKILL_LINE -- skillline::ID
+    113: 'Honorable kills (number in interface, won\'t update except for login)', // EARN_HONORABLE_KILL -- No FK
+    114: 'Accept a summon', // ACCEPTED_SUMMONINGS -- No FK
+    115: 'Earn achievement points', // EARN_ACHIEVEMENT_POINTS -- No FK
+    116: 'Roll disenchant and get {#Disenchant Roll}',
+    117: 'Roll any number on disenchant',
+    118: 'Completed an LFG dungeon', // COMPLETE_LFG_DUNGEON -- No FK
+    119: 'Completed an LFG dungeon with strangers', // USE_LFD_TO_GROUP_WITH_PLAYERS -- No FK
+    120: 'Kicked in an LFG dungeon (initiator)', // LFG_VOTE_KICKS_INITIATED_BY_PLAYER -- No FK
+    121: 'Kicked in an LFG dungeon (voter)', // LFG_VOTE_KICKS_NOT_INIT_BY_PLAYER -- No FK
+    122: 'Kicked in an LFG dungeon (target)', // BE_KICKED_FROM_LFG -- No FK
+    123: 'Abandoned an LFG dungeon', // LFG_LEAVES -- No FK
+    124: 'Guild repair amount spent', // SPENT_GOLD_GUILD_REPAIRS -- No FK
+    125: 'Guild attained level', // REACH_GUILD_LEVEL -- No FK
+    126: 'Created items by casting a spell', // CRAFT_ITEMS_GUILD -- No FK
+    127: 'Fish in any pool', // CATCH_FROM_POOL -- No FK
+    128: 'Guild bank tabs purchased', // BUY_GUILD_BANK_SLOTS -- No FK
+    129: 'Earn guild achievement points', // EARN_GUILD_ACHIEVEMENT_POINTS -- No FK
+    130: 'Win any battleground', // WIN_RATED_BATTLEGROUND -- No FK
+    131: 'Participate in any battleground',
+    132: 'Earn a battleground rating', // REACH_BG_RATING -- No FK
+    133: 'Guild tabard created', // BUY_GUILD_TABARD -- No FK
+    134: 'Count of complete quests for guild (Quest count)', // COMPLETE_QUESTS_GUILD -- No FK
+    135: 'Honorable kills for Guild', // HONORABLE_KILLS_GUILD -- No FK
+    136: 'Kill any NPC for Guild', // KILL_CREATURE_TYPE_GUILD -- No FK
+    137: 'Grouped tank left early in an LFG dungeon', // COUNT_OF_LFG_QUEUE_BOOSTS_BY_TANK -- No FK
+    138: 'Complete a "{$Guild Challenge}" guild challenge', // COMPLETE_GUILD_CHALLENGE_TYPE
+    139: 'Complete any guild challenge', // COMPLETE_GUILD_CHALLENGE -- No FK
+    140: 'Marked AFK in a battleground',
+    141: 'Removed for being AFK in a battleground',
+    142: 'Start any battleground (AFK tracking)',
+    143: 'Complete any battleground (AFK tracking)',
+    144: 'Marked someone for being AFK in a battleground',
+    145: 'Completed an LFR dungeon', // LFR_DUNGEONS_COMPLETED -- No FK
+    146: 'Abandoned an LFR dungeon', // LFR_LEAVES -- No FK
+    147: 'Kicked in an LFR dungeon (initiator)', // LFR_VOTE_KICKS_INITIATED_BY_PLAYER -- No FK
+    148: 'Kicked in an LFR dungeon (voter)', // LFR_VOTE_KICKS_NOT_INIT_BY_PLAYER -- No FK
+    149: 'Kicked in an LFR dungeon (target)', // BE_KICKED_FROM_LFR -- No FK
+    150: 'Grouped tank left early in an LFR dungeon', // COUNT_OF_LFR_QUEUE_BOOSTS_BY_TANK -- No FK
+    151: 'Complete a Scenario', // COMPLETE_SCENARIO_COUNT -- No FK
+    152: 'Complete scenario "{Scenario}"', // COMPLETE_SCENARIO -- scenario::ID
+    153: 'Enter area trigger "{AreaTriggerActionSet}"', // REACH_AREATRIGGER_WITH_ACTIONSET
+    154: 'Leave area trigger "{AreaTriggerActionSet}"',
+    155: '(Account Only) Learned a new pet', // OWN_BATTLE_PET -- No FK
+    156: '(Account Only) Unique pets owned', // OWN_BATTLE_PET_COUNT -- No FK
+    157: '(Account Only) Obtain a pet through battle', // CAPTURE_BATTLE_PET -- No FK
+    158: 'Win a pet battle', // WIN_PET_BATTLE -- No FK
+    159: 'Lose a pet battle',
+    160: '(Account Only) Battle pet has reached level {#Level}', // LEVEL_BATTLE_PET -- No FK
+    161: '(Player) Obtain a pet through battle', // CAPTURE_BATTLE_PET_CREDIT -- No FK
+    162: '(Player) Actively earn level {#Level} with a pet by a player', // LEVEL_BATTLE_PET_CREDIT -- No FK
+    163: 'Enter Map Area "{AreaTable}"', // ENTER_AREA -- areatable::ID
+    164: 'Leave Map Area "{AreaTable}"', // LEAVE_AREA -- areatable::ID
+    165: 'Defeat Encounter "{DungeonEncounter}"', // COMPLETE_DUNGEON_ENCOUNTER -- dungeonencounter::ID
+    166: 'Garrison Building: Place any',
+    167: 'Garrison Building: Place "{GarrBuilding}"', // PLACE_GARRISON_BUILDING -- garrbuilding::ID
+    168: 'Garrison Building: Activate any', // UPGRADE_GARRISON_BUILDING -- No FK
+    169: 'Garrison Building: Activate "{GarrBuilding}"', // CONSTRUCT_GARRISON_BUILDING -- garrbuilding::ID
+    170: 'Garrison: Upgrade Garrison to Tier "{#Tier:2,3}"', // UPGRADE_GARRISON -- No FK (GarrLevel)
+    171: 'Garrison Mission: Start any with FollowerType "{GarrFollowerType}"', // START_GARRISON_MISSION -- No FK
+    172: 'Garrison Mission: Start "{GarrMission}"', // START_ORDER_HALL_MISSION -- garrmission::ID
+    173: 'Garrison Mission: Succeed any with FollowerType "{GarrFollowerType}"', // COMPLETE_GARRISON_MISSION_COUNT -- No FK
+    174: 'Garrison Mission: Succeed "{GarrMission}"', // COMPLETE_GARRISON_MISSION -- garrmission::ID
+    175: 'Garrison Follower: Recruit any', // RECRUIT_GARRISON_FOLLOWER_COUNT -- No FK
+    176: 'Garrison Follower: Recruit "{GarrFollower}"', // RECRUIT_GARRISON_FOLLOWER -- garrfollower::ID
+    177: 'Garrison: Acquire a Garrison',
+    178: 'Garrison Blueprint: Learn any', // LEARN_GARRISON_BLUEPRINT_COUNT -- No FK
+    179: 'Garrison Blueprint: Learn "{GarrBuilding}"',
+    180: 'Garrison Specialization: Learn any',
+    181: 'Garrison Specialization: Learn "{GarrSpecialization}"',
+    182: 'Garrison Shipment of type "{CharShipmentContainer}" collected', // COMPLETE_GARRISON_SHIPMENT -- No FK
+    183: 'Garrison Follower: Item Level Changed', // RAISE_GARRISON_FOLLOWER_ITEM_LEVEL -- No FK
+    184: 'Garrison Follower: Level Changed', // RAISE_GARRISON_FOLLOWER_LEVEL -- No FK
+    185: 'Learn Toy "{Item}"', // OWN_TOY
+    186: 'Learn Any Toy', // OWN_TOY_COUNT
+    187: 'Garrison Follower: Quality Upgraded', // RECRUIT_GARRISON_FOLLOWER_WITH_QUALITY -- No FK
+    188: 'Learn Heirloom "{Item}"',
+    189: 'Learn Any Heirloom', // OWN_HEIRLOOMS -- No FK
+    190: 'Earn Artifact XP', // ARTIFACT_POWER_EARNED -- No FK
+    191: 'Artifact Power Ranks Purchased', // ARTIFACT_TRAITS_UNLOCKED -- No FK
+    192: 'Learn Transmog "{ItemModifiedAppearance}"',
+    193: 'Learn Any Transmog',
+    194: '(Player) honor level increase', // HONOR_LEVEL_REACHED -- No FK
+    195: '(Player) prestige level increase', // PRESTIGE_REACHED -- No FK
+    196: 'Actively level to level {#Level}', // HERITAGE_AT_LEVEL -- No FK (Level Reached, points to Heritage achievements)
+    197: 'Garrison Talent: Complete Research Any', // COVENANT_SANCTUM_RANK_REACHED -- No FK
+    198: 'Garrison Talent: Complete Research "{GarrTalent}"', // ORDER_HALL_TALENT_LEARNED -- No FK
+    199: 'Learn Any Transmog in Slot "{$Equip Slot}"', // APPEARANCE_UNLOCKED_BY_SLOT -- No FK (Slot)
+    200: 'Recruit any Garrison Troop', // ORDER_HALL_RECRUIT_TROOP -- No FK
+    201: 'Garrison Talent: Start Research Any',
+    202: 'Garrison Talent: Start Research "{GarrTalent}"', // RESEARCHED_GARRISON_TALENT -- garrtalent::ID
+    203: 'Complete Any Quest', // COMPLETE_WORLD_QUEST -- No FK
+    204: 'Earn License "{BattlePayDeliverable}" (does NOT work for box level)', // TRANSMOG_SET_RELATED -- transmogset::ID
+    205: '(Account Only) Collect a Transmog Set from Group "{TransmogSetGroup}"', // TRANSMOG_SET_UNLOCKED -- transmogset::ID (?)
+    206: '(Player) paragon level increase with faction "{Faction}"', // GAIN_PARAGON_REPUTATION -- No FK
+    207: 'Player has earned honor', // EARN_HONOR_XP -- No FK
+    208: 'Kill NPC "{Creature}" (scenario criteria only, do not use for player)',
+    209: 'Artifact Power Rank of "{ArtifactPower}" Purchased',
+    210: 'Choose any Relic Talent',
+    211: 'Choose Relic Talent "{ArtifactPower}"', // RELIC_TALENT_UNLOCKED -- artifactpower::ID (?)
+    212: 'Earn Expansion Level "{$Expansion Level}"',
+    // incomplete
+    213: 'REACH_ACCOUNT_HONOR_LEVEL', // No FK (Honor Level Reached)
+    214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED', // No FK
+    215: 'HEART_OF_AZEROTH_LEVEL_REACHED', // No FK (Neck Level Reached)
+    216: 'MYTHIC_KEYSTONE_COMPLETED', // No FK
+    // 217:
+    218: 'QUEST_COUNT_RELATED', // No FK
+    219: 'BOUGHT_ITEM_FROM_VENDOR', // No FK
+    220: 'SOLD_ITEM_TO_VENDOR', // No FK
+    // 221:
+    // 222:
+    // 223:
+    // 224:
+    225: 'TRAVELED_TO_AREA', // areatable::ID
+    // 226:
+    // 227:
+    228: 'APPLIED_CONDUIT', // No FK
+    229: 'ANIMA_DEPOSITED', // No FK
+};
+
+// 644
+const spellVisualEventStartEvent = {
+    0: 'None',
+    1: 'Precast Start',
+    2: 'Precast End',
+    3: 'Cast',
+    4: 'Travel Start',
+    5: 'Travel End',
+    6: 'Impact',
+    7: 'Aura Start',
+    8: 'Aura End',
+    9: 'Area Trigger Start',
+    10: 'Area Trigger End',
+    11: 'Channel Start',
+    12: 'Channel End',
+    13: 'One-Shot',
+};
+
+// 646
+const spellVisualEventTargetType = {
+    0: 'None',
+    1: 'Caster',
+    2: 'Target',
+    3: 'Area',
+    4: 'Target (Not Caster)',
+    5: 'Missile Destination',
+};
+
+// 651
+const relicTalentType = {
+    0: 'Item Level',
+    1: 'Void Power',
+    2: 'Light Power',
+    3: 'Bonus Rank',
+};
+
+// 712
+const azeriteTierID = {
+    0: 'Tier Four',
+    1: 'Tier Three',
+    2: 'Tier Two',
+    3: 'Tier One',
+    4: 'Outer Ring',
+};
+
+// 743
+const weatherType = {
+    1: 'Clear',
+    2: 'Rain',
+    3: 'Snow',
+    4: 'Sandstorm',
+    5: 'Miscellaneous',
+};
+
+// 915
+const waypointNodeField_8_2_0_30080_005 = {
+    0: 'Checkpoint',
+    1: 'Portal Entrance',
+    2: 'Portal Exit',
+};
+
+// 982
+const garrPlotType = {
+    0: 'Small',
+    1: 'Medium',
+    2: 'Large',
+    3: 'Farm',
+    4: 'Mine',
+    5: 'Fishing',
+    6: 'Pet Menagerie',
+    7: 'Shipyard',
+}
+
+// 989
+const garrSpecType = {
+    0: ['REDUCE_TRAVEL_TIME', 'Reduce travel time'],
+    1: ['STABLE_EXTRA_MOUNTS', 'Stable extra mounts'],
+    2: ['RECALL_FOLLOWERS', 'Recall followers'],
+    3: ['GENERATE_ITEM_RECURRING', 'Generate item recurring'],
+    4: ['RECOVER_FOLLOWER', 'Recover follower'],
+    5: ['INCREASED_HEALTH', 'Increased health'],
+    6: ['FOLLOWER_DISCOVERY_CHANCE_INCREASE', 'Follower discovery chance increase'],
+    7: ['INCREASE_GATHERING_RATE', 'Increase gathering rate'],
+    8: ['MENAGERIE_EXTRA_PETS', 'Menagerie extra pets'],
+    9: ['COST_MULTIPLIER', 'Building/Spec Cost Modifier'],
+}
+
+// 993
+const garrAbilityTargetType = {
+    0: 'None',
+    1: 'Self',
+    2: 'Party',
+    3: 'Race',
+    4: 'Class',
+    5: 'Gender',
+    6: 'Profession',
+    7: 'Not Self',
+    8: 'Not Race',
+    9: 'Not Class',
+    10: 'Not Profession'
+}
+
+// 999
+const garrTalentType = {
+    0: 'Standard',
+    1: 'Minor',
+    2: 'Major',
+    3: 'Socket',
+}
+
+// 1003
+const garrTalentResearchCostSource = {
+    0: 'Talent',
+    1: 'Tree',
+}
+
+// 1004
+const itemEffectTriggerType = {
+    0: 'On Use',
+    1: 'On Equip',
+    2: 'On Proc',
+    3: 'Summoned By Spell', // Only on 23442
+    4: 'On Death',
+    5: 'On Pickup',
+    6: 'On Learn',
+    7: 'On Looted',
+    8: 'Teach Mount',
+}
+
+// 1033
+const garrAutoSpellEffectType = {
+    0: 'None', // NONE
+    1: 'Damage', // DAMAGE
+    2: 'Heal', // HEAL
+    3: 'Damage %', // DAMAGE_PCT
+    4: 'Heal %', // HEAL_PCT
+    5: 'Damage Over Time', // DOT
+    6: 'Heal Over Time', // HOT
+    7: 'Damage % Over Time', // DOT_PCT
+    8: 'Heal % Over Time', // HOT_PCT
+    9: 'Taunt', // TAUNT
+    10: 'Detaunt', // DETAUNT
+    11: 'Mod Damage Done', // MOD_DAMAGE_DONE
+    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT
+    13: 'Mod Damage Taken', // MOD_DAMAGE_TAKEN
+    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT
+    15: 'Deal Damage to Attacker', // DEAL_DAMAGE_TO_ATTACKER
+    16: 'Deal Damage to Attacker %', // DEAL_DAMAGE_TO_ATTACKER_PCT
+    17: 'Incease Max Health', // INCREASE_MAX_HEALTH
+    18: 'Increase Max Health %', // INCREASE_MAX_HEALTH_PCT
+    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT',
+    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',
+}
+
+// 1034
+const garrAutoSpellEffectTargetType = {
+    0: 'None', // NONE
+    1: 'Self', // SELF
+    2: 'Adjacent Friendly', // ADJACENT_FRIENDLY
+    3: 'Adjacent Hostile', // ADJACENT_HOSTILE
+    4: 'Ranged Friendly', // RANGED_FRIENDLY
+    5: 'Ranged Hostile', // RANGED_HOSTILE
+    6: 'All Friendlies', // ALL_FRIENDLIES
+    7: 'All Hostile', // ALL_HOSTILES
+    8: 'All Adjacent Friendlies', // ALL_ADJACENT_FRIENDLIES
+    9: 'All Adjacent Hostiles', // ALL_ADJACENT_HOSTILES
+    10: 'Cone Friendlies', // CONE_FRIENDLIES
+    11: 'Cone Hostiles', // CONE_HOSTILES
+    12: 'Line Friendlies', // LINE_FRIENDLIES
+    13: 'Line Hostiles', // LINE_HOSTILES
+    14: 'All Front Row Friendlies', // ALL_FRONT_ROW_FRIENDLIES
+    15: 'All Front Row Hostiles', // ALL_FRONT_ROW_HOSTILES
+    16: 'All Back Row Friendlies', // ALL_BACK_ROW_FRIENDLIES
+    17: 'All Back Row Hostiles', // ALL_BACK_ROW_HOSTILES
+    18: 'All Targets', // ALL_TARGETS
+    19: 'Random Target', // RANDOM_TARGET
+    20: 'Random Ally', // RANDOM_ALLY
+    21: 'Random Enemy', // RANDOM_ENEMY
+    22: 'ALL_FRIENDLIES_BUT_SELF',
+}
+
+// 1049
+const globalTable_PlayerConditionWhat = {
+    0: 'LFD UI Available',
+    1: 'LFR UI Available',
+    2: 'Scenario Finder UI Available',
+    3: 'PVP UI Available',
+    4: 'Talent UI Available',
+    5: 'Talent Spec UI Available',
+    6: 'PVP Talent UI Available',
+    7: 'Rated PVP UI Available',
+    8: 'NPE Tutorial Complete',
+    9: 'NPEv2 Tutorial Complete',
+    10: 'Premade Group Finder Available',
+    11: 'Group Finder UI Available',
+}
+
+// 1063
+const garrTalentTreeFeatureTypeIndex = {
+    0: 'Generic',
+    1: 'Sanctum - Anima Diversion',
+    2: 'Sanctum - Travel Portals',
+    3: 'Sanctum - Adventures',
+    4: 'Sanctum - Reservoir Upgrades',
+    5: 'Sanctum - Unique Feature',
+    6: 'Sanctum - Soul Binds',
+    7: 'Sanctum - Map - Anima Diversion',
+}
+
+// 1064
+const garrTalentTreeFeatureSubtypeIndex = {
+    0: 'Generic',
+    1: 'Sanctum - Bastion',
+    2: 'Sanctum - Revendreth',
+    3: 'Sanctum - Maldraxxus',
+    4: 'Sanctum - Ardenweald',
+}
+
+// 1069
+const chrCustomizationOptionType = {
+    0: 'Selection Popout',
+    1: 'Checkbox',
+    2: 'Slider',
+}
+
+// 1083
+const chrModelTextureLayerBlendMode = {
+    0: 'None',
+    1: 'Blit',
+    2: 'Blit Alphamask',
+    3: 'Add',
+    4: 'Multiply',
+    5: 'Mod2x',
+    6: 'Overlay',
+    7: 'Screen',
+    8: 'Hardlight',
+    9: 'Alpha Straight',
+    10: 'Blend Black',
+    11: 'Mask Greyscale',
+    12: 'Mask Greyscale, Using Color As Alpha',
+    13: 'Generate Greyscale',
+    14: 'Colorize',
+    15: 'Infer Alpha Blend',
+}
+
+// 1087
+const uiWidgetSetLayoutDirection = {
+    0: 'Vertical',
+    1: 'Horizontal',
+}
+
+// 1094
+const chrCustomizationReqOverrideArchive = {
+    0: 'No CVar Restriction',
+    1: 'CVar OverrideArchive=0',
+    2: 'CVar OverrideArchive=1',
+}
+
+// 1095
+const chatChannelsRuleset = {
+    0: 'None',
+    1: 'Mentor Chat',
+}
+
+// 1096
+const garrTalentSocketType = {
+    0: 'None',
+    1: 'Spell',
+    2: 'Soulbind Conduit',
+}
+
+// 1097
+const soulbindConduitType = {
+    0: 'Finesse',
+    1: 'Potency',
+    2: 'Endurance',
+}
+
+// 1099
+const garrAutoCombatantRole = {
+    0: 'None', // NONE
+    1: 'Melee', // MELEE
+    2: 'Ranged (Physical)', // RANGED_PHYSICAL
+    3: 'Ranged (Magic)', // RANGED_MAGIC
+    4: 'Heal/Support', // HEAL_SUPPORT
+    5: 'Tank', // TANK
+}
+
 const enumNames = {
     2: 'In-game browser',
     3: 'Locales',
@@ -4253,15 +4624,16 @@ const enumNames = {
     178: 'SpellAuraInterruptFlags',
     // 180: 'Chat Message Type',
     188: 'AreaPOI::Flags', // updated
-    // 190: 'UIMap',
+    190: 'WorldMapArea::Flags',
     192: 'Map::Flags', // added
     194: 'Phase::Flags',
+    195: 'SkillLine::Flags',
     196: 'CurrencyTypes::Flags',
     197: 'SummonProperties::Flags', // updated
     // 198: 'WMO Liquids',
     199: 'MountCapability::Flags', // added, needs double check as some dont make sense
     // 200: 'TaxiPath',
-    // 201: 'Emote',
+    201: 'EmoteFlags',
     // 205: 'SpellVisual',
     220: 'ChatChannels::Flags',
     223: 'SpellShapeShift::Flags',
@@ -4280,16 +4652,17 @@ const enumNames = {
     // 268: 'DB col flags',
     // 269: 'DB col types',
     271: 'Criteria::Flags',
-    // 272: 'Sound types',
+    272: 'SoundTypes',
     277: 'CreatureDifficulty::Flags',
     // 282: 'Quest flags',
+    291: 'LightSkybox::Flags',
     292: 'SpellInterrupts::InterruptFlags',
     // 299: 'CASC File flags?',
     318: 'LFGDungeons::Flags',
     327: 'PowerType::Flags',
     328: 'PowerType::PowerTypeEnum',
     // 330: 'visual swing type',
-    336: 'InventoryType',
+    336: 'InventoryTypeNames',
     338: 'Gender',
     345: 'SpellCategories::PreventionType',
     346: 'ChrClasses::Flags',
@@ -4330,7 +4703,8 @@ const enumNames = {
     567: 'ExpectedStat::ExpansionID',
     585: 'ItemBonus::Type',
     // 586: 'Friendly table names/categories?',
-    // 590: 'Modifier tree conds',
+    588: 'ScenarioEventEntry::TriggerType',
+    590: 'UnitCondition::Variable',
     592: 'Criteria::Start_event',
     593: 'Criteria::Fail_event',
     594: 'Criteria::Type',
@@ -4346,7 +4720,7 @@ const enumNames = {
     639: 'CriteriaTree::Flags', // updated
     651: 'RelicTalent::Type',
     659: 'PlayerChoice::Flags',
-    671: 'DriverBlacklist::Flags',
+    671: 'ConfigurationWarning',
     673: 'CharComponentTextureSections:SectionType',
     675: 'CharBaseSection::VariationEnum',
     681: 'SpellEffect::EffectAttributes',
@@ -4374,13 +4748,13 @@ const enumNames = {
     864: 'UiWidgetDataSource::SourceType', // copied
     865: 'UiWidgetVisTypeDataReq::ValueType', // copied
     875: 'Vignette::VignetteType',
-    876: 'Garrison Building Status',
+    876: 'ContributionState',
     881: 'Item Reward Type',
     890: 'LiquidTypeXTexture::Type',
     891: 'GarrEncounter::Flags',
     // 901: 'SpellVisual categories',
     914: 'GeosetType',
-    // 915: 'Waypoint1',
+    915: 'WaypointNode::Field_8_2_0_30080_005',
     // 916: 'Waypoint2',
     // 917: 'Waypoint3',
     950: 'SceneFlags',
@@ -4401,6 +4775,7 @@ const enumNames = {
     994: 'GarrBuilding::Flags',
     995: 'GarrFollower::Flags',
     996: 'GarrFollowerRerollType', // no fk?
+    997: 'CaptureBarWidgetFillDirectionType',
     999: 'GarrTalent::TalentType',
     1003: 'GarrTalent::ResearchCostSource',
     1004: 'ItemEffect::TriggerType', // updated
@@ -4417,99 +4792,132 @@ const enumNames = {
     1049: 'GlobalTable_PlayerCondition::What',
     1063: 'GarrTalentTree::FeatureTypeIndex',
     1064: 'GarrTalentTree::FeatureSubtypeIndex',
+    1067: 'ChrCustomizationCategoryFlag',
+    1069: 'ChrCustomizationOptionType',
+    1074: 'ScriptedAnimationBehavior',
+    1075: 'ScriptedAnimationTrajectory',
     // 1078: 'ChrCustomizationMaterial::ChrModelTextureTargetID',
     1083: 'ChrModelTextureLayer::BlendMode',
     1085: 'UiWidgetVisualization::WidgetScale', // copied
+    1086: 'StatusBarColorTintValue',
     1087: 'UiWidgetSet::LayoutDirection',
     1094: 'ChrCustomizationReq::OverrideArchive',
     1095: 'ChatChannels::Ruleset',
-    1096: 'GarrTalentSocketProperties::GarrTalentSocketType',
+    1096: 'GarrTalentSocketType',
     1097: 'SoulbindConduit::ConduitType',
+    1099: 'GarrAutoCombatant::Role',
     1103: 'OptionalReagentItemFlag',
 }
 
 // Regular enums
 let enumMap = new Map();
-enumMap.set("map.ExpansionID", expansionLevels);
-enumMap.set("map.InstanceType", mapTypes);
-enumMap.set("difficulty.InstanceType", mapTypes);
-enumMap.set("playercondition.MinReputation[0]", reputationLevels);
-enumMap.set("itembonus.Type", itemBonusTypes);
-enumMap.set("criteriatree.Operator", criteriaTreeOperator);
-enumMap.set("criteria.Type", criteriaType);
-enumMap.set("modifiertree.Operator", modifierTreeOperator);
-enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
-enumMap.set("spelleffect.Effect", spellEffectName);
-enumMap.set("spelleffect.EffectAura", effectAuraType);
-enumMap.set("charsections.BaseSection", charSectionType);
-enumMap.set("charsections.SexID", charSex);
+enumMap.set("azeritetierunlock.Tier", azeriteTierID);
+enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
+enumMap.set("charcomponenttexturesections.SectionType", componentSection);
+enumMap.set("charhairgeosets.GeosetType", geosetType);
 enumMap.set("charsectioncondition.BaseSection", charSectionType);
 enumMap.set("charsectioncondition.Sex", charSex);
-enumMap.set("uimap.Type", uiMapType);
-enumMap.set("soundkit.SoundType", soundkitSoundType);
-enumMap.set("itemdisplayinfomaterialres.ComponentSection", componentSection);
-enumMap.set("charcomponenttexturesections.SectionType", componentSection);
+enumMap.set("charsections.BaseSection", charSectionType);
+enumMap.set("charsections.SexID", charSex);
+enumMap.set("chatchannels.Ruleset", chatChannelsRuleset);
 enumMap.set("chrcustomization.ComponentSection[0]", componentSection);
 enumMap.set("chrcustomization.ComponentSection[1]", componentSection);
 enumMap.set("chrcustomization.ComponentSection[2]", componentSection);
-enumMap.set("charhairgeosets.GeosetType", geosetType);
-enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
-enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
-enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 enumMap.set("chrcustomization.UiCustomizationType", uiCustomizationType);
-enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
-enumMap.set("spelllabel.LabelID", spellLabelName);
-enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
-enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
-enumMap.set("item.InventoryType", inventoryTypeEnum);
-enumMap.set("item.ClassID", itemClassEnum);
-enumMap.set("uimap.System", uiMapSystem);
+enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
+enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
+enumMap.set("chrcustomizationoption.OptionType", chrCustomizationOptionType);
+enumMap.set("chrcustomizationreq.OverrideArchive", chrCustomizationReqOverrideArchive);
+enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
+enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
+enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
+enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
+enumMap.set("chrmodelmaterial.TextureType", textureType);
+enumMap.set("chrmodeltexturelayer.BlendMode", chrModelTextureLayerBlendMode);
+enumMap.set("chrmodeltexturelayer.TextureType", textureType);
+enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
+enumMap.set("criteria.Type", criteriaType);
+enumMap.set("criteria.Start_event", criteriaStartEvent);
+enumMap.set("criteria.Fail_event", criteriaFailEvent);
+enumMap.set("criteriatree.Operator", criteriaTreeOperator);
+enumMap.set("difficulty.InstanceType", mapTypes);
+enumMap.set("enumeratedstring.EnumID", enumNames);
+enumMap.set("environmentaldamage.EnumID", environmentalDamageType);
 enumMap.set("garrabilityeffect.AbilityAction", garrAbilityAction);
 enumMap.set("garrabilityeffect.AbilityTargetType", garrAbilityTargetType);
-enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
-enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
-enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
-enumMap.set("chrmodeltexturelayer.TextureType", textureType);
-enumMap.set("chrmodelmaterial.TextureType", textureType);
-enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
-enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
-enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
-enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
-enumMap.set("spellitemenchantment.Effect[0]", spellItemEnchantmentEffect);
-enumMap.set("spellitemenchantment.Effect[1]", spellItemEnchantmentEffect);
-enumMap.set("spellitemenchantment.Effect[2]", spellItemEnchantmentEffect);
-enumMap.set("itembonustreenode.ItemContext", itemContext);
-enumMap.set("environmentaldamage.EnumID", environmentalDamageType);
 enumMap.set("garrautocombatant.Role", garrAutoCombatantRole);
-enumMap.set("garrautospelleffect.EffectType", garrAutoSpellEffectType);
-enumMap.set("garrautospelleffect.Targets", garrAutoSpellTarget);
+enumMap.set("garrautospelleffect.Effect", garrAutoSpellEffectType);
+enumMap.set("garrautospelleffect.TargetType", garrAutoSpellEffectTargetType);
 enumMap.set("garrbuilding.BuildingType", garrBuildingType);
 enumMap.set("garrfollitemsetmember.ItemSlot", garrFollowerItemSlot);
 enumMap.set("garrfollowerquality.Quality", garrFollowerQuality);
 enumMap.set("garrmechanictype.Category", garrMechanicCategory);
 enumMap.set("garrspecialization.BuildingType", garrBuildingType);
 enumMap.set("garrspecialization.SpecType", garrSpecType);
+enumMap.set("garrplot.PlotType", garrPlotType);
+enumMap.set("garrtalent.ResearchCostSource", garrTalentResearchCostSource);
+enumMap.set("garrtalent.TalentType", garrTalentType);
 enumMap.set("garrtalentcost.CostType", garrTalentCostType);
-enumMap.set("npcmodelitemslotdisplayinfo.ItemSlot", itemSlot);
-enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
-enumMap.set("questinfo.Type", questTagType);
-enumMap.set("questobjective.Type", questObjectiveType);
-enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
-enumMap.set("scenarioevententry.TriggerType", scenarioEventTriggerType);
+enumMap.set("garrtalenttree.FeatureTypeIndex", garrTalentTreeFeatureTypeIndex);
+enumMap.set("garrtalenttree.FeatureSubtypeIndex", garrTalentTreeFeatureSubtypeIndex);
+enumMap.set("garrtalentsocketproperties.GarrTalentSocketType", garrTalentSocketType);
 enumMap.set("globalcurve.Type", globalCurveType);
+enumMap.set("globaltable_playercondition.What", globalTable_PlayerConditionWhat);
+enumMap.set("item.ClassID", itemClassEnum);
+enumMap.set("item.InventoryType", inventoryTypeEnum);
+enumMap.set("itembonus.Type", itemBonusTypes);
+enumMap.set("itembonustreenode.ItemContext", itemContext);
+enumMap.set("itemdisplayinfomaterialres.ComponentSection", componentSection);
+enumMap.set("itemeffect.TriggerType", itemEffectTriggerType);
+enumMap.set("itemmodifiedappearance.TransmogSourceTypeEnum", transmogSourceTypeEnum);
+enumMap.set("itemsparse.InventoryType", inventoryTypeEnum);
+enumMap.set("itemsparse.OverallQualityID", itemQuality);
 enumMap.set("itemsparse.SocketType[0]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[1]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[2]", socketColorEnum);
-enumMap.set("itemsparse.InventoryType", inventoryTypeEnum);
-enumMap.set("itemsparse.OverallQualityID", itemQuality);
-enumMap.set("enumeratedstring.EnumID", enumNames);
+enumMap.set("map.ExpansionID", expansionLevels);
+enumMap.set("map.InstanceType", mapTypes);
+enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
+enumMap.set("modifiertree.Operator", modifierTreeOperator);
+enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
+enumMap.set("npcmodelitemslotdisplayinfo.ItemSlot", itemSlot);
+enumMap.set("objecteffectpackageelem.StateType", ObjectEffectPackageElem_StateType);
+enumMap.set("powertype.PowerTypeEnum", powerTypePowerTypeEnum);
+enumMap.set("playercondition.MinReputation[0]", reputationLevels);
+enumMap.set("questinfo.Type", questTagType);
+enumMap.set("questobjective.Type", questObjectiveType);
+enumMap.set("relictalent.Type", relicTalentType);
+enumMap.set("scenario.Type", scenarioType);
+enumMap.set("scenarioevententry.TriggerType", scenarioEventEntryTriggerType);
+enumMap.set("soulbindconduit.ConduitType", soulbindConduitType);
+enumMap.set("soundentries.SoundType", soundkitSoundType);
+enumMap.set("soundkit.SoundType", soundkitSoundType);
+enumMap.set("spellclassoptions.SpellClassSet", spellClassSet);
+enumMap.set("spelleffect.Effect", spellEffectName);
+enumMap.set("spelleffect.EffectAura", effectAuraType);
+enumMap.set("spellitemenchantment.Effect[0]", spellItemEnchantmentEffect);
+enumMap.set("spellitemenchantment.Effect[1]", spellItemEnchantmentEffect);
+enumMap.set("spellitemenchantment.Effect[2]", spellItemEnchantmentEffect);
+enumMap.set("spelllabel.LabelID", spellLabelName);
+enumMap.set("spellscript.Arguments", SpellScript_Arguments);
+enumMap.set("spellvisualevent.StartEvent", spellVisualEventStartEvent);
+enumMap.set("spellvisualevent.EndEvent", spellVisualEventStartEvent);
+enumMap.set("spellvisualevent.TargetType", spellVisualEventTargetType);
+enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
+enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
+enumMap.set("summonproperties.Control", summonPropertiesControl);
+enumMap.set("summonproperties.Slot", summonPropertiesSlot);
+enumMap.set("uimap.System", uiMapSystem);
+enumMap.set("uimap.Type", uiMapType);
 enumMap.set("uiwidgetdatasource.SourceType", UiWidgetDataSource_SourceType);
+enumMap.set("uiwidgetset.LayoutDirection", uiWidgetSetLayoutDirection);
 enumMap.set("uiwidgetvistypedatareq.ValueType", UiWidgetVisTypeDataReq_ValueType);
 enumMap.set("uiwidgetvistypedatareq.VisType", UiWidgetVisualization_VisType);
 enumMap.set("uiwidgetvisualization.VisType", UiWidgetVisualization_VisType);
-enumMap.set("objecteffectpackageelem.StateType", ObjectEffectPackageElem_StateType);
-enumMap.set("spellscript.Arguments", SpellScript_Arguments);
+enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
+enumMap.set("waypointnode.Field_8_2_0_30080_005", waypointNodeField_8_2_0_30080_005);
 enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
+enumMap.set("weather.Type", weatherType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -4536,9 +4944,65 @@ enumMap.set("charhairgeosets.RaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
 
+let conditionalFKs = new Map();
 for (let i = 0; i < 8; i++){
     enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
     enumMap.set("unitcondition.Op[" + i + "]", unitConditionOperator);
+
+    conditionalFKs.set("unitcondition.Value[" + i + "]",
+        [
+            ["unitcondition.Variable[" + i + "]=1", 'chrraces::ID"'],
+            ["unitcondition.Variable[" + i + "]=2", 'chrclasses::ID"'],
+            //["unitcondition.Variable[" + i + "]=3", '#Level'],
+            //["unitcondition.Variable[" + i + "]=12", '#Health %'],
+            //["unitcondition.Variable[" + i + "]=13", '#Mana %'],
+            //["unitcondition.Variable[" + i + "]=14", '#Rage %'],
+            //["unitcondition.Variable[" + i + "]=15", '#Energy %'],
+            //["unitcondition.Variable[" + i + "]=16", '#Points'],
+            ["unitcondition.Variable[" + i + "]=17", 'spell::ID'],
+            ["unitcondition.Variable[" + i + "]=18", 'spelldispeltype::ID'],
+            ["unitcondition.Variable[" + i + "]=19", 'spellmechanic::ID'],
+            ["unitcondition.Variable[" + i + "]=20", 'spell::ID'],
+            ["unitcondition.Variable[" + i + "]=21", 'spelldispeltype::ID'],
+            ["unitcondition.Variable[" + i + "]=22", 'spellmechanic::ID'],
+            ["unitcondition.Variable[" + i + "]=23", 'resistances::ID'],
+            //["unitcondition.Variable[" + i + "]=24", '#Physical Damage %'],
+            //["unitcondition.Variable[" + i + "]=25", '#Holy Damage %'],
+            //["unitcondition.Variable[" + i + "]=26", '#Fire Damage %'],
+            //["unitcondition.Variable[" + i + "]=27", '#Nature Damage %'],
+            //["unitcondition.Variable[" + i + "]=28", '#Frost Damage %'],
+            //["unitcondition.Variable[" + i + "]=29", '#Shadow Damage %'],
+            //["unitcondition.Variable[" + i + "]=30", '#Arcane Damage %'],
+            //["unitcondition.Variable[" + i + "]=37", '#Attackers'],
+            //["unitcondition.Variable[" + i + "]=39", '#Yards'],
+            //["unitcondition.Variable[" + i + "]=41", '#Seconds'],
+            //["unitcondition.Variable[" + i + "]=44", '#Enemies'],
+            //["unitcondition.Variable[" + i + "]=45", '#Friends'],
+            //["unitcondition.Variable[" + i + "]=46", '#Physical Threat %'],
+            //["unitcondition.Variable[" + i + "]=47", '#Holy Threat %'],
+            //["unitcondition.Variable[" + i + "]=48", '#Fire Threat %'],
+            //["unitcondition.Variable[" + i + "]=49", '#Nature Threat %'],
+            //["unitcondition.Variable[" + i + "]=50", '#Frost Threat %'],
+            //["unitcondition.Variable[" + i + "]=51", '#Shadow Threat %'],
+            //["unitcondition.Variable[" + i + "]=52", '#Arcane Threat %'],
+            //["unitcondition.Variable[" + i + "]=54", '#Attackers'],
+            //["unitcondition.Variable[" + i + "]=55", '#Ranged Attackers'],
+            ["unitcondition.Variable[" + i + "]=56", 'creaturetype::ID'],
+            //["unitcondition.Variable[" + i + "]=59", '#HP'],
+            ["unitcondition.Variable[" + i + "]=60", 'spell::ID'],
+            //["unitcondition.Variable[" + i + "]=61", '#Spell Aura'],
+            //["unitcondition.Variable[" + i + "]=64", '#Magic Damage %'],
+            //["unitcondition.Variable[" + i + "]=65", '#Damage %'],
+            //["unitcondition.Variable[" + i + "]=66", '#Magic Threat %'],
+            //["unitcondition.Variable[" + i + "]=67", '#Threat %'],
+            ["unitcondition.Variable[" + i + "]=74", 'creature::ID"'],
+            ["unitcondition.Variable[" + i + "]=75", 'stringid::ID"'],
+            ["unitcondition.Variable[" + i + "]=76", 'spell::ID'],
+            //["unitcondition.Variable[" + i + "]=84", '#Path Fail Count'],
+            ["unitcondition.Variable[" + i + "]=86", 'label::ID'],
+
+        ]
+    );
 }
 
 // Conditional enums
@@ -4596,7 +5060,6 @@ for (let i = 0; i < 3; i++){
 
 
 // Conditional FKs (move to sep file?)
-let conditionalFKs = new Map();
 conditionalFKs.set("itembonus.Value[0]",
     [
         ['itembonus.Type=5','itemnamedescription::ID'],
@@ -4640,8 +5103,8 @@ conditionalFKs.set("spelleffect.EffectMiscValue[1]",
 conditionalFKs.set("criteria.Asset",
     [
         ['criteria.Type=0', 'creature::ID'],
-        ['criteria.Type=2', 'researchproject::ID'],
         ['criteria.Type=1', 'map::ID'],
+        ['criteria.Type=2', 'researchproject::ID'],
         ['criteria.Type=4', 'gameobjects::ID'],
         ['criteria.Type=7', 'skillline::ID'],
         ['criteria.Type=8', 'achievement::ID'],
@@ -4649,50 +5112,115 @@ conditionalFKs.set("criteria.Asset",
         ['criteria.Type=12', 'currencytypes::ID'],
         ['criteria.Type=15', 'map::ID'],
         ['criteria.Type=16', 'map::ID'],
+        //['criteria.Type=18', '#Max Players'],
+        //['criteria.Type=19', '#Max Players'],
         ['criteria.Type=20', 'creature::ID'],
         ['criteria.Type=21', 'criteria::ID'],
+        //['criteria.Type=25', '#Challenge Mode Medal (OBSOLETE)'],
+        //['criteria.Type=//26', '$Env Damage'],
         ['criteria.Type=27', 'questv2::ID'],
         ['criteria.Type=28', 'spell::ID'],
         ['criteria.Type=29', 'spell::ID'],
-        ['criteria.Type=30', 'pvpstat::ID'],
+        ['criteria.Type=30', 'worldstateui::ID'],
         ['criteria.Type=31', 'areatable::ID'],
         ['criteria.Type=32', 'map::ID'],
         ['criteria.Type=33', 'map::ID'],
         ['criteria.Type=34', 'spell::ID'],
         ['criteria.Type=36', 'item::ID'],
+        //['criteria.Type=38', '#Arena Rating'],
+        //['criteria.Type=39', '#Arena Rating'],
         ['criteria.Type=40', 'skilline::ID'],
         ['criteria.Type=41', 'item::ID'],
         ['criteria.Type=42', 'item::ID'],
-        ['criteria.Type=43', 'areatable::ID'],
+        ['criteria.Type=43', 'worldmapoverlay::ID'],
         ['criteria.Type=46', 'faction::ID'],
+        //['criteria.Type=49': '$Equip Slot'],
+        //['criteria.Type=50': '#Need Roll'],
+        //['criteria.Type=51': '#Greed Roll'],
         ['criteria.Type=52', 'chrclasses::ID'],
         ['criteria.Type=53', 'chrraces::ID'],
-        ['criteria.Type=54', 'emotes::ID'],
+        ['criteria.Type=54', 'emotestext::ID'],
         ['criteria.Type=57', 'item::ID'],
         ['criteria.Type=58', 'questsort::ID'],
+        ['criteria.Type=64', 'spawnregion::ID'],
         ['criteria.Type=68', 'gameobjects::ID'],
         ['criteria.Type=69', 'spell::ID'],
         ['criteria.Type=71', 'map::ID'],
         ['criteria.Type=72', 'gameobjects::ID'],
+        ['criteria.Type=73', 'gameevents::ID'],
         ['criteria.Type=75', 'skillline::ID'],
+        ['criteria.Type=92', 'gameevents::ID'],
         ['criteria.Type=96', 'creature::ID'],
         ['criteria.Type=97', 'dungeonencounter::ID'],
+        //['criteria.Type=109': '$Loot Acquisition'],
         ['criteria.Type=110', 'spell::ID'],
         ['criteria.Type=112', 'skillline::ID'],
+        //['criteria.Type=116': '#Disenchant Roll'],
+        ['criteria.Type=138', '{guild::IDChallenge}'],
         ['criteria.Type=152', 'scenario::ID'],
+        ['criteria.Type=153', 'areatriggeractionset::ID'],
+        ['criteria.Type=154', 'areatriggeractionset::ID'],
+        //['criteria.Type=160': '#Level'],
+        //['criteria.Type=162': '#Level}'],
         ['criteria.Type=163', 'areatable::ID'],
         ['criteria.Type=164', 'areatable::ID'],
         ['criteria.Type=165', 'dungeonencounter::ID'],
         ['criteria.Type=167', 'garrbuilding::ID'],
         ['criteria.Type=169', 'garrbuilding::ID'],
+        //['criteria.Type=170': '#Tier:2,3'],
+        ['criteria.Type=171', 'garrfollowertype::ID'],
         ['criteria.Type=172', 'garrmission::ID'],
+        ['criteria.Type=173', 'garrfollowertype::ID'],
         ['criteria.Type=174', 'garrmission::ID'],
         ['criteria.Type=176', 'garrfollower::ID'],
+        ['criteria.Type=179', 'garrbuilding::ID'],
+        ['criteria.Type=181', 'garrspecialization::ID'],
+        ['criteria.Type=182', 'charshipmentcontainer::ID'],
+        ['criteria.Type=185', 'item::ID'],
+        ['criteria.Type=188', 'item::ID'],
+        ['criteria.Type=192', 'itemmodifiedappearance::ID'],
+        //['criteria.Type=196': '#Level'],
+        ['criteria.Type=198', 'garrtalent::ID'],
+        //['criteria.Type=199': '$Equip Slot'],
         ['criteria.Type=202', 'garrtalent::ID'],
-        ['criteria.Type=204', 'transmogset::ID'],
-        ['criteria.Type=205', 'transmogset::ID'],
+        ['criteria.Type=204', 'battlepaydeliverable::ID'],
+        ['criteria.Type=205', 'transmogsetgroup::ID'],
+        ['criteria.Type=206', 'faction::ID'],
+        ['criteria.Type=208', 'creature::ID'],
+        ['criteria.Type=209', 'artifactpower::ID'],
         ['criteria.Type=211', 'artifactpower::ID'],
+        //['criteria.Type=212': '$Expansion Level'],
         ['criteria.Type=225', 'areatable::ID'],
+    ]
+);
+
+conditionalFKs.set("criteria.Start_asset",
+    [
+        //['criteria.Start_event=1', '#Level'],
+        ['criteria.Start_event=2', 'questv2::ID'],
+        ['criteria.Start_event=3', 'map::ID'],
+        //['criteria.Start_event=4', '#Team Size'],
+        ['criteria.Start_event=5', 'spell::ID"'],
+        ['criteria.Start_event=6', 'spellauranames::EnumID'],
+        ['criteria.Start_event=7', 'spell::ID'],
+        ['criteria.Start_event=8', 'spell::ID'],
+        ['criteria.Start_event=9', 'questv2::ID'],
+        ['criteria.Start_event=10', 'creature::ID'],
+        ['criteria.Start_event=12', 'item::ID'],
+        ['criteria.Start_event=13', 'gameevents::ID'],
+        //['criteria.Start_event=14', '#Step'],
+    ]
+);
+
+conditionalFKs.set("criteria.Fail_asset",
+    [
+        //['criteria.Fail_event=4', '#Team Size'],
+        ['criteria.Fail_event=5', 'spell::ID"'],
+        ['criteria.Fail_event=6', 'spell::ID"'],
+        ['criteria.Fail_event=7', 'spellauranames::EnumID'],
+        ['criteria.Fail_event=8', 'spell::ID'],
+        ['criteria.Fail_event=9', 'spell::ID'],
+        ['criteria.Fail_event=14', 'gameevents::ID'],
     ]
 );
 
