@@ -4951,8 +4951,8 @@ for (let i = 0; i < 8; i++){
 
     conditionalFKs.set("unitcondition.Value[" + i + "]",
         [
-            ["unitcondition.Variable[" + i + "]=1", 'chrraces::ID"'],
-            ["unitcondition.Variable[" + i + "]=2", 'chrclasses::ID"'],
+            ["unitcondition.Variable[" + i + "]=1", 'chrraces::ID'],
+            ["unitcondition.Variable[" + i + "]=2", 'chrclasses::ID'],
             //["unitcondition.Variable[" + i + "]=3", '#Level'],
             //["unitcondition.Variable[" + i + "]=12", '#Health %'],
             //["unitcondition.Variable[" + i + "]=13", '#Mana %'],
@@ -4995,8 +4995,8 @@ for (let i = 0; i < 8; i++){
             //["unitcondition.Variable[" + i + "]=65", '#Damage %'],
             //["unitcondition.Variable[" + i + "]=66", '#Magic Threat %'],
             //["unitcondition.Variable[" + i + "]=67", '#Threat %'],
-            ["unitcondition.Variable[" + i + "]=74", 'creature::ID"'],
-            ["unitcondition.Variable[" + i + "]=75", 'stringid::ID"'],
+            ["unitcondition.Variable[" + i + "]=74", 'creature::ID'],
+            ["unitcondition.Variable[" + i + "]=75", 'stringid::ID'],
             ["unitcondition.Variable[" + i + "]=76", 'spell::ID'],
             //["unitcondition.Variable[" + i + "]=84", '#Path Fail Count'],
             ["unitcondition.Variable[" + i + "]=86", 'label::ID'],
@@ -5200,7 +5200,7 @@ conditionalFKs.set("criteria.Start_asset",
         ['criteria.Start_event=2', 'questv2::ID'],
         ['criteria.Start_event=3', 'map::ID'],
         //['criteria.Start_event=4', '#Team Size'],
-        ['criteria.Start_event=5', 'spell::ID"'],
+        ['criteria.Start_event=5', 'spell::ID'],
         ['criteria.Start_event=6', 'spellauranames::EnumID'],
         ['criteria.Start_event=7', 'spell::ID'],
         ['criteria.Start_event=8', 'spell::ID'],
@@ -5215,8 +5215,8 @@ conditionalFKs.set("criteria.Start_asset",
 conditionalFKs.set("criteria.Fail_asset",
     [
         //['criteria.Fail_event=4', '#Team Size'],
-        ['criteria.Fail_event=5', 'spell::ID"'],
-        ['criteria.Fail_event=6', 'spell::ID"'],
+        ['criteria.Fail_event=5', 'spell::ID'],
+        ['criteria.Fail_event=6', 'spell::ID'],
         ['criteria.Fail_event=7', 'spellauranames::EnumID'],
         ['criteria.Fail_event=8', 'spell::ID'],
         ['criteria.Fail_event=9', 'spell::ID'],
@@ -5632,7 +5632,7 @@ conditionalFKs.set("spellproceduraleffect.Value[0]",
         ['spellproceduraleffect.Type=26', 'spellchaineffects::ID'],
         ['spellproceduraleffect.Type=30', 'spellvisualcoloreffect::ID'],
     ]
-);  
+);
 
 conditionalFKs.set("scenarioevententry.TriggerAsset",
     [
