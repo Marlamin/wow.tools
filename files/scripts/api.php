@@ -99,6 +99,8 @@ if (!empty($_GET['search']['value'])) {
             array_push($clauses, " (wow_rootfiles.filename IS NULL) ");
         } elseif ($c == "communitynames") {
             array_push($clauses, " (wow_rootfiles.filename IS NOT NULL AND verified = 0) ");
+        } elseif ($c == "unverified") {
+            array_push($clauses, " (wow_rootfiles.lookup != '' AND verified = 0) ");
         } elseif ($c == "unshipped") {
             array_push($clauses, " wow_rootfiles.id NOT IN (SELECT filedataid FROM wow_rootfiles_chashes) ");
         } elseif ($c == "encrypted") {
