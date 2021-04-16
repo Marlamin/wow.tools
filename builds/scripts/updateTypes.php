@@ -103,6 +103,10 @@ while (true) {
             die("Unable to locate CDNConfig for this build (" . $buildconfig . ")!");
         }
 
+        if (!file_exists("/tmp/casc/")) {
+            mkdir("/tmp/casc/");
+        }
+
         if (!file_exists("/tmp/casc/" . $buildconfig . "/")) {
             mkdir("/tmp/casc/" . $buildconfig . "/");
         }
