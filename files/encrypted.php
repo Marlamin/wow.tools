@@ -155,10 +155,14 @@ foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC"
             if (count($cmfs) > 0) {
                 echo "<tr><td>Items</td><td><table class='table table-sm table-striped'>";
                 foreach ($cmfs as $cmf) {
-                    if (array_key_exists($cmf['RaceID'], $raceMap)) {
-                        $raceName = $raceMap[$cmf['RaceID']];
+                    if ($cmf['RaceID'] == 0) {
+                        $raceName = "All? Human?";
                     } else {
-                        $raceName = "Unknown";
+                        if (array_key_exists($cmf['RaceID'], $raceMap)) {
+                            $raceName = $raceMap[$cmf['RaceID']];
+                        } else {
+                            $raceName = "Unknown";
+                        }
                     }
 
                     $idiq->execute([$cmf['ID']]);

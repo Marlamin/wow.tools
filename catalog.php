@@ -66,7 +66,6 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
         die("No valid builds selected for diff");
     }
 
-    echo "<pre>";
     $oldjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $oldbuild['root_cdn'][0] . $oldbuild['root_cdn'][1] . "/" . $oldbuild['root_cdn'][2] . $oldbuild['root_cdn'][3] . "/" . $oldbuild['root_cdn']));
     foreach ($oldjson->fragments as $fragment) {
         if (doesFileExist("data", $fragment->hash, "catalogs")) {
@@ -103,32 +102,59 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
         }
     }
 
-    // Write JSON structs to file
-    $tmpoldname = tempnam("/tmp", "diff");
-    $handle = fopen($tmpoldname, "w");
-    fwrite($handle, json_encode($oldjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    fclose($handle);
+    if (empty($_GET['parsedDiff'])) {
+        // Write JSON structs to file
+        $tmpoldname = tempnam("/tmp", "diff");
+        $handle = fopen($tmpoldname, "w");
+        fwrite($handle, json_encode($oldjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        fclose($handle);
 
-    $tmpnewname = tempnam("/tmp", "diff");
-    $handle = fopen($tmpnewname, "w");
-    fwrite($handle, json_encode($newjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    fclose($handle);
-
-    // Diff
-    exec("git diff " . $tmpoldname . " " . $tmpnewname, $output);
-    echo "<pre>";
-    foreach ($output as $line) {
-        $line = htmlspecialchars($line);
-        if ($line[0] == "-") {
-            echo "<span style='background-color: rgba(255,59,48,.15)'>" . $line . "</span>";
-        } elseif ($line[0] == "+") {
-            echo "<span style='background-color: rgba(90,249,178,.15);'>" . $line . "</span>";
-        } else {
-            echo "<span>" . $line . "</span>";
+        $tmpnewname = tempnam("/tmp", "diff");
+        $handle = fopen($tmpnewname, "w");
+        fwrite($handle, json_encode($newjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        fclose($handle);
+        // Diff
+        exec("git diff " . $tmpoldname . " " . $tmpnewname, $output);
+        echo "<pre>";
+        foreach ($output as $line) {
+            $line = htmlspecialchars($line);
+            if ($line[0] == "-") {
+                echo "<span style='background-color: rgba(255,59,48,.15)'>" . $line . "</span>";
+            } elseif ($line[0] == "+") {
+                echo "<span style='background-color: rgba(90,249,178,.15);'>" . $line . "</span>";
+            } else {
+                echo "<span>" . $line . "</span>";
+            }
+            echo "\n";
         }
-        echo "\n";
+        echo "</pre>";
+    } else {
+         $diffs = CompareArrays::Diff(json_decode(json_encode($oldjson), true), json_decode(json_encode($newjson), true));
+        if (!empty($diffs)) {
+            $diffs = CompareArrays::Flatten($diffs);
+        }
+        $difftext = "<table class='table table-condensed table-hover subtable' style='width: 100%; font-size: 11px;'>";
+        $difftext .= "<thead><tr><th style='width: 20px'>&nbsp;</th><th style='width: 100px'>Name</th><th>Before</th><th>After</th><th>&nbsp;</th></thead>";
+        foreach ($diffs as $name => $diff) {
+            switch ($diff->Type) {
+                case "added":
+                    $icon = 'plus';
+                    break;
+                case "modified":
+                    $icon = 'pencil';
+                    break;
+                case "removed":
+                    $icon = 'times';
+                    break;
+            }
+
+            $difftext .= "<tr><td><i class='fa fa-" . $icon . "'></i></td><td>" . $name . "</td><td>" . $diff->OldValue . "</td><td>" . $diff->NewValue . "</td><td></td></tr>";
+        }
+
+        $difftext .= "</table>";
+        echo $difftext;
     }
-    echo "</pre>";
+
     ?>
 </div>
 <?php include "inc/footer.php"; ?>

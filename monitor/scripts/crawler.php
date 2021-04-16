@@ -163,7 +163,7 @@ foreach ($pdo->query("SELECT * FROM ngdp_urls WHERE enabled = 1") as $row) {
     $history = getUrlHistory($row['id']);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $row['url'] . "?cb=" . time());
+    curl_setopt($ch, CURLOPT_URL, str_replace("us.patch", "eu.patch", $row['url']));
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     $content = curl_exec($ch);
