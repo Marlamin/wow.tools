@@ -48,16 +48,24 @@ if (!empty($_GET['id'])) {
 $query = "FROM wowdata.creatures ";
 
 if (!empty($_GET['search']['value'])) {
-    if (substr($_GET['search']['value'], 0, 8) == "addedin:"){
+    if (substr($_GET['search']['value'], 0, 8) == "addedin:") {
         $searchBuild = str_replace("addedin:", "", $_GET['search']['value']);
-        if(is_numeric($searchBuild)){
+        if (is_numeric($searchBuild)) {
             $query .= " WHERE firstseenbuild = " . $searchBuild;
+        }
+    } elseif (substr($_GET['search']['value'], 0, 6) == "field:") {
+        $searchJSON = str_replace("field:", "", trim($_GET['search']['value']));
+        $searchExploded = explode("=", $searchJSON);
+        if (count($searchExploded) == 2) {
+            $query .= " WHERE JSON_CONTAINS(json, :jsonVal, :jsonKey)";
+            $jsonSearch = [];
+            $jsonSearch['key'] = "$." . $searchExploded[0];
+            $jsonSearch['value'] = "\"" . $searchExploded[1] . "\"";
         }
     } else {
         $query .= " WHERE id LIKE :search1 OR name LIKE :search2";
         $search = "%" . $_GET['search']['value'] . "%";
     }
-
 }
 
 $orderby = '';
@@ -101,8 +109,15 @@ if (!empty($search)) {
     $dataq->bindParam(":search2", $search);
 }
 
-$numrowsq->execute();
+if (!empty($jsonSearch)) {
+    $numrowsq->bindParam(":jsonKey", $jsonSearch['key']);
+    $numrowsq->bindParam(":jsonVal", $jsonSearch['value']);
+    $dataq->bindParam(":jsonKey", $jsonSearch['key']);
+    $dataq->bindParam(":jsonVal", $jsonSearch['value']);
+}
+
 $dataq->execute();
+$numrowsq->execute();
 
 $returndata['draw'] = (int)$_GET['draw'];
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
