@@ -2942,6 +2942,15 @@ const itemContext = {
     85: "Raid: Mythic (Extended)",
 }
 
+// 457
+const mapDifficultyResetInterval = {
+    0: '- NONE -',
+    1: 'Daily',
+    2: 'Weekly',
+    3: '3 Day',
+    4: '5 Day',
+};
+
 // 497
 const ObjectEffectPackageElem_StateType = {
     0:   '- Invalid -',
@@ -3797,6 +3806,14 @@ const ObjectEffectPackageElem_StateType = {
     850: 'Anim - ATTACKUNARMEDVAR2',
 };
 
+// 530
+const curveType = {
+    0: 'Linear',
+    1: 'Cubic',
+    2: 'Bezier',
+    3: 'Cosine',
+};
+
 // 555
 const uiModelSceneCameraCameraType = {
     0: 'Orbit',
@@ -4295,6 +4312,43 @@ const weatherType = {
     5: 'Miscellaneous',
 };
 
+// 747
+const chrRacesPlayableRaceBit = {
+    0: 'Human',
+    1: 'Orc',
+    2: 'Dwarf',
+    3: 'Night Elf',
+    4: 'Undead',
+    5: 'Tauren',
+    6: 'Gnome',
+    7: 'Troll',
+    8: 'Goblin',
+    9: 'Blood Elf',
+    10: 'Draenei',
+    11: 'Dark Iron Dwarf',
+    12: 'Vulpera',
+    13: 'Orc Clans',
+    14: 'Mechagnome',
+    15: 'RE-USE ME',
+    16: 'RE-USE ME',
+    17: 'RE-USE ME',
+    18: 'RE-USE ME',
+    19: 'RE-USE ME',
+    20: 'RE-USE ME',
+    21: 'Worgen',
+    22: 'RE-USE ME',
+    23: 'Pandaren(N)',
+    24: 'Pandaren(A)',
+    25: 'Pandaren(H)',
+    26: 'Nightborne',
+    27: 'Highmountain Tauren',
+    28: 'Void Elf',
+    29: 'Lightforged Draenei',
+    30: 'Zandalari Troll',
+    31: 'Kul\'Tiran',
+    63: 'This bit can be reused but not deleted',
+};
+
 // 863
 const UiWidgetVisualization_VisType = {
     0:  'IconAndText',
@@ -4393,6 +4447,14 @@ const UiWidgetVisTypeDataReq_ValueType = {
     0: 'Integer',
     1: 'String',
 }
+
+// 890
+const liquidTypeXTextureType = {
+    '-1': 'Disabled',
+    0: 'Ocean',
+    1: 'River',
+    2: 'WMO',
+};
 
 // 915
 const waypointNodeField_8_2_0_30080_005 = {
@@ -4537,6 +4599,12 @@ const globalTable_PlayerConditionWhat = {
     11: 'Group Finder UI Available',
 }
 
+// 1060
+const uISplashScreenScreenType = {
+    0: 'What\'s New',
+    1: 'Season Rollover',
+};
+
 // 1063
 const garrTalentTreeFeatureTypeIndex = {
     0: 'Generic',
@@ -4679,7 +4747,7 @@ const enumNames = {
     // 269: 'DB col types',
     271: 'Criteria::Flags',
     272: 'SoundTypes',
-    277: 'CreatureDifficulty::Flags',
+    277: 'CreatureStaticFlags',
     // 282: 'Quest flags',
     291: 'LightSkybox::Flags',
     292: 'SpellInterrupts::InterruptFlags',
@@ -4722,6 +4790,7 @@ const enumNames = {
     489: 'AreaTable::Flags', // updated
     497: 'ObjectEffectPackageElem::StateType', // copied
     // 522: 'Map/dungeon flags',
+    530: 'CurveType',
     531: 'ItemSpec::Primary/SecondaryStat',
     // 538: 'Light data types',
     546: 'Stationery::Flags',
@@ -4791,6 +4860,7 @@ const enumNames = {
     915: 'WaypointNode::Field_8_2_0_30080_005',
     // 916: 'Waypoint2',
     // 917: 'Waypoint3',
+    934: 'FriendshipReputation::Flags',
     950: 'SceneFlags',
     956: 'BonusStatIndex',
     965: 'ItemEquipLoc',
@@ -4825,6 +4895,7 @@ const enumNames = {
     1038: 'ChrModel::Flags', // copied
     1041: 'BattlePetState::Flags',
     1049: 'GlobalTable_PlayerCondition::What',
+    1060: 'UISplashScreen::ScreenType',
     1063: 'GarrTalentTree::FeatureTypeIndex',
     1064: 'GarrTalentTree::FeatureSubtypeIndex',
     1067: 'ChrCustomizationCategoryFlag',
@@ -4844,6 +4915,62 @@ const enumNames = {
     1103: 'OptionalReagentItemFlag',
     1129: 'BattlepayGroupDisplayType',
 }
+
+const official_enums = {
+    ['AIBehaviorNodeCastSpell_FLAGS']: null,
+    ['AIBehaviorNodeCombatCondition_FLAGS']: null,
+    ['AIBehaviorNodeRepeat_FLAGS']: null,
+    ['AIBehaviorNodeTimer_FLAGS']: null,
+    ['AIBehaviorNodeUseResource_FLAGS']: null,
+    ['AZERITE_ESSENCE_SLOT']: null,                    // enum 922: AzeriteEssence
+    ['BEHAVIOR_ROOT_TYPE']: null,
+    ['CHARACTER_RESTRICTION_TYPE']: null,
+    ['g_bonusStatFields']: itemStatType,               // enum 956: BonusStatIndex
+    ['GAMEOBJECT_ACTION']: null,
+    ['GARR_FOLLOWER_QUALITY']: garrFollowerQuality,    // enum 392: GarrFollower::Quality
+    ['GARRISON_BUILDING_TYPE']: garrBuildingType,      // enum 170: GarrBuilding::BuildingType
+    ['INSTANCE_TYPE']: null,
+    ['ITEM_BIND']: null,                               // enum 601: ItemSparse::Bonding
+    ['ITEM_QUALITY']: itemQuality,                     // enum 488: ItemQuality
+    ['LFG_ROLE']: null,
+    ['PVP_BRACKET']: null,
+    ['PVP_TIER_ENUM']: null,
+    ['SPECIAL_MISC_HONOR_GAIN_SOURCE']: null,
+    ['TRANSMOG_SOURCE']: null,                         // enum 372: TransmogSource | ItemModifiedAppearance::TransmogSourceTypeEnum
+};
+
+const EventToastEventType = { // from uieventtoastmanagerdocumentation.lua 9.1.0.38312
+    0: 'LevelUp',
+    1: 'LevelUpSpell',
+    2: 'LevelUpDungeon',
+    3: 'LevelUpRaid',
+    4: 'LevelUpPvP',
+    5: 'PetBattleNewAbility',
+    6: 'PetBattleFinalRound',
+    7: 'PetBattleCapture',
+    8: 'BattlePetLevelChanged',
+    9: 'BattlePetLevelUpAbility',
+    10: 'QuestBossEmote',
+    11: 'MythicPlusWeeklyRecord',
+    12: 'QuestTurnedIn',
+    13: 'WorldStateChange',
+    14: 'Scenario',
+    15: 'LevelUpOther',
+    16: 'PlayerAuraAdded',
+    17: 'PlayerAuraRemoved',
+    18: 'SpellScript',
+};
+
+const EventToastDisplayType = { // from uieventtoastmanagerdocumentation.lua 9.1.0.38312
+    0: 'NormalSingleLine',
+    1: 'NormalBlockText',
+    2: 'NormalTitleAndSubTitle',
+    3: 'NormalTextWithIcon',
+    4: 'LargeTextWithIcon',
+    5: 'NormalTextWithIconAndRarity',
+    6: 'Scenario',
+    7: 'ChallengeMode',
+};
 
 // Regular enums
 let enumMap = new Map();
@@ -4871,14 +4998,17 @@ enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
 enumMap.set("chrmodelmaterial.TextureType", textureType);
 enumMap.set("chrmodeltexturelayer.BlendMode", chrModelTextureLayerBlendMode);
 enumMap.set("chrmodeltexturelayer.TextureType", textureType);
+enumMap.set("chrraces.PlayableRaceBit", chrRacesPlayableRaceBit);
 enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
-enumMap.set("criteria.Type", criteriaType);
-enumMap.set("criteria.Start_event", criteriaStartEvent);
 enumMap.set("criteria.Fail_event", criteriaFailEvent);
+enumMap.set("criteria.Start_event", criteriaStartEvent);
+enumMap.set("criteria.Type", criteriaType);
 enumMap.set("criteriatree.Operator", criteriaTreeOperator);
+enumMap.set("curve.Type", curveType);
 enumMap.set("difficulty.InstanceType", mapTypes);
 enumMap.set("enumeratedstring.EnumID", enumNames);
 enumMap.set("environmentaldamage.EnumID", environmentalDamageType);
+enumMap.set("expectedstat.ExpansionID", expectedStatExpansionID);
 enumMap.set("garrabilityeffect.AbilityAction", garrAbilityAction);
 enumMap.set("garrabilityeffect.AbilityTargetType", garrAbilityTargetType);
 enumMap.set("garrautocombatant.Role", garrAutoCombatantRole);
@@ -4888,15 +5018,15 @@ enumMap.set("garrbuilding.BuildingType", garrBuildingType);
 enumMap.set("garrfollitemsetmember.ItemSlot", garrFollowerItemSlot);
 enumMap.set("garrfollowerquality.Quality", garrFollowerQuality);
 enumMap.set("garrmechanictype.Category", garrMechanicCategory);
+enumMap.set("garrplot.PlotType", garrPlotType);
 enumMap.set("garrspecialization.BuildingType", garrBuildingType);
 enumMap.set("garrspecialization.SpecType", garrSpecType);
-enumMap.set("garrplot.PlotType", garrPlotType);
 enumMap.set("garrtalent.ResearchCostSource", garrTalentResearchCostSource);
 enumMap.set("garrtalent.TalentType", garrTalentType);
 enumMap.set("garrtalentcost.CostType", garrTalentCostType);
-enumMap.set("garrtalenttree.FeatureTypeIndex", garrTalentTreeFeatureTypeIndex);
-enumMap.set("garrtalenttree.FeatureSubtypeIndex", garrTalentTreeFeatureSubtypeIndex);
 enumMap.set("garrtalentsocketproperties.GarrTalentSocketType", garrTalentSocketType);
+enumMap.set("garrtalenttree.FeatureSubtypeIndex", garrTalentTreeFeatureSubtypeIndex);
+enumMap.set("garrtalenttree.FeatureTypeIndex", garrTalentTreeFeatureTypeIndex);
 enumMap.set("globalcurve.Type", globalCurveType);
 enumMap.set("globaltable_playercondition.What", globalTable_PlayerConditionWhat);
 enumMap.set("item.ClassID", itemClassEnum);
@@ -4911,15 +5041,17 @@ enumMap.set("itemsparse.OverallQualityID", itemQuality);
 enumMap.set("itemsparse.SocketType[0]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[1]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[2]", socketColorEnum);
+enumMap.set("liquidtypextexture.Type", liquidTypeXTextureType);
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);
+enumMap.set("mapdifficulty.ResetInterval", mapDifficultyResetInterval);
 enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
 enumMap.set("modifiertree.Operator", modifierTreeOperator);
 enumMap.set("modifiertree.Type", criteriaAdditionalCondition);
 enumMap.set("npcmodelitemslotdisplayinfo.ItemSlot", itemSlot);
 enumMap.set("objecteffectpackageelem.StateType", ObjectEffectPackageElem_StateType);
-enumMap.set("powertype.PowerTypeEnum", powerTypePowerTypeEnum);
 enumMap.set("playercondition.MinReputation[0]", reputationLevels);
+enumMap.set("powertype.PowerTypeEnum", powerTypePowerTypeEnum);
 enumMap.set("questinfo.Type", questTagType);
 enumMap.set("questobjective.Type", questObjectiveType);
 enumMap.set("relictalent.Type", relicTalentType);
@@ -4936,15 +5068,19 @@ enumMap.set("spellitemenchantment.Effect[1]", spellItemEnchantmentEffect);
 enumMap.set("spellitemenchantment.Effect[2]", spellItemEnchantmentEffect);
 enumMap.set("spelllabel.LabelID", spellLabelName);
 enumMap.set("spellscript.Arguments", SpellScript_Arguments);
-enumMap.set("spellvisualevent.StartEvent", spellVisualEventStartEvent);
-enumMap.set("spellvisualevent.EndEvent", spellVisualEventStartEvent);
-enumMap.set("spellvisualevent.TargetType", spellVisualEventTargetType);
 enumMap.set("spellvisualeffectname.Type", spellVisualEffectNames);
+enumMap.set("spellvisualevent.EndEvent", spellVisualEventStartEvent);
+enumMap.set("spellvisualevent.StartEvent", spellVisualEventStartEvent);
+enumMap.set("spellvisualevent.TargetType", spellVisualEventTargetType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("summonproperties.Control", summonPropertiesControl);
 enumMap.set("summonproperties.Slot", summonPropertiesSlot);
+enumMap.set("uieventtoast.DisplayType", EventToastDisplayType);
+enumMap.set("uieventtoast.EventType", EventToastEventType);
 enumMap.set("uimap.System", uiMapSystem);
 enumMap.set("uimap.Type", uiMapType);
+enumMap.set("uimodelscenecamera.CameraType", uiModelSceneCameraCameraType);
+enumMap.set("uisplashscreen.ScreenType", uISplashScreenScreenType);
 enumMap.set("uiwidgetdatasource.SourceType", UiWidgetDataSource_SourceType);
 enumMap.set("uiwidgetset.LayoutDirection", uiWidgetSetLayoutDirection);
 enumMap.set("uiwidgetvistypedatareq.ValueType", UiWidgetVisTypeDataReq_ValueType);
@@ -4954,8 +5090,6 @@ enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
 enumMap.set("waypointnode.Field_8_2_0_30080_005", waypointNodeField_8_2_0_30080_005);
 enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
 enumMap.set("weather.Type", weatherType);
-enumMap.set('uimodelscenecamera.CameraType', uiModelSceneCameraCameraType);
-enumMap.set('expectedstat.ExpansionID', expectedStatExpansionID);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
@@ -5045,15 +5179,23 @@ for (let i = 0; i < 8; i++){
 
 // Conditional enums
 let conditionalEnums = new Map();
+//['itembonus.Type=1', '#Item Level'],
+//['itembonus.Type=6', '#Num Sockets'],
+//['itembonus.Type=8', '#Required Level'],
+//['itembonus.Type=9', '$Item Toast'],
+//['itembonus.Type=10', '#Repair Cost Multiplier'],
+//['itembonus.Type=18', '#Required Level'],
 conditionalEnums.set("itembonus.Value[0]",
     [
-        ['itembonus.Type=2', itemStatType]
+        ['itembonus.Type=2', itemStatType], // @g_bonusStatFields
+        ['itembonus.Type=3', itemQuality], // @ITEM_QUALITY
+        //['itembonus.Type=16', '@ITEM_BIND'],
     ]
 );
 
 conditionalEnums.set("itembonus.Value[1]",
     [
-        ['itembonus.Type=6', socketColorEnum]
+        ['itembonus.Type=6', socketColorEnum] // $Item Socket Type
     ]
 );
 
@@ -5096,16 +5238,28 @@ for (let i = 0; i < 3; i++){
     );
 }
 
-
 // Conditional FKs (move to sep file?)
 conditionalFKs.set("itembonus.Value[0]",
     [
+        ['itembonus.Type=4','itemnamedescription::ID'],
         ['itembonus.Type=5','itemnamedescription::ID'],
+        ['itembonus.Type=7','itemappearancemodifier::ID'],
+        ['itembonus.Type=11','scalingstatdistribution::ID'],
+        ['itembonus.Type=12','treasure::ID'],
+        ['itembonus.Type=13','scalingstatdistribution::ID'],
+
+
         ['itembonus.Type=19','azeritetierunlockset::ID'],
         ['itembonus.Type=23','itemeffect::ID'],
         ['itembonus.Type=30','itemnamedescription::ID'],
         ['itembonus.Type=31','itemnamedescription::ID'],
         ['itembonus.Type=34','itembonuslistgroup::ID']
+    ]
+);
+
+conditionalFKs.set("itembonus.Value[2]",
+    [
+        ['itembonus.Type=13','contenttuning::ID'],
     ]
 );
 
@@ -5667,6 +5821,15 @@ conditionalFKs.set("spellproceduraleffect.Value[0]",
 conditionalFKs.set("scenarioevententry.TriggerAsset",
     [
         ['scenarioevententry.TriggerType=2', 'criteriatree::ID'],
+    ]
+);
+
+
+conditionalFKs.set("uieventtoast.EventAsset",
+    [
+        ['uieventtoast.EventType=12', 'questv2::ID'], // QuestTurnedIn
+        ['uieventtoast.EventType=16', 'spell::ID'], // PlayerAuraAdded
+        ['uieventtoast.EventType=17', 'spell::ID'], // PlayerAuraRemoved
     ]
 );
 

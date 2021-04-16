@@ -1,129 +1,4 @@
 // Flags are currently retrieved from TrinityCore repo, in a best case scenario these would come from DBD.
-const itemStaticFlags0 = {
-    0x1 : 'NO_PICKUP',
-    0x2 : 'CONJURED', // Conjured item
-    0x3 : 'HAS_LOOT', // Item can be right clicked to open for loot
-    0x4 : 'HEROIC_TOOLTIP', // Makes green "Heroic" text appear on item
-    0x10 : 'DEPRECATED', // Cannot equip or use
-    0x20 : 'NO_USER_DESTROY', // Item can not be destroyed, except by using spell (item can be reagent for spell)
-    0x40 : 'PLAYERCAST', // Item's spells are castable by players
-    0x80 : 'NO_EQUIP_COOLDOWN', // No default 30 seconds cooldown when equipped
-    0x100 : 'MULTI_LOOT_QUEST',
-    0x200 : 'IS_WRAPPER', // Item can wrap other items
-    0x400 : 'USES_RESOURCES',
-    0x800 : 'MULTI_DROP', // Looting this item does not remove it from available loot
-    0x1000 : 'ITEM_PURCHASE_RECORD', // Item can be returned to vendor for its original cost (extended cost)
-    0x2000 : 'PETITION', // Item is guild or arena charter
-    0x4000 : 'HAS_TEXT', // Only readable items have this (but not all)
-    0x8000 : 'NO_DISENCHANT',
-    0x10000 : 'REAL_DURATION',
-    0x20000 : 'NO_CREATOR',
-    0x40000 : 'IS_PROSPECTABLE', // Item can be prospected
-    0x80000 : 'UNIQUE_EQUIPPABLE', // You can only equip one of these
-    0x100000 : 'IGNORE_FOR_AURAS',
-    0x200000 : 'IGNORE_DEFAULT_ARENA_RESTRICTIONS', // Item can be used during arena match
-    0x400000 : 'NO_DURABILITY_LOSS', // Some Thrown weapons have it (and only Thrown) but not all
-    0x800000 : 'USE_WHEN_SHAPESHIFTED', // Item can be used in shapeshift forms
-    0x1000000 : 'HAS_QUEST_GLOW',
-    0x2000000 : 'HIDE_UNUSABLE_RECIPE', // Profession recipes can only be looted if you meet requirements and don't already know it
-    0x4000000 : 'NOT_USEABLE_IN_ARENA', // Item cannot be used in arena
-    0x8000000 : 'IS_BOUND_TO_ACCOUNT', // Item binds to account and can be sent only to your own characters
-    0x10000000 : 'NO_REAGENT_COST', // Spell is cast ignoring reagents
-    0x20000000 : 'IS_MILLABLE', // Item can be milled
-    0x40000000 : 'REPORT_TO_GUILD_CHAT',
-    0x80000000 : 'NO_DYNAMIC_DROP_CHANCE'
-}
-
-const itemStaticFlags1 = {
-    0x1 : 'FACTION_HORDE',
-    0x2 : 'FACTION_ALLIANCE',
-    0x4 : 'DONT_IGNORE_BUY_PRICE', // when item uses extended cost, gold is also required
-    0x8 : 'CLASSIFY_AS_CASTER',
-    0x10 : 'CLASSIFY_AS_PHYSICAL',
-    0x20 : 'EVERYONE_CAN_ROLL_NEED',
-    0x40 : 'NO_TRADE_BIND_ON_ACQUIRE',
-    0x80 : 'CAN_TRADE_BIND_ON_ACQUIRE',
-    0x100 : 'CAN_ONLY_ROLL_GREED',
-    0x200 : 'CASTER_WEAPON',
-    0x400 : 'DELETE_ON_LOGIN',
-    0x800 : 'INTERNAL_ITEM',
-    0x1000 : 'NO_VENDOR_VALUE',
-    0x2000 : 'SHOW_BEFORE_DISCOVERED',
-    0x4000 : 'OVERRIDE_GOLD_COST',
-    0x8000 : 'IGNORE_DEFAULT_RATED_BG_RESTRICTIONS',
-    0x10000 : 'NOT_USABLE_IN_RATED_BG',
-    0x20000 : 'BNET_ACCOUNT_TRADE_OK',
-    0x40000 : 'CONFIRM_BEFORE_USE',
-    0x80000 : 'REEVALUATE_BONDING_ON_TRANSFORM',
-    0x100000 : 'NO_TRANSFORM_ON_CHARGE_DEPLETION',
-    0x200000 : 'NO_ALTER_ITEM_VISUAL',
-    0x400000 : 'NO_SOURCE_FOR_ITEM_VISUAL',
-    0x800000 : 'IGNORE_QUALITY_FOR_ITEM_VISUAL_SOURCE',
-    0x1000000 : 'NO_DURABILITY',
-    0x2000000 : 'ROLE_TANK',
-    0x4000000 : 'ROLE_HEALER',
-    0x8000000 : 'ROLE_DAMAGE',
-    0x10000000 : 'CAN_DROP_IN_CHALLENGE_MODE',
-    0x20000000 : 'NEVER_STACK_IN_LOOT_UI',
-    0x40000000 : 'DISENCHANT_TO_LOOT_TABLE',
-    0x80000000 : 'USED_IN_A_TRADESKILL'
-}
-
-const itemStaticFlags2 = {
-    0x1 : 'DONT_DESTROY_ON_QUEST_ACCEPT',
-    0x2 : 'ITEM_CAN_BE_UPGRADED',
-    0x4 : 'UPGRADE_FROM_ITEM_OVERRIDES_DROP_UPGRADE',
-    0x8 : 'ALWAYS_FFA_IN_LOOT',
-    0x10 : 'HIDE_UPGRADE_LEVELS_IF_NOT_UPGRADED',
-    0x20 : 'UPDATE_INTERACTIONS',
-    0x40 : 'UPDATE_DOESNT_LEAVE_PROGRESSIVE_WIN_HISTORY',
-    0x80 : 'IGNORE_ITEM_HISTORY_TRACKER',
-    0x100 : 'IGNORE_ITEM_LEVEL_CAP_IN_PVP',
-    0x200 : 'DISPLAY_AS_HEIRLOOM', // Item appears as having heirloom quality ingame regardless of its real quality (does not affect stat calculation)
-    0x400 : 'SKIP_USE_CHECK_ON_PICKUP',
-    0x800 : 'OBSOLETE',
-    0x1000 : 'DONT_DISPLAY_IN_GUILD_NEWS', // Item is not included in the guild news panel
-    0x2000 : 'PVP_TOURNAMENT_GEAR',
-    0x4000 : 'REQUIRES_STACK_CHANGE_LOG',
-    0x8000 : 'UNUSED_FLAG',
-    0x10000 : 'HIDE_NAME_SUFFIX',
-    0x20000 : 'PUSH_LOOT',
-    0x40000 : 'DONT_REPORT_LOOT_LOG_TO_PARTY',
-    0x80000 : 'ALWAYS_ALLOW_DUAL_WIELD',
-    0x100000 : 'OBLITERATABLE',
-    0x200000 : 'ACTS_AS_TRANSMOG_HIDDEN_VISUAL_OPTION',
-    0x400000 : 'EXPIRE_ON_WEEKLY_RESET',
-    0x800000 : 'DOESNT_SHOW_UP_IN_TRANSMOG_UNTIL_COLLECTED',
-    0x1000000 : 'CAN_STORE_ENCHANTS',
-    0x2000000 : 'HIDE_QUEST_ITEM_FROM_OBJECT_TOOLTIP',
-    0x4000000 : 'DO_NOT_TOAST',
-    0x8000000 : 'IGNORE_CREATION_CONTEXT_FOR_PROGRESSIVE_WIN_HISTORY',
-    0x10000000 : 'FORCE_ALL_SPECS_FOR_ITEM_HISTORY',
-    0x20000000 : 'SAVE_ON_CONSUME',
-    0x40000000 : 'CONTAINER_SAVES_PLAYER_DATA',
-    0x80000000 : 'NO_VOID_STORAGE'
-}
-
-const itemStaticFlags3 = {
-    0x1 : 'HANDLE_ON_USE_EFFECT_IMMEDIATELY',
-    0x2 : 'ALWAYS_SHOW_ITEM_LEVEL_IN_TOOLTIP',
-    0x4 : 'SHOWS_GENERATION_WITH_RANDOM_STATS',
-    0x8 : 'ACTIVATE_ON_EQUIP_EFFECTS_WHEN_TRANSMOGRIFIED',
-    0x10 : 'ENFORCE_TRANSMOG_WITH_CHILD_ITEM',
-    0x20 : 'SCRAPABLE',
-    0x40 : 'BYPASS_REP_REQUIREMENTS_FOR_TRANSMOG',
-    0x80 : 'DISPLAY_ONLY_ON_DEFINED_RACES',
-    0x100 : 'REGULATED_COMMODITY',
-    0x200 : 'CREATE_LOOT_IMMEDIATELY',
-    0x400 : 'GENERATE_LOOT_SPEC_ITEM',
-    0x800: 'HIDDEN_IN_REWARD_SUMMARIES',
-    0x1000: 'DISALLOW_WHILE_LEVEL_LINKED',
-    0x2000: 'DISALLOW_ENCHANT',
-    0x4000: 'SQUISH_USING_ITEM_LEVEL_AS_PLAYER_LEVEL',
-    0x8000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP',
-    0x10000: 'COSMETIC_ITEM'
-}
-
 const classMask = {
     0x1 : 'WARRIOR',
     0x2 : 'PALADIN',
@@ -1358,6 +1233,161 @@ const spellAttributes14 = {
     0x00000001: 'Prevent Jumping During Precast',
 };
 
+// 151, part 0/4
+const itemStaticFlags0 = {
+    0x00000001: 'No Pickup',
+    0x00000002: 'Conjured', // Conjured item
+    0x00000004: 'Has Loot Table', // HAS_LOOT -- Item can be right clicked to open for loot
+    0x00000008: 'Heroic Tooltip', // Makes green "Heroic" text appear on item
+    0x00000010: 'Deprecated', // Cannot equip or use
+    0x00000020: 'No User Destroy', // Item can not be destroyed, except by using spell (item can be reagent for spell)
+    0x00000040: 'Player Cast', // Item's spells are castable by players
+    0x00000080: 'No Equip Cooldown', // No default 30 seconds cooldown when equipped
+    0x00000100: 'Multi-Loot Quest',
+    0x00000200: 'Gift Wrap', // IS_WRAPPER -- Item can wrap other items
+    0x00000400: 'Uses Resources',
+    0x00000800: 'Multi Drop', // Looting this item does not remove it from available loot
+    0x00001000: 'In-Game Refund', // ITEM_PURCHASE_RECORD -- Item can be returned to vendor for its original cost (extended cost)
+    0x00002000: 'Petition', // Item is guild or arena charter
+    0x00004000: 'Has Text', // Only readable items have this (but not all)
+    0x00008000: 'No Disenchant', 
+    0x00010000: 'Real Duration', 
+    0x00020000: 'No Creator',
+    0x00040000: 'Prospectable', // Item can be prospected
+    0x00080000: 'Unique Equippable', // You can only equip one of these
+    0x00100000: 'Disable Aura Quotas', // 'Disable Auto Qutoes' -- IGNORE_FOR_AURAS
+    0x00200000: 'Ignore Default Arena Restrictions', // Item can be used during arena match
+    0x00400000: 'No Durability Loss', // Some Thrown weapons have it (and only Thrown) but not all
+    0x00800000: 'Useable While Shapeshifted', // USE_WHEN_SHAPESHIFTED -- Item can be used in shapeshift forms
+    0x01000000: 'Has Quest Glow',
+    0x02000000: 'Hide Unusable Recipe', // Profession recipes can only be looted if you meet requirements and don't already know it
+    0x04000000: 'Not Usable In Arena', // Item cannot be used in arena
+    0x08000000: 'Bound to Account (must be soulbound)', // IS_BOUND_TO_ACCOUNT -- Item binds to account and can be sent only to your own characters
+    0x10000000: 'No Reagent Cost', // Spell is cast ignoring reagents
+    0x20000000: 'Millable', // Item can be milled
+    0x40000000: 'Report to Guild Chat',
+    0x80000000: 'Don\'t use dynamic drop chance (Quest)', // NO_DYNAMIC_DROP_CHANCE
+};
+
+// 151, part 1/4
+const itemStaticFlags1 = {
+    0x00000001: 'Horde specific item', // FACTION_HORDE
+    0x00000002: 'Alliance specific item', // FACTION_ALLIANCE
+    0x00000004: '(deprecated) Don\'t ignore buy prices when extended cost is specified', // DONT_IGNORE_BUY_PRICE -- when item uses extended cost, gold is also required
+    0x00000008: 'Only caster classes can roll need', // CLASSIFY_AS_CASTER
+    0x00000010: 'Only non-caster classes can roll need', // CLASSIFY_AS_PHYSICAL
+    0x00000020: 'Everyone can roll Need',
+    0x00000040: 'Cannot Trade Bind on Pickup', // NO_TRADE_BIND_ON_ACQUIRE
+    0x00000080: 'Can Trade Bind on Pickup', // CAN_TRADE_BIND_ON_ACQUIRE
+    0x00000100: 'Players can only roll Greed (Need Before Greed only)', // CAN_ONLY_ROLL_GREED
+    0x00000200: 'This is a caster weapon', // CASTER_WEAPON
+    0x00000400: 'Delete On Login',
+    0x00000800: 'Internal test item that players will never be able to see', // INTERNAL_ITEM
+    0x00001000: 'Vendors will not purchase this item (has no vendor value)', // NO_VENDOR_VALUE
+    0x00002000: 'Item is a well-known discovered item', // SHOW_BEFORE_DISCOVERED
+    0x00004000: 'Override the automatic cost calculation', // OVERRIDE_GOLD_COST
+    0x00008000: 'Ignore Default Rated Battleground Restrictions', // IGNORE_DEFAULT_RATED_BG_RESTRICTIONS
+    0x00010000: 'Not Usable In Rated Battleground', // NOT_USABLE_IN_RATED_BG
+    0x00020000: 'Bound to Battle.net Account (must be bound to account)', // BNET_ACCOUNT_TRADE_OK
+    0x00040000: 'Ask for confirmation before use', // CONFIRM_BEFORE_USE
+    0x00080000: 'Reevaluate binding when transforming to this item', // REEVALUATE_BONDING_ON_TRANSFORM
+    0x00100000: 'Don\'t transform when all charges are consumed', // NO_TRANSFORM_ON_CHARGE_DEPLETION
+    0x00200000: 'Cannot alter this item\'s visual appearance', // NO_ALTER_ITEM_VISUAL
+    0x00400000: 'Cannot alter items to look like this item', // NO_SOURCE_FOR_ITEM_VISUAL
+    0x00800000: 'Can be used as a source for item visual regardless of quality', // IGNORE_QUALITY_FOR_ITEM_VISUAL_SOURCE
+    0x01000000: 'No Durability',
+    0x02000000: '"Tank" role assignment required in order to get Need +Roll bonus in LFR', // ROLE_TANK
+    0x04000000: '"Healer" role assignment required in order to get Need +Roll bonus in LFR', // ROLE_HEALER
+    0x08000000: '"DPS" role assignment required in order to get Need +Roll bonus in LFR', // ROLE_DAMAGE
+    0x10000000: 'Item can drop in Challenge Mode', // CAN_DROP_IN_CHALLENGE_MODE
+    0x20000000: 'Don\'t stack this item in the loot window', // NEVER_STACK_IN_LOOT_UI
+    0x40000000: 'Disenchant to Loot Table',
+    0x80000000: 'Can be placed in reagent bank', // USED_IN_A_TRADESKILL
+};
+
+// 151, part 2/4
+const itemStaticFlags2 = {
+    0x00000001: 'Don\'t destroy on Quest Accept',
+    0x00000002: 'Item Can Be Upgraded',
+    0x00000004: 'Upgrade From Item Overrides Drop Upgrade',
+    0x00000008: 'Always Free For All in Loot', // ALWAYS_FFA_IN_LOOT
+    0x00000010: 'Hide Item Upgrades If Not Upgraded', // HIDE_UPGRADE_LEVELS_IF_NOT_UPGRADED
+    0x00000020: 'Update NPC Interactions when picked up', // UPDATE_INTERACTIONS
+    0x00000040: 'Doesn\'t leave progressive win history', // UPDATE_DOESNT_LEAVE_PROGRESSIVE_WIN_HISTORY
+    0x00000080: 'Ignore Item History Tracker',
+    0x00000100: 'Ignore Item Level Cap in PvP',
+    0x00000200: 'Display As Heirloom', // Item appears as having heirloom quality ingame regardless of its real quality (does not affect stat calculation)
+    0x00000400: 'Skip use check on pickup',
+    0x00000800: 'No Loot Overflow Mail', // OBSOLETE
+    0x00001000: 'Don\'t display in guild news', // Item is not included in the guild news panel
+    0x00002000: 'Trial of the Gladiator Gear', // PVP_TOURNAMENT_GEAR
+    0x00004000: 'Requires log line to be generated on stack count change', // REQUIRES_STACK_CHANGE_LOG
+    0x00008000: 'Toy', // UNUSED_FLAG
+    0x00010000: 'Suppress Name Suffixes', // HIDE_NAME_SUFFIX
+    0x00020000: 'Push Loot',
+    0x00040000: 'Don\'t report loot log to party/raid', // DONT_REPORT_LOOT_LOG_TO_PARTY
+    0x00080000: 'Always Allow Dual Wield',
+    0x00100000: 'Obliteratable',
+    0x00200000: 'Acts as Transmog Hidden Visual Option',
+    0x00400000: 'Expire On Weekly Reset',
+    0x00800000: 'Doesn\'t show up in transmog UI until collected', // DOESNT_SHOW_UP_IN_TRANSMOG_UNTIL_COLLECTED
+    0x01000000: 'Can store enchants',
+    0x02000000: 'Hide Quest Item from Object Tooltip',
+    0x04000000: 'Do Not Toast',
+    0x08000000: 'Ignore item creation context for progressive win history', // IGNORE_CREATION_CONTEXT_FOR_PROGRESSIVE_WIN_HISTORY
+    0x10000000: 'Force all specs for Item History', // FORCE_ALL_SPECS_FOR_ITEM_HISTORY
+    0x20000000: 'Save After Consume', // SAVE_ON_CONSUME
+    0x40000000: 'Loot Container Saves Player State', // CONTAINER_SAVES_PLAYER_DATA
+    0x80000000: 'No Void Storage',
+};
+
+const itemStaticFlags3 = {
+    0x00000001: 'Immediately Trigger On Use Binding Effects', // HANDLE_ON_USE_EFFECT_IMMEDIATELY
+    0x00000002: 'Always Display Item Level in Tooltip', // ALWAYS_SHOW_ITEM_LEVEL_IN_TOOLTIP
+    0x00000004: 'Display <Random additional stats> In Tooltip', // SHOWS_GENERATION_WITH_RANDOM_STATS
+    // official names incomplete
+    0x00000008: 'ACTIVATE_ON_EQUIP_EFFECTS_WHEN_TRANSMOGRIFIED',
+    0x00000010: 'ENFORCE_TRANSMOG_WITH_CHILD_ITEM',
+    0x00000020: 'SCRAPABLE',
+    0x00000040: 'BYPASS_REP_REQUIREMENTS_FOR_TRANSMOG',
+    0x00000080: 'DISPLAY_ONLY_ON_DEFINED_RACES',
+    0x00000100: 'REGULATED_COMMODITY',
+    0x00000200: 'CREATE_LOOT_IMMEDIATELY',
+    0x00000400: 'GENERATE_LOOT_SPEC_ITEM',
+    0x00000800: 'HIDDEN_IN_REWARD_SUMMARIES',
+    0x00001000: 'DISALLOW_WHILE_LEVEL_LINKED',
+    0x00002000: 'DISALLOW_ENCHANT',
+    0x00004000: 'SQUISH_USING_ITEM_LEVEL_AS_PLAYER_LEVEL',
+    0x00008000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP',
+    0x00010000: 'COSMETIC_ITEM'
+};
+
+// 169
+const itemDisplayInfoFlags = {
+    0x00000001: 'Emblazoned Tabard (Common)',
+    0x00000002: 'No Sheathed Kit During Spell Combat Anims',
+    0x00000004: 'Hide Pants and Belt',
+    0x00000008: 'Emblazoned Tabard (Rare)',
+    0x00000010: 'Emblazoned Tabard (Epic)',
+    0x00000020: 'Use Spear Ranged Weapon Attachment',
+    0x00000040: 'Inherit Character Animation',
+    0x00000080: 'Mirror Animation from Right Shoulder to Left',
+    0x00000100: 'Mirror Model When Equipped on Off-Hand',
+    0x00000200: 'Disable Tabard Geo (waist only)',
+    0x00000400: 'Mirror Model When Equipped on Main-Hand',
+    0x00000800: 'Mirror Model When Sheathed (Warglaives)',
+    0x00001000: 'Flip Model When Sheathed',
+    0x00002000: 'Use Alternate Weapon Trail Endpoints',
+    0x00004000: 'Force Sheathed if equipped as weapon',
+    0x00008000: 'Don\'t Close Hands',
+    0x00010000: 'Force Unsheathed for Spell Combat Anims',
+    0x00020000: 'Brewmaster Unsheathe',
+    0x00040000: 'Hide Belt Buckle',
+    0x00080000: 'No Default Bow String',
+    //0x00100000: 'Reserved for Future Patch',
+    // incomplete
+};
+
 // 190
 const worldMapAreaFlags = {
     0x00000001: 'Is Placeholder',
@@ -1592,6 +1622,52 @@ const animationDataFlags0 = {
     0x20000000: 'Spell Combat Behavior',
     0x40000000: 'Brewmaster Sheathe',
     0x80000000: 'Meta Animation',
+};
+
+// 266
+const animKitConfigConfigFlags = {
+    0x00000001: 'DEPRECATED: Force no animation blend in (use Blend Time Override : In Min&Max)',
+    0x00000002: 'DEPRECATED: Force no animation blend out (use Blend Time Override: Out Min&Max)',
+    0x00000004: 'Do not use: Advanced: Play on secondary track (disrupts blending)',
+    0x00000008: 'Instead of playing a fallback animation, skip segment',
+    0x00000010: 'Instead of playing a fallback animation, don\'t play kit at all',
+    0x00000020: 'If model is missing a desired bone set, use parent or ancestor bone set',
+    0x00000040: 'If model is missing a desired bone set, skip segment',
+    0x00000080: 'If model is missing a desired bone set, don\'t play kit at all',
+    0x00000100: 'Play on all children and descendant bone sets at same priority',
+    0x00000200: 'If any bone set is suppressed by a higher priority, skip segment',
+    0x00000400: 'If all bone sets are suppressed by a higher priority, skip segment',
+    0x00000800: 'If any bone set is suppressed by a higher priority, stop kit',
+    0x00001000: 'If all bone sets are suppressed by a higher priority, stop kit',
+    0x00002000: 'When no longer suppressed by a higher priority, restart current segment',
+    0x00004000: 'Advanced: Play segment even if bone set is missing (for animation mirroring)',
+    0x00008000: 'Advanced: Blocks secondary animation when active',
+    0x00010000: 'Advanced: Don\'t restart segment if the animation is unchanged following a set',
+    0x00020000: 'If any bone set is suppressed by a higher priority, suppress segment',
+    0x00040000: 'Instead of falling back to the STAND animation, skip segment',
+    0x00080000: 'Instead of falling back to the STAND animation, don\'t play kit at all',
+    0x00100000: 'When no longer suppressed by a higher priority, restart current kit',
+    0x00200000: 'Suppress *all* sounds originating from animation events',
+    0x00400000: 'Suppress sounds originating from *combat* animation events',
+    0x00800000: 'Force Sheathed',
+    0x01000000: 'Force Unsheathed',
+    0x02000000: 'Maintain Initial Facing',
+    0x04000000: 'Aim along unit\'s Smooth Facing',
+    0x08000000: 'Use Mod Cast Speed',
+    0x10000000: 'Aim Left Arm',
+    0x20000000: 'Aim Right Arm',
+    0x40000000: 'Disable Arm Aiming',
+    0x80000000: 'Speed up based on Percentage Complete',
+};
+
+// 271
+const criteriaFlags = {
+    0x00000001: 'Fail Achievement',
+    0x00000002: 'Reset on Start',
+    0x00000004: 'Server Only',
+    0x00000008: 'Always Save to DB (Use with Caution)',
+    0x00000010: 'Allow criteria to be decremented',
+    0x00000020: 'Is For Quest',
 };
 
 // 291
@@ -1831,6 +1907,15 @@ const playerConditionFlags = {
     0x00000400: 'Not Recently Transferred',
 }
 
+// 934
+const friendshipReputationFlags = {
+    0x00000001: 'No FX on Reaction Change',
+    0x00000002: 'No Log Text on Rep Gain',
+    0x00000004: 'No Log Text on Reaction Change',
+    0x00000008: 'Show Rep Gain and Reaction Change for Hidden Faction',
+    0x00000010: 'No Rep Gain Modifiers',
+};
+
 // 985
 const garrSiteFlags = {
     0: 'Top Level Only Site',
@@ -1930,34 +2015,47 @@ const optionalReagentItemFlag = {
     0x1: 'TooltipShowsAsStatModifications'
 }
 
-window.flagMap = new Map();
+const TransmogIllisionFlags = { // sic; from transmogconstantsdocumentation.lua 9.1.0.38312
+    0x00000001: 'HideUntilCollected',
+    0x00000002: 'PlayerConditionGrantsOnLogin',
+};
+const TransmogIllusionFlags = TransmogIllisionFlags;
 
+const ScriptedAnimationFlags = { // from scriptedanimationsdocumentation.lua 9.1.0.38312
+    0x00000001: 'UseTargetAsSource',
+};
+
+window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
+window.flagMap.set("animkitconfig.ConfigFlags", animKitConfigConfigFlags);
 window.flagMap.set("areapoi.Flags", areaPOIFlags);
 window.flagMap.set("areatable.Flags[0]", areaTableFlags);
 window.flagMap.set("areatable.Flags[1]", areaTableFlags2);
 window.flagMap.set("artifactpower.Flags", artifactPowerFlags);
-window.flagMap.set("battlepetstate.Flags", battlePetStateFlags);
 window.flagMap.set("battlemasterlist.Flags", battlemasterListFlags);
+window.flagMap.set("battlepetstate.Flags", battlePetStateFlags);
 window.flagMap.set("broadcasttext.Flags", broadcastTextFlags);
 window.flagMap.set("campaign.Flags", campaignFlags);
 window.flagMap.set("charsections.Flags", charSectionFlags);
 window.flagMap.set("charshipment.Flags", charShipmentFlags);
 window.flagMap.set("chatchannels.Flags", chatChannelsFlags);
-window.flagMap.set("chrcustomizationcategory.Flags", chrCustomizationCategoryFlag);
 window.flagMap.set("chrclasses.Flags", chrClassesFlags);
+window.flagMap.set("chrcustomizationcategory.Flags", chrCustomizationCategoryFlag);
 window.flagMap.set("chrmodel.Flags", chrModelFlags);
 window.flagMap.set("chrraces.Flags", chrRacesFlags);
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
 window.flagMap.set("creaturedisplayinfo.Flags", cdiFlags);
+window.flagMap.set("creaturedisplayinfo.Flags", creatureDisplayInfoFlags);
 window.flagMap.set("creaturemodeldata.Flags", creatureModelDataFlags);
+window.flagMap.set("criteria.Flags", criteriaFlags);
 window.flagMap.set("criteriatree.Flags", criteriaTreeFlags);
 window.flagMap.set("currencytypes.Flags[0]", currencyFlags);
 window.flagMap.set("currencytypes.Flags[1]", currencyFlagsB);
 window.flagMap.set("difficulty.Flags", difficultyFlags);
 window.flagMap.set("dungeonencounter.Flags", dungeonEncounterFlags);
 window.flagMap.set("emotes.EmoteFlags", emotesFlags);
+window.flagMap.set("friendshipreputation.Flags", friendshipReputationFlags);
 window.flagMap.set("garrability.Flags", garrAbilityFlags);
 window.flagMap.set("garrabilityeffect.Flags", garrAbilityEffectFlags);
 window.flagMap.set("garrautospell.Flags", garrAutoSpellFlags);
@@ -1973,6 +2071,7 @@ window.flagMap.set("garrsite.Flags", garrSiteFlags);
 window.flagMap.set("gemproperties.Type", socketColors);
 window.flagMap.set("globalstrings.Flags", globalstringsFlags);
 window.flagMap.set("holidays.Flags", holidayFlags);
+window.flagMap.set("itemdisplayinfo.Flags", itemDisplayInfoFlags);
 window.flagMap.set("itemsearchname.Flags[0]", itemStaticFlags0);
 window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
@@ -1982,20 +2081,21 @@ window.flagMap.set("itemsparse.Flags[0]", itemStaticFlags0);
 window.flagMap.set("itemsparse.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsparse.Flags[3]", itemStaticFlags3);
-window.flagMap.set("itemsubclass.Flags", itemSubClassFlags);
 window.flagMap.set("itemsubclass.DisplayFlags", itemSubClassDisplayFlags);
-window.flagMap.set("lightskybox.Flags", lightSkyboxFlags);
-window.flagMap.set("liquidtype.Flags", liquidTypeFlags);
+window.flagMap.set("itemsubclass.Flags", itemSubClassFlags);
+window.flagMap.set("journalinstance.Flags", journalInstanceFlags);
 window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
 window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
+window.flagMap.set("lightskybox.Flags", lightSkyboxFlags);
+window.flagMap.set("liquidtype.Flags", liquidTypeFlags);
 window.flagMap.set("map.Flags[0]", mapFlags);
 window.flagMap.set("map.Flags[1]", mapFlags2);
 window.flagMap.set("modifiedcraftingreagentitem.Flags", optionalReagentItemFlag);
 window.flagMap.set("mountcapability.Flags", mountCapabilityFlags);
 window.flagMap.set("phase.Flags", phaseFlags);
-window.flagMap.set("powertype.Flags", powerTypeFlags);
 window.flagMap.set("playercondition.ClassMask", classMask);
 window.flagMap.set("playercondition.Flags", playerConditionFlags);
+window.flagMap.set("powertype.Flags", powerTypeFlags);
 window.flagMap.set("questinfo.Modifiers", questTagModifierFlags);
 window.flagMap.set("questobjective.Flags", questObjectiveFlags);
 window.flagMap.set("questv2clitask.Flags[0]", questFlags0);
@@ -2008,11 +2108,16 @@ window.flagMap.set("skillline.Flags", skillLineFlags);
 window.flagMap.set("soundkit.Flags", soundkitFlags);
 window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
 window.flagMap.set("spelleffect.EffectAttributes", spellEffectEffectAttributes);
-window.flagMap.set("spellitemenchantment.Flags", spellItemEnchantmentFlags);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags0);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[1]", auraInterruptFlags1);
+window.flagMap.set("spellitemenchantment.Flags", spellItemEnchantmentFlags);
 window.flagMap.set("spellmisc.Attributes[0]", spellAttributes0);
 window.flagMap.set("spellmisc.Attributes[1]", spellAttributes1);
+window.flagMap.set("spellmisc.Attributes[10]", spellAttributes10);
+window.flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
+window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
+window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
+window.flagMap.set("spellmisc.Attributes[14]", spellAttributes14);
 window.flagMap.set("spellmisc.Attributes[2]", spellAttributes2);
 window.flagMap.set("spellmisc.Attributes[3]", spellAttributes3);
 window.flagMap.set("spellmisc.Attributes[4]", spellAttributes4);
@@ -2021,28 +2126,23 @@ window.flagMap.set("spellmisc.Attributes[6]", spellAttributes6);
 window.flagMap.set("spellmisc.Attributes[7]", spellAttributes7);
 window.flagMap.set("spellmisc.Attributes[8]", spellAttributes8);
 window.flagMap.set("spellmisc.Attributes[9]", spellAttributes9);
-window.flagMap.set("spellmisc.Attributes[10]", spellAttributes10);
-window.flagMap.set("spellmisc.Attributes[11]", spellAttributes11);
-window.flagMap.set("spellmisc.Attributes[12]", spellAttributes12);
-window.flagMap.set("spellmisc.Attributes[13]", spellAttributes13);
-window.flagMap.set("spellmisc.Attributes[14]", spellAttributes14);
 window.flagMap.set("spellmisc.SchoolMask", damageClass);
+window.flagMap.set("spellshapeshiftform.Flags", spellShapeshiftFormFlags);
 window.flagMap.set("spelltargetrestrictions.TargetCreatureType", targetCreatureType);
 window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
-window.flagMap.set("spellshapeshiftform.Flags", spellShapeshiftFormFlags);
+window.flagMap.set("stationery.Flags", stationeryFlags);
 window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
 window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
+window.flagMap.set("transmogillusion.Flags", TransmogIllusionFlags);
+window.flagMap.set("transmogset.Flags", transmogSetFlags);
+window.flagMap.set("transmogsetitem.Flags", transmogSetItemFlags);
 window.flagMap.set("uimap.Flags", uiMapFlags);
+window.flagMap.set("uimodelsceneactor.Flags", uiModelSceneActorFlags);
+window.flagMap.set("uiscriptedanimationeffect.Flags", ScriptedAnimationFlags);
 window.flagMap.set("vehiclepoitype.Flags", vehiclePOITypeFlags);
 window.flagMap.set("waypointedge.Flags", waypointEdgeFlags);
 window.flagMap.set("waypointnode.Flags", waypointNodeFlags);
 window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
-window.flagMap.set('stationery.Flags', stationeryFlags);
-window.flagMap.set('uimodelsceneactor.Flags', uiModelSceneActorFlags);
-window.flagMap.set('journalinstance.Flags', journalInstanceFlags);
-window.flagMap.set('transmogset.Flags', transmogSetFlags);
-window.flagMap.set('transmogsetitem.Flags', transmogSetItemFlags);
-window.flagMap.set('creaturedisplayinfo.Flags', creatureDisplayInfoFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

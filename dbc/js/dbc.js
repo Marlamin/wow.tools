@@ -174,6 +174,7 @@ function BGRA2RGBA(color){
 function getFlagDescriptions(db, field, value, targetFlags = 0){
     let usedFlags = Array();
     if (targetFlags == 0){
+        // eslint-disable-next-line no-undef
         targetFlags = flagMap.get(db + '.' + field);
     }
 
@@ -213,6 +214,7 @@ function fancyFlagTable(flagArrs){
 }
 
 function getEnum(db, field, value){
+    // eslint-disable-next-line no-undef
     const targetEnum = enumMap.get(db + '.' + field);
     return getEnumVal(targetEnum, value);
 }
