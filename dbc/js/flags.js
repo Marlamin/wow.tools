@@ -1758,6 +1758,13 @@ const scenarioFlags = {
     0x00000010: 'Grants Guild Dungeon Credit',
 };
 
+// 365
+const materialFlags = {
+    0x00000001: 'Is Metal',
+    0x00000002: 'Is Plate',
+    0x00000004: 'Is Chain',
+}
+
 // 546
 const stationeryFlags = {
     0x00000001: 'At Mailbox',
@@ -2088,6 +2095,7 @@ window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
 window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);
 window.flagMap.set("lightskybox.Flags", lightSkyboxFlags);
 window.flagMap.set("liquidtype.Flags", liquidTypeFlags);
+window.flagMap.set("material.Flags", materialFlags);
 window.flagMap.set("map.Flags[0]", mapFlags);
 window.flagMap.set("map.Flags[1]", mapFlags2);
 window.flagMap.set("modifiedcraftingreagentitem.Flags", optionalReagentItemFlag);

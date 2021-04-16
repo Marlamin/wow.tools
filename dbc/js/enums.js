@@ -2662,19 +2662,6 @@ const questObjectiveType = {
     19: 'AREA_TRIGGER_EXIT'
 }
 
-const transmogSourceTypeEnum = {
-    0: 'NONE',
-    1: 'JOURNAL_ENCOUNTER',
-    2: 'QUEST',
-    3: 'VENDOR',
-    4: 'WORLD_DROP',
-    5: 'HIDDEN_UNTIL_COLLECTED',
-    6: 'CANT_COLLECT',
-    7: 'ACHIEVEMENT',
-    8: 'PROFESSION',
-    9: 'NOT_VALID_FOR_TRANSMOG'
-}
-
 const itemModification = {
     0: 'TRANSMOGRIFY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_ALL',
     1: 'TRANSMOGRIFY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_0',
@@ -2851,6 +2838,20 @@ const weaponSwingType = {
     3: 'Agile',
     4: 'Pierce',
     5: 'Large Monster'
+}
+
+// 372
+const transmogSourceTypeEnum = {
+    0: 'Unknown',
+    1: 'Dungeon Journal Encounter',
+    2: 'Quest',
+    3: 'Vendor',
+    4: 'World Drop',
+    5: 'Hidden Until Collected',
+    6: 'Can\'t Collect',
+    7: 'Achievement',
+    8: 'Profession',
+    9: 'Not Valid for Transmog'
 }
 
 // 455
@@ -4752,6 +4753,8 @@ const enumNames = {
     291: 'LightSkybox::Flags',
     292: 'SpellInterrupts::InterruptFlags',
     // 299: 'CASC File flags?',
+    303: 'BattlepayDisplayFlag',
+    306: 'MovementFlags',
     318: 'LFGDungeons::Flags',
     327: 'PowerType::Flags',
     328: 'PowerType::PowerTypeEnum',
@@ -4767,7 +4770,9 @@ const enumNames = {
     // 357: 'Creature/m2 sound',
     // 358: 'Creature/m2 sound',
     360: 'ChrClasses::PrimaryStatPriority',
+    365: 'Material::Flags',
     367: 'WeaponSwingSounds2::SwingType', // added
+    372: 'TransmogSource',
     374: 'Sheating',
     // 377: 'Attachments',
     379: 'PrestigeLevelInfo::Flags',
