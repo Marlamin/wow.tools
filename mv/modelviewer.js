@@ -22,9 +22,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "81345e9f0c12583dd8c6e45e31d6a0c2",
-    cdnConfig: "351b01520795ba0a074cf9823143809d",
-    buildName: "9.0.2.35854",
+    buildConfig: "5c696374a39c18dafa7e5feae9851df3",
+    cdnConfig: "b793919fae4b0c67f8dd8578d084e607",
+    buildName: "9.1.0.38312",
     fileDataID: 397940,
     type: "m2",
     embedded: false
@@ -67,16 +67,16 @@ function loadSettings(applyNow = false){
     document.getElementById("showFPS").checked = Settings.showFPS;
 
     /* Enable/disable retail-only */
-    var storedRetailOnly = localStorage.getItem('settings[retailOnly]');
-    if (storedRetailOnly){
-        if (storedRetailOnly== "1"){
-            Settings.retailOnly = true;
-        } else {
-            Settings.retailOnly = false;
-        }
-    }
+    // var storedRetailOnly = localStorage.getItem('settings[retailOnly]');
+    // if (storedRetailOnly){
+    //     if (storedRetailOnly== "1"){
+    //         Settings.retailOnly = true;
+    //     } else {
+    Settings.retailOnly = false;
+    //     }
+    // }
 
-    document.getElementById("retailOnly").checked = Settings.retailOnly;
+    // document.getElementById("retailOnly").checked = Settings.retailOnly;
 
     /* Clear color */
     var storedCustomClearColor = localStorage.getItem('settings[customClearColor]');
@@ -138,11 +138,11 @@ function saveSettings(){
         localStorage.setItem('settings[showFPS]', '0');
     }
 
-    if (document.getElementById("retailOnly").checked){
-        localStorage.setItem('settings[retailOnly]', '1');
-    } else {
-        localStorage.setItem('settings[retailOnly]', '0');
-    }
+    // if (document.getElementById("retailOnly").checked){
+    //     localStorage.setItem('settings[retailOnly]', '1');
+    // } else {
+    //     localStorage.setItem('settings[retailOnly]', '0');
+    // }
 
     localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
     localStorage.setItem('settings[farClip]', document.getElementById("farClip").value);
