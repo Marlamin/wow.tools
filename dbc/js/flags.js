@@ -1636,6 +1636,13 @@ const itemSubClassFlags = {
     0x00000200: 'Uses Inv Type',
 };
 
+// 332
+const itemSubClassDisplayFlags = {
+    0x1: 'Hide SubClass In Tooltips',
+    0x2: 'Hide SubClass In Auction',
+    0x3: 'Show Item Count',
+}
+
 // 346
 const chrClassesFlags = {
     0x00000001: 'Use Loincloth',
@@ -1673,6 +1680,51 @@ const scenarioFlags = {
     0x00000004: 'Use Proving Grounds Display (deprecated)',
     0x00000008: 'Use Dungeon Display (deprecated)',
     0x00000010: 'Grants Guild Dungeon Credit',
+};
+
+// 546
+const stationeryFlags = {
+    0x00000001: 'At Mailbox',
+    0x00000002: 'Customer Support',
+};
+
+// 556
+const uiModelSceneActorFlags = {
+    0x00000001: 'DEPRECATED (was normalize scale)',
+    0x00000002: 'Use Model\'s X center as X origin',
+    0x00000004: 'Use Model\'s Y center as Y origin',
+    0x00000008: 'Use Model\'s Z center as Z origin',
+};
+
+// 562
+const journalInstanceFlags = {
+    0x00000001: 'Timewalker Available',
+    0x00000002: 'Hide User-Selectable Difficulty',
+};
+
+// 565
+const transmogSetFlags = {
+    0x00000001: 'Not in Transmog Set UI',
+    0x00000002: 'Hidden Until Collected',
+    0x00000004: 'Alliance Only',
+    0x00000008: 'Horde Only',
+    0x00000010: 'PVP Set',
+};
+
+// 566
+const transmogSetItemFlags = {
+    0x00000001: 'Primary in Slot',
+    0x00000002: 'Auto-Fill Source',
+};
+
+// 573
+const creatureDisplayInfoFlags = {
+    0x00000001: 'No Shadow Blob',
+    0x00000002: 'Permanent Visual Kit Persists When Dead',
+    0x00000004: 'Don\'t change move anims based on scale',
+    0x00000008: 'Override Combat Reach',
+    0x00000010: 'Override Melee Range',
+    0x00000020: 'No Fuzzy Hit',
 };
 
 // 603
@@ -1931,6 +1983,7 @@ window.flagMap.set("itemsparse.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsparse.Flags[3]", itemStaticFlags3);
 window.flagMap.set("itemsubclass.Flags", itemSubClassFlags);
+window.flagMap.set("itemsubclass.DisplayFlags", itemSubClassDisplayFlags);
 window.flagMap.set("lightskybox.Flags", lightSkyboxFlags);
 window.flagMap.set("liquidtype.Flags", liquidTypeFlags);
 window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
@@ -1984,6 +2037,12 @@ window.flagMap.set("vehiclepoitype.Flags", vehiclePOITypeFlags);
 window.flagMap.set("waypointedge.Flags", waypointEdgeFlags);
 window.flagMap.set("waypointnode.Flags", waypointNodeFlags);
 window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
+window.flagMap.set('stationery.Flags', stationeryFlags);
+window.flagMap.set('uimodelsceneactor.Flags', uiModelSceneActorFlags);
+window.flagMap.set('journalinstance.Flags', journalInstanceFlags);
+window.flagMap.set('transmogset.Flags', transmogSetFlags);
+window.flagMap.set('transmogsetitem.Flags', transmogSetItemFlags);
+window.flagMap.set('creaturedisplayinfo.Flags', creatureDisplayInfoFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

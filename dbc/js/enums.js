@@ -32,26 +32,27 @@ const mapTypes = {
     5: 'Scenario',
 }
 
+// 585
 const itemBonusTypes = {
-    0: 'Unk',
-    1: 'ItemLevel',
-    2: 'StatModifier',
-    3: 'QualityModifier',
-    4: 'TitleModifier',
-    5: 'NameModifier',
-    6: 'Socket',
-    7: 'Appearance',
-    8: 'RequiredLevel',
-    9: 'DisplayToastMethod',
-    10: 'RepairCostMultiplier',
-    11: 'ScalingStatDistribution',
-    12: 'DisenchantLootID',
-    13: 'ScalingStatDistributionFixed',
-    14: 'ItemLevelCanIncrease',
-    15: 'RandomEnchantment',
-    16: 'Bonding',
-    17: 'RelicType',
-    18: 'OverrideRequiredLevel',
+    0: 'No Bonus',
+    1: 'Increase iLevel by {#Item Level}',
+    2: 'Increase Bonus Stat {@g_bonusStatFields} by {#Percentage}% of budget',
+    3: 'Set Item Quality to {@ITEM_QUALITY}',
+    4: 'Add Custom Tooltip "{ItemNameDescription}" in slot {#Slot}',
+    5: 'Set Name Suffix "{ItemNameDescription}" at priority {#Priority}',
+    6: 'Add {#Num Sockets} socket(s) of type {$Item Socket Type}',
+    7: 'Set Item Appearance Modifier "{ItemAppearanceModifier}" at priority {#Priority}',
+    8: 'Increase required level by {#Required Level}',
+    9: 'When received, toast item with "{$Item Toast}" at priority {#Priority}',
+    10: 'Multiply repair cost by {#Repair Cost Multiplier}%',
+    11: 'Scaling Stat Distribution "{ScalingStatDistribution}" at priority {#Priority}',
+    12: 'Set Disenchant Loot to "{Treasure}" at priority {#Priority}',
+    13: 'Fixed Stat Distribution "{ScalingStatDistribution}" at priority {#Priority} + ContentTuning (optional) "{ContentTuning}"',
+    14: 'Preview as Item Pyramid',
+    15: 'Is Client Preview',
+    16: 'Set Bind Type to {@ITEM_BIND}',
+    17: 'Secondary Relic Power Label{}',
+    18: 'Set Required Level to {#Required Level}',
     19: 'AzeriteTierUnlockSetID',
     21: 'CanDisenchant',
     22: 'CanScrap',
@@ -61,7 +62,7 @@ const itemBonusTypes = {
     30: 'ItemDescription',
     31: 'LegendaryName',
     34: 'ItemBonusListGroupID'
-}
+};
 
 const criteriaTreeOperator = {
     0: 'SINGLE',
@@ -3796,6 +3797,24 @@ const ObjectEffectPackageElem_StateType = {
     850: 'Anim - ATTACKUNARMEDVAR2',
 };
 
+// 555
+const uiModelSceneCameraCameraType = {
+    0: 'Orbit',
+};
+
+// 567
+const expectedStatExpansionID = {
+    '-2': '- INVALID -',
+    0: 'Classic',
+    1: 'Burning Crusade',
+    2: 'Wrath of the Lich King',
+    3: 'Cataclysm',
+    4: 'Mists of Pandaria',
+    5: 'Warlords of Draenor',
+    6: 'Legion',
+    7: 'Battle for Azeroth',
+};
+
 // 588
 const scenarioEventEntryTriggerType = {
     0: 'When the step starts',
@@ -4627,7 +4646,7 @@ const enumNames = {
     169: 'ItemDisplayInfo::Flags',
     170: 'GarrBuilding::BuildingType',
     174: 'Real world currencies',
-    178: 'SpellAuraInterruptFlags',
+    178: 'SpellInterruptFlags',
     // 180: 'Chat Message Type',
     188: 'AreaPOI::Flags', // updated
     190: 'WorldMapArea::Flags',
@@ -4642,7 +4661,7 @@ const enumNames = {
     201: 'EmoteFlags',
     // 205: 'SpellVisual',
     220: 'ChatChannels::Flags',
-    223: 'SpellShapeShift::Flags',
+    223: 'SpellShapeShiftForm::Flags',
     236: 'CreatureModelData::Flags',
     237: 'SummonProperties::Slot',
     238: 'SummonProperties::Control',
@@ -4650,6 +4669,7 @@ const enumNames = {
     // 247: 'SpellVisualKit',
     251: 'BroadcastText::Flags',
     // 252: 'Consumable item types',
+    256: 'BattlemasterList::Flags',
     258: 'ArtifactPower::Flags',
     259: 'InventorySlotName',
     265: 'AnimationData::Flags',
@@ -4668,6 +4688,7 @@ const enumNames = {
     327: 'PowerType::Flags',
     328: 'PowerType::PowerTypeEnum',
     // 330: 'visual swing type',
+    332: 'ItemSubClass::Flags',
     336: 'InventoryTypeNames',
     338: 'Gender',
     345: 'SpellCategories::PreventionType',
@@ -4703,10 +4724,16 @@ const enumNames = {
     // 522: 'Map/dungeon flags',
     531: 'ItemSpec::Primary/SecondaryStat',
     // 538: 'Light data types',
+    546: 'Stationery::Flags',
+    555: 'UiModelSceneCamera::CameraType',
+    556: 'UiModelSceneActor::Flags',
     558: 'Holidays::Flags',
+    562: 'JournalInstance::Flags',
     564: 'GameObjects::TypeID',
     565: 'TransmogSet::Flags',
+    566: 'TransmogSetItem::Flags',
     567: 'ExpectedStat::ExpansionID',
+    573: 'CreatureDisplayInfo::Flags',
     585: 'ItemBonus::Type',
     // 586: 'Friendly table names/categories?',
     588: 'ScenarioEventEntry::TriggerType',
@@ -4733,6 +4760,7 @@ const enumNames = {
     // 689: 'the answer to the minimap question',
     692: 'Map::InstanceType', // updated
     693: 'ScenarioStep::Flags',
+    697: 'BattlepayProductGroupFlag',
     706: 'Difficulty::Flags',
     709: 'CharacterServiceInfo::BoostType',
     712: 'AzeriteTier',
@@ -4814,6 +4842,7 @@ const enumNames = {
     1097: 'SoulbindConduit::ConduitType',
     1099: 'GarrAutoCombatant::Role',
     1103: 'OptionalReagentItemFlag',
+    1129: 'BattlepayGroupDisplayType',
 }
 
 // Regular enums
@@ -4925,6 +4954,8 @@ enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
 enumMap.set("waypointnode.Field_8_2_0_30080_005", waypointNodeField_8_2_0_30080_005);
 enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
 enumMap.set("weather.Type", weatherType);
+enumMap.set('uimodelscenecamera.CameraType', uiModelSceneCameraCameraType);
+enumMap.set('expectedstat.ExpansionID', expectedStatExpansionID);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
