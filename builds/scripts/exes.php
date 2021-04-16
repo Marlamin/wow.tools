@@ -21,6 +21,9 @@ $res = $pdo->query(
 );
 
 while ($row = $res->fetch()) {
+    if ($row['bdid'] < 1830)
+        continue;
+
     if ($row['bdid'] > 1315) {
         switch ($row['product']) {
             case "wow":
