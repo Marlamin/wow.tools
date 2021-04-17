@@ -94,8 +94,8 @@ $('#creatures').on('click', 'tbody tr td', function() {
     $("#creatures_preview").html("Loading..");
     var data = Elements.table.row($(this).parent()).data();
     loadCreatureInfo(data[0])
-    .then(data => {
-        renderCreatureInfo(data); // JSON data parsed by `response.json()` call
+    .then(returnedData => {
+        renderCreatureInfo(data[0], returnedData); // JSON data parsed by `response.json()` call
     });
 
     $(".selected").removeClass("selected");
@@ -114,7 +114,7 @@ async function loadCreatureInfo(id){
     return response.json();
 }
 
-function renderCreatureInfo(info){
+function renderCreatureInfo(id, info){
     let result = "";
     result += "<h2>" + info["Name[0]"];
 
@@ -122,7 +122,8 @@ function renderCreatureInfo(info){
         result += "<small>&lt;" + info['Title'] + "&gt;</small>"
     }
 
-    result += "</h2>";
+    result += " <a target='_BLANK' href='https://wowhead.com/npc=" + id + "' class='btn btn-sm align-middle btn-outline-primary'>Wowhead</a> ";
+    result += "<a target='_BLANK' href='https://wowdb.com/npcs/" + id + "' class='btn btn-sm align-middle btn-outline-primary'>WoWDB</a></h2>";
     result += "<iframe width='950' height='700' src='https://wow.tools/mv/?filedataid=" + info["filedataid"] + "&type=m2&embed=true'></iframe><div id='tableContainer'><table class='table table-sm table-striped table-hover' id='creatureInfoTable'></table></div>";
 
     $("#creatures_preview").html(result);
