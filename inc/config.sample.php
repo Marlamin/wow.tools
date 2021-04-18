@@ -8,9 +8,7 @@ if(empty($disableBugsnag)){
 	require_once(__DIR__ . "/bugsnag/autoload.php");
 }
 
-$db = '';
-$dbuser = '';
-$dbpassword = '';
+require_once(__DIR__ . "/db.php");
 
 $dbOptions = [
   PDO::ATTR_EMULATE_PREPARES   => false,

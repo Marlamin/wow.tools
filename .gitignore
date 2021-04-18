@@ -1,5 +1,6 @@
 # Config file
 inc/config.php
+inc/db.php
 
 # Data
 tpr/
