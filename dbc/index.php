@@ -736,6 +736,20 @@ function loadTable() {
     let tableHeaders = "";
     let idHeader = 0;
 
+    const buildSplit = currentParams["build"].split('.');
+    const buildOnly = buildSplit[buildSplit.length - 1];
+
+    let hotfixedIDs = [];
+    
+    if (currentParams["hotfixes"]) {
+        fetch("https://api.wow.tools/databases/" + currentParams["dbc"] + "/hotfixes?build=" + buildOnly)
+        .then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            hotfixedIDs = data;
+        });
+    }
+
     $.ajax({
         "url": "/dbc/api/header/" + currentParams["dbc"] + "/?build=" + currentParams["build"],
         "success": function(json) {
@@ -1069,6 +1083,10 @@ function loadTable() {
                             if (parsedDate && parsedDate != "")
                                 returnVar = parsedDate + "<small> (" + full[meta.col] +
                                 ")</small>";
+                        }
+
+                        if(meta.col == idHeader && (Number(full[meta.col]) in hotfixedIDs)){
+                            returnVar += "<a href='/dbc/hotfixes.php?search=pushid:" + hotfixedIDs[Number(full[meta.col])] + "' target='_BLANK'><i style='color: orange' class='fa fa-pencil-square' data-trigger='hover' data-container='body' data-toggle='popover' data-content='This row was added or modified in a hotfix. Click to go to diff.'></i></a>";
                         }
 
                         return returnVar;
