@@ -40,10 +40,10 @@ while ($row = $res->fetch()) {
                 $target = "WowT.exe";
                 break;
             case "wow_beta":
-            case "wowz":
             case "wowe1":
                 $target = "WowB.exe";
                 break;
+            case "wowz":
             case "wow_classic_beta":
                 $target = "WowClassicB.exe";
                 break;
