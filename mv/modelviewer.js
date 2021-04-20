@@ -250,6 +250,7 @@ window.createscene = function () {
                 if (a in animationNames){
                     $('#animationSelect').append('<option value="' + a + '">' + animationNames[a] + ' (' + a + ')</option>');
                 } else {
+                    console.log("Missing animation name for " + a + ", let a dev know!");
                     $('#animationSelect').append('<option value="' + a + '">Animation ' + a + '</option>');
                 }
             })
