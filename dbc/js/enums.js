@@ -2941,6 +2941,7 @@ const itemContext = {
     83: "Raid: Raid Finder (Extended)",
     84: "Raid: Heroic (Extended)",
     85: "Raid: Mythic (Extended)",
+    86: "9.1 Character Template",
 }
 
 // 457
