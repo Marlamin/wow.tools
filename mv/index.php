@@ -217,6 +217,11 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
+                <h5>Version 0.10.0 <small>(24-04-2021)</small></h5>
+                <ul>
+                    <li>(UI) Rework skin selection to be DisplayID based (off by default for now)</li>
+                    <li>(MV) Various updates</li>
+                </ul>
                 <h5>Version 0.9.7 <small>(29-07-2020)</small></h5>
                 <ul>
                     <li>(MV) Various updates</li>

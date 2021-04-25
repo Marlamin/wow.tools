@@ -51,6 +51,11 @@ var numDownloading = 0;
 var screenshot = false;
 var stats = new Stats();
 
+const materialResourceMap = new Map();
+
+const filenameMap = new Map();
+filenameMap.set("0", "No texture");
+
 function loadSettings(applyNow = false){
     /* Show/hide FPS counter */
     var storedShowFPS = localStorage.getItem('settings[showFPS]');
@@ -541,16 +546,55 @@ async function loadModelDisplays() {
             opt.value = result['TextureVariationFileDataID[0]'] + "," + result['TextureVariationFileDataID[1]'] + "," + result['TextureVariationFileDataID[2]'];
             opt.dataset.displayid = result.ID;
             opt.dataset.type = 'creature';
+
+            if(!filenameMap.has(result['TextureVariationFileDataID[0]'])){
+                const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + result['TextureVariationFileDataID[0]']);
+                const filenameContents = await filenameResponse.text();
+                if(filenameContents != ""){
+                    filenameMap.set(result['TextureVariationFileDataID[0]'], filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
+                }else{
+                    filenameMap.set(result['TextureVariationFileDataID[0]'], "Unknown");
+                }
+            }
+
+            opt.innerHTML = result.ID + " (" + filenameMap.get(result['TextureVariationFileDataID[0]']) + ")";
         }else if(result.ResultType == "item"){
-            // TODO: Material -> FDID lookup
-            opt.value = result.ID;
+            if(result['ModelMaterialResourcesID[0]'] != "0" && !materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
+                const materialResponse = await fetch("/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
+                const materialJson = await materialResponse.json();
+
+                if(materialJson.values.FileDataID != undefined){
+                    materialResourceMap.set(materialJson.values.MaterialResourcesID, materialJson.values.FileDataID);
+
+                    if(!filenameMap.has(materialJson.values.FileDataID)){
+                        const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + materialJson.values.FileDataID);
+                        const filenameContents = await filenameResponse.text();
+                        if(filenameContents != ""){
+                            filenameMap.set(materialJson.values.FileDataID, filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
+                        }else{
+                            filenameMap.set(materialJson.values.FileDataID, "Unknown");
+                        }
+                    }
+                }
+            }else{
+                opt.innerHTML = "DisplayID " + result.ID;
+            }
+
+            if(materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
+                opt.value = materialResourceMap.get(result['ModelMaterialResourcesID[0]']);
+                opt.innerHTML = result.ID + " (" +  filenameMap.get(materialResourceMap.get(result['ModelMaterialResourcesID[0]'])) + ")";
+            }else{
+                opt.value = 0;
+                opt.innerHTML = result.ID + " (Unknown)";
+            }
+            
             opt.dataset.displayid = result.ID;
             opt.dataset.type = 'item';
         }
 
+        // TODO: If display ID is given (through URL params??), set to selected otherwise select first
         const givenDisplayID = 0;
 
-        // TODO: If display ID is given (through URL params??), set to selected otherwise select first
         if(result.ID == givenDisplayID){
             opt.selected = true;
             setModelDisplay(result.ID, result.ResultType);
@@ -559,11 +603,14 @@ async function loadModelDisplays() {
             setModelDisplay(result.ID, result.ResultType);   
         }
 
-        opt.innerHTML = "DisplayID " + result.ID;
         skinSelect.appendChild(opt);
     }
 
     skinSelect.style.display = "block";
+
+    if(skinSelect.options.length > 0){
+        document.getElementById("js-controls").classList.remove("closed");
+    }
 }
 
 async function findCreatureModelDataRows(){
@@ -744,6 +791,7 @@ function updateTextures(){
 }
 
 async function setModelDisplay(displayID, type){
+    console.log("Selected Display ID " + displayID);
     if(type == "creature"){
         const response = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
         const cdiRow = await response.json();
@@ -768,10 +816,39 @@ async function setModelDisplay(displayID, type){
             Module._resetReplaceParticleColor();
         }
 
-        // TODO: CreatureModelData for scale?
-        // TODO: Geosets
+        const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ModelID']);
+        const cmdRow = await cmdResponse.json();
+        // TODO: Model scale? Anything else from CMD?
+
+        // Geosets
+        // TODO: Call reset geoset function
+        console.log("TODO: Call geosetReset()");
+
+        if(cmdRow.values.CreatureGeosetDataID != "0"){
+            const geosetResponse = await fetch("/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
+            const geosetResults = await geosetResponse.json();
+            for(const geosetRow of geosetResults){
+                const geosetID = (100 * (geosetRow.GeosetIndex + 1)) + geosetRow.GeosetValue;
+                // TODO: Call geoset set function
+                console.log("TODO: Call geosetEnable(" + geosetID + ")");
+            }
+        }else{
+        }
     }else if(type == "item"){
-        // TODO: Items
+        // TODO: Items, this is very rough support, only supports ModelMaterialResourcesID[0]
+
+        // Textures
+        // Probably don't request loadItemDisplays all over again
+        const displays = await loadItemDisplays();
+        for(const display of displays){
+            if(display.ID != displayID)
+                continue;
+            
+            console.log(display);
+
+            setModelTexture([materialResourceMap.get(display['ModelMaterialResourcesID[0]'])], 2);
+        }
+
     }
 }
 
