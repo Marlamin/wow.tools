@@ -133,7 +133,7 @@ function loadSettings(applyNow = false){
         }   
     }
 
-    // document.getElementById("newDisplayInfo").checked = Settings.newDisplayInfo;
+    document.getElementById("newDisplayInfo").checked = Settings.newDisplayInfo;
 
     /* If settings should be applied now (don't do this on page load!) */
     if (applyNow){
@@ -165,6 +165,12 @@ function saveSettings(){
         localStorage.setItem('settings[portalCulling]', '1');
     } else {
         localStorage.setItem('settings[portalCulling]', '0');
+    }
+
+    if (document.getElementById("newDisplayInfo").checked){
+        localStorage.setItem('settings[newDisplayInfo]', '1');
+    } else {
+        localStorage.setItem('settings[newDisplayInfo]', '0');
     }
     loadSettings(true);
 }

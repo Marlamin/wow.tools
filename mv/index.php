@@ -118,7 +118,8 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
                     <input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label><br>
                     <input type='text' id='farClip' name='settings[farClip]'> <label for='farClip'>View distance</label><br>
                     <input type='text' id='farClipCull' name='settings[farClipCull]'> <label for='farClipCull'>Model culling distance</label><br>
-                    <input type='checkbox' id='portalCulling' name='settings[portalCulling]'> <label for='portalCulling'>Enable portal culling?</label>
+                    <input type='checkbox' id='portalCulling' name='settings[portalCulling]'> <label for='portalCulling'>Enable portal culling?</label><br>
+                    <input type='checkbox' id='newDisplayInfo' name='settings[newDisplayInfo]'> <label for='newDisplayInfo'>(WIP) Use new DisplayID based skin selection?</label>
                 </form>
             </div>
             <div class="modal-footer">
