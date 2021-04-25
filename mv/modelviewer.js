@@ -22,9 +22,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "5c696374a39c18dafa7e5feae9851df3",
-    cdnConfig: "b793919fae4b0c67f8dd8578d084e607",
-    buildName: "9.1.0.38312",
+    buildConfig: "e759532efbc5fbc3ce094f8da5d9aa2e",
+    cdnConfig: "76f0f23d8299e48169c578174da17835",
+    buildName: "9.1.0.38394",
     fileDataID: 397940,
     type: "m2",
     embedded: false
@@ -39,7 +39,8 @@ var Settings =
     farClip: 500,
     farClipCull: 500,
     speed: 1000.0,
-    portalCulling: true
+    portalCulling: true,
+    newDisplayInfo: false
 
 }
 
@@ -121,6 +122,18 @@ function loadSettings(applyNow = false){
     }
 
     document.getElementById("portalCulling").checked = Settings.portalCulling;
+
+    /* New Display Info */
+    var newDisplayInfo = localStorage.getItem('settings[newDisplayInfo]');
+    if (newDisplayInfo){
+        if (newDisplayInfo== "1"){
+            Settings.newDisplayInfo = true;
+        } else {
+            Settings.newDisplayInfo = false;
+        }   
+    }
+
+    // document.getElementById("newDisplayInfo").checked = Settings.newDisplayInfo;
 
     /* If settings should be applied now (don't do this on page load!) */
     if (applyNow){
@@ -386,22 +399,26 @@ window.addEventListener('keypress', function(event){
 }, true);
 
 $("#animationSelect").change(function () {
-    var display = $("#animationSelect option:selected").attr("value");
+    var display = this.options[this.selectedIndex].value;
     Module._setAnimationId(display);
 });
 
 $("#skinSelect").change(function() {
-    var display = $("#skinSelect option:selected").attr("value").split(',');
-
-    if (display.length == 3 || display.length == 4){
-        // Creature
-        if (display.length == 3){
-            Module._resetReplaceParticleColor();
+    if(this.options[this.selectedIndex].dataset.displayid == undefined){
+        // Backwards compat
+        var display = this.options[this.selectedIndex].value.split(',');
+        if (display.length == 3 || display.length == 4){
+            // Creature
+            if (display.length == 3){
+                Module._resetReplaceParticleColor();
+            }
+            setModelTexture(display, 11);
+        } else {
+            // Item
+            setModelTexture(display, 2);
         }
-        setModelTexture(display, 11);
-    } else {
-        // Item
-        setModelTexture(display, 2);
+    }else{
+        setModelDisplay(this.options[this.selectedIndex].dataset.displayid, this.options[this.selectedIndex].dataset.type);
     }
 });
 
@@ -465,7 +482,11 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                     Module._setScene(1, ptrName, -1);
                 } else if (Current.type == "m2") {
                     Module._setScene(0, ptrName, -1);
-                    loadModelTextures();
+                    if(!Settings.newDisplayInfo){
+                        loadModelTextures();
+                    }else{
+                        loadModelDisplays();
+                    }
                 } else {
                     console.log("Unsupported type: " + Current.type);
                 }
@@ -477,12 +498,131 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                     Module._setSceneFileDataId(1, Current.fileDataID, -1);
                 } else if (Current.type == "m2") {
                     Module._setSceneFileDataId(0, Current.fileDataID, -1);
-                    loadModelTextures();
+                    if(!Settings.newDisplayInfo){
+                        loadModelTextures();
+                    }else{
+                        loadModelDisplays();
+                    }
                 } else {
                     console.log("Unsupported type: " + Current.type);
                 }
             }
         });
+}
+
+async function loadModelDisplays() {
+    const cmdRows = await findCreatureModelDataRows();
+
+    let results;
+    if(cmdRows.length > 0){
+        results = await loadCreatureDisplays(cmdRows);
+    }else{
+        results = await loadItemDisplays();
+    }
+
+    if (results == undefined || results.length == 0)
+        return;
+    
+    const skinSelect = document.getElementById("skinSelect");
+    skinSelect.length = 0;
+
+    // Filenames?
+    for(const result of results){
+        var opt = document.createElement('option');
+
+        if(result.ResultType == "creature"){
+            // Backwards compat with current model texture setting
+            opt.value = result['TextureVariationFileDataID[0]'] + "," + result['TextureVariationFileDataID[1]'] + "," + result['TextureVariationFileDataID[2]'];
+            opt.dataset.displayid = result.ID;
+            opt.dataset.type = 'creature';
+        }else if(result.ResultType == "item"){
+            // TODO: Material -> FDID lookup
+            opt.value = result.ID;
+            opt.dataset.displayid = result.ID;
+            opt.dataset.type = 'item';
+        }
+
+        const givenDisplayID = 0;
+
+        // TODO: If display ID is given (through URL params??), set to selected otherwise select first
+        if(result.ID == givenDisplayID){
+            opt.selected = true;
+            setModelDisplay(result.ID, result.ResultType);
+        } else if(skinSelect.children.length == 0){
+            opt.selected = true;
+            setModelDisplay(result.ID, result.ResultType);   
+        }
+
+        opt.innerHTML = "DisplayID " + result.ID;
+        skinSelect.appendChild(opt);
+    }
+
+    skinSelect.style.display = "block";
+}
+
+async function findCreatureModelDataRows(){
+    const response = await fetch("/dbc/api/find/CreatureModelData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const json = await response.json();
+    return json;
+}
+
+async function loadCreatureDisplays(cmdRows){
+    const cdiPromises = Array(cmdRows.length);
+    let index = 0;
+    for (const cmdRow of cmdRows) {
+        cdiPromises[index++] = fetch("/dbc/api/find/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ModelID&val=" + cmdRow.ID);
+    }
+
+    const cdiResult = await Promise.all(cdiPromises);
+    const data = Array(cdiResult.length);
+    index = 0;
+    for(const response of cdiResult)
+        data[index++] = await response.json();
+
+    const result = [];
+    index = 0
+    for (const entry of data){
+        for (const row of entry){
+            // TODO: Generic result format?
+            result[index] = row;
+            result[index].ResultType = "creature";
+            index++;
+        }
+    }
+
+    return result;
+}
+
+async function loadItemDisplays(){
+    const response = await fetch("/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const modelFileData = await response.json();
+
+    if(modelFileData.values['ModelResourcesID'] === undefined)
+        return [];
+
+    const idiPromises = [
+        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[0]&val=" + modelFileData.values['ModelResourcesID']),
+        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[1]&val=" + modelFileData.values['ModelResourcesID'])
+    ];
+
+    const idiResult = await Promise.all(idiPromises);
+    const data = Array(idiResult.length);
+    index = 0;
+    for(const response of idiResult)
+        data[index++] = await response.json();
+
+    const result = [];
+    index = 0
+    for (const entry of data){
+        for (const row of entry){
+            // TODO: Generic result format?
+            result[index] = row;
+            result[index].ResultType = "item";
+            index++;
+        }
+    }
+
+    return result;
 }
 
 function loadModelTextures() {
@@ -586,6 +726,7 @@ function handleDownloadFinished(url){
     unqueueDL(url);
 }
 
+// Called by texture model save button
 function updateTextures(){
     const textureArray = new Int32Array(18);
     for (let i = 0; i < 18; i++){
@@ -594,6 +735,38 @@ function updateTextures(){
         }
     }
     setModelTexture(textureArray, 0);
+}
+
+async function setModelDisplay(displayID, type){
+    if(type == "creature"){
+        const response = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+        const cdiRow = await response.json();
+
+        if(Object.keys(cdiRow.values).length == 0)
+            return;
+
+        // Textures
+        setModelTexture([cdiRow.values['TextureVariationFileDataID[0]'], cdiRow.values['TextureVariationFileDataID[1]'], cdiRow.values['TextureVariationFileDataID[2]']], 11);
+
+        // Particle colors
+        if(cdiRow.values['ParticleColorID'] != 0){
+            const particleResponse = await fetch("/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
+            const particleRow = await particleResponse.json();
+            Module._resetReplaceParticleColor();
+            Module._setReplaceParticleColors(
+                particleRow.values["Start[0]"], particleRow.values["Start[1]"], particleRow.values["Start[2]"],
+                particleRow.values["MID[0]"], particleRow.values["MID[1]"], particleRow.values["MID[2]"],
+                particleRow.values["End[0]"], particleRow.values["End[1]"], particleRow.values["End[2]"]
+            );
+        }else{
+            Module._resetReplaceParticleColor();
+        }
+
+        // TODO: CreatureModelData for scale?
+        // TODO: Geosets
+    }else if(type == "item"){
+        // TODO: Items
+    }
 }
 
 function setModelTexture(textures, offset){
