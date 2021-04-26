@@ -827,11 +827,15 @@ async function setModelDisplay(displayID, type){
         if(cmdRow.values.CreatureGeosetDataID != "0"){
             const geosetResponse = await fetch("/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
             const geosetResults = await geosetResponse.json();
+            const geosetsToEnable = [];
+
             for(const geosetRow of geosetResults){
                 const geosetID = (100 * (geosetRow.GeosetIndex + 1)) + geosetRow.GeosetValue;
                 // TODO: Call geoset set function
-                console.log("TODO: Call geosetEnable(" + geosetID + ")");
+                geosetsToEnable.push(geosetID);
             }
+
+            console.log("TODO: Call geosetEnable(" + geosetsToEnable.join(',') + ")");
         }else{
         }
     }else if(type == "item"){
