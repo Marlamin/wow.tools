@@ -73,7 +73,7 @@ function generateMeta($queryString)
                 $desc = "Web file browser for World of Warcraft game assets";
                 break;
             case "/mv/":
-                $desc = "Web model viewer for World of Warcraft versions 6.x-8.x";
+                $desc = "Web model viewer for World of Warcraft versions 6.x-9.x";
                 break;
             case "/maps/":
                 $desc = "Top-down map/minimap viewer for World of Warcraft";

@@ -119,11 +119,9 @@ html, body{
     width: 350px;
     height: auto;
     border-top-left-radius: 6px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
     transition: right 0.3s ease-out;
+    background-color: transparent;
+    text-align: right;
 }
 
 .controls.closed{

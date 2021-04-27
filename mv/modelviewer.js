@@ -27,7 +27,8 @@ var Current =
     buildName: "9.1.0.38394",
     fileDataID: 397940,
     type: "m2",
-    embedded: false
+    embedded: false,
+    displayID: 0
 }
 
 var Settings =
@@ -41,7 +42,6 @@ var Settings =
     speed: 1000.0,
     portalCulling: true,
     newDisplayInfo: false
-
 }
 
 var DownloadQueue = [];
@@ -235,7 +235,12 @@ if (urlClearColor){
     Settings.clearColor = [r, g, b];
 }
 
-window.createscene = function () {
+var urlDisplayID = new URL(window.location).searchParams.get("displayID");
+if (urlDisplayID){
+    Current.displayID = urlDisplayID;
+}
+
+window.createscene = async function () {
     Module["canvas"] = document.getElementById("wowcanvas");
 
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
@@ -254,6 +259,10 @@ window.createscene = function () {
 
     Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
 
+    if(Current.fileDataID == 397940 && Current.displayID != 0){
+        Current.fileDataID = await getFileDataIDByDisplayID(Current.displayID);
+    }
+
     loadModel(Current.type, Current.fileDataID, Current.buildConfig, Current.cdnConfig)
 
     _free(ptrUrl);
@@ -268,7 +277,6 @@ window.createscene = function () {
 
         if (array.length > 1){
             $("#animationSelect").show();
-            $("#js-controls").removeClass("closed");
 
             array.forEach(function(a) {
                 if (a in animationNames){
@@ -364,10 +372,14 @@ window.addEventListener('keydown', function(event){
     if ($(".selected").length == 1){
         if (event.key == "ArrowDown"){
             if ($(".selected")[0].rowIndex == 20) return;
-            $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
+            if(document.getElementById('mvfiles').rows.length > 1){
+                $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
+            }
         } else if (event.key == "ArrowUp"){
             if ($(".selected")[0].rowIndex == 1) return;
-            $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex - 1].firstChild).trigger("click");
+            if(document.getElementById('mvfiles').rows.length > 1){
+                $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex - 1].firstChild).trigger("click");
+            }
         }
     }
 
@@ -465,7 +477,6 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 history.pushState({id: 'modelviewer'}, 'Model Viewer', '/mv/?buildconfig=' + Current.buildConfig + '&cdnconfig=' + Current.cdnConfig + '&filedataid=' + Current.fileDataID + '&type=' + Current.type);
             }
 
-            $("#js-controls").addClass("closed");
             $("#animationSelect").hide();
             $("#skinSelect").hide();
 
@@ -489,10 +500,13 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
                 if (Current.type == "adt") {
                     Module._setScene(2, ptrName, -1);
+                    $("#js-controls").hide();
                 } else if (Current.type == "wmo") {
                     Module._setScene(1, ptrName, -1);
+                    $("#js-controls").hide();
                 } else if (Current.type == "m2") {
                     Module._setScene(0, ptrName, -1);
+                    $("#js-controls").show();
                     if(!Settings.newDisplayInfo){
                         loadModelTextures();
                     }else{
@@ -505,10 +519,13 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 console.log("Loading " + Current.fileDataID + " (" + Current.type + ")");
                 if (Current.type == "adt") {
                     Module._setSceneFileDataId(2, Current.fileDataID, -1);
+                    $("#js-controls").hide();
                 } else if (Current.type == "wmo") {
                     Module._setSceneFileDataId(1, Current.fileDataID, -1);
+                    $("#js-controls").hide();
                 } else if (Current.type == "m2") {
                     Module._setSceneFileDataId(0, Current.fileDataID, -1);
+                    $("#js-controls").show();
                     if(!Settings.newDisplayInfo){
                         loadModelTextures();
                     }else{
@@ -593,24 +610,26 @@ async function loadModelDisplays() {
         }
 
         // TODO: If display ID is given (through URL params??), set to selected otherwise select first
-        const givenDisplayID = 0;
-
-        if(result.ID == givenDisplayID){
+        if(Current.displayID == 0){
+            if(skinSelect.children.length == 0){
+                opt.selected = true;
+                setModelDisplay(result.ID, result.ResultType);   
+            }
+        }
+        else if(Current.displayID != 0 && result.ID == Current.displayID){
             opt.selected = true;
             setModelDisplay(result.ID, result.ResultType);
-        } else if(skinSelect.children.length == 0){
-            opt.selected = true;
-            setModelDisplay(result.ID, result.ResultType);   
         }
 
         skinSelect.appendChild(opt);
     }
 
-    skinSelect.style.display = "block";
-
-    if(skinSelect.options.length > 0){
-        document.getElementById("js-controls").classList.remove("closed");
+    if(skinSelect.children.length == 0){
+        opt.selected = true;
+        setModelDisplay(result.ID, result.ResultType);   
     }
+
+    skinSelect.style.display = "block";
 }
 
 async function findCreatureModelDataRows(){
@@ -678,6 +697,18 @@ async function loadItemDisplays(){
     return result;
 }
 
+async function getFileDataIDByDisplayID(displayID){
+    const cdiResponse = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+    const cdiJson = await cdiResponse.json();
+    
+    const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
+    const cmdJson = await cmdResponse.json();
+
+    if(cmdJson.values['FileDataID'] !== undefined){
+        return cmdJson.values['FileDataID'];
+    }
+}
+
 function loadModelTextures() {
     //TODO build, fix wrong skin showing up after initial load
     var loadedTextures = Array();
@@ -699,7 +730,6 @@ function loadModelTextures() {
             }
 
             // Open controls overlay
-            $("#js-controls").removeClass("closed");
             $("#skinSelect").show();
 
             if (loadedTextures.includes(intArray.join(',')))
@@ -929,6 +959,8 @@ function exportScene(){
 
     // Skip further initialization in embedded mode
     if (embeddedMode){
+        document.getElementById("textureControlButton").style.display = "none";
+        document.getElementById("geosetControlButton").style.display = "none";
         return;
     }
 
