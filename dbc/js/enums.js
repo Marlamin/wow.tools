@@ -1059,7 +1059,7 @@ const effectAuraType = {
     138: 'MOD_MELEE_HASTE',
     139: 'FORCE_REACTION',
     140: 'MOD_RANGED_HASTE',
-    // 141: '141',
+    141: 'MOD_RANGED_HASTE_QUIVER', // Attack speed bonus from quiver/ammo pouch
     142: 'MOD_BASE_RESISTANCE_PCT',
     143: 'MOD_RESISTANCE_EXCLUSIVE',
     144: 'SAFE_FALL',
