@@ -411,6 +411,12 @@ const criteriaAdditionalCondition = {
     314: ['TARGET_MEMBER_OF_COVENANT', 'Target is member of covenant "{Covenant}"'],
     315: ['HAS_TBC_CE', 'Player has TBC Collector\'s Edition'],
     316: ['HAS_WOTLK_CE', 'Player has Wrath Collector\'s Edition'],
+    317: ['GARRISON_TALENT_RESEARCHED_AND_ACTIVE', 'Garrison has talent "{GarrTalent}" researched and active at or above {#Rank}'],
+    318: ['CURRENCY_SPENT_IN_GARRTALENT_TREE', 'Currency {CurrencyTypes} Spent on Garrison Talent Research in Tree {GarrTalentTree} is greater than or equal to {#Quantity}'],
+    319: ['RENOWN_CATCHUP_ACTIVE', 'Renown Catchup Active'],
+    320: ['RAPID_RENOWN_CATCHUP_ACTIVE', 'Rapid Renown Catchup Active'],
+    321: ['MYTHIC_PLUS_RATING_EQ_OR_HIGHER', 'Player has Mythic+ Rating of at least "{#DungeonScore}"'],
+    322: ['MYTHIC_PLUS_RUN_COUNT_EQ_OR_HIGHER', 'Player has completed at least "{#MythicKeystoneRuns}" Mythic+ runs in current expansion'],
 };
 
 const itemStatType = {
@@ -4188,23 +4194,25 @@ const criteriaType = {
     211: 'Choose Relic Talent "{ArtifactPower}"', // RELIC_TALENT_UNLOCKED -- artifactpower::ID (?)
     212: 'Earn Expansion Level "{$Expansion Level}"',
     // incomplete
-    213: 'REACH_ACCOUNT_HONOR_LEVEL', // No FK (Honor Level Reached)
-    214: 'HEART_OF_AZEROTH_ARTIFACT_POWER_EARNED', // No FK
-    215: 'HEART_OF_AZEROTH_LEVEL_REACHED', // No FK (Neck Level Reached)
-    216: 'MYTHIC_KEYSTONE_COMPLETED', // No FK
-    // 217:
-    218: 'QUEST_COUNT_RELATED', // No FK
-    219: 'BOUGHT_ITEM_FROM_VENDOR', // No FK
-    220: 'SOLD_ITEM_TO_VENDOR', // No FK
-    // 221:
-    // 222:
-    // 223:
-    // 224:
-    225: 'TRAVELED_TO_AREA', // areatable::ID
-    // 226:
-    // 227:
-    228: 'APPLIED_CONDUIT', // No FK
-    229: 'ANIMA_DEPOSITED', // No FK
+    213: '(Account Only) honor level {#Level} reached', // No FK (Honor Level Reached)
+    214: 'Earn Artifact experience for Azerite Item', // No FK
+    215: 'Azerite Level {#Azerite Level} reached', // No FK (Neck Level Reached)
+    216: 'Mythic Plus Completed', // No FK
+    217: 'Scenario Group Completed',
+    218: 'Complete Any Replay Quest', // No FK
+    219: 'Buy items from vendors', // No FK
+    220: 'Sell items to vendors', // No FK
+    221: 'Reach Max Level',
+    222: 'Memorize Spell "{Spell}"', // FK todo
+    223: 'Learn Transmog Illusion',
+    224: 'Learn Any Transmog Illusion',
+    225: 'Enter Top Level Map Area "{AreaTable}"', // areatable::ID
+    226: 'Leave Top Level Map Area "{AreaTable}"', // FK todo
+    227: 'Socket Garrison Talent {GarrTalent}',
+    228: 'Socket Any Soulbind Conduit', // No FK
+    229: 'Obtain Any Item With Currency Value "{CurrencyTypes}"', // No FK
+    230: '(Player) Mythic+ Rating "{#DungeonScore}" attained',
+    231: '(Player) spent talent point'
 };
 
 // 644
