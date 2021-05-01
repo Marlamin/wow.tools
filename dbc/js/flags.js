@@ -2032,6 +2032,40 @@ const ScriptedAnimationFlags = { // from scriptedanimationsdocumentation.lua 9.1
     0x00000001: 'UseTargetAsSource',
 };
 
+const BattlePetAbilityFlag = {
+    0x00000001: 'DisplayAsHostileDebuff',
+    0x00000002: 'HideStrongWeakHints',
+    0x00000004: 'Passive',
+    0x00000008: 'ServerOnlyAura',
+    0x00000010: 'ShowCast',
+    0x00000020: 'StartOnCooldown',
+}
+
+const BattlePetSpeciesFlags = {
+    0x1: 'NoRename',
+    0x2: 'WellKnown',
+    0x4: 'NotAcccountwide',
+    0x8: 'Capturable',
+    0x10: 'NotTradable',
+    0x20: 'HideFromJournal',
+    0x40: 'LegacyAccountUnique',
+    0x80: 'CantBattle',
+    0x100: 'HordeOnly',
+    0x200: 'AllianceOnly',
+    0x400: 'Boss',
+    0x800: 'RandomDisplay',
+    0x1000: 'NoLicenseRequired',
+    0x2000: 'AddsAllowedWithBoss',
+    0x4000: 'HideUntilLearned',
+    0x8000: 'MatchPlayerHighPetLevel',
+}
+
+const BattlePetVisualFlag = {
+    0x1: 'Test1',
+    0x2: 'Test2',
+    0x4: 'Test3',
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2041,7 +2075,10 @@ window.flagMap.set("areatable.Flags[0]", areaTableFlags);
 window.flagMap.set("areatable.Flags[1]", areaTableFlags2);
 window.flagMap.set("artifactpower.Flags", artifactPowerFlags);
 window.flagMap.set("battlemasterlist.Flags", battlemasterListFlags);
+window.flagMap.set("battlepetability.Flags", BattlePetAbilityFlag);
 window.flagMap.set("battlepetstate.Flags", battlePetStateFlags);
+window.flagMap.set("battlepetspecies.Flags", BattlePetSpeciesFlags);
+window.flagMap.set("battlepetvisual.Flags", BattlePetVisualFlag);
 window.flagMap.set("broadcasttext.Flags", broadcastTextFlags);
 window.flagMap.set("campaign.Flags", campaignFlags);
 window.flagMap.set("charsections.Flags", charSectionFlags);

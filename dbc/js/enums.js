@@ -4986,9 +4986,87 @@ const EventToastDisplayType = { // from uieventtoastmanagerdocumentation.lua 9.1
     7: 'ChallengeMode',
 };
 
+const BattlePetAbilityTurnType = {
+    0: 'Normal',
+    1: 'TriggeredEffect'
+}
+
+const BattlePetBreedQuality = {
+    0: 'Poor',
+    1: 'Common',
+    2: 'Uncommon',
+    3: 'Rare',
+    4: 'Epic',
+    5: 'Legendary',
+}
+
+const BattlePetEffectParamType = {
+    0: 'Int',
+    1: 'Ability'
+}
+
+const BattlePetEvent = {
+    0: 'OnAuraApplied',
+    1: 'OnDamageTaken',
+    2: 'OnDamageDealt',
+    3: 'OnHealTaken',
+    4: 'OnHealDealt',
+    5: 'OnAuraRemoved',
+    6: 'OnRoundStart',
+    7: 'OnRoundEnd',
+    8: 'OnTurn',
+    9: 'OnAbility',
+    10: 'OnSwapIn',
+    11: 'OnSwapOut',
+    12: 'PostAuraTicks',
+}
+
+const BattlePetSources = {
+    0: 'Drop',
+    1: 'Quest',
+    2: 'Vendor',
+    3: 'Profession',
+    4: 'WildPet',
+    5: 'Achievement',
+    6: 'WorldEvent',
+    7: 'Promotion',
+    8: 'Tcg',
+    9: 'PetStore',
+    10: 'Discovery',
+}
+
+const BattlePetTypes = {
+    0: 'Humanoid',
+    1: 'Dragonkin',
+    2: 'Flying',
+    3: 'Undead',
+    4: 'Critter',
+    5: 'Magic',
+    6: 'Elemental',
+    7: 'Beast',
+    8: 'Aquatic',
+    9: 'Mechanical',
+}
+
+const BattlePetVisualRange = {
+    0: 'Melee',
+    1: 'Ranged',
+    2: 'InPlace',
+    3: 'PointBlank',
+    4: 'BehindMelee',
+    5: 'BehindRanged',
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("azeritetierunlock.Tier", azeriteTierID);
+enumMap.set("battlepetability.PetTypeEnum", BattlePetTypes);
+enumMap.set("battlepetabilityturn.EventTypeEnum", BattlePetEvent);
+enumMap.set("battlepetabilityturn.TurnTypeEnum", BattlePetAbilityTurnType);
+enumMap.set("battlepetbreedquality.QualityEnum", BattlePetBreedQuality);
+enumMap.set("battlepetspecies.SourceTypeEnum", BattlePetSources);
+enumMap.set("battlepetspecies.PetTypeEnum", BattlePetTypes);
+enumMap.set("battlepetvisual.RangeTypeEnum", BattlePetVisualRange);
 enumMap.set("challengemodeitembonusoverride.Type", challengeModeItemBonusOverrideType);
 enumMap.set("charcomponenttexturesections.SectionType", componentSection);
 enumMap.set("charhairgeosets.GeosetType", geosetType);
@@ -5131,6 +5209,11 @@ enumMap.set("chrraces.UnalteredVisualRaceID", tempChrRaceIDEnum);
 enumMap.set("chrraces.NeutralRaceID", tempChrRaceIDEnum);
 
 let conditionalFKs = new Map();
+
+for (let i = 0; i < 5; i++){
+    enumMap.set("battlepeteffectproperties.ParamTypeEnum[" + i + "]", BattlePetEffectParamType);
+}
+
 for (let i = 0; i < 8; i++){
     enumMap.set("unitcondition.Variable[" + i + "]", unitConditionVariable);
     enumMap.set("unitcondition.Op[" + i + "]", unitConditionOperator);
