@@ -4215,6 +4215,17 @@ const criteriaType = {
     231: '(Player) spent talent point'
 };
 
+// 601
+const ItemBonding = {
+    0: 'Not Bound',
+    1: 'Bind On Acquire',
+    2: 'Bind On Equip',
+    3: 'Bind On Use',
+    4: 'Quest Item',
+    5: 'Quest Item (Multi)',
+    6: 'Multi'
+}
+
 // 644
 const spellVisualEventStartEvent = {
     0: 'None',
@@ -4944,7 +4955,7 @@ const official_enums = {
     ['GARR_FOLLOWER_QUALITY']: garrFollowerQuality,    // enum 392: GarrFollower::Quality
     ['GARRISON_BUILDING_TYPE']: garrBuildingType,      // enum 170: GarrBuilding::BuildingType
     ['INSTANCE_TYPE']: null,
-    ['ITEM_BIND']: null,                               // enum 601: ItemSparse::Bonding
+    ['ITEM_BIND']: ItemBonding,                               // enum 601: ItemSparse::Bonding
     ['ITEM_QUALITY']: itemQuality,                     // enum 488: ItemQuality
     ['LFG_ROLE']: null,
     ['PVP_BRACKET']: null,
@@ -5286,7 +5297,8 @@ conditionalEnums.set("itembonus.Value[0]",
     [
         ['itembonus.Type=2', itemStatType], // @g_bonusStatFields
         ['itembonus.Type=3', itemQuality], // @ITEM_QUALITY
-        //['itembonus.Type=16', '@ITEM_BIND'],
+        ['itembonus.Type=16', ItemBonding], // @ITEM_BIND
+        ['itembonus.Type=25', itemPrettyStatType],
     ]
 );
 
