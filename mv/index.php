@@ -82,10 +82,54 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
     </div>
 </div>
 <?php } ?>
+<div id="js-model-control" class="overlay model-control closed">
+    <div class='row justify-content-md-center'>
+        <div class='col-md-11'>
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#textures" data-toggle="tab" role="tab">Textures</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#geosets" data-toggle="tab" role="tab" id="mapViewerButton">Geosets</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <p>Changing the skin/displayID will reset these values.</p>
+                <div class="tab-pane fade show active" id="textures" role="tabpanel" aria-labelledby="textures-tab">
+                    <p>Changing values in this form will let you assign FileDataIDs of your choosing to a certain texture slot in the model.</p>
+                    <form id='textureForm'>
+                        <input type='text' id='tex0' name='textures[0]'> <label for='tex0'>Texture #0</label><br>
+                        <input type='text' id='tex1' name='textures[1]'> <label for='tex1'>Texture #1</label><br>
+                        <input type='text' id='tex2' name='textures[2]'> <label for='tex2'>Texture #2 (Object #1)</label><br>
+                        <input type='text' id='tex3' name='textures[3]'> <label for='tex3'>Texture #3</label><br>
+                        <input type='text' id='tex4' name='textures[4]'> <label for='tex4'>Texture #4</label><br>
+                        <input type='text' id='tex5' name='textures[5]'> <label for='tex5'>Texture #5</label><br>
+                        <input type='text' id='tex6' name='textures[6]'> <label for='tex6'>Texture #6</label><br>
+                        <input type='text' id='tex7' name='textures[7]'> <label for='tex7'>Texture #7</label><br>
+                        <input type='text' id='tex8' name='textures[8]'> <label for='tex8'>Texture #8</label><br>
+                        <input type='text' id='tex9' name='textures[9]'> <label for='tex9'>Texture #9</label><br>
+                        <input type='text' id='tex10' name='textures[10]'> <label for='tex10'>Texture #10</label><br>
+                        <input type='text' id='tex11' name='textures[11]'> <label for='tex11'>Texture #11 (Monster #1)</label><br>
+                        <input type='text' id='tex12' name='textures[12]'> <label for='tex12'>Texture #12 (Monster #2)</label><br>
+                        <input type='text' id='tex13' name='textures[13]'> <label for='tex13'>Texture #13 (Monster #3)</label><br>
+                        <input type='text' id='tex14' name='textures[14]'> <label for='tex14'>Texture #14</label><br>
+                        <input type='text' id='tex15' name='textures[15]'> <label for='tex15'>Texture #15</label><br>
+                        <input type='text' id='tex16' name='textures[16]'> <label for='tex16'>Texture #16</label><br>
+                        <input type='text' id='tex17' name='textures[17]'> <label for='tex17'>Texture #17</label><br>
+                        <input type='text' id='tex18' name='textures[18]'> <label for='tex18'>Texture #18</label><br>
+                    </form>
+                    <button type="button" class="btn btn-primary" onclick="updateTextures();" data-dismiss="modal">Save</button>
+                </div>
+                <div class="tab-pane fade" id="geosets" role="tabpanel" aria-labelledby="geosets-tab">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="js-controls" class="overlay controls">
     <div>
-        <button id="textureControlButton" class="btn btn-primary btn-sm" data-toggle='modal' data-target='#textureModal'><i class='fa fa-file-image-o'></i> Texture control</button> 
-        <button id="geosetControlButton" class="btn btn-warning btn-sm" data-toggle='modal' data-target='#geosetModal'><i class='fa fa-cube'></i> Geoset control (WIP)</button>
+        <button id="modelControlButton" class="btn btn-primary btn-sm" ><i class='fa fa-cube'></i> Model control (WIP)</button>
         <select id='animationSelect' class='form-control' style='display: none'>
             <option>No options for model</option>
         </select>
@@ -126,44 +170,6 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="saveSettings();" data-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" id="textureModal" tabindex="-1" role="dialog" aria-labelledby="textureModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="textureModalLabel">Texture control</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <p>Changing values in this form will let you assign FileDataIDs of your choosing to a certain texture slot in the model. Changing the skin/displayID will reset these values.</p>
-                <form id='textureForm'>
-                    <input type='text' id='tex0' name='textures[0]'> <label for='tex0'>Texture #0</label><br>
-                    <input type='text' id='tex1' name='textures[1]'> <label for='tex1'>Texture #1</label><br>
-                    <input type='text' id='tex2' name='textures[2]'> <label for='tex2'>Texture #2 (Object #1)</label><br>
-                    <input type='text' id='tex3' name='textures[3]'> <label for='tex3'>Texture #3</label><br>
-                    <input type='text' id='tex4' name='textures[4]'> <label for='tex4'>Texture #4</label><br>
-                    <input type='text' id='tex5' name='textures[5]'> <label for='tex5'>Texture #5</label><br>
-                    <input type='text' id='tex6' name='textures[6]'> <label for='tex6'>Texture #6</label><br>
-                    <input type='text' id='tex7' name='textures[7]'> <label for='tex7'>Texture #7</label><br>
-                    <input type='text' id='tex8' name='textures[8]'> <label for='tex8'>Texture #8</label><br>
-                    <input type='text' id='tex9' name='textures[9]'> <label for='tex9'>Texture #9</label><br>
-                    <input type='text' id='tex10' name='textures[10]'> <label for='tex10'>Texture #10</label><br>
-                    <input type='text' id='tex11' name='textures[11]'> <label for='tex11'>Texture #11 (Monster #1)</label><br>
-                    <input type='text' id='tex12' name='textures[12]'> <label for='tex12'>Texture #12 (Monster #2)</label><br>
-                    <input type='text' id='tex13' name='textures[13]'> <label for='tex13'>Texture #13 (Monster #3)</label><br>
-                    <input type='text' id='tex14' name='textures[14]'> <label for='tex14'>Texture #14</label><br>
-                    <input type='text' id='tex15' name='textures[15]'> <label for='tex15'>Texture #15</label><br>
-                    <input type='text' id='tex16' name='textures[16]'> <label for='tex16'>Texture #16</label><br>
-                    <input type='text' id='tex17' name='textures[17]'> <label for='tex17'>Texture #17</label><br>
-                    <input type='text' id='tex18' name='textures[18]'> <label for='tex18'>Texture #18</label><br>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="updateTextures();" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

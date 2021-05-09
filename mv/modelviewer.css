@@ -112,6 +112,21 @@ html, body{
     overflow: auto;
 }
 
+.model-control {
+    top: 57px;
+    right: 0;
+    width: 450px;
+    height: 100%;
+    border-bottom-left-radius: 6px;
+    border-left: 1px solid var(--border-color);
+    padding-top: 10px;
+    transition: right 0.3s ease-out;
+}
+
+.model-control.closed {
+    right: -450px;
+}
+
 /* Controls */
 .controls{
     bottom: 0;

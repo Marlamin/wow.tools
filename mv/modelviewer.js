@@ -18,17 +18,20 @@ var Elements =
     Counter: document.getElementById('fpsLabel'),
     EventLabel: document.getElementById('eventLabel'),
     DownloadLabel: document.getElementById('downloadLabel'),
+    ModelControl: document.getElementById('js-model-control'),
 };
 
 var Current =
 {
-    buildConfig: "e759532efbc5fbc3ce094f8da5d9aa2e",
-    cdnConfig: "76f0f23d8299e48169c578174da17835",
-    buildName: "9.1.0.38394",
+    buildConfig: "cee223326aec51975f9516ae6dc77f03",
+    cdnConfig: "6e0f9b50e5948e4dfd3f4e4cef7e2d20",
+    buildName: "9.1.0.38511",
     fileDataID: 397940,
     type: "m2",
     embedded: false,
-    displayID: 0
+    displayID: 0,
+    availableGeosets: [],
+    enabledGeosets: []
 }
 
 var Settings =
@@ -188,6 +191,14 @@ if (document.getElementById( 'js-sidebar-button' )){
     } );
 }
 
+// Model control button, might not exist in embedded mode
+if (document.getElementById( 'modelControlButton' )){
+    document.getElementById( 'modelControlButton' ).addEventListener( 'click', function( )
+    {
+        Elements.ModelControl.classList.toggle( 'closed' );
+    } );
+}
+
 try {
     if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
         const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
@@ -261,6 +272,7 @@ window.createscene = async function () {
 
     if(Current.fileDataID == 397940 && Current.displayID != 0){
         Current.fileDataID = await getFileDataIDByDisplayID(Current.displayID);
+        Settings.newDisplayInfo = true;
     }
 
     loadModel(Current.type, Current.fileDataID, Current.buildConfig, Current.cdnConfig)
@@ -272,20 +284,62 @@ window.createscene = async function () {
     Module["canvas"].width = document.body.clientWidth;
     Module["canvas"].height = document.body.clientHeight;
 
-    Module["animationArrayCallback"] = function(array) {
-        $("#animationSelect").empty();
+    Module["animationArrayCallback"] = function(animIDArray) {
+        const animSelect = document.getElementById("animationSelect");
+        animSelect.length = 0;
 
-        if (array.length > 1){
-            $("#animationSelect").show();
+        if (animIDArray.length > 1){
+            animIDArray.forEach(function(a) {
+                var opt = document.createElement('option');
+                opt.value = a;
 
-            array.forEach(function(a) {
                 if (a in animationNames){
-                    $('#animationSelect').append('<option value="' + a + '">' + animationNames[a] + ' (' + a + ')</option>');
+                    opt.innerHTML = animationNames[a] + ' (' + a + ')';
                 } else {
                     console.log("Missing animation name for " + a + ", let a dev know!");
-                    $('#animationSelect').append('<option value="' + a + '">Animation ' + a + '</option>');
+                    opt.innerHTML = 'Animation ' + a;
                 }
+
+                animSelect.appendChild(opt);
             })
+        }
+
+        animSelect.style.display = "block";
+    };
+
+    Module["meshIdArrayCallback"] = function(meshIDArray) {
+        Current.availableGeosets = Object.values(meshIDArray).map(function (x) { return parseInt(x, 10); }).sort();
+
+        const geosetControl = document.getElementById("geosets");
+        for(let meshID of Current.availableGeosets){
+            meshID = Number(meshID);
+
+            const geosetGroup = Math.round(meshID / 100);
+            const geosetIndex = meshID - (geosetGroup * 100);
+            
+            if(!document.getElementById("geosets-" + geosetGroup)){
+                let geosetHolder = document.createElement('div');
+                geosetHolder.innerHTML = "Geoset #" + geosetGroup;
+                geosetHolder.id = "geosets-" + geosetGroup;
+                geosetControl.appendChild(geosetHolder);
+                
+                let geosetSelect = document.createElement('select');
+                geosetSelect.id = "geosetSelection-" + geosetGroup;
+                geosetSelect.dataset.geosetGroup = geosetGroup;
+                geosetSelect.onchange = function(){ Current.enabledGeosets[Number(this.dataset.geosetGroup)] = Number(this.value); updateEnabledGeosets(); };
+                let opt = document.createElement('option');
+                opt.value = 0;
+                opt.innerHTML = 0;
+                geosetSelect.appendChild(opt);
+                geosetHolder.appendChild(geosetSelect);
+            }
+
+            let select = document.getElementById("geosetSelection-" + geosetGroup);
+            let opt = document.createElement('option');
+            opt.value = geosetIndex;
+            opt.innerHTML = geosetIndex;
+            select.appendChild(opt);
+            
         }
     };
 
@@ -577,7 +631,7 @@ async function loadModelDisplays() {
             opt.innerHTML = result.ID + " (" + filenameMap.get(result['TextureVariationFileDataID[0]']) + ")";
         }else if(result.ResultType == "item"){
             if(result['ModelMaterialResourcesID[0]'] != "0" && !materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
-                const materialResponse = await fetch("/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
+                const materialResponse = await fetch("https://wow.tools/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
                 const materialJson = await materialResponse.json();
 
                 if(materialJson.values.FileDataID != undefined){
@@ -633,7 +687,7 @@ async function loadModelDisplays() {
 }
 
 async function findCreatureModelDataRows(){
-    const response = await fetch("/dbc/api/find/CreatureModelData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const response = await fetch("https://wow.tools/dbc/api/find/CreatureModelData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
     const json = await response.json();
     return json;
 }
@@ -642,7 +696,7 @@ async function loadCreatureDisplays(cmdRows){
     const cdiPromises = Array(cmdRows.length);
     let index = 0;
     for (const cmdRow of cmdRows) {
-        cdiPromises[index++] = fetch("/dbc/api/find/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ModelID&val=" + cmdRow.ID);
+        cdiPromises[index++] = fetch("https://wow.tools/dbc/api/find/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ModelID&val=" + cmdRow.ID);
     }
 
     const cdiResult = await Promise.all(cdiPromises);
@@ -666,15 +720,15 @@ async function loadCreatureDisplays(cmdRows){
 }
 
 async function loadItemDisplays(){
-    const response = await fetch("/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const response = await fetch("https://wow.tools/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
     const modelFileData = await response.json();
 
     if(modelFileData.values['ModelResourcesID'] === undefined)
         return [];
 
     const idiPromises = [
-        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[0]&val=" + modelFileData.values['ModelResourcesID']),
-        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[1]&val=" + modelFileData.values['ModelResourcesID'])
+        fetch("https://wow.tools/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[0]&val=" + modelFileData.values['ModelResourcesID']),
+        fetch("https://wow.tools/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[1]&val=" + modelFileData.values['ModelResourcesID'])
     ];
 
     const idiResult = await Promise.all(idiPromises);
@@ -698,10 +752,10 @@ async function loadItemDisplays(){
 }
 
 async function getFileDataIDByDisplayID(displayID){
-    const cdiResponse = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+    const cdiResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
     const cdiJson = await cdiResponse.json();
     
-    const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
+    const cmdResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
     const cmdJson = await cmdResponse.json();
 
     if(cmdJson.values['FileDataID'] !== undefined){
@@ -823,7 +877,7 @@ function updateTextures(){
 async function setModelDisplay(displayID, type){
     console.log("Selected Display ID " + displayID);
     if(type == "creature"){
-        const response = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+        const response = await fetch("https://wow.tools/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
         const cdiRow = await response.json();
 
         if(Object.keys(cdiRow.values).length == 0)
@@ -834,7 +888,7 @@ async function setModelDisplay(displayID, type){
 
         // Particle colors
         if(cdiRow.values['ParticleColorID'] != 0){
-            const particleResponse = await fetch("/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
+            const particleResponse = await fetch("https://wow.tools/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
             const particleRow = await particleResponse.json();
             Module._resetReplaceParticleColor();
             Module._setReplaceParticleColors(
@@ -846,7 +900,7 @@ async function setModelDisplay(displayID, type){
             Module._resetReplaceParticleColor();
         }
 
-        const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ModelID']);
+        const cmdResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ModelID']);
         const cmdRow = await cmdResponse.json();
         // TODO: Model scale? Anything else from CMD?
 
@@ -854,19 +908,29 @@ async function setModelDisplay(displayID, type){
         // TODO: Call reset geoset function
         console.log("TODO: Call geosetReset()");
 
+        Current.enabledGeosets = [];
+
         if(cmdRow.values.CreatureGeosetDataID != "0"){
-            const geosetResponse = await fetch("/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
+            const geosetResponse = await fetch("https://wow.tools/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
             const geosetResults = await geosetResponse.json();
             const geosetsToEnable = [];
+            
+            console.log(geosetResults);
 
             for(const geosetRow of geosetResults){
-                const geosetID = (100 * (geosetRow.GeosetIndex + 1)) + geosetRow.GeosetValue;
-                // TODO: Call geoset set function
-                geosetsToEnable.push(geosetID);
+                geosetsToEnable[Number(geosetRow.GeosetIndex) + 1] = Number(geosetRow.GeosetValue);
             }
 
-            console.log("TODO: Call geosetEnable(" + geosetsToEnable.join(',') + ")");
-        }else{
+            for(const geoset of Current.availableGeosets){
+                const geosetGroup = Math.floor(Number(geoset / 100));
+                if(!(geosetGroup in geosetsToEnable)){
+                    geosetsToEnable[geosetGroup] = 0;
+                }
+            }
+
+            Current.enabledGeosets = geosetsToEnable;
+
+            updateEnabledGeosets();
         }
     }else if(type == "item"){
         // TODO: Items, this is very rough support, only supports ModelMaterialResourcesID[0]
@@ -886,6 +950,16 @@ async function setModelDisplay(displayID, type){
     }
 }
 
+function updateEnabledGeosets(){
+    var nDataBytes = Current.enabledGeosets.length;
+    var dataPtr = Module._malloc(nDataBytes);
+
+    var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+    dataHeap.set(new Uint8Array(Current.enabledGeosets));
+
+    Module._setMeshIdArray(dataHeap.byteOffset, Current.enabledGeosets.length);
+}
+
 function setModelTexture(textures, offset){
     //Create real texture replace array
     const typedArray = new Int32Array(18);
@@ -894,7 +968,7 @@ function setModelTexture(textures, offset){
         if (offset == 11 && i == 3){
             var particleColorID = textures[3];
             console.log("Particle Color should be set to " + particleColorID);
-            fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
+            fetch("https://wow.tools/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
                 .then(function (response) {
                     return response.json();
                 }).then(function (particleColorEntry) {
