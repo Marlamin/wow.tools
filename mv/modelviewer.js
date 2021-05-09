@@ -51,7 +51,6 @@ var DownloadQueue = [];
 var isDownloading = false;
 var numDownloading = 0;
 
-var screenshot = false;
 var stats = new Stats();
 
 const materialResourceMap = new Map();
@@ -357,29 +356,9 @@ window.createscene = async function () {
 
         Module._gameloop(timeDelta / Settings.speed);
 
-        if (screenshot){
-            screenshot = false;
-
-            let canvasImage = Module["canvas"].toDataURL('image/png');
-
-            let xhr = new XMLHttpRequest();
-            xhr.responseType = 'blob';
-            xhr.onload = function () {
-                let a = document.createElement('a');
-                a.href = window.URL.createObjectURL(xhr.response);
-                a.download = 'wowtoolsmv-' + lastTimeStamp + '.png';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                a.remove()
-            };
-            xhr.open('GET', canvasImage);
-            xhr.send();
-        }
-
-        if (numDownloading > 0){
-            Elements.DownloadLabel.innerText = "Downloading " + numDownloading + " files..";
-        }
+        // if (numDownloading > 0){
+        //     Elements.DownloadLabel.innerText = "Downloading " + numDownloading + " files..";
+        // }
 
         stats.end();
         window.requestAnimationFrame(renderfunc);
@@ -460,7 +439,7 @@ window.addEventListener('keydown', function(event){
 }, true);
 
 window.addEventListener('keyup', function(event){
-    if (event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) screenshot = true;
+    if (event.key == "PrintScreen" && !event.shiftKey && !event.ctrlKey && !event.altKey) Module._createScreenshot();
     if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "SELECT"){
         event.stopImmediatePropagation();
     }
