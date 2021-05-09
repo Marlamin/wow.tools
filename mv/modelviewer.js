@@ -311,6 +311,7 @@ window.createscene = async function () {
         Current.availableGeosets = Object.values(meshIDArray).map(function (x) { return parseInt(x, 10); }).sort();
 
         const geosetControl = document.getElementById("geosets");
+        geosetControl.innerHTML += "This functionality is WIP and might cause display issues. Use with caution.";
         for(let meshID of Current.availableGeosets){
             meshID = Number(meshID);
 
