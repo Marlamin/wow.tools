@@ -301,10 +301,10 @@ window.createscene = async function () {
                 }
 
                 animSelect.appendChild(opt);
-            })
-        }
+            });
 
-        animSelect.style.display = "block";
+            animSelect.style.display = "block";
+        }
     };
 
     Module["meshIdArrayCallback"] = function(meshIDArray) {
