@@ -328,10 +328,10 @@ window.createscene = async function () {
                 geosetSelect.id = "geosetSelection-" + geosetGroup;
                 geosetSelect.dataset.geosetGroup = geosetGroup;
                 geosetSelect.onchange = function(){ Current.enabledGeosets[Number(this.dataset.geosetGroup)] = Number(this.value); updateEnabledGeosets(); };
-                let opt = document.createElement('option');
-                opt.value = 0;
-                opt.innerHTML = 0;
-                geosetSelect.appendChild(opt);
+                // let opt = document.createElement('option');
+                // opt.value = 0;
+                // opt.innerHTML = 0;
+                // geosetSelect.appendChild(opt);
                 geosetHolder.appendChild(geosetSelect);
             }
 
@@ -906,9 +906,6 @@ async function setModelDisplay(displayID, type){
         // TODO: Model scale? Anything else from CMD?
 
         // Geosets
-        // TODO: Call reset geoset function
-        console.log("TODO: Call geosetReset()");
-
         Current.enabledGeosets = [];
 
         if(cmdRow.values.CreatureGeosetDataID != "0"){
