@@ -1010,8 +1010,6 @@ function exportScene(){
 
     // Skip further initialization in embedded mode
     if (embeddedMode){
-        document.getElementById("textureControlButton").style.display = "none";
-        document.getElementById("geosetControlButton").style.display = "none";
         return;
     }
 
