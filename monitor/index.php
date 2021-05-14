@@ -19,7 +19,7 @@ Due to rampant speculation by some "press" based on some of the info on this pag
 <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; table-layout: fixed;' width="100%">
 <thead>
 <tr>
-<th style='width: 120px;'>Timestamp</th>
+<th style='width: 120px;'>CE(S)T time</th>
 <th style='width: 220px;'>URL</th>
 <th style='max-width: calc(100% - calc(120px + 220px)); overflow: hidden'>Diff</th>
 </tr>

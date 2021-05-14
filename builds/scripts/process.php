@@ -80,7 +80,7 @@ function updateVersions($product)
                     $uq->execute([$incompleteconfigs[0]['hash'], $row['buildconfig']]);
                 } else {
                     echo "No non-complete cdnconfigs found, falling back to original one\n";
-                    $diffq = $pdo->prepare("SELECT * FROM ngdp_history WHERE newvalue LIKE :buildconfig LIMIT 1");
+                    $diffq = $pdo->prepare("SELECT * FROM ngdp_history WHERE newvalue LIKE :buildconfig ORDER BY timestamp ASC LIMIT 1");
                     $diffq->bindValue(":buildconfig", "%" . $row['buildconfig'] . "%");
                     $diffq->execute();
                     $diffrow = $diffq->fetch();
@@ -135,6 +135,18 @@ function updateVersions($product)
             // Select CDNconfig -- unused?
             // $cdncrec = $pdo->prepare("SELECT * FROM ".$product."_cdnconfig WHERE hash = ?");
             // $cdncrec->query([$row['cdnconfig']]);
+        }
+
+        $getreleasetimeq = $pdo->prepare("SELECT `timestamp` FROM ngdp_history WHERE newvalue LIKE :buildconfig ORDER BY timestamp ASC LIMIT 1");
+        $setreleasetimeq = $pdo->prepare("UPDATE wow_versions SET releasetime = ? WHERE buildconfig = ?");
+
+        if($row['id'] > 2512 && empty($row['releasetime'])){
+            echo "Release time for " . $row['buildconfig'] . " not set, grabbing first occurence in NGDP history..\n";
+            $getreleasetimeq->execute(["%".$row['buildconfig']."%"]);
+            $releasetimeres = $getreleasetimeq->fetch();
+            if(!empty($releasetimeres)){
+                $setreleasetimeq->execute([$releasetimeres['timestamp'], $row['buildconfig']]);
+            }
         }
     }
 }

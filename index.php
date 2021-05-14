@@ -44,7 +44,7 @@ if ($updatedago == strtotime("now")) {
     <div class='col-md-4'>
     <h4>Current WoW versions per branch</h4>
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
-    <thead><tr><th>Name</th><th>Build</th><th>Built at (PT)</th></tr></thead>
+    <thead><tr><th>Name</th><th>Build</th><th>Compiled at (PT)</th></tr></thead>
     <?php
     $productCDNMap = $pdo->query("SELECT program, cdndir FROM ngdp_products WHERE program LIKE 'wow%'")->fetchAll(PDO::FETCH_KEY_PAIR);
     $urlq = $pdo->query("SELECT id, name, url FROM ngdp_urls WHERE url LIKE '%wow%versions' ORDER BY ID ASC");
