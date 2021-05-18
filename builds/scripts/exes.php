@@ -31,8 +31,10 @@ while ($row = $res->fetch()) {
                 $target = "Wow.exe";
                 break;
             case "wow_classic":
+            case "wow_classic_era":
                 $target = "WowClassic.exe";
                 break;
+            case "wow_classic_era_ptr":
             case "wow_classic_ptr":
                 $target = "WowClassicT.exe";
                 break;
@@ -45,6 +47,7 @@ while ($row = $res->fetch()) {
                 break;
             case "wowz":
             case "wow_classic_beta":
+            case "wow_classic_era_beta":
                 $target = "WowClassicB.exe";
                 break;
         }

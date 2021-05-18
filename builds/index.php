@@ -318,7 +318,7 @@ $allbuilds = $res->fetchAll();
 </div>
 <div class='container-fluid'>
     <h3 style='float: left'><?=count($allbuilds)?> builds in DB</h3>
-    <div style='float: left; margin-left: 10px; position: sticky; top: 0;'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
+    <div style='float: left; margin-left: 10px; position: sticky; top: 0; z-index: 999'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
     <table id='buildtable' class='table table-sm table-hover maintable' style='clear: both'>
         <thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Compiled at (PT)</th><th>Detected at (CEST)<th>&nbsp;</th></tr></thead>
         <?php foreach ($allbuilds as $row) {

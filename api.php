@@ -83,7 +83,7 @@ if ($_GET['type'] == "currentbc") {
 
         $product = str_replace("/versions", "", substr($row['url'], strpos($row['url'], "wow")));
         $highestBuild = 0;
-        $highestBuildName = "";
+        $highestBuildConfig = "";
         $histr = $histq->fetch(PDO::FETCH_ASSOC);
         if (!empty($histr)) {
             $bc = parseBPSV(explode("\n", $histr['newvalue']));

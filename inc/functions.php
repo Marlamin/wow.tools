@@ -211,6 +211,19 @@ function prettyBranch($branch, $realPretty = true)
             $color = "secondary";
             $branch = "Live Test";
             break;
+        case "wow_classic_era":
+            $color = "info";
+            $branch = "Classic Era";
+            break;
+        case "wow_classic_era_beta":
+            $color = "info";
+            $branch = "Classic Era Beta";
+            break;
+        case "wow_classic_era_ptr":
+            $color = "info";
+            $branch = "Classic Era PTR";
+            break;
+
         default:
             $color = "danger";
             $branch = "unknown (" . $branch . ")";
