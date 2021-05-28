@@ -23,9 +23,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "cee223326aec51975f9516ae6dc77f03",
-    cdnConfig: "6e0f9b50e5948e4dfd3f4e4cef7e2d20",
-    buildName: "9.1.0.38511",
+    buildConfig: "1effd32c6dcad9381201c131f793bfb0",
+    cdnConfig: "01bdcc20085f3f38a40e119c1375b136",
+    buildName: "9.1.0.38802",
     fileDataID: 397940,
     type: "m2",
     embedded: false,
@@ -852,6 +852,23 @@ function updateTextures(){
         }
     }
     setModelTexture(textureArray, 0);
+}
+
+function getScenePos(){
+    var data = new Float32Array(3);
+
+    var nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+    var dataPtr = Module._malloc(nDataBytes);
+
+    var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+    dataHeap.set(new Uint8Array(data.buffer));
+
+    Module._getScenePos(dataHeap.byteOffset);
+
+    var pos = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, data.length);
+    console.log(pos);
+
+    Module._free(dataHeap.byteOffset);
 }
 
 async function setModelDisplay(displayID, type){

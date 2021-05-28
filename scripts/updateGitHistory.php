@@ -12,14 +12,15 @@ if (!$memcached->get("github.commits.json") || strtotime("-4 minutes") > $memcac
         ["name" => "Database definitions", "url" => "wowdev/wowdbdefs"],
         ["name" => "Minimap tools", "url" => "marlamin/wowtools.minimaps"],
         ["name" => "Cache/Hotfix tools", "url" => "marlamin/wowtools.hotfixes"],
-        ["name" => "API", "url" => "marlamin/wow.tools.api"]
+        ["name" => "API", "url" => "marlamin/wow.tools.api"],
+        ["name" => "Docker (WIP)", "url" => "marlamin/wow.tools-docker"],
     ];
 
     foreach ($repos as $repo) {
         $i = 0;
         $res = githubRequest("repos/" . $repo['url'] . "/commits");
         foreach ($res as $commit) {
-            $commits[] = array("repo" => $repo['name'], "message" => $commit['commit']['message'], "author" => $commit['author']['login'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
+            $commits[] = array("repo" => $repo['name'], "message" => $commit['commit']['message'], "timestamp" => strtotime($commit['commit']['author']['date']), "url" => $commit['html_url']);
             $i++;
             if ($i > 7) {
                 break;

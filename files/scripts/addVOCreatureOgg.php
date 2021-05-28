@@ -40,8 +40,11 @@ function getDBC($name, $build)
     }
 }
 
+if(empty($argv[1]))
+    die("Specify a build (x.x.x.xxxxx)");
 
-$build = "9.0.1.34902";
+$build = $argv[1];
+
 echo "Loading DBCs..";
 $soundKitEntryDB = getDBC("soundkitentry", $build);
 $soundKitMap = [];

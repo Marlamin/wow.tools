@@ -5971,6 +5971,7 @@ colorFields.push("lightning.FlashColor");
 colorFields.push("lightning.BoltColor");
 colorFields.push("liquidtype.MinimapStaticCol");
 colorFields.push("itemnamedescription.Color");
+// colorFields.push("uidungeonscorerarity.ScoreColor");
 
 /* Dates */
 let dateFields = new Array();

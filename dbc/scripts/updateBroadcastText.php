@@ -33,7 +33,7 @@ function importDB2($name, $outdir, $fields)
 
 include(__DIR__ . "/../../inc/config.php");
 
-$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product LIKE 'wow%' AND ID > 1575 ORDER BY description DESC LIMIT 3");
+$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product LIKE 'wow%' AND ID > 1575 ORDER BY description DESC LIMIT 5");
 while($row = $q->fetch(PDO::FETCH_ASSOC)){
     $rawdesc = str_replace("WOW-", "", $row['description']);
     $build = substr($rawdesc, 0, 5);

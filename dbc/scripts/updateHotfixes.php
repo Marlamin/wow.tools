@@ -61,8 +61,8 @@ foreach ($filesToProcess as $file) {
     $insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build, cachename) VALUES (?, ?, ?, ?, ?)");
     $messages = [];
     foreach ($json['entries'] as $entry) {
-        if ($entry['pushID'] > 999999 && !($entry['pushID'] & 0x40000000)) {
-            $messages[] = "Got hotfix with a very high push ID: " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . ", ignoring!!!\n\n@" . $file . "\n\n";
+        if ($entry['pushID'] > 999999) {
+            // $messages[] = "Got hotfix with a very high push ID: " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . ", ignoring!!!\n\n@" . $file . "\n\n";
             continue;
         }
 

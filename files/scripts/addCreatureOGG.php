@@ -75,7 +75,11 @@ function soundColToSoundName($soundCol)
     }
 }
 
-$build = "9.0.2.35854";
+if(empty($argv[1]))
+    die("Specify a build (x.x.x.xxxxx)");
+
+$build = $argv[1];
+
 echo "Loading DBCs..";
 $creatureDB = $pdo->query("SELECT * FROM wowdata.creatures ORDER BY ID DESC");
 $creatureMap = [];

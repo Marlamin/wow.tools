@@ -28,10 +28,15 @@ if (!empty($_GET['bc'])) {
         <select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
             <option value=''>enUS (Default)</option>
         </select>
-
-        <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i
-                class='fa fa-download'></i> CSV</a>
-
+        <div class='btn-group' style='margin-top: -8px'>
+            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i class='fa fa-download'></i> CSV</a>
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a href="" id='downloadDB2Link'><i class='fa fa-download'></i> DB2</a>
+            </div>
+        </div>
         <label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
             <input type="checkbox" autocomplete="off" id="hotfixToggle"> Use hotfixes?
         </label>
@@ -240,6 +245,11 @@ var Locales = {
     ptPT: "Portugese"
 }
 
+let APIBase = "https://api.wow.tools/";
+const siteURL = new URL(window.location).hostname;
+if(siteURL.hostname == "wow.tools.localhost" || siteURL.hostname == "localhost"){
+    APIBase = "http://localhost/api/";
+}
 let clearState = false;
 
 function updateDBDButton() {
@@ -462,7 +472,7 @@ function buildURL(currentParams) {
 function refreshFiles() {
     console.log("Refreshing files");
 
-    let apiURL = "https://api.wow.tools/databases/";
+    let apiURL = APIBase + "databases/";
 
     if (Settings.lockedBuild && Settings.lockedBuild != "none") {
         apiURL += Settings.lockedBuild;
@@ -500,7 +510,7 @@ function refreshVersions() {
         return;
 
     console.log("Refreshing versions");
-    var versionAPIURL = "https://api.wow.tools/databases/" + currentParams["dbc"] + "/versions";
+    var versionAPIURL = APIBase + "databases/" + currentParams["dbc"] + "/versions";
     if (Settings.changedVersionsOnly)
         versionAPIURL += "?uniqueOnly=true";
 
@@ -716,8 +726,13 @@ function loadTable() {
     $("#dbtable").html(
         "<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>"
         );
-    document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=",
-        "/dbc/api/export/?name=");
+    document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
+
+    if(currentParams["locale"] != ""){
+        document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
+    }else{
+        document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=enUS";
+    }
     document.getElementById('downloadCSVButton').classList.remove("disabled");
     $("#loadingMessage").html("Loading..");
 
@@ -729,8 +744,7 @@ function loadTable() {
 
     if (currentParams["hotfixes"]) {
         apiArgs += "&useHotfixes=true";
-        document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace(
-            "&hotfixes=", "&useHotfixes=");
+        document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace("&hotfixes=", "&useHotfixes=");
     }
 
     let tableHeaders = "";
@@ -742,7 +756,7 @@ function loadTable() {
     let hotfixedIDs = [];
     
     if (currentParams["hotfixes"]) {
-        fetch("https://api.wow.tools/databases/" + currentParams["dbc"] + "/hotfixes?build=" + buildOnly)
+        fetch(APIBase + "databases/" + currentParams["dbc"] + "/hotfixes?build=" + buildOnly)
         .then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -1248,7 +1262,7 @@ let currentParams = [];
 
     /* FK search */
     var fkSearchDB = document.getElementById('fkSearchDB');
-    fetch("https://wow.tools/dbc/api/relations/")
+    fetch("/dbc/api/relations/")
         .then(function(fileResponse) {
             return fileResponse.json();
         }).then(function(data) {
