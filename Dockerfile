@@ -8,3 +8,7 @@ RUN set -ex \
     && docker-php-ext-configure $MEMCACHED \
     && docker-php-ext-install $MEMCACHED \
     && rm -rf $MEMCACHED
+# The following is so the site can run the dotnet utilities that it uses, hopefully we can get rid of this sometime in the future.
+RUN curl https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -o packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt-get update; apt-get install -y apt-transport-https && apt-get update && apt-get install -y dotnet-runtime-5.0
