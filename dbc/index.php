@@ -246,9 +246,9 @@ var Locales = {
 }
 
 let APIBase = "https://api.wow.tools/";
-const siteURL = new URL(window.location).hostname;
+const siteURL = new URL(window.location);
 if(siteURL.hostname == "wow.tools.localhost" || siteURL.hostname == "localhost"){
-    APIBase = "http://localhost/api/";
+    APIBase = "http://localhost/wtapi/";
 }
 let clearState = false;
 
