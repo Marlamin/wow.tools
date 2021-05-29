@@ -4,6 +4,8 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
+ini_set('memory_limit','1G');
+
 require __DIR__ . "/../../inc/config.php";
 function getFileDataIDs($buildconfig)
 {

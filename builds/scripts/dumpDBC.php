@@ -55,6 +55,11 @@ foreach ($pdo->query($query) as $row) {
         }
     }
 
+    if(empty($row['cdnconfig'])){
+        echo "[DB2 export] CDN config not known for build " . $row['description'] . ", skipping..";
+        continue;
+    }
+    
     $buildNeedsExtract = false;
 
     $outdir = makeOutDir($row['description']);

@@ -21,10 +21,13 @@ $res = $pdo->query(
 );
 
 while ($row = $res->fetch()) {
-    if ($row['bdid'] < 1830)
+
+    $buildInfo = parseBuildName($row['description']);
+    if($buildInfo['build'] < 38000)
         continue;
 
-    if ($row['bdid'] > 1315) {
+    // Rough guess for when 32-bit builds were deprecated and the main exe was 64-bits, might need changing if extracting old builds.
+    if ($buildInfo['build'] > 26367) {
         switch ($row['product']) {
             case "wow":
             case "wowlivetest":
@@ -70,6 +73,10 @@ while ($row = $res->fetch()) {
     if (empty($target)) {
         echo "Unable to find target " . $target . "\n";
         die();
+    }
+    
+    if (!file_exists("/home/wow/exes")) {
+        mkdir("/home/wow/exes");
     }
     
     $filename = "/home/wow/exes/" . $row['description'] . "-" . $row['buildconfig'] . "-" . $target;
