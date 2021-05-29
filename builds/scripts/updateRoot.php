@@ -38,6 +38,10 @@ function processRoot($root, $build)
     }
 
     echo "Processing " . $build . "\n";
+    if (!file_exists("/home/wow/buildbackup/manifests")) {
+        mkdir("/home/wow/buildbackup/manifests");
+    }
+
     if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
