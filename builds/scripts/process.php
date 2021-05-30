@@ -288,11 +288,15 @@ function updateBuildConfig($product)
         }
 
         if ($existingBuild['description'] == "UNKNOWN" || $existingBuild['product'] == "UNKNOWN" || strpos($existingBuild['description'], 'prometheus') !== false) {
-            $diffq = $pdo->prepare("SELECT * FROM `wow`.`URLHistory` WHERE newvalue LIKE :hash ORDER BY timestamp DESC LIMIT 1");
-            $diffq->bindParam(":hash", "%" . $build['original-filename'] . "%");
-            $diffq->execute();
-            $diffrow = $diffq->fetch();
-
+            try{
+                $diffq = $pdo->prepare("SELECT * FROM `wow`.`URLHistory` WHERE newvalue LIKE :hash ORDER BY timestamp DESC LIMIT 1");
+                $diffq->bindParam(":hash", "%" . $build['original-filename'] . "%");
+                $diffq->execute();
+                $diffrow = $diffq->fetch();
+            }catch(Exception $e){
+                echo "Error getting history entry for build config " . $build['original-filename'] . ": " . $e->getMessage();
+            }
+         
             if (!empty($diffrow)) {
                 $i = 0;
                 foreach (explode("\n", $diffrow['newvalue']) as $line) {
