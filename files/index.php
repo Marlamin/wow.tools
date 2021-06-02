@@ -2,7 +2,7 @@
 
 require_once("../inc/header.php");
 $buildq = $pdo->prepare("SELECT hash, description FROM `wow_buildconfig` WHERE product = ? ORDER BY id DESC LIMIT 1;");
-$lfproducts = array("wow", "wowt", "wow_classic", "wow_beta", "wow_classic_beta");
+$lfproducts = array("wow", "wowt", "wow_classic", "wow_beta", "wow_classic_era");
 $lfbuilds = [];
 foreach ($lfproducts as $lfproduct) {
     $buildq->execute([$lfproduct]);
