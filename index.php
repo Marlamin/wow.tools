@@ -96,10 +96,19 @@ if ($updatedago == strtotime("now")) {
     <thead><tr><th style='min-width: 70px;'>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
     <?php
     $hotfixLog = $pdo->prepare("SELECT name FROM wow_hotfixlogs WHERE pushID = ?");
-    $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
+    $buildQ = $pdo->prepare("SELECT expansion, major, minor FROM wow_builds WHERE build = ?");
+    $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected, build FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
     foreach ($hotfixes as $hotfix) {
+        $buildQ->execute([$hotfix['build']]);
+        $buildRow = $buildQ->fetch(PDO::FETCH_ASSOC);
+        if(empty($buildRow)){
+            $hotfix['patch'] = "Unknown";
+        }else{
+            $hotfix['patch'] = $buildRow['expansion'].".".$buildRow['major'].".".$buildRow['minor'];
+        }
+
         echo "<tr>
-        <td><a href='/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a></td>
+        <td><a href='/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a><br><span class='badge badge-secondary'>".$hotfix['patch']."</span></td>
         <td>" . implode('<br>', explode(',', $hotfix['tables'])) . "</td>
         <td>" . $hotfix['rowCount'] . "</td>
         <td>" . $hotfix['firstdetected'] . "</td>
