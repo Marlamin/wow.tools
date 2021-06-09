@@ -5632,6 +5632,7 @@ conditionalFKs.set("modifiertree.SecondaryAsset",
         // ['modifiertree.Type=307','{#Rank}'],
         ['modifiertree.Type=308','spellshapeshiftform::ID'],
         // ['modifiertree.Type=309','{#Rank}'],
+        ['modifiertree.Type=318','garrtalenttree::ID'],
     ]
 );
 
@@ -5655,6 +5656,7 @@ conditionalFKs.set("modifiertree.Asset",
         //['modifiertree.Type=20', '$Dungeon Difficulty'],
         // ['modifiertree.Type=21', '#Level Delta'],
         // ['modifiertree.Type=22', '#Level Delta'],
+        // ['modifiertree.Type=23', ''], // "Character restrictions" 
         // ['modifiertree.Type=24', '#Team Size'],
         ['modifiertree.Type=25','chrraces::ID'],
         ['modifiertree.Type=26','chrclasses::ID'],
@@ -5888,10 +5890,13 @@ conditionalFKs.set("modifiertree.Asset",
         ['modifiertree.Type=300','uichromietimeexpansioninfo::ID'],
         ['modifiertree.Type=303','runeforgelegendaryability::ID'],
         ['modifiertree.Type=306','achievement::ID'],
-        // ['modifiertree.Type=307','soulbindconduit::ID'],
+        ['modifiertree.Type=307','soulbindconduit::ID'],
         // ['modifiertree.Type=308','creaturedisplayinfo::ID'],
         // ['modifiertree.Type=309','#Level'],
         ['modifiertree.Type=314','covenant::ID'],
+        ['modifiertree.Type=317','garrtalent::ID'],
+        ['modifiertree.Type=318','currencytypes::ID'],
+        // ['modifiertree.Type=327',''], // Item? Creature? 1 entry only at time of writing
     ]
 );
 
