@@ -417,6 +417,9 @@ const criteriaAdditionalCondition = {
     320: ['RAPID_RENOWN_CATCHUP_ACTIVE', 'Rapid Renown Catchup Active'],
     321: ['MYTHIC_PLUS_RATING_EQ_OR_HIGHER', 'Player has Mythic+ Rating of at least "{#DungeonScore}"'],
     322: ['MYTHIC_PLUS_RUN_COUNT_EQ_OR_HIGHER', 'Player has completed at least "{#MythicKeystoneRuns}" Mythic+ runs in current expansion'],
+    // 324: ['', ''],
+    // 325: ['', ''],
+    // 327: ['', ''],
 };
 
 const itemStatType = {
@@ -814,6 +817,8 @@ const spellEffectName = {
     279: 'LEARN_GARR_TALENT',
     281: 'LEARN_SOULBIND_CONDUIT',
     282: 'CONVERT_ITEMS_TO_CURRENCY',
+    // 283: '',
+    // 284: '',
 };
 
 const charSectionType = {
@@ -1428,6 +1433,8 @@ const effectAuraType = {
     501: 'MOD_CRITICAL_DAMAGE_TAKEN_FROM_CASTER',
     502: 'MOD_VERSATILITY_DAMAGE_DONE_BENEFIT',
     503: 'MOD_VERSATILITY_HEALING_DONE_BENEFIT',
+    // 504: '',
+    // 505: '',
 }
 
 const spellVisualKitEffectType = {
@@ -4769,13 +4776,14 @@ const enumNames = {
     271: 'Criteria::Flags',
     272: 'SoundTypes',
     277: 'CreatureStaticFlags',
-    // 282: 'Quest flags',
+    282: 'QuestV2::Flags',
     291: 'LightSkybox::Flags',
     292: 'SpellInterrupts::InterruptFlags',
     // 299: 'CASC File flags?',
     303: 'BattlepayDisplayFlag',
     306: 'MovementFlags',
     318: 'LFGDungeons::Flags',
+    326: 'FactionTemplate::Flags',
     327: 'PowerType::Flags',
     328: 'PowerType::PowerTypeEnum',
     // 330: 'visual swing type',
@@ -4821,6 +4829,7 @@ const enumNames = {
     546: 'Stationery::Flags',
     555: 'UiModelSceneCamera::CameraType',
     556: 'UiModelSceneActor::Flags',
+    559: 'UiModelScene::UiSystemType',
     558: 'Holidays::Flags',
     562: 'JournalInstance::Flags',
     564: 'GameObjects::TypeID',
@@ -4840,6 +4849,7 @@ const enumNames = {
     600: 'ModifierTree::Type', // copied, fks mapped
     601: 'ItemSparse::Bonding',
     603: 'DungeonEncounter::Flags',
+    604: 'SpellVisualEffectName::Type',
     // 605: 'Some M2 events',
     614: 'AI Formation Type',
     615: 'AI Formation Behavior',
@@ -4872,6 +4882,7 @@ const enumNames = {
     756: 'Campaign::Flags',
     758: 'ChallengeModeItemBonusOverride::Type',
     759: 'TaxiNodes::Flags',
+    762: 'Prestige Name',
     863: 'UiWidgetVisualization::VisType', // copied and extended
     864: 'UiWidgetDataSource::SourceType', // copied
     865: 'UiWidgetVisTypeDataReq::ValueType', // copied
@@ -4925,6 +4936,7 @@ const enumNames = {
     1064: 'GarrTalentTree::FeatureSubtypeIndex',
     1067: 'ChrCustomizationCategoryFlag',
     1069: 'ChrCustomizationOptionType',
+    1073: 'GarrTalentCost::CostType',
     1074: 'ScriptedAnimationBehavior',
     1075: 'ScriptedAnimationTrajectory',
     // 1078: 'ChrCustomizationMaterial::ChrModelTextureTargetID',
@@ -5896,7 +5908,7 @@ conditionalFKs.set("modifiertree.Asset",
         ['modifiertree.Type=314','covenant::ID'],
         ['modifiertree.Type=317','garrtalent::ID'],
         ['modifiertree.Type=318','currencytypes::ID'],
-        // ['modifiertree.Type=327',''], // Item? Creature? 1 entry only at time of writing
+        ['modifiertree.Type=327','item::ID'], //
     ]
 );
 
