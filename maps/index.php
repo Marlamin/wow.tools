@@ -34,7 +34,7 @@ require_once(__DIR__ . "/../inc/header.php"); ?>
         <div style='font-size: 12px; margin-top: 5px'><input type='checkbox' name='flightpoints' id='js-flightlayer'> <label for="js-flightlayer">Flight masters</label></div>
         <div style='font-size: 12px;'><input type='checkbox' name='pois' id='js-poilayer'> <label for="js-poilayer">Points of interest</label></div>
         <div style='font-size: 12px;'><input type='checkbox' name='adtgrid' id='js-adtgrid'> <label for="js-adtgrid">ADT grid</label></div>
-        <div style='font-size: 12px;'><input type='checkbox' name='worldmap' id='js-worldmap'> <label for="js-worldmap">World maps (up to 50MB data)</label></div>
+        <div style='font-size: 12px;'><input type='checkbox' name='worldmap' id='js-worldmap'> <label for="js-worldmap">World maps (large download!)</label></div>
         <div style='font-size: 12px;'><input type='checkbox' name='mnam' id='js-mnam'> <label for="js-mnam">Map Anima (MNAM) data</label></div>
     </div>
 
