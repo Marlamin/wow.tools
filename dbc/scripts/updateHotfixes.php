@@ -51,15 +51,18 @@ foreach ($filesToProcess as $file) {
 
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
     $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
+    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Decoding output..\n";
     $json = json_decode($output, true);
 
     if ($json['build'] < 32593) {
         continue;
     }
-
+    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Processing entries..\n";
+    
     $insertQ = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes (pushID, recordID, tableName, isValid, build, cachename) VALUES (?, ?, ?, ?, ?, ?)");
     $insertCachedEntryQ = $pdo->prepare("INSERT IGNORE INTO wow_cachedentries (recordID, tableName, md5, build, cachename) VALUES (?, ?, ?, ?, ?)");
     $messages = [];
+    $entriesProcessed = 0;
     foreach ($json['entries'] as $entry) {
         if ($entry['pushID'] > 999999) {
             // $messages[] = "Got hotfix with a very high push ID: " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . ", ignoring!!!\n\n@" . $file . "\n\n";
@@ -69,6 +72,14 @@ foreach ($filesToProcess as $file) {
         if ($entry['pushID'] != "-1" && in_array($entry['pushID'], $knownPushIDs)) {
             continue;
         }
+
+        if($entriesProcessed > 0 && $entriesProcessed % 2500 == 0){
+            echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Still processing entries, currently at " . $entriesProcessed . ", current record: Table " . $entry['tableName'] . ", ID " . $entry['recordID'] . ", IsValid " . $entry['isValid'] .", MD5: (".$entry['dataMD5'].")\n";
+            // Useless query to keep the connection alive
+            $pdo->query("SELECT pushID FROM wow_hotfixes LIMIT 1");
+        }
+        
+        $entriesProcessed++;
 
         if ($entry['pushID'] != "-1") {
             // With Push ID
@@ -113,6 +124,7 @@ foreach ($filesToProcess as $file) {
                 }
             }
         }
+
     }
 
     foreach ($messages as $message) {
@@ -132,6 +144,8 @@ foreach ($filesToProcess as $file) {
             }
         }
     }
+
+    echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Processing big one..\n";
 
     $foundNewKeys = false;
     $output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions") . " true");
