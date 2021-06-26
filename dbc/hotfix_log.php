@@ -143,7 +143,7 @@ if(showServer){
         for(let i = 0; i < serverHotfixDivs.length; i++){
             let el = serverHotfixDivs[i];
             const pushID = el.dataset.pushid;
-            fetch("/dbc/api/find/Hotfixes?col=PushID&val=" + pushID + "&build=" + build)
+            fetch("/dbc/api/find/Hotfixes?col=PushID&val=" + pushID + "&build=" + build + "&useHotfixes=true")
             .then(function (response) {
                 return response.json();
             }).then(function (hotfixesEntry) {
@@ -163,7 +163,7 @@ if(showServer){
                     if(tableName in tableNames){
                         prettyName = tableNames[tableName];
                     }else{
-                        prettyName = tableName;
+                        prettyName = "<u>" + tableName + "</u>";
                     }
 
                     tableDesc += "<b>" + prettyName + "</b>" + ": <i>" + hotfixes[tableName] + "x</i><br>";
