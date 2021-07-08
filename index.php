@@ -95,7 +95,23 @@ if ($updatedago == strtotime("now")) {
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
     <thead><tr><th style='min-width: 70px;'>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
     <?php
-    $hotfixLog = $pdo->prepare("SELECT name FROM wow_hotfixlogs WHERE pushID = ?");
+    function getStatusColor($status)
+    {
+
+        switch ($status) {
+            case "unknown":
+                return "danger";
+            case "unverified":
+                return "warning";
+            case "verified":
+                return "success";
+            case "official":
+                return "primary";
+            default:
+                return "secondary";
+        }
+    }
+    $hotfixLog = $pdo->prepare("SELECT name, status FROM wow_hotfixlogs WHERE pushID = ?");
     $buildQ = $pdo->prepare("SELECT expansion, major, minor FROM wow_builds WHERE build = ?");
     $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected, build FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
     foreach ($hotfixes as $hotfix) {
@@ -116,7 +132,7 @@ if ($updatedago == strtotime("now")) {
 
         $hotfixLog->execute([$hotfix['pushID']]);
         if ($logRow = $hotfixLog->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr><td style='text-align: right'>&nbsp;</td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
+            echo "<tr><td style='text-align: right'><span class='badge badge-" . getStatusColor($logRow['status']) . "'>" . ucfirst($logRow['status']) . "</span></td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
         }
     }
     ?>
