@@ -46,6 +46,7 @@ if (count($filesToProcess) > 0) {
 foreach ($filesToProcess as $file) {
     $md5 = md5_file($file);
     if (in_array($md5, $processedMD5s)) {
+        echo "Skipping " . $md5 . "\n";
         continue;
     }
 
@@ -115,16 +116,15 @@ foreach ($filesToProcess as $file) {
                     }
                     
                     if (array_key_exists($json['build'], $buildLookup)) {
-                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&build=" . $buildLookup[$json['build']] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=" . $entry['recordID'];
+                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&build=" . $buildLookup[$json['build']] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=exact:" . $entry['recordID'];
                     } else {
-                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=" . $entry['recordID'];
+                        $link = "https://wow.tools/dbc/?dbc=" . $entry['tableName'] . "&hotfixes=true#page=1&colFilter[" . $colIndex . "]=exact:" . $entry['recordID'];
                     }
 
                     $messages[filemtime($file)] .= $entry['tableName'] . " [" . $entry['recordID'] . "](" . $link . ")\n";
                 }
             }
         }
-
     }
 
     foreach ($messages as $message) {
