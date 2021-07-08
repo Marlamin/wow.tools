@@ -61,7 +61,8 @@ const itemBonusTypes = {
     27: 'RequiredLevelCurve',
     30: 'ItemDescription',
     31: 'LegendaryName',
-    34: 'ItemBonusListGroupID'
+    34: 'ItemBonusListGroupID',
+    35: 'ItemLimitCategoryID'
 };
 
 const criteriaTreeOperator = {
@@ -5374,7 +5375,8 @@ conditionalFKs.set("itembonus.Value[0]",
         ['itembonus.Type=23','itemeffect::ID'],
         ['itembonus.Type=30','itemnamedescription::ID'],
         ['itembonus.Type=31','itemnamedescription::ID'],
-        ['itembonus.Type=34','itembonuslistgroup::ID']
+        ['itembonus.Type=34','itembonuslistgroup::ID'],
+        ['itembonus.Type=35','itemlimitcategory::ID'],
     ]
 );
 
