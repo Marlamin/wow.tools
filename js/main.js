@@ -2,6 +2,7 @@ var theme = localStorage.getItem('theme');
 if (!theme){
     localStorage.setItem('theme', 'dark');
     theme = 'dark';
+    updateCSSVars(theme);
 } else {
     if (theme == 'light'){
         updateCSSVars('light');
