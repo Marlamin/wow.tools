@@ -31,6 +31,7 @@ function openFKModal(value, location, build){
     wowDBMap.set("itemsparse", "https://www.wowdb.com/items/");
     wowDBMap.set("questv2", "https://www.wowdb.com/quests/");
     wowDBMap.set("creature", "https://www.wowdb.com/npcs/");
+    wowDBMap.set("gameobjects", "https://www.wowdb.com/objects/");
 
     const wowheadMap = new Map();
     wowheadMap.set("spell", "https://www.wowhead.com/spell=");
@@ -38,6 +39,7 @@ function openFKModal(value, location, build){
     wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
     wowheadMap.set("questv2", "https://www.wowhead.com/quest=");
     wowheadMap.set("creature", "https://www.wowhead.com/npc=");
+    wowheadMap.set("gameobjects", "https://www.wowhead.com/object=");
 
     const splitLocation = location.split("::");
     const db = splitLocation[0].toLowerCase();
