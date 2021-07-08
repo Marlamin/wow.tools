@@ -33,6 +33,7 @@ function importDB2($name, $outdir, $fields)
 
 include(__DIR__ . "/../../inc/config.php");
 
+$donebuilds = [];
 $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product LIKE 'wow%' AND ID > 1575 ORDER BY description DESC LIMIT 5");
 while($row = $q->fetch(PDO::FETCH_ASSOC)){
     $rawdesc = str_replace("WOW-", "", $row['description']);
@@ -40,6 +41,8 @@ while($row = $q->fetch(PDO::FETCH_ASSOC)){
     $rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
     $descexpl = explode("_", $rawdesc);
     $outdir = $descexpl[0] . "." . $build;
-
+    if(in_array($outdir, $donebuilds))
+        continue;
     importDB2("broadcasttext", $outdir, "(@TextLang, @Text1Lang, @ID, @LanguageID, @ConditionID, @EmotesID, @Flags, @ChatBubbleDurationMS, @SoundKit0, @SoundKit1) SET ID = @ID, Text = @TextLang, Text1 = @Text1Lang, SoundKit0 = @SoundKit0, SoundKit1 = @SoundKit1");
+    $donebuilds[] = $outdir;
 }
