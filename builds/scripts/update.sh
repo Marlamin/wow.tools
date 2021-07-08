@@ -30,6 +30,7 @@ php exes.php
 php dumpDBC.php
 php ../../dbc/scripts/buildMap.php
 php ../../dbc/scripts/processDBD.php
+php ../../dbc/scripts/updateBroadcastText.php
 php updateGameData.php
 php encrypted.php
 php fixBranches.php
