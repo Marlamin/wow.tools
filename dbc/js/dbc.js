@@ -303,3 +303,23 @@ function parseDate(date){
         return utcDate.toUTCString();
     }
 }
+
+function loadLogForm(pushID){
+    fetch("/dbc/hotfix_api.php?logByPushID=" + pushID + "&cb=" + Date.now())
+    .then(function (response) {
+        return response.json();
+    }).then(function (logEntry) {
+        document.getElementById("logPushID").value = pushID;
+
+        if(logEntry === false){
+            return;
+        }
+
+        document.getElementById("logName").value = logEntry['name'];
+        document.getElementById("logDescription").value = logEntry['description'];
+        document.getElementById("logStatus").value = logEntry['status'];
+        document.getElementById("logContributed").value = logEntry['contributedby'];
+    }).catch(function (error) {
+        console.log("An error occurred retrieving data: " + error);
+    });
+}

@@ -13,6 +13,16 @@ if(!empty($_GET['server'])){
 }else{
     $showServer = false;
 }
+
+// Handle add/edits
+if(!empty($_POST) && !empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0) {
+    if(empty($_POST['logContributed'])){
+        $_POST['logContributed'] = null;
+    }
+
+    $hotfixLogQ = $pdo->prepare("INSERT INTO wow_hotfixlogs (`pushID`, `name`, `description`, `status`, `contributedby`) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `name` = ?, `description` = ?, `status` = ?, `contributedby` = ?");
+    $hotfixRes = $hotfixLogQ->execute([$_POST['logPushID'], $_POST['logName'], $_POST['logDescription'], $_POST['logStatus'], $_POST['logContributed'], $_POST['logName'], $_POST['logDescription'], $_POST['logStatus'], $_POST['logContributed']]);
+}
 ?>
 <script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
 <script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
@@ -110,7 +120,15 @@ foreach ($hotfixes as $hotfix) {
     }
     echo "</p>";
     echo "</td>";
-    echo "<td><a class='btn btn-primary btn-sm' target='_BLANK' href='https://wow.tools/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>View " . $hotfix['rowCount'] . " hotfix" . ($hotfix['rowCount'] > 1 ? "es" : "") . "</a></td>";
+    echo "<td>";
+    if (!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0) {
+        if (empty($hotfix['name'])) {
+            echo "<a style='vertical-align: top;' class='btn btn-success btn-sm' onclick='loadLogForm(".$hotfix['pushID'].")' data-toggle='modal' href='' data-target='#hotfixDialogModal'><i class='fa fa-plus'></i> Add</a> ";
+        }else{
+            echo "<a style='vertical-align: top;' class='btn btn-warning btn-sm' onclick='loadLogForm(".$hotfix['pushID'].")' data-toggle='modal' href='' data-target='#hotfixDialogModal'><i class='fa fa-pencil'></i> Edit</a> ";
+        }
+    }
+    echo "<a class='btn btn-primary btn-sm' target='_BLANK' href='https://wow.tools/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>View " . $hotfix['rowCount'] . " hotfix" . ($hotfix['rowCount'] > 1 ? "es" : "") . "</a></td>";
     echo "</tr>";
 }
 
@@ -118,7 +136,11 @@ echo "</tbody></table>";
 ?>
 </div>
 <script type='text/javascript'>
-const showServer = <?=$showServer?>;
+<?php if($showServer){ ?>
+const showServer = true;
+<?php }else{ ?>
+const showServer = false;
+<?php } ?>
 if(showServer){
     Promise.all([
         fetch("/api.php?type=latestbuilds"),
@@ -185,6 +207,52 @@ if(showServer){
 
 }
 </script>
+<div class="modal" id="hotfixDialogModal" tabindex="-1" role="dialog" aria-labelledby="hotfixDialogLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hotfixDialogLabel">Add/edit hotfix log entry</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="hotfixDialogContent">
+                <form method="POST" action="/dbc/hotfix_log.php?showAll=true">
+                <div class="form-group">
+                    <label for="logPushID">PushID</label>
+                    <input type="number" class="form-control" name="logPushID" id="logPushID" READONLY>
+                </div>
+                <div class="form-group">
+                    <label for="logName">Name</label>
+                    <input type="text" class="form-control" name="logName" id="logName" placeholder="As short as possible while still being clear." maxlength="255" REQUIRED>
+                </div>
+                <div class="form-group">
+                    <label for="logDescription">Description (optional)</label>
+                    <textarea class="form-control" name="logDescription" id="logDescription" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="logStatus">Status</label>
+                    <select class='form-control' id="logStatus" name="logStatus">
+                        <option value='unknown'>Unknown</option>
+                        <option value='unverified'>Unverified</option>
+                        <option value='verified'>Verified</option>
+                        <option value='official'>Official</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="logContributed">UserID as note author (optional, your user ID is <?php if(!empty($_SESSION['userid'])){ echo $_SESSION['userid']; } else { echo "unknown"; }?>)</label>
+                    <input type="number" class="form-control" name="logContributed" id="logContributed">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php
 require_once(__DIR__ . "/../inc/footer.php");
 ?>

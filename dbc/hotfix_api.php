@@ -60,6 +60,14 @@ if (!empty($_GET['cacheproxy']) && $_GET['cacheproxy'] == 1) {
     echo json_encode($json);
     die();
 }
+
+if(!empty($_GET['logByPushID'])){
+    $logQ = $pdo->prepare("SELECT * FROM wow_hotfixlogs WHERE pushID = ?");
+    $logQ->execute([$_GET['logByPushID']]);
+    echo json_encode($logQ->fetch(PDO::FETCH_ASSOC));
+    die();
+}
+
 $fullbuilds = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $buildsToID = $pdo->query("SELECT build, id FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 $tablesToID = $pdo->query("SELECT name, id FROM wow_dbc_tables")->fetchAll(PDO::FETCH_KEY_PAIR);
