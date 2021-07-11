@@ -104,8 +104,7 @@ require_once(__DIR__ . "/../inc/header.php");
             "render": function ( data, type, full, meta ) {
                 if(showHotfixButtons){
                     if(full[7]){
-                        return "<a href='/dbc/hotfix_log.php#" + full[0] + "'>" + full[0] + " <i class='fa fa-info-circle'></i></a> ";
-                        return "<span class='badge badge-warning'><a onclick='loadLogForm(" + full[0] + ")' data-toggle='modal' href='' data-target='#hotfixDialogModal'>Edit</a></span>";
+                        return "<a href='/dbc/hotfix_log.php#" + full[0] + "'>" + full[0] + " <i class='fa fa-info-circle'></i></a> <span class='badge badge-warning'><a onclick='loadLogForm(" + full[0] + ")' data-toggle='modal' href='' data-target='#hotfixDialogModal'>Edit</a></span>";
                     }else{
                         return full[0] +  " <span class='badge badge-success'><a onclick='loadLogForm(" + full[0] + ")' data-toggle='modal' href='' data-target='#hotfixDialogModal'>Add</a></span>";
                     }

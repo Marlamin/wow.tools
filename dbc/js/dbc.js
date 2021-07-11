@@ -119,11 +119,47 @@ function openFKModal(value, location, build){
                     if (wowheadMap.has(cleanDBname) && val != 0){
                         fkTableHTML += " <a target='_BLANK' href='" + wowheadMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
                     }
-
-                    fkTableHTML += "</td></tr>";
                 } else {
-                    fkTableHTML += "<tr><td style='width: 300px;'>" + key + "</td><td>" + val + "</td></tr>";
+                    fkTableHTML += "<tr><td style='width: 300px;'>" + key + "</td><td>" + val;
                 }
+
+
+                const columnWithTable = db.toLowerCase() + "." + key;
+
+                if (enumMap.has(columnWithTable)) {
+                    var enumVal = getEnum(db.toLowerCase(), key, val);
+                    if (val == '0' && enumVal == "Unk") {
+                        // returnVar += val;
+                    } else {
+                        fkTableHTML += " <i>(" + enumVal + ")</i>";
+                    }
+                }
+
+                if (conditionalEnums.has(columnWithTable)) {
+                    let conditionalEnum = conditionalEnums.get(columnWithTable);
+                    conditionalEnum.forEach(function(conditionalEnumEntry) {
+                        let condition = conditionalEnumEntry[0].split('=');
+                        let conditionTarget = condition[0].split('.');
+                        let conditionValue = condition[1];
+                        let resultEnum = conditionalEnumEntry[1];
+
+                        let colTarget = headerjson["headers"].indexOf(conditionTarget[1]);
+
+                        // Col target found?
+                        if (colTarget > -1) {
+                            if (full[colTarget] == conditionValue) {
+                                var enumVal = getEnumVal(resultEnum, val);
+                                if (val == '0' && enumVal == "Unk") {
+                                    //
+                                } else {
+                                    fkTableHTML +=" <i>(" + enumVal + ")</i>";
+                                }
+                            }
+                        }
+                    });
+                }
+
+                fkTableHTML += "</td></tr>";
             });
 
             fkTable.insertAdjacentHTML("beforeend", fkTableHTML);
