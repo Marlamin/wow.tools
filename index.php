@@ -113,7 +113,7 @@ if ($updatedago == strtotime("now")) {
     }
     $hotfixLog = $pdo->prepare("SELECT name, status FROM wow_hotfixlogs WHERE pushID = ?");
     $buildQ = $pdo->prepare("SELECT expansion, major, minor FROM wow_builds WHERE build = ?");
-    $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected, build FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,5")->fetchAll();
+    $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, pushID, firstdetected, build FROM wow_hotfixes GROUP BY pushID ORDER BY firstdetected DESC, pushID DESC LIMIT 0,7")->fetchAll();
     foreach ($hotfixes as $hotfix) {
         $buildQ->execute([$hotfix['build']]);
         $buildRow = $buildQ->fetch(PDO::FETCH_ASSOC);
@@ -137,6 +137,7 @@ if ($updatedago == strtotime("now")) {
     }
     ?>
     </table>
+    <!--
     <h4>Latest filename additions</h4>
     <table class='table table-condensed table-striped table-hover' style='width: 100%'>
     <thead><tr><th>Amount</th><th>User</th><th>Date</th><th>Status</th></tr></thead>
@@ -152,6 +153,7 @@ if ($updatedago == strtotime("now")) {
     }
     ?>
     </table>
+    -->
     </div>
     </div>
     </div>
