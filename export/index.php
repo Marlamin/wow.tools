@@ -82,7 +82,7 @@
     </div>
     <div class='row'>
         <div class='col-8 offset-2'>
-            <p>If you find any issues, please report them on the <a href='https://github.com/Kruithne/wow.export/issues' target='_BLANK'>issue tracker</a> and/or <a href='https://discord.gg/52mHpxC'>Discord</a>.
+            <p>If you find any issues, please report them on the <a href='https://github.com/Kruithne/wow.export/issues' target='_BLANK'>issue tracker</a> and/or <a href='https://discord.gg/kC3EzAYBtf'>Discord</a>.
             </p>
             <div class='alert alert-danger'>
                 <b>Important</b><br>- When setting up, please use a <b>NEW</b> export folder rather than one you used for WoW Export Tools (or other tools) so that in the case of bugs, we're not getting mixed up data.<br>
@@ -126,7 +126,7 @@
             - <i>(CDN/online mode)</i> Network/CDN issues, if available, use a local installation instead. If not, try selecting a different region.<br>
             - If you are behind the not-so-great firewall of China, go to Settings and change the URL in "Data Table Definition Repository" to <kbd>https://wow.tools/dbd/%s.dbd</kbd> <a href='https://marlamin.com/u/wow.export_izgDo2vA7y.png'>(image)</a>.<br>
             <br>
-            Other issue? Tell us on <a href='https://discord.gg/52mHpxC'>Discord</a>. Please share your runtime.log, you can find it by clicking <a href='https://marlamin.com/u/wow.export_AM3IlwOzTx.png'>here in WoW.export</a> or in <kbd>C:\Users\<i><u>[USER]</u></i>\AppData\Local\wow.export\User Data\Default\</kbd>.
+            Other issue? Tell us on <a href='https://discord.gg/kC3EzAYBtf'>Discord</a>. Please share your runtime.log, you can find it by clicking <a href='https://marlamin.com/u/wow.export_AM3IlwOzTx.png'>here in WoW.export</a> or in <kbd>C:\Users\<i><u>[USER]</u></i>\AppData\Local\wow.export\User Data\Default\</kbd>.
         </div>
     </div>
 </div>
