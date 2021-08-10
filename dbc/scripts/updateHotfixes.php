@@ -39,6 +39,7 @@ $pushIDIcon[0] = "🗑️";
 $pushIDIcon[1] = "✏️";
 $pushIDIcon[2] = "🗑️";
 $pushIDIcon[3] = "❌";
+$pushIDIcon[4] = "🔒";
 if (count($filesToProcess) > 0) {
     $knownCachedEntries = $pdo->query("SELECT CONCAT(tableName, \".\", recordID, \".\", md5) FROM wow_cachedentries")->fetchAll(PDO::FETCH_COLUMN);
 }
@@ -54,6 +55,11 @@ foreach ($filesToProcess as $file) {
     $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Decoding output..\n";
     $json = json_decode($output, true);
+
+    if(empty($json)){
+        echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Empty JSON, likely encountered an error during parsing!\n";
+        continue;
+    }
 
     if ($json['build'] < 32593) {
         continue;
