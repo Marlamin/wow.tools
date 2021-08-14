@@ -1,6 +1,10 @@
 <?php
 
 require_once(__DIR__ . "/../inc/header.php");
+
+// if(empty($_SESSION['loggedin']) || $_SESSION['rank'] < 1) {
+//     die("Back in a bit!");
+// }
 ?>
 <div class='container-fluid'>
     <table class='table' id='hotfixTable'>

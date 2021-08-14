@@ -5,13 +5,19 @@ if (php_sapi_name() != "cli") {
 }
 
 include(__DIR__ . "/../../inc/config.php");
-$q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
-$row = $q->fetch();
-$rawdesc = str_replace("WOW-", "", $row['description']);
-$build = substr($rawdesc, 0, 5);
-$rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
-$descexpl = explode("_", $rawdesc);
-$outdir = $descexpl[0] . "." . $build;
+
+if (!empty($argv[1])){
+    $outdir = $argv[1];
+}else{
+    $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
+    $row = $q->fetch();
+    $rawdesc = str_replace("WOW-", "", $row['description']);
+    $build = substr($rawdesc, 0, 5);
+    $rawdesc = str_replace(array($build, "patch"), "", $rawdesc);
+    $descexpl = explode("_", $rawdesc);
+    $outdir = $descexpl[0] . "." . $build;
+}
+
 
 function importDB2($name, $outdir, $fields)
 {

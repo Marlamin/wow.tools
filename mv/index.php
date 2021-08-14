@@ -45,9 +45,9 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
         <li class="nav-item">
             <a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="#map" data-toggle="tab" role="tab" id="mapViewerButton">Map viewer</a>
-        </li>
+        </li> -->
     </ul>
     <div class="tab-content" id="mvTabs">
         <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="model-tab">

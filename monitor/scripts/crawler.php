@@ -13,16 +13,23 @@ $ngdpurls[] = array("name" => "Install", "url" => "http://us.patch.battle.net:11
 $ngdpurls[] = array("name" => "Blobs", "url" => "http://us.patch.battle.net:1119/%program%/blobs");
 $DEBUG = false;
 
-function MessageDiscord($product, $message)
+function MessageDiscord($product, $message, $overrideToHP = false)
 {
     global $discord;
+    global $discordHP;
     global $pdo;
-    $channelToUse = $discord['not-wow'];
-    foreach ($discord as $discordChannel) {
-        if (in_array($product, $discordChannel['products'])) {
-            $channelToUse = $discordChannel;
+
+    if(!$overrideToHP){
+        $channelToUse = $discord['not-wow'];
+        foreach ($discord as $discordChannel) {
+            if (in_array($product, $discordChannel['products'])) {
+                $channelToUse = $discordChannel;
+            }
         }
+    }else{
+        $channelToUse['url'] = $discordHP;
     }
+
 
     $uq = $pdo->prepare("SELECT name FROM ngdp_products WHERE program = ?");
     $uq->execute([$product]);
@@ -193,6 +200,9 @@ foreach ($pdo->query("SELECT * FROM ngdp_urls WHERE enabled = 1") as $row) {
                     $msg = diffNGDParrays(parseNGDPcontentToArray($history['lastcontent']), parseNGDPcontentToArray($content));
                     $product = explode("/", str_replace("http://us.patch.battle.net:1119/", "", $row['url']));
                     MessageDiscord($product[0], $msg);
+                    if($product[0] == "hsb" || $product[0] == "hse" || $product[0] == "hsc"){
+                        MessageDiscord($product[0], $msg, true);
+                    }
                     telegramSendMessage(str_replace("http://us.patch.battle.net:1119/", "", $row['url']) . "\n```\n" . $msg . "```\n https://wow.tools/monitor/");
                 } else {
                     telegramSendMessage("Change detected: " . $row['url'] . "\nhttps://wow.tools/monitor/");

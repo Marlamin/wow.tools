@@ -49,6 +49,8 @@ while ($row = $res->fetch()) {
                 $target = "WowB.exe";
                 break;
             case "wowz":
+                $target = "WowClassicT.exe";
+                break;
             case "wow_classic_beta":
             case "wow_classic_era_beta":
                 $target = "WowClassicB.exe";

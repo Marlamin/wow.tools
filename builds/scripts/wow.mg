@@ -9,6 +9,8 @@
 # XML
 4 string xmlns .xml
 !:mime text/xml
+5 string xmlns .xml
+!:mime text/xml
 
 # SKEL
 0 string SKL1 .skel

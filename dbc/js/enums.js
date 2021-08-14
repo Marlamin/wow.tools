@@ -418,8 +418,10 @@ const criteriaAdditionalCondition = {
     320: ['RAPID_RENOWN_CATCHUP_ACTIVE', 'Rapid Renown Catchup Active'],
     321: ['MYTHIC_PLUS_RATING_EQ_OR_HIGHER', 'Player has Mythic+ Rating of at least "{#DungeonScore}"'],
     322: ['MYTHIC_PLUS_RUN_COUNT_EQ_OR_HIGHER', 'Player has completed at least "{#MythicKeystoneRuns}" Mythic+ runs in current expansion'],
-    // 324: ['', ''],
-    // 325: ['', ''],
+    323: ['PLAYER_HAS_CUSTOMIZATION_CHOICE', 'Player has Customization Choice "{ChrCustomizationChoice}"'],
+    324: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN', 'Player has best weekly win in PVP tier {PvpTier}'],
+    325: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN_EQ_OR_HIGHER', 'Player has best weekly win at or above "{@PVP_TIER_ENUM}" for "{@PVP_BRACKET}"'],
+    326: ['HAS_VANILLA_CE', 'Player has Vanilla Collector\'s Edition'],
     // 327: ['', ''],
 };
 
@@ -2956,6 +2958,8 @@ const itemContext = {
     84: "Raid: Heroic (Extended)",
     85: "Raid: Mythic (Extended)",
     86: "9.1 Character Template",
+    87: "Mythic+ Timewalking End of Run: Time Chest",
+    88: "PVP: Ranked 9",
 }
 
 // 457

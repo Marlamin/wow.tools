@@ -14,6 +14,10 @@ if(!empty($_GET['server'])){
     $showServer = false;
 }
 
+// if(empty($_SESSION['loggedin']) || $_SESSION['rank'] < 1) {
+//     die("Back in a bit!");
+// }
+
 // Handle add/edits
 if(!empty($_POST) && !empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0) {
     if(empty($_POST['logContributed'])){

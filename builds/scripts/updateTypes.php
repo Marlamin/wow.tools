@@ -159,8 +159,8 @@ function guessFileExtByExtractedFilename($name)
 {
 
     $output = shell_exec("/usr/bin/file -b -i -m /var/www/wow.tools/builds/scripts/wow.mg " . escapeshellarg($name));
-    $cleaned = str_replace("; charset=binary", "", $output);
-    switch (trim($cleaned)) {
+    $cleaned = explode(";", $output);
+    switch (trim($cleaned[0])) {
         case "wow/blp2":
             $ext = ".blp";
             break;
