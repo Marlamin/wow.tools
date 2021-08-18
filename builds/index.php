@@ -375,7 +375,7 @@ var table = $('#buildtable').DataTable({
             "lengthMenu": [[25, 100, 500, 1000], [25, 100, 500, 1000]],
             "columnDefs": [
             {
-                "targets": [2,3,4,5,7],
+                "targets": [2,3,4,5,8],
                 "orderable": false,
             }],
         });
