@@ -1505,7 +1505,8 @@ const wmoAreaTableFlags = {
     0x8: 'Generate Single Exterior Map',
     0x10: 'Stormwind',
     0x20: 'Chunk uses terrain for Minimap',
-    0x40: 'Ignore for Minimap and Effects'
+    0x40: 'Ignore for Minimap and Effects',
+    0x80: 'Ignore Fatigue'
 }
 
 // 220
