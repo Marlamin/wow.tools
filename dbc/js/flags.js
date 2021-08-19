@@ -1497,6 +1497,17 @@ const emotesFlags = {
     0x01000000: 'Suppress all animation sounds',
 };
 
+// 203
+const wmoAreaTableFlags = {
+    0x1: 'Render Minimap',
+    0x2: 'Force Indoors',
+    0x4: 'Force Outdoors',
+    0x8: 'Generate Single Exterior Map',
+    0x10: 'Stormwind',
+    0x20: 'Chunk uses terrain for Minimap',
+    0x40: 'Ignore for Minimap and Effects'
+}
+
 // 220
 const chatChannelsFlags = {
     0x00000001: 'Auto-Join',
@@ -2187,6 +2198,7 @@ window.flagMap.set("uiscriptedanimationeffect.Flags", ScriptedAnimationFlags);
 window.flagMap.set("vehiclepoitype.Flags", vehiclePOITypeFlags);
 window.flagMap.set("waypointedge.Flags", waypointEdgeFlags);
 window.flagMap.set("waypointnode.Flags", waypointNodeFlags);
+window.flagMap.set("wmoareatable.Flags", wmoAreaTableFlags);
 window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
 
 // Conditional flags

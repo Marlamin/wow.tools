@@ -4760,6 +4760,7 @@ const enumNames = {
     199: 'MountCapability::Flags', // added, needs double check as some dont make sense
     // 200: 'TaxiPath',
     201: 'EmoteFlags',
+    203: 'WMOAreaTable::Flags',
     // 205: 'SpellVisual',
     220: 'ChatChannels::Flags',
     223: 'SpellShapeShiftForm::Flags',
