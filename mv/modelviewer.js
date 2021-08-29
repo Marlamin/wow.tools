@@ -23,9 +23,9 @@ var Elements =
 
 var Current =
 {
-    buildConfig: "6e00acd78b86b9d272d35e79560f89c2",
-    cdnConfig: "c1894f974de24934ada6ed0cbb574233",
-    buildName: "9.1.0.39335",
+    buildConfig: SiteSettings.buildConfig,
+    cdnConfig: SiteSettings.cdnConfig,
+    buildName: SiteSettings.buildName,
     fileDataID: 397940,
     type: "m2",
     embedded: false,
@@ -380,16 +380,16 @@ window.addEventListener('resize', () => {
 
 $('#mvfiles').on('click', 'tbody tr td:first-child', function() {
     var data = Elements.table.row($(this).parent()).data();
-    var mostRecentVersion = data[3][0];
+    // var mostRecentVersion = data[3][0];
 
-    if (mostRecentVersion['buildconfig'] == Current.buildConfig && data[0] == Current.fileDataID){
-        console.log("Clicked model already open in viewer, ignoring.");
-        return;
-    }
+    // if (mostRecentVersion['buildconfig'] == Current.buildConfig && data[0] == Current.fileDataID){
+    //     console.log("Clicked model already open in viewer, ignoring.");
+    //     return;
+    // }
 
     $(".selected").removeClass("selected");
     $(this).parent().addClass('selected');
-    loadModel(data[4], data[0], mostRecentVersion['buildconfig'], mostRecentVersion['cdnconfig']);
+    loadModel(data[4], data[0], Current.buildConfig, Current.cdnConfig);
 });
 
 $('#js-sidebar').on('input', '.paginate_input', function(){
@@ -1052,7 +1052,8 @@ function exportScene(){
         "orderMulti": false,
         "ordering": true,
         "order": [[0, 'asc']],
-        "dom": 'fprt',
+        "dom": 'prt',
+        "searching": true,
         "columnDefs":
         [
             {
@@ -1122,5 +1123,9 @@ function exportScene(){
 
     $(".filterBox").on('change', function(){
         Elements.table.ajax.reload();
+    });
+
+    $('#mvfiles_search').on('input', function(){
+        Elements.table.search($(this).val()).draw();
     });
 }());

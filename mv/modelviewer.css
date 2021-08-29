@@ -192,6 +192,7 @@ html, body{
 */
 #mvfiles_filter{
     float: none;
+    margin-top: 15px;
     width: 450px;
 }
 
@@ -202,12 +203,22 @@ html, body{
 #mvfiles_filter label input{
     width: 100%;
 }
+
 .dataTables_filter input{
-    width: 400px !important;
+    width: 390px !important;
 }
+
+.dataTables_filter select{
+    width: 390px !important;
+}
+
+label{
+    margin-bottom: 0px;
+}
+
 #mvfiles{
     position: absolute;
-    top: 70px;
+    top: 30px;
     left: 0px;
     margin: auto;
     font-size: 12px;

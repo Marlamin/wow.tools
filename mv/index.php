@@ -31,7 +31,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
     <i class='fa fa-reorder'></i>
 </button>
 <div id="js-sidebar" class="overlay sidebar closed container">
-    <b style='margin-left: 75px; margin-top: 0px;'>Uses WIP viewer by Deamon</b>
+    <b style='margin-left: 75px; margin-top: 0px;'>Uses modelviewer by Deamon (<i class='fa fa-link'></i> <a href='https://github.com/Deamon87/WebWowViewerCpp/tree/development' target='_BLANK'>GitHub</a>)</b>
     <div class='row justify-content-md-center'>
         <div class='col-md-11'>
             <div class="btn-group" role="group">
@@ -41,23 +41,32 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             </div>
         </div>
     </div>
-    <ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
+    <!-- <ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
         <li class="nav-item">
             <a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" href="#map" data-toggle="tab" role="tab" id="mapViewerButton">Map viewer</a>
-        </li> -->
-    </ul>
+        </li>
+    </ul> -->
     <div class="tab-content" id="mvTabs">
         <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="model-tab">
-            <div class='row justify-content-center' style='margin-top: 10px;'>
-                <div class='col-md-4' style='text-align: center'><label title='terrain files (makes search slower)' for='showADT'>Show ADT: <input class='filterBox' type='checkbox' id='showADT'></label></div>
-                <div class='col-md-4' style='text-align: center'><label title='larger models (buildings, cities, dungeons, raids etc)' for='showWMO'>Show WMO: <input class='filterBox' type='checkbox' id='showWMO' CHECKED></label></div>
-                <div class='col-md-4' style='text-align: center'><label title='smaller more complex models (creatures, foliage, props etc)' for='showM2'>Show M2: <input class='filterBox' type='checkbox' id='showM2' CHECKED></label></div>
+            <div class='row'>
+                <div class='col-md-2' style='padding-right: 0px'>
+                    <label title='terrain files (makes search slower)' for='showADT'><input class='filterBox' type='checkbox' id='showADT'> ADT</label><br>
+                    <label title='larger models (buildings, cities, dungeons, raids etc)' for='showWMO'><input class='filterBox' type='checkbox' id='showWMO' CHECKED> WMO</label><br>
+                    <label title='smaller more complex models (creatures, foliage, props etc)' for='showM2'><input class='filterBox' type='checkbox' id='showM2' CHECKED> M2</label><br>
+                </div>
+                <div class='col-md-8'>
+                    <div id='mvfiles_filter' class='dataTables_filter'>
+                        <label>
+                           <input type="search" id="mvfiles_search" class="form-control form-control-sm" placeholder="Search" aria-controls="mvfiles">
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class='row'>
-                <div class='col'>
+                <div class='col-md-12'>
                     <table id='mvfiles' class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                         <thead>
                             <tr>
