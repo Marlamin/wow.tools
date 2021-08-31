@@ -160,6 +160,10 @@ pre{
 	color: var(--text-color);
 }
 
+.table td, .table th{
+	padding: 0.65rem;
+}
+
 .table-hover tbody tr:hover{
 	color: var(--text-color);
 }
@@ -199,6 +203,7 @@ pre{
 .table-minimal tr td{
 	padding: 0px;
 }
+
 .modal-content{
 	background-color: var(--background-color);
 }
