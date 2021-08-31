@@ -34,6 +34,14 @@ if (!empty($_GET['embed'])) {
     <script src="https://cdn.datatables.net/plug-ins/1.10.21/pagination/input.js" crossorigin="anonymous"></script>
 
     <link href="/css/style.css?v=<?=filemtime("/var/www/wow.tools/css/style.css")?>" rel="stylesheet">
+    <script type='text/javascript'>
+    var SiteSettings =
+    {
+        buildConfig: "5172b7b6b7a17875f5329fd1480fdc46",
+        cdnConfig: "9c85515e748c7941d772db6677bb759c",
+        buildName: "9.1.0.39804",
+    }
+    </script>
 <?php if (!$embed) { ?>
     <script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
     <script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
