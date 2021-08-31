@@ -37,18 +37,18 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             <div class="btn-group" role="group">
                 <button style='margin-left: 48px;' class='btn btn-mv btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</button>
                 <button class='btn btn-mv btn-sm' data-toggle='modal' data-target='#helpModal'><i class='fa fa-info-circle'></i> Help/About</button>
-                <button class='btn btn-mv btn-sm' onclick='exportScene()' id='exportButton' data-toggle="tooltip" data-placement="left" title="Exports the current model/animation to glTF"><i class='fa fa-download' disabled></i> Export glTF</a>
+                <button class='btn btn-mv btn-sm' onclick='exportScene()' id='exportButton' data-toggle="tooltip" data-placement="left" title="Exports the current model/animation to glTF"><i class='fa fa-download' disabled></i> Export glTF</button>
             </div>
         </div>
     </div>
-    <!-- <ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
+    <ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
         <li class="nav-item">
             <a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#map" data-toggle="tab" role="tab" id="mapViewerButton">Map viewer</a>
         </li>
-    </ul> -->
+    </ul>
     <div class="tab-content" id="mvTabs">
         <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="model-tab">
             <div class='row'>
@@ -208,7 +208,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
                 <p>
                     <kbd>SHIFT-Z</kbd> hides the UI.<br>
                     <kbd>Spacebar</kbd> pauses the current model (entirely, including rotation and stuff).<br><br>
-                    For ADTs and WMOs, the model viewer uses a free-roam camera. It can be controlled via dragging the mouse and <kbd>WASD</kbd> keys. Holding <kbd>SHIFT</kbd> increases camera speed.<br><br>
+                    For ADTs and WMOs, the model viewer uses a free-roam camera. It can be controlled via dragging the mouse and <kbd>WASD</kbd> keys. Holding <kbd>SHIFT</kbd> increases camera speed. Pressing <kbd>O</kbd> (the letter O, not zero) returns the camera to position 0 0 0.<br><br>
                     For M2s, the model viewer uses a rotational camera. You can rotate the model by dragging the mouse and zoom out with the scroll wheel. If skins/animations are available, a menu will pop up with options for these.
                 </p>
                 <h5>Issues</h5>
