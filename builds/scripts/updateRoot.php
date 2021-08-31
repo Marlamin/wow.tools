@@ -15,21 +15,17 @@ if (empty($argv[1])) {
             continue;
         }
 
-        processRoot($row['root_cdn'], $row['description']);
+        processRoot($row['root_cdn']);
         $processedRootFiles[] = $row['root_cdn'];
         $pq = $pdo->prepare("UPDATE wow_buildconfig SET processed = 1 WHERE root_cdn = :root");
         $pq->execute([$row['root_cdn']]);
         $memcached->delete("files.total");
     }
 } else {
-    $q = $pdo->prepare("SELECT description FROM wow_buildconfig WHERE root_cdn = :root");
-    $q->bindParam(":root", $argv[1]);
-    $q->execute();
-    $row = $q->fetch();
-    processRoot($argv[1], $row['description']);
+    processRoot($argv[1]);
 }
 
-function processRoot($root, $build)
+function processRoot($root)
 {
     global $pdo;
     if (empty(trim($root))) {
@@ -37,7 +33,7 @@ function processRoot($root, $build)
         return;
     }
 
-    echo "Processing " . $build . "\n";
+    echo "Processing root_cdn " . $root . "\n";
     if (!file_exists("/home/wow/buildbackup/manifests")) {
         mkdir("/home/wow/buildbackup/manifests");
     }
