@@ -128,3 +128,7 @@ function fillVersionModal(id){
 function fillConfigModal(config){
     $("#configModalContent").load("/builds/index.php?api=configdump&config=" + config);
 }
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
