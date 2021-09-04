@@ -13,15 +13,23 @@ Support for hotfixes is added throughout WoW.tools as well, but to keep the data
 if (empty($_SESSION['loggedin'])) {
     $token = "<span class='text-danger'>You need to log in to WoW.tools to retrieve your personal API token!</span>";
 } else {
-    $checkq = $pdo->prepare("SELECT apitoken FROM users WHERE username = ?");
-    $checkq->execute([$_SESSION['user']]);
-    $token = $checkq->fetchColumn();
+    $canUploadCacheq = $pdo->prepare("SELECT canSubmitCaches FROM users WHERE username = ?");
+    $canUploadCacheq->execute([$_SESSION['user']]);
+    $canUploadCache = $canUploadCacheq->fetchColumn();
 
-    if (empty($token)) {
-        // User needs token!
-        $token = bin2hex(random_bytes(16));
-        $settokenq = $pdo->prepare("UPDATE users SET apitoken = ? WHERE username = ?");
-        $settokenq->execute([$token, $_SESSION['user']]);
+    if($canUploadCache == 0){
+        $token = "<span class='text-warning'>You need to be manually flagged to upload caches, DM @Marlamin in the Discord or mail me at marlamin@marlamin.com</span>";
+    }else{
+        $checkq = $pdo->prepare("SELECT apitoken FROM users WHERE username = ?");
+        $checkq->execute([$_SESSION['user']]);
+        $token = $checkq->fetchColumn();
+
+        if (empty($token)) {
+            // User needs token!
+            $token = bin2hex(random_bytes(16));
+            $settokenq = $pdo->prepare("UPDATE users SET apitoken = ? WHERE username = ?");
+            $settokenq->execute([$token, $_SESSION['user']]);
+        }
     }
 }
 ?>
