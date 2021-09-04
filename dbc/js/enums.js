@@ -422,7 +422,7 @@ const criteriaAdditionalCondition = {
     324: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN', 'Player has best weekly win in PVP tier {PvpTier}'],
     325: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN_EQ_OR_HIGHER', 'Player has best weekly win at or above "{@PVP_TIER_ENUM}" for "{@PVP_BRACKET}"'],
     326: ['HAS_VANILLA_CE', 'Player has Vanilla Collector\'s Edition'],
-    // 327: ['', ''],
+    // 327: ['', ''], // Bag related
 };
 
 const itemStatType = {

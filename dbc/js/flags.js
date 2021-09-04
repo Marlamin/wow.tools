@@ -1933,6 +1933,7 @@ const friendshipReputationFlags = {
     0x00000004: 'No Log Text on Reaction Change',
     0x00000008: 'Show Rep Gain and Reaction Change for Hidden Faction',
     0x00000010: 'No Rep Gain Modifiers',
+    0x00000020: 'Reverse color'
 };
 
 // 985
@@ -2078,6 +2079,12 @@ const BattlePetVisualFlag = {
     0x4: 'Test3',
 }
 
+const itemSetSetFlags = {
+    0x1: 'Legacy',
+    0x2: 'UseItemHistorySetSlots',
+    0x4: 'RequiresPvPTalentsActive'
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2128,6 +2135,7 @@ window.flagMap.set("gemproperties.Type", socketColors);
 window.flagMap.set("globalstrings.Flags", globalstringsFlags);
 window.flagMap.set("holidays.Flags", holidayFlags);
 window.flagMap.set("itemdisplayinfo.Flags", itemDisplayInfoFlags);
+window.flagMap.set("itemset.SetFlags", itemSetSetFlags);
 window.flagMap.set("itemsearchname.Flags[0]", itemStaticFlags0);
 window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
