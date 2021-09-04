@@ -119,6 +119,9 @@ if (!empty($_GET['search']['value'])) {
         } elseif (substr($c, 0, 6) == "chash:") {
             array_push($joins, " JOIN wow_rootfiles_chashes ON wow_rootfiles_chashes.filedataid=wow_rootfiles.id AND contenthash = ? ");
             $joinparams[] = str_replace("chash:", "", $c);
+        } elseif (substr($c, 0, 5) == "fdid:") {
+            array_push($clauses, " (wow_rootfiles.id = ?) ");
+            $clauseparams[] = str_replace("fdid:", "", $c);
         } elseif (substr($c, 0, 5) == "type:") {
             array_push($clauses, " (type = ?) ");
             $clauseparams[] = str_replace("type:", "", $c);

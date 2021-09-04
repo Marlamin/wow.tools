@@ -225,7 +225,25 @@ $("html").on('hidden.bs.modal', '#chashModal', function(e) {
 })
 
 $(function () {
-    $('[data-toggle="popover"]').popover()
+    $('[data-toggle="popover"]').popover();
+
+    let vars = {};
+    window.location.hash.replace(/([^=&]+)=([^&]*)/gi, function(m, key, value) {
+        if (key.includes('#')) {
+            const splitString = key.split('#');
+            vars[splitString[1]] = decodeURIComponent(value);
+        } else {
+            vars[key] = decodeURIComponent(value);
+        }
+    });
+
+    if('search' in vars && 'fdidModal' in vars && vars['fdidModal'] == '1'){
+        if(vars['search'].includes('fdid:')){
+            let targetFDID = vars['search'].split(':')[1];
+            fillModal(targetFDID);
+            $("#moreInfoModal").modal('show');
+        }
+    }
 })
 
 function toggleTree(){
