@@ -35,6 +35,7 @@ if (!empty($_GET['id'])) {
 ?>
 <div class='container-fluid'>
     <h3>Creatures</h3>
+    <div class='row'><div class='col'><label for='enableMV'>Enable modelviewer</label> <input type='checkbox' id='enableMV'></div></div>
     <table class='table table-striped' id='creatures'>
         <thead><tr><th style='width: 100px'>ID</th><th>Name</th><th style='width: 120px'>First seen build</th><th style='width: 120px'>Last update build</th></tr>
     </table>
@@ -75,7 +76,7 @@ Elements.table = $('#creatures').DataTable({
     "order": [[sortCol, sortDesc]]
 });
 
-$('#creatures').on( 'draw.dt', function () {
+$('#creatures').on( 'draw.dt', function () {    
     var currentSearch = encodeURIComponent($("#creatures_filter label input").val());
     var currentPage = $('#creatures').DataTable().page() + 1;
 
@@ -124,7 +125,16 @@ function renderCreatureInfo(id, info){
 
     result += " <a target='_BLANK' href='https://wowhead.com/npc=" + id + "' class='btn btn-sm align-middle btn-outline-primary'>Wowhead</a> ";
     result += "<a target='_BLANK' href='https://wowdb.com/npcs/" + id + "' class='btn btn-sm align-middle btn-outline-primary'>WoWDB</a></h2>";
-    result += "<iframe width='950' height='700' src='https://wow.tools/mv/?filedataid=" + info["filedataid"] + "&type=m2&embed=true'></iframe><div id='tableContainer'><table class='table table-sm table-striped table-hover' id='creatureInfoTable'></table></div>";
+
+    var mvEnabled = document.getElementById("enableMV").checked;
+    if(mvEnabled){
+        result += "<iframe width='950' height='700' src='https://wow.tools/mv/?filedataid=" + info["filedataid"] + "&type=m2&embed=true'></iframe>";
+        result += "<div id='tableContainer'>";
+    }else{
+        result += "<div>";
+    }
+    
+    result += "<table class='table table-sm table-striped table-hover' id='creatureInfoTable'></table></div>";
 
     $("#creatures_preview").html(result);
 
