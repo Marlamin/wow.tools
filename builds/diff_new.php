@@ -220,8 +220,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                 <th class="filterable"></th>
                 <th class="searchable"></th>
                 <th class="searchable"></th>
-                <th class="filterable"></th>
-                <th>&nbsp;</th>
+                <th colspan='2'class="filterable"></th>
             </tr>
             <tr>
                 <th style='width: 80px'>Action</th>
