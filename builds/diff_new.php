@@ -175,10 +175,10 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                     element = $(element);
                     var column = table.column(index);
                     if (element.hasClass("filterable")) {
-                        var select = $('<select style="height: 20px" class="form-control form-control-sm"><option value=""></option></select>')
+                        var select = $('<select style="height: 20px; width: calc(100% - 25px);" class="form-control form-control-sm"><option value=""></option></select>')
                             .appendTo(element)
                             .on('change', function() {
-                                var val = $(this).val()
+                                var val = "^" + $(this).val() + "$"
 
                                 table.column(index)
                                     .search(val, true, false)
@@ -192,7 +192,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                             select.append('<option value="' + d + '">' + d + '</option>')
                         });
                     } else if (element.hasClass("searchable")) {
-                        $(this).html('<input class="form-control form-control-sm" type="text" style="height: 20px;" placeholder="Search" />');
+                        $(this).html('<input class="form-control form-control-sm" type="text" style="height: 20px; width: calc(100% - 25px);" placeholder="Search" />');
                         $("input", this).on('keyup change', debounce(function() {
                             table.column(index).search(this.value).draw();
                         }, 50));
@@ -221,6 +221,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                 <th class="searchable"></th>
                 <th class="searchable"></th>
                 <th class="filterable"></th>
+                <th>&nbsp;</th>
             </tr>
             <tr>
                 <th style='width: 80px'>Action</th>
