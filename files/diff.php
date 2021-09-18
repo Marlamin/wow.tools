@@ -31,7 +31,7 @@ if (empty($row)) {
     die("File not found in database or type is unknown!");
 }
 
-$type = $row['type'];
+$type = trim($row['type']);
 $frombuild = getVersionByBuildConfigHash($_GET['from'], "wow");
 $tobuild = getVersionByBuildConfigHash($_GET['to'], "wow");
 

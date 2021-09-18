@@ -58,6 +58,12 @@ require_once("../inc/header.php");
 </div>
 <script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>" crossorigin="anonymous"></script>
 <?php
+
+if(!empty($_GET['unkonly'])){
+    $showUnkOnly = true;
+}else{
+    $showUnkOnly = false;
+}
 echo "<div class='container-fluid'>";
 
 function fdidModal($fdid)
@@ -81,6 +87,9 @@ foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC"
     if (empty($tactkey['keybytes'])) {
         $status = "<span style='color: red'>Unknown</span>";
     } else {
+        if($showUnkOnly)
+            continue;
+            
         $status = "<span style='color: green'>Known</span>";
     }
 

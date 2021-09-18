@@ -196,6 +196,7 @@ class BLTEReader {
 	 * @param {number} index 
 	 */
     _decompressBlock(data, blockEnd, index) {
+        console.log("zlib decomp not spported");
         const decomp = data.readArrayBuffer(blockEnd - data.offset);
         const expectedSize = this.blocks[index].DecompSize;
 
@@ -257,8 +258,24 @@ class BLTEReader {
 	 * @param {number} blockEnd
 	 */
     _writeBufferBLTE(buf, blockEnd) {
-        this.copy(this._buf, this._ofs, buf, blockEnd);
-        console.log(buf);
+        // this.copy(this._buf, this._ofs, buf, blockEnd);
+
+        // this._buf => dst
+        // this._ofs => dstOffset
+        // buf => src
+        // blockEnd => srcOffset
+
+            // src => buffer, dstOffset => offset
+
+            //    writeArrayBuffer(buffer, offset, count) {
+            //         count = count || buffer.byteLength;
+            //         let view = new DataView(buffer, offset || 0, count);
+            //         for (let i = 0; i < count; i++)
+            //             this.writeUInt8(view.getUint8(i));
+            //     }
+        let view = new DataView(buf._buffer.buffer, this._ofs || 0, buf.byteLength);
+        for (let i = 0; i < buf.byteLength; i++)
+            this._buf.writeUInt8(view.getUint8(i));
         this._ofs += blockEnd;
     }
 
