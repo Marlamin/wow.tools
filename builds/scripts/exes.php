@@ -20,71 +20,42 @@ $res = $pdo->query(
     "
 );
 
+if (!file_exists("/home/wow/exes")) {
+    mkdir("/home/wow/exes");
+}
+
 while ($row = $res->fetch()) {
 
     $buildInfo = parseBuildName($row['description']);
-    if($buildInfo['build'] < 38000)
+    if($buildInfo['build'] < 40000)
         continue;
 
-    // Rough guess for when 32-bit builds were deprecated and the main exe was 64-bits, might need changing if extracting old builds.
-    if ($buildInfo['build'] > 26367) {
-        switch ($row['product']) {
-            case "wow":
-            case "wowlivetest":
-                $target = "Wow.exe";
+    $targets = [
+        // Mainline
+        "Wow.exe", "WowT.exe", "WowB.exe", 
+        // Classic
+        "WowClassic.exe", "WowClassicT.exe", "WowClassicB.exe", 
+        // Old 64-bit specific builds
+        "Wow-64.exe", "WowT-64.exe", "WowB-64.exe"    
+    ];
+    
+    $filename = "/home/wow/exes/" . $row['description'] . "-" . $row['buildconfig'] . ".exe";
+
+    $needsExtract = !file_exists($filename);
+
+    if($needsExtract){
+        // Check if one of the older variants exists 
+        foreach($targets as $target){
+            $targetEXE = str_replace(".exe", "-" . $target, $filename);
+            if (file_exists($targetEXE)) {
+                $needsExtract = false;
                 break;
-            case "wow_classic":
-            case "wow_classic_era":
-                $target = "WowClassic.exe";
-                break;
-            case "wow_classic_era_ptr":
-            case "wow_classic_ptr":
-                $target = "WowClassicT.exe";
-                break;
-            case "wowt":
-                $target = "WowT.exe";
-                break;
-            case "wow_beta":
-            case "wowe1":
-                $target = "WowB.exe";
-                break;
-            case "wowz":
-                $target = "WowClassicT.exe";
-                break;
-            case "wow_classic_beta":
-            case "wow_classic_era_beta":
-                $target = "WowClassicB.exe";
-                break;
-        }
-    } else {
-        switch ($row['product']) {
-            case "wow":
-                $target = "Wow-64.exe";
-                break;
-            case "wowt":
-                $target = "WowT-64.exe";
-                break;
-            case "wow_beta":
-            case "wowz":
-            case "wow_classic_beta":
-                $target = "WowB-64.exe";
-                break;
+            }
         }
     }
-    
-    if (empty($target)) {
-        echo "Unable to find target " . $target . "\n";
-        die();
-    }
-    
-    if (!file_exists("/home/wow/exes")) {
-        mkdir("/home/wow/exes");
-    }
-    
-    $filename = "/home/wow/exes/" . $row['description'] . "-" . $row['buildconfig'] . "-" . $target;
-    
+
     // Only extract file if it does not exist
-    if (!file_exists($filename)) {
+    if ($needsExtract) {
         echo "[EXE dump] File " . $filename . " does not exist or is empty.\n";
 
         // Remove if you magically get 18179 archives complete again
@@ -94,7 +65,7 @@ while ($row = $res->fetch()) {
 
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $row['install_cdn']);
         foreach (explode("\n", $output) as $line) {
-            if (substr($line, 0, strlen($target)) == $target) {
+            if (in_array(explode(" ", $line)[0], $targets)){
                 if (empty(trim($line))) {
                     continue;
                 }
