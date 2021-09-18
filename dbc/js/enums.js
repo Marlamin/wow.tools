@@ -5162,6 +5162,7 @@ enumMap.set("itemsparse.OverallQualityID", itemQuality);
 enumMap.set("itemsparse.SocketType[0]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[1]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[2]", socketColorEnum);
+enumMap.set("itemsparse.Bonding", ItemBonding);
 enumMap.set("liquidtypextexture.Type", liquidTypeXTextureType);
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);

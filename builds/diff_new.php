@@ -179,7 +179,9 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                             .appendTo(element)
                             .on('change', function() {
                                 var val = "^" + $(this).val() + "$"
-
+                                if($(this).val() == "")
+                                    val = "";
+                                    
                                 table.column(index)
                                     .search(val, true, false)
                                     .draw();
