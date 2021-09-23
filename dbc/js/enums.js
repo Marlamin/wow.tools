@@ -912,7 +912,10 @@ const geosetType = {
     37: 'Headdress',
     38: 'Tails',
     39: 'Vines',
-    40: 'Tusks'
+    40: 'Tusks',
+    41: 'Noses',
+    42: 'Hair decoration',
+    43: 'Horn decoration'
 }
 
 const chrCustomizationReqType = {
