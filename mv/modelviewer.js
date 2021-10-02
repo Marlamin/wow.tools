@@ -269,7 +269,7 @@ window.createscene = async function () {
 
     Module._setClearColor(Settings.clearColor[0], Settings.clearColor[1], Settings.clearColor[2]);
 
-    if(Current.fileDataID == 397940 && Current.displayID != 0){
+    if (Current.fileDataID == 397940 && Current.displayID != 0){
         Current.fileDataID = await getFileDataIDByDisplayID(Current.displayID);
         Settings.newDisplayInfo = true;
     }
@@ -311,13 +311,13 @@ window.createscene = async function () {
 
         const geosetControl = document.getElementById("geosets");
         geosetControl.innerHTML = "This functionality is WIP and might cause display issues. Use with caution.";
-        for(let meshID of Current.availableGeosets){
+        for (let meshID of Current.availableGeosets){
             meshID = Number(meshID);
 
             const geosetGroup = Math.round(meshID / 100);
             const geosetIndex = meshID - (geosetGroup * 100);
             
-            if(!document.getElementById("geosets-" + geosetGroup)){
+            if (!document.getElementById("geosets-" + geosetGroup)){
                 let geosetHolder = document.createElement('div');
                 geosetHolder.innerHTML = "Geoset #" + geosetGroup;
                 geosetHolder.id = "geosets-" + geosetGroup;
@@ -406,12 +406,12 @@ window.addEventListener('keydown', function(event){
     if ($(".selected").length == 1){
         if (event.key == "ArrowDown"){
             if ($(".selected")[0].rowIndex == 20) return;
-            if(document.getElementById('mvfiles').rows.length > 1){
+            if (document.getElementById('mvfiles').rows.length > 1){
                 $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex + 1].firstChild).trigger("click");
             }
         } else if (event.key == "ArrowUp"){
             if ($(".selected")[0].rowIndex == 1) return;
-            if(document.getElementById('mvfiles').rows.length > 1){
+            if (document.getElementById('mvfiles').rows.length > 1){
                 $(document.getElementById('mvfiles').rows[$(".selected")[0].rowIndex - 1].firstChild).trigger("click");
             }
         }
@@ -461,7 +461,7 @@ $("#animationSelect").change(function () {
 });
 
 $("#skinSelect").change(function() {
-    if(this.options[this.selectedIndex].dataset.displayid == undefined){
+    if (this.options[this.selectedIndex].dataset.displayid == undefined){
         // Backwards compat
         var display = this.options[this.selectedIndex].value.split(',');
         if (display.length == 3 || display.length == 4){
@@ -474,7 +474,7 @@ $("#skinSelect").change(function() {
             // Item
             setModelTexture(display, 2);
         }
-    }else{
+    } else {
         setModelDisplay(this.options[this.selectedIndex].dataset.displayid, this.options[this.selectedIndex].dataset.type);
     }
 });
@@ -541,9 +541,9 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 } else if (Current.type == "m2") {
                     Module._setScene(0, ptrName, -1);
                     $("#js-controls").show();
-                    if(!Settings.newDisplayInfo){
+                    if (!Settings.newDisplayInfo){
                         loadModelTextures();
-                    }else{
+                    } else {
                         loadModelDisplays();
                     }
                 } else {
@@ -560,9 +560,9 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 } else if (Current.type == "m2") {
                     Module._setSceneFileDataId(0, Current.fileDataID, -1);
                     $("#js-controls").show();
-                    if(!Settings.newDisplayInfo){
+                    if (!Settings.newDisplayInfo){
                         loadModelTextures();
-                    }else{
+                    } else {
                         loadModelDisplays();
                     }
                 } else {
@@ -576,9 +576,9 @@ async function loadModelDisplays() {
     const cmdRows = await findCreatureModelDataRows();
 
     let results;
-    if(cmdRows.length > 0){
+    if (cmdRows.length > 0){
         results = await loadCreatureDisplays(cmdRows);
-    }else{
+    } else {
         results = await loadItemDisplays();
     }
 
@@ -589,52 +589,52 @@ async function loadModelDisplays() {
     skinSelect.length = 0;
 
     // Filenames?
-    for(const result of results){
+    for (const result of results){
         var opt = document.createElement('option');
 
-        if(result.ResultType == "creature"){
+        if (result.ResultType == "creature"){
             // Backwards compat with current model texture setting
             opt.value = result['TextureVariationFileDataID[0]'] + "," + result['TextureVariationFileDataID[1]'] + "," + result['TextureVariationFileDataID[2]'];
             opt.dataset.displayid = result.ID;
             opt.dataset.type = 'creature';
 
-            if(!filenameMap.has(result['TextureVariationFileDataID[0]'])){
+            if (!filenameMap.has(result['TextureVariationFileDataID[0]'])){
                 const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + result['TextureVariationFileDataID[0]']);
                 const filenameContents = await filenameResponse.text();
-                if(filenameContents != ""){
+                if (filenameContents != ""){
                     filenameMap.set(result['TextureVariationFileDataID[0]'], filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
-                }else{
+                } else {
                     filenameMap.set(result['TextureVariationFileDataID[0]'], "Unknown");
                 }
             }
 
             opt.innerHTML = result.ID + " (" + filenameMap.get(result['TextureVariationFileDataID[0]']) + ")";
-        }else if(result.ResultType == "item"){
-            if(result['ModelMaterialResourcesID[0]'] != "0" && !materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
+        } else if (result.ResultType == "item"){
+            if (result['ModelMaterialResourcesID[0]'] != "0" && !materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
                 const materialResponse = await fetch("https://wow.tools/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
                 const materialJson = await materialResponse.json();
 
-                if(materialJson.values.FileDataID != undefined){
+                if (materialJson.values.FileDataID != undefined){
                     materialResourceMap.set(materialJson.values.MaterialResourcesID, materialJson.values.FileDataID);
 
-                    if(!filenameMap.has(materialJson.values.FileDataID)){
+                    if (!filenameMap.has(materialJson.values.FileDataID)){
                         const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + materialJson.values.FileDataID);
                         const filenameContents = await filenameResponse.text();
-                        if(filenameContents != ""){
+                        if (filenameContents != ""){
                             filenameMap.set(materialJson.values.FileDataID, filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
-                        }else{
+                        } else {
                             filenameMap.set(materialJson.values.FileDataID, "Unknown");
                         }
                     }
                 }
-            }else{
+            } else {
                 opt.innerHTML = "DisplayID " + result.ID;
             }
 
-            if(materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
+            if (materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
                 opt.value = materialResourceMap.get(result['ModelMaterialResourcesID[0]']);
                 opt.innerHTML = result.ID + " (" +  filenameMap.get(materialResourceMap.get(result['ModelMaterialResourcesID[0]'])) + ")";
-            }else{
+            } else {
                 opt.value = 0;
                 opt.innerHTML = result.ID + " (Unknown)";
             }
@@ -644,13 +644,13 @@ async function loadModelDisplays() {
         }
 
         // TODO: If display ID is given (through URL params??), set to selected otherwise select first
-        if(Current.displayID == 0){
-            if(skinSelect.children.length == 0){
+        if (Current.displayID == 0){
+            if (skinSelect.children.length == 0){
                 opt.selected = true;
                 setModelDisplay(result.ID, result.ResultType);   
             }
         }
-        else if(Current.displayID != 0 && result.ID == Current.displayID){
+        else if (Current.displayID != 0 && result.ID == Current.displayID){
             opt.selected = true;
             setModelDisplay(result.ID, result.ResultType);
         }
@@ -658,7 +658,7 @@ async function loadModelDisplays() {
         skinSelect.appendChild(opt);
     }
 
-    if(skinSelect.children.length == 0){
+    if (skinSelect.children.length == 0){
         opt.selected = true;
         setModelDisplay(result.ID, result.ResultType);   
     }
@@ -682,7 +682,7 @@ async function loadCreatureDisplays(cmdRows){
     const cdiResult = await Promise.all(cdiPromises);
     const data = Array(cdiResult.length);
     index = 0;
-    for(const response of cdiResult)
+    for (const response of cdiResult)
         data[index++] = await response.json();
 
     const result = [];
@@ -703,7 +703,7 @@ async function loadItemDisplays(){
     const response = await fetch("https://wow.tools/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
     const modelFileData = await response.json();
 
-    if(modelFileData.values['ModelResourcesID'] === undefined)
+    if (modelFileData.values['ModelResourcesID'] === undefined)
         return [];
 
     const idiPromises = [
@@ -714,7 +714,7 @@ async function loadItemDisplays(){
     const idiResult = await Promise.all(idiPromises);
     const data = Array(idiResult.length);
     index = 0;
-    for(const response of idiResult)
+    for (const response of idiResult)
         data[index++] = await response.json();
 
     const result = [];
@@ -738,7 +738,7 @@ async function getFileDataIDByDisplayID(displayID){
     const cmdResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
     const cmdJson = await cmdResponse.json();
 
-    if(cmdJson.values['FileDataID'] !== undefined){
+    if (cmdJson.values['FileDataID'] !== undefined){
         return cmdJson.values['FileDataID'];
     }
 }
@@ -873,18 +873,18 @@ function getScenePos(){
 
 async function setModelDisplay(displayID, type){
     console.log("Selected Display ID " + displayID);
-    if(type == "creature"){
+    if (type == "creature"){
         const response = await fetch("https://wow.tools/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
         const cdiRow = await response.json();
 
-        if(Object.keys(cdiRow.values).length == 0)
+        if (Object.keys(cdiRow.values).length == 0)
             return;
 
         // Textures
         setModelTexture([cdiRow.values['TextureVariationFileDataID[0]'], cdiRow.values['TextureVariationFileDataID[1]'], cdiRow.values['TextureVariationFileDataID[2]']], 11);
 
         // Particle colors
-        if(cdiRow.values['ParticleColorID'] != 0){
+        if (cdiRow.values['ParticleColorID'] != 0){
             const particleResponse = await fetch("https://wow.tools/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
             const particleRow = await particleResponse.json();
             Module._resetReplaceParticleColor();
@@ -893,7 +893,7 @@ async function setModelDisplay(displayID, type){
                 particleRow.values["MID[0]"], particleRow.values["MID[1]"], particleRow.values["MID[2]"],
                 particleRow.values["End[0]"], particleRow.values["End[1]"], particleRow.values["End[2]"]
             );
-        }else{
+        } else {
             Module._resetReplaceParticleColor();
         }
 
@@ -904,20 +904,20 @@ async function setModelDisplay(displayID, type){
         // Geosets
         Current.enabledGeosets = [];
 
-        if(cmdRow.values.CreatureGeosetDataID != "0"){
+        if (cmdRow.values.CreatureGeosetDataID != "0"){
             const geosetResponse = await fetch("https://wow.tools/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
             const geosetResults = await geosetResponse.json();
             const geosetsToEnable = [];
             
             console.log(geosetResults);
 
-            for(const geosetRow of geosetResults){
+            for (const geosetRow of geosetResults){
                 geosetsToEnable[Number(geosetRow.GeosetIndex) + 1] = Number(geosetRow.GeosetValue);
             }
 
-            for(const geoset of Current.availableGeosets){
+            for (const geoset of Current.availableGeosets){
                 const geosetGroup = Math.floor(Number(geoset / 100));
-                if(!(geosetGroup in geosetsToEnable)){
+                if (!(geosetGroup in geosetsToEnable)){
                     geosetsToEnable[geosetGroup] = 0;
                 }
             }
@@ -926,14 +926,14 @@ async function setModelDisplay(displayID, type){
 
             updateEnabledGeosets();
         }
-    }else if(type == "item"){
+    } else if (type == "item"){
         // TODO: Items, this is very rough support, only supports ModelMaterialResourcesID[0]
 
         // Textures
         // Probably don't request loadItemDisplays all over again
         const displays = await loadItemDisplays();
-        for(const display of displays){
-            if(display.ID != displayID)
+        for (const display of displays){
+            if (display.ID != displayID)
                 continue;
             
             console.log(display);

@@ -47,7 +47,7 @@ foreach ($lfproducts as $lfproduct) {
                 <th style='width: 50px;'>FD ID</th>
                 <th>Filename</th>
                 <th style='width: 100px;'>Lookup</th>
-                <th style='width: 160px;'>Versions</th>
+                <th style='width: 170px;'>Versions</th>
                 <th style='width: 50px;'>Type</th>
                 <th style='width: 20px;'>&nbsp;</th><th style='width: 20px;'>&nbsp;</th>
             </tr>
@@ -261,6 +261,7 @@ foreach ($lfproducts as $lfproduct) {
             },
             {
                 "targets": 3,
+                "orderable": false,
                 "render": function ( data, type, full, meta ) {
                     if(full[3].length > 0){
                         if(full[3][0].enc == 1){

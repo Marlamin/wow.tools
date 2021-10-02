@@ -4847,7 +4847,7 @@ const enumNames = {
     567: 'ExpectedStat::ExpansionID',
     573: 'CreatureDisplayInfo::Flags',
     585: 'ItemBonus::Type',
-    // 586: 'Friendly table names/categories?',
+    586: 'SpellAuraNames::SpecialMiscValue',
     588: 'ScenarioEventEntry::TriggerType',
     590: 'UnitCondition::Variable',
     592: 'Criteria::Start_event',

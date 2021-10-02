@@ -44,7 +44,7 @@ function getDBC($name, $build)
         return $rows;
     }
 }
-$build = "9.0.2.35854";
+$build = "9.1.5.40290";
 // Manually defined ChrModelMap, saves lots of lookups/DB loading!
 $chrModelMap = [];
 $chrModelMap[1] = 'character/human/male/humanmale_hd';
