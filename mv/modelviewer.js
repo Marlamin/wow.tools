@@ -1,6 +1,9 @@
 var Module = {
     onRuntimeInitialized: function() {
         createscene();
+    },
+    locateFile: function (path, prefix) {
+        return prefix + path+"?v="+window.emscriptenBuildTime;
     }
 };
 

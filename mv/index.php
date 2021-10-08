@@ -229,6 +229,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 <?php } ?>
 <script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%' OR description LIKE '%8.3%'")->fetchAll(PDO::FETCH_COLUMN); ?>
 var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
+window.emscriptenBuildTime = "<?=filemtime(__DIR__ . "/project.js")?>";
 const embeddedMode = <?php if (!empty($_GET['embed'])) {
     ?>true<?php
 } else {
