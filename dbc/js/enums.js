@@ -2974,6 +2974,13 @@ const mapDifficultyResetInterval = {
     4: '5 Day',
 };
 
+// 465
+const emoteSpecProc = {
+    0: 'One Shot Emote',
+    1: 'Changes Stand State',
+    2: 'Sets Emote State'
+}
+
 // 497
 const ObjectEffectPackageElem_StateType = {
     0:   '- Invalid -',
@@ -4829,6 +4836,7 @@ const enumNames = {
     455: 'ItemContext', // Partial
     457: 'MapDifficulty::ResetInterval',
     458: 'GlobalStrings::Flags',
+    465: 'Emotes::EmoteSpecProc',
     489: 'AreaTable::Flags', // updated
     497: 'ObjectEffectPackageElem::StateType', // copied
     // 522: 'Map/dungeon flags',
@@ -5130,6 +5138,7 @@ enumMap.set("criteria.Type", criteriaType);
 enumMap.set("criteriatree.Operator", criteriaTreeOperator);
 enumMap.set("curve.Type", curveType);
 enumMap.set("difficulty.InstanceType", mapTypes);
+enumMap.set("emotes.EmoteSpecProc", emoteSpecProc);
 enumMap.set("enumeratedstring.EnumID", enumNames);
 enumMap.set("environmentaldamage.EnumID", environmentalDamageType);
 enumMap.set("expectedstat.ExpansionID", expectedStatExpansionID);
