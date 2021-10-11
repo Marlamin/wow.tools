@@ -95,6 +95,7 @@ if (!empty($_GET['search']['value'])) {
 
     $i = 0;
     foreach ($criteria as &$c) {
+        $c = strtolower($c);
         if ($c == "unnamed") {
             array_push($clauses, " (wow_rootfiles.filename IS NULL) ");
         } elseif ($c == "communitynames") {
