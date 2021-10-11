@@ -716,7 +716,7 @@ async function loadItemDisplays(){
 
     const idiResult = await Promise.all(idiPromises);
     const data = Array(idiResult.length);
-    index = 0;
+    let index = 0;
     for (const response of idiResult)
         data[index++] = await response.json();
 
