@@ -34,20 +34,19 @@ foreach ($lfproducts as $lfproduct) {
         <a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
         <a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
         <a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
-        <a role="button" id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white' data-trigger='hover' data-container='body' data-toggle='popover' data-content='Click this to toggle between showing previews on the right of the table, or in a separate popup.'><i class='fa fa-columns'></i> Toggle preview</a>
     </div>
     <div id='files_treeFilter' style='display: none'>
         <input type='text' id='treeFilter' oninput='treeFilterChange(this)'>
     </div>
     <div id='files_tree' style='display: none'><div id='tree'></div></div>
-    <div id='files_treetoggle' class='collapsed' onClick='toggleTree()'>&gt;</div>
+    <!-- <div id='files_treetoggle' class='collapsed' onClick='toggleTree()'>&gt;</div> -->
     <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
         <thead>
             <tr>
                 <th style='width: 50px;'>FD ID</th>
                 <th>Filename</th>
                 <th style='width: 100px;'>Lookup</th>
-                <th style='width: 170px;'>Versions</th>
+                <th style='width: 200px;'>Versions</th>
                 <th style='width: 50px;'>Type</th>
                 <th style='width: 20px;'>&nbsp;</th><th style='width: 20px;'>&nbsp;</th>
             </tr>
@@ -199,7 +198,7 @@ foreach ($lfproducts as $lfproduct) {
                 }
             },
             "pageLength": 25,
-            "language": { "search": "Search: _INPUT_ <a style='margin-top: -5px;' class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'><i class='fa fa-question'></i></a>" },
+            "language": { "search": "Search: _INPUT_ <a style='margin-top: -5px;' class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'><i class='fa fa-question'></i></a> <a role='button' style='margin-top: -5px;' id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white' data-trigger='hover' data-container='body' data-toggle='popover' data-content='Click this to toggle between showing previews on the right of the table, or in a separate popup.'><i class='fa fa-columns'></i></a>" },
             "displayStart": page * 25,
             "autoWidth": false,
             "pagingType": "input",
