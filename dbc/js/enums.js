@@ -4633,9 +4633,9 @@ const garrAutoSpellEffectType = {
     9: 'Taunt', // TAUNT
     10: 'Detaunt', // DETAUNT
     11: 'Mod Damage Done', // MOD_DAMAGE_DONE
-    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT_ONLY
+    12: 'Mod Damage Done % (points only)', // MOD_DAMAGE_DONE_PCT_POINTS_ONLY
     13: 'Mod Damage Taken', // MOD_DAMAGE_TAKEN
-    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT_ONLY
+    14: 'Mod Damage Taken % (points only)', // MOD_DAMAGE_TAKEN_PCT_POINTS_ONLY
     15: 'Deal Damage to Attacker', // DEAL_DAMAGE_TO_ATTACKER
     16: 'Deal Damage to Attacker %', // DEAL_DAMAGE_TO_ATTACKER_PCT
     17: 'Incease Max Health', // INCREASE_MAX_HEALTH
