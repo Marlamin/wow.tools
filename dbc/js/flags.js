@@ -1388,6 +1388,27 @@ const itemDisplayInfoFlags = {
     // incomplete
 };
 
+// 185
+const groupFinderActivityFlags = {
+    0x00000001: 'Show Proving Grounds',
+    0x00000002: 'Show in PvE',
+    0x00000004: 'Show in PvP',
+    0x00000008: 'Segregate Time Zones',
+    0x00000010: 'Use PvP Honor Level',
+    0x00000020: 'Show Quick Join Toast',
+    0x00000040: 'Use Dungeon Role Expectations',
+    0x00000080: 'Fuzzy numeric matching',
+}
+
+// 186
+const groupFinderCategoryFlags = {
+    0x00000001: 'Separate Recommended',
+    0x00000002: 'Auto Choose Activity',
+    0x00000004: 'Prefer Current Area',
+    0x00000008: 'Suppress full groups from search results',
+    0x00000010: 'Auto-determine max players',
+}
+
 // 190
 const worldMapAreaFlags = {
     0x00000001: 'Is Placeholder',
@@ -1408,6 +1429,15 @@ const worldMapAreaFlags = {
     0x00008000: 'HACK: micro dungeon map use parent WorldMapArea for filepath',
     0x00010000: 'No World Positions',
 };
+
+// 193
+const itemBonusListFlags = {
+    0x00000001: 'Disable In Challenge Modes',
+    0x00000002: 'Disable in Proving Grounds',
+    0x00000004: 'Disable in Arena or Rated Battleground',
+    0x00000008: 'Hardcoded: Item Level Delta (DO NOT USE)',
+    0x00000010: 'Deprecated Bonus List',
+}
 
 // 194
 const phaseFlags = {
@@ -2209,6 +2239,9 @@ window.flagMap.set("waypointedge.Flags", waypointEdgeFlags);
 window.flagMap.set("waypointnode.Flags", waypointNodeFlags);
 window.flagMap.set("wmoareatable.Flags", wmoAreaTableFlags);
 window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
+window.flagMap.set("groupfinderactivity.Flags", groupFinderActivityFlags);
+window.flagMap.set("groupfindercategory.Flags", groupFinderCategoryFlags);
+window.flagMap.set("itembonuslist.Flags", itemBonusListFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

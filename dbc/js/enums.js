@@ -1953,7 +1953,7 @@ const spellLabelName = {
     927: 'Steward abilities/states',
     928: 'Covenant (Mage)',
     // 930: '930',
-    931: 'New but old spells',
+    931: 'Legendary abilities?  ',
     932: 'Mage barriers?',
     933: 'Heroism (etc) exhaustions',
     934: 'Kyrian (Priest 2)',
@@ -1996,7 +1996,7 @@ const spellLabelName = {
     // 991: '',
     // 992: '',
     993: 'Path of Wisdom gifts',
-    // 999: '',
+    999: '9.0 soulbind conduits',
     1003: 'Warrior (unk 9.0)',
     1025: 'Maw 9.0',
     1027: 'Necrolord Hunter',
@@ -2008,7 +2008,7 @@ const spellLabelName = {
     1038: 'Windfury Totem',
     1043: 'Blizzard',
     1044: '"Pick up item x" spells',
-
+    1379: 'covenant signature abilities'
 }
 
 const unitConditionOperator = {
@@ -2758,6 +2758,51 @@ const socketColorEnum = {
     19: 'PUNCHCARD_RED',
     20: 'PUNCHCARD_YELLOW',
     21: 'PUNCHCARD_BLUE'
+}
+
+// 176
+const highlightColorType = {
+    0: 'None',
+    1: 'Hostile',
+    2: 'Unfriendly',
+    3: 'Neutral',
+    4: 'Friendly',
+    5: 'Player Simple',
+    6: 'Player Extended',
+    7: 'Party',
+    8: 'Party PvP',
+    9: 'Friend',
+    10: 'Dead',
+    11: 'Quest',
+    12: 'Tracking',
+    13: 'Game Object',
+    14: 'Treasure',
+    15: 'Quest Bright',
+    16: 'Quest Dim',
+    17: 'Spectral Vision: Hostile',
+    18: 'Spectral Vision: Target',
+    19: 'Spectral Vision: Treasure',
+    20: 'Commentator Team 1',
+    21: 'Commentator Team 2',
+    22: 'Player Self Highlight',
+    23: 'Important NPC',
+    24: 'Important Quest NPC',
+    25: 'Spectral Vision: Hostile - Fel Glyph',
+    26: 'Spectral Vision: Target - Fel Glyph',
+    27: 'Spectral Vision: Hostile - Shadow Glyph',
+    28: 'Spectral Vision: Target - Shadow Glyph',
+    29: 'Arena Team - Gold',
+    30: 'Arena Team - Green',
+    31: 'Party PvP in BG'
+}
+
+// 189
+const groupFinderActivityDisplayType = {
+    0: 'Role Counts',
+    1: 'Role Enumeration',
+    2: 'Class Enumeration',
+    3: 'Hide All',
+    4: 'Player Count'
 }
 
 // 237
@@ -4757,11 +4802,16 @@ const enumNames = {
     169: 'ItemDisplayInfo::Flags',
     170: 'GarrBuilding::BuildingType',
     174: 'Real world currencies',
+    176: 'HighlightColor::Type',
     178: 'SpellInterruptFlags',
     // 180: 'Chat Message Type',
+    185: 'GroupFinderActivity::Flags',
+    186: 'GroupFinderCategory::Flags',
     188: 'AreaPOI::Flags', // updated
+    189: 'GroupFinderActivity::DisplayType',
     190: 'WorldMapArea::Flags',
     192: 'Map::Flags', // added
+    193: 'ItemBonusList::Flags',
     194: 'Phase::Flags',
     195: 'SkillLine::Flags',
     196: 'CurrencyTypes::Flags',
@@ -5224,6 +5274,8 @@ enumMap.set("uiwidgetvisualization.WidgetScale", uiWidgetScale);
 enumMap.set("waypointnode.Field_8_2_0_30080_005", waypointNodeField_8_2_0_30080_005);
 enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
 enumMap.set("weather.Type", weatherType);
+enumMap.set("highlightcolor.Type", highlightColorType);
+enumMap.set("groupfinderactivity.DisplayType", groupFinderActivityDisplayType);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
