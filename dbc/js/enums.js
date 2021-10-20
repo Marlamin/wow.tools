@@ -4633,15 +4633,15 @@ const garrAutoSpellEffectType = {
     9: 'Taunt', // TAUNT
     10: 'Detaunt', // DETAUNT
     11: 'Mod Damage Done', // MOD_DAMAGE_DONE
-    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT
+    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT_ONLY
     13: 'Mod Damage Taken', // MOD_DAMAGE_TAKEN
-    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT
+    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT_ONLY
     15: 'Deal Damage to Attacker', // DEAL_DAMAGE_TO_ATTACKER
     16: 'Deal Damage to Attacker %', // DEAL_DAMAGE_TO_ATTACKER_PCT
     17: 'Incease Max Health', // INCREASE_MAX_HEALTH
     18: 'Increase Max Health %', // INCREASE_MAX_HEALTH_PCT
-    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT',
-    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',
+    19: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT
+    20: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT
 }
 
 // 1034
@@ -4666,9 +4666,11 @@ const garrAutoSpellEffectTargetType = {
     17: 'All Back Row Hostiles', // ALL_BACK_ROW_HOSTILES
     18: 'All Targets', // ALL_TARGETS
     19: 'Random Target', // RANDOM_TARGET
-    20: 'Random Ally', // RANDOM_ALLY
-    21: 'Random Enemy', // RANDOM_ENEMY
-    22: 'ALL_FRIENDLIES_BUT_SELF',
+    20: 'Random Follower', // RANDOM_FOLLOWER
+    21: 'Random Encounter', // RANDOM_ENCOUNTER
+    22: 'All Other Friendlies', // ALL_FRIENDLIES_BUT_SELF
+    23: 'All Followers', // ALL_FOLLOWERS
+    24: 'All Encounters', // ALL_ENCOUNTERS
 }
 
 // 1049
