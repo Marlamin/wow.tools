@@ -1953,7 +1953,7 @@ const spellLabelName = {
     927: 'Steward abilities/states',
     928: 'Covenant (Mage)',
     // 930: '930',
-    931: 'Legendary abilities?  ',
+    931: 'Runecarver Legendary Abilities',
     932: 'Mage barriers?',
     933: 'Heroism (etc) exhaustions',
     934: 'Kyrian (Priest 2)',
@@ -2008,7 +2008,10 @@ const spellLabelName = {
     1038: 'Windfury Totem',
     1043: 'Blizzard',
     1044: '"Pick up item x" spells',
-    1379: 'covenant signature abilities'
+    1305: 'Blood Shards of Domination',
+    1306: 'Frost Shards of Domination',
+    1307: 'Unholy Shards of Domination',
+    1379: 'covenant signature abilities and other things they want to block in mage tower'
 }
 
 const unitConditionOperator = {
