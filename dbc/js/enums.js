@@ -423,6 +423,7 @@ const criteriaAdditionalCondition = {
     325: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN_EQ_OR_HIGHER', 'Player has best weekly win at or above "{@PVP_TIER_ENUM}" for "{@PVP_BRACKET}"'],
     326: ['HAS_VANILLA_CE', 'Player has Vanilla Collector\'s Edition'],
     // 327: ['', ''], // Bag related
+    329: ['DISPLAY_SEASON_UNK', 'Display Season (unk)'],
 };
 
 const itemStatType = {
@@ -5720,6 +5721,7 @@ conditionalFKs.set("modifiertree.SecondaryAsset",
         ['modifiertree.Type=308','spellshapeshiftform::ID'],
         // ['modifiertree.Type=309','{#Rank}'],
         ['modifiertree.Type=318','garrtalenttree::ID'],
+        ['modifiertree.Type=329','displayseason::ID'],
     ]
 );
 
