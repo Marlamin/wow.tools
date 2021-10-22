@@ -168,6 +168,7 @@ foreach ($lfproducts as $lfproduct) {
                 <form id='settingsForm'>
                     <input type='checkbox' id='showFileLookup' name='settings[showFileLookup]'> <label for='showFileLookup'>Show lookup column (requires reload)</label><br>
                     <input type='checkbox' id='showFileType' name='settings[showFileType]'> <label for='showFileType'>Show type column (requires reload)</label><br>
+                    <input type='checkbox' id='showFileBranch' name='settings[showFileBranch]'> <label for='showFileBranch'>Show branch in versions (requires reload)</label><br>
                 </form>
             </div>
             <div class="modal-footer">
@@ -184,7 +185,8 @@ foreach ($lfproducts as $lfproduct) {
     var Settings =
     {
         showFileLookup: false,
-        showFileType: true
+        showFileType: true,
+        showFileBranch: true
     }
 
     function loadSettings(){
@@ -211,6 +213,18 @@ foreach ($lfproducts as $lfproduct) {
         }
 
         document.getElementById("showFileType").checked = Settings.showFileType;
+
+        /* Show/hide file branch in versions */
+        var showFileBranch = localStorage.getItem('settings[showFileBranch]');
+        if (showFileBranch){
+            if (showFileBranch== "1"){
+                Settings.showFileBranch = true;
+            } else {
+                Settings.showFileBranch = false;
+            }
+        }
+
+        document.getElementById("showFileBranch").checked = Settings.showFileBranch;
     }
 
     function saveSettings(){
@@ -224,6 +238,12 @@ foreach ($lfproducts as $lfproduct) {
             localStorage.setItem('settings[showFileType]', '1');
         } else {
             localStorage.setItem('settings[showFileType]', '0');
+        }
+
+        if (document.getElementById("showFileBranch").checked){
+            localStorage.setItem('settings[showFileBranch]', '1');
+        } else {
+            localStorage.setItem('settings[showFileBranch]', '0');
         }
 
         loadSettings();
@@ -369,7 +389,13 @@ foreach ($lfproducts as $lfproduct) {
                                     var filename = full[0] + "." + full[4];
                                 }
                             }
-                            test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description + "</a>";
+                            test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description;
+                            
+                            if(Settings.showFileBranch){
+                                test += " (" + entry.branch + ")";
+                            }
+                            
+                            test += "</a>";
 
                             if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
                                 test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
@@ -389,7 +415,11 @@ foreach ($lfproducts as $lfproduct) {
                                 var filename = full[0] + "." + full[4];
                             }
                         }
-                        test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description + "</a>";
+                        test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description;
+                        if(Settings.showFileBranch){
+                            test += " (" + full[3][0].branch + ")";
+                        }
+                        test += "</a>";
 
                         if(full[3][0].contenthash == "de6135861a6cacfe176830f18f597c3e"){
                             test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
@@ -399,7 +429,7 @@ foreach ($lfproducts as $lfproduct) {
                             test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
                         }
                     }else{
-                        test += "Not shipped or non-enUS";
+                        test += "No versions available";
                     }
 
                     return test;
