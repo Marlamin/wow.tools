@@ -423,6 +423,7 @@ const criteriaAdditionalCondition = {
     325: ['PLAYER_HAS_WEEKLY_PVPTIER_WIN_EQ_OR_HIGHER', 'Player has best weekly win at or above "{@PVP_TIER_ENUM}" for "{@PVP_BRACKET}"'],
     326: ['HAS_VANILLA_CE', 'Player has Vanilla Collector\'s Edition'],
     // 327: ['', ''], // Bag related
+    329: ['DISPLAY_SEASON_UNK', 'Display Season (unk)'],
 };
 
 const itemStatType = {
@@ -1953,7 +1954,7 @@ const spellLabelName = {
     927: 'Steward abilities/states',
     928: 'Covenant (Mage)',
     // 930: '930',
-    931: 'Legendary abilities?  ',
+    931: 'Runecarver Legendary Abilities',
     932: 'Mage barriers?',
     933: 'Heroism (etc) exhaustions',
     934: 'Kyrian (Priest 2)',
@@ -2008,7 +2009,10 @@ const spellLabelName = {
     1038: 'Windfury Totem',
     1043: 'Blizzard',
     1044: '"Pick up item x" spells',
-    1379: 'covenant signature abilities'
+    1305: 'Blood Shards of Domination',
+    1306: 'Frost Shards of Domination',
+    1307: 'Unholy Shards of Domination',
+    1379: 'covenant signature abilities and other things they want to block in mage tower'
 }
 
 const unitConditionOperator = {
@@ -5719,6 +5723,7 @@ conditionalFKs.set("modifiertree.SecondaryAsset",
         ['modifiertree.Type=308','spellshapeshiftform::ID'],
         // ['modifiertree.Type=309','{#Rank}'],
         ['modifiertree.Type=318','garrtalenttree::ID'],
+        ['modifiertree.Type=329','displayseason::ID'],
     ]
 );
 

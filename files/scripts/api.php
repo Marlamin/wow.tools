@@ -448,7 +448,11 @@ while ($row = $dataq->fetch()) {
             $subrow['firstseen'] = $row['firstseen'];
         }
 
-        $subrow['description'] = prettyBuild($subrow['description']);
+        $parsedBuild = parseBuildName($subrow['description']);
+
+        $subrow['description'] = $parsedBuild['full'];
+        $subrow['branch'] = $parsedBuild['branch'];
+        
         $versions[] = $subrow;
     }
 

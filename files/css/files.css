@@ -1,4 +1,4 @@
-#files tr td:nth-child(2), #files tr td:nth-child(3){
+#files tr td:nth-child(2){
     font-family: monospace;
     text-overflow: ellipsis;
 }
@@ -59,6 +59,10 @@
 
 #files_treetoggle.collapsed{
 	margin-left: -10px;
+}
+
+#files_treetoggle.hidden{
+	display: none;
 }
 
 #treeFilter{

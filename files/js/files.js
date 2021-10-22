@@ -246,8 +246,8 @@ $(function () {
     }
 })
 
-function toggleTree(){
-    if ($("#files_tree").is(":visible")){
+function toggleTree(forceHide = false){
+    if ($("#files_tree").is(":visible") || forceHide){
         $("#files_tree").hide();
         $("#files_treeFilter").hide();
         document.getElementById('files_treetoggle').classList.add("collapsed");
