@@ -4637,15 +4637,15 @@ const garrAutoSpellEffectType = {
     9: 'Taunt', // TAUNT
     10: 'Detaunt', // DETAUNT
     11: 'Mod Damage Done', // MOD_DAMAGE_DONE
-    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT
+    12: 'Mod Damage Done %', // MOD_DAMAGE_DONE_PCT (Always %, which is inconsitent with other *_PCT named values)
     13: 'Mod Damage Taken', // MOD_DAMAGE_TAKEN
-    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT
+    14: 'Mod Damage Taken %', // MOD_DAMAGE_TAKEN_PCT (Always %, which is inconsitent with other *_PCT named values)
     15: 'Deal Damage to Attacker', // DEAL_DAMAGE_TO_ATTACKER
     16: 'Deal Damage to Attacker %', // DEAL_DAMAGE_TO_ATTACKER_PCT
     17: 'Incease Max Health', // INCREASE_MAX_HEALTH
     18: 'Increase Max Health %', // INCREASE_MAX_HEALTH_PCT
-    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT',
-    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',
+    19: 'MOD_DAMAGE_DONE_PCT_OF_FLAT', // (Behaves as expected for MOD_DAMAGE_DONE_PCT, i.e. can be %, or % of attack)
+    20: 'MOD_DAMAGE_TAKEN_PCT_OF_FLAT',  // (Behaves as expected for MOD_DAMAGE_TAKEN_PCT, i.e. can be %, or % of attack)
 }
 
 // 1034
@@ -4670,9 +4670,11 @@ const garrAutoSpellEffectTargetType = {
     17: 'All Back Row Hostiles', // ALL_BACK_ROW_HOSTILES
     18: 'All Targets', // ALL_TARGETS
     19: 'Random Target', // RANDOM_TARGET
-    20: 'Random Ally', // RANDOM_ALLY
-    21: 'Random Enemy', // RANDOM_ENEMY
+    20: 'Random Ally', // RANDOM_ALLY (Actually targets random follower)
+    21: 'Random Enemy', // RANDOM_ENEMY (Actually targets random encounter)
     22: 'ALL_FRIENDLIES_BUT_SELF',
+    23: 'ALL_FOLLOWERS', // (Unofficial name)
+    24: 'ALL_ENCOUNTERS', // (Unofficial name)
 }
 
 // 1049
