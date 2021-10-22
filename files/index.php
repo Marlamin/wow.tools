@@ -2,7 +2,7 @@
 
 require_once("../inc/header.php");
 $buildq = $pdo->prepare("SELECT hash, description FROM `wow_buildconfig` WHERE product = ? ORDER BY id DESC LIMIT 1;");
-$lfproducts = array("wow", "wowt", "wow_classic", "wow_beta", "wow_classic_era");
+$lfproducts = array("wow", "wowt", "wow_classic", "wow_classic_era", "wow_classic_era_ptr");
 $lfbuilds = [];
 foreach ($lfproducts as $lfproduct) {
     $buildq->execute([$lfproduct]);
@@ -39,7 +39,7 @@ foreach ($lfproducts as $lfproduct) {
         <input type='text' id='treeFilter' oninput='treeFilterChange(this)'>
     </div>
     <div id='files_tree' style='display: none'><div id='tree'></div></div>
-    <!-- <div id='files_treetoggle' class='collapsed' onClick='toggleTree()'>&gt;</div> -->
+    <div id='files_treetoggle' class='collapsed' onClick='toggleTree()'>&gt;</div>
     <table id='files' class="table table-striped table-bordered table-condensed" cellspacing="0" style='margin: auto; ' width="100%">
         <thead>
             <tr>
@@ -169,6 +169,7 @@ foreach ($lfproducts as $lfproduct) {
                     <input type='checkbox' id='showFileLookup' name='settings[showFileLookup]'> <label for='showFileLookup'>Show lookup column (requires reload)</label><br>
                     <input type='checkbox' id='showFileType' name='settings[showFileType]'> <label for='showFileType'>Show type column (requires reload)</label><br>
                     <input type='checkbox' id='showFileBranch' name='settings[showFileBranch]'> <label for='showFileBranch'>Show branch in versions (requires reload)</label><br>
+                    <input type='checkbox' id='showFileTree' name='settings[showFileTree]'> <label for='showFileTree'>Show file tree (experimental)</label><br>
                 </form>
             </div>
             <div class="modal-footer">
@@ -186,7 +187,8 @@ foreach ($lfproducts as $lfproduct) {
     {
         showFileLookup: false,
         showFileType: true,
-        showFileBranch: true
+        showFileBranch: true,
+        showFileTree: false
     }
 
     function loadSettings(){
@@ -225,6 +227,25 @@ foreach ($lfproducts as $lfproduct) {
         }
 
         document.getElementById("showFileBranch").checked = Settings.showFileBranch;
+
+        /* Show/hide file tree */
+        var showFileTree = localStorage.getItem('settings[showFileTree]');
+        if (showFileTree){
+            if (showFileTree== "1"){
+                Settings.showFileTree = true;
+            } else {
+                Settings.showFileTree = false;
+            }
+        }
+
+        document.getElementById("showFileTree").checked = Settings.showFileTree;
+
+        if(Settings.showFileTree){
+            document.getElementById("files_treetoggle").classList.remove("hidden");
+        }else{
+            document.getElementById("files_treetoggle").classList.add("hidden");
+            toggleTree(true);
+        }
     }
 
     function saveSettings(){
@@ -244,6 +265,12 @@ foreach ($lfproducts as $lfproduct) {
             localStorage.setItem('settings[showFileBranch]', '1');
         } else {
             localStorage.setItem('settings[showFileBranch]', '0');
+        }
+
+        if (document.getElementById("showFileTree").checked){
+            localStorage.setItem('settings[showFileTree]', '1');
+        } else {
+            localStorage.setItem('settings[showFileTree]', '0');
         }
 
         loadSettings();

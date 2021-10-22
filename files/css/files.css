@@ -61,6 +61,10 @@
 	margin-left: -10px;
 }
 
+#files_treetoggle.hidden{
+	display: none;
+}
+
 #treeFilter{
 	position: absolute;
 	top: 75px;
