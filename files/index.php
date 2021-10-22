@@ -12,7 +12,7 @@ foreach ($lfproducts as $lfproduct) {
 ?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
     <div id='files_buttons' class='notree'>
-        <a href='/files/stats.php' class='btn btn-outline-primary btn-sm'>Stats</a>
+        <a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
         <a href='/files/submitFiles.php' class='btn btn-success btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-content='Submit suggestions for filenames'><i class='fa fa-upload'></i> Suggest names</a>
         <div class="btn-group">
             <a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'><i class='fa fa-download'></i> Listfile</a>
@@ -157,11 +157,81 @@ foreach ($lfproducts as $lfproduct) {
         </div>
     </div>
 </div>
+<div class="modal" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id='settingsForm'>
+                    <input type='checkbox' id='showFileLookup' name='settings[showFileLookup]'> <label for='showFileLookup'>Show lookup column (requires reload)</label><br>
+                    <input type='checkbox' id='showFileType' name='settings[showFileType]'> <label for='showFileType'>Show type column (requires reload)</label><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveSettings();" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
 <script type='text/javascript'>
+    var Settings =
+    {
+        showFileLookup: false,
+        showFileType: true
+    }
+
+    function loadSettings(){
+        /* Show/hide file lookup column */
+        var showFileLookup = localStorage.getItem('settings[showFileLookup]');
+        if (showFileLookup){
+            if (showFileLookup== "1"){
+                Settings.showFileLookup = true;
+            } else {
+                Settings.showFileLookup = false;
+            }
+        }
+
+        document.getElementById("showFileLookup").checked = Settings.showFileLookup;
+
+        /* Show/hide file type column */
+        var showFileType = localStorage.getItem('settings[showFileType]');
+        if (showFileType){
+            if (showFileType== "1"){
+                Settings.showFileType = true;
+            } else {
+                Settings.showFileType = false;
+            }
+        }
+
+        document.getElementById("showFileType").checked = Settings.showFileType;
+    }
+
+    function saveSettings(){
+        if (document.getElementById("showFileLookup").checked){
+            localStorage.setItem('settings[showFileLookup]', '1');
+        } else {
+            localStorage.setItem('settings[showFileLookup]', '0');
+        }
+
+        if (document.getElementById("showFileType").checked){
+            localStorage.setItem('settings[showFileType]', '1');
+        } else {
+            localStorage.setItem('settings[showFileType]', '0');
+        }
+
+        loadSettings();
+    }
+
     (function() {
+        loadSettings();
+
         var searchHash = location.hash.substr(1),
         searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
 
@@ -198,7 +268,10 @@ foreach ($lfproducts as $lfproduct) {
                 }
             },
             "pageLength": 25,
-            "language": { "search": "Search: _INPUT_ <a style='margin-top: -5px;' class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'><i class='fa fa-question'></i></a> <a role='button' style='margin-top: -5px;' id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white' data-trigger='hover' data-container='body' data-toggle='popover' data-content='Click this to toggle between showing previews on the right of the table, or in a separate popup.'><i class='fa fa-columns'></i></a>" },
+            "language": { 
+                "search": "Search: _INPUT_ <a style='margin-top: -5px;' class='btn btn-outline-primary btn-sm' href='#' data-toggle='modal' data-target='#helpModal'><i class='fa fa-question'></i></a> <a role='button' style='margin-top: -5px;' id='togglePreviewWindow' onClick='togglePreviewPane()' class='btn btn-danger btn-sm' style='color: white' data-trigger='hover' data-container='body' data-toggle='popover' data-content='Click this to toggle between showing previews on the right of the table, or in a separate popup.'><i class='fa fa-columns'></i></a>",
+                "info": "Showing _START_ to _END_ of _TOTAL_ files (<a href='/files/stats.php'>stats</a>)",
+            },
             "displayStart": page * 25,
             "autoWidth": false,
             "pagingType": "input",
@@ -259,6 +332,14 @@ foreach ($lfproducts as $lfproduct) {
                 }
             },
             {
+                "targets": 2,
+                "orderable": true,
+                "visible": Settings.showFileLookup,
+                "render": function ( data, type, full, meta ) {
+                    return "<span style='font-family: monospace; text-overflow: ellipsis;'>" + full[2] + "</span>";
+                }
+            },
+            {
                 "targets": 3,
                 "orderable": false,
                 "render": function ( data, type, full, meta ) {
@@ -277,7 +358,7 @@ foreach ($lfproducts as $lfproduct) {
                     }
 
                     if(full[3].length > 1){
-                        test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>Show file versions (" + full[3].length + ")</a><div class='collapse' id='versions" + full[0] + "'>";
+                        test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>> Show " + full[3].length + " versions</a><div class='collapse' id='versions" + full[0] + "'>";
                         full[3].forEach(function(entry) {
                             if(full[1]){
                                 var filename = full[1].replace(/^.*[\\\/]/, '');
@@ -323,6 +404,11 @@ foreach ($lfproducts as $lfproduct) {
 
                     return test;
                 }
+            },
+            {
+                "targets": 4,
+                "orderable": false,
+                "visible": Settings.showFileType
             },
             {
                 "targets": 5,
