@@ -269,7 +269,8 @@ const currencyFlags = {
 
 const currencyFlagsB = {
     0x1: 'CURRENCY_B_USE_TOTAL_EARNED_FOR_MAX_QTY',
-    0x2: 'CURRENCY_B_SHOW_QUEST_XP_GAIN_IN_TOOLTIP'
+    0x2: 'CURRENCY_B_SHOW_QUEST_XP_GAIN_IN_TOOLTIP',
+    0x4: 'CURRENCY_B_NO_NOTIFICATION_MAIL_ON_OFFLINE_PROGRESS',
 }
 
 const garrAutoSpellEffectFlags = {
@@ -1359,7 +1360,10 @@ const itemStaticFlags3 = {
     0x00002000: 'DISALLOW_ENCHANT',
     0x00004000: 'SQUISH_USING_ITEM_LEVEL_AS_PLAYER_LEVEL',
     0x00008000: 'ALWAYS_SHOW_SELL_PRICE_IN_TOOLTIP',
-    0x00010000: 'COSMETIC_ITEM'
+    0x00010000: 'COSMETIC_ITEM',
+    0x00020000: 'NO_SPELL_EFFECT_TOOLTIP_PREFIXES',
+    0x00040000: 'IGNORE_COSMETIC_COLLECTION_BEHAVIOR',
+    0x00080000: 'NPC_ONLY'
 };
 
 // 169
@@ -2126,6 +2130,17 @@ const itemSetSetFlags = {
     0x4: 'RequiresPvPTalentsActive'
 }
 
+const garrTalentTreeFlags = {
+    0x1: 'IS_FACTION_BASED',
+    0x2: 'TEMP_RESEARCH_DAILY_RESET',
+    0x4: 'IGNORE_TIER_RESEARCH_REQUIREMENTS'   
+}
+
+const garrTypeFlags = {
+    0x1: 'WITH_VAR_FOLLOWERS',
+    0x2: 'USES_OVERMAX_TREAUSURE'
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2254,6 +2269,8 @@ window.flagMap.set("groupfinderactivity.Flags", groupFinderActivityFlags);
 window.flagMap.set("groupfindercategory.Flags", groupFinderCategoryFlags);
 window.flagMap.set("itembonuslist.Flags", itemBonusListFlags);
 window.flagMap.set("spellcategory.Flags", spellCategoryFlags);
+window.flagMap.set("garrtalenttree.Flags", garrTalentTreeFlags);
+window.flagMap.set("garrtype.Flags", garrTypeFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
