@@ -1807,6 +1807,17 @@ const materialFlags = {
     0x00000004: 'Is Chain',
 }
 
+// 436
+const spellCategoryFlags = {
+    0x00000001: 'Cooldown modifies item',
+    0x00000002: 'Cooldown is global',
+    0x00000004: 'Cooldown event on leave combat',
+    0x00000008: 'Cooldown in days',
+    0x00000010: 'Reset charges upon ending encounter',
+    0x00000020: 'Reset cooldown upon ending encounter',
+    0x00000040: 'Ignore for Mod Time Rate',
+}
+
 // 546
 const stationeryFlags = {
     0x00000001: 'At Mailbox',
@@ -2242,6 +2253,7 @@ window.flagMap.set("worldmaparea.Flags", worldMapAreaFlags);
 window.flagMap.set("groupfinderactivity.Flags", groupFinderActivityFlags);
 window.flagMap.set("groupfindercategory.Flags", groupFinderCategoryFlags);
 window.flagMap.set("itembonuslist.Flags", itemBonusListFlags);
+window.flagMap.set("spellcategory.Flags", spellCategoryFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
