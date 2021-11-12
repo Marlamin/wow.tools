@@ -147,7 +147,7 @@ function openFKModal(value, location, build){
 
                         // Col target found?
                         if (colTarget > -1) {
-                            if (full[colTarget] == conditionValue) {
+                            if (json.values[colTarget] == conditionValue) {
                                 var enumVal = getEnumVal(resultEnum, val);
                                 if (val == '0' && enumVal == "Unk") {
                                     //
