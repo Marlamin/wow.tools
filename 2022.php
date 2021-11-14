@@ -45,7 +45,7 @@ Some parts of the site might be around longer than others, on this page I'll sta
 <div class='row'>
     <div class='col-md-3'>
         <h4>Listfile</h4>
-        No solution yet - likely GitHub?
+        <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>GitHub (mirror only for now)</a>
     </div>
     <div class='col-md-3'>
         <h4>Database definitions</h4>

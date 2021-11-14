@@ -37,5 +37,7 @@ php fixBranches.php
 php ../../files/scripts/updateSizes.php
 cd /home/wow/autodbd/
 php update.php
+cd /home/wow/listfile/
+php update.php
 cd /var/www/wow.tools/files/scripts/
 php addMDINames.php
