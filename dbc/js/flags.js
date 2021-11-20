@@ -1492,6 +1492,21 @@ const liquidTypeFlags = {
     0x00000200: 'Force Exterior Lighting',
 };
 
+// 105
+const mountFlags = {
+    0x1: 'Server Only',
+    0x2: 'Is Self Mount',
+    0x4: 'Exclude from Journal if faction doesn\'t match',
+    0x8: 'Allow mounted combat',
+    0x10: 'Summon Random: Favor While Underwater',
+    0x20: 'Summon Random: Favor While at Water Surface',
+    0x40: 'Exclude from Journal if not learned',
+    0x80: 'Summon Random: Do NOT Favor When Grounded',
+    0x100: 'Show in Spellbook',
+    0x200: 'Add to Action Bar on Learn',
+    0x400: 'NOT for use as a taxi (non-standard mount anim)'
+}
+
 // 199
 const mountCapabilityFlags = {
     0x1: 'Is Ground Mount',
@@ -2212,6 +2227,7 @@ window.flagMap.set("material.Flags", materialFlags);
 window.flagMap.set("map.Flags[0]", mapFlags);
 window.flagMap.set("map.Flags[1]", mapFlags2);
 window.flagMap.set("modifiedcraftingreagentitem.Flags", optionalReagentItemFlag);
+window.flagMap.set("mount.Flags", mountFlags);
 window.flagMap.set("mountcapability.Flags", mountCapabilityFlags);
 window.flagMap.set("phase.Flags", phaseFlags);
 window.flagMap.set("playercondition.ClassMask", classMask);
