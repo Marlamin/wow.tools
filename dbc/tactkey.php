@@ -20,7 +20,7 @@ foreach($pdo->query("SELECT * FROM wow_tactkey ORDER BY added ASC, ID asc") as $
     <? if(!empty($_GET['build'])){
         $build = $_GET['build'];
     }else{
-        $build = "9.0.2.35854";
+        $build = "9.2.0.41089";
     }
     ?>
     <div id='output' style='font-family: "Courier New", monospace; white-space: pre;'>

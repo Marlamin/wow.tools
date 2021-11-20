@@ -27,7 +27,7 @@
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = Initialize;
-    xhr.open( 'GET', '/maps/data/data.json', true );
+    xhr.open( 'GET', '/maps/data/data.json?v=22', true );
     xhr.responseType = 'json';
     xhr.send();
 

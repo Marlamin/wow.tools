@@ -20,10 +20,6 @@ function buildURL($product, $type, $value)
     global $pdo;
 
     $cdn = "http://blzddist1-a.akamaihd.net/";
-
-    if($product == "d3t"){
-        $cdn = "http://level3.blizzard.com/";
-    }
     $q = $pdo->prepare("SELECT cdndir FROM ngdp_products WHERE program = ?");
     $q->execute([$product]);
     $cdndir = $q->fetch()['cdndir'];

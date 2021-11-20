@@ -2156,6 +2156,11 @@ const garrTypeFlags = {
     0x2: 'USES_OVERMAX_TREAUSURE'
 }
 
+const languageFlags = {
+    0x1: 'IsExotic',
+    0x2: 'HiddenFromPlayer'
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2287,6 +2292,7 @@ window.flagMap.set("itembonuslist.Flags", itemBonusListFlags);
 window.flagMap.set("spellcategory.Flags", spellCategoryFlags);
 window.flagMap.set("garrtalenttree.Flags", garrTalentTreeFlags);
 window.flagMap.set("garrtype.Flags", garrTypeFlags);
+window.flagMap.set("languages.Flags", languageFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();
