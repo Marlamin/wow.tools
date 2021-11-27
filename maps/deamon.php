@@ -84,7 +84,7 @@
             preferCanvas: true
         });
 
-        var layer  = new L.tileLayer("https://deamon.marlam.in/kalimdor/rot0/{z}/{y}/{x}.png", {
+        var layer  = new L.tileLayer("https://wow.tools/maps/deamontiles/kalimdor/rot0/{z}/{y}/{x}.png", {
             attribution: '<a href="https://twitter.com/dmitolm">Deamon, Map author</a> | World of Warcraft &copy; Blizzard Entertainment',
             continuousWorld: true,
             maxNativeZoom : 7,
