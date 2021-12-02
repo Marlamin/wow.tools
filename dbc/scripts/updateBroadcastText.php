@@ -43,6 +43,6 @@ while($row = $q->fetch(PDO::FETCH_ASSOC)){
     $outdir = $descexpl[0] . "." . $build;
     if(in_array($outdir, $donebuilds))
         continue;
-    importDB2("broadcasttext", $outdir, "(@TextLang, @Text1Lang, @ID, @LanguageID, @ConditionID, @EmotesID, @Flags, @ChatBubbleDurationMS, @SoundKit0, @SoundKit1) SET ID = @ID, Text = @TextLang, Text1 = @Text1Lang, SoundKit0 = @SoundKit0, SoundKit1 = @SoundKit1");
+    importDB2("broadcasttext", $outdir, "(@TextLang, @Text1Lang, @ID, @LanguageID, @ConditionID, @EmotesID, @Flags, @ChatBubbleDurationMS, @VOPriority, @SoundKit0, @SoundKit1) SET ID = @ID, Text = @TextLang, Text1 = @Text1Lang, SoundKit0 = @SoundKit0, SoundKit1 = @SoundKit1");
     $donebuilds[] = $outdir;
 }
