@@ -19,7 +19,7 @@ function reverseLookup($bytes)
     return $result;
 }
 
-$q = $pdo->query("SELECT hash, description FROM wow_buildconfig WHERE product IN ('wow', 'wowt', 'wow_beta') ORDER BY id DESC LIMIT 1");
+$q = $pdo->query("SELECT hash, description FROM wow_buildconfig WHERE product IN ('wowt', 'wow_beta') ORDER BY id DESC LIMIT 1");
 $row = $q->fetch();
 
 $rawdesc = str_replace("WOW-", "", $row['description']);
