@@ -144,7 +144,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                                         break;
                                 }
 
-                                if(full.md5 == "de6135861a6cacfe176830f18f597c3e"){
+                                if(full.md5 == "de6135861a6cacfe176830f18f597c3e" || full.md5 == "ea80e802952501021865cfeed808ac3f"){
                                     content += " <span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
                                 }
                                 break;
