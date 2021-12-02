@@ -178,3 +178,53 @@ Not OK (Normal):
 
             (22025.363 * (1.031 * 1.217 * 1.06)) * 40 / 100.0 = 11717.5866797 <-- Correct
 
+S H A D O W L A N D S  9.1
+Sanctum of Domination
+Tarragrue
+
+347269 - Chains of Eternity
+    SE$354173s1
+        SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage
+        ExpectedStat for lvl 60 exp 8 = CreatureSpellDamage = 22025.363
+        EffectBasePointsF 50
+
+LFG - 11491 in-game
+    ContentTuning 2107 (via MapDifficulty, no LFGDungeons)
+        ExpectedStatMod 178 => CreatureSpellDamageMod 1.335
+        ExpectedStatMod 15  => CreatureSpellDamageMod 0.709
+        ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+        ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+        ExpectedStatMod 193 => CreatureSpellDamageMod 1
+
+        (22025.363 * (1.335 * 0.709 * 1.06 * 1.04 * 1)) * 50 / 100.0 = 11491.0518567 <-- Correct
+
+Normal - 15029 in-game
+    ContentTuning 2104 (via LFGDungeons)
+        ExpectedStatMod 179 => CreatureSpellDamageMod 1.506
+        ExpectedStatMod 16  => CreatureSpellDamageMod 0.822
+        ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+        ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+        ExpectedStatMod 193 => CreatureSpellDamageMod 1
+
+        (22025.363 * (1.506 * 0.822 * 1.06 * 1.04 * 1)) * 50 / 100.0 = 15028.9650001 <-- Correct
+
+Heroic - 20687 in-game
+    ContentTuning 2105 (via LFGDungeons)
+        ExpectedStatMod 189 => CreatureSpellDamageMod 1.704
+        ExpectedStatMod 17  => CreatureSpellDamageMod 1
+        ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+        ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+        ExpectedStatMod 193 => CreatureSpellDamageMod 1
+
+        (22025.363 * (1.704 * 1 * 1.06 * 1.04 * 1)) * 50 / 100.0 = 20687.2076659 <-- Correct
+
+Mythic - 27541 in-game
+    ContentTuning 2106 (via LFGDungeons)
+        ExpectedStatMod 190 => CreatureSpellDamageMod 1.934
+        ExpectedStatMod 18  => CreatureSpellDamageMod 1.173
+        ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+        ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+        ExpectedStatMod 193 => CreatureSpellDamageMod 1
+
+        (22025.363 * (1.934 * 1.173 * 1.06 * 1.04 * 1)) * 50 / 100.0 = 27541.4477354 <-- Correct
+
