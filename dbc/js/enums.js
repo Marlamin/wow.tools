@@ -3909,6 +3909,7 @@ const expectedStatExpansionID = {
     5: 'Warlords of Draenor',
     6: 'Legion',
     7: 'Battle for Azeroth',
+    8: 'Shadowlands',
 };
 
 // 588
@@ -5153,6 +5154,19 @@ const BattlePetVisualRange = {
     5: 'BehindRanged',
 }
 
+const ChatProfanityLanguage = {
+    0: 'English',
+    1: 'Korean',
+    2: 'French',
+    3: 'German',
+    4: 'Chinese',
+    5: 'Unknown',
+    6: 'Unknown',
+    7: 'Unknown',
+    8: 'Cyrillic',
+    9: 'Portugese',
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("azeritetierunlock.Tier", azeriteTierID);
@@ -5282,6 +5296,7 @@ enumMap.set("weaponswingsounds2.SwingType", weaponSwingType);
 enumMap.set("weather.Type", weatherType);
 enumMap.set("highlightcolor.Type", highlightColorType);
 enumMap.set("groupfinderactivity.DisplayType", groupFinderActivityDisplayType);
+enumMap.set("chatprofanity.Language", ChatProfanityLanguage);
 
 /* Race IDs */
 enumMap.set("chrracexchrmodel.ChrRacesID", tempChrRaceIDEnum);
