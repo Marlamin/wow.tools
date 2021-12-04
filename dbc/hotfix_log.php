@@ -164,7 +164,7 @@ if(showServer){
             tableNames[table.name.toUpperCase()] = table.displayName;
         }
 
-        let build = latestbuilds["wowt"];
+        let build = latestbuilds["wow"];
         let serverHotfixDivs = document.getElementsByClassName("serverHotfix");
         for(let i = 0; i < serverHotfixDivs.length; i++){
             let el = serverHotfixDivs[i];
