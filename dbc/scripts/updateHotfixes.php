@@ -71,7 +71,7 @@ foreach ($filesToProcess as $file) {
     $messages = [];
     $entriesProcessed = 0;
     foreach ($json['entries'] as $entry) {
-        if ($entry['pushID'] > 999999) {
+        if ($entry['pushID'] > 999999 || $entry['pushID'] == 12345) {
             // $messages[] = "Got hotfix with a very high push ID: " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . ", ignoring!!!\n\n@" . $file . "\n\n";
             continue;
         }
