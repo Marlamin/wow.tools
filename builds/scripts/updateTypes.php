@@ -22,6 +22,11 @@ while (true) {
         $uq->bindParam(":id", $row['id']);
         $uq->execute();
     }
+    
+    $resetRows = $pdo->exec("UPDATE wow_rootfiles SET type = NULL WHERE wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL) AND active = 1)  AND  (type = 'unk')");
+    if($resetRows > 0){
+        echo "[" . date('h:i:s') . "] Reset type for " . $resetRows . " newly decrypted files..\n";
+    }
 
     /* Known types */
     $modelFileData = $pdo->query("SELECT FileDataID FROM wowdata.modelfiledata")->fetchAll(PDO::FETCH_COLUMN);
