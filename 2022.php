@@ -43,20 +43,27 @@ Some parts of the site might be around longer than others, on this page I'll sta
 </div>
 <h2>Alternatives (for devs)</h2>
 <div class='row'>
-    <div class='col-md-3'>
+    <div class='col-md-2'>
         <h4>Listfile</h4>
         <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>GitHub (mirror only for now)</a>
     </div>
-    <div class='col-md-3'>
+    <div class='col-md-2'>
         <h4>Database definitions</h4>
         Will remain <a href='https://github.com/wowdev/WoWDBDefs/commits/master' target='_BLANK'>on GitHub</a>, <a href='https://github.com/wowdev/WoWDBDefs/blob/master/README.md#updating-dbds-with-newer-builds' target='_BLANK'>auto-updating</a> needs to move
     </div>
-    <div class='col-md-3'>
+    <div class='col-md-2'>
+        <h4>DBC reading</h4>
+        <a href='https://github.com/wowdev/DBCD' target='_BLANK'>DBCD</a> (C#)<br>
+        <a href='https://github.com/erorus/db2' target='_BLANK'>Erorus' DB2 reader</a> (PHP)<br>
+        <a href='https://www.townlong-yak.com/casc/dbc/' target='_BLANK'>LuaDBC</a> (Lua)<br>
+    </div>
+    <div class='col-md-2'>
         <h4>DBC export API</h4>
         <a href='https://github.com/Marlamin/DBC2CSV' target='_BLANK'>DBC2CSV</a> (DB2 to CSV, needs compile)
     </div>
-    <div class='col-md-3'>
+    <div class='col-md-2'>
         <h4>Builds API</h4>
+        <a href='https://blizztrack.com/api/index.html'>BlizzTrack API</a><br>
         DIY: <a href='https://wowdev.wiki/Ribbit' target='_BLANK'>Ribbit</a>
     </div>
 </div><br>
