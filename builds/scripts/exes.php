@@ -74,7 +74,7 @@ while ($row = $res->fetch()) {
                 $md5 = str_replace("md5: ", "", $split2[1]);
                 
                 echo "[EXE dump] " . $row['description'] . ": " . $row['buildconfig'] . "\" \"" . $row['cdnconfig'] . "\" \"" . $md5 . "\" \"" . $filename . "\"\n";
-                $output = shell_exec("/usr/bin/wget -O \"" . $filename . "\" \"https://wow.tools/casc/file/chash?contenthash=" . $md5 . "&buildconfig=" . $row['buildconfig'] . "&cdnconfig=" . $row['cdnconfig'] . "&filename=out.exe\"");
+                $output = shell_exec("/usr/bin/wget -O \"" . $filename . "\" \"http://localhost:5005/casc/file/chash?contenthash=" . $md5 . "&buildconfig=" . $row['buildconfig'] . "&cdnconfig=" . $row['cdnconfig'] . "&filename=out.exe\"");
                 
                 if (file_exists($filename)) {
                     if (filesize($filename) == 0) {
