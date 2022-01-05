@@ -130,4 +130,11 @@
         </div>
     </div>
 </div>
-<?php require_once("../inc/footer.php"); ?>
+<footer>
+<div class="container text-muted">
+    <p>You made it all the way to the bottom of the page, you're pretty cool!</p>
+    <p style='font-size: 11px'>World of Warcraft and related trademarks are registered trademarks of Blizzard Entertainment whom this site is not affiliated with.</p>
+</div>
+</footer>
+</body>
+</html>
