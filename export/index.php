@@ -4,7 +4,7 @@
     <div class='row'>
         <div class='col-8 offset-2'>
             <h1>WoW.export</h1>
-            <p class="lead">A complete rewrite of <a href='https://marlam.in/obj/'>WoW Export Tools</a> by <a href='https://twitter.com/kruithne' target='_BLANK'>Kruithne</a></p>
+            <p class="lead">A complete rewrite of WoW Export Tools by <a href='https://twitter.com/kruithne' target='_BLANK'>Kruithne</a></p>
         </div>
     </div>
     <div class='row'>
