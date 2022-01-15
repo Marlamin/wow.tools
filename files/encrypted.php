@@ -78,8 +78,8 @@ $cmdq = $pdo->prepare("SELECT * FROM wowdata.creaturemodeldata WHERE filedataid 
 $idiq = $pdo->prepare("SELECT ID FROM wowdata.itemdisplayinfo WHERE ModelResourcesID0 IN (SELECT ModelResourcesID FROM wowdata.modelfiledata WHERE FileDataID = ?)");
 $cmfq = $pdo->prepare("SELECT * FROM wowdata.componentmodelfiledata WHERE ID IN (SELECT filedataid FROM wow_encrypted WHERE keyname = ?)");
 $csdq = $pdo->prepare("SELECT * FROM wowdata.creaturesounddata WHERE ID = ?");
-$contenthashMatchQ = $pdo->prepare("SELECT filedataid, contenthash FROM wow_rootfiles_chashes WHERE contenthash IN (SELECT contenthash FROM wow_rootfiles_chashes WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname = ?)) AND filedataid NOT IN (SELECT filedataid FROM wow_encrypted)
-");
+$filesbychashq = $pdo->prepare("SELECT id, filename, type FROM wow_rootfiles WHERE id IN (SELECT filedataid FROM wow_rootfiles_chashes WHERE contenthash = ?)");
+$contenthashMatchQ = $pdo->prepare("SELECT filedataid, contenthash FROM wow_rootfiles_chashes WHERE contenthash IN (SELECT contenthash FROM wow_rootfiles_chashes WHERE filedataid IN (SELECT filedataid FROM wow_encrypted WHERE wow_encrypted.keyname = ?)) AND filedataid NOT IN (SELECT filedataid FROM wow_encrypted)");
 foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC") as $tactkey) {
     $encryptedfileq->execute([$tactkey['keyname']]);
     $filesforkey = $encryptedfileq->fetchAll(PDO::FETCH_ASSOC);
@@ -123,6 +123,38 @@ foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC"
         echo "</table>";
         echo "</td></tr>";
     }
+
+    echo "<tr><td>DB2s</td><td>";
+    echo "<table class='table table-sm table-striped'>";
+    $tactKeyInBytes = pack("H*", $tactkey['keyname']);
+    $tactKeyLong = unpack("JTactKeyHash", $tactKeyInBytes);
+    // echo "<tr><td>".$tactKeyLong['TactKeyHash']."</td></tr>";
+    foreach ($filesforkey as $file) {
+        if($file['type'] == "db2"){
+            $db2 = "/home/wow/dbcs/9.2.0.41827/" . $file['filename'];
+            $db2file = fopen($db2, "r");
+            fseek($db2file, 4);
+            $header = fread($db2file, 68);
+
+            echo "<tr>
+            ";
+            $vals = unpack("VRecordCount/VFieldCount/VRecordSize/VStringTableSize/VTableHash/VLayoutHash/VMin/VMax/VLocale/vFlags/vIDIndex/VTotalFields/VBitpackedDataOffset/VLookupColumnCount/VFieldStorageInfoSize/VCommonDataSize/VPalletDataSize/VSectionCount", $header);
+            for($sectionIndex = 0; $sectionIndex < $vals['SectionCount']; $sectionIndex++){
+                $sectionHeader = fread($db2file, 40);
+                $sectionVals = unpack("PTactKeyHash/VFileOffset/VRecordCount/VStringTableSize/VOffsetRecordsEnd/VIDListSize/VRelationshipDataSize/VOffsetMapIDCount/VCopyTableCount", $sectionHeader);
+                if($sectionVals['TactKeyHash'] == $tactKeyLong['TactKeyHash']){
+                    // echo "<td style='width: 50px'>Section " . $sectionIndex . "</td>";
+                    echo "<td style='width: 10px'>" . $sectionVals['RecordCount']."x </td>";
+                }
+            }
+            echo "
+            <td style='width: 260px'>".basename($file['filename'])."</td>
+            </tr>";
+            fclose($db2file);
+        }
+    }
+    echo "</table>";
+    echo "</td></tr>";
 
     if (array_key_exists("m2", $types)) {
         $cmdq->execute([$tactkey['keyname']]);
@@ -198,7 +230,19 @@ foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC"
             foreach ($matches as $match) {
                 $matchCount++;
                 if ($prevhash != $match['contenthash']) {
-                    echo "<tr><td>A file (TODO: which file??) in this key matches contenthash <span class='hash'>" . $match['contenthash'] . "</span> from non-encrypted file " . $match['filedataid'] . "</td></tr>";
+                    $filesbychashq->execute([$match['contenthash']]);
+                    $fdidmatches = $filesbychashq->fetchAll();
+                    if(count($fdidmatches) > 10){
+                        echo "<tr><td>A file in this key matches contenthash <span class='hash'>" . $match['contenthash'] . "</span> from more than 10 non-encrypted files, likely placeholder VO: " . $match['filedataid'] . "</td></tr>";
+                    }else{
+                        echo "<tr><td>A file in this key matches contenthash (<span class='hash'>" . $match['contenthash'] . "</span>) with existing files:<br>";
+                        echo "<table class='table table-sm table-striped'>";
+                        foreach($fdidmatches as $fdidmatch){
+                            echo "<tr><td style='width: 100px'>".$fdidmatch['id']."</td><td style='width: 450px'>".$fdidmatch['filename']."</td><td>".$fdidmatch['type']."</td></tr>";
+                        }
+                        echo "</table>";
+                        echo "</td></tr>";
+                    }
                 }
                 $prevhash = $match['contenthash'];
             }
