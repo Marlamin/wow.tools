@@ -4710,6 +4710,7 @@ const garrTalentTreeFeatureTypeIndex = {
     5: 'Sanctum - Unique Feature',
     6: 'Sanctum - Soul Binds',
     7: 'Sanctum - Map - Anima Diversion',
+    8: 'Zereth Mortis - Cyphers',
 }
 
 // 1064
@@ -4838,6 +4839,7 @@ const enumNames = {
     // 247: 'SpellVisualKit',
     251: 'BroadcastText::Flags',
     // 252: 'Consumable item types',
+    255: 'CreatureImmunities::Flags',
     256: 'BattlemasterList::Flags',
     258: 'ArtifactPower::Flags',
     259: 'InventorySlotName',

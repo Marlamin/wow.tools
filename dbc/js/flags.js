@@ -1627,6 +1627,13 @@ const broadcastTextFlags = {
     // incomplete
 };
 
+// 255
+const creatureImmunitiesFlags = {
+    0x00000001: 'Area Effect Immune',
+    0x00000002: 'Chain Effect Immune',
+    0x00000004: 'Available on Client',
+};
+
 // 256
 const battlemasterListFlags = {
     0x00000001: 'Internal Only',
@@ -2293,6 +2300,7 @@ window.flagMap.set("spellcategory.Flags", spellCategoryFlags);
 window.flagMap.set("garrtalenttree.Flags", garrTalentTreeFlags);
 window.flagMap.set("garrtype.Flags", garrTypeFlags);
 window.flagMap.set("languages.Flags", languageFlags);
+window.flagMap.set("creatureimmunities.Flags", creatureImmunitiesFlags);
 
 // Conditional flags
 let conditionalFlags = new Map();

@@ -1670,5 +1670,11 @@ var animationNames = [
     "LivingWorldTimeOfDayLoop",
     "FlyLivingWorldTimeOfDayLoop",
     "LivingWorldTimeOfDayLeave",
-    "FlyLivingWorldTimeOfDayLeave"
+    "FlyLivingWorldTimeOfDayLeave",
+    "LivingWorldWeatherEnter",
+    "FlyLivingWorldWeatherEnter",
+    "LivingWorldWeatherLoop",
+    "FlyLivingWorldWeatherLoop",
+    "LivingWorldWeatherLeave",
+    "FlyLivingWorldWeatherLeave",
 ];
