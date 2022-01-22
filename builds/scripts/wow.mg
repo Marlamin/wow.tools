@@ -200,3 +200,7 @@
 # install
 0 string DL .download
 !:mime casc/download
+
+# install
+0 string SCN0 .scn
+!:mime wow/scn0
