@@ -40,7 +40,7 @@ You can support the site in many ways:
 <p>I have been in contact with both the community and the legal team in the past and at the time they had no issue with the tools I was making and the site I was hosting. If this were to change, I'll gladly work together with them to resolve any issues.</p>
 <h3>My question isn't listed!</h3>
 <p>
-Ask in the <a href='https://discord.gg/BYpgyhy' target='_BLANK'>Discord</a>, on <a href='//twitter.com/marlamin' target='_BLANK'>Twitter</a> or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.
+Ask in the <a href='https://discord.gg/5bkAvXFkDF' target='_BLANK'>Discord</a>, on <a href='//twitter.com/marlamin' target='_BLANK'>Twitter</a> or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.
 </p>
 </div>
 <?php require_once "inc/footer.php"; ?>
