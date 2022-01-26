@@ -269,6 +269,9 @@ function guessFileExtByExtractedFilename($name)
         case "audio/ogg":
             $ext = ".ogg";
             break;
+        case "wow/scn0":
+            $ext = ".scn";
+            break;
         default:
             $ext = ".unk";
             break;
