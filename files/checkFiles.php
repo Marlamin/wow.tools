@@ -38,7 +38,7 @@ if (!empty($_POST['files'])) {
     $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll calchashlistfile " . escapeshellarg($tmpfname);
     $output = explode("\n", shell_exec($cmd));
 
-    $qt = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE lookup = ?");
+    $qt = $pdo->prepare("SELECT id, filename FROM wow_rootfiles WHERE lookup = ?");
     $addq = $pdo->prepare("UPDATE wow_rootfiles SET filename = ?, verified = 1 WHERE lookup = ?");
     $numadded = 0;
     foreach ($output as $line) {
@@ -56,7 +56,7 @@ if (!empty($_POST['files'])) {
                 echo "Added " . $expl[0] . " (" . $expl[1] . ")<br>";
                 $numadded++;
             }
-            $validfiles[] = $expl[0];
+            $validfiles[$row['id']] = $expl[0];
         } else {
             $invalidfiles[] = $expl[0];
         }
@@ -93,8 +93,8 @@ if (!empty($validfiles) || !empty($invalidfiles)) {
     if (count($validfiles) > 0) {
         echo "<h3>Valid files</h3>";
         echo "<pre>";
-        foreach ($validfiles as $validfile) {
-            echo $validfile . "\n";
+        foreach ($validfiles as $validKey => $validfile) {
+            echo $validKey . ";" . $validfile . "\n";
         }
         echo "</pre>";
     }
