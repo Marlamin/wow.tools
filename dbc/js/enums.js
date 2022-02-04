@@ -4902,6 +4902,7 @@ const enumNames = {
     530: 'CurveType',
     531: 'ItemSpec::Primary/SecondaryStat',
     // 538: 'Light data types',
+    539: 'SPELL_PROC_TEST_RESULT', // Unknown ref?
     546: 'Stationery::Flags',
     555: 'UiModelSceneCamera::CameraType',
     556: 'UiModelSceneActor::Flags',
