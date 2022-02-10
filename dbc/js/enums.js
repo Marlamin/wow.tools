@@ -2273,6 +2273,7 @@ itemSubClass[1] = {
     10: 'Cooking Bag'
 }
 
+// 953
 itemSubClass[2] = {
     0: 'Axe',
     1: 'Axe', //2H
@@ -4975,6 +4976,7 @@ const enumNames = {
     // 917: 'Waypoint3',
     934: 'FriendshipReputation::Flags',
     950: 'SceneFlags',
+    953: 'ItemSubClass',
     956: 'BonusStatIndex',
     965: 'ItemEquipLoc',
     // 968: 'Account flags',
