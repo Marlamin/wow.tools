@@ -2762,7 +2762,8 @@ const socketColorEnum = {
     18: 'RELIC_HOLY',
     19: 'PUNCHCARD_RED',
     20: 'PUNCHCARD_YELLOW',
-    21: 'PUNCHCARD_BLUE'
+    21: 'PUNCHCARD_BLUE',
+    22: 'CYPHER'
 }
 
 // 176

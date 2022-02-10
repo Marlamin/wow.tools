@@ -131,7 +131,7 @@ foreach ($pdo->query("SELECT * FROM wow_tactkey WHERE id > 271 ORDER BY id DESC"
     // echo "<tr><td>".$tactKeyLong['TactKeyHash']."</td></tr>";
     foreach ($filesforkey as $file) {
         if($file['type'] == "db2"){
-            $db2 = "/home/wow/dbcs/9.2.0.41827/" . $file['filename'];
+            $db2 = "/home/wow/dbcs/9.2.0.42257/" . $file['filename'];
             $db2file = fopen($db2, "r");
             fseek($db2file, 4);
             $header = fread($db2file, 68);
