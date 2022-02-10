@@ -1751,6 +1751,21 @@ const lightSkyboxFlags = {
     0x00000010: 'Disable use Sun Fog Color',
 };
 
+// 292
+const interruptFlags = {
+    0x00000001: 'Movement',
+    0x00000002: 'Dmg Pushback(Player)',
+    0x00000004: 'Stun',
+    0x00000008: 'Combat',
+    0x00000010: 'Dmg Cancels(Player)',
+    0x00000020: 'Melee Combat',
+    0x00000040: 'Immunity',
+    0x00000080: 'Damage Absorb',
+    0x00000100: 'Zero Damage Cancels',
+    0x00000200: 'Damage Pushback',
+    0x00000400: 'Damage Cancels',
+};
+
 // 327
 const powerTypeFlags = {
     0x00000001: 'Stop Regen While Casting',
@@ -2263,6 +2278,9 @@ window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFla
 window.flagMap.set("spelleffect.EffectAttributes", spellEffectEffectAttributes);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[0]", auraInterruptFlags0);
 window.flagMap.set("spellinterrupts.AuraInterruptFlags[1]", auraInterruptFlags1);
+window.flagMap.set("spellinterrupts.ChannelInterruptFlags[0]", auraInterruptFlags0);
+window.flagMap.set("spellinterrupts.ChannelInterruptFlags[1]", auraInterruptFlags1);
+window.flagMap.set("spellinterrupts.InterruptFlags", interruptFlags);
 window.flagMap.set("spellitemenchantment.Flags", spellItemEnchantmentFlags);
 window.flagMap.set("spellmisc.Attributes[0]", spellAttributes0);
 window.flagMap.set("spellmisc.Attributes[1]", spellAttributes1);
