@@ -207,7 +207,7 @@ require_once(__DIR__ . "/../inc/header.php");
             returnedValue = displayValue;
         }else{
             if (fk.toLowerCase() == "filedata::id"){
-                returnedValue = "<a data-toggle='modal' data-target='#fkModal' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
+                returnedValue = "<a data-toggle='modal' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' data-toggle='modal' data-target='#moreInfoModal' onclick='fillModal(" + val + ")'>" + val + "</a>";
             } else if (fk.toLowerCase() == "soundentries::id" && parseInt(build[0]) > 6){
                 returnedValue = "<a data-toggle='modal' data-target='#fkModal' style='padding-top: 0px; padding-bottom: 0px; cursor: pointer; border-bottom: 1px dotted;' onclick='openFKModal(" + val + ", \"SoundKit::ID\", \"" + build + "\")'>" + val + "</a>";
             } else if (fk.toLowerCase() == "item::id" && val > 0){
@@ -389,7 +389,30 @@ require_once(__DIR__ . "/../inc/header.php");
             }
         });
     }
+
+    function fillModal(fileDataID){
+        $( "#moreInfoModalContent" ).load( "/files/scripts/filedata_api.php?filedataid=" + fileDataID );
+    }
 </script>
+<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="moreInfoModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="hotfixDialogModal" tabindex="-1" role="dialog" aria-labelledby="hotfixDialogLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
