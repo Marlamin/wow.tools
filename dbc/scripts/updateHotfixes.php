@@ -95,7 +95,7 @@ foreach ($filesToProcess as $file) {
                 echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Inserted new hotfix: Push ID " . $entry['pushID'] . ", Table " . $entry['tableName'] . " ID " . $entry['recordID'] . " from build " . $json['build'] . "\n";
 
                 if (!array_key_exists($entry['pushID'], $messages)) {
-                    $messages[$entry['pushID']] = "Push ID **[" . $entry['pushID'] . "](https://wow.tools/dbc/hotfixes.php?search=pushid:" . $entry['pushID'] . ")** for build " . $json['build'] . "\n";
+                    $messages[$entry['pushID']] = "Push ID **[" . $entry['pushID'] . "](https://wow.tools/dbc/hotfixes.php#search=pushid:" . $entry['pushID'] . ")** for build " . $json['build'] . "\n";
                 }
 
                 $messages[$entry['pushID']] .= $pushIDIcon[$entry['isValid']] . " " . $entry['tableName'] . " " . $entry['recordID'] . "\n";

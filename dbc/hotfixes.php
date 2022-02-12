@@ -81,11 +81,20 @@ require_once(__DIR__ . "/../inc/header.php");
 
     let cachedDBCHeaders = [];
 
-    if(vars["search"] == null){
-        currentParams["search"] = "";
-    }else{
-        currentParams["search"] = vars["search"];
+
+    
+    var searchHash = location.hash.substr(1);
+    var searchString = searchHash.substr(searchHash.indexOf('search=')).split('&')[0].split('=')[1];
+
+    if(searchString != undefined && searchString.length > 0){
+        searchString = decodeURIComponent(searchString);
+    }else if(vars["search"] != null){
+        searchString = vars["search"];
     }
+
+    var page = (parseInt(searchHash.substr(searchHash.indexOf('page=')).split('&')[0].split('=')[1], 10) || 1) - 1;
+    if(!page)
+        page = 0;
 
     var table = $('#hotfixTable').DataTable({
         "processing": true,
@@ -94,14 +103,14 @@ require_once(__DIR__ . "/../inc/header.php");
             "url": "/dbc/hotfix_api.php"
         },
         "pageLength": 25,
-        "displayStart": 0,
+        "displayStart": page * 25,
         "autoWidth": true,
         "pagingType": "input",
         "orderMulti": false,
         "ordering": false,
         "searching": true,
         "language": { "search": "Search: _INPUT_ " },
-        "search": { "search": currentParams["search"] },
+        "search": { "search": searchString },
         "columnDefs": [
         {
             "targets": 0,
@@ -154,6 +163,15 @@ require_once(__DIR__ . "/../inc/header.php");
                 }
             }
         }]
+    });
+
+    $("#hotfixTable").on( 'draw.dt', function () {
+        var currentSearch = encodeURIComponent($("#hotfixTable_filter label input").val());
+        var currentPage = $('#hotfixTable').DataTable().page() + 1;
+
+        var url = "search=" + currentSearch + "&page=" + currentPage;
+
+        window.location.hash = url;
     });
 
     function getAddendum(dbc, col, value){

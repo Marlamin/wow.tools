@@ -124,7 +124,7 @@ if ($updatedago == strtotime("now")) {
         }
 
         echo "<tr>
-        <td><a href='/dbc/hotfixes.php?search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a><br><span class='badge badge-secondary'>".$hotfix['patch']."</span></td>
+        <td><a href='/dbc/hotfixes.php#search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a><br><span class='badge badge-secondary'>".$hotfix['patch']."</span></td>
         <td>" . implode('<br>', explode(',', $hotfix['tables'])) . "</td>
         <td>" . $hotfix['rowCount'] . "</td>
         <td>" . $hotfix['firstdetected'] . "</td>
