@@ -393,6 +393,10 @@ require_once(__DIR__ . "/../inc/header.php");
     function fillModal(fileDataID){
         $( "#moreInfoModalContent" ).load( "/files/scripts/filedata_api.php?filedataid=" + fileDataID );
     }
+
+    function fillPreviewModal(buildconfig, filedataid){
+        $( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+    }
 </script>
 <div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel"
     aria-hidden="true">
@@ -405,6 +409,18 @@ require_once(__DIR__ . "/../inc/header.php");
                 </button>
             </div>
             <div class="modal-body" id="moreInfoModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" id="previewModalContent">
                 <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
             </div>
             <div class="modal-footer">
