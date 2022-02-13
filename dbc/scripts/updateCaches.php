@@ -40,7 +40,7 @@ foreach ($files as $file) {
 
     echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
     $output = shell_exec("cd /home/wow/wdbupdater; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql");
-    if (!$fullrun && substr($output, -34) != "New entries: 0\nUpdated entries: 0\n") {
+    if (!$fullrun && $output != null && substr($output, -34) != "New entries: 0\nUpdated entries: 0\n") {
         // echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] " . substr($output, -34);
         //telegramSendMessage($output);
     }

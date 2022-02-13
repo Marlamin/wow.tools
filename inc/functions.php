@@ -445,7 +445,7 @@ function githubRequest($path, $data = null)
 
 function compareTimestamp($a, $b)
 {
-    return ($a['timestamp'] < $b['timestamp']);
+    return ($b['timestamp'] <=> $a['timestamp']);
 }
 
 function getOrCreateVersionID($version)

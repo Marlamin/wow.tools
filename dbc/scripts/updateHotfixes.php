@@ -157,26 +157,28 @@ foreach ($filesToProcess as $file) {
 
     $foundNewKeys = false;
     $output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions") . " true");
-    foreach (explode("\n", $output2) as $line) {
-        if (empty($line)) {
-            continue;
-        }
-
-        $expl = explode(" ", trim($line));
-
-        if (strlen($expl[0]) != 16 || strlen($expl[1]) != 32) {
-            if ($expl[3] == "TactKey" && $expl[9] == "BroadcastText") {
+    if($output2 != null){
+        foreach (explode("\n", $output2) as $line) {
+            if (empty($line)) {
                 continue;
             }
-            echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Read line that is not a key: " . $line . "\n";
-            continue;
-        }
 
-        if (!in_array($expl[0], $knownKeys)) {
-            echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Found new key! " . $expl[0] . " " . $expl[1] . "\n";
-            $knownKeys[] = $expl[0];
-            $keyInsert->execute([$expl[0], $expl[1]]);
-            $foundNewKeys = true;
+            $expl = explode(" ", trim($line));
+
+            if (strlen($expl[0]) != 16 || strlen($expl[1]) != 32) {
+                if ($expl[3] == "TactKey" && $expl[9] == "BroadcastText") {
+                    continue;
+                }
+                echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Read line that is not a key: " . $line . "\n";
+                continue;
+            }
+
+            if (!in_array($expl[0], $knownKeys)) {
+                echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Found new key! " . $expl[0] . " " . $expl[1] . "\n";
+                $knownKeys[] = $expl[0];
+                $keyInsert->execute([$expl[0], $expl[1]]);
+                $foundNewKeys = true;
+            }
         }
     }
 

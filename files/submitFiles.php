@@ -4,15 +4,15 @@ require_once("../inc/header.php");
 
 $filelimit = 20000;
 
-$kfq = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE verified = 0")->fetchAll();
-foreach ($kfq as $row) {
-    $knownfiles[$row['id']] = $row['filename'];
-}
-
 $cq = $pdo->prepare("SELECT id, filename FROM wow_rootfiles WHERE filename = ? OR id = ?");
 
 if (!empty($_SESSION['loggedin'])) {
     if (!empty($_POST['files'])) {
+        $kfq = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE verified = 0")->fetchAll();
+        foreach ($kfq as $row) {
+            $knownfiles[$row['id']] = $row['filename'];
+        }
+
         $files = explode("\n", $_POST['files']);
 
         if (count($files) > $filelimit) {
