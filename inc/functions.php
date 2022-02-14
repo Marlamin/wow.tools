@@ -275,7 +275,7 @@ function parseConfig($file)
     $t = explode("/", $file);
     $config['original-filename'] = basename($file);
 
-    if (strlen($t[9]) == 2) {
+    if (!empty($t[9]) && strlen($t[9]) == 2) {
         die("Faulty config!");
     }
 

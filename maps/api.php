@@ -122,7 +122,13 @@ if ($_GET['type'] == "areaname") {
         }
 
         $return['ids'][] = $entry['ID'];
-        $return['points'][$entry['ID']] = array("x" => $entry['Pos[0]'], "y" => $entry['Pos[1]'], "name" => $entry['Name_lang'], "type" => $type);
+        if(array_key_exists("Name_lang", $entry)){
+            $return['points'][$entry['ID']] = array("x" => $entry['Pos[0]'], "y" => $entry['Pos[1]'], "name" => $entry['Name_lang'], "type" => $type);
+        }else if(array_key_exists("Name_lang[0]", $entry)){
+            $return['points'][$entry['ID']] = array("x" => $entry['Pos[0]'], "y" => $entry['Pos[1]'], "name" => $entry['Name_lang[0]'], "type" => $type);
+        }else{
+            $return['points'][$entry['ID']] = array("x" => $entry['Pos[0]'], "y" => $entry['Pos[1]'], "name" => "Unknown", "type" => $type);
+        }
         if (!empty($paths[$entry['ID']])) {
             $return['points'][$entry['ID']]["connected"] = $paths[$entry['ID']];
         }

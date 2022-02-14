@@ -125,21 +125,21 @@ $returndata['data'] = array();
 foreach ($dataq->fetchAll() as $row) {
     $urlex = explode("/", $row['url']);
     $product = $urlex[3];
+    
+    $before = [];
+    $after = [];
 
     if (substr($row['url'], -4, 4) == "game" || substr($row['url'], -7, 7) == "install") {
         $before = json_decode(utf8_encode($row['oldvalue']), true);
         $after = json_decode(utf8_encode($row['newvalue']), true);
     } else {
-        $before = parseBPSV(explode("\n", $row['oldvalue']));
-        $after = parseBPSV(explode("\n", $row['newvalue']));
-    }
-
-    if (empty($before)) {
-        $before = [];
-    }
-
-    if (empty($after)) {
-        $after = [];
+        if(!empty($row['oldvalue'])){
+            $before = parseBPSV(explode("\n", $row['oldvalue']));
+        }
+    
+        if(!empty($row['oldvalue'])){
+            $after = parseBPSV(explode("\n", $row['newvalue']));
+        }
     }
 
     $diffs = CompareArrays::Diff($before, $after);
