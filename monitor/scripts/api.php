@@ -137,7 +137,7 @@ foreach ($dataq->fetchAll() as $row) {
             $before = parseBPSV(explode("\n", $row['oldvalue']));
         }
     
-        if(!empty($row['oldvalue'])){
+        if(!empty($row['newvalue'])){
             $after = parseBPSV(explode("\n", $row['newvalue']));
         }
     }

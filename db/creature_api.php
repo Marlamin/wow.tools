@@ -119,7 +119,10 @@ if (!empty($jsonSearch)) {
 $dataq->execute();
 $numrowsq->execute();
 
-$returndata['draw'] = (int)$_GET['draw'];
+if(isset($_GET['draw'])){
+    $returndata['draw'] = (int)$_GET['draw'];
+}
+
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
 $returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wowdata.creatures")->fetchColumn();
 $returndata['data'] = array();
