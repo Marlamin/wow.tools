@@ -142,10 +142,18 @@ foreach ($dataq->fetchAll() as $row) {
         }
     }
 
+    if($before == null){
+        $before = [];
+    }
+
+    if($after == null){
+        $after = [];
+    }
+    
     $diffs = CompareArrays::Diff($before, $after);
 
     if (empty($diffs)) {
-        $difftext = "No changes found -- likely only a sequence number increase";
+        $difftext = "No changes found -- likely only a sequence number increase or an error occurred";
     } else {
         $diffs = CompareArrays::Flatten($diffs);
 
