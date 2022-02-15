@@ -234,7 +234,11 @@ if ($_GET['type'] == "areaname") {
 
         $poi['x'] = $row['Pos[0]'];
         $poi['y'] = $row['Pos[1]'];
-        $poi['icon'] = $row['Icon'];
+        if(!empty($row['Icon'])){
+            $poi['icon'] = $row['Icon'];
+        }else{
+            $poi['icon'] = 7;
+        }
         $poi['name'] = $row['Name_lang'];
         $poi['desc'] = $row['Description_lang'];
 

@@ -33,8 +33,16 @@ $encryptedEntryCount = 0;
 echo "[Encrypted file list] Parsing " . $fullbuild . "\n";
 
 $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']);
-$output = shell_exec($cmd);
-foreach (explode("\n", $output) as $line) {
+$output = [];
+$returnCode = null;
+
+exec($cmd, $output, $returnCode);
+
+if($returnCode != 0){
+    die("[Encrypted file list] Failed to dump encrypted information for  " . $fullbuild . " (" . $row['hash'] . "), output:\n" . $output);
+}
+
+foreach ($output as $line) {
     if (empty(trim($line))) {
         continue;
     }

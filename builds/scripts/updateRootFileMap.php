@@ -61,6 +61,11 @@ foreach ($builds as $buildconfigid => $buildconfighash) {
     echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Getting FileDataIDs for hash " . $buildconfighash . "...\n";
     $fdids = getFileDataIDs($buildconfighash);
        
-    echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Loading data into table..\n";
-    $pdo->query(generateBuildFilesQuery($buildconfigid, $fdids));
+    if(!empty($fdids)){
+        echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Loading data into table..\n";
+        $pdo->query(generateBuildFilesQuery($buildconfigid, $fdids));
+    }else{
+        echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Failed to get list of filedataIDs from backend, skipping until next run..\n";
+    }
+
 }

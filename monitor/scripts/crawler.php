@@ -94,9 +94,12 @@ function getUrlHistory($id)
 
 function parseNGDPcontentToArray($content)
 {
-
-    $lines = explode("\n", $content);
     $ngdp = array();
+    $lines = explode("\n", $content);
+    if(empty($lines)){
+        return $ngdp;
+    }
+
     $header = [];
     foreach ($lines as $num => $line) {
         $cols = explode("|", $line);
@@ -136,11 +139,23 @@ function diffNGDParrays($old, $new)
                     continue;
                 }
 
-                if (strlen($new[$oldindex][$oldcolindex]) == 32 || strlen($oldcol) == 32) {
-                    $msg .= "(" . $region . ") " . $oldcolindex . ": " . substr($oldcol, 0, 7) . " → " . substr($new[$oldindex][$oldcolindex], 0, 7) . "\n";
-                } else {
-                    $msg .= "(" . $region . ") " . $oldcolindex . ": " . $oldcol . " → " . $new[$oldindex][$oldcolindex] . "!\n";
+                if(strlen($oldcol) == 32 && ctype_xdigit($oldcol)){
+                    $before = substr($oldcol, 0, 7);
+                }else{
+                    $before = $oldcol;
                 }
+                
+                if(array_key_exists($oldindex, $new) && array_key_exists($oldcolindex, $new[$oldindex])){
+                    if(strlen($new[$oldindex][$oldcolindex]) == 32 && ctype_xdigit($new[$oldindex][$oldcolindex])){
+                        $after = substr($new[$oldindex][$oldcolindex], 0, 7);
+                    }else{
+                        $after = $new[$oldindex][$oldcolindex];
+                    }
+                }else{
+                    $after = "";
+                }
+
+                $msg .= "(" . $region . ") " . $oldcolindex . ": " . $before . " → " . $after . "!\n";
             }
         }
     }

@@ -9,7 +9,6 @@ include(__DIR__ . "/../../inc/config.php");
 $filesToVerify = $pdo->query("SELECT id, lookup, filename FROM wow_rootfiles WHERE verified = 0 AND lookup != '' AND filename IS NOT NULL")->fetchAll(PDO::FETCH_ASSOC);
 $filesToVerifyByLookup = [];
 
-
 $tmpfname = tempnam("/tmp", "bnetlistfile");
 $tmpfile = fopen($tmpfname, "w");
 
@@ -42,6 +41,8 @@ $output = explode("\n", shell_exec($cmd));
 
 $addq = $pdo->prepare("UPDATE wow_rootfiles SET verified = 1 WHERE lookup = ? AND filename = ?");
 $numadded = 0;
+$validfiles = [];
+$invalidfiles = [];
 
 foreach ($output as $line) {
     $expl = explode(" = ", trim($line));
