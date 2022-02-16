@@ -93,7 +93,7 @@ if ($updatedago == strtotime("now")) {
     <div class='col-md-4'>
     <h4>Recently detected hotfixes</h4>
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
-    <thead><tr><th style='min-width: 70px;'>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
+    <thead><tr><th style='min-width: 110px;'>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
     <?php
     function getStatusColor($status)
     {
@@ -132,7 +132,7 @@ if ($updatedago == strtotime("now")) {
 
         $hotfixLog->execute([$hotfix['pushID']]);
         if ($logRow = $hotfixLog->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr><td style='text-align: right'><span class='badge badge-" . getStatusColor($logRow['status']) . "'>" . ucfirst($logRow['status']) . "</span></td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
+            echo "<tr><td style='text-align: right'>└ <span class='badge badge-" . getStatusColor($logRow['status']) . "'>" . ucfirst($logRow['status']) . "</span></td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
         }
     }
     ?>
