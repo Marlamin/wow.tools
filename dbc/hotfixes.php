@@ -432,6 +432,16 @@ require_once(__DIR__ . "/../inc/header.php");
     function fillPreviewModal(buildconfig, filedataid){
         $( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
     }
+
+$("html").on('hidden.bs.modal', '#moreInfoModal', function(e) {
+    console.log("Clearing modal");
+    $( "#moreInfoModalContent" ).html( '<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>' );
+})
+
+$("html").on('hidden.bs.modal', '#previewModal', function(e) {
+    console.log("Clearing modal");
+    $( "#previewModalContent" ).html( '<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>' );
+})
 </script>
 <div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel"
     aria-hidden="true">
