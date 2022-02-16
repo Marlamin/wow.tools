@@ -28,7 +28,7 @@ if (empty($argv[1])) {
 function processRoot($root)
 {
     global $pdo;
-    if (empty(trim($root))) {
+    if ($root == null || empty(trim($root))) {
         echo "No root known for this build! Skipping..";
         return;
     }

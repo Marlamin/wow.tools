@@ -278,9 +278,10 @@ require_once(__DIR__ . "/../inc/header.php");
     }
 
     function showRowDiff(dbc, build, recordID, pushID){
+        let promises = [];
         let beforeReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=false").then(data => data.json());
         let afterReq = fetch("/dbc/hotfix_api.php?cacheproxy=1&dbc=" + dbc.toLowerCase() + "&build=" + build + "&col=ID&val=" + recordID + "&useHotfixes=true&pushID=" + pushID).then(data => data.json()).catch(error => handleHotfixError(dbc, build, recordID, pushID, error));
-        
+
         const cachedHeaderName = dbc + "-" + build;
         let headerPromise;
         if(cachedHeaderName in cachedDBCHeaders){
@@ -291,7 +292,16 @@ require_once(__DIR__ . "/../inc/header.php");
             headerPromise = fetch("/dbc/api/header/" + dbc.toLowerCase() + "?build=" + build, {cache: "force-cache"}).then(data => data.json());
         }
 
-        Promise.all([headerPromise, beforeReq, afterReq])
+        promises.push(headerPromise);
+        promises.push(beforeReq);
+        promises.push(afterReq);
+
+        if(dbc == "CreatureDifficulty"){
+            let cdReq = fetch("/db/creature_api.php?draw=1&start=0&length=25&search%5Bvalue%5D=field%3ACreatureDifficultyID%3D" + recordID).then(data => data.json());
+            promises.push(cdReq);
+        }
+            
+        Promise.all(promises)
         .then(json => {
             const header = json[0];
             const before = json[1].values;
@@ -399,6 +409,13 @@ require_once(__DIR__ . "/../inc/header.php");
 
             if(changes == "<table class='diffTable'></table>"){
                 changes = "No changes found (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
+            }
+
+            if(dbc == "CreatureDifficulty"){
+                const cdRes = json[3].data;
+                if(cdRes.length > 0 && cdRes[0][1] != undefined){
+                    changes += ", related creature ID " + cdRes[0][0] + ": " + cdRes[0][1];
+                }
             }
 
             var resultHolder = document.getElementById("resultHolder-" + dbc + "-" + build + "-" + recordID + "-" + pushID);
