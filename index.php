@@ -91,7 +91,7 @@ if ($updatedago == strtotime("now")) {
     </table>
     </div>
     <div class='col-md-4'>
-    <h4>Recently detected hotfixes</h4>
+    <h4>Recently detected hotfixes <small><a href='/dbc/hotfix_log.php?showAll=true'>(view all)</a></small></h4>
     <table class='table table-condensed table-striped table-hover fptable' style='width: 100%'>
     <thead><tr><th style='min-width: 110px;'>Push ID</th><th>Tables</th><th style='min-width: 60px;'>Rows</th><th>Detected on</th></tr></thead>
     <?php
