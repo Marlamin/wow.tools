@@ -2243,6 +2243,7 @@ window.flagMap.set("itemsearchname.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsearchname.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsearchname.Flags[3]", itemStaticFlags3);
 window.flagMap.set("itemsparse.AllowableClass", classMask);
+window.flagMap.set("itemsearchname.AllowableClass", classMask);
 window.flagMap.set("itemsparse.Flags[0]", itemStaticFlags0);
 window.flagMap.set("itemsparse.Flags[1]", itemStaticFlags1);
 window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
