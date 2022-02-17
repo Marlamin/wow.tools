@@ -299,6 +299,9 @@ require_once(__DIR__ . "/../inc/header.php");
         if(dbc == "CreatureDifficulty"){
             let cdReq = fetch("/db/creature_api.php?draw=1&start=0&length=25&search%5Bvalue%5D=field%3ACreatureDifficultyID%3D" + recordID).then(data => data.json());
             promises.push(cdReq);
+        }else if(dbc == "Creature"){
+            let cReq = fetch("/db/creature_api.php?draw=1&start=0&length=25&search%5Bvalue%5D=id:" + recordID).then(data => data.json());
+            promises.push(cReq);            
         }
             
         Promise.all(promises)
@@ -411,7 +414,7 @@ require_once(__DIR__ . "/../inc/header.php");
                 changes = "No changes found (<a href='#' data-toggle='modal' data-target='#fkModal' onclick='openFKModal(" + recordID + ", \"" + dbc.toLowerCase() + "::ID" + "\", \"" + build + "\")'>view record</a>)";
             }
 
-            if(dbc == "CreatureDifficulty"){
+            if(dbc == "CreatureDifficulty" || dbc == "Creature"){
                 const cdRes = json[3].data;
                 if(cdRes.length > 0 && cdRes[0][1] != undefined){
                     changes += ", related creature ID " + cdRes[0][0] + ": " + cdRes[0][1];

@@ -62,6 +62,13 @@ if (!empty($_GET['search']['value'])) {
             $jsonSearch['key'] = "$." . $searchExploded[0];
             $jsonSearch['value'] = "\"" . $searchExploded[1] . "\"";
         }
+    } elseif (substr($_GET['search']['value'], 0, 3) == "id:") {
+        $searchID = str_replace("id:", "", trim($_GET['search']['value']));
+
+        if(!is_numeric($searchID))
+            die("Invalid ID");
+
+        $query .= " WHERE id = " . $searchID;
     } else {
         $query .= " WHERE id LIKE :search1 OR name LIKE :search2";
         $search = "%" . $_GET['search']['value'] . "%";
