@@ -54,6 +54,11 @@ if (!empty($_GET['embed'])) {
         ga('create', 'UA-8420950-6', 'auto');
         ga('send', 'pageview');
     </script>
+    <?php if (!empty($_SESSION['loggedin'])) { ?>
+        <script type="text/javascript" src="/js/powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/powerbar.js")?>"></script>
+        <script type="text/javascript" src="/js/main.powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/main.powerbar.js")?>"></script>
+        <link href="/css/powerbar.css?v=<?=filemtime("/var/www/wow.tools/css/powerbar.css")?>" rel="stylesheet">
+    <?php } ?>
 <?php } ?>
 </head>
 <body><?php if (!$embed) { ?>
