@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../inc/header.php");
 if (!empty($_GET['limit'])) {
     $limit = (int)$_GET['limit'];
 }else{
-    $limit = 200;
+    $limit = 300;
 }
 
 if(!empty($_GET['server'])){
@@ -39,7 +39,7 @@ if (isset($_GET['showAll']) && $_GET['showAll'] === "true") {
     echo "<a class='btn btn-sm btn-primary' href='/dbc/hotfix_log.php?showAll=false'>Only show documented hotfixes</a>";
     $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, GROUP_CONCAT(tableName) as fullTables, wow_hotfixes.pushID, build, firstdetected, wow_hotfixlogs.name, wow_hotfixlogs.description, wow_hotfixlogs.status, wow_hotfixlogs.contributedby FROM wow_hotfixes LEFT JOIN wow_hotfixlogs ON wow_hotfixes.pushID=wow_hotfixlogs.pushID GROUP BY wow_hotfixes.pushID ORDER BY firstdetected DESC, wow_hotfixes.pushID DESC LIMIT 0," . $limit)->fetchAll();
 } else {
-    echo "<a class='btn btn-sm btn-outline-warning' href='/dbc/hotfix_log.php?showAll=true'>Show all incl. unknown hotfixes (last 200)</a>";
+    echo "<a class='btn btn-sm btn-outline-warning' href='/dbc/hotfix_log.php?showAll=true'>Show all incl. unknown hotfixes (last 300)</a>";
     $hotfixes = $pdo->query("SELECT GROUP_CONCAT(DISTINCT(tableName)) as tables, COUNT(recordID) as rowCount, GROUP_CONCAT(tableName) as fullTables, wow_hotfixes.pushID, build, firstdetected, wow_hotfixlogs.name, wow_hotfixlogs.description, wow_hotfixlogs.status, wow_hotfixlogs.contributedby FROM wow_hotfixes LEFT JOIN wow_hotfixlogs ON wow_hotfixes.pushID=wow_hotfixlogs.pushID WHERE wow_hotfixlogs.name IS NOT NULL GROUP BY wow_hotfixes.pushID ORDER BY firstdetected DESC, wow_hotfixes.pushID DESC")->fetchAll();
 }
 ?>
@@ -164,7 +164,7 @@ if(showServer){
             tableNames[table.name.toUpperCase()] = table.displayName;
         }
 
-        let build = latestbuilds["wow"];
+        let build = latestbuilds["wowt"];
         let serverHotfixDivs = document.getElementsByClassName("serverHotfix");
         for(let i = 0; i < serverHotfixDivs.length; i++){
             let el = serverHotfixDivs[i];
