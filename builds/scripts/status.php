@@ -235,25 +235,25 @@ foreach ($products as $code => $product) {
                                 $buildconfigcomplete = 0;
                             } else {
                                 if ($key == "root_cdn" && $code == "catalogs") {
-                                    $json = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value));
+                                    $json = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value), true);
 
-                                    if (!empty($json->files->default)) {
-                                        $curr = current($json->files->default);
-                                        if (!doesFileExist("data", $curr->hash, "catalogs")) {
-                                            insertMissingFile("data", $curr->hash, "fragment", $product['cdndir']);
+                                    if (!empty($json['files']['default'])) {
+                                        $curr = current($json['files']['default']);
+                                        if (!doesFileExist("data", $curr['hash'], "catalogs")) {
+                                            insertMissingFile("data", $curr['hash'], "fragment", $product['cdndir']);
                                             $buildconfigcomplete = 0;
                                         }
                                     }
-                                    foreach ($json->fragments as $fragment) {
-                                        if (!doesFileExist("data", $fragment->hash, $product['cdndir'])) {
-                                            insertMissingFile("data", $fragment->hash, "fragment", $product['cdndir']);
+                                    foreach ($json['fragments'] as $fragment) {
+                                        if (!doesFileExist("data", $fragment['hash'], $product['cdndir'])) {
+                                            insertMissingFile("data", $fragment['hash'], "fragment", $product['cdndir']);
                                             $buildconfigcomplete = 0;
                                         } else {
-                                            $fragmentjson = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $fragment->hash[0] . $fragment->hash[1] . "/" . $fragment->hash[2] . $fragment->hash[3] . "/" . $fragment->hash));
-                                            if (!empty($fragmentjson->files->default)) {
-                                                foreach ($fragmentjson->files->default as $file) {
-                                                    if (!doesFileExist("data", $file->hash, $product['cdndir'])) {
-                                                        insertMissingFile("data", $file->hash, "resource", $product['cdndir']);
+                                            $fragmentjson = json_decode(file_get_contents(__DIR__ . "/../../tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
+                                            if (!empty($fragmentjson['files']['default'])) {
+                                                foreach ($fragmentjson['files']['default'] as $file) {
+                                                    if (!doesFileExist("data", $file['hash'], $product['cdndir'])) {
+                                                        insertMissingFile("data", $file['hash'], "resource", $product['cdndir']);
                                                         $buildconfigcomplete = 0;
                                                     }
                                                 }

@@ -89,6 +89,7 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
         }
     }
 
+    $newjson = [];
     if (doesFileExist("data", $newbuild['root_cdn'], "catalogs")) {
         $newjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $newbuild['root_cdn'][0] . $newbuild['root_cdn'][1] . "/" . $newbuild['root_cdn'][2] . $newbuild['root_cdn'][3] . "/" . $newbuild['root_cdn']), true);
         if (!empty($newjson['fragments'])) {
