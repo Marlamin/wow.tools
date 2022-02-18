@@ -464,7 +464,7 @@ foreach ($lfproducts as $lfproduct) {
             },
             {
                 "targets": 4,
-                "orderable": false,
+                "orderable": true,
                 "visible": Settings.showFileType
             },
             {
