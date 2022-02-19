@@ -1,0 +1,107 @@
+Necrotic Wake (MapID 2286) (This is all wrong ignore this instance for now)
+    DifficultyID 1 (Normal)
+        ContentTuning ID 1709
+            ContentTuningXExpected ExpectedStatMod::ID 12
+                CreatureHealthMod 0.885
+        Patchwerk Soldier - Level 51 - (Creature ID 162729)
+            HP 
+                Multiplier 5
+                Actual HP 22325
+                Calculation: (6100.929 * 5) * 0.885 = 26996.610825 == Wrong
+
+    DifficultyID 2 (Heroic)
+        ContentTuningID 748
+            ContentTuningXExpected 
+        ExpectedStat CreatureHealth 6100.929
+        Patchwerk Soldier - Level 51 - (Creature ID 162729)
+            HP 
+                Multiplier 5
+                Actual HP 22325
+                Calculation: (6100.929 * 5) * 0.885 = 26996.610825 == Wrong
+
+    DifficultyID 23 (Mythic)
+        ContentTuningID 749
+
+        Patchwerk Soldier - Level 60 - (Creature ID 162729)
+            HP 
+                Multiplier 5
+                Actual HP 126000
+                ExpectedStat CreatureHP 11791.589
+                Calculation: (11791.589 * 5) * 1.086 * 1.12 * 1.117 = 71711.7276624 == Wrong
+
+De Other Side (MapID 2291) (All correct)
+    DifficultyID 1 (Normal)
+        ContentTuningID	2044    https://wow.tools/dbc/?dbc=mapdifficulty&build=9.2.0.42423#page=1&colFilter[2]=1&colFilter[10]=2291
+
+        Risen Bonesoldier - Level 60 - (Creature ID 168949)
+            HP  
+                ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+                (Creature cache)    Multiplier 4            https://wow.tools/db/creatures.php#search=168949&page=1&sort=0&desc=asc
+                (In-game)           Actual HP 34520         https://marlamin.com/u/WowT_jM79al6dDI.png
+
+                ContentTuning 2044 ->                       https://wow.tools/dbc/?dbc=contenttuningxexpected&build=9.2.0.42423#page=1&colFilter[4]=2044
+                    ExpectedStatMod 12      CreatureHealthMod 0.885
+                    ExpectedStatMod 174     CreatureHealthMod 0.827
+
+                (11791.589 * 0.885 * 0.827) * 4 = 34520 = Correct
+                
+    DifficultyID 2 (Heroic)
+        ContentTuningID	748    https://wow.tools/dbc/?dbc=mapdifficulty&build=9.2.0.42423#page=1&colFilter[2]=2&colFilter[10]=2291
+
+        Risen Bonesoldier - Level 60 - (Creature ID 168949)
+            HP  
+                ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+                (Creature cache)    Multiplier 4            https://wow.tools/db/creatures.php#search=168949&page=1&sort=0&desc=asc
+                (In-game)           Actual HP 74376         https://marlamin.com/u/WowT_049iVDZM6e.png
+
+                ContentTuning 748 ->                        https://wow.tools/dbc/?dbc=contenttuningxexpected&build=9.2.0.42423#page=1&colFilter[4]=748
+                    ExpectedStatMod 175     CreatureHealthMod 1         MinSeason    0       MaxSeason 76   (Disabled)
+                    ExpectedStatMod 13      CreatureHealthMod 1         MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 180     CreatureHealthMod 1.12      MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 181     CreatureHealthMod 1.136     MinSeason    76      MaxSeason 80   (Disabled)
+                    ExpectedStatMod 192     CreatureHealthMod 1.408     MinSeason    80      MaxSeason 0    (Enabled)
+                FLOOR(11791.589 * 1 * 1 * 1.12 * 1.408) * 4 = 74376 = Correct
+
+    DifficultyID 23 (Mythic)
+        ContentTuningID	749    https://wow.tools/dbc/?dbc=mapdifficulty&build=9.2.0.42423#page=1&colFilter[2]=23&colFilter[10]=2291
+
+        Risen Bonesoldier - Level 60 - (Creature ID 168949)
+            HP  
+                ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+                (Creature cache)    Multiplier 4            https://wow.tools/db/creatures.php#search=168949&page=1&sort=0&desc=asc
+                (In-game)           Actual HP 101024        https://marlamin.com/u/WowT_9I6EcUO8oM.png
+
+                ContentTuning 749 ->                        https://wow.tools/dbc/?dbc=contenttuningxexpected&build=9.2.0.42423#page=1&colFilter[4]=749
+                    ExpectedStatMod 176     CreatureHealthMod 1.117     MinSeason    0       MaxSeason 76   (Disabled)
+                    ExpectedStatMod 14      CreatureHealthMod 1.086     MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 180     CreatureHealthMod 1.12      MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 192     CreatureHealthMod 1.408     MinSeason    76      MaxSeason 80   (Disabled)
+                    ExpectedStatMod 196     CreatureHealthMod 1.761     MinSeason    80      MaxSeason 0    (Enabled)
+                FLOOR(11791.589 * 1.086 * 1.12 * 1.761) * 4 = 101024 = Correct
+
+        Mueh'zala - Level 60 - (Creature ID 168949)
+            HP  
+                ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+                (Creature cache)    Multiplier 400          https://wow.tools/db/creatures.php#search=166608&page=1&sort=0&desc=asc
+                (In-game)           Actual HP 10102400      https://marlamin.com/u/WowT_9I6EcUO8oM.png
+
+                ContentTuning 749 ->                        https://wow.tools/dbc/?dbc=contenttuningxexpected&build=9.2.0.42423#page=1&colFilter[4]=749
+                    ExpectedStatMod 176     CreatureHealthMod 1.117     MinSeason    0       MaxSeason 76   (Disabled)
+                    ExpectedStatMod 14      CreatureHealthMod 1.086     MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 180     CreatureHealthMod 1.12      MinSeason    0       MaxSeason 0    (Enabled)
+                    ExpectedStatMod 192     CreatureHealthMod 1.408     MinSeason    76      MaxSeason 80   (Disabled)
+                    ExpectedStatMod 196     CreatureHealthMod 1.761     MinSeason    80      MaxSeason 0    (Enabled)
+                FLOOR(11791.589 * 1.086 * 1.12 * 1.761) * 400 = 10102400 = Correct
+
+Zereth Mortis
+Tethos - Level 60 - (Creature ID 181249) - Correct
+    ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+    (Creature cache)    Multiplier 40           https://wow.tools/db/creatures.php#search=181249&page=1&sort=0&desc=asc
+    (In-game)           Actual HP 1195480       https://marlamin.com/u/WowT_j1Wj0ntV3R.png
+
+    ContentTuning 2057 ->
+        ExpectedStatMod 190     CreatureHealthMod 2.115
+        ExpectedStatMod 180     CreatureHealthMod 1.12
+        ExpectedStatMod 191     CreatureHealthMod 1.07
+
+    FLOOR(11791.589 * 2.115 * 1.12 * 1.07) * 40 = 1195480 = Correct
