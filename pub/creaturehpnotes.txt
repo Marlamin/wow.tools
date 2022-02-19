@@ -7,7 +7,7 @@ Necrotic Wake (MapID 2286) (This is all wrong ignore this instance for now)
             HP 
                 Multiplier 5
                 Actual HP 22325
-                Calculation: (6100.929 * 5) * 0.885 = 26996.610825 == Wrong
+                Calculation: FLOOR(6100.929  * 0.885) * 5 = 26995 == Wrong
 
     DifficultyID 2 (Heroic)
         ContentTuningID 748
@@ -17,7 +17,7 @@ Necrotic Wake (MapID 2286) (This is all wrong ignore this instance for now)
             HP 
                 Multiplier 5
                 Actual HP 22325
-                Calculation: (6100.929 * 5) * 0.885 = 26996.610825 == Wrong
+                Calculation: FLOOR(6100.929 * 1 * 1.12 * 1.408) * 5 = 48100 == Wrong
 
     DifficultyID 23 (Mythic)
         ContentTuningID 749
@@ -25,9 +25,9 @@ Necrotic Wake (MapID 2286) (This is all wrong ignore this instance for now)
         Patchwerk Soldier - Level 60 - (Creature ID 162729)
             HP 
                 Multiplier 5
-                Actual HP 126000
+                Actual HP 126280
                 ExpectedStat CreatureHP 11791.589
-                Calculation: (11791.589 * 5) * 1.086 * 1.12 * 1.117 = 71711.7276624 == Wrong
+                Calculation: FLOOR(11791.589 * 1.086 * 1.12 * 1.761) * 5 = 126280 = Correct
 
 De Other Side (MapID 2291) (All correct)
     DifficultyID 1 (Normal)

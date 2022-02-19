@@ -5405,6 +5405,7 @@ enumMap.set("itemsparse.Bonding", ItemBonding);
 enumMap.set("liquidtypextexture.Type", liquidTypeXTextureType);
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);
+enumMap.set("mapdifficulty.ItemContext", itemContext);
 enumMap.set("mapdifficulty.ResetInterval", mapDifficultyResetInterval);
 enumMap.set("mawpower.MawPowerRarityID", mawPowerRarity);
 enumMap.set("modifiertree.Operator", modifierTreeOperator);
