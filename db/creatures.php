@@ -35,7 +35,7 @@ if (!empty($_GET['id'])) {
 ?>
 <div class='container-fluid'>
     <h3>Creatures</h3>
-    <div class='row'><div class='col'><label for='enableMV'>Enable modelviewer</label> <input type='checkbox' id='enableMV'></div></div>
+    <div class='row'><div class='col'><label for='enableMV'>Enable modelviewer</label> <input type='checkbox' id='enableMV'> | <a href='/db/creature_export.php'><i class='fa fa-download'></i> JSON (experimental)</a></div></div>
     <table class='table table-striped' id='creatures'>
         <thead><tr><th style='width: 100px'>ID</th><th>Name</th><th style='width: 120px'>First seen build</th><th style='width: 120px'>Last update build</th></tr>
     </table>
