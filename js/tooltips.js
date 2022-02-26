@@ -233,7 +233,7 @@ function generateItemTooltip(id, tooltip, build){
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("/dbc/api/tooltip/item/" + id + "?build=" + build),
+        fetch("https://api.wow.tools/api/tooltip/item/" + id + "?build=" + build),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
