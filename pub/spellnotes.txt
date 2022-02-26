@@ -228,3 +228,60 @@ Mythic - 27541 in-game
 
         (22025.363 * (1.934 * 1.173 * 1.06 * 1.04 * 1)) * 50 / 100.0 = 27541.4477354 <-- Correct
 
+S H A D O W L A N D S 9.2
+Sepulcher of the First Ones MapID 2481
+Rygelon
+
+361548 - Dark Eclipse
+	Rygelon envelops several players with dark magic, inflicting $362276s1 Shadow damage every $361548T1 sec for $361548D. Explodes as a $@spellname361553 upon expiration or death.
+
+    
+SE $362276s1
+    SpellEffect.Effect = SCHOOL_DAMAGE (2) => CreatureSpellDamage
+    ExpectedStat for lvl 60 exp 8 = CreatureSpellDamage = 22025.363
+    EffectBasePointsF 10 (LFG, Normal, Heroic)
+    EffectBasePointsF 12.5 (Mythic)
+
+    LFG (17) - 3080 in-game
+        ContentTuning 2168 (via MapDifficulty)
+            ExpectedStatMod 189 => CreatureSpellDamageMod 1.704
+            ExpectedStatMod 15  => CreatureSpellDamageMod 0.709
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+            ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+            ExpectedStatMod 193 => CreatureSpellDamageMod 1
+            ExpectedStatMod 200 => CreatureSpellDamageMod 1.05
+
+        (22025.363 * (1.704 * 0.709 * 1.06 * 1.04 * 1 * 1.05)) * 10 / 100.0 = 3080.11834937 <-- Correct
+
+    Normal (14) - 4053 in-game
+        ContentTuning 2165 (via MapDifficulty)
+            ExpectedStatMod 190 => CreatureSpellDamageMod 1.934
+            ExpectedStatMod 16  => CreatureSpellDamageMod 0.822
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+            ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+            ExpectedStatMod 193 => CreatureSpellDamageMod 1
+            ExpectedStatMod 200 => CreatureSpellDamageMod 1.05    
+
+        (22025.363 * (1.934 * 0.822 * 1.06 * 1.04 * 1 * 1.05)) * 10 / 100.0 = 4053.03044167 <-- Correct    
+
+    Heroic (15) - 5065 in-game
+        ContentTuning 2166 (via MapDifficulty)
+            ExpectedStatMod 198 => CreatureSpellDamageMod 2.199
+            ExpectedStatMod 17  => CreatureSpellDamageMod 1
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+            ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+            ExpectedStatMod 193 => CreatureSpellDamageMod 1
+            ExpectedStatMod 200 => CreatureSpellDamageMod 1.05    
+
+        (22025.363 * (2.199 * 1 * 1.06 * 1.04 * 1 * 1.05)) * 10 / 100.0 = 5606.30611973 <-- Correct    
+
+    Mythic - 9368 in-game
+        ContentTuning 2167 (via MapDifficulty)
+            ExpectedStatMod 199 => CreatureSpellDamageMod 2.506
+            ExpectedStatMod 18  => CreatureSpellDamageMod 1.173
+            ExpectedStatMod 180 => CreatureSpellDamageMod 1.06
+            ExpectedStatMod 191 => CreatureSpellDamageMod 1.04
+            ExpectedStatMod 202 => CreatureSpellDamageMod 1
+            ExpectedStatMod 200 => CreatureSpellDamageMod 1.05    
+
+        (22025.363 * (2.506 * 1.173 * 1.06 * 1.04 * 1 * 1.05)) * 10 / 100.0 = 4053.03044167 <-- Correct    

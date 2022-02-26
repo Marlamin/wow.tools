@@ -1,23 +1,29 @@
-Necrotic Wake (MapID 2286) (This is all wrong ignore this instance for now)
+Necrotic Wake (MapID 2286) (Normal wrong, rest OK)
     DifficultyID 1 (Normal)
         ContentTuning ID 1709
             ContentTuningXExpected ExpectedStatMod::ID 12
                 CreatureHealthMod 0.885
-        Patchwerk Soldier - Level 51 - (Creature ID 162729)
+            --> ConditionalContentTuning => 747 (Condition 2?)
+        ContentTuningID 747
+            ContentTuningXExpected ExpectedStatMod::ID 174
+                CreatureHealthMod 0.827
+            ContentTuningXExpected ExpectedStatMod::ID 12
+                CreatureHealthMod 0.885
+        Patchwerk Soldier - Level 60 - (Creature ID 162729)
             HP 
                 Multiplier 5
-                Actual HP 22325
-                Calculation: FLOOR(6100.929  * 0.885) * 5 = 26995 == Wrong
+                Actual HP 43149
+                Calculation: FLOOR(11791.589  * 0.885 * 0.827) * 5 = 43150 == Correctish
 
     DifficultyID 2 (Heroic)
         ContentTuningID 748
             ContentTuningXExpected 
-        ExpectedStat CreatureHealth 6100.929
-        Patchwerk Soldier - Level 51 - (Creature ID 162729)
+        ExpectedStat CreatureHealth 11791.589
+        Patchwerk Soldier - Level 60 - (Creature ID 162729)
             HP 
                 Multiplier 5
-                Actual HP 22325
-                Calculation: FLOOR(6100.929 * 1 * 1.12 * 1.408) * 5 = 48100 == Wrong
+                Actual HP 92790
+                Calculation: FLOOR(11791.589 * 1 * 1.12 * 1.408) * 5 = 92790 == Correct
 
     DifficultyID 23 (Mythic)
         ContentTuningID 749
@@ -105,3 +111,17 @@ Tethos - Level 60 - (Creature ID 181249) - Correct
         ExpectedStatMod 191     CreatureHealthMod 1.07
 
     FLOOR(11791.589 * 2.115 * 1.12 * 1.07) * 40 = 1195480 = Correct
+
+
+Sepulcher of the First Ones (MapID 2481)
+The Jailer (Level 60) - ID 185421 maybe 
+    DifficultyID 16 (Mythic Raid)
+        ExpectedStat        CreatureHP 11791.589    https://wow.tools/dbc/?dbc=expectedstat&build=9.2.0.42423#page=1&colFilter[11]=60
+                    Creature    CT      BASE        CT1     CT2     CT3     CT4     CT5     CT6     HPMult      Resulting HP
+                    185421      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     1200        124286400
+                    183395      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     400	        41428800
+                    182339      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     400	        41428800
+                    181411      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     400	        41428800
+                    180990      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     600	        62143200
+                    177510      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     5000        517860000
+                    176529      2167	11791.589   2.74    2.316   1.12    1.07    1.05    1.1     500	        51786000

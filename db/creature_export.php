@@ -5,9 +5,10 @@ header("Content-type: application/json; charset=utf-8");
 
 $allJson = $pdo->query("SELECT id, name, JSON_EXTRACT(json, \"$.HPMultiplier\") as HPMult FROM wowdata.creatures");
 $creatureArr = [];
+
 while($row = $allJson->fetch(PDO::FETCH_ASSOC)){
-    $creatureArr[$row['id']]['Name'] = $row['name'];
-    $creatureArr[$row['id']]['HPMultiplier'] = floatval(str_replace("\"","", $row['HPMult']));
+    $row['HPMult'] = floatval(str_replace("\"","", $row['HPMult']));
+    $creatureArr[] = $row;
 }
 
 echo json_encode($creatureArr);
