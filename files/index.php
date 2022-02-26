@@ -24,9 +24,6 @@ foreach ($lfproducts as $lfproduct) {
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv">CSV (Blizzard filenames only)</a>
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unknown">CSV (FileDataIDs with no filenames)</a>
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
-                <?php foreach ($lfbuilds as $lfproduct => $lfbuild) {?>
-                    <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/build?buildConfig=<?=$lfbuild['hash']?>">Community CSV for <?=$lfproduct?> <?=prettyBuild($lfbuild['description'])?></a>
-                <?php } ?>
             </div>
         </div>
         <a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'><i class='fa fa-filter'></i> Filter build</a>
