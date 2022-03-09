@@ -99,7 +99,7 @@ if (!empty($_GET['embed'])) {
                     <a class="nav-link" href="/builds/"><i class="fa fa-hdd-o" aria-hidden="true"></i> Builds</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/export/"><img src='https://wow.tools/img/newlogosm.png' alt='Logo' style='width: 16px;'> Export</a>
+                    <a class="nav-link" href="https://www.kruithne.net/wow.export/"><img src='https://wow.tools/img/newlogosm.png' alt='Logo' style='width: 16px;'> Export</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
