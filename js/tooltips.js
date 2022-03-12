@@ -273,14 +273,18 @@ function generateItemTooltip(id, tooltip, build){
 
                     if (itemEffect["spell"]["description"] != null){
                         tooltipTable += "<span id='spelldesc-" + itemEffect["spell"]["spellID"] + "'>" + itemEffect["spell"]["description"] + "</span>";
-                        fetch("/dbc/api/tooltip/spell/" + itemEffect["spell"]["spellID"] + "?build=" + build)
+                        fetch("https://api.wow.tools/api/tooltip/spell/" + itemEffect["spell"]["spellID"] + "?build=" + build + "&itemID=" + id)
                             .then(function (spellResponse) {
                                 return spellResponse.json();
                             }).then(function (data) {
+                                var spellDescHolder = document.getElementById("spelldesc-" + data["spellID"]);
                                 if (data["description"] != null){
-                                    var spellDescHolder = document.getElementById("spelldesc-" + data["spellID"]);
                                     if (spellDescHolder){
                                         spellDescHolder.innerHTML = data["description"].replace("\n", "<br><br>");
+                                    }
+                                }else{
+                                    if (spellDescHolder){
+                                        spellDescHolder.innerHTML = "No description for spell " + data["spellID"];
                                     }
                                 }
                             }).catch(function (error) {
@@ -342,7 +346,7 @@ function generateSpellTooltip(id, tooltip, build)
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("/dbc/api/tooltip/spell/" + id + "?build=" + build),
+        fetch("https:/api.wow.tools/api/tooltip/spell/" + id + "?build=" + build),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
