@@ -346,7 +346,7 @@ function generateSpellTooltip(id, tooltip, build)
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("https:/api.wow.tools/api/tooltip/spell/" + id + "?build=" + build),
+        fetch("https://api.wow.tools/api/tooltip/spell/" + id + "?build=" + build),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
