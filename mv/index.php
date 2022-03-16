@@ -31,7 +31,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
     <i class='fa fa-reorder'></i>
 </button>
 <div id="js-sidebar" class="overlay sidebar closed container">
-    <b style='margin-left: 75px; margin-top: 0px;'>Uses modelviewer by Deamon (<i class='fa fa-link'></i> <a href='https://github.com/Deamon87/WebWowViewerCpp/tree/development' target='_BLANK'>GitHub</a>)</b>
+    <b style='margin-left: 75px; margin-top: 0px;'>Uses modelviewer by Deamon (<i class='fa fa-link'></i> <a href='https://github.com/Deamon87/WebWowViewerCpp/tree/development' target='_BLANK'>GitHub</a>)</b><br>
     <div class='row justify-content-md-center'>
         <div class='col-md-11'>
             <div class="btn-group" role="group">
@@ -41,6 +41,7 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             </div>
         </div>
     </div>
+    <a style='margin-left: 75px;' class='text-danger' href='/2022.php'>An update on the future of WoW.tools</a>
     <ul class="nav nav-pills nav-fill" style='margin-top: 10px'>
         <li class="nav-item">
             <a class="nav-link active" href="#model" data-toggle="tab" role="tab">Model viewer</a>
