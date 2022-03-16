@@ -254,7 +254,7 @@ require_once(__DIR__ . "/../inc/header.php");
             }
         }
 
-        if(flagMap.has(dbc.toLowerCase() + "." + col)){
+        if(flagMap.has(dbc.toLowerCase() + "." + col) || col.startsWith("Flags")){
             let usedFlags = getFlagDescriptions(dbc.toLowerCase(), col, val);
             usedFlags.forEach(function (flag) {
                 returnedValue += " (" + flag[0] + ": " + flag[1] + ")";
