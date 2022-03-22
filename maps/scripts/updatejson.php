@@ -77,7 +77,7 @@ foreach ($pdo->query("SELECT * FROM wow_maps_maps ORDER BY firstseen ASC") as $m
     uasort($data['versions'][$map['id']], function ($a, $b) {
         if ($a['build'] === $b['build']) {
             return 0;
-        } return $a['build'] < $b['build'];
+        } return $a['build'] <=> $b['build'];
     });
 }
 
