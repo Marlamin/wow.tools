@@ -3014,6 +3014,10 @@ const itemContext = {
     86: "9.1 Character Template",
     87: "Mythic+ Timewalking End of Run: Time Chest",
     88: "PVP: Ranked 7 (Rival II)",
+    89: "Raid: Normal (Extended 2)",
+    90: "Raid: Raid Finder (Extended 2)",
+    91: "Raid: Heroic (Extended 2)",
+    92: "Raid: Mythic (Extended 2)",
 }
 
 // 457
