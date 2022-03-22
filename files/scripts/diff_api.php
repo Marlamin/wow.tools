@@ -24,7 +24,7 @@ if (empty($row)) {
 function cascUrl($build, $fileDataID)
 {
     $params = "/fdid?buildconfig=" . $build['buildconfig']['hash'] . "&cdnconfig=" . $build['cdnconfig']['hash'] . "&filedataid=" . $fileDataID;
-    return 'https://wow.tools/casc/file' . $params;
+    return 'http://localhost:5005/casc/file' . $params;
 }
 
 function downloadFile($out, $build, $fileDataID)
