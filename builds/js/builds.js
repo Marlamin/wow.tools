@@ -75,8 +75,8 @@ $( document ).ready(function() {
 
         var result = "<table>";
 
-        $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build1, function( fromData ) {
-            $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfig=" + build2, function( toData ) {
+        $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfigHash=" + build1, function( fromData ) {
+            $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfigHash=" + build2, function( toData ) {
                 $.each( fromData, function( key, val ) {
                     fromArray[val.name] = val;
                 });
