@@ -79,12 +79,12 @@ while (true) {
             $uq->execute();
         }
 
-        // if(in_array($file['id'], $skitManifest)){
-        //  echo "File " . $file['id'] . " is an ogg!\n";
-        //    $uq->bindValue(":type", "ogg");
-        //  $uq->bindParam(":id", $file['id']);
-        //  $uq->execute();
-        // }
+        if(in_array($file['id'], $skitManifest)){
+            echo "File " . $file['id'] . " is an ogg!\n";
+            $uq->bindValue(":type", "ogg");
+            $uq->bindParam(":id", $file['id']);
+            $uq->execute();
+        }
     }
     // /* Unknown but decrypted */
 
