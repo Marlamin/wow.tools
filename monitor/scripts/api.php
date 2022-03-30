@@ -23,19 +23,18 @@ function buildURL($product, $type, $value)
     $q = $pdo->prepare("SELECT cdndir FROM ngdp_products WHERE program = ?");
     $q->execute([$product]);
     $cdndir = $q->fetch()['cdndir'];
-    if (empty($cdndir)) {
+
+    if($type == "tpr/configs/data"){
+        return $cdn . $type . "/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
+    }
+
+    if (empty($cdndir) || empty($value)) {
         return false;
     } else {
-        if (empty($cdndir) || empty($value)) {
-            return false;
-        } else {
-            if ($type == "config") {
-                return $cdn . $cdndir . "/config/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
-            } elseif ($type == "data") {
-                return $cdn . $cdndir . "/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
-            } elseif ($type == "tpr/configs/data") {
-                return $cdn . $type . "/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
-            }
+        if ($type == "config") {
+            return $cdn . $cdndir . "/config/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
+        } elseif ($type == "data") {
+            return $cdn . $cdndir . "/data/" . $value[0] . $value[1] . "/" . $value[2] . $value[3] . "/" . $value;
         }
     }
 }
