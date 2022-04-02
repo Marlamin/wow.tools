@@ -49,7 +49,7 @@ foreach ($pdo->query($query) as $row) {
     if (!empty($argv[1])) {
         $rawdesc = str_replace("WOW-", "", $row['description']);
         $build = substr($rawdesc, 0, 5);
-        if ($build < 33941) {
+        if ($build != 40725) {
             continue;
         }
     }
