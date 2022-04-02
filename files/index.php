@@ -394,6 +394,8 @@ foreach ($lfproducts as $lfproduct) {
                             var test = "<i style='color: green' title='File is encrypted (key " + full[3][0].key + " is available)' class='fa fa-unlock'></i> ";
                         }else if(full[3][0].enc == 3){
                             var test = "<i style='color: yellow' title='File is encrypted (keys " + full[3][0].key + " are partially available)' class='fa fa-lock'></i> ";
+                        }else if(full[3][0].enc == 4){
+                            var test = "<i style='color: white' title='File is flagged as encrypted' class='fa fa-unlock'></i> ";
                         }else{
                             var test = "";
                         }

@@ -97,13 +97,19 @@ if (!empty($_GET['filedataid'])) {
             $keyAvailable = "<span style='color: red;'>unknown</span>";
         }
 
-
         if ($er['active'] == 1) {
             echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
         } else {
             echo "<tr><td>Used to be encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span></td><td>" . $er['description'] . "</td></tr>";
         }
     }
+
+    $badlyencq = $pdo->prepare("SELECT filedataid FROM wow_encryptedbutnot WHERE filedataid = ?");
+    $badlyencq->execute([$row['id']]);
+    if(!empty($badlyencq->fetch())){
+        echo "<tr><td colspan='2'>Flagged as encrypted but has either been decrypted long ago or conflicts with an identical non-encrypted version of the file</td></tr>";
+    }
+
     echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
     echo "<tr><td colspan='2'>
     <table class='table table-sm'>";

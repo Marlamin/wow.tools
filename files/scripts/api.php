@@ -104,6 +104,8 @@ if (!empty($_GET['search']['value'])) {
             array_push($clauses, " (wow_rootfiles.lookup != '' AND verified = 0) ");
         } elseif ($c == "unshipped") {
             array_push($clauses, " wow_rootfiles.id NOT IN (SELECT filedataid FROM wow_rootfiles_chashes) ");
+        } elseif ($c == "encryptedbutnot") {
+            array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encryptedbutnot) ");
         } elseif ($c == "encrypted") {
             if (in_array("unkkey", $criteria)) {
                 array_push($clauses, " wow_rootfiles.id IN (SELECT filedataid FROM wow_encrypted WHERE keyname NOT IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL) AND active = 1) ");
@@ -308,6 +310,7 @@ if (!($returndata['recordsTotal'] = $memcached->get("files.total"))) {
 $returndata['data'] = array();
 
 $encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ? AND active = 1");
+$badlyencq = $pdo->prepare("SELECT filedataid FROM wow_encryptedbutnot WHERE filedataid = ?");
 
 if (!$mv && !$dbc) {
     $soundkitq = $pdo->prepare("SELECT soundkitentry.id as id, soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry LEFT JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = ?");
@@ -328,7 +331,7 @@ while ($row = $dataq->fetch()) {
         $row['filename'] = null;
     }
     if (!$mv && !$dbc) {
-        // enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key, enc 3 = encrypted with multiple keys, some known
+        // enc 0 = not encrypted, enc 1 = encrypted, unknown key, enc 2 = encrypted, known key, enc 3 = encrypted with multiple keys, some known, enc 4 = supposed to be encrypted but alas
         $encq->execute([$row['id']]);
 
         $encryptedKeyCount = 0;
@@ -355,6 +358,11 @@ while ($row = $dataq->fetch()) {
                     $enc = 1;
                 }
             }
+        }
+
+        $badlyencq->execute([$row['id']]);
+        if(!empty($badlyencq->fetch())){
+            $enc = 4;
         }
 
         /* CROSS REFERENCES */

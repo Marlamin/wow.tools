@@ -104,6 +104,29 @@ if (count($current) > 0) {
     }
 }
 
+$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpbadlyencrypted wow " . escapeshellarg($row['hash']);
+$output = [];
+$returnCode = null;
+
+exec($cmd, $output, $returnCode);
+
+if($returnCode != 0){
+    die("[Badly encrypted file list] Failed to dump badly encrypted information for  " . $fullbuild . " (" . $row['hash'] . "), output:\n" . $output);
+}
+$pdo->query("TRUNCATE TABLE wow_encryptedbutnot");
+
+$badlyencq = $pdo->prepare("INSERT IGNORE INTO wow_encryptedbutnot (filedataid) VALUES (?)");
+foreach ($output as $line) {
+    if (empty(trim($line))) {
+        continue;
+    }
+
+    $filedataid = trim($line);
+    if(!empty($filedataid)){
+        $badlyencq->execute([$filedataid]);
+    }
+}
+
 echo "[TACT key list] Dumping current TACT keys for " . $fullbuild . "..\n";
 
 $inserted = 0;
