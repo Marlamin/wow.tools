@@ -16,6 +16,7 @@ $fromBuildName = parseBuildName($fromBuild['description'])['full'];
 $toBuildName = parseBuildName($toBuild['description'])['full'];
 
 $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT IN (SELECT keyname FROM wow_tactkey WHERE keybytes IS NOT NULL)")->fetchAll(PDO::FETCH_COLUMN);
+$encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <script src="/files/js/files.js?v=<?=filemtime(__DIR__ . "/../files/js/files.js")?>"></script>
 <script type="text/javascript" charset="utf-8">
@@ -51,6 +52,7 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
     }
     $(document).ready(function() {
         var encrypted = <?=json_encode($encrypted)?>;
+        var encryptedbutnot = <?=json_encode($encryptedbutnot)?>;
         var table = $('#buildtable').DataTable({
             ajax: '//wow.tools/casc/root/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
             columns: [{
@@ -164,6 +166,10 @@ $encrypted = $pdo->query("SELECT filedataid FROM wow_encrypted WHERE keyname NOT
                         }
                         if(encrypted.includes(parseInt(full.id))){
                             content += " <i style=\"color: red\" title=\"File is encrypted, preview might be broken\" class=\"fa fa-lock\"></i>";
+                        }
+
+                        if(encryptedbutnot.includes(parseInt(full.id))){
+                            content += " <i style=\"color: white\" title=\"Flagged as encrypted but not\" class=\"fa fa-unlock\"></i>";
                         }
                         return content;
                     }

@@ -113,7 +113,8 @@ exec($cmd, $output, $returnCode);
 if($returnCode != 0){
     die("[Badly encrypted file list] Failed to dump badly encrypted information for  " . $fullbuild . " (" . $row['hash'] . "), output:\n" . $output);
 }
-$pdo->query("TRUNCATE TABLE wow_encryptedbutnot");
+
+// $pdo->query("TRUNCATE TABLE wow_encryptedbutnot");
 
 $badlyencq = $pdo->prepare("INSERT IGNORE INTO wow_encryptedbutnot (filedataid) VALUES (?)");
 foreach ($output as $line) {
