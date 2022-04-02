@@ -27,12 +27,15 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 	echo "<pre>";
 	// Merge fragment catalogs into main catalogs
 	$json = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $build['root_cdn'][0] . $build['root_cdn'][1] . "/" . $build['root_cdn'][2] . $build['root_cdn'][3] . "/" . $build['root_cdn']), true);
-	foreach($json['fragments'] as $fragment){
-		if(doesFileExist("data", $fragment['hash'], "catalogs")){
-			$fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
-			$fragment['content'] = $fragmentjson;
-		}
-	}
+	if(!empty($json['fragments'])){
+        for($i = 0; $i < count($json['fragments']); $i++){
+            $fragment = $json['fragments'][$i];
+            if (doesFileExist("data", $fragment['hash'], "catalogs")) {
+                $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
+                $json['fragments'][$i]['content'] = $fragmentjson;
+            }
+        }
+    }
 
 	if(!empty($json['files']['default'])){
 		$curr = current($json['files']['default']);
