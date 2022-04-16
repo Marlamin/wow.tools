@@ -44,7 +44,7 @@ var Settings =
     retailOnly: false,
     clearColor: [0.117, 0.207, 0.392],
     farClip: 500,
-    farClipCull: 500,
+    farClipCull: 250,
     speed: 1000.0,
     portalCulling: true,
     newDisplayInfo: false
