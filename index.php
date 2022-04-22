@@ -72,7 +72,7 @@ if ($updatedago == strtotime("now")) {
             }
         }
         
-        if (!empty($product) && array_key_exists($product, $productCDNMap) && in_array($productCDNMap[$product], ["tpr/wowdev", "tpr/wowv"])) {
+        if (!empty($product) && array_key_exists($product, $productCDNMap) && in_array($productCDNMap[$product], ["tpr/wowdev", "tpr/wowdev2", "tpr/wowv"])) {
             $encrypted = " <i title='This branch is encrypted' class='fa fa-lock'></i>";
         } else {
             $encrypted = "";
