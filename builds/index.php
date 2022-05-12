@@ -232,7 +232,7 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
 require_once("../inc/header.php");
 
 // TODO: Read build-creator from config to flag these as custom in DB
-$customBuilds = ["a69219b6def10fe7114c378593974b28", "2a3a7d9fae49c5f7c09ef3b3fb50cad5", "7bab690ff8dbcdc57cdde8872fdea20e"];
+$customBuilds = ["a69219b6def10fe7114c378593974b28", "2a3a7d9fae49c5f7c09ef3b3fb50cad5", "7bab690ff8dbcdc57cdde8872fdea20e", "fbf8a2348df9e3747bbbc0190e26d437"];
 
 $query = "SELECT
 wow_versions.id as versionid,
