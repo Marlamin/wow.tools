@@ -2540,6 +2540,7 @@ window.flagMap.set("spelltargetrestrictions.TargetCreatureType", targetCreatureT
 window.flagMap.set("spelltargetrestrictions.Targets", targetFlags);
 window.flagMap.set("stationery.Flags", stationeryFlags);
 window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
+window.flagMap.set("summonproperties.Flags[0]", summonPropertiesFlags);
 window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
 window.flagMap.set("transmogillusion.Flags", TransmogIllusionFlags);
 window.flagMap.set("transmogset.Flags", transmogSetFlags);
