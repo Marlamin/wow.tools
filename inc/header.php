@@ -37,23 +37,14 @@ if (!empty($_GET['embed'])) {
     <script type='text/javascript'>
     var SiteSettings =
     {
-        buildConfig: "ae922cd33db4acd59a47e074519f3da7",
-        cdnConfig: "c8859e7baf58af3bf9f7abb539df4c1e",
-        buildName: "9.2.5.43022",
+        buildConfig: "403ee02ca891c633bcbce294ddd61a55",
+        cdnConfig: "ed19ee5ca7173ccee27491f27585d8e1",
+        buildName: "9.2.5.43971",
     }
     </script>
 <?php if (!$embed) { ?>
     <script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
     <script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        ga('set', 'anonymizeIp', true);
-        ga('create', 'UA-8420950-6', 'auto');
-        ga('send', 'pageview');
-    </script>
     <?php if (!empty($_SESSION['loggedin'])) { ?>
         <script type="text/javascript" src="/js/powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/powerbar.js")?>"></script>
         <script type="text/javascript" src="/js/main.powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/main.powerbar.js")?>"></script>
