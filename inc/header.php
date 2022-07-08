@@ -102,6 +102,9 @@ if (!empty($_GET['embed'])) {
                         <a class="dropdown-item" href="/maps/worldmap.php">World map viewer</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="https://twitter.com/WoWdotTools/status/1542495923238043650"><i class="fa fa-exclamation-triangle" aria-hidden="true"> <i class='fa fa-twitter'></i></i> 10.0 support </a>
+                </li>
             </ul>
             <form class="form-inline my-md-2 my-lg-0">
                 <button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="button">
