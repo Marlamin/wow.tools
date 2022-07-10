@@ -1,9 +1,5 @@
 <?php require_once("inc/header.php"); ?>
 <div class='container-fluid'>
-<h3>Welcome to WoW.tools!</h3>
-<p>
-WoW.tools is a collection of several tools that interact with/display data from World of Warcraft. Please keep in mind these tools are meant for those with basic technical/datamining skills. For the basics on datamining, check out <a href='https://docs.google.com/document/d/1y1fHaZ1PrLvUTNM8crz081b4t8_pXjOYPxnagc-Y94c/' target='_BLANK'>this Google doc</a>.
-    </p>
     <div class='row'>
     <div class='col-md-4'>
     <h4>Recent updates</h4>

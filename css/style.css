@@ -27,7 +27,7 @@ html {
 body{
 	position: relative;
 	margin: 0;
-	padding-bottom: 6rem;
+	padding-bottom: 5rem;
 	min-height: 100%;
 	background-color: var(--background-color);
 	color: var(--text-color);
@@ -292,7 +292,7 @@ footer{
 	background-color: var(--background-color);
 	font-weight: 500;
 	border-top: 1px solid var(--border-color);
-	height: 73px;
+	height: 55px;
 }
 
 footer p{

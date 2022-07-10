@@ -4,7 +4,7 @@
 <p style='text-align: center'>
 Over the course of 2022, I'll slowly be deprecating and eventually removing features on WoW.tools. In what order, how soon, etc is up to how much energy I need to put into keeping things working.<br>
 Some parts of the site might be around longer than others, on this page I'll start listing alternatives for both users and devs to use so the information you're after can still be retrieved. Am I missing something? Let me know in Discord!
-<br><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May 2022 update</a> (older: <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April 2022 update</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March 2022 update</a>)
+<br><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May 2022 update</a></b> (older: <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April 2022 update</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March 2022 update</a>)
 </p>
 <h2 style='text-align: center'>Alternatives (for users)</h2>
 <div class='row'>
