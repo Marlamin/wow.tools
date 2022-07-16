@@ -51,6 +51,9 @@
 0 string \x00\x00\x00\x00\xb4\x64\x2c\x93 WWFParticulateGroup
 !:mime wow/wwf
 
+0 string \x04\x00\x00\x00\xb4\x64\x2c\x93 WWFParticulateGroup
+!:mime wow/wwf
+
 # TEX
 0 string RVXT WoW Blob Textures
 !:mime wow/tex
