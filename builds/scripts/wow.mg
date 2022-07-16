@@ -205,3 +205,6 @@
 0 string SCN0 .scn
 !:mime wow/scn0
 
+# m3
+0 string m3 WoW Model v3
+!:mime wow/m3

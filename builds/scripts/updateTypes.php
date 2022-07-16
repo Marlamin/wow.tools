@@ -185,6 +185,9 @@ function guessFileExtByExtractedFilename($name)
         case "wow/m2/anim":
             $ext = ".anim";
             break;
+        case "wow/m3":
+            $ext = ".m3";
+            break;
         case "wow/modelblob":
             $ext = ".blob";
             break;
