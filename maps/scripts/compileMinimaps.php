@@ -121,8 +121,9 @@ if (file_exists("/home/wow/minimaps/png/" . $outdir)) {
         echo "Compiling map " . $mapname . "\n";
         $res = 256;
 
+        $explodedPatch = explode(".", $outdir);
         // Ensure classic compatibility
-        if ($buildnum > 26707 && substr($descexpl[0], 0, 1) >= 8) {
+        if ($buildnum > 26707 && $explodedPatch[0] >= 8) {
             $res = 512;
         }
 
@@ -191,6 +192,11 @@ foreach (glob("/home/wow/minimaps/png/*") as $dir) {
             $md5 = md5_file($map);
 
             $targetdir = "/home/wow/minimaps/tiles/test/" . $mapid . "/" . $md5 . "/";
+
+            if($regenerate){
+                shell_exec("rm -rf " . $targetdir);
+            }
+
             makeTiles2019($targetdir, $mapname, $version, $buildnum);
 
             $createMapVersionQ->execute([$mapid, $versionid, $md5]);
