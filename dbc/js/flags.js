@@ -2416,6 +2416,36 @@ const languageFlags = {
     0x2: 'HiddenFromPlayer'
 }
 
+const sharedStringFlag = {
+    0x1: 'InternalOnly'
+}
+
+const traitCondFlag = {
+    0x1: 'IsGate',
+    0x2: 'IsAlwaysMet',
+    0x4: 'IsSufficient'
+}
+
+const traitNodeFlag = {
+    0x1: 'ShowMultipleIcons'
+}
+
+const traitNodeGroupFlag = {
+    0x1: 'AvailableByDefault'
+}
+
+const traitCurrencyFlag = {
+    0x1: 'ShowQuantityAsSpent',
+    0x2: 'TraitSourcedShowMax',
+    0x4: 'UseClassIcon',
+    0x8: 'UseSpecIcon'
+}
+
+// TODO: Map to field
+const traitTreeFlag = {
+    0x1: 'CannotRefund'
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2509,6 +2539,7 @@ window.flagMap.set("questv2clitask.Flags[2]", questFlags2);
 window.flagMap.set("runeforgelegendaryability.InventoryTypeMask", inventoryTypeMask);
 window.flagMap.set("scenario.Flags", scenarioFlags);
 window.flagMap.set("scenariostep.Flags", scenarioStepFlags);
+window.flagMap.set("sharedstring.Flags", sharedStringFlag);
 window.flagMap.set("skillline.Flags", skillLineFlags);
 window.flagMap.set("soundkit.Flags", soundkitFlags);
 window.flagMap.set("spellcastingrequirements.FacingCasterFlags", facingCasterFlags);
@@ -2542,6 +2573,9 @@ window.flagMap.set("stationery.Flags", stationeryFlags);
 window.flagMap.set("summonproperties.Flags", summonPropertiesFlags);
 window.flagMap.set("summonproperties.Flags[0]", summonPropertiesFlags);
 window.flagMap.set("taxinodes.Flags", taxiNodeFlags);
+window.flagMap.set("traitcond.Flags", traitCondFlag);
+window.flagMap.set("traitcurrency.Flags", traitCurrencyFlag);
+window.flagMap.set("traitnode.Flags", traitNodeFlag);
 window.flagMap.set("transmogillusion.Flags", TransmogIllusionFlags);
 window.flagMap.set("transmogset.Flags", transmogSetFlags);
 window.flagMap.set("transmogsetitem.Flags", transmogSetItemFlags);

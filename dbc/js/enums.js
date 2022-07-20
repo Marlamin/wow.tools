@@ -3018,6 +3018,10 @@ const itemContext = {
     90: "Raid: Raid Finder (Extended 2)",
     91: "Raid: Heroic (Extended 2)",
     92: "Raid: Mythic (Extended 2)",
+    93: "Raid: Normal (Extended 3)",
+    94: "Raid: Raid Finder (Extended 3)",
+    95: "Raid: Heroic (Extended 3)",
+    96: "Raid: Mythic (Extended 3)",
 }
 
 // 457
@@ -5328,6 +5332,60 @@ const target = {
     151 : "TARGET_UNK_151"
 }
 
+// Non-ID enums
+const traitNodeEntryType = {
+    0: "SpendHex",
+    1: "SpendSquare",
+    2: "SpendCircle",
+    3: "SpendSmallCircle",
+    4: "DeprecatedSelect",
+    5: "DragAndDrop",
+    6: "SpendDiamond",
+    7: "ProfPath",
+    8: "ProfPerk",
+    9: "ProfPathUnlock"
+}
+
+const traitNodeType = {
+    0: "Single",
+    1: "Tiered",
+    2: "Selection"
+}
+
+const traitEdgeVisualStyle = {
+    0: "None",
+    1: "Straight"
+}
+
+const traitEdgeType = {
+    0: "VisualOnly",
+    1: "DeprecatedRankConnection",
+    2: "SufficientForAvailability",
+    3: "RequiredForAvailability",
+    4: "MutuallyExclusive",
+    5: "DeprecatedSelectionOption"
+}
+
+const traitCurrencyType = {
+    0: "Gold",
+    1: "CurrencyTypesBased",
+    2: "TraitSourced"
+}
+
+const traitConditionType = {
+    0: "Available",
+    1: "Visible",
+    2: "Granted",
+    3: "Increased"
+}
+
+const traitCostDefinitionType = {
+    0: "PrimaryCurrency",
+    1: "SecondaryCurrency",
+    2: "Item",
+    3: "Gold"
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("azeritetierunlock.Tier", azeriteTierID);
@@ -5441,6 +5499,13 @@ enumMap.set("spellvisualevent.EndEvent", spellVisualEventStartEvent);
 enumMap.set("spellvisualevent.StartEvent", spellVisualEventStartEvent);
 enumMap.set("spellvisualevent.TargetType", spellVisualEventTargetType);
 enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
+enumMap.set("traitcostdefinition.DefinitionType", traitCostDefinitionType);
+enumMap.set("traitcond.CondType", traitConditionType);
+enumMap.set("traitcurrency.Type", traitCurrencyType);
+enumMap.set("traitedge.Type", traitEdgeType);
+enumMap.set("traitedge.VisualStyle", traitEdgeVisualStyle);
+enumMap.set("traitnode.Type", traitNodeType);
+enumMap.set("traitnodeentry.NodeEntryType", traitNodeEntryType);
 enumMap.set("summonproperties.Control", summonPropertiesControl);
 enumMap.set("summonproperties.Slot", summonPropertiesSlot);
 enumMap.set("uieventtoast.DisplayType", EventToastDisplayType);
