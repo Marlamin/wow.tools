@@ -2112,6 +2112,14 @@ const tempChrModelIDEnum = {
     72: 'Mag\'har Orc Female',
     73: 'Mechagnome Male',
     74: 'Mechagnome Female',
+    89: 'Dracthyr (Dragon)',
+    123: 'Companion Drake',
+    124: 'Companion Protodragon',
+    125: 'Companion Serpent',
+    126: 'Companion Wyvern',
+    127: 'Dracthyr Visage Male',
+    128: 'Dracthyr Visage Female',
+    129: 'Companion Pterrodax',
 }
 
 const tempChrRaceIDEnum = {
@@ -2151,7 +2159,16 @@ const tempChrRaceIDEnum = {
     34: 'Dark Iron Dwarf',
     35: 'Vulpera',
     36: 'Mag\'har Orc',
-    37: 'Mechagnome'
+    37: 'Mechagnome',
+    52: 'Dracthyr (Alliance)',
+    70: 'Dracthyr (Horde)',
+    71: 'Companion Drake',
+    72: 'Companion Proto Dragon',
+    73: 'Companion Serpent',
+    74: 'Companion Wyvern',
+    75: 'Dracthyr (Visage) (Alliance)',
+    76: 'Dracthyr (Visage) (Horde)',
+    77: 'Companion Pterrodax',
 }
 
 const challengeModeItemBonusOverrideType = {
