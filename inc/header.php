@@ -45,6 +45,7 @@ if (!empty($_GET['embed'])) {
 <?php if (!$embed) { ?>
     <script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
     <script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
+    <script type="text/javascript" src="/mv/anims.js?v=<<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
     <?php if (!empty($_SESSION['loggedin'])) { ?>
         <script type="text/javascript" src="/js/powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/powerbar.js")?>"></script>
         <script type="text/javascript" src="/js/main.powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/main.powerbar.js")?>"></script>

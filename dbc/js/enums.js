@@ -5405,6 +5405,7 @@ const traitCostDefinitionType = {
 
 // Regular enums
 let enumMap = new Map();
+enumMap.set("animationdata.ID", animationNames);
 enumMap.set("azeritetierunlock.Tier", azeriteTierID);
 enumMap.set("battlepetability.PetTypeEnum", BattlePetTypes);
 enumMap.set("battlepetabilityturn.EventTypeEnum", BattlePetEvent);
