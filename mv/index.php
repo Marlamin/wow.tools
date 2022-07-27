@@ -238,7 +238,6 @@ const embeddedMode = <?php if (!empty($_GET['embed'])) {
 } ?>;
 </script>
 <script src="/mv/modelviewer.js?v=<?=filemtime(__DIR__ . "/modelviewer.js")?>"></script>
-<script src="/mv/anims.js?v=<?=filemtime(__DIR__ . "/anims.js")?>"></script>
 <script src="/mv/project.js?v=<?=filemtime(__DIR__ . "/project.js")?>"></script>
 <?php if (!$embed) { ?>
 <script src="/maps/js/leaflet.js?v=<?=filemtime(__DIR__ . "/../maps/js/leaflet.js")?>"></script>
