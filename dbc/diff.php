@@ -55,14 +55,14 @@ if (!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])) {
             <label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
             <select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
                 <?php
-                $vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_builds ON wow_dbc_table_versions.versionid=wow_builds.id WHERE wow_dbc_table_versions.tableid = ? AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY version DESC");
+                $vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_builds ON wow_dbc_table_versions.versionid=wow_builds.id WHERE wow_dbc_table_versions.tableid = ? AND wow_dbc_table_versions.hasDefinition = 1 ORDER BY wow_builds.expansion DESC, wow_builds.major DESC, wow_builds.minor DESC, wow_builds.build DESC");
                 $vq->execute([$currentDB['id']]);
                 $versions = $vq->fetchAll();
                 foreach ($versions as $row) {
                     ?>
                     <option value='<?=$row['version']?>'<?php if (!empty($_GET['old']) && $row['version'] == $_GET['old']) {
                         echo " SELECTED";
-                                   }?>><?=$row['version']?></option>
+                                   }else if(empty($_GET['new']) && $row['version'] == $versions[1]['version']){ echo " SELECTED"; }?>><?=$row['version']?></option>
                     <?php
                 }
                 ?>
