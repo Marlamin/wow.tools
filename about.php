@@ -16,6 +16,8 @@ If you create an account on the site, the following information is stored:
 The site and the tools powering the site are open source.
 <ul>
 <li><a href='https://github.com/Marlamin/wow.tools/' target='_BLANK'>wow.tools</a> (PHP) - Website code.</li>
+<li><a href='https://github.com/Marlamin/wow.tools.api/' target='_BLANK'>wow.tools.api</a> (C#) - API powering some DBC/tooltip stuff.</li>
+<li><a href='https://github.com/Marlamin/WoWFormatTest/tree/master/WoWJsonDumper' target='_BLANK'>WoWJsonDumper</a> (C#) - Utility powering "raw" M2 dumps.</li>
 <li><a href='https://github.com/Marlamin/BuildBackup/' target='_BLANK'>BuildBackup</a> (C#) - Makes backups of builds on Blizzard's CDN.</li>
 <li><a href='https://github.com/Marlamin/CASCToolHost/' target='_BLANK'>CASCToolHost</a> (C#) - Powers listfile generation, file downloads and previews.</li>
 <li><a href='https://github.com/Marlamin/DBCDumpHost/' target='_BLANK'>DBCDumpHost</a> (C#) - Powers database file browsing, searching and lookups for the modelviewer. Uses <a href='https://github.com/wowdev/DBCD' target='_BLANK'>DBCD</a> (C#) for DBC/DB2 reading.</li>
