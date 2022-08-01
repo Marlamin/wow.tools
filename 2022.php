@@ -2,9 +2,13 @@
 <div class='container-fluid' style='text-align: center'>
 <h2 style='text-align: center'>An update on the future of WoW.tools</h2>
 <p style='text-align: center'>
-Over the course of 2022, I'll slowly be deprecating and eventually removing features on WoW.tools. In what order, how soon, etc is up to how much energy I need to put into keeping things working.<br>
-Some parts of the site might be around longer than others, on this page I'll start listing alternatives for both users and devs to use so the information you're after can still be retrieved. Am I missing something? Let me know in Discord!
-<br><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May 2022 update</a></b> (older: <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April 2022 update</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March 2022 update</a>)
+In December 2022, WoW.tools will be going (mostly) read-only. This means no new data will be added to the site and many features will lose the ability to use historical data, only being limited to the last build that was imported.<br>
+Some features will be affected before then, more information can be found in the latest update (linked below).<br>For questions/discussion/concerns about this subject you can find a link to the Discord (specifically the #site-future channel) in the August update below.
+</p>
+<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August update</a></b><br><small>(older: <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May 2022 update</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April 2022 update</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March 2022 update</a>)</small>
+</p>
+<p>
+    On this page are alternatives for both users and devs to use so the information you're after can still be retrieved. Am I missing something? Let me know in Discord!
 </p>
 <h2 style='text-align: center'>Alternatives (for users)</h2>
 <div class='row'>
@@ -74,7 +78,7 @@ Some parts of the site might be around longer than others, on this page I'll sta
     </div>
 </div><br>
 <h2 style='text-align: center'>Reasoning</h2>
-<p>I could (and might still) write up a full Patreon-style post-mortem on this, but there are many reasons (limited energy, mental health, life priorities, code quality, etc.) that made me come to the conclusion that instead of letting it wither and die, I'm ending the project on my own terms.</p>
-<p>I am willing to put <i>some</i> time into making the transition as less annoying for people as possible, hence the above list of alternatives. If there's anything you are particularly worried about missing or want to help with/take over, let me know in Discord/on Twitter.</p>
+<p>I could (and might still) write up a full post-mortem on this after this is all behind me, but know there's more than enough reason and thinking that have gone into this decision, most of the reasons are my fault alone while others not so much.
+<br>I am willing to put <i>some</i> time into making the transition as less annoying for people as possible, hence the above list of alternatives. If there's anything you are particularly worried about missing or want to help with/take over, let me know in Discord/on Twitter.</p>
 </div>
 <?php require_once("inc/footer.php"); ?>

@@ -10,6 +10,7 @@ if ($embed) {
             display: none !important;
         }
     </style>
+    <script type="text/javascript" src="/mv/anims.js?v=<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
     <?php
 } else {
     // Non-embed
