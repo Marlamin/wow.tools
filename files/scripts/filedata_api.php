@@ -68,7 +68,7 @@ if (!empty($_GET['filedataid'])) {
     echo "<thead><tr><th style='width: 400px'></th><th></th></tr></thead>";
     echo "<tr><td>FileDataID</td><td>" . $returndata['filedataid'] . "</td></tr>";
     if (!empty($returndata['filename'])) {
-        echo "<tr><td>Filename</td><td>" . $returndata['filename'] . "</td></tr>";
+        echo "<tr><td>Filename</td><td id='editableFilename' data-id=" . $returndata['filedataid'] . ">" . $returndata['filename'] . "</td></tr>";
     }
     echo "<tr><td>Lookup</td><td>" . $returndata['lookup'] . "</td></tr>";
     echo "<tr><td>Type</td><td>" . $returndata['type'] . "</td></tr>";

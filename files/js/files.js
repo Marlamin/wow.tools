@@ -170,7 +170,37 @@ function updateBuildFilterButton(){
 }
 
 function fillModal(fileDataID){
-    $( "#moreInfoModalContent" ).load( "/files/scripts/filedata_api.php?filedataid=" + fileDataID );
+    $("#moreInfoModalContent").load("/files/scripts/filedata_api.php?filedataid=" + fileDataID, function () {
+        document.getElementById('editableFilename').addEventListener("dblclick", makeEditable);
+        document.getElementById('editableFilename').addEventListener("blur", finishEditing);
+    });
+}
+
+function makeEditable(){
+    this.contentEditable = true;
+    this.focus();
+}
+
+function finishEditing(){
+    this.contentEditable = false;
+    var currentSuggestions = localStorage.getItem('suggestionQueue');
+    if (!currentSuggestions) {
+        localStorage.setItem('suggestionQueue', this.dataset.id + ";" + this.innerText);
+    }else{
+        const currentItems = currentSuggestions.split("\n");
+        let suggestionArray = new Array();
+        for(const currentItem of currentItems){
+            const splitName = currentItem.split(";");
+            if(splitName[0] != this.dataset.id){
+                suggestionArray.push(currentItem);
+            }
+        }
+
+        suggestionArray.push(this.dataset.id + ";" + this.innerText);
+        
+        localStorage.setItem('suggestionQueue', suggestionArray.join('\n'));
+    }
+    console.log(this.innerText);
 }
 
 function fillPreviewModal(buildconfig, filedataid){

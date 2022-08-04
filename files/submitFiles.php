@@ -150,11 +150,24 @@ if (!empty($_SESSION['loggedin'])) {
             <br>
             <input id='onlynewBox' type='checkbox' name='onlyNew'> <label for='onlynewBox'>Skip files that already have a name and only add new ones</label>
             <br>
-            <textarea name='files' rows='15' cols='200'></textarea>
+            <input id='loadSuggestions' type='checkbox'> <label for='loadSuggestions'>Load proposed suggestions and reset</label>
+            <br>
+            <textarea id='suggestions' name='files' rows='15' cols='200'></textarea>
             <br>
             <input class='btn btn-success' type='submit' value='Submit'>
         </form>
     <?php } ?>
 </div>
+<script type='text/javascript'>
+    function loadSuggestions(){
+        var currentSuggestions = localStorage.getItem('suggestionQueue');
+        if (currentSuggestions) {
+            document.getElementById('suggestions').value = currentSuggestions;
+        }
+        localStorage.removeItem('suggestionQueue');
+    }
+
+    document.getElementById('loadSuggestions').addEventListener("click", loadSuggestions);
+</script>
 
 <?php include("../inc/footer.php"); ?>
