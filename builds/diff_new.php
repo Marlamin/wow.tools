@@ -12,6 +12,10 @@ if (empty($fromBuild) || empty($toBuild)) {
     die("Invalid builds!");
 }
 
+if(!empty($_GET['overrideTo'])){
+    $toBuild['root_cdn'] = $_GET['overrideTo'];
+}
+
 $fromBuildName = parseBuildName($fromBuild['description'])['full'];
 $toBuildName = parseBuildName($toBuild['description'])['full'];
 
@@ -95,6 +99,12 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                 },
                 {
                     "targets": 4,
+                    "render": function(data, type, full, meta) {
+                        return "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full.id + ")'><i class='fa fa-info-circle'></i></a></td>";
+                    }
+                },
+                {
+                    "targets": 5,
                     "render": function(data, type, full, meta) {
                         var content = "";
                         switch (full.action) {
@@ -228,17 +238,36 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                 <th class="filterable"></th>
                 <th class="searchable"></th>
                 <th class="searchable"></th>
-                <th colspan='2'class="filterable"></th>
+                <th colspan='3'class="filterable"></th>
             </tr>
             <tr>
                 <th style='width: 80px'>Action</th>
                 <th style='width: 170px;'>FileData ID</th>
                 <th>Filename</th>
                 <th style='width: 50px'>Type</th>
+                <th style='width: 25px'>&nbsp;</th>
                 <th style='width: 120px'>&nbsp;</th>
             </tr>
         </thead>
     </table>
+</div>
+<div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moreInfoModalLabel">More information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="moreInfoModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
