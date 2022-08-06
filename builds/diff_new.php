@@ -287,6 +287,24 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
         </div>
     </div>
 </div>
+<div class="modal" id="chashModal" tabindex="-1" role="dialog" aria-labelledby="chashModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chashModalLabel">Content hash lookup</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="chashModalContent">
+                <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <style type='text/css'>
     #summary{
         font-size: 16px;
