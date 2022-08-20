@@ -543,7 +543,7 @@ function locationHashChanged(event) {
         searchString = decodeURIComponent(searchString);
     }
 
-    if($("#files_filter label input").val() != searchString){
+    if(searchString != undefined && $("#files_filter label input").val() != searchString){
         console.log("Setting search to " + searchString);
         //$("#files_filter label input").val(searchString); // This causes issues where search field is overwritten while typing
         $('#files').DataTable().search(searchString).draw(false);
