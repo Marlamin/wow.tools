@@ -27,10 +27,9 @@ if (!empty($_GET['embed'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
     <!-- Datatables -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.21/pagination/input.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css"/>
+    <script type="text/javascript" src="//cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.12.1/pagination/input.js" crossorigin="anonymous"></script>
 
     <link href="/css/style.css?v=<?=filemtime("/var/www/wow.tools/css/style.css")?>" rel="stylesheet">
     <script type='text/javascript'>
