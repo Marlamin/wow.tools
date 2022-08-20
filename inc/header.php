@@ -37,9 +37,9 @@ if (!empty($_GET['embed'])) {
     <script type='text/javascript'>
     var SiteSettings =
     {
-        buildConfig: "1f55c275a6919d7954c520d8b854e268",
-        cdnConfig: "05b40499fcbc6c4423aa3729177b6067",
-        buildName: "10.0.0.44895",
+        buildConfig: "4aa96b7d3a695d488080830b5b7c8e6c",
+        cdnConfig: "e189a62f7e026120f3bc0105adc45d14",
+        buildName: "10.0.0.45141",
     }
     </script>
 <?php if (!$embed) { ?>
