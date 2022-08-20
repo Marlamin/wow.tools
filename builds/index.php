@@ -73,9 +73,9 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
     if (!empty($build['buildconfig'])) {
         echo "<tr><td>Build config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"" . $build['buildconfig'] . "\")'>show</a>)</td><td>";
         if ($build['buildconfigcomplete'] == 1) {
-            echo "<span class='badge badge-success hash'>" . $build['buildconfig'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['buildconfig'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['buildconfig'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['buildconfig'] . "</span>";
         }
         echo "</td></tr>";
     }
@@ -83,9 +83,9 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
     if (!empty($build['cdnconfig'])) {
         echo "<tr><td>CDN config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"" . $build['cdnconfig'] . "\")'>show</a>)</td><td>";
         if ($build['cdnconfigcomplete'] == 1) {
-            echo "<span class='badge badge-success hash'>" . $build['cdnconfig'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['cdnconfig'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['cdnconfig'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['cdnconfig'] . "</span>";
         }
         echo "</td></tr>";
     }
@@ -93,9 +93,9 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
     if (!empty($build['patchconfig'])) {
         echo "<tr><td>Patch config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal(\"" . $build['patchconfig'] . "\")'>show</a>)</td><td>";
         if ($build['patchconfigcomplete'] == 1) {
-            echo "<span class='badge badge-success hash'>" . $build['patchconfig'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['patchconfig'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['patchconfig'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['patchconfig'] . "</span>";
         }
         echo "</td></tr>";
     }
@@ -112,51 +112,51 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
     </thead>";
 
     if (!empty($build['encoding'])) {
-        echo "<tr><td>Encoding</td><td><span class='badge badge-secondary hash'>" . $build['encoding'] . "</span></td><td>";
+        echo "<tr><td>Encoding</td><td><span class='badge bg-secondary hash'>" . $build['encoding'] . "</span></td><td>";
         if (!empty($build['encoding_cdn']) && doesFileExist("data", $build['encoding_cdn'], $allowedproducts["wow"]['cdndir'])) {
-            echo "<span class='badge badge-success hash'>" . $build['encoding_cdn'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['encoding_cdn'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['encoding_cdn'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['encoding_cdn'] . "</span>";
         }
         echo "</td></tr>";
     }
 
     if (!empty($build['root'])) {
-        echo "<tr><td>Root</td><td><span class='badge badge-secondary hash'>" . $build['root'] . "</span></td><td>";
+        echo "<tr><td>Root</td><td><span class='badge bg-secondary hash'>" . $build['root'] . "</span></td><td>";
         if (!empty($build['root_cdn']) && doesFileExist("data", $build['root_cdn'], $allowedproducts["wow"]['cdndir'])) {
-            echo "<span class='badge badge-success hash'>" . $build['root_cdn'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['root_cdn'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['root_cdn'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['root_cdn'] . "</span>";
         }
         echo "</td></tr>";
     }
 
     if (!empty($build['install'])) {
-        echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=" . $build['buildconfig'] . "'>file list</a>)</td><td><span class='badge badge-secondary hash'>" . $build['install'] . "</span></td><td>";
+        echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=" . $build['buildconfig'] . "'>file list</a>)</td><td><span class='badge bg-secondary hash'>" . $build['install'] . "</span></td><td>";
         if (!empty($build['install_cdn']) && doesFileExist("data", $build['install_cdn'], $allowedproducts["wow"]['cdndir'])) {
-            echo "<span class='badge badge-success hash'>" . $build['install_cdn'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['install_cdn'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['install_cdn'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['install_cdn'] . "</span>";
         }
         echo "</td></tr>";
     }
 
     if (!empty($build['download'])) {
-        echo "<tr><td>Download</td><td><span class='badge badge-secondary hash'>" . $build['download'] . "</span></td><td>";
+        echo "<tr><td>Download</td><td><span class='badge bg-secondary hash'>" . $build['download'] . "</span></td><td>";
         if (!empty($build['download_cdn']) && doesFileExist("data", $build['download_cdn'], $allowedproducts["wow"]['cdndir'])) {
-            echo "<span class='badge badge-success hash'>" . $build['download_cdn'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['download_cdn'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['download_cdn'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['download_cdn'] . "</span>";
         }
         echo "</td></tr>";
     }
 
     if (!empty($build['size'])) {
-        echo "<tr><td>Size</td><td><span class='badge badge-secondary hash'>" . $build['size'] . "</span></td><td>";
+        echo "<tr><td>Size</td><td><span class='badge bg-secondary hash'>" . $build['size'] . "</span></td><td>";
         if (!empty($build['size_cdn']) && doesFileExist("data", $build['size_cdn'], $allowedproducts["wow"]['cdndir'])) {
-            echo "<span class='badge badge-success hash'>" . $build['size_cdn'] . "</span>";
+            echo "<span class='badge bg-success hash'>" . $build['size_cdn'] . "</span>";
         } else {
-            echo "<span class='badge badge-danger hash'>" . $build['size_cdn'] . "</span>";
+            echo "<span class='badge bg-danger hash'>" . $build['size_cdn'] . "</span>";
         }
         echo "</td></tr>";
     }
@@ -338,7 +338,7 @@ $allbuilds = $res->fetchAll();
             echo "</td>";
             echo "<td style='width: 120px'>" . prettyBranch($row['product']);
             if(in_array($row['buildconfig'], $customBuilds)){
-                echo " <span class=\"badge badge-warning\"  data-trigger=\"hover\" data-container=\"body\" data-html=\"false\" data-toggle=\"popover\" data-content=\"Build configuration for this build was generated by wow.tools.\"><i class='fa fa-pencil'></i></span>";
+                echo " <span class=\"badge bg-warning\"  data-trigger=\"hover\" data-container=\"body\" data-html=\"false\" data-toggle=\"popover\" data-content=\"Build configuration for this build was generated by wow.tools.\"><i class='fa fa-pencil'></i></span>";
             }else if($buildarr['build'] == 42698 && $row['product'] == "wowt"){
                 echo " ...ish";
             }
@@ -347,7 +347,7 @@ $allbuilds = $res->fetchAll();
             echo "<span class='hash buildconfighash'>" . $row['buildconfig'] . "</span>";
 
             if ($row['buildconfigcomplete'] == 0) {
-                echo " <span class='badge badge-danger'>Incomplete</span>";
+                echo " <span class='badge bg-danger'>Incomplete</span>";
             }
 
             echo "</td>";
@@ -356,7 +356,7 @@ $allbuilds = $res->fetchAll();
 
             if (isset($row['patchconfigcomplete'])) {
                 if ($row['patchconfigcomplete'] == 0) {
-                    echo " <span class='badge badge-danger'>Incomplete</span>";
+                    echo " <span class='badge bg-danger'>Incomplete</span>";
                 }
             }
 
@@ -366,7 +366,7 @@ $allbuilds = $res->fetchAll();
 
             if (isset($row['cdnconfigcomplete'])) {
                 if ($row['cdnconfigcomplete'] == 0) {
-                    echo " <span class='badge badge-danger'>Incomplete</span>";
+                    echo " <span class='badge bg-danger'>Incomplete</span>";
                 }
             }
             echo "</td>";

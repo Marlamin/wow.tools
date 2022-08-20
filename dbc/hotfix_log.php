@@ -91,7 +91,7 @@ foreach ($hotfixes as $hotfix) {
     }
 
     echo "<tr>";
-    echo "<td id='" . $hotfix['pushID'] . "'><span class='badge badge-" . getStatusColor($hotfix['status']) . "'>" . ucfirst($hotfix['status']) . "</span></td>";
+    echo "<td id='" . $hotfix['pushID'] . "'><span class='badge bg-" . getStatusColor($hotfix['status']) . "'>" . ucfirst($hotfix['status']) . "</span></td>";
     echo "<td>" . $hotfix['pushID'] . "</td>";
     if (empty($hotfix['name'])) {
         echo "<td></td>";

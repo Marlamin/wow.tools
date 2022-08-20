@@ -230,7 +230,7 @@ function prettyBranch($branch, $realPretty = true)
     }
 
     if ($realPretty) {
-        return "<span class='badge badge-" . $color . "'>" . $branch . "</span>";
+        return "<span class='badge bg-" . $color . "'>" . $branch . "</span>";
     } else {
         return $branch;
     }

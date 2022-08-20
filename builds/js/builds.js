@@ -50,11 +50,11 @@ $( document ).ready(function() {
 
         if (!build1) {
             build1 = hashElement.text();
-            hashElement.after(' <span class="badge badge-danger diffbadge">Old build</span>');
+            hashElement.after(' <span class="badge bg-danger diffbadge">Old build</span>');
             $('#openDiffButton').text('Click the row of the second build (new)');
         } else if (!build2) {
             build2 = hashElement.text();
-            hashElement.after(' <span class="badge badge-danger diffbadge">New build</span>');
+            hashElement.after(' <span class="badge bg-danger diffbadge">New build</span>');
             $('#openDiffButton')
                 .text('Click to diff (might take up to a minute to generate)')
                 .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
@@ -102,13 +102,13 @@ $( document ).ready(function() {
                 });
 
                 added.forEach(function( val ) {
-                    result += "<tr><td><span class='badge badge-success'>Added</span></td><td>" + val.name + "</td></tr>";
+                    result += "<tr><td><span class='badge bg-success'>Added</span></td><td>" + val.name + "</td></tr>";
                 });
                 modified.forEach(function( val ) {
-                    result += "<tr><td><span class='badge badge-warning'>Modified</span></td><td>" + val.name + "</td></tr>";
+                    result += "<tr><td><span class='badge bg-warning'>Modified</span></td><td>" + val.name + "</td></tr>";
                 });
                 removed.forEach(function( val ) {
-                    result += "<tr><td><span class='badge badge-danger'>Removed</span></td><td>" + val.name + "</td></tr>";
+                    result += "<tr><td><span class='badge bg-danger'>Removed</span></td><td>" + val.name + "</td></tr>";
                 });
 
                 result += "</table>";

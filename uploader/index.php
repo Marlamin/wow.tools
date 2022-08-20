@@ -39,7 +39,7 @@ if (empty($_SESSION['loggedin'])) {
     <li>Download <a href='/pub/WoWTools.Uploader.v1.2.3.0.zip'>this ZIP</a> (version 1.2.3.0)</li>
     <li>Extract it in a place it can safely stay (no installer... yet)</li>
     <li>Run WoWTools.Uploader.exe once to configure it (you might need to run it as administrator)</li>
-    <li>Enter your personal API token: <span class='badge badge-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded files to identify users sending in malformed/private server hotfixes.</small></i></li>
+    <li>Enter your personal API token: <span class='badge bg-secondary hash'><?=$token?></span>, if you don't fill this in the uploader will give 'Unauthorized' errors!<br><i><small>Your WoW.tools UserID will be saved with the uploaded files to identify users sending in malformed/private server hotfixes.</small></i></li>
     <li>Enter your WoW directory if it's not already filled in</li>
     <li>Press check to check if the directory is correct</li>
     <li>Choose whether or not you want the uploader to run at startup. This is recommended as it'll upload automatically after WoW closes.</li>

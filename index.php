@@ -10,7 +10,7 @@ if ($updatedago == strtotime("now")) {
     $updatedago = "?";
 }
 ?>
-    <thead><tr><th>Description <small style='float: right'>Updates every 5 minutes, last updated <?=$updatedago?> seconds ago</small></th><th style='width: 200px'>&nbsp;</th></tr></thead>
+    <thead><tr><th>Description</th><th style='width: 200px'>&nbsp;</th></tr></thead>
     <?php
     if (empty($github['username'])) {
         echo "<tr><td colspan='2'>Repo history is disabled when GitHub info in config is not set.</td></tr>";
@@ -120,7 +120,7 @@ if ($updatedago == strtotime("now")) {
         }
 
         echo "<tr>
-        <td><a href='/dbc/hotfixes.php#search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a><br><span class='badge badge-secondary'>".$hotfix['patch']."</span></td>
+        <td><a href='/dbc/hotfixes.php#search=pushid:" . $hotfix['pushID'] . "'>" . $hotfix['pushID'] . "</a><br><span class='badge bg-secondary'>".$hotfix['patch']."</span></td>
         <td>" . implode('<br>', explode(',', $hotfix['tables'])) . "</td>
         <td>" . $hotfix['rowCount'] . "</td>
         <td>" . $hotfix['firstdetected'] . "</td>
@@ -128,7 +128,7 @@ if ($updatedago == strtotime("now")) {
 
         $hotfixLog->execute([$hotfix['pushID']]);
         if ($logRow = $hotfixLog->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr><td style='text-align: right'>└ <span class='badge badge-" . getStatusColor($logRow['status']) . "'>" . ucfirst($logRow['status']) . "</span></td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
+            echo "<tr><td style='text-align: right'>└ <span class='badge bg-" . getStatusColor($logRow['status']) . "'>" . ucfirst($logRow['status']) . "</span></td><td colspan='3'><a href='/dbc/hotfix_log.php#" . $hotfix['pushID'] . "'><i class='fa fa-info-circle'></i></a> " . $logRow['name'] . "</td></tr>";
         }
     }
     ?>

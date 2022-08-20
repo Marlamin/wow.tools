@@ -35,53 +35,53 @@ function time_elapsed_string($datetime, $full = false) {
 function getStatus($status){
     switch($status){
         case 0:
-        return "<span class='badge badge-danger'><i class='fa fa-arrow-circle-down'></i> Down</span>";
+        return "<span class='badge bg-danger'><i class='fa fa-arrow-circle-down'></i> Down</span>";
         case 1:
-        return "<span class='badge badge-success'><i class='fa fa-arrow-circle-up'></i> Up</span>";
+        return "<span class='badge bg-success'><i class='fa fa-arrow-circle-up'></i> Up</span>";
         default:
-        return "<span class='badge badge-dark'><i class='fa fa-arrow-circle-up'></i> Unknown</span>";
+        return "<span class='badge bg-dark'><i class='fa fa-arrow-circle-up'></i> Unknown</span>";
     }
 }
 
 function getPopulation($population){
     switch($population){
         case 0:
-        return "<span class='badge badge-secondary'>Offline</span>";
+        return "<span class='badge bg-secondary'>Offline</span>";
         case 1:
-        return "<span class='badge badge-success'>Low</span>";
+        return "<span class='badge bg-success'>Low</span>";
         case 2:
-        return "<span class='badge badge-warning'>Medium</span>";
+        return "<span class='badge bg-warning'>Medium</span>";
         case 3:
-        return "<span class='badge badge-danger'>High</span>";
+        return "<span class='badge bg-danger'>High</span>";
         case 4:
-        return "<span class='badge badge-light'>New</span>";
+        return "<span class='badge bg-light'>New</span>";
         case 5:
-        return "<span class='badge badge-primary'>Recommended</span>";
+        return "<span class='badge bg-primary'>Recommended</span>";
         case 6:
-        return "<span class='badge badge-dark'>Full</span>";
+        return "<span class='badge bg-dark'>Full</span>";
         case 7:
-        return "<span class='badge badge-dark'>Locked</span>";
+        return "<span class='badge bg-dark'>Locked</span>";
         default:
-        return "<span class='badge badge-dark'>Unknown</span>";
+        return "<span class='badge bg-dark'>Unknown</span>";
     }
 }
 
 function getRealmType($type){
     switch($type){
         case 1:
-        return "<span class='badge badge-success'>PvE</span>";
+        return "<span class='badge bg-success'>PvE</span>";
         case 2:
-        return "<span class='badge badge-warning'>PvP</span>";
+        return "<span class='badge bg-warning'>PvP</span>";
         case 7:
-        return "<span class='badge badge-info'>RP</span>";
+        return "<span class='badge bg-info'>RP</span>";
         case 9:
-        return "<span class='badge badge-danger'>RP-PvP</span>";
+        return "<span class='badge bg-danger'>RP-PvP</span>";
         case 12:
-        return "<span class='badge badge-primary'>Arena</span>";
+        return "<span class='badge bg-primary'>Arena</span>";
         case 14:
-        return "<span class='badge badge-primary'>Dungeon</span>";
+        return "<span class='badge bg-primary'>Dungeon</span>";
         default:
-        return "<span class='badge badge-dark'>Unknown (".$type.")</span>";
+        return "<span class='badge bg-dark'>Unknown (".$type.")</span>";
     }
 }
 
@@ -184,7 +184,7 @@ foreach($pdo->query("SELECT * FROM wow_realms ORDER BY version DESC, name, id AS
                     <?php foreach($categories as $category => $realms){ ?>
                         <li class="nav-item">
                             <a class="nav-link <?php if($firstNav){?>active<?} $firstNav = false; ?>" data-toggle="tab" href="#group<?=$realms[key($realms)]['group']['id']?>" role="tab">
-                                <?=$category?> <span class="badge badge-light"><?=count($realms)?> realms</span>
+                                <?=$category?> <span class="badge bg-light"><?=count($realms)?> realms</span>
                             </a>
                         </li>&nbsp;
                     <?php } ?>

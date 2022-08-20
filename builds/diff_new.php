@@ -84,7 +84,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                     "render": function(data, type, full, meta) {
 
                         var badge = actionToBadge(full.action);
-                        var content = "<span class='badge badge-" + badge + "'>" + full.action.capitalize() + "</span>";
+                        var content = "<span class='badge bg-" + badge + "'>" + full.action.capitalize() + "</span>";
                         return content;
                     }
                 },
@@ -226,7 +226,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
 
     table.on( 'xhr', function () {
         var json = table.ajax.json();
-        $("#summary").html(" <span class='badge badge-" + actionToBadge("added") + "'>" + json['added'] + " added</span> <span class='badge badge-" + actionToBadge("modified") + "'>" + json['modified'] + " modified</span> <span class='badge badge-" + actionToBadge("removed") + "'>" + json['removed'] + " removed</span>");
+        $("#summary").html(" <span class='badge bg-" + actionToBadge("added") + "'>" + json['added'] + " added</span> <span class='badge bg-" + actionToBadge("modified") + "'>" + json['modified'] + " modified</span> <span class='badge bg-" + actionToBadge("removed") + "'>" + json['removed'] + " removed</span>");
     } );
 });
 </script>
