@@ -265,8 +265,8 @@ window.createscene = async function () {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
 
-    var ptrUrl = allocate(intArrayFromString(url), 'i8', ALLOC_NORMAL);
-    var ptrUrlFileDataId = allocate(intArrayFromString(urlFileId), 'i8', ALLOC_NORMAL);
+    var ptrUrl = allocateUTF8(url);
+    var ptrUrlFileDataId = allocateUTF8(urlFileId);
 
     Module._createWebJsScene(document.body.clientWidth, document.body.clientHeight, ptrUrl, ptrUrlFileDataId);
 
@@ -534,7 +534,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
             
             if (Current.filename != "" && !alwaysLoadByFDID) {
                 console.log("Loading " + Current.filename + " " + Current.fileDataID + " (" + Current.type + ")");
-                var ptrName = allocate(intArrayFromString(Current.filename), 'i8', ALLOC_NORMAL);
+                var ptrName = allocateUTF8(Current.filename);
                 if (Current.type == "adt") {
                     Module._setScene(2, ptrName, -1);
                     $("#js-controls").hide();
@@ -890,6 +890,7 @@ async function setModelDisplay(displayID, type){
         if (cdiRow.values['ParticleColorID'] != 0){
             const particleResponse = await fetch("https://wow.tools/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
             const particleRow = await particleResponse.json();
+            console.log(particleRow);
             Module._resetReplaceParticleColor();
             Module._setReplaceParticleColors(
                 particleRow.values["Start[0]"], particleRow.values["Start[1]"], particleRow.values["Start[2]"],
@@ -1008,8 +1009,8 @@ function updateURLs(){
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
 
-    var ptrUrl = allocate(intArrayFromString(url), 'i8', ALLOC_NORMAL);
-    var ptrUrlFileDataId = allocate(intArrayFromString(urlFileId), 'i8', ALLOC_NORMAL);
+    var ptrUrl = allocateUTF8(url);
+    var ptrUrlFileDataId = allocateUTF8(urlFileId);
 
     Module._setNewUrls(ptrUrl, ptrUrlFileDataId);
 
