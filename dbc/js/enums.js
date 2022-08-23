@@ -5403,6 +5403,12 @@ const traitCostDefinitionType = {
     3: "Gold"
 }
 
+const traitPointsOperationType = {
+    "-1": "None",
+    0: "Set",
+    1: "Multiply"
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("animationdata.ID", animationNames);
@@ -5520,6 +5526,7 @@ enumMap.set("spellvisualkiteffect.EffectType", spellVisualKitEffectType);
 enumMap.set("traitcostdefinition.DefinitionType", traitCostDefinitionType);
 enumMap.set("traitcond.CondType", traitConditionType);
 enumMap.set("traitcurrency.Type", traitCurrencyType);
+enumMap.set("traitdefinitioneffectpoints.OperationType", traitPointsOperationType);
 enumMap.set("traitedge.Type", traitEdgeType);
 enumMap.set("traitedge.VisualStyle", traitEdgeVisualStyle);
 enumMap.set("traitnode.Type", traitNodeType);

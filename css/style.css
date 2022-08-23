@@ -383,6 +383,9 @@ footer p{
 	color: #fff;
 }
 
+.bg-warning{
+	color: var(--dark);
+}
 /* Tooltips */
 .wt-tooltip{
     display: none;
