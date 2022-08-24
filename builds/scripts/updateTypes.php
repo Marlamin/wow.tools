@@ -4,6 +4,8 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
+$useBuildBackup = false;
+
 include(__DIR__ . "/../../inc/config.php");
 while (true) {
     $uq = $pdo->prepare("UPDATE wow_rootfiles SET type = :type WHERE id = :id");
@@ -100,6 +102,8 @@ while (true) {
         $files[$row['buildconfig']][] = array("chash" => $row['contenthash'], "id" => $row['filedataid']);
     }
 
+    $flushMemcached = false;
+
     foreach ($files as $buildconfig => $filelist) {
         $cdncq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
         $cdncq->execute([$buildconfig]);
@@ -116,27 +120,47 @@ while (true) {
             mkdir("/tmp/casc/" . $buildconfig . "/");
         }
 
-        $toextract = 0;
-        $extracted = 0;
-        $fhandle = fopen("/tmp/casc/" . $buildconfig . ".txt", "w");
-        foreach ($filelist as $file) {
-            if (!file_exists("/tmp/casc/" . $buildconfig . "/" . $file['id'] . ".unk")) {
-                fwrite($fhandle, $file['chash'] . "," . $file['id'] . ".unk\n");
-                $toextract++;
-            } else {
-                $extracted++;
+        if($useBuildBackup){
+            $toextract = 0;
+            $extracted = 0;
+            $fhandle = fopen("/tmp/casc/" . $buildconfig . ".txt", "w");
+            foreach ($filelist as $file) {
+                if (!file_exists("/tmp/casc/" . $buildconfig . "/" . $file['id'] . ".unk")) {
+                    fwrite($fhandle, $file['chash'] . "," . $file['id'] . ".unk\n");
+                    $toextract++;
+                } else {
+                    $extracted++;
+                }
+
+                if ($toextract > 500) {
+                    break;
+                }
+            }
+            fclose($fhandle);
+            echo("Extracting " . $toextract . " unknown files (" . $extracted . " already extracted) for buildconfig " . $buildconfig . "\n");
+            // echo "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
+            if ($toextract > 0) {
+                $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist " . $buildconfig . " " . $cdnrow['cdnconfig'] . " /tmp/casc/" . $buildconfig . "/ /tmp/casc/" . $buildconfig . ".txt";
+                exec($cmd, $output);
+            }
+        }else{
+            $toextract = count($filelist);
+            $extracted = 0;
+            foreach ($filelist as $file) {
+                if (!file_exists("/tmp/casc/" . $buildconfig . "/" . $file['id'] . ".unk")) {
+                    $cmd = "wget -q -O /tmp/casc/" . $buildconfig . "/" . $file['id'] . ".unk http://localhost:5005/casc/file/chash?contenthash=" . $file['chash'] . "&buildconfig=" . $buildconfig . "&cdnconfig=" . $cdnrow['cdnconfig'] . "&filename=out.unk";
+                    exec($cmd, $output);
+                    if(file_exists("/tmp/casc/" . $buildconfig . "/" . $file['id'] . ".unk")){
+                        $extracted++;
+                    }else{
+                        echo "Failed to extract file " . $file['id'] . ": \n" . print_r($output, true);
+                    }
+                }
             }
 
-            if ($toextract > 500) {
-                break;
+            if($extracted != $toextract){
+                echo "Failed to extract some files\n";
             }
-        }
-        fclose($fhandle);
-        echo("Extracting " . $toextract . " unknown files (" . $extracted . " already extracted) for buildconfig " . $buildconfig . "\n");
-        // echo "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
-        if ($toextract > 0) {
-            $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist " . $buildconfig . " " . $cdnrow['cdnconfig'] . " /tmp/casc/" . $buildconfig . "/ /tmp/casc/" . $buildconfig . ".txt";
-            exec($cmd, $output);
         }
 
         foreach (glob("/tmp/casc/" . $buildconfig . "/*.unk") as $extractedfile) {
@@ -151,9 +175,13 @@ while (true) {
             $uq->bindParam(":id", $id);
             $uq->execute();
             unlink($extractedfile);
+
+            $flushMemcached = true;
         }
 
-        $memcached->flush();
+        if($flushMemcached){
+            $memcached->flush();
+        }
     }
 
     echo "[" . date('h:i:s') . "] Sleeping for 10 sec..\n";
