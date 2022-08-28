@@ -102,3 +102,14 @@ if ($_GET['type'] == "currentbc") {
 
     echo json_encode($builds);
 }
+
+if ($_GET['type'] == "namebybc") {
+    $bcq = $pdo->prepare("SELECT `description` FROM wow_buildconfig WHERE hash = ?");
+    $bcq->execute([$_GET['hash']]);
+
+    $buildName = "";
+    while ($row = $bcq->fetch(PDO::FETCH_ASSOC)) {
+        $buildName = parseBuildName($row['description'])['full'];
+    }
+    echo $buildName;
+}
