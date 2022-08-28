@@ -214,7 +214,10 @@ try {
 
 var urlBuildConfig = new URL(window.location).searchParams.get("buildconfig");
 if (urlBuildConfig){
-    Current.buildConfig = urlBuildConfig;
+    if (Current.buildConfig != urlBuildConfig){
+        Current.buildConfig = urlBuildConfig;
+        setBuildNameByConfig(Current.buildConfig);
+    }
 }
 
 var urlCDNConfig = new URL(window.location).searchParams.get("cdnconfig");
@@ -573,6 +576,12 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
                 }
             }
         });
+}
+
+async function setBuildNameByConfig(config){
+    const buildResponse = await fetch("/api.php?type=namebybc&hash=" + config);
+    const buildName = await buildResponse.text();
+    Current.buildName = buildName;
 }
 
 async function loadModelDisplays() {
