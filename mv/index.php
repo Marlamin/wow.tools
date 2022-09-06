@@ -74,7 +74,6 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
                             <tr>
                                 <th style='width: 50px;'>ID</th>
                                 <th>Filename</th>
-                                <th style='width: 15px;'>&nbsp;</th>
                             </tr>
                         </thead>
                     </table>
