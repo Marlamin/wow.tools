@@ -4,7 +4,7 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
-$useBuildBackup = false;
+$useBuildBackup = true;
 
 include(__DIR__ . "/../../inc/config.php");
 while (true) {
