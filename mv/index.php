@@ -193,8 +193,8 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             </div>
             <div class="modal-body">
                 <p>
-                    This tool is being developed by the WoW community for the WoW community and as such won't have watermarks all over it but will likely also be more unstable/bleeding edge. Currently it supports rendering most M2 models (smaller more complex models, characters unsupported for now), WMO models (larger models) and ADT files (terrain files with WMOs and M2s).
-                    <br>These parts of it are open source (more coming in the future!):
+                    This tool is being developed by the WoW community for the WoW community and as such won't have watermarks all over it but will likely also be more unstable/bleeding edge. Currently it supports rendering most M2 models (smaller more complex models, characters unsupported), WMO models (larger models) and ADT files (terrain files with WMOs and M2s).
+                    <br>These parts of it are open source:
                     <ul>
                         <li><a target='_BLANK' href='https://github.com/Deamon87/WebWowViewerCpp/tree/development'>Model viewer itself</a></li>
                         <li><a target='_BLANK' href='https://github.com/Marlamin/WoWFormatTest/tree/master/DBCDumpHost'>DBC backend (used for texture lookups)</a></li>

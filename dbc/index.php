@@ -29,7 +29,7 @@ if (!empty($_GET['bc'])) {
             <option value=''>enUS (Default)</option>
         </select>
         <div class='btn-group' style='margin-top: -8px'>
-            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled'><i class='fa fa-download'></i> CSV</a>
+            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">WARNING!</span> CSV exports are going away soon (see link in footer for alternative)!'><i class='fa fa-download'></i> CSV</a>
             <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>

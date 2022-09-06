@@ -15,7 +15,7 @@ foreach ($lfproducts as $lfproduct) {
         <a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
         <a href='/files/submitFiles.php' class='btn btn-success btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-content='Submit suggestions for filenames'><i class='fa fa-upload'></i> Suggest names</a>
         <div class="btn-group">
-            <a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm'><i class='fa fa-download'></i> Listfile</a>
+            <a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">WARNING!</span> Listfile downloads are going away soon, please get the listfile from GitHub instead (see link in footer)!'><i class='fa fa-download'></i> Listfile</a>
             <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -26,8 +26,10 @@ foreach ($lfproducts as $lfproduct) {
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
             </div>
         </div>
+        <?php if(!empty($_SESSION['user'])){ ?>
         <a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'><i class='fa fa-filter'></i> Filter build</a>
         <a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear filter</a>
+        <?php } ?>
         <a href='#' id='multipleFileDLButton' target='_BLANK' class='btn btn-warning btn-sm' style='display: none'>Download selected files (1)</a>
         <a href='#' id='multipleFileAddAll' class='btn btn-info btn-sm' style='display: none'>Add all files on page</a>
         <a href='#' id='multipleFileResetButton' class='btn btn-danger btn-sm' style='display: none'>Reset queue</a>
