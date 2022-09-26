@@ -21,6 +21,7 @@ const expansionLevels = {
     6: 'Legion',
     7: ['BfA', 'Battle for Azeroth'],
     8: 'Shadowlands',
+    9: 'Dragonflight',
 }
 
 const mapTypes = {
@@ -3937,6 +3938,7 @@ const expectedStatExpansionID = {
     6: 'Legion',
     7: 'Battle for Azeroth',
     8: 'Shadowlands',
+    9: 'Dragonflight',
 };
 
 // 588
