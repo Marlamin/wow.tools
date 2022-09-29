@@ -32,7 +32,7 @@ $encryptedfiles = array();
 $encryptedEntryCount = 0;
 echo "[Encrypted file list] Parsing " . $fullbuild . "\n";
 
-$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']);
+$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']) . " | grep -v Unknown";
 $output = [];
 $returnCode = null;
 
