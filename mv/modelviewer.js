@@ -41,7 +41,7 @@ var Settings =
 {
     showFPS: true,
     paused: false,
-    retailOnly: false,
+    staticFiles: false,
     clearColor: [0.117, 0.207, 0.392],
     farClip: 500,
     farClipCull: 250,
@@ -78,16 +78,16 @@ function loadSettings(applyNow = false){
     document.getElementById("showFPS").checked = Settings.showFPS;
 
     /* Enable/disable retail-only */
-    // var storedRetailOnly = localStorage.getItem('settings[retailOnly]');
-    // if (storedRetailOnly){
-    //     if (storedRetailOnly== "1"){
-    //         Settings.retailOnly = true;
-    //     } else {
-    Settings.retailOnly = false;
-    //     }
-    // }
+    var storedstaticFiles = localStorage.getItem('settings[staticFiles]');
+    if (storedstaticFiles){
+        if (storedstaticFiles== "1"){
+            Settings.staticFiles = true;
+        } else {
+            Settings.staticFiles = false;
+        }
+    }
 
-    // document.getElementById("retailOnly").checked = Settings.retailOnly;
+    document.getElementById("staticFiles").checked = Settings.staticFiles;
 
     /* Clear color */
     var storedCustomClearColor = localStorage.getItem('settings[customClearColor]');
@@ -161,11 +161,11 @@ function saveSettings(){
         localStorage.setItem('settings[showFPS]', '0');
     }
 
-    // if (document.getElementById("retailOnly").checked){
-    //     localStorage.setItem('settings[retailOnly]', '1');
-    // } else {
-    //     localStorage.setItem('settings[retailOnly]', '0');
-    // }
+    if (document.getElementById("staticFiles").checked){
+        localStorage.setItem('settings[staticFiles]', '1');
+    } else {
+        localStorage.setItem('settings[staticFiles]', '0');
+    }
 
     localStorage.setItem('settings[customClearColor]', document.getElementById("customClearColor").value);
     localStorage.setItem('settings[farClip]', document.getElementById("farClip").value);
@@ -262,8 +262,8 @@ window.createscene = async function () {
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
     let urlFileId;
 
-    if (Settings.retailOnly){
-        urlFileId = "https://wow.tools/casc/extract/";
+    if (Settings.staticFiles){
+        urlFileId = "https://wow.tools/casc/extract/2b50593455ac2a54e749503a7cf2c5c7/";
     } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
@@ -1012,8 +1012,8 @@ function updateURLs(){
     var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
 
     let urlFileId;
-    if (Settings.retailOnly){
-        urlFileId = "https://wow.tools/casc/extract/";
+    if (Settings.staticFiles){
+        urlFileId = "https://wow.tools/casc/extract/2b50593455ac2a54e749503a7cf2c5c7/";
     } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
