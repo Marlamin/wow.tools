@@ -3,9 +3,9 @@
 <h2 style='text-align: center'>An update on the future of WoW.tools</h2>
 <p style='text-align: center'>
 In December 2022, WoW.tools will be going (mostly) read-only. This means no new data will be added to the site and many features will lose the ability to use historical data, only being limited to the last build that was imported.<br>
-Some features will be affected before then, more information can be found in the latest update (linked below).<br>For questions/discussion/concerns about this subject you can find a link to the Discord (specifically the #site-future channel) in the August update below.
+Some features will be affected before then, more information can be found in the latest update (linked below).<br>For questions/discussion/concerns about this subject you can find a link to the Discord (specifically the #site-future channel) in the October & August updates below.
 </p>
-<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August update</a></b><br><small>(older: <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May 2022 update</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April 2022 update</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March 2022 update</a>)</small>
+<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October update</a> </b><br><small>(older updates: <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>
 </p>
 <p>
 Below are alternatives (or planned alternatives) for both users and devs. Am I missing something? Let me know in Discord!
