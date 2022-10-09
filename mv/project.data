@@ -3193,7 +3193,7 @@ void main()
     vec4 alphaVec2 = vec4(1.0) - clamp(vec4(maxAlpha) - alphaVec, vec4(0.0), vec4(1.0));
     alphaVec2 *= alphaVec;
     vec4 alphaVec2Normalized = alphaVec2 * (1.0 / dot(alphaVec2, vec4(1.0)));
-    vec4 texMixed = (((tex_2_1 * alphaVec2Normalized.x) + (tex_3_1 * alphaVec2Normalized.z)) + (tex_4_1 * alphaVec2Normalized.y)) + (tex_5_1 * alphaVec2Normalized.w);
+    vec4 texMixed = (((tex_2_1 * alphaVec2Normalized.x) + (tex_3_1 * alphaVec2Normalized.y)) + (tex_4_1 * alphaVec2Normalized.z)) + (tex_5_1 * alphaVec2Normalized.w);
     emissive = (tex_1_1.xyz * texMixed.w) * texMixed.xyz;
     vec3 diffuseColor = vec3(0.0);
     matDiffuse = ((diffuseColor - texMixed.xyz) * vColorSecond.w) + texMixed.xyz;
@@ -6617,7 +6617,7 @@ void main()
     highp vec4 alphaVec2 = vec4(1.0) - clamp(vec4(maxAlpha) - alphaVec, vec4(0.0), vec4(1.0));
     alphaVec2 *= alphaVec;
     highp vec4 alphaVec2Normalized = alphaVec2 * (1.0 / dot(alphaVec2, vec4(1.0)));
-    highp vec4 texMixed = (((tex_2_1 * alphaVec2Normalized.x) + (tex_3_1 * alphaVec2Normalized.z)) + (tex_4_1 * alphaVec2Normalized.y)) + (tex_5_1 * alphaVec2Normalized.w);
+    highp vec4 texMixed = (((tex_2_1 * alphaVec2Normalized.x) + (tex_3_1 * alphaVec2Normalized.y)) + (tex_4_1 * alphaVec2Normalized.z)) + (tex_5_1 * alphaVec2Normalized.w);
     emissive = (tex_1_1.xyz * texMixed.w) * texMixed.xyz;
     highp vec3 diffuseColor = vec3(0.0);
     matDiffuse = ((diffuseColor - texMixed.xyz) * vColorSecond.w) + texMixed.xyz;
