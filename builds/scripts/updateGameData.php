@@ -9,7 +9,7 @@ include(__DIR__ . "/../../inc/config.php");
 if (!empty($argv[1])){
     $outdir = $argv[1];
 }else{
-    $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wowt' AND ID > 1575 ORDER BY description DESC LIMIT 1");
+    $q = $pdo->query("SELECT description FROM wow_buildconfig WHERE product = 'wow_beta' AND ID > 1575 ORDER BY description DESC LIMIT 1");
     $row = $q->fetch();
     $rawdesc = str_replace("WOW-", "", $row['description']);
     $build = substr($rawdesc, 0, 5);

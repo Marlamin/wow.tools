@@ -230,6 +230,8 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 <?php } ?>
 <script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%' OR description LIKE '%8.3%' OR description LIKE '%9.0%' OR description LIKE '%9.1%' OR description LIKE '%9.2%' OR description LIKE '%10.0%'")->fetchAll(PDO::FETCH_COLUMN); ?>
 var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
+var staticBuild = "<?=trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"))?>";
+
 window.emscriptenBuildTime = "<?=filemtime(__DIR__ . "/project.js")?>";
 const embeddedMode = <?php if (!empty($_GET['embed'])) {
     ?>true<?php

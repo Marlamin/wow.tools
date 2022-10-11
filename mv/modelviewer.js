@@ -41,7 +41,7 @@ var Settings =
 {
     showFPS: true,
     paused: false,
-    staticFiles: false,
+    staticFiles: true,
     clearColor: [0.117, 0.207, 0.392],
     farClip: 500,
     farClipCull: 250,
@@ -263,7 +263,7 @@ window.createscene = async function () {
     let urlFileId;
 
     if (Settings.staticFiles){
-        urlFileId = "https://wow.tools/casc/extract/2b50593455ac2a54e749503a7cf2c5c7/";
+        urlFileId = "https://wow.tools/casc/extract/" + staticBuild + "/";
     } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
@@ -1013,7 +1013,7 @@ function updateURLs(){
 
     let urlFileId;
     if (Settings.staticFiles){
-        urlFileId = "https://wow.tools/casc/extract/2b50593455ac2a54e749503a7cf2c5c7/";
+        urlFileId = "https://wow.tools/casc/extract/" + staticBuild + "/";
     } else {
         urlFileId = "https://wow.tools/casc/file/fdid?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=data&filedataid=";
     }
