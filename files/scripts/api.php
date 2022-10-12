@@ -90,6 +90,16 @@ if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $clauseparams[] = $_SESSION['buildfilterid'];
 }
 
+if($mv){
+    $selectBuildFilterQ = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
+    $selectBuildFilterQ->execute([trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"))]);
+    $filteredBuildID = $selectBuildFilterQ->fetchColumn();
+    
+    $query .= "JOIN wow_rootfiles_builds_erorus ON ORD(MID(wow_rootfiles_builds_erorus.files, 1 + FLOOR(wow_rootfiles.id / 8), 1)) & (1 << (wow_rootfiles.id % 8)) ";
+    array_push($clauses, " wow_rootfiles_builds_erorus.build = ? ");
+    $clauseparams[] = $filteredBuildID;  
+}
+
 if (!empty($_GET['search']['value'])) {
     $criteria = array_filter(explode(",", $_GET['search']['value']), 'strlen');
 
@@ -211,7 +221,12 @@ if (!empty($_GET['search']['value'])) {
         if ($_GET['showM2'] == "true") {
             $types[] = "m2";
         }
-        $query .= " WHERE type IN ('" . implode("','", $types) . "')";
+
+        if(!empty($clauses)){
+            $query .= " AND type IN ('" . implode("','", $types) . "')";
+        }else{
+            $query .= " WHERE type IN ('" . implode("','", $types) . "')";
+        }
         if (!empty($_GET['search']['value']) && $_GET['showWMO'] == "true") {
             $query .= " AND wow_rootfiles.filename NOT LIKE '%_lod1.wmo' AND wow_rootfiles.filename NOT LIKE '%_lod2.wmo'";
         }

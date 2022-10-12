@@ -169,7 +169,6 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
             <div class="modal-body">
                 <form id='settingsForm'>
                     <input type='checkbox' id='showFPS' name='settings[showFPS]'> <label for='showFPS'>Show stats</label><br>
-                    <input type='checkbox' id='staticFiles' name='settings[staticFiles]'> <label for='staticFiles'>Use static files (experimental)</label><br>
                     <input type='color' id='customClearColor' name='settings[customClearColor]'> <label for='customClearColor'>Background color (applied on next model load)</label><br>
                     <input type='text' id='farClip' name='settings[farClip]'> <label for='farClip'>View distance</label><br>
                     <input type='text' id='farClipCull' name='settings[farClipCull]'> <label for='farClipCull'>Model culling distance</label><br>
@@ -231,7 +230,6 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 <script type="text/javascript"><?php $nonfilenamebuilds = $pdo->query("SELECT hash FROM wow_buildconfig WHERE description LIKE '%8.2%' OR description LIKE '%8.3%' OR description LIKE '%9.0%' OR description LIKE '%9.1%' OR description LIKE '%9.2%' OR description LIKE '%10.0%'")->fetchAll(PDO::FETCH_COLUMN); ?>
 var noNameBuilds = <?=json_encode($nonfilenamebuilds)?>;
 var staticBuild = "<?=trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"))?>";
-
 window.emscriptenBuildTime = "<?=filemtime(__DIR__ . "/project.js")?>";
 const embeddedMode = <?php if (!empty($_GET['embed'])) {
     ?>true<?php
