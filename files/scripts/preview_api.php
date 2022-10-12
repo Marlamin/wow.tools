@@ -71,6 +71,7 @@ if ($type == "ogg") {
         // dump json
         $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
         ?>
+            <div class='alert alert-danger'>As mentioned in the October update (see <a href='/2022.php' target='_BLANK'>2022</a>), the model viewer is now using static files. This means previewing models from recent builds will likely not work.</div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="model-tab" data-toggle="tab" href="#model" role="tab" aria-controls="model" aria-selected="true">Model</a>
