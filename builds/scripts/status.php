@@ -158,8 +158,7 @@ foreach ($products as $code => $product) {
         foreach ($pc['patch-entry'] as $pe) {
             $explpe = explode(" ", $pe);
             $type = $explpe[0];
-
-            if ($type == "partial-priority") {
+            if ($type == "partial-priority" || substr($type, 0, 3) == "vfs") {
                 continue;
             }
 
@@ -357,6 +356,8 @@ foreach ($products as $code => $product) {
                 $patchconfigcomplete = 1;
             } else {
                 $patchconfigcomplete = 1;
+                echo "Patch config " . $row['patchconfig'] . " is currently marked as incomplete!\n";
+
                 if (!doesFileExist("config", $row['patchconfig'], $product['cdndir'])) {
                     echo "Missing patch config " . $row['patchconfig'] . "\n";
                     insertMissingFile("config", $row['patchconfig'], "patchconfig", $product['cdndir']);
