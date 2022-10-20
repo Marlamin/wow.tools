@@ -40,11 +40,11 @@ if ($_GET['p'] == "login") {
                     header("Location: index.php");
                 } else {
                     $message['type'] = "danger";
-                    $message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
+                    $message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
                 }
             } else {
                 $message['type'] = "danger";
-                $message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
+                $message['text'] = "<b>Invalid credentials.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>..";
             }
         }
     }
@@ -68,7 +68,7 @@ if ($_GET['p'] == "login") {
                 $q->execute();
             } catch (Exception $e) {
                 $message['type'] = "danger";
-                $message['text'] = "<b>Username or e-mail already exists or something else went wrong.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.";
+                $message['text'] = "<b>Username or e-mail already exists or something else went wrong.</b><br>Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.";
             }
 
             if (empty($message)) {
@@ -245,7 +245,7 @@ if (!isset($_SESSION['loggedin'])) {
                         <div class="form-group">
                             <label for="email">Enter the e-mail address connected to your account</label>
                             <input type="text" id="email" minlength="12" maxlength="72" class="form-control" placeholder="E-mail" name="email">
-                            <small class="form-text">Don't remember? Poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
+                            <small class="form-text">Don't remember? Mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -271,7 +271,7 @@ if (!isset($_SESSION['loggedin'])) {
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" id="password" minlength="12" maxlength="72" class="form-control" placeholder="Password" name="password" tabindex='2'>
-                            <small class="form-text">Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, poke me on Discord (Marlamin) or mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
+                            <small class="form-text">Forgot your password? Try <a href='/user.php?p=recover'>recovering your account</a>. <br>If that doesn't work, mail me at <a href='mailto:marlamin@marlamin.com'>marlamin@marlamin.com</a>.</small>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
