@@ -8,6 +8,9 @@ include(__DIR__ . "/../../inc/config.php");
 
 $disableBugsnag = true;
 
+// Manually update this once the script has been ran and hasn't detected any encrypted sections before a certain build number to speed this up in the future. Only update after 2 runs without detected encryptions.
+$startAtBuild = 29599; 
+
 $dbcFDIDMap = $pdo->query("SELECT REPLACE(REPLACE(`filename`, \"dbfilesclient/\", \"\"), \".db2\", \"\"), `id` FROM wow_rootfiles WHERE `filename` LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_KEY_PAIR);
 $dbcFDIDs = array_values($dbcFDIDMap);
 $dbcMap = $pdo->query("SELECT `id`, `name` FROM wow_dbc_tables ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -20,7 +23,7 @@ $manifest = [];
 $root = "";
 $toExtract = [];
 
-echo "WARNING: Only checking all BfA (28048+) or later builds as only WDC2+ supports encrypted sections..\n";
+echo "WARNING: Only checking builds newer than " . $startAtBuild ."..\n";
 foreach($tableVersions as $tableVersion){
     $version = $versionMap[$tableVersion['versionid']];
     if($prevVersion != $version){
@@ -42,7 +45,7 @@ foreach($tableVersions as $tableVersion){
         }
 
         $buildEx = explode(".", $version);
-        if($buildEx[3] < 28048){
+        if($buildEx[0] < 8 || $buildEx[3] < $startAtBuild){
             continue;
         }
 
@@ -60,7 +63,7 @@ foreach($tableVersions as $tableVersion){
 
         $manifest = [];
 
-        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt") || filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
             echo "Dumping manifest..";
             $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
             echo "..done!\n";
