@@ -9,8 +9,8 @@ include(__DIR__ . "/../../inc/config.php");
 $disableBugsnag = true;
 
 // Manually update this once the script has been ran and hasn't detected any encrypted sections before a certain build number to speed this up in the future. Only update after 2 runs without detected encryptions.
-// Currently set at 8.2.5.32144 as 8.3.0.32151 adds currently unknown keys EA6C3B8F210A077F (coming in 10.x) and 2A430C60DDCC75FF (unknown)
-$startAtBuild = 32144; 
+// Currently set at 8.3.0.32151 as it adds currently unknown keys EA6C3B8F210A077F (coming in 10.x) and 2A430C60DDCC75FF (unknown)
+$startAtBuild = 32151; 
 
 $dbcFDIDMap = $pdo->query("SELECT REPLACE(REPLACE(`filename`, \"dbfilesclient/\", \"\"), \".db2\", \"\"), `id` FROM wow_rootfiles WHERE `filename` LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_KEY_PAIR);
 $dbcFDIDs = array_values($dbcFDIDMap);
