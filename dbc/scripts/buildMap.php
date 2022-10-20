@@ -58,6 +58,7 @@ foreach (glob($dbcdir . "*", GLOB_ONLYDIR) as $versiondir) {
 
         if (!in_array($tableid, $versionTableCache[$versionid])) {
             echo "[" . $version . " (" . $versionid . ")] [" . $displayname . " (" . $tableid . ")] Inserting..\n";
+            // This MD5 does not account for encrypted sections making contenthash mismatch root contenthash
             $md5 = md5_file($file);
             $insertTVq->execute([$versionid, $tableid, $md5]);
             $versionTableCache[$versionid][] = $tableid;
