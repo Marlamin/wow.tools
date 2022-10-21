@@ -731,10 +731,9 @@ function loadTable() {
     if(currentParams["locale"] != ""){
         document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
     }else{
-        // TODO for static files: Fall back to DBC for older versions somehow????
-        // document.getElementById('downloadDB2Link').href = "/dbc/dl/" + currentParams["build"] + "/dbfilesclient/" + currentParams["dbc"] + ".db2";
-        document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=enUS";
+        document.getElementById('downloadDB2Link').href = "/dbc/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
     }
+    
     document.getElementById('downloadCSVButton').classList.remove("disabled");
     $("#loadingMessage").html("Loading..");
 
