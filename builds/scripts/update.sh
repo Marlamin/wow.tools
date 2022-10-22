@@ -29,6 +29,7 @@ php dl.php
 php exes.php
 php dumpDBC.php
 php ../../dbc/scripts/buildMap.php
+php ../../dbc/scripts/updateDB2MD5.php
 php ../../dbc/scripts/processDBD.php
 php ../../dbc/scripts/updateBroadcastText.php
 php updateGameData.php

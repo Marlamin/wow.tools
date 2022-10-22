@@ -36,7 +36,7 @@ function getOrCreateTableID($table, $displayname)
 }
 
 $dbcdir = "/home/wow/dbcs/";
-$insertTVq = $pdo->prepare("INSERT INTO wow_dbc_table_versions (versionid, tableid, contenthash) VALUES (?, ?, ?)");
+$insertTVq = $pdo->prepare("INSERT INTO wow_dbc_table_versions (versionid, tableid) VALUES (?, ?)");
 foreach (glob($dbcdir . "*", GLOB_ONLYDIR) as $versiondir) {
     $version = str_replace($dbcdir, "", $versiondir);
     $versionid = getOrCreateVersionID($version);
@@ -58,9 +58,7 @@ foreach (glob($dbcdir . "*", GLOB_ONLYDIR) as $versiondir) {
 
         if (!in_array($tableid, $versionTableCache[$versionid])) {
             echo "[" . $version . " (" . $versionid . ")] [" . $displayname . " (" . $tableid . ")] Inserting..\n";
-            // This MD5 does not account for encrypted sections making contenthash mismatch root contenthash
-            $md5 = md5_file($file);
-            $insertTVq->execute([$versionid, $tableid, $md5]);
+            $insertTVq->execute([$versionid, $tableid]);
             $versionTableCache[$versionid][] = $tableid;
         }
     }

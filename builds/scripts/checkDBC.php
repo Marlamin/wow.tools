@@ -13,14 +13,13 @@ $disableBugsnag = true;
 $startAtBuild = 32151; 
 
 $dbcFDIDMap = $pdo->query("SELECT REPLACE(REPLACE(`filename`, \"dbfilesclient/\", \"\"), \".db2\", \"\"), `id` FROM wow_rootfiles WHERE `filename` LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_KEY_PAIR);
-$dbcFDIDs = array_values($dbcFDIDMap);
 $dbcMap = $pdo->query("SELECT `id`, `name` FROM wow_dbc_tables ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
-$versionMap = $pdo->query("SELECT `id`, `version` FROM wow_builds ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
-$tableVersions = $pdo->query("SELECT versionid, tableid, contenthash FROM wow_dbc_table_versions ORDER BY versionid ASC")->fetchAll(PDO::FETCH_ASSOC);
+$versionMap = $pdo->query("SELECT `id`, `version` FROM wow_builds WHERE id IN (SELECT DISTINCT versionid FROM `wow_dbc_table_versions` WHERE `complete` = 0) ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
+$tableVersions = $pdo->query("SELECT versionid, tableid, contenthash FROM wow_dbc_table_versions WHERE complete = 0 AND contenthash IS NOT NULL ORDER BY versionid DESC")->fetchAll(PDO::FETCH_ASSOC);
+$setTableVersionComplete = $pdo->prepare("UPDATE wow_dbc_table_versions SET complete = 1 WHERE versionid = ? AND tableid = ?");
 $selectRootByBuild = $pdo->prepare("SELECT `hash`, `root_cdn` FROM wow_buildconfig WHERE description LIKE ?");
 $getCDNCByBuildC = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $prevVersion = "";
-$manifest = [];
 $root = "";
 $toExtract = [];
 
@@ -46,7 +45,9 @@ foreach($tableVersions as $tableVersion){
         }
 
         $buildEx = explode(".", $version);
-        if($buildEx[0] < 8 || $buildEx[3] < $startAtBuild){
+
+        // 1.x and 2.x have no remaining encrypted files, still check 3.x and 8.3.x+
+        if($buildEx[0] == 1 || $buildEx[1] == 2 || $buildEx[3] < $startAtBuild){
             continue;
         }
 
@@ -61,32 +62,16 @@ foreach($tableVersions as $tableVersion){
 
         $buildconfig = $build['hash'];
         $root = $build['root_cdn'];
-
-        $manifest = [];
-
-        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt") || filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
-            echo "Dumping manifest..";
-            $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
-            echo "..done!\n";
-        }
-    
-        echo "Parsing manifest " .$root . "\n";
-
-        if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-                $manifest[$data[2]] = $data[3];
-            }
-            fclose($handle);
-        }
-
         $prevVersion = $version;
     }
     
     $filename = "/home/wow/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".db2";
     if(file_exists($filename)){
-        if($manifest[$dbcFDIDMap[$dbcMap[$tableVersion['tableid']]]] != md5_file($filename)){
-            echo "File " . $dbcMap[$tableVersion['tableid']] . " does not match MD5 " . $manifest[$dbcFDIDMap[$dbcMap[$tableVersion['tableid']]]] ."\n";
+        if($tableVersion['contenthash'] != md5_file($filename)){
+            echo "File " . $dbcMap[$tableVersion['tableid']] . " does not match MD5 " . $tableVersion['contenthash'] ."\n";
             $toExtract[] = $dbcFDIDMap[$dbcMap[$tableVersion['tableid']]] . ";" . "dbfilesclient/".$dbcMap[$tableVersion['tableid']].".db2";
+        }else{
+            $setTableVersionComplete->execute([$tableVersion['versionid'], $tableVersion['tableid']]);
         }
     }else{
         echo "File " . $dbcMap[$tableVersion['tableid']] . " does not exist\n";
