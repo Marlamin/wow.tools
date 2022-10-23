@@ -37,7 +37,7 @@ function MessageDiscord($product, $message, $overrideToHP = false)
     if (empty($name)) {
         $username = "Unknown";
     } else {
-        $username = $name;
+        $username = str_replace(":", "", $name);
     }
 
     $json = json_encode([ "username" => $username, "content" => $message]);
