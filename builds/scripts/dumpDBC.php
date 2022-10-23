@@ -55,9 +55,6 @@ foreach ($pdo->query($query) as $row) {
     if (!empty($argv[1]) && ($argv[1] == "fullrun" || $argv[1] == "true")) {
         $rawdesc = str_replace("WOW-", "", $row['description']);
         $build = substr($rawdesc, 0, 5);
-        if ($build != 40725) {
-            continue;
-        }
     }
 
     if(empty($row['cdnconfig'])){
