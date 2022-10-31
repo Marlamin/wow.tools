@@ -404,10 +404,38 @@ foreach ($lfproducts as $lfproduct) {
                     }else{
                         var test = "";
                     }
+                    if(meta.settings.json.staticBuild != false){
+                        test += "<a class='fileTableDL' href='https://wow.tools/files/scripts/downloadStaticFile.php?build=" + meta.settings.json.staticBuild + "&id=" + full[0] + "'>" + full[3][0].description + "</a>";
+                    }else{
+                        if(full[3].length > 1){
+                            test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>> Show " + full[3].length + " versions</a><div class='collapse' id='versions" + full[0] + "'>";
+                            full[3].forEach(function(entry) {
+                                if(full[1]){
+                                    var filename = full[1].replace(/^.*[\\\/]/, '');
+                                }else{
+                                    if(full[7]){
+                                        var filename = full[7].replace(/^.*[\\\/]/, '');
+                                    }else{
+                                        var filename = full[0] + "." + full[4];
+                                    }
+                                }
+                                test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description;
+                                
+                                if(Settings.showFileBranch){
+                                    test += " (" + entry.branch + ")";
+                                }
+                                
+                                test += "</a>";
 
-                    if(full[3].length > 1){
-                        test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>> Show " + full[3].length + " versions</a><div class='collapse' id='versions" + full[0] + "'>";
-                        full[3].forEach(function(entry) {
+                                if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
+                                    test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
+                                }
+
+                                test += "<br>";
+                            });
+
+                            test += "</div>";
+                        }else if(full[3].length == 1 && full[3][0].buildconfig != null){
                             if(full[1]){
                                 var filename = full[1].replace(/^.*[\\\/]/, '');
                             }else{
@@ -417,47 +445,22 @@ foreach ($lfproducts as $lfproduct) {
                                     var filename = full[0] + "." + full[4];
                                 }
                             }
-                            test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description;
-                            
+                            test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description;
                             if(Settings.showFileBranch){
-                                test += " (" + entry.branch + ")";
+                                test += " (" + full[3][0].branch + ")";
                             }
-                            
                             test += "</a>";
 
-                            if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
-                                test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
+                            if(full[3][0].contenthash == "de6135861a6cacfe176830f18f597c3e" || full[3][0].contenthash == "ea80e802952501021865cfeed808ac3f"){
+                                test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
                             }
 
-                            test += "<br>";
-                        });
-
-                        test += "</div>";
-                    }else if(full[3].length == 1 && full[3][0].buildconfig != null){
-                        if(full[1]){
-                            var filename = full[1].replace(/^.*[\\\/]/, '');
+                            if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
+                                test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
+                            }
                         }else{
-                            if(full[7]){
-                                var filename = full[7].replace(/^.*[\\\/]/, '');
-                            }else{
-                                var filename = full[0] + "." + full[4];
-                            }
+                            test += "No versions available";
                         }
-                        test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description;
-                        if(Settings.showFileBranch){
-                            test += " (" + full[3][0].branch + ")";
-                        }
-                        test += "</a>";
-
-                        if(full[3][0].contenthash == "de6135861a6cacfe176830f18f597c3e" || full[3][0].contenthash == "ea80e802952501021865cfeed808ac3f"){
-                            test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
-                        }
-
-                        if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
-                            test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
-                        }
-                    }else{
-                        test += "No versions available";
                     }
 
                     return test;

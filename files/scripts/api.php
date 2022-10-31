@@ -83,6 +83,7 @@ $joinparams = [];
 $clauseparams = [];
 $clauses = [];
 $joins = [];
+$staticBuild = false;
 
 if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $query .= "JOIN wow_rootfiles_builds_erorus ON ORD(MID(wow_rootfiles_builds_erorus.files, 1 + FLOOR(wow_rootfiles.id / 8), 1)) & (1 << (wow_rootfiles.id % 8)) ";
@@ -90,9 +91,10 @@ if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $clauseparams[] = $_SESSION['buildfilterid'];
 }
 
-if($mv){
+if($mv || (!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin")){
     $selectBuildFilterQ = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
-    $selectBuildFilterQ->execute([trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"))]);
+    $staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+    $selectBuildFilterQ->execute([$staticBuild]);
     $filteredBuildID = $selectBuildFilterQ->fetchColumn();
     
     $query .= "JOIN wow_rootfiles_builds_erorus ON ORD(MID(wow_rootfiles_builds_erorus.files, 1 + FLOOR(wow_rootfiles.id / 8), 1)) & (1 << (wow_rootfiles.id % 8)) ";
@@ -322,8 +324,10 @@ if (!($returndata['recordsTotal'] = $memcached->get("files.total"))) {
     $returndata['rtcachehit'] = true;
 }
 
+$returndata['staticBuild'] = $staticBuild;
 $returndata['data'] = array();
 
+$staticBuildName = $pdo->prepare("SELECT description FROM wow_buildconfig WHERE root_cdn = ? ORDER BY id DESC LIMIT 1");
 $encq = $pdo->prepare("SELECT keyname FROM wow_encrypted WHERE filedataid = ? AND active = 1");
 $badlyencq = $pdo->prepare("SELECT filedataid FROM wow_encryptedbutnot WHERE filedataid = ?");
 
@@ -449,35 +453,42 @@ while ($row = $dataq->fetch()) {
 
     $versions = array();
 
-    $subq->execute([$row['id']]);
+    if($staticBuild){
+        $staticBuildName->execute([$staticBuild]);
+        $buildName = $staticBuildName->fetch()['description'];
+        $versions[] = ["description" => parseBuildName($buildName)['full'], "enc" => $enc];
+    }else{
+        $subq->execute([$row['id']]);
 
-    foreach ($subq->fetchAll() as $subrow) {
-        $cdnq->execute([$subrow['buildconfig']]);
-        $subrow['cdnconfig'] = $cdnq->fetchColumn();
+        foreach ($subq->fetchAll() as $subrow) {
+            $cdnq->execute([$subrow['buildconfig']]);
+            $subrow['cdnconfig'] = $cdnq->fetchColumn();
 
-        if (in_array($subrow['contenthash'], $contenthashes)) {
-            continue;
-        } else {
-            $contenthashes[] = $subrow['contenthash'];
+            if (in_array($subrow['contenthash'], $contenthashes)) {
+                continue;
+            } else {
+                $contenthashes[] = $subrow['contenthash'];
+            }
+
+            $subrow['enc'] = $enc;
+            if ($enc > 0) {
+                $subrow['key'] = implode(", ", $usedkeys);
+            }
+
+            // Mention firstseen if it is from first casc build
+            if ($subrow['description'] == "WOW-18125patch6.0.1_Beta") {
+                $subrow['firstseen'] = $row['firstseen'];
+            }
+
+            $parsedBuild = parseBuildName($subrow['description']);
+
+            $subrow['description'] = $parsedBuild['full'];
+            $subrow['branch'] = $parsedBuild['branch'];
+            
+            $versions[] = $subrow;
         }
-
-        $subrow['enc'] = $enc;
-        if ($enc > 0) {
-            $subrow['key'] = implode(", ", $usedkeys);
-        }
-
-        // Mention firstseen if it is from first casc build
-        if ($subrow['description'] == "WOW-18125patch6.0.1_Beta") {
-            $subrow['firstseen'] = $row['firstseen'];
-        }
-
-        $parsedBuild = parseBuildName($subrow['description']);
-
-        $subrow['description'] = $parsedBuild['full'];
-        $subrow['branch'] = $parsedBuild['branch'];
-        
-        $versions[] = $subrow;
     }
+    
 
     $returndata['data'][] = array($row['id'], $row['filename'], $row['lookup'], array_reverse($versions), $row['type'], $xrefs, $comments, $cfname);
 }
