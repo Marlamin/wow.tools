@@ -59,7 +59,7 @@ if (!empty($_SESSION['loggedin'])) {
                     }
                 } elseif ($knownfiles[$fdid] != $fname) {
                     // Submitted filename differs from current filename
-                    if (!isset($_POST['onlynew'])) {
+                    if (!isset($_POST['onlyNew'])) {
                         $log[] = "Overriding <kbd>" . $knownfiles[$fdid] . "</kbd> (" . $fdid . ") with <kbd>" . $fname . "</kbd>";
                         $suggestedfiles[$fdid] = $fname;
                     } else {
