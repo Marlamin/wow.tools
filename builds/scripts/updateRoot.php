@@ -42,6 +42,17 @@ function processRoot($root)
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
+
+        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+            echo "	!!! Manifest missing, quitting..\n";
+            die();
+        }
+
+        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+            echo "	!!! Manifest dump empty, removing and quitting..\n";
+            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            die();
+        }
     } else {
         echo "	Manifest already dumped, skipping..\n";
     }
