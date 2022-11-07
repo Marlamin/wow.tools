@@ -6,6 +6,14 @@ if (empty($_GET['buildconfig']) || empty($_GET['filedataid'])) {
     die("Not enough information!");
 }
 
+$staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+
+if(empty($_GET['buildconfig']) || $_GET['buildconfig'] == "undefined"){
+    $selectBuildFilterQ = $pdo->prepare("SELECT `hash` FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
+    $selectBuildFilterQ->execute([$staticBuild]);
+    $_GET['buildconfig'] = $selectBuildFilterQ->fetchColumn();
+}
+
 $build = getVersionByBuildConfigHash($_GET['buildconfig'], "wow");
 
 if (empty($build)) {
@@ -54,19 +62,28 @@ if (!empty($_GET['contenthash'])) {
     // Otherwise, use filedataid
     $cascparams = "/fdid?buildconfig=" . $build['buildconfig']['hash'] . "&cdnconfig=" . $build['cdnconfig']['hash'] . "&filename=" . urlencode($row2['filename']) . "&filedataid=" . $_GET['filedataid'];
 }
+
+if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
+    $previewURL = "//wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
+}else{
+    $previewURL = "//wow.tools/casc/preview" . $cascparams;
+}
+
 if ($type == "ogg") {
-    echo "<audio autoplay controls><source src='//wow.tools/casc/preview" . $cascparams . "' type='audio/ogg'></audio>";
-    die();
+    echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/ogg'></audio>";
 } elseif ($type == "mp3") {
-    echo "<audio autoplay controls><source src='//wow.tools/casc/preview" . $cascparams . "' type='audio/mpeg'></audio>";
-    die();
+    echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/mpeg'></audio>";
 } elseif ($type == "blp") {
-    echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='//wow.tools/casc/preview" . $cascparams . "'></body>";
-    die();
+    echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='" . $previewURL . "'></body>";
 } else {
     // Dump to file
-    $tempfile = tempnam('/tmp/', 'PREVIEW');
-    downloadFile($cascparams, $tempfile);
+    if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
+        $tempfile = "/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
+    }else{
+        $tempfile = tempnam('/tmp/', 'PREVIEW');
+        downloadFile($cascparams, $tempfile);
+    }
+
     if ($type == "m2" || $type == "wmo") {
         // dump json
         $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
@@ -99,6 +116,11 @@ if ($type == "ogg") {
         $output = shell_exec("/usr/bin/hd -n1048576 " . escapeshellarg($tempfile));
         echo "<pre style='max-height: 80vh'><code>" . htmlentities($output) . "</pre></code>";
     }
-    unlink($tempfile);
+
+    if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
+        // Just don't delete
+    }else{
+        unlink($tempfile);
+    }
 }
 ?>
