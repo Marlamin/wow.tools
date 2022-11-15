@@ -29,7 +29,8 @@ if (!empty($_GET['bc'])) {
             <option value=''>enUS (Default)</option>
         </select>
         <div class='btn-group' style='margin-top: -8px'>
-            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">WARNING!</span> CSV exports are going away soon (see link in footer for alternative)!'><i class='fa fa-download'></i> CSV</a>
+        <!-- data-content='<span class="badge badge-danger">WARNING!</span> CSV exports are going away soon (see link in footer for alternative)!' -->
+            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">CSV/DB2 exports have been disabled due to excessive scraping.'><i class='fa fa-download'></i> CSV</a>
             <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -726,12 +727,12 @@ function loadTable() {
     $("#dbtable").html(
         "<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>"
         );
-    document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
+    //document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
 
     if(currentParams["locale"] != ""){
-        document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
+        // document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
     }else{
-        document.getElementById('downloadDB2Link').href = "/dbc/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
+        // document.getElementById('downloadDB2Link').href = "/dbc/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
     }
     
     document.getElementById('downloadCSVButton').classList.remove("disabled");
@@ -745,7 +746,7 @@ function loadTable() {
 
     if (currentParams["hotfixes"]) {
         apiArgs += "&useHotfixes=true";
-        document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace("&hotfixes=", "&useHotfixes=");
+        //document.getElementById('downloadCSVButton').href = document.getElementById('downloadCSVButton').href.replace("&hotfixes=", "&useHotfixes=");
     }
 
     let tableHeaders = "";
