@@ -28,8 +28,8 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>DBC browser</h4>
+        <b><a href='https://wago.tools/db2' target='_BLANK'>wago.tools</a></b> (WIP)<br>
         <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (planned)<br>
-        <a href='https://github.com/WowDevTools/WDBXEditor' target='_BLANK'>WDBX Editor</a> (possibly outdated)<br>
     </div>
     <div class='col'>
         <h4>DBC exporting</h4>
