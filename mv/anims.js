@@ -1725,4 +1725,16 @@ var animationNames = [
     "FlyAdvFlyForwardGlideSlow",
     "AdvFlyForwardGlideFast",
     "FlyAdvFlyForwardGlideFast",
+    "AdvFlySecondFlapUp",
+    "FlyAdvFlySecondFlapUp",
+    "FloatIdle",
+    "FlyFloatIdle",
+    "FloatWalk",
+    "FlyFloatWalk",
+    "CinematicTalk",
+    "FlyCinematicTalk",
+    "CinematicWAGuardEmoteSlam01",
+    "FlyCinematicWAGuardEmoteSlam01",
+    "WABlowHorn",
+    "FlyWABlowHorn"
 ];
