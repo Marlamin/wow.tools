@@ -2038,6 +2038,7 @@ const spellClassSet = {
     15: 'Death Knight',
     53: 'Monk',
     107: 'Demon Hunter',
+    224: 'Evoker',
 }
 
 
