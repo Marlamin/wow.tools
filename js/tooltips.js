@@ -19,7 +19,8 @@ function tooltip2(el, event){
     const tooltipType = el.dataset.tooltip;
     const tooltipTargetValue = el.dataset.id;
     let tooltipDiv = document.getElementById("wtTooltip");
-    let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
+    // let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-icon' style='display: none'><img src='https://wow.tools/casc/preview/chash?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=interface%2Ficons%2Finv_misc_questionmark.blp&contenthash=45809010e72cafe336851539a9805b80'/></div><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
+    let defaultTooltipHTML = "<div id='tooltip'><div class='tooltip-desc'>Generating tooltip..</div></div></div>";
     let needsRefresh = false;
 
     if (!tooltipDiv) {
@@ -38,7 +39,7 @@ function tooltip2(el, event){
         tooltipDiv.classList.add('wt-tooltip');
 
         if (tooltipType == "spell" || tooltipType == "item"){
-            tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
+            // tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
         }
         needsRefresh = true;
         document.body.appendChild(tooltipDiv);
@@ -53,7 +54,7 @@ function tooltip2(el, event){
             tooltipDiv.dataset.id = tooltipTargetValue;
 
             if (tooltipType == "spell" || tooltipType == "item"){
-                tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
+                // tooltipDiv.querySelector(".tooltip-icon").style.display = 'block';
             }
 
             needsRefresh = true;
@@ -116,14 +117,14 @@ function generateQuestTooltip(id, tooltip)
 {
     console.log("Generating quest tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     fetch("/db/quest_api.php?id=" + id, {cache: "force-cache"})
         .then(function (response) {
             return response.json();
         }).then(function (questEntry) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -146,14 +147,14 @@ function generateCriteriaTooltip(id, tooltip, build)
 {
     console.log("Generating criteria tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     fetch("/dbc/experiments/criteriaExplorer.php?api=1&id=" + id, {cache: "force-cache"})
         .then(function (response) {
             return response.json();
         }).then(function (criteriaEntry) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -185,14 +186,14 @@ function generateCreatureTooltip(id, tooltip)
 {
     console.log("Generating creature tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     fetch("/db/creature_api.php?id=" + id, {cache: "force-cache"})
         .then(function (response) {
             return response.json();
         }).then(function (creatureEntry) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -229,7 +230,7 @@ function generateCreatureTooltip(id, tooltip)
 function generateItemTooltip(id, tooltip, build){
     console.log("Generating item tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
@@ -237,7 +238,7 @@ function generateItemTooltip(id, tooltip, build){
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
-                if (tooltipIcon == undefined || tooltipDesc == undefined){
+                if (tooltipDesc == undefined){
                     console.log("Tooltip closed before rendering finished, nevermind");
                     return;
                 }
@@ -247,7 +248,7 @@ function generateItemTooltip(id, tooltip, build){
                 tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
             });
         }).then(function (data) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -328,7 +329,7 @@ function generateItemTooltip(id, tooltip, build){
             tooltipDesc.innerHTML = tooltipTable;
 
             if (calcData["iconFileDataID"] != 0){
-                tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
+                // tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
             }
 
             repositionTooltip(tooltip);
@@ -342,7 +343,7 @@ function generateSpellTooltip(id, tooltip, build)
 {
     console.log("Generating spell tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
@@ -350,7 +351,7 @@ function generateSpellTooltip(id, tooltip, build)
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
-                if (tooltipIcon == undefined || tooltipDesc == undefined){
+                if (tooltipDesc == undefined){
                     console.log("Tooltip closed before rendering finished, nevermind");
                     return;
                 }
@@ -360,7 +361,7 @@ function generateSpellTooltip(id, tooltip, build)
                 tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
             });
         }).then(function (data) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -376,7 +377,7 @@ function generateSpellTooltip(id, tooltip, build)
             if (calcData["description"] != null){
                 tooltipDesc.innerHTML += "<p class='yellow'>" + calcData["description"].replace("\n", "<br><br>");
             }
-            tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
+            // tooltipIcon.src = 'https://wow.tools/casc/preview/fdid?buildconfig=' + SiteSettings.buildConfig + '&cdnconfig=' + SiteSettings.cdnConfig + '&filename=icon.blp&filedataid=' + calcData["iconFileDataID"];
         }).catch(function (error) {
             console.log("An error occurred retrieving data to generate the tooltip: " + error);
             tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
@@ -389,7 +390,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
 
     const collapsedFKs = ["playercondition::id", "holidays::id", "spellchaineffects::id", "spellvisual::id", "soundkitadvanced::id"];
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     const explodedTargetFK = targetFK.split("::");
@@ -404,7 +405,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
-                if (tooltipIcon == undefined || tooltipDesc == undefined){
+                if (tooltipDesc == undefined){
                     console.log("Tooltip closed before rendering finished, nevermind");
                     return;
                 }
@@ -414,7 +415,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
                 tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
             });
         }).then(function (data) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -477,7 +478,7 @@ function generateFileTooltip(id, tooltip)
 {
     console.log("Generating file tooltip for " + id);
 
-    const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
+    // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
@@ -485,7 +486,7 @@ function generateFileTooltip(id, tooltip)
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
-                if (tooltipIcon == undefined || tooltipDesc == undefined){
+                if (tooltipDesc == undefined){
                     console.log("Tooltip closed before rendering finished, nevermind");
                     return;
                 }
@@ -495,7 +496,7 @@ function generateFileTooltip(id, tooltip)
                 tooltipDesc.innerHTML = "An error occured generating the tooltip: " + error;
             });
         }).then(function (data) {
-            if (tooltipIcon == undefined || tooltipDesc == undefined){
+            if (tooltipDesc == undefined){
                 console.log("Tooltip closed before rendering finished, nevermind");
                 return;
             }
@@ -515,9 +516,9 @@ function generateFileTooltip(id, tooltip)
                 tooltipTable += "<tr><td>Filename</td><td>Unknown</td></tr>";
             }
 
-            if (calcData["type"] != null && calcData["type"] == "blp"){
-                tooltipTable += "<tr><td colspan='2'><img class='tooltip-preview' src='https://wow.tools/casc/preview/fdid?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=inlinepreview.blp&filedataid=" + calcData["fileDataID"] + "'></td></tr>";
-            }
+            // if (calcData["type"] != null && calcData["type"] == "blp"){
+            //     tooltipTable += "<tr><td colspan='2'><img class='tooltip-preview' src='https://wow.tools/casc/preview/fdid?buildconfig=" + SiteSettings.buildConfig + "&cdnconfig=" + SiteSettings.cdnConfig + "&filename=inlinepreview.blp&filedataid=" + calcData["fileDataID"] + "'></td></tr>";
+            // }
 
             tooltipDesc.innerHTML = tooltipTable;
         }).catch(function (error) {
