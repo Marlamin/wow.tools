@@ -132,7 +132,7 @@ if (!empty($_GET['api']) && $_GET['api'] == "buildinfo") {
     }
 
     if (!empty($build['install'])) {
-        echo "<tr><td>Install (<a target='_BLANK' href='/builds/extract.php?build=" . $build['buildconfig'] . "'>file list</a>)</td><td><span class='badge bg-secondary hash'>" . $build['install'] . "</span></td><td>";
+        echo "<tr><td>Install</td><td><span class='badge bg-secondary hash'>" . $build['install'] . "</span></td><td>";
         if (!empty($build['install_cdn']) && doesFileExist("data", $build['install_cdn'], $allowedproducts["wow"]['cdndir'])) {
             echo "<span class='badge bg-success hash'>" . $build['install_cdn'] . "</span>";
         } else {
@@ -321,7 +321,7 @@ $allbuilds = $res->fetchAll();
 </div>
 <div class='container-fluid'>
     <h3 style='float: left'><?=count($allbuilds)?> builds in DB</h3>
-    <div style='float: left; margin-left: 10px; position: sticky; top: 0; z-index: 9'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div>
+    <!-- <div style='float: left; margin-left: 10px; position: sticky; top: 0; z-index: 9'><a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a> <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>Open diff</a> <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>Open install diff</a> <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a></div> -->
     <table id='buildtable' class='table table-sm table-hover maintable' style='clear: both'>
         <thead><tr><th>Patch</th><th>Build</th><th>Branch</th><th>Build config</th><th>Patch config</th><th>CDN config</th><th>Compiled at (PT)</th><th>Detected at (CEST)<th>&nbsp;</th></tr></thead>
         <?php foreach ($allbuilds as $row) {

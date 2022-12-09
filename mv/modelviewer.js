@@ -495,14 +495,14 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
             $("#animationSelect").hide();
             $("#skinSelect").hide();
 
-            var alwaysLoadByFDID = false;
-            if (noNameBuilds.includes(buildconfig)){
-                alwaysLoadByFDID = true;
-            }
+            var alwaysLoadByFDID = true;
+            // if (noNameBuilds.includes(buildconfig)){
+            //     alwaysLoadByFDID = true;
+            // }
 
-            if (Current.type == "adt"){
-                alwaysLoadByFDID = false;
-            }
+            // if (Current.type == "adt"){
+            //     alwaysLoadByFDID = false;
+            // }
 
             if (Current.type == "m2"){
                 $("#exportButton").prop('disabled', false);

@@ -119,7 +119,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                                     case "m2":
                                     case "wmo":
                                     default:
-                                        content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
+                                        content = "&nbsp;";
                                         break;
                                 }
 
@@ -136,23 +136,23 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
 
                                         }
                                         break;
-                                    case "blp":
-                                    case "htm":
-                                    case "html":
-                                    case "lua":
-                                    case "sbt":
-                                    case "toc":
-                                    case "txt":
-                                    case "xml":
-                                    case "xsd":
-                                    case "wtf":
-                                        content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
-                                        break;
-                                    case "ogg":
-                                        content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
-                                        break;
+                                    // case "blp":
+                                    // case "htm":
+                                    // case "html":
+                                    // case "lua":
+                                    // case "sbt":
+                                    // case "toc":
+                                    // case "txt":
+                                    // case "xml":
+                                    // case "xsd":
+                                    // case "wtf":
+                                    //     content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModal(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview</a>";
+                                    //     break;
+                                    // case "ogg":
+                                    //     content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
+                                    //     break;
                                     default:
-                                        content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillDiffModalRaw(\"<?= $fromBuild['hash'] ?>\", \"<?= $toBuild['hash'] ?>\", \"" + full.id + "\")'>Preview (raw)</a>";
+                                        content = "&nbsp;";
                                         break;
                                 }
 
@@ -169,7 +169,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                                         }
                                         break;
                                     default:
-                                        content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $fromBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
+                                        content = "&nbsp;";
                                         break;
                                 }
                                 break;

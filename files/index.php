@@ -13,8 +13,8 @@ foreach ($lfproducts as $lfproduct) {
 <div class="container-fluid" id='files_container'>
     <div id='files_buttons' class='notree'>
         <a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
-        <a href='/files/submitFiles.php' class='btn btn-success btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-content='Submit suggestions for filenames'><i class='fa fa-upload'></i> Suggest names</a>
-        <div class="btn-group">
+        <!-- <a href='/files/submitFiles.php' class='btn btn-success btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-content='Submit suggestions for filenames'><i class='fa fa-upload'></i> Suggest names</a> -->
+        <!-- <div class="btn-group">
             <a href='/casc/listfile/download/csv/unverified' class='btn btn-primary btn-sm' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">WARNING!</span> Listfile downloads are going away soon, please get the listfile from GitHub instead (see link in footer)!'><i class='fa fa-download'></i> Listfile</a>
             <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
@@ -25,7 +25,7 @@ foreach ($lfproducts as $lfproduct) {
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unknown">CSV (FileDataIDs with no filenames)</a>
                 <a target='_BLANK' class="dropdown-item" href="/casc/listfile/download/csv/unverified">Community CSV (all filenames, incl. guessed ones)</a>
             </div>
-        </div>
+        </div> -->
         <?php if(!empty($_SESSION['user'])){ ?>
         <a href='#' id='buildFilterButton' class='btn btn-info btn-sm' data-toggle='modal' data-target='#buildModal'><i class='fa fa-filter'></i> Filter build</a>
         <a href='#' id='clearBuildFilterButton' class='btn btn-danger btn-sm' style='display: none' data-toggle='modal' onClick='buildFilterClick()'>Clear filter</a>
@@ -387,6 +387,7 @@ foreach ($lfproducts as $lfproduct) {
             },
             {
                 "targets": 3,
+                "visible": false,
                 "orderable": false,
                 "render": function ( data, type, full, meta ) {
                     if(full[3].length > 0){
@@ -486,6 +487,7 @@ foreach ($lfproducts as $lfproduct) {
             {
                 "targets": 6,
                 "orderable": false,
+                "visible": false,
                 "render": function ( data, type, full, meta ) {
                     if(full[4] == "db2" && (full[1] || full[7])){
                         let filename = "";

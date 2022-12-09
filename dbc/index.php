@@ -25,18 +25,18 @@ if (!empty($_GET['bc'])) {
         <select id='fileFilter' class='form-control form-control-sm'></select>
         <select id='buildFilter' name='build' class='form-control form-control-sm buildFilter'></select>
 
-        <select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
+        <!-- <select id='localeSelection' name='locale' class='form-control form-control-sm buildFilter'>
             <option value=''>enUS (Default)</option>
-        </select>
+        </select> -->
         <div class='btn-group' style='margin-top: -8px'>
         <!-- data-content='<span class="badge badge-danger">WARNING!</span> CSV exports are going away soon (see link in footer for alternative)!' -->
-            <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary disabled' data-trigger='hover' data-placement='bottom' data-container='body' data-toggle='popover' data-html='true' data-content='<span class="badge badge-danger">CSV/DB2 exports have been disabled due to excessive scraping.'><i class='fa fa-download'></i> CSV</a>
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <!-- <a href='' id='downloadCSVButton' class='form-control form-control-sm btn btn-sm btn-secondary'><i class='fa fa-download'></i> CSV</a> -->
+            <!-- <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
                 <a href="" id='downloadDB2Link'><i class='fa fa-download'></i> DB2</a>
-            </div>
+            </div> -->
         </div>
         <label class="btn btn-sm btn-info active" style='margin-left: 5px;'>
             <input type="checkbox" autocomplete="off" id="hotfixToggle"> Use hotfixes?
@@ -231,20 +231,20 @@ var Settings = {
     lockedBuild: null
 }
 
-var Locales = {
-    koKR: "Korean",
-    frFR: "French",
-    deDE: "German",
-    zhCN: "Simplified Chinese",
-    esES: "Spanish",
-    zhTW: "Taiwanese Mandarin",
-    enGB: "Also English",
-    esMX: "Mexican Spanish",
-    ruRU: "Russian",
-    ptBR: "Brazilian Portugese",
-    itIT: "Italian",
-    ptPT: "Portugese"
-}
+// var Locales = {
+//     koKR: "Korean",
+//     frFR: "French",
+//     deDE: "German",
+//     zhCN: "Simplified Chinese",
+//     esES: "Spanish",
+//     zhTW: "Taiwanese Mandarin",
+//     enGB: "Also English",
+//     esMX: "Mexican Spanish",
+//     ruRU: "Russian",
+//     ptBR: "Brazilian Portugese",
+//     itIT: "Italian",
+//     ptPT: "Portugese"
+// }
 
 let APIBase = "https://api.wow.tools/";
 const siteURL = new URL(window.location);
@@ -459,9 +459,9 @@ function buildURL(currentParams) {
         url += "&build=" + currentParams["build"];
     }
 
-    if (currentParams["locale"]) {
-        url += "&locale=" + currentParams["locale"];
-    }
+    // if (currentParams["locale"]) {
+    //     url += "&locale=" + currentParams["locale"];
+    // }
 
     if (currentParams["hotfixes"]) {
         url += "&hotfixes=" + currentParams["hotfixes"];
@@ -727,22 +727,22 @@ function loadTable() {
     $("#dbtable").html(
         "<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>"
         );
-    //document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
+    // document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
 
-    if(currentParams["locale"] != ""){
+    // if(currentParams["locale"] != ""){
         // document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
-    }else{
+    // }else{
         // document.getElementById('downloadDB2Link').href = "/dbc/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
-    }
+    // }
     
-    document.getElementById('downloadCSVButton').classList.remove("disabled");
+    // document.getElementById('downloadCSVButton').classList.remove("disabled");
     $("#loadingMessage").html("Loading..");
 
     let apiArgs = currentParams["dbc"] + "/?build=" + currentParams["build"];
 
-    if (currentParams["locale"] != "") {
-        apiArgs += "&locale=" + currentParams["locale"];
-    }
+    // if (currentParams["locale"] != "") {
+        // apiArgs += "&locale=" + currentParams["locale"];
+    // }
 
     if (currentParams["hotfixes"]) {
         apiArgs += "&useHotfixes=true";
@@ -1184,25 +1184,25 @@ let currentParams = [];
         currentParams["dbc"] = vars["dbc"].replace(".db2", "").toLowerCase().split('#')[0];
     }
     
-    if (vars["locale"] == null) {
-        currentParams["locale"] = "";
-    } else {
-        currentParams["locale"] = vars["locale"];
-    }
+    // if (vars["locale"] == null) {
+    //     currentParams["locale"] = "";
+    // } else {
+    //     currentParams["locale"] = vars["locale"];
+    // }
 
-    const localeSelection = document.getElementById("localeSelection");
+    // const localeSelection = document.getElementById("localeSelection");
 
-    for (let value of Object.entries(Locales)) {
-        var option = document.createElement("option");
-        option.val = value[1];
-        option.text = value[0];
+    // for (let value of Object.entries(Locales)) {
+    //     var option = document.createElement("option");
+    //     option.val = value[1];
+    //     option.text = value[0];
 
-        if(currentParams["locale"] == value[0]){
-            option.selected = true;
-        }
+    //     if(currentParams["locale"] == value[0]){
+    //         option.selected = true;
+    //     }
 
-        localeSelection.appendChild(option);
-    }
+    //     localeSelection.appendChild(option);
+    // }
 
     if (vars["build"] == null) {
         currentParams["build"] = "";
@@ -1244,10 +1244,10 @@ let currentParams = [];
         loadTable();
     });
 
-    $('#localeSelection').on('change', function() {
-        currentParams["locale"] = $('#localeSelection').val();
-        loadTable();
-    });
+    // $('#localeSelection').on('change', function() {
+    //     currentParams["locale"] = $('#localeSelection').val();
+    //     loadTable();
+    // });
 
     $('#hotfixToggle').on('change', function() {
         if (document.getElementById('hotfixToggle').checked) {

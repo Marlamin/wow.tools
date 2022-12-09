@@ -74,6 +74,7 @@ if ($type == "ogg") {
 } elseif ($type == "mp3") {
     echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/mpeg'></audio>";
 } elseif ($type == "blp") {
+    // TODO: Static file support - load BLP clientside
     echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='" . $previewURL . "'></body>";
 } else {
     // Dump to file
