@@ -109,11 +109,12 @@ if (!empty($_GET['embed'])) {
                 <button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="button">
                     Toggle theme
                 </button>&nbsp;
+                <!--
                 <?php if (empty($_SESSION['loggedin']) || (!empty($_GET['p']) && $_GET['p'] == "logout")) { ?>
                     <a href='/user.php?p=login' class='btn btn-sm align-middle btn-outline-success'>Login</a>
                 <?php } else { ?>
                     <a href='/user.php?p=logout' class='btn btn-sm align-middle btn-outline-danger'>Log out</a>
-                <?php } ?>
+                <?php } ?> -->
             </form>
         </div>
     </nav>

@@ -1,6 +1,6 @@
 <?php
 include("inc/config.php");
-
+die("User functionality disabled");
 function passwordMeetsReqs($password)
 {
     return (!empty($password) || trim($password) !== $password || strlen($password) < 12);
