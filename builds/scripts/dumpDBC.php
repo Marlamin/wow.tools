@@ -4,22 +4,35 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
-function getFileDataIDs($buildconfig, $cdnconfig)
+function getFileDataIDs($root)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://wow.tools/casc/root/fdids?buildconfig=" . $buildconfig . "&cdnconfig=" . $cdnconfig);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $data = curl_exec($ch);
-    if (!$data) {
-        echo "cURL fail: " . print_r(curl_error($ch)) . "\n";
+    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+        echo "	Dumping manifest..";
+        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        echo "..done!\n";
+
+        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+            echo "	!!! Manifest missing, quitting..\n";
+            die();
+        }
+
+        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+            echo "	!!! Manifest dump empty, removing and quitting..\n";
+            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            die();
+        }
     }
-    curl_close($ch);
-    if ($data == "") {
-        return false;
-    } else {
-        return json_decode($data);
+
+    $fdids = [];
+
+    if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            $fdids[] = $data[2];
+        }
+        fclose($handle);
     }
+
+    return $fdids;
 }
 
 function makeOutDir($description)
@@ -41,12 +54,12 @@ $disableBugsnag = true;
 $dbcs = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_ASSOC);
 
 if (empty($argv[1])) {
-    $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
+    $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
 } else {
     if($argv[1] == "fullrun" || $argv[1] == "true"){
-        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_versions.ID DESC";
+        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_versions.ID DESC";
     }else{
-        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash WHERE wow_buildconfig.description LIKE '" . $argv[1] . "%' ORDER BY wow_versions.ID DESC";
+        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash WHERE wow_buildconfig.description LIKE '" . $argv[1] . "%' ORDER BY wow_versions.ID DESC";
     }
 }
 
@@ -79,7 +92,7 @@ foreach ($pdo->query($query) as $row) {
     }else{
         // Retrieve list of available filedatads in this build
         echo "[DB2 export] Requesting filedataids for build " . $row['description'] . "\n";
-        $fdids = getFileDataIDs($row['buildconfig'], $row['cdnconfig']);
+        $fdids = getFileDataIDs($row['root_cdn']);
         if (empty($fdids)) {
             echo "[DB2 export] !!! Error retrieving filedataids for build " . $row['description'] . "\n";
             fclose($fhandle);

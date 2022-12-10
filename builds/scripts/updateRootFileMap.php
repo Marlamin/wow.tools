@@ -7,22 +7,35 @@ if (php_sapi_name() != "cli") {
 ini_set('memory_limit','1G');
 
 require __DIR__ . "/../../inc/config.php";
-function getFileDataIDs($buildconfig)
+function getFileDataIDs($root)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://wow.tools/casc/root/fdids?buildconfig=" . $buildconfig);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $data = curl_exec($ch);
-    if (!$data) {
-        echo "cURL fail: " . print_r(curl_error($ch)) . "\n";
+    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+        echo "	Dumping manifest..";
+        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        echo "..done!\n";
+
+        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+            echo "	!!! Manifest missing, quitting..\n";
+            die();
+        }
+
+        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+            echo "	!!! Manifest dump empty, removing and quitting..\n";
+            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            die();
+        }
     }
-    curl_close($ch);
-    if ($data == "") {
-        return false;
-    } else {
-        return json_decode($data);
+
+    $fdids = [];
+
+    if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            $fdids[] = $data[2];
+        }
+        fclose($handle);
     }
+
+    return $fdids;
 }
 
 /* Erorus method: https://gist.github.com/erorus/560e53f434948b67314aa5bd0533d5ca */
@@ -51,21 +64,21 @@ function generateBuildFilesQuery(int $buildId, array $fileIds): string
 }
 
 $checkQ = $pdo->prepare("SELECT build FROM wow_rootfiles_builds_erorus WHERE build = ?");
-$builds = $pdo->query("SELECT id, hash FROM wow_buildconfig GROUP BY root ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
-foreach ($builds as $buildconfigid => $buildconfighash) {
-    $checkQ->execute([$buildconfigid]);
+$builds = $pdo->query("SELECT id, hash, root_cdn FROM wow_buildconfig GROUP BY root ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
+foreach ($builds as $build) {
+    $checkQ->execute([$build['id']]);
     if (!empty($checkQ->fetchColumn())) {
         continue;
     }
 
-    echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Getting FileDataIDs for hash " . $buildconfighash . "...\n";
-    $fdids = getFileDataIDs($buildconfighash);
-       
+    echo "[" . date("H:i:s") . "] [Build " . $build['id'] . "] Getting FileDataIDs for hash " . $build['hash'] . "...\n";
+    $fdids = getFileDataIDs($build['root_cdn']);
+    print_r($fdids);
     if(!empty($fdids)){
-        echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Loading data into table..\n";
-        $pdo->query(generateBuildFilesQuery($buildconfigid, $fdids));
+        echo "[" . date("H:i:s") . "] [Build " . $build['id'] . "] Loading data into table..\n";
+        $pdo->query(generateBuildFilesQuery($build['id'], $fdids));
     }else{
-        echo "[" . date("H:i:s") . "] [Build " . $buildconfigid . "] Failed to get list of filedataIDs from backend, skipping until next run..\n";
+        echo "[" . date("H:i:s") . "] [Build " . $build['id'] . "] Failed to get list of filedataIDs from backend, skipping until next run..\n";
     }
 
 }
