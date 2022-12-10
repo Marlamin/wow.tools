@@ -1,6 +1,7 @@
 <?php
 
 require_once("../inc/header.php");
+die("Disabled");
 if (!empty($_GET['bc'])) {
     $version = getVersionByBuildConfigHash($_GET['bc']);
     if (empty($version)) {

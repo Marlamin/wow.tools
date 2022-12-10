@@ -98,11 +98,11 @@ if (!empty($_GET['embed'])) {
                     <div class="dropdown-menu" aria-labelledby="navDropdown">
                         <a class="dropdown-item" href="/dbc/hotfixes.php">Hotfix diffs</a>
                         <a class="dropdown-item" href="/dbc/hotfix_log.php?showAll=true">Hotfix log</a>
-                        <a class="dropdown-item" href="/maps/worldmap.php">World map viewer</a>
+                        <!-- <a class="dropdown-item" href="/maps/worldmap.php">World map viewer</a> -->
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-warning" href="https://twitter.com/WoWdotTools/status/1542495923238043650"><i class="fa fa-exclamation-triangle" aria-hidden="true"> <i class='fa fa-twitter'></i></i> 10.0 support </a>
+                    <a class="nav-link text-danger" href="https://wow.tools/2022.php"><i class="fa fa-exclamation-triangle" aria-hidden="true"> <i class='fa fa-block'></i></i> Read-only mode </a>
                 </li>
             </ul>
             <form class="form-inline my-md-2 my-lg-0">

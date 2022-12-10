@@ -1,14 +1,13 @@
 <?php require_once("inc/header.php"); ?>
 <div class='container-fluid' style='text-align: center'>
-<h2 style='text-align: center'>An update on the future of WoW.tools</h2>
 <p style='text-align: center'>
-In December 2022, WoW.tools will be going (mostly) read-only. This means no new data will be added to the site and many features will lose the ability to use historical data, only being limited to the last build that was imported.<br>
-Some features will be affected before then, more information can be found in the latest update (linked below).<br>For questions/discussion/concerns about this subject you can find a link to the Discord (specifically the #site-future channel) in the October & August updates below.
+WoW.tools is now mostly read-only. This means no new data will be added (with the temporary exception of new builds) to the site and many features will lose the ability to use historical data, only being limited to the last build that was imported.<br>
+<br>For questions/discussion/concerns about this subject you can join the Discord <a href='https://discord.gg/Z5DeJH4NXS' target='_BLANK'>here</a> (specifically the #site-future channel).
 </p>
-<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November update</a></b><br><small>(older updates: <a href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October</a>, <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>
+<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1xoJxdiSb4qYZyVkqCS8QR9S2c5HUAtffbiQs3gB-3yw'>December update</a></b><br><small>(older updates: <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November</a>, <a href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October</a>, <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>
 </p>
 <p>
-Below are alternatives (or planned alternatives) for both users and devs. Am I missing something? Let me know in Discord!
+Below are alternatives (or planned alternatives) for both users and devs. Am I missing something? Let me know in <a href='https://discord.gg/Z5DeJH4NXS' target='_BLANK'>Discord</a>!
 </p>
 <h2 style='text-align: center'>Alternatives (for users)</h2>
 <div class='row'>
@@ -21,6 +20,7 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     <div class='col'>
         <h4>Modelviewer</h4>
         Deamon's standalone viewer (planned)<br>
+        <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
         <a href='https://wowmodelviewer.net/' target='_BLANK'>WoW Model Viewer</a> (M2 models)<br>
         <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (Basic M2/WMO models)<br>
         <a href='https://wowdb.com' target='_BLANK'>WoWDB</a> (Creatures/Items)<br>
@@ -28,18 +28,19 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>DBC browser</h4>
-        <b><a href='https://wago.tools/db2' target='_BLANK'>wago.tools</a></b> (WIP)<br>
+        <b><a href='https://wago.tools/db2' target='_BLANK'>wago.tools</a></b><br>
+        <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
         <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (planned)<br>
     </div>
     <div class='col'>
         <h4>DBC exporting</h4>
-        <a href='https://github.com/Marlamin/DBC2CSV' target='_BLANK'>DBC2CSV</a><br><i>(see November update for tutorial)</i>
+        <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
+        <a href='https://github.com/Marlamin/DBC2CSV' target='_BLANK'>DBC2CSV</a><i> (see <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November update</a> for tutorial)</i>
     </div>
     <div class='col'>
-        <h4>Minimaps</h4>
+        <h4>Minimap viewing</h4>
         <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (in map export tab)<br>
         <a href='https://www.wyrimaps.net/wow' target='_BLANK'>WyriMaps.net</a><br>
-        <a href='https://worldofmapcraft.com/' target='_BLANK'>World of MapCraft</a> (outdated)
     </div>
     <div class='col'>
         <h4>Monitor</h4>
@@ -80,8 +81,5 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
         <a href='https://github.com/Marlamin/WorldMapCompiler/releases' target='_BLANK'>WorldMapCompiler</a>
     </div>
 </div><br>
-<h2 style='text-align: center'>Reasoning</h2>
-<p>I could (and might still) write up a full post-mortem on this after this is all behind me, but know there's more than enough reason and thinking that have gone into this decision, most of the reasons are my fault alone while others not so much.
-<br>I am willing to put <i>some</i> time into making the transition as less annoying for people as possible, hence the above list of alternatives. If there's anything you are particularly worried about missing or want to help with/take over, let me know in Discord/on Twitter.</p>
 </div>
 <?php require_once("inc/footer.php"); ?>
