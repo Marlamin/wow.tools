@@ -2,22 +2,36 @@
 
 include("../inc/config.php");
 include("../inc/header.php");
+
 function getFileCount($root)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://wow.tools/casc/root/fdidcount?rootcdn=" . $root);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $data = curl_exec($ch);
-    if (!$data) {
-        echo "cURL fail: " . print_r(curl_error($ch)) . "\n";
+    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+        echo "	Dumping manifest..";
+        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        echo "..done!\n";
+
+        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+            echo "	!!! Manifest missing, quitting..\n";
+            die();
+        }
+
+        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+            echo "	!!! Manifest dump empty, removing and quitting..\n";
+            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            die();
+        }
     }
-    curl_close($ch);
-    if ($data == "") {
-        return false;
-    } else {
-        return $data;
+
+    $fdids = [];
+
+    if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            $fdids[] = $data[2];
+        }
+        fclose($handle);
     }
+
+    return count($fdids);
 }
 
 $arr = $pdo->query("SELECT wow_versions.buildconfig, wow_versions.cdnconfig, wow_buildconfig.description, wow_buildconfig.root_cdn, wow_rootfiles_count.count FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash LEFT OUTER JOIN wow_rootfiles_count ON wow_rootfiles_count.root_cdn=wow_buildconfig.root_cdn ORDER BY wow_buildconfig.description DESC")->fetchAll();
