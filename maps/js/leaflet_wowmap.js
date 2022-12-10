@@ -25,7 +25,7 @@
         FlightLayer: document.getElementById('js-flightlayer'),
         POILayer: document.getElementById('js-poilayer'),
         ADTGrid: document.getElementById('js-adtgrid'),
-        WorldMap: document.getElementById('js-worldmap'),
+        // WorldMap: document.getElementById('js-worldmap'),
         MNAM: document.getElementById('js-mnam')
     };
 
@@ -401,16 +401,16 @@
             }
         } );
 
-        Elements.WorldMap.addEventListener( 'click', function( )
-        {
-            if (Elements.WorldMap.checked){
-                WorldMapLayer = new L.LayerGroup();
-                drawWorldMap();
-                LeafletMap.addLayer(WorldMapLayer);
-            } else {
-                LeafletMap.removeLayer(WorldMapLayer);
-            }
-        } );
+        // Elements.WorldMap.addEventListener( 'click', function( )
+        // {
+        //     if (Elements.WorldMap.checked){
+        //         WorldMapLayer = new L.LayerGroup();
+        //         drawWorldMap();
+        //         LeafletMap.addLayer(WorldMapLayer);
+        //     } else {
+        //         LeafletMap.removeLayer(WorldMapLayer);
+        //     }
+        // } );
 
         Elements.MNAM.addEventListener( 'click', function( )
         {
@@ -615,7 +615,7 @@
         Elements.FlightLayer.disabled = false;
         Elements.POILayer.disabled = false;
         Elements.ADTGrid.disabled = false;
-        Elements.WorldMap.disabled = false;
+        // Elements.WorldMap.disabled = false;
         Elements.MNAM.disabled = false;
     }
 
@@ -905,13 +905,13 @@
         Elements.FlightLayer.checked = false;
         Elements.POILayer.checked = false;
         Elements.ADTGrid.checked = false;
-        Elements.WorldMap.checked = false;
+        // Elements.WorldMap.checked = false;
         Elements.MNAM.checked = false;
 
         Elements.FlightLayer.disabled = true;
         Elements.POILayer.disabled = true;
         Elements.ADTGrid.disabled = true;
-        Elements.WorldMap.disabled = true;
+        // Elements.WorldMap.disabled = true;
         Elements.MNAM.disabled = true;
 
         if (Versions[Current.Map][Current.Version].config.offset.min.x != 63){
@@ -922,7 +922,7 @@
 
             // uimapassignment builds only
             if (Versions[Current.Map][Current.Version].build > 26787){
-                Elements.WorldMap.disabled = false;
+                // Elements.WorldMap.disabled = false;
             }
         }
 
