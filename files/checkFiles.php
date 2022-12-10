@@ -1,7 +1,7 @@
 <?php
 
 require_once("../inc/header.php");
-
+die("Disabled in read-only mode");
 $filelimit = 20000;
 
 if (!empty($_POST['files'])) {
