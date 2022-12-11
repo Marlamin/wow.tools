@@ -182,10 +182,10 @@ foreach ($filesToProcess as $file) {
         }
     }
 
-    if ($foundNewKeys) {
-        file_get_contents("https://wow.tools/casc/reloadkeys?t=" . strtotime("now"));
-        echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reloaded TACT keys\n";
-    }
+    // if ($foundNewKeys) {
+    //     file_get_contents("https://wow.tools/casc/reloadkeys?t=" . strtotime("now"));
+    //     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reloaded TACT keys\n";
+    // }
 
     if (!in_array($md5, $processedMD5s)) {
         $insertMD5->execute([$md5]);
