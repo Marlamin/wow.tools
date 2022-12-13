@@ -63,11 +63,7 @@ if (!empty($_GET['contenthash'])) {
     $cascparams = "/fdid?buildconfig=" . $build['buildconfig']['hash'] . "&cdnconfig=" . $build['cdnconfig']['hash'] . "&filename=" . urlencode($row2['filename']) . "&filedataid=" . $_GET['filedataid'];
 }
 
-if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
-    $previewURL = "//wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
-}else{
-    $previewURL = "//wow.tools/casc/preview" . $cascparams;
-}
+$previewURL = "//wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
 
 if ($type == "ogg") {
     echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/ogg'></audio>";
@@ -75,15 +71,10 @@ if ($type == "ogg") {
     echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/mpeg'></audio>";
 } elseif ($type == "blp") {
     // TODO: Static file support - load BLP clientside
-    echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='" . $previewURL . "'></body>";
+    die("BLP previews currently NYI");
+    //echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='" . $previewURL . "'></body>";
 } else {
-    // Dump to file
-    if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
-        $tempfile = "/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
-    }else{
-        $tempfile = tempnam('/tmp/', 'PREVIEW');
-        downloadFile($cascparams, $tempfile);
-    }
+    $tempfile = "/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
 
     if ($type == "m2" || $type == "wmo") {
         // dump json
@@ -116,12 +107,6 @@ if ($type == "ogg") {
         echo "Not a supported file for previews, dumping hex output (until 1MB).";
         $output = shell_exec("/usr/bin/hd -n1048576 " . escapeshellarg($tempfile));
         echo "<pre style='max-height: 80vh'><code>" . htmlentities($output) . "</pre></code>";
-    }
-
-    if(!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin"){
-        // Just don't delete
-    }else{
-        unlink($tempfile);
     }
 }
 ?>

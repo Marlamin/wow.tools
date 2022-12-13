@@ -63,6 +63,7 @@ if (!empty($_GET['filedataid'])) {
     }
 
     $returndata = array("filedataid" => $row['id'], "filename" => $row['filename'], "lookup" => $row['lookup'], "versions" => $versions, "type" => $row['type']);
+    $staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
 
     echo "<table class='table table-striped'>";
     echo "<thead><tr><th style='width: 400px'></th><th></th></tr></thead>";
@@ -113,7 +114,7 @@ if (!empty($_GET['filedataid'])) {
     echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
     echo "<tr><td colspan='2'>
     <table class='table table-sm'>";
-    echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th></tr>";
+    echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
     foreach ($versions as $version) {
         if (!empty($returndata['filename'])) {
             $downloadFilename = basename($returndata['filename']);
@@ -125,8 +126,12 @@ if (!empty($_GET['filedataid'])) {
             }
         }
         echo "<tr><td>" . $version['description'] . "</td><td class='hash'>" . $version['buildconfig'] . "</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"" . $version['contenthash'] . "\")'>" . $version['contenthash'] . "</a></td><td>" . humanBytes($version['size']) . " (" . $version['size'] . " bytes)</td>";
-        // echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" . $version['buildconfig'] . "\", \"" . $returndata['filedataid'] . "\")'>Preview</a></td>";
-        // echo "<td><a href='https://wow.tools/casc/file/chash?contenthash=" . $version['contenthash'] . "&filedataid=" . $returndata['filedataid'] . "&buildconfig=" . $version['buildconfig'] . "&filename=" . urlencode($downloadFilename) . "'>Download</a>";
+        if(file_exists("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $returndata['filedataid'])){
+            echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" . $version['buildconfig'] . "\", \"" . $returndata['filedataid'] . "\")'>Preview</a></td>";
+            echo "<td><a href='/files/scripts/downloadStaticFile.php?build=" . $staticBuild . "&id=" . $returndata['filedataid'] ."'>Download</a></td>";
+        }else{
+             echo "<td>N/A</td><td>N/A</td>";
+        }
         echo "</tr>";
     }
     echo "</table>

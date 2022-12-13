@@ -298,7 +298,7 @@ foreach ($lfproducts as $lfproduct) {
 
         var build = searchHash.substr(searchHash.indexOf('build=')).split('&')[0].split('=')[1];
 
-        var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
+        var previewTypes = ["ogg", "mp3", "wmo", "m2"];
 
         var table = $('#files').DataTable({
             "processing": true,
@@ -387,7 +387,7 @@ foreach ($lfproducts as $lfproduct) {
             },
             {
                 "targets": 3,
-                "visible": false,
+                "visible": true,
                 "orderable": false,
                 "render": function ( data, type, full, meta ) {
                     if(full[3].length > 0){
@@ -405,64 +405,68 @@ foreach ($lfproducts as $lfproduct) {
                     }else{
                         var test = "";
                     }
-                    if(meta.settings.json.staticBuild != false){
+                    // if(meta.settings.json.staticBuild != false){
+                    if(full[3].length == 1){
                         test += "<a class='fileTableDL' href='https://wow.tools/files/scripts/downloadStaticFile.php?build=" + meta.settings.json.staticBuild + "&id=" + full[0] + "'>" + full[3][0].description + "</a>";
                     }else{
-                        if(full[3].length > 1){
-                            test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>> Show " + full[3].length + " versions</a><div class='collapse' id='versions" + full[0] + "'>";
-                            full[3].forEach(function(entry) {
-                                if(full[1]){
-                                    var filename = full[1].replace(/^.*[\\\/]/, '');
-                                }else{
-                                    if(full[7]){
-                                        var filename = full[7].replace(/^.*[\\\/]/, '');
-                                    }else{
-                                        var filename = full[0] + "." + full[4];
-                                    }
-                                }
-                                test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description;
-                                
-                                if(Settings.showFileBranch){
-                                    test += " (" + entry.branch + ")";
-                                }
-                                
-                                test += "</a>";
-
-                                if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
-                                    test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
-                                }
-
-                                test += "<br>";
-                            });
-
-                            test += "</div>";
-                        }else if(full[3].length == 1 && full[3][0].buildconfig != null){
-                            if(full[1]){
-                                var filename = full[1].replace(/^.*[\\\/]/, '');
-                            }else{
-                                if(full[7]){
-                                    var filename = full[7].replace(/^.*[\\\/]/, '');
-                                }else{
-                                    var filename = full[0] + "." + full[4];
-                                }
-                            }
-                            test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description;
-                            if(Settings.showFileBranch){
-                                test += " (" + full[3][0].branch + ")";
-                            }
-                            test += "</a>";
-
-                            if(full[3][0].contenthash == "de6135861a6cacfe176830f18f597c3e" || full[3][0].contenthash == "ea80e802952501021865cfeed808ac3f"){
-                                test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
-                            }
-
-                            if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
-                                test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
-                            }
-                        }else{
-                            test += "No versions available";
-                        }
+                        test += "<i title='WoW.tools is in read-only mode and currently only has 1 build extracted, in which this file is not available.'>File not available</i>";
                     }
+                    // }else{
+                    //     if(full[3].length > 1){
+                    //         test += "<a data-toggle='collapse' href='#versions"  + full[0] + "'>> Show " + full[3].length + " versions</a><div class='collapse' id='versions" + full[0] + "'>";
+                    //         full[3].forEach(function(entry) {
+                    //             if(full[1]){
+                    //                 var filename = full[1].replace(/^.*[\\\/]/, '');
+                    //             }else{
+                    //                 if(full[7]){
+                    //                     var filename = full[7].replace(/^.*[\\\/]/, '');
+                    //                 }else{
+                    //                     var filename = full[0] + "." + full[4];
+                    //                 }
+                    //             }
+                    //             test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + entry.contenthash + "&filedataid=" + full[0] + "&buildconfig=" + entry.buildconfig + "&cdnconfig=" + entry.cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + entry.description;
+                                
+                    //             if(Settings.showFileBranch){
+                    //                 test += " (" + entry.branch + ")";
+                    //             }
+                                
+                    //             test += "</a>";
+
+                    //             if(entry.firstseen && entry.description == "WOW-18125patch6.0.1_Beta" && entry.firstseen != "WOW-18125patch6.0.1_Beta"){
+                    //                 test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + entry.firstseen + "'><i class='fa fa-archive'></i></a></span>";
+                    //             }
+
+                    //             test += "<br>";
+                    //         });
+
+                    //         test += "</div>";
+                    //     }else if(full[3].length == 1 && full[3][0].buildconfig != null){
+                    //         if(full[1]){
+                    //             var filename = full[1].replace(/^.*[\\\/]/, '');
+                    //         }else{
+                    //             if(full[7]){
+                    //                 var filename = full[7].replace(/^.*[\\\/]/, '');
+                    //             }else{
+                    //                 var filename = full[0] + "." + full[4];
+                    //             }
+                    //         }
+                    //         test += "<a class='fileTableDL' href='https://wow.tools/casc/file/chash?contenthash=" + full[3][0].contenthash + "&filedataid=" + full[0] + "&buildconfig=" + full[3][0].buildconfig + "&cdnconfig=" + full[3][0].cdnconfig + "&filename=" + encodeURIComponent(filename) + "'>" + full[3][0].description;
+                    //         if(Settings.showFileBranch){
+                    //             test += " (" + full[3][0].branch + ")";
+                    //         }
+                    //         test += "</a>";
+
+                    //         if(full[3][0].contenthash == "de6135861a6cacfe176830f18f597c3e" || full[3][0].contenthash == "ea80e802952501021865cfeed808ac3f"){
+                    //             test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>Placeholder audio</b><br> This file has no audio yet'><span class='fa-stack'><i class='fa fa-volume-off fa-stack-1x'></i><i class='fa fa-ban fa-stack-1x text-danger'></i></span></i></a></span>";
+                    //         }
+
+                    //         if(full[3][0].firstseen && full[3][0].firstseen != "WOW-18125patch6.0.1_Beta"){
+                    //             test += "<span style='float: right'><a tabindex='0' role='button' data-trigger='hover' data-container='body' data-html='true' data-toggle='popover' data-placement='top' style='color: ;' data-content='<b>(WIP, more builds coming)</b> First seen in " + full[3][0].firstseen + "'><i class='fa fa-archive'></i></a></span>";
+                    //         }
+                    //     }else{
+                    //         test += "No versions available";
+                    //     }
+                    // }
 
                     return test;
                 }
@@ -476,18 +480,13 @@ foreach ($lfproducts as $lfproduct) {
                 "targets": 5,
                 "orderable": false,
                 "render": function ( data, type, full, meta ) {
-                    if(full[3].length && full[3].length > 0){
-                        var test = "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full[0] + ")'><i class='fa fa-info-circle'></i></a></td>";
-                    }else{
-                        var test = "N/A";
-                    }
-                    return test;
+                    return "<a style='padding-top: 0px; padding-bottom: 0px; cursor: pointer' data-toggle='modal' data-target='#moreInfoModal' onClick='fillModal(" + full[0] + ")'><i class='fa fa-info-circle'></i></a></td>";
                 }
             },
             {
                 "targets": 6,
                 "orderable": false,
-                "visible": false,
+                "visible": true,
                 "render": function ( data, type, full, meta ) {
                     if(full[4] == "db2" && (full[1] || full[7])){
                         let filename = "";

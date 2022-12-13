@@ -83,7 +83,6 @@ $joinparams = [];
 $clauseparams = [];
 $clauses = [];
 $joins = [];
-$staticBuild = false;
 
 if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $query .= "JOIN wow_rootfiles_builds_erorus ON ORD(MID(wow_rootfiles_builds_erorus.files, 1 + FLOOR(wow_rootfiles.id / 8), 1)) & (1 << (wow_rootfiles.id % 8)) ";
@@ -91,9 +90,10 @@ if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $clauseparams[] = $_SESSION['buildfilterid'];
 }
 
+$staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+
 if($mv || (!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin")){
     $selectBuildFilterQ = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
-    $staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
     $selectBuildFilterQ->execute([$staticBuild]);
     $filteredBuildID = $selectBuildFilterQ->fetchColumn();
     
@@ -453,11 +453,16 @@ while ($row = $dataq->fetch()) {
 
     $versions = array();
 
-    if($staticBuild){
+    //if($staticBuild){
         $staticBuildName->execute([$staticBuild]);
         $buildName = $staticBuildName->fetch()['description'];
-        $versions[] = ["description" => parseBuildName($buildName)['full'], "enc" => $enc];
-    }else{
+        if(file_exists("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $row['id'])){
+            $subrow = array();
+            $subrow['description'] = parseBuildName($buildName)['full'];
+            $subrow['enc'] = $enc;
+            $versions[] = $subrow;
+        }
+    /*}else{
         $subq->execute([$row['id']]);
 
         foreach ($subq->fetchAll() as $subrow) {
@@ -487,7 +492,7 @@ while ($row = $dataq->fetch()) {
             
             $versions[] = $subrow;
         }
-    }
+    }*/
     
 
     $returndata['data'][] = array($row['id'], $row['filename'], $row['lookup'], array_reverse($versions), $row['type'], $xrefs, $comments, $cfname);
