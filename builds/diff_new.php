@@ -58,7 +58,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
         var encrypted = <?=json_encode($encrypted)?>;
         var encryptedbutnot = <?=json_encode($encryptedbutnot)?>;
         var table = $('#buildtable').DataTable({
-            ajax: '//wow.tools/casc/root/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
+            ajax: '//api.wow.tools/diff/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
             columns: [{
                     data: 'action'
                 },
@@ -119,7 +119,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                                     case "m2":
                                     case "wmo":
                                     default:
-                                        content = "&nbsp;";
+                                        content = "N/A";
                                         break;
                                 }
 
@@ -152,7 +152,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                                     //     content = "<a style='cursor: pointer' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModalByContenthash(\"<?= $toBuild['hash'] ?>\", \"" + full.id + "\",\"" + full.md5 + "\")'>Preview</a>";
                                     //     break;
                                     default:
-                                        content = "&nbsp;";
+                                        content = "N/A";
                                         break;
                                 }
 
@@ -169,7 +169,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
                                         }
                                         break;
                                     default:
-                                        content = "&nbsp;";
+                                        content = "N/A";
                                         break;
                                 }
                                 break;
