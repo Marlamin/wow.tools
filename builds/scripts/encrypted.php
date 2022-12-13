@@ -183,7 +183,7 @@ if (!empty($tactkeys)) {
 
     if ($updated > 1) {
         // Refresh backend keys
-        file_get_contents("http://127.0.0.1:5005/casc/reloadkeys");
+        // file_get_contents("http://127.0.0.1:5005/casc/reloadkeys");
     }
     echo "[TACT key list] Done, added " . $updated . " new TACT keys!\n";
 }
