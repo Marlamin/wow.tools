@@ -181,6 +181,8 @@ foreach ($lfproducts as $lfproduct) {
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
+<script src="/js/bufo.js"></script>
+<script src="/js/js-blp.js"></script>
 <script type='text/javascript'>
     var Settings =
     {
@@ -409,7 +411,7 @@ foreach ($lfproducts as $lfproduct) {
                     if(full[3].length == 1){
                         test += "<a class='fileTableDL' href='https://wow.tools/files/scripts/downloadStaticFile.php?build=" + meta.settings.json.staticBuild + "&id=" + full[0] + "'>" + full[3][0].description + "</a>";
                     }else{
-                        test += "<i title='WoW.tools is in read-only mode and currently only has 1 build extracted, in which this file is not available.'>File not available</i>";
+                        test += "<i title='WoW.tools is in read-only mode and currently only has 1 build extracted, in which this file is not available.' style='font-size: 14px'>N/A in " + meta.settings.json.staticBuildName + "</i>";
                     }
                     // }else{
                     //     if(full[3].length > 1){

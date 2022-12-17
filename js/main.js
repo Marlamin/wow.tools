@@ -75,7 +75,7 @@ function renderBLPToIMGElement(url, elementID){
     });
 }
 
-function renderBLPToCanvasElement(url, elementID, canvasX, canvasY) {
+function renderBLPToCanvasElement(url, elementID, canvasX, canvasY, resize = false) {
     return fetch(url)
         .then(function(response) {
             return response.arrayBuffer();
@@ -84,6 +84,11 @@ function renderBLPToCanvasElement(url, elementID, canvasX, canvasY) {
             let data = new Bufo(arrayBuffer);
             let blp = new BLPFile(data);
             let canvas = document.getElementById(elementID);
+
+            if(resize){
+                canvas.width = blp.width;
+                canvas.height = blp.height;
+            }
             let image = blp.getPixels(0, canvas, canvasX, canvasY);
         });
 }

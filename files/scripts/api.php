@@ -342,6 +342,9 @@ if (!$mv && !$dbc) {
 
 $cdnq = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
 $subq = $pdo->prepare("SELECT wow_rootfiles_chashes.root_cdn, wow_rootfiles_chashes.contenthash, wow_buildconfig.hash as buildconfig, wow_buildconfig.description FROM wow_rootfiles_chashes LEFT JOIN wow_buildconfig on wow_buildconfig.root_cdn=wow_rootfiles_chashes.root_cdn WHERE filedataid = ? ORDER BY wow_buildconfig.description ASC");
+$staticBuildName->execute([$staticBuild]);
+$buildName = $staticBuildName->fetch()['description'];
+$returndata['staticBuildName'] = parseBuildName($buildName)['full'];
 while ($row = $dataq->fetch()) {
     $contenthashes = array();
     $cfname = "";
@@ -454,11 +457,10 @@ while ($row = $dataq->fetch()) {
     $versions = array();
 
     //if($staticBuild){
-        $staticBuildName->execute([$staticBuild]);
-        $buildName = $staticBuildName->fetch()['description'];
+
         if(file_exists("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $row['id'])){
             $subrow = array();
-            $subrow['description'] = parseBuildName($buildName)['full'];
+            $subrow['description'] = $returndata['staticBuildName'];
             $subrow['enc'] = $enc;
             $versions[] = $subrow;
         }

@@ -70,12 +70,12 @@ if ($type == "ogg") {
 } elseif ($type == "mp3") {
     echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/mpeg'></audio>";
 } elseif ($type == "blp") {
-    // TODO: Static file support - load BLP clientside
-    die("BLP previews currently NYI");
-    //echo "<body style='margin: 0px; padding:0px;'><img style='max-width: 100%;' src='" . $previewURL . "'></body>";
+        ?>
+    <canvas id='mapCanvas' width='1' height='1'></canvas>
+    <script type='text/javascript'>renderBLPToCanvasElement("<?php echo $previewURL ?>", "mapCanvas", 0, 0, true);</script>
+    <?php
 } else {
     $tempfile = "/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
-
     if ($type == "m2" || $type == "wmo") {
         // dump json
         $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
