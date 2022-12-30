@@ -920,10 +920,6 @@ const geosetType = {
     43: 'Horn decoration'
 }
 
-const chrCustomizationReqType = {
-    1: 'ClassReq'
-}
-
 const uiCustomizationType = {
     0: 'Skin',
     1: 'Face',
@@ -2743,7 +2739,22 @@ const itemModification = {
     34: 'TRANSMOGRIFY_SECONDARY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_2',
     35: 'TRANSMOGRIFY_SECONDARY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_3',
     36: 'TRANSMOGRIFY_SECONDARY_ITEM_MODIFIED_APPEARANCE_ID_SPEC_4',
-    37: 'SOULBIND_CONDUIT_RANK'
+    37: 'SOULBIND_CONDUIT_RANK',
+    38: 'CRAFTING_QUALITY_ID',
+    39: 'CRAFTING_SKILL_LINE_ABILITY_ID',
+    40: 'CRAFTING_DATA_ID',
+    41: 'CRAFTING_SKILL_REAGENTS',
+    42: 'CRAFTING_SKILL_WATERMARK',
+    43: 'CRAFTING_REAGENT_SLOT_0',
+    44: 'CRAFTING_REAGENT_SLOT_1',
+    45: 'CRAFTING_REAGENT_SLOT_2',
+    46: 'CRAFTING_REAGENT_SLOT_3',
+    47: 'CRAFTING_REAGENT_SLOT_4',
+    48: 'CRAFTING_REAGENT_SLOT_5',
+    49: 'CRAFTING_REAGENT_SLOT_6',
+    50: 'CRAFTING_REAGENT_SLOT_7',
+    51: 'CRAFTING_REAGENT_SLOT_8',
+    52: 'CRAFTING_REAGENT_SLOT_9',
 }
 
 const globalCurveType = {
@@ -5412,6 +5423,53 @@ const traitPointsOperationType = {
     1: "Multiply"
 }
 
+const journalEncounterSectionType = {
+    0: 'Generic',
+    1: 'Creature',
+    2: 'Ability',
+    3: 'Overview'
+}
+
+const chrModelTextureTarget = {
+    0: 'NONE',
+    1: 'SKIN_SLOT_0',
+    2: 'SKIN_SLOT_1',
+    3: 'SKIN_SLOT_2',
+    4: 'FACE_SLOT_0',
+    5: 'FACE_SLOT_1',
+    6: 'FACE_SLOT_2',
+    7: 'FACIAL_HAIR_SLOT_0',
+    8: 'FACIAL_HAIR_SLOT_1',
+    9: 'FACIAL_HAIR_SLOT_2',
+    10: 'HAIR_SLOT_0',
+    11: 'HAIR_SLOT_1',
+    12: 'HAIR_SLOT_2',
+    13: 'UNDERWEAR_SLOT_0',
+    14: 'UNDERWEAR_SLOT_1',
+    15: 'UNDERWEAR_SLOT_2',
+    16: 'CUSTOM_DISPLAY_OPTION_0_SLOT_0',
+	17: 'CUSTOM_DISPLAY_OPTION_0_SLOT_1',
+	18: 'CUSTOM_DISPLAY_OPTION_0_SLOT_2',
+	19: 'CUSTOM_DISPLAY_OPTION_1_SLOT_0',
+	20: 'CUSTOM_DISPLAY_OPTION_1_SLOT_1',
+	21: 'CUSTOM_DISPLAY_OPTION_1_SLOT_2',
+	22: 'CUSTOM_DISPLAY_OPTION_2_SLOT_0',
+	23: 'CUSTOM_DISPLAY_OPTION_2_SLOT_1',
+	24: 'CUSTOM_DISPLAY_OPTION_2_SLOT_2',
+	25: 'EYES',
+	26: 'MISC_JEWELRY',
+	27: 'PIERCINGS',
+	28: 'NECKLACES',
+	29: 'MAKEUP',
+	30: 'SKINTONE',
+	31: 'MISC_FEATURES',
+	32: 'SECONDARY_SKIN',
+	33: 'SECONDARY_UNDERWEAR_LOWER',
+	34: 'SECONDARY_UNDERWEAR_UPPER',
+	35: 'SECONDARY_HAIR',
+	36: 'EYE_GLOW_FACE_OVERLAY'
+}
+
 // Regular enums
 let enumMap = new Map();
 enumMap.set("animationdata.ID", animationNames);
@@ -5439,13 +5497,14 @@ enumMap.set("chrcustomizationgeoset.GeosetType", geosetType);
 enumMap.set("chrcustomizationoption.ChrModelID", tempChrModelIDEnum);
 enumMap.set("chrcustomizationoption.OptionType", chrCustomizationOptionType);
 enumMap.set("chrcustomizationreq.OverrideArchive", chrCustomizationReqOverrideArchive);
-enumMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
 enumMap.set("chrcustomizationskinnedmodel.GeosetType", geosetType);
 enumMap.set("chrmodel.BaseRaceChrModelID", tempChrModelIDEnum);
 enumMap.set("chrmodelmaterial.SkinType", chrModelMaterialSkinType);
 enumMap.set("chrmodelmaterial.TextureType", textureType);
 enumMap.set("chrmodeltexturelayer.BlendMode", chrModelTextureLayerBlendMode);
 enumMap.set("chrmodeltexturelayer.TextureType", textureType);
+enumMap.set("chrmodeltexturelayer.ChrModelTextureTargetID[0]", chrModelTextureTarget);
+enumMap.set("chrmodeltexturelayer.ChrModelTextureTargetID[1]", chrModelTextureTarget);
 enumMap.set("chrraces.PlayableRaceBit", chrRacesPlayableRaceBit);
 enumMap.set("chrracexchrmodel.ChrModelID", tempChrModelIDEnum);
 enumMap.set("criteria.Fail_event", criteriaFailEvent);
@@ -5491,6 +5550,7 @@ enumMap.set("itemsparse.SocketType[0]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[1]", socketColorEnum);
 enumMap.set("itemsparse.SocketType[2]", socketColorEnum);
 enumMap.set("itemsparse.Bonding", ItemBonding);
+enumMap.set("journalencountersection.Type", journalEncounterSectionType);
 enumMap.set("liquidtypextexture.Type", liquidTypeXTextureType);
 enumMap.set("map.ExpansionID", expansionLevels);
 enumMap.set("map.InstanceType", mapTypes);

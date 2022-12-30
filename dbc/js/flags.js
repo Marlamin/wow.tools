@@ -354,7 +354,9 @@ const lfgFlagsB = {
     0x200: 'CHROMIE_TIME_RANDOM_DUNGEON',
     0x400: 'CHROMIE_TIME_DUNGEON_POOL',
     0x800: 'DISABLE_CALENDAR_EVENT',
-    0x1000: 'INSTANT_SHUTDOWN'
+    0x1000: 'INSTANT_SHUTDOWN',
+    0x2000: 'ALLOW_CROSS_FACTION_PARTY_QUEUE',
+    0x4000: 'HIDE_IF_PLAYER_CONDITION_UNMET',
 }
 
 const questTagModifierFlags = {
@@ -1367,7 +1369,13 @@ const itemStaticFlags3 = {
     0x00010000: 'COSMETIC_ITEM',
     0x00020000: 'NO_SPELL_EFFECT_TOOLTIP_PREFIXES',
     0x00040000: 'IGNORE_COSMETIC_COLLECTION_BEHAVIOR',
-    0x00080000: 'NPC_ONLY'
+    0x00080000: 'NPC_ONLY',
+    0x00100000: 'NOT_RESTORABLE',
+    0x00200000: 'DONT_DISPLAY_AS_CRAFTING_REAGENT',
+    0x00400000: 'DISPLAY_REAGENT_QUALITY_AS_CRAFTED_QUALITY',
+    0x00800000: 'NO_SALVAGE',
+    0x01000000: 'RECRAFTABLE',
+    0x02000000: 'CC_TRINKET',
 };
 
 // 169
@@ -2209,6 +2217,7 @@ const chrRacesFlags = {
     0x400000: 'DAMM Component - No Female Generation (Tools Only)',
     0x800000: 'No Associated Faction Reputation in Race Change',
     0x1000000: 'Internal Only (in development)',
+    0x2000000: 'START_IN_ALTERNATE_FORM',
 }
 
 // 916
@@ -2306,11 +2315,14 @@ const vehiclePOITypeFlags = {
 
 // 1038
 const chrModelFlags = {
-    0x001: 'Do Not Component Feet',
-    0x002: 'Has Bald',
-    0x004: 'Use Loincloth',
-    0x008: 'Skin Variation is Hair Color',
-    0x010: 'Use Pandaren Ring for componenting texture',
+    0x01: 'Do Not Component Feet',
+    0x02: 'Has Bald',
+    0x04: 'Use Loincloth',
+    0x08: 'Skin Variation is Hair Color',
+    0x10: 'Use Pandaren Ring for componenting texture',
+    0x20: 'IS_CREATURE_COMPONENT_STYLE',
+    0x40: 'USE_ITEMS_WHILE_CREATURE_STYLE',
+    0x80: 'HIDE_BACK_OBJECTS'
 }
 
 // 1039
@@ -2446,6 +2458,60 @@ const traitTreeFlag = {
     0x1: 'CannotRefund'
 }
 
+const journalEncounterFlags = {
+    0x1: 'OBSOLETE',
+    0x2: 'LIMIT_DIFFICULTIES',
+    0x4: 'ALLIANCE_ONLY',
+    0x8: 'HORDE_ONLY',
+    0x10: 'NO_MAP',
+    0x20: 'INTERNAL_ONLY'
+}
+
+const journalEncounterItemFlags = {
+    0x1: 'OBSOLETE',
+    0x2: 'LIMIT_DIFFICULTIES',
+    0x4: 'DISPLAY_AS_PER_PLAYER_LOOT',
+    0x8: 'DISPLAY_AS_VERY_RARE',
+    0x10: 'DISPLAY_AS_EXTREMELY_RARE'
+}
+
+const journalEncounterSectionFlags = {
+    0x1: 'START_EXPANDED',
+    0x2: 'LIMIT_DIFFICULTIES',
+}
+
+const chrCustomizationVisReqFlags = {
+    0x1: 'FORCE_ON'
+}
+
+const chrCustomizationReqType = {
+    0x1: 'PLAYER',
+    0x2: 'NPC',
+    0x4: 'TRANSMOG'
+}
+
+const chrCustomizationChoiceFlags = {
+    0x1: 'REUSEME_WAS_INTERNAL_ONLY',
+    0x2: 'HIDE_SCALP_TEXTURE',
+    0x4: 'HIDE_BEARD_TEXTURE',
+    0x8: 'EXCLUDE_FROM_RANDOMIZATION',
+    0x10: 'DEFAULT_WHEN_OPTION_IS_NEW',
+    0x20: 'DISPLAY_LOCKED_IF_REQUIREMENT_FAILED',
+}
+
+const chrCustomizationOptionFlags = {
+    0x1: 'UNDRESS_CHARACTER',
+    0x2: 'IS_COLOR_CHOICE',
+    0x4: 'REQUIRES_PLAYER_IDENTITY_CUSTOMIZATION_ENABLED',
+    0x8: 'HIDE_IN_TRANSMOG',
+    0x10: 'IS_PRIMARY_SKIN',
+    0x20: 'EXCLUDE_FROM_INITIAL_RANDOMIZATION',
+    0x40: 'IGNORE_REQ_CHOICES_IN_UI',
+    0x80: 'INDICATE_BLOCKING_CHOICES_IN_UI',
+    0x100: 'IS_SOUND_CHOICE',
+    0x200: 'HAS_NO_DEFAULT',
+}
+
 window.flagMap = new Map();
 window.flagMap.set("achievement.Flags", achievementFlags);
 window.flagMap.set("animationdata.Flags[0]", animationDataFlags0);
@@ -2466,6 +2532,10 @@ window.flagMap.set("charshipment.Flags", charShipmentFlags);
 window.flagMap.set("chatchannels.Flags", chatChannelsFlags);
 window.flagMap.set("chrclasses.Flags", chrClassesFlags);
 window.flagMap.set("chrcustomizationcategory.Flags", chrCustomizationCategoryFlag);
+window.flagMap.set("chrcustomizationchoice.Flags", chrCustomizationChoiceFlags);
+window.flagMap.set("chrcustomizationoption.Flags", chrCustomizationOptionFlags);
+window.flagMap.set("chrcustomizationreq.ReqType", chrCustomizationReqType);
+window.flagMap.set("chrcustomizationvisreq.Flags", chrCustomizationVisReqFlags);
 window.flagMap.set("chrmodel.Flags", chrModelFlags);
 window.flagMap.set("chrraces.Flags", chrRacesFlags);
 window.flagMap.set("contenttuning.Flags", contentTuningFlags);
@@ -2516,6 +2586,9 @@ window.flagMap.set("itemsparse.Flags[2]", itemStaticFlags2);
 window.flagMap.set("itemsparse.Flags[3]", itemStaticFlags3);
 window.flagMap.set("itemsubclass.DisplayFlags", itemSubClassDisplayFlags);
 window.flagMap.set("itemsubclass.Flags", itemSubClassFlags);
+window.flagMap.set("journalencounter.Flags", journalEncounterFlags);
+window.flagMap.set("journalencounteritem.Flags", journalEncounterItemFlags);
+window.flagMap.set("journalencountersection.Flags", journalEncounterSectionFlags);
 window.flagMap.set("journalinstance.Flags", journalInstanceFlags);
 window.flagMap.set("lfgdungeons.Flags[0]", lfgFlags);
 window.flagMap.set("lfgdungeons.Flags[1]", lfgFlagsB);

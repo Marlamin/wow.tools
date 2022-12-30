@@ -73,7 +73,7 @@ foreach ($builds as $build) {
 
     echo "[" . date("H:i:s") . "] [Build " . $build['id'] . "] Getting FileDataIDs for hash " . $build['hash'] . "...\n";
     $fdids = getFileDataIDs($build['root_cdn']);
-    print_r($fdids);
+    //print_r($fdids);
     if(!empty($fdids)){
         echo "[" . date("H:i:s") . "] [Build " . $build['id'] . "] Loading data into table..\n";
         $pdo->query(generateBuildFilesQuery($build['id'], $fdids));
