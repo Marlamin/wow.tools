@@ -78,6 +78,7 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>World maps</h4>
+        <a href='https://wago.tools/maps/worldmap' target='_BLANK'>wago.tools</a><br>
         <a href='https://github.com/Marlamin/WorldMapCompiler/releases' target='_BLANK'>WorldMapCompiler</a>
     </div>
 </div><br>
