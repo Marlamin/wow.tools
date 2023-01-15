@@ -12,13 +12,18 @@ $disableBugsnag = true;
 // Currently set at 8.3.0.32151 as it adds currently unknown keys EA6C3B8F210A077F (coming in 10.x) and 2A430C60DDCC75FF (unknown)
 $startAtBuild = 32151; 
 
+$product = "wow";
+if(!empty($argv[1])){
+    $product = $argv[1];
+}
+
 $dbcFDIDMap = $pdo->query("SELECT REPLACE(REPLACE(`filename`, \"dbfilesclient/\", \"\"), \".db2\", \"\"), `id` FROM wow_rootfiles WHERE `filename` LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_KEY_PAIR);
 $dbcMap = $pdo->query("SELECT `id`, `name` FROM wow_dbc_tables ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 $versionMap = $pdo->query("SELECT `id`, `version` FROM wow_builds WHERE id IN (SELECT DISTINCT versionid FROM `wow_dbc_table_versions` WHERE `complete` = 0) ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 $tableVersions = $pdo->query("SELECT versionid, tableid, contenthash FROM wow_dbc_table_versions WHERE complete = 0 AND contenthash IS NOT NULL ORDER BY versionid DESC")->fetchAll(PDO::FETCH_ASSOC);
 $setTableVersionComplete = $pdo->prepare("UPDATE wow_dbc_table_versions SET complete = 1 WHERE versionid = ? AND tableid = ?");
-$selectRootByBuild = $pdo->prepare("SELECT `hash`, `root_cdn` FROM wow_buildconfig WHERE description LIKE ?");
-$getCDNCByBuildC = $pdo->prepare("SELECT cdnconfig FROM wow_versions WHERE buildconfig = ?");
+$selectRootByBuild = $pdo->prepare("SELECT `hash`, `root_cdn` FROM " . $product . "_buildconfig WHERE description LIKE ?");
+$getCDNCByBuildC = $pdo->prepare("SELECT cdnconfig FROM " . $product . "_versions WHERE buildconfig = ?");
 $prevVersion = "";
 $root = "";
 $toExtract = [];
@@ -36,7 +41,7 @@ foreach($tableVersions as $tableVersion){
                 if(count($toExtract) > 0){
                     file_put_contents("/tmp/dbcs-" . $root . ".txt", implode(PHP_EOL, $toExtract));
                     echo "[DB2 export] Exporting " . count($toExtract) . " DBCs to " . $prevVersion . "\n";
-                    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $buildconfig . " " . $cdnconfig . " /home/wow/dbcs/" . $prevVersion . "/ " . "/tmp/dbcs-" . $root . ".txt");
+                    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $buildconfig . " " . $cdnconfig . " /home/wow/dbcs/" . $prevVersion . "/ " . "/tmp/dbcs-" . $root . ".txt " . $product);
                     print_r($output);
                     unlink("/tmp/dbcs-" . $root . ".txt");
                     $toExtract = [];

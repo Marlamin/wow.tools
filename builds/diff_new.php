@@ -5,8 +5,13 @@ if (empty($_GET['from']) || empty($_GET['to'])) {
     die("From and to buildconfig hashes required");
 }
 
-$fromBuild = getBuildConfigByBuildConfigHash($_GET['from']);
-$toBuild = getBuildConfigByBuildConfigHash($_GET['to']);
+$cdn = "wow";
+if(!empty($_GET['tpr']) && $_GET['tpr'] == "wowdev"){
+    $cdn = "wowdev";
+}
+
+$fromBuild = getBuildConfigByBuildConfigHash($_GET['from'], $cdn);
+$toBuild = getBuildConfigByBuildConfigHash($_GET['to'], $cdn);
 
 if (empty($fromBuild) || empty($toBuild)) {
     die("Invalid builds!");
@@ -58,7 +63,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
         var encrypted = <?=json_encode($encrypted)?>;
         var encryptedbutnot = <?=json_encode($encryptedbutnot)?>;
         var table = $('#buildtable').DataTable({
-            ajax: '//api.wow.tools/diff/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>',
+            ajax: '//api.wow.tools/diff/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>&start=0&cdnDir=<?=$cdn?>',
             columns: [{
                     data: 'action'
                 },

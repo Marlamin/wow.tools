@@ -45,6 +45,7 @@ if (empty($argv[1]) || !in_array(trim($argv[1]), $validargs)) {
 function updateVersions($product)
 {
     global $pdo;
+    global $allowedproducts;
 
     $uq = $pdo->prepare("UPDATE " . $product . "_versions SET cdnconfig = ? WHERE buildconfig = ?");
     $res = $pdo->query("SELECT * FROM " . $product . "_versions");
@@ -137,15 +138,17 @@ function updateVersions($product)
             // $cdncrec->query([$row['cdnconfig']]);
         }
 
-        $getreleasetimeq = $pdo->prepare("SELECT `timestamp` FROM ngdp_history WHERE newvalue LIKE :buildconfig ORDER BY timestamp ASC LIMIT 1");
-        $setreleasetimeq = $pdo->prepare("UPDATE wow_versions SET releasetime = ? WHERE buildconfig = ?");
+        if(substr($product, 0, 3) == "wow"){
+            $getreleasetimeq = $pdo->prepare("SELECT `timestamp` FROM ngdp_history WHERE newvalue LIKE :buildconfig ORDER BY timestamp ASC LIMIT 1");
+            $setreleasetimeq = $pdo->prepare("UPDATE " . $product . "_versions SET releasetime = ? WHERE buildconfig = ?");
 
-        if($row['id'] > 2512 && empty($row['releasetime'])){
-            echo "Release time for " . $row['buildconfig'] . " not set, grabbing first occurence in NGDP history..\n";
-            $getreleasetimeq->execute(["%".$row['buildconfig']."%"]);
-            $releasetimeres = $getreleasetimeq->fetch();
-            if(!empty($releasetimeres)){
-                $setreleasetimeq->execute([$releasetimeres['timestamp'], $row['buildconfig']]);
+            if(($product != "wow" || $row['id'] > 2512) && empty($row['releasetime'])){
+                echo "Release time for " . $row['buildconfig'] . " not set, grabbing first occurence in NGDP history..\n";
+                $getreleasetimeq->execute(["%".$row['buildconfig']."%"]);
+                $releasetimeres = $getreleasetimeq->fetch();
+                if(!empty($releasetimeres)){
+                    $setreleasetimeq->execute([$releasetimeres['timestamp'], $row['buildconfig']]);
+                }
             }
         }
     }
@@ -163,6 +166,12 @@ function updateBuildConfig($product)
     $bcs = array();
 
     foreach ($it as $file) {
+        if($product == "wowdev"){
+            if(!file_exists("/tmp/wowdevcache/" . basename($file))){
+                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+            }
+            $file = "/tmp/wowdevcache/" . basename($file);
+        }
         $type = trim(fgets(fopen($file, 'r')));
         switch ($type) {
             case "# Build Configuration":
@@ -376,6 +385,8 @@ function updateBuildConfigLong($product)
         $encodingres->execute();
         $encodingrow = $encodingres->fetch();
 
+        if($row['buildconfig'] == "4c8a087dd7415e8eaa25ee870cb970b3")
+            continue;
         if (empty($encodingrow['encoding_cdn'])) {
             echo "[" . $product . "] Skipping build " . $row['buildconfig'] . ", encoding file not set!\n";
             continue;
@@ -463,15 +474,23 @@ function updatePatchConfig($product)
 {
     global $pdo;
     global $allowedproducts;
-    if ($product != "wow") {
+
+    if ($product != "wow" && $product != "wowdev") {
         return;
     }
+
     $di = new RecursiveDirectoryIterator(__DIR__ . "/../../tpr/" . $allowedproducts[$product]['cdndir'] . "/config", RecursiveDirectoryIterator::SKIP_DOTS);
     $it = new RecursiveIteratorIterator($di);
-
+    
     $pcs = array();
 
     foreach ($it as $file) {
+        if($product == "wowdev"){
+            if(!file_exists("/tmp/wowdevcache/" . basename($file))){
+                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+            }
+            $file = "/tmp/wowdevcache/" . basename($file);
+        }
         $type = trim(fgets(fopen($file, 'r')));
         switch ($type) {
             case "# Patch Configuration":
@@ -510,6 +529,12 @@ function updateCDNConfig($product)
     $cdncs = array();
 
     foreach ($it as $file) {
+        if($product == "wowdev"){
+            if(!file_exists("/tmp/wowdevcache/" . basename($file))){
+                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+            }
+            $file = "/tmp/wowdevcache/" . basename($file);
+        }
         $type = trim(fgets(fopen($file, 'r')));
         switch ($type) {
             case "# CDN Configuration":

@@ -223,7 +223,10 @@ function prettyBranch($branch, $realPretty = true)
             $color = "info";
             $branch = "Classic Era PTR";
             break;
-
+        case "wowdev":
+            $color = "danger";
+            $branch = "Dev";
+            break;
         default:
             $color = "danger";
             $branch = "unknown (" . $branch . ")";
@@ -270,14 +273,17 @@ function parseBPSV($bpsv)
 
 function parseConfig($file)
 {
-    $handle = fopen($file, "r");
-    $config = array();
-    $t = explode("/", $file);
-    $config['original-filename'] = basename($file);
-
-    if (!empty($t[9]) && strlen($t[9]) == 2) {
-        die("Faulty config!");
+    if(!str_contains($file, "wowdev")){
+        $t = explode("/", $file);
+        if (!empty($t[9]) && strlen($t[9]) == 2) {
+            die("Faulty config!");
+        }
     }
+
+    $handle = fopen($file, "r");
+
+    $config = array();
+    $config['original-filename'] = basename($file);
 
     if ($handle) {
         while (($line = fgets($handle)) !== false) {

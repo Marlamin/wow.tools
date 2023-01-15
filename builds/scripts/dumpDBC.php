@@ -4,11 +4,17 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
-function getFileDataIDs($root)
+if(empty($argv[1])){
+    $product = "wow";
+}else{
+    $product = $argv[1];
+}
+
+function getFileDataIDs($root, $product = "wow")
 {
     if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
 
         if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
@@ -53,25 +59,30 @@ $disableBugsnag = true;
 // TODO: Filter this by type when needing to support non-named db2s
 $dbcs = $pdo->query("SELECT id, filename FROM wow_rootfiles WHERE filename LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_ASSOC);
 
-if (empty($argv[1])) {
-    $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_buildconfig.description DESC LIMIT 5";
+if (empty($argv[2])) {
+    $query = "SELECT " . $product . "_versions.cdnconfig, " . $product . "_versions.buildconfig, " . $product . "_buildconfig.description, " . $product . "_buildconfig.root_cdn FROM " . $product . "_versions LEFT OUTER JOIN " . $product . "_buildconfig ON " . $product . "_versions.buildconfig=" . $product . "_buildconfig.hash ORDER BY " . $product . "_buildconfig.description DESC LIMIT 5";
 } else {
-    if($argv[1] == "fullrun" || $argv[1] == "true"){
-        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash ORDER BY wow_versions.ID DESC";
+    if($argv[2] == "fullrun" || $argv[2] == "true"){
+        $query = "SELECT " . $product . "_versions.cdnconfig, " . $product . "_versions.buildconfig, " . $product . "_buildconfig.description, " . $product . "_buildconfig.root_cdn FROM " . $product . "_versions LEFT OUTER JOIN " . $product . "_buildconfig ON " . $product . "_versions.buildconfig=" . $product . "_buildconfig.hash ORDER BY " . $product . "_versions.ID DESC";
     }else{
-        $query = "SELECT wow_versions.cdnconfig, wow_versions.buildconfig, wow_buildconfig.description, wow_buildconfig.root_cdn FROM wow_versions LEFT OUTER JOIN wow_buildconfig ON wow_versions.buildconfig=wow_buildconfig.hash WHERE wow_buildconfig.description LIKE '" . $argv[1] . "%' ORDER BY wow_versions.ID DESC";
+        $query = "SELECT " . $product . "_versions.cdnconfig, " . $product . "_versions.buildconfig, " . $product . "_buildconfig.description, " . $product . "_buildconfig.root_cdn FROM " . $product . "_versions LEFT OUTER JOIN " . $product . "_buildconfig ON " . $product . "_versions.buildconfig=" . $product . "_buildconfig.hash WHERE " . $product . "_buildconfig.description LIKE '" . $argv[2] . "%' ORDER BY " . $product . "_versions.ID DESC";
     }
 }
 
 // Walk through versions
 foreach ($pdo->query($query) as $row) {
-    if (!empty($argv[1]) && ($argv[1] == "fullrun" || $argv[1] == "true")) {
+    if (!empty($argv[2]) && ($argv[2] == "fullrun" || $argv[2] == "true")) {
         $rawdesc = str_replace("WOW-", "", $row['description']);
         $build = substr($rawdesc, 0, 5);
     }
 
+    if(empty($row['root_cdn'])){
+        echo "[DB2 export] Root not known for build " . $row['description'] . ", skipping..\n";
+        continue;
+    }
+
     if(empty($row['cdnconfig'])){
-        echo "[DB2 export] CDN config not known for build " . $row['description'] . ", skipping..";
+        echo "[DB2 export] CDN config not known for build " . $row['description'] . ", skipping..\n";
         continue;
     }
     
@@ -83,16 +94,16 @@ foreach ($pdo->query($query) as $row) {
     // Open file handle to extraction list
     $fhandle = fopen($extractList, "w");
 
-    if(!empty($argv[2])){
+    if(!empty($argv[3])){
         // Use input from cmdline 
         $missingFiles = [];
-        fwrite($fhandle, $argv[2] . "\n");
+        fwrite($fhandle, $argv[3] . "\n");
         fclose($fhandle);
         $buildNeedsExtract = true;
     }else{
         // Retrieve list of available filedatads in this build
-        echo "[DB2 export] Requesting filedataids for build " . $row['description'] . "\n";
-        $fdids = getFileDataIDs($row['root_cdn']);
+        echo "[DB2 export] Requesting filedataids for build " . $row['description'] . " (".$row['root_cdn'].")\n";
+        $fdids = getFileDataIDs($row['root_cdn'], $product);
         if (empty($fdids)) {
             echo "[DB2 export] !!! Error retrieving filedataids for build " . $row['description'] . "\n";
             fclose($fhandle);
@@ -123,7 +134,7 @@ foreach ($pdo->query($query) as $row) {
         }
 
         echo "[DB2 export] Exporting DBCs to " . $outdir . "\n";
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $row['buildconfig'] . " " . $row['cdnconfig'] . " /home/wow/dbcs/" . $outdir . "/ " . escapeshellarg($extractList));
+        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $row['buildconfig'] . " " . $row['cdnconfig'] . " /home/wow/dbcs/" . $outdir . "/ " . escapeshellarg($extractList) . " " . $product);
     }
 
     // Clean up extract list

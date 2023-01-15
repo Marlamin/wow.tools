@@ -54,9 +54,15 @@ if (!empty($argv[2]) && $argv[2] == "true") {
     $regenerate = false;
 }
 
+if (!empty($argv[3])) {
+    $product = $argv[3];
+} else {
+    $product = "wow";
+}
+
 if (strlen($argv[1]) == 32) {
     // CASC
-    $build = getVersionByBuildConfigHash($argv[1]);
+    $build = getVersionByBuildConfigHash($argv[1], $product);
     if (empty($build)) {
         die("Could not find build!");
     }

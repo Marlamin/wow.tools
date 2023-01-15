@@ -47,6 +47,7 @@ $( document ).ready(function() {
 
     function onBuildClick() {
         const hashElement = $(this).find('.buildconfighash');
+        
 
         if (!build1) {
             build1 = hashElement.text();
@@ -55,9 +56,16 @@ $( document ).ready(function() {
         } else if (!build2) {
             build2 = hashElement.text();
             hashElement.after(' <span class="badge bg-danger diffbadge">New build</span>');
-            $('#openDiffButton')
-                .text('Click to diff (might take up to a minute to generate)')
-                .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
+            
+            if (!("tpr" in hashElement[0].dataset)) {
+                $('#openDiffButton')
+                    .text('Click to diff (might take up to a minute to generate)')
+                    .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
+            } else {
+                $('#openDiffButton')
+                    .text('Click to diff (might take up to a minute to generate)')
+                    .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2 + '&tpr=' + hashElement[0].dataset.tpr);
+            }
             $('#openInstallDiffButton').show();
         }
     }
@@ -121,12 +129,25 @@ $( document ).ready(function() {
     }
 });
 
-function fillVersionModal(id){
-    $("#moreInfoModalContent").load("/builds/index.php?api=buildinfo&versionid=" + id);
+function fillVersionModal(id, product = "wow"){
+    let url;
+    if (product == "wow") {
+        url = "index.php";
+    } else {
+        url = "index_wowdev.php";
+    }
+    $("#moreInfoModalContent").load("/builds/" + url + "?api=buildinfo&versionid=" + id + "&product=" + product);
 }
 
-function fillConfigModal(config){
-    $("#configModalContent").load("/builds/index.php?api=configdump&config=" + config);
+function fillConfigModal(config, product = "wow"){
+    let url;
+    if(product == "wow"){
+        url = "index.php";
+    }else{
+        url = "index_wowdev.php";
+    }
+
+    $("#configModalContent").load("/builds/" + url + "?api=configdump&config=" + config + "&product=" + product);
 }
 
 $(function () {

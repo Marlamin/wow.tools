@@ -6,12 +6,18 @@ if (php_sapi_name() != "cli") {
 
 include(__DIR__ . "/../../inc/config.php");
 
+if(empty($argv[1])){
+    $product = "wow";
+}else{
+    $product = $argv[1];
+}
+
 $dbcFDIDMap = $pdo->query("SELECT REPLACE(REPLACE(`filename`, \"dbfilesclient/\", \"\"), \".db2\", \"\"), `id` FROM wow_rootfiles WHERE `filename` LIKE 'DBFilesClient/%.db2'")->fetchAll(PDO::FETCH_KEY_PAIR);
 $dbcMap = $pdo->query("SELECT `id`, `name` FROM wow_dbc_tables ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 $versionMap = $pdo->query("SELECT `id`, `version` FROM wow_builds ORDER BY id ASC")->fetchAll(PDO::FETCH_KEY_PAIR);
 $unknownTableVersions = $pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions WHERE contenthash IS NULL ORDER BY versionid DESC")->fetchAll(PDO::FETCH_ASSOC);
 $setTableVersionMD5 = $pdo->prepare("UPDATE wow_dbc_table_versions SET contenthash = ? WHERE versionid = ? AND tableid = ?");
-$selectRootByBuild = $pdo->prepare("SELECT `hash`, `root_cdn` FROM wow_buildconfig WHERE description LIKE ?");
+$selectRootByBuild = $pdo->prepare("SELECT `hash`, `root_cdn` FROM " . $product . "_buildconfig WHERE description LIKE ?");
 
 $prevVersion = "";
 $manifest = [];
@@ -46,7 +52,7 @@ foreach($unknownTableVersions as $tableVersion){
 
             if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt") || filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
                 echo "Dumping manifest..";
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
                 echo "..done!\n";
             }
         

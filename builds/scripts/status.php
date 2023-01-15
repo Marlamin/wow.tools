@@ -36,6 +36,12 @@ foreach ($products as $code => $product) {
     $pcs = array();
 
     foreach ($it as $file) {
+        if($product == "wowdev"){
+            if(!file_exists("/tmp/wowdevcache/" . basename($file))){
+                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+            }
+            $file = "/tmp/wowdevcache/" . basename($file);
+        }
         $type = trim(fgets(fopen($file, 'r')));
         switch ($type) {
             case "# Build Configuration":
@@ -47,8 +53,8 @@ foreach ($products as $code => $product) {
             case "# Patch Configuration":
                 $pcs[] = parseConfig($file);
                 break;
-            default:
-                echo file_get_contents($file);
+            //default:
+                //echo file_get_contents($file);
         }
     }
 
@@ -57,10 +63,12 @@ foreach ($products as $code => $product) {
             echo "Missing build config " . $bc['original-filename'] . "\n";
             insertMissingFile("config", $bc['original-filename'], "buildconfig", $product['cdndir']);
         } else {
-            $urlt = explode("/", $bc['original-filename']);
-            $md5 = md5_file(__DIR__ . "/../../tpr/" . $product['cdndir'] . "/config/" . $bc['original-filename'][0] . $bc['original-filename'][1] . "/" . $bc['original-filename'][2] . $bc['original-filename'][3] . "/" . $bc['original-filename']);
-            if ($md5 != $bc['original-filename']) {
-                echo "MD5 mismatch on file " . $bc['original-filename'] . " (actual md5: " . $md5 . ")\n";
+            if($code != "wowdev"){
+                $urlt = explode("/", $bc['original-filename']);
+                $md5 = md5_file(__DIR__ . "/../../tpr/" . $product['cdndir'] . "/config/" . $bc['original-filename'][0] . $bc['original-filename'][1] . "/" . $bc['original-filename'][2] . $bc['original-filename'][3] . "/" . $bc['original-filename']);
+                if ($md5 != $bc['original-filename']) {
+                    echo "MD5 mismatch on file " . $bc['original-filename'] . " (actual md5: " . $md5 . ")\n";
+                }
             }
         }
 
@@ -348,7 +356,7 @@ foreach ($products as $code => $product) {
             }
         }
 
-        if ($code == "wow" && !empty($row['patchconfig'])) {
+        if (substr($code, 0, 3) == "wow" && !empty($row['patchconfig'])) {
             $patchconfigcomplete = 0;
             $existingConfig = getPatchConfigbyPatchConfigHash($row['patchconfig'], $code);
             if ($existingConfig['complete'] == 1) {
