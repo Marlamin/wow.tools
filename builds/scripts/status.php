@@ -394,6 +394,12 @@ foreach ($products as $code => $product) {
 
         $uvq = $pdo->prepare("UPDATE " . $code . "_versions SET complete = :complete WHERE id = :id");
         $uvq->bindParam(":id", $row['id']);
+        if (substr($code, 0, 3) == "wow" && !empty($row['patchconfig'])) {
+            $isComplete = $buildconfigcomplete == 1 && $cdnconfigcomplete == 1 && $patchconfigcomplete == 1;
+        }else{
+            $isComplete = $buildconfigcomplete == 1 && $cdnconfigcomplete == 1;
+        }
+        
         if ($buildconfigcomplete == 1 && $cdnconfigcomplete == 1) {
             $uvq->bindValue(":complete", 1);
         } else {
