@@ -1,7 +1,7 @@
 <?php require_once("inc/header.php"); ?>
 <div class='container-fluid' style='text-align: center'>
 <p style='text-align: center'>
-WoW.tools is now mostly read-only. This means no new data will be added (with the temporary exception of new builds and hotfixes).<br>
+WoW.tools is now mostly read-only. This means no new data will be added/processed.<br>
 <br>For questions/discussion/concerns about this subject you can join the Discord <a href='https://discord.gg/Z5DeJH4NXS' target='_BLANK'>here</a> (specifically the #site-future channel).
 </p>
 <p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1xoJxdiSb4qYZyVkqCS8QR9S2c5HUAtffbiQs3gB-3yw'>December update</a></b><br><small>(older updates: <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November</a>, <a href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October</a>, <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>

@@ -359,7 +359,9 @@ foreach ($products as $code => $product) {
         if (substr($code, 0, 3) == "wow" && !empty($row['patchconfig'])) {
             $patchconfigcomplete = 0;
             $existingConfig = getPatchConfigbyPatchConfigHash($row['patchconfig'], $code);
-            if ($existingConfig['complete'] == 1) {
+            if($existingConfig == false){
+                $patchconfigcomplete = 0;
+            }else if ($existingConfig['complete'] == 1) {
                 echo "Patch config " . $row['patchconfig'] . " already marked as complete, skipping!\n";
                 $patchconfigcomplete = 1;
             } else {
