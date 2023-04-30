@@ -1,21 +1,23 @@
 <?php require_once("inc/header.php"); ?>
 <div class='container-fluid' style='text-align: center'>
 <p style='text-align: center'>
-WoW.tools is now mostly read-only. This means no new data will be added/processed.<br>
-<br>For questions/discussion/concerns about this subject you can join the Discord <a href='https://discord.gg/Z5DeJH4NXS' target='_BLANK'>here</a> (specifically the #site-future channel).
+WoW.tools is now mostly read-only. This means no new builds or other data will be added/processed.<br>
 </p>
-<p><b>New: <a class='text-danger' href='https://docs.google.com/document/d/1xoJxdiSb4qYZyVkqCS8QR9S2c5HUAtffbiQs3gB-3yw'>December update</a></b><br><small>(older updates: <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November</a>, <a href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October</a>, <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>
+<p><b>Latest: <a class='text-danger' href='https://docs.google.com/document/d/1xoJxdiSb4qYZyVkqCS8QR9S2c5HUAtffbiQs3gB-3yw'>December 2022 update</a></b><br><small>(older updates: <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November</a>, <a href='https://docs.google.com/document/d/1XBQyRsgtnMLsxmJDFQFwJNxAJ0QmGm50qPK8uTIT3Ig'>October</a>, <a href='https://docs.google.com/document/d/1My-iHd9JLqT_9DH97QGuJZseZ-vCohmDQHz_ZSKs_vc/edit'>August</a>, <a href='https://docs.google.com/document/d/1Ex_A_RmDMxfk4YuX7eQ5U0GB5sJBkLlvvWiSCdc5wR0/edit?usp=sharing'>May</a>, <a href='https://docs.google.com/document/d/1jGDkBVbgXNz8BrmWNXQDpAeW9zLkIAj387wn-Bw1s6c/edit' target='_BLANK'>April</a>, <a href='https://docs.google.com/document/d/16NgzFhaIfxpgFvDzfzdjwf9UBGVn7Ky6FmNjCiCr_yU/edit' target='_BLANK'>March</a>)</small>
 </p>
 <p>
-Below are alternatives (or planned alternatives) for both users and devs. Am I missing something? Let me know in <a href='https://discord.gg/Z5DeJH4NXS' target='_BLANK'>Discord</a>!
+Below are alternatives (or planned alternatives) for both users and devs.
 </p>
+<hr>
 <h2 style='text-align: center'>Alternatives (for users)</h2>
 <div class='row'>
     <div class='col'>
         <h4>Files</h4>
-        <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (<abbr title='Click the top right menu and select "Browse Raw Client files"'>all files</abbr>)<br>
-        <a href='https://github.com/WoW-Tools/CASCExplorer/releases' target='_BLANK'>CASCExplorer</a> (all files)<br>
-        <a href='http://www.zezula.net/en/casc/main.html' target='_BLANK'>CascView</a> (all files)<br>
+        <a href='https://wago.tools/files' target='_BLANK'>wago.tools</a><br>
+        <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
+        <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (<abbr title='Click the top right menu and select "Browse Raw Client files"'>Hover for help</abbr>)<br>
+        <a href='https://github.com/WoW-Tools/CASCExplorer/releases' target='_BLANK'>CASCExplorer</a><br>
+        <a href='http://www.zezula.net/en/casc/main.html' target='_BLANK'>CascView</a><br>
     </div>
     <div class='col'>
         <h4>Modelviewer</h4>
@@ -34,6 +36,7 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>DBC exporting</h4>
+        <a href='https://wago.tools/files' target='_BLANK'>wago.tools</a><br>
         <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
         <a href='https://github.com/Marlamin/DBC2CSV' target='_BLANK'>DBC2CSV</a><i> (see <a href='https://docs.google.com/document/d/1jMTwBemRyScqXKJ4NK51krMQ2wLQpqH-cP1B8RwwUFc'>November update</a> for tutorial)</i>
     </div>
@@ -44,18 +47,20 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>Monitor</h4>
-        <a href='https://blizztrack.com/' target='_BLANK'>BlizzTrack</a>
+        <a href='https://blizztrack.com/' target='_BLANK'>BlizzTrack</a><br>
+        <a href='https://twitter.com/algalon_ghost'>@algalon_ghost on Twitter</a>
     </div>
 </div>
+<hr>
 <h2>Alternatives (for devs)</h2>
 <div class='row'>
     <div class='col'>
         <h4>Listfile</h4>
-        <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>GitHub (mirror only for now)</a>
+        <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>GitHub</a>
     </div>
     <div class='col'>
         <h4>Database definitions</h4>
-        Will remain <a href='https://github.com/wowdev/WoWDBDefs/commits/master' target='_BLANK'>on GitHub</a>, <a href='https://github.com/wowdev/WoWDBDefs/blob/master/UPDATING.md' target='_BLANK'>auto-updating</a> needs to move
+        <a href='https://github.com/wowdev/WoWDBDefs/commits/master' target='_BLANK'>GitHub</a>
     </div>
     <div class='col'>
         <h4>DBC reading</h4>
@@ -65,6 +70,7 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
     </div>
     <div class='col'>
         <h4>DBC export API</h4>
+        <a href='https://wago.tools/db2/' target='_BLANK'>wago.tools</a> (append /csv to URLs)<br>
         <a href='https://github.com/Marlamin/DBC2CSV' target='_BLANK'>DBC2CSV</a>
     </div>
     <div class='col'>
@@ -77,10 +83,14 @@ Below are alternatives (or planned alternatives) for both users and devs. Am I m
         <a href='https://github.com/MMOSimca/SaneWDBReader'>SaneWDBReader</a><br>
     </div>
     <div class='col'>
-        <h4>World maps</h4>
-        <a href='https://wago.tools/maps/worldmap' target='_BLANK'>wago.tools</a><br>
-        <a href='https://github.com/Marlamin/WorldMapCompiler/releases' target='_BLANK'>WorldMapCompiler</a>
+        <h4>Maps</h4>
+        <a href='https://wago.tools/maps/worldmap' target='_BLANK'>wago.tools</a> (world maps only)<br>
+        <a href='https://github.com/Marlamin/WoWTools.Minimaps' target='_BLANK'>WoW.tools minimap tools</a> (minimaps only)<br>
+        <a href='https://github.com/Marlamin/WorldMapCompiler/releases' target='_BLANK'>WorldMapCompiler</a> (world maps only)
     </div>
-</div><br>
+</div>
+<hr>
+<p style='text-align: center'>
+If any alternatives are missing, e-mail me at marlamin@marlamin.com. Thanks for using and supporting WoW.tools all these years, it's been a blast. ♥</p>
 </div>
 <?php require_once("inc/footer.php"); ?>
