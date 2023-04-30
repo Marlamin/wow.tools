@@ -1,3 +1,7 @@
+<?php
+header("Location: 2022.php");
+die();
+?>
 <?php require_once("inc/header.php"); ?>
 <div class='container-fluid'>
     <div class='row'>
