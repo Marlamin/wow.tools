@@ -409,7 +409,7 @@ foreach ($lfproducts as $lfproduct) {
                     }
                     // if(meta.settings.json.staticBuild != false){
                     if(full[3].length == 1){
-                        test += "<a class='fileTableDL' href='https://wow.tools/files/scripts/downloadStaticFile.php?build=" + meta.settings.json.staticBuild + "&id=" + full[0] + "'>" + full[3][0].description + "</a>";
+                        test += "<a class='fileTableDL' href='/files/scripts/downloadStaticFile.php?build=" + meta.settings.json.staticBuild + "&id=" + full[0] + "'>" + full[3][0].description + "</a>";
                     }else{
                         test += "<i title='WoW.tools is in read-only mode and currently only has 1 build extracted, in which this file is not available.' style='font-size: 14px'>N/A in " + meta.settings.json.staticBuildName + "</i>";
                     }
