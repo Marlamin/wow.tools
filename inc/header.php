@@ -89,7 +89,7 @@ if (!empty($_GET['embed'])) {
                     <a class="nav-link" href="/builds/"><i class="fa fa-hdd-o" aria-hidden="true"></i> Builds</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://www.kruithne.net/wow.export/"><img src='https://wow.tools/img/newlogosm.png' alt='Logo' style='width: 16px;'> Export</a>
+                    <a class="nav-link" href="https://www.kruithne.net/wow.export/"><img src='/img/newlogosm.png' alt='Logo' style='width: 16px;'> Export</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -102,7 +102,7 @@ if (!empty($_GET['embed'])) {
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-danger" href="https://wow.tools/2022.php"><i class="fa fa-exclamation-triangle" aria-hidden="true"> <i class='fa fa-block'></i></i> Read-only mode </a>
+                    <a class="nav-link text-danger" href="/2022.php"><i class="fa fa-exclamation-triangle" aria-hidden="true"> <i class='fa fa-block'></i></i> Read-only mode </a>
                 </li>
             </ul>
             <form class="form-inline my-md-2 my-lg-0">

@@ -872,7 +872,7 @@
             LeafletMap.removeLayer(TileLayer);
         }
 
-        TileLayer = new L.tileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {
+        TileLayer = new L.tileLayer("/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {
             attribution: '<a href="/maps/list.php" title="Raw PNGs used to generate tiles for this viewer">Raw images</a> | World of Warcraft &copy; Blizzard Entertainment',
             continuousWorld: true,
             bounds: mapbounds,
@@ -888,7 +888,7 @@
             var zoom = LeafletMap.getZoom();
         }
 
-        MinimapLayer = new L.TileLayer("https://wow.tools/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {minZoom: 2, maxZoom: 2, continuousWorld: true, bounds: mapbounds});
+        MinimapLayer = new L.TileLayer("/maps/tiles/test/" + Current.Map + "/" + Versions[ Current.Map ][ Current.Version ].md5 + "/z{z}x{x}y{y}.png", {minZoom: 2, maxZoom: 2, continuousWorld: true, bounds: mapbounds});
         if (Minimap){
             Minimap.changeLayer(MinimapLayer);
         } else {

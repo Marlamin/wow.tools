@@ -63,7 +63,7 @@ if (!empty($_GET['contenthash'])) {
     $cascparams = "/fdid?buildconfig=" . $build['buildconfig']['hash'] . "&cdnconfig=" . $build['cdnconfig']['hash'] . "&filename=" . urlencode($row2['filename']) . "&filedataid=" . $_GET['filedataid'];
 }
 
-$previewURL = "//wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
+$previewURL = "/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
 
 if ($type == "ogg") {
     echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/ogg'></audio>";
@@ -91,8 +91,8 @@ if ($type == "ogg") {
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane show active" id="model" role="tabpanel" aria-labelledby="model-tab">
-                <iframe style='border:0px;width:100%;min-height: 75vh' src='https://wow.tools/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
-                <center><a href='https://wow.tools/mv/?buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>' target='_BLANK'>Open in modelviewer</a></center>
+                <iframe style='border:0px;width:100%;min-height: 75vh' src='/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
+                <center><a href='/mv/?buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>' target='_BLANK'>Open in modelviewer</a></center>
             </div>
             <div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 80vh'><code><?=htmlentities($output)?></pre></code></div>
         </div>

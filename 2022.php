@@ -32,7 +32,6 @@ Below are alternatives (or planned alternatives) for both users and devs.
         <h4>DBC browser</h4>
         <b><a href='https://wago.tools/db2' target='_BLANK'>wago.tools</a></b><br>
         <a href='https://github.com/Marlamin/wow.tools.local/blob/main/README.md' target='_BLANK'>Local WoW.tools</a><br>
-        <a href='https://www.kruithne.net/wow.export/' target='_BLANK'>wow.export</a> (planned)<br>
     </div>
     <div class='col'>
         <h4>DBC exporting</h4>
@@ -56,11 +55,11 @@ Below are alternatives (or planned alternatives) for both users and devs.
 <div class='row'>
     <div class='col'>
         <h4>Listfile</h4>
-        <a href='https://github.com/wowdev/wow-listfile/commits/master' target='_BLANK'>GitHub</a>
+        <a href='https://github.com/wowdev/wow-listfile/' target='_BLANK'>GitHub</a>
     </div>
     <div class='col'>
         <h4>Database definitions</h4>
-        <a href='https://github.com/wowdev/WoWDBDefs/commits/master' target='_BLANK'>GitHub</a>
+        <a href='https://github.com/wowdev/WoWDBDefs/' target='_BLANK'>GitHub</a>
     </div>
     <div class='col'>
         <h4>DBC reading</h4>
@@ -80,6 +79,7 @@ Below are alternatives (or planned alternatives) for both users and devs.
     </div>
     <div class='col'>
         <h4>Cache data</h4>
+        <a href='https://github.com/Marlamin/WoWTools.Hotfixes/tree/master/WoWTools.WDBUpdater'>WDBUpdater</a><br>
         <a href='https://github.com/MMOSimca/SaneWDBReader'>SaneWDBReader</a><br>
     </div>
     <div class='col'>

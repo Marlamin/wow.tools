@@ -240,8 +240,8 @@ if (urlDisplayID){
 window.createscene = async function () {
     Module["canvas"] = document.getElementById("wowcanvas");
 
-    var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
-    let urlFileId = "https://wow.tools/casc/extract/" + staticBuild + "/";
+    var url = "/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
+    let urlFileId = "/casc/extract/" + staticBuild + "/";
 
     var ptrUrl = allocateUTF8(url);
     var ptrUrlFileDataId = allocateUTF8(urlFileId);
@@ -481,7 +481,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     isDownloading = false;
     numDownloading = 0;
     $.ajax({
-        url: "https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
+        url: "/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
     })
         .done(function( filename ) {
             Current.filename = filename;
@@ -598,7 +598,7 @@ async function loadModelDisplays() {
             opt.innerHTML = result.ID + " (" + filenameMap.get(result['TextureVariationFileDataID[0]']) + ")";
         } else if (result.ResultType == "item"){
             if (result['ModelMaterialResourcesID[0]'] != "0" && !materialResourceMap.has(result['ModelMaterialResourcesID[0]'])){
-                const materialResponse = await fetch("https://wow.tools/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
+                const materialResponse = await fetch("/dbc/api/peek/TextureFileData/?build=" + Current.buildName + "&col=MaterialResourcesID&val=" + result['ModelMaterialResourcesID[0]']);
                 const materialJson = await materialResponse.json();
 
                 if (materialJson.values.FileDataID != undefined){
@@ -654,7 +654,7 @@ async function loadModelDisplays() {
 }
 
 async function findCreatureModelDataRows(){
-    const response = await fetch("https://wow.tools/dbc/api/find/CreatureModelData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const response = await fetch("/dbc/api/find/CreatureModelData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
     const json = await response.json();
     return json;
 }
@@ -663,7 +663,7 @@ async function loadCreatureDisplays(cmdRows){
     const cdiPromises = Array(cmdRows.length);
     let index = 0;
     for (const cmdRow of cmdRows) {
-        cdiPromises[index++] = fetch("https://wow.tools/dbc/api/find/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ModelID&val=" + cmdRow.ID);
+        cdiPromises[index++] = fetch("/dbc/api/find/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ModelID&val=" + cmdRow.ID);
     }
 
     const cdiResult = await Promise.all(cdiPromises);
@@ -687,15 +687,15 @@ async function loadCreatureDisplays(cmdRows){
 }
 
 async function loadItemDisplays(){
-    const response = await fetch("https://wow.tools/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
+    const response = await fetch("/dbc/api/peek/ModelFileData/?build=" + Current.buildName + "&col=FileDataID&val=" + Current.fileDataID);
     const modelFileData = await response.json();
 
     if (modelFileData.values['ModelResourcesID'] === undefined)
         return [];
 
     const idiPromises = [
-        fetch("https://wow.tools/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[0]&val=" + modelFileData.values['ModelResourcesID']),
-        fetch("https://wow.tools/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[1]&val=" + modelFileData.values['ModelResourcesID'])
+        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[0]&val=" + modelFileData.values['ModelResourcesID']),
+        fetch("/dbc/api/find/ItemDisplayInfo/?build=" + Current.buildName + "&col=ModelResourcesID[1]&val=" + modelFileData.values['ModelResourcesID'])
     ];
 
     const idiResult = await Promise.all(idiPromises);
@@ -719,10 +719,10 @@ async function loadItemDisplays(){
 }
 
 async function getFileDataIDByDisplayID(displayID){
-    const cdiResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+    const cdiResponse = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
     const cdiJson = await cdiResponse.json();
     
-    const cmdResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
+    const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiJson.values['ModelID']);
     const cmdJson = await cmdResponse.json();
 
     if (cmdJson.values['FileDataID'] !== undefined){
@@ -734,8 +734,8 @@ function loadModelTextures() {
     //TODO build, fix wrong skin showing up after initial load
     var loadedTextures = Array();
     var currentFDID = Current.fileDataID;
-    $.ajax({url: "https://wow.tools/dbc/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
-        var forFDID = this.url.replace("https://wow.tools/dbc/api/texture/", "").replace("?build=" + Current.buildName, "");
+    $.ajax({url: "/dbc/api/texture/" + Current.fileDataID + "?build=" + Current.buildName}).done( function(data) {
+        var forFDID = this.url.replace("/dbc/api/texture/", "").replace("?build=" + Current.buildName, "");
         if (Current.fileDataID != forFDID){
             console.log("This request is not for this filedataid, discarding..");
             return;
@@ -760,14 +760,14 @@ function loadModelTextures() {
 
             $.ajax({
                 type: 'GET',
-                url: "https://wow.tools/files/scripts/filedata_api.php",
+                url: "/files/scripts/filedata_api.php",
                 data: {
                     filename: 1,
                     filedataid : intArray.join(",")
                 }
             })
                 .done(function( filename ) {
-                    var textureFileDataIDs = decodeURIComponent(this.url.replace("https://wow.tools/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
+                    var textureFileDataIDs = decodeURIComponent(this.url.replace("/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
           
                     var textureFileDataID = textureFileDataIDs[0];
 
@@ -861,7 +861,7 @@ function getScenePos(){
 async function setModelDisplay(displayID, type){
     console.log("Selected Display ID " + displayID);
     if (type == "creature"){
-        const response = await fetch("https://wow.tools/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
+        const response = await fetch("/dbc/api/peek/CreatureDisplayInfo/?build=" + Current.buildName + "&col=ID&val=" + displayID);
         const cdiRow = await response.json();
 
         if (Object.keys(cdiRow.values).length == 0)
@@ -872,7 +872,7 @@ async function setModelDisplay(displayID, type){
 
         // Particle colors
         if (cdiRow.values['ParticleColorID'] != 0){
-            const particleResponse = await fetch("https://wow.tools/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
+            const particleResponse = await fetch("/dbc/api/peek/ParticleColor/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ParticleColorID']);
             const particleRow = await particleResponse.json();
             console.log(particleRow);
             Module._resetReplaceParticleColor();
@@ -885,7 +885,7 @@ async function setModelDisplay(displayID, type){
             Module._resetReplaceParticleColor();
         }
 
-        const cmdResponse = await fetch("https://wow.tools/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ModelID']);
+        const cmdResponse = await fetch("/dbc/api/peek/CreatureModelData/?build=" + Current.buildName + "&col=ID&val=" + cdiRow.values['ModelID']);
         const cmdRow = await cmdResponse.json();
         // TODO: Model scale? Anything else from CMD?
 
@@ -893,7 +893,7 @@ async function setModelDisplay(displayID, type){
         Current.enabledGeosets = [];
 
         if (cmdRow.values.CreatureGeosetDataID != "0"){
-            const geosetResponse = await fetch("https://wow.tools/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
+            const geosetResponse = await fetch("/dbc/api/find/CreatureDisplayInfoGeosetData/?build=" + Current.buildName + "&col=CreatureDisplayInfoID&val=" + cdiRow.values['ID']);
             const geosetResults = await geosetResponse.json();
             const geosetsToEnable = [];
             
@@ -950,7 +950,7 @@ function setModelTexture(textures, offset){
         if (offset == 11 && i == 3){
             var particleColorID = textures[3];
             console.log("Particle Color should be set to " + particleColorID);
-            fetch("https://wow.tools/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
+            fetch("/dbc/api/peek/particlecolor?build=" + Current.buildName + "&col=ID&val=" + particleColorID)
                 .then(function (response) {
                     return response.json();
                 }).then(function (particleColorEntry) {
@@ -984,8 +984,8 @@ function setModelTexture(textures, offset){
 }
 
 function updateURLs(){
-    var url = "https://wow.tools/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
-    let urlFileId = "https://wow.tools/casc/extract/" + staticBuild + "/";
+    var url = "/casc/file/fname?buildconfig=" + Current.buildConfig + "&cdnconfig=" + Current.cdnConfig +"&filename=";
+    let urlFileId = "/casc/extract/" + staticBuild + "/";
 
     var ptrUrl = allocateUTF8(url);
     var ptrUrlFileDataId = allocateUTF8(urlFileId);

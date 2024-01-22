@@ -46,13 +46,14 @@ foreach ($versionTableCache as $versionID => $versions) {
 
         $table = $tableCacheByID[$tableID];
         if (!array_key_exists(strtolower($table), $dbdCache)) {
+            echo "No DBD found for " . $table . " (".$version.")\n";
             continue;
         }
 
         if (!$versionCompat && in_array($version, $extractedVersions)) {
             // Read table on disk and find layouthash
             $db2 = $extractionDir . $version . "/dbfilesclient/" . $tableCacheByID[$tableID] . ".db2";
-            if (file_exists($db2) && $build->build > 28048) {
+            if (file_exists($db2) && $build->build > 23436) {
                 $file = fopen($db2, "r");
                 fseek($file, 20);
                 $header = fread($file, 8);
@@ -80,7 +81,7 @@ foreach ($versionTableCache as $versionID => $versions) {
         }
 
         if (!empty($layouthash) && !$versionCompat) {
-            // echo "No compatible definition found for " . $tableCacheByID[$tableID] . " for build " . $version . ", layouthash: " . $layouthash."\n";
+            echo "No compatible definition found for " . $tableCacheByID[$tableID] . " for build " . $version . ", layouthash: " . $layouthash."\n";
         }
 
         if ($versionCompat) {

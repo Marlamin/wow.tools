@@ -121,12 +121,12 @@ if (!empty($_GET['bc'])) {
 
     function loadHeaders(database, build){
         console.log("Loading " + database + " headers for build " + build);
-        return $.get("https://wow.tools/dbc/api/header/" + database + "/?build=" + build);
+        return $.get("/dbc/api/header/" + database + "/?build=" + build);
     }
 
     function loadData(database, build){
         console.log("Loading " + database + " data for build " + build);
-        return $.post("https://wow.tools/dbc/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
+        return $.post("/dbc/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
     }
 
     async function mapEntries(database, header, data){
@@ -210,7 +210,7 @@ if (!empty($_GET['bc'])) {
         .map(row => {
             const imagePosX = row.RowIndex * (artStyle.TileWidth / 1);
             const imagePosY = row.ColIndex * (artStyle.TileHeight / 1);
-            const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
+            const bgURL = `/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
 
             return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
         });
@@ -246,7 +246,7 @@ if (!empty($_GET['bc'])) {
                     if(wmotRow.WorldMapOverlayID == wmoRow.ID){
                         var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
                         var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
-                        var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+                        var bgURL = "/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
                         renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
                     }
